@@ -1,5 +1,14 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import './style.scss';
+
+const App = () => {
+  return <div className="test">All the React are belong to us!</div>;
+};
+
+ReactDOM.render(<App />, document.getElementById('main'));
+
 
 $('#main').html('Here we go!');
 
