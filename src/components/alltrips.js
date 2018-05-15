@@ -4,17 +4,15 @@ import { withRouter } from 'react-router-dom';
 import { fetchTrips } from '../actions';
 
 class AllTrips extends Component {
-  // Fetch posts action
   componentDidMount(props) {
     this.props.fetchTrips();
   }
 
-  // Render each post
-  renderPosts() {
+  renderTrips() {
     const trips =
       this.props.trips.map((trip, id) => {
         return (
-          <a href={`/trips/${trip.id}`}>
+          <a href={`/alltrips/${trip.id}`}>
             <div>
               <h1>{trip.title}</h1>
             </div>
@@ -24,17 +22,16 @@ class AllTrips extends Component {
     return trips;
   }
 
-  // Render posts
   render() {
     return (
       <div>
-        {this.renderPosts()}
+        <h1>All Trips</h1>
+        {this.renderTrips()}
       </div>
     );
   }
 }
 
-// States to be called
 const mapStateToProps = state => (
   {
     trips: state.trips.all,

@@ -6,7 +6,7 @@ const TripsReducer = (state = { all: [], trip: {} }, action) => {
     case ActionTypes.FETCH_TRIPS:
       return Object.assign({}, state, { all: action.payload });
     case ActionTypes.FETCH_TRIP:
-      return Object.assign({}, state, { post: action.payload });
+      return Object.assign({}, state, { trip: action.payload });
     default:
       return state;
   }
