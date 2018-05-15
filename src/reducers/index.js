@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import CountReducer from './count-reducer';
+import TripsReducer from './trips-reducer';
 
 const rootReducer = combineReducers({
-  count: CountReducer,
+  trip: TripsReducer,
 });
 
 export default rootReducer;

@@ -1,20 +1,18 @@
-// keys for actiontypes
 export const ActionTypes = {
-  INCREMENT: 'INCREMENT',
-  DECREMENT: 'DECREMENT',
+  FETCH_TRIPS: 'FETCH_TRIPS',
+  FETCH_TRIP: 'FETCH_TRIP',
 };
 
-
-export function increment() {
+export function fetchTrips() {
   return {
-    type: ActionTypes.INCREMENT,
+    type: ActionTypes.FETCH_TRIPS,
     payload: null,
   };
 }
 
-export function decrement() {
+export function fetchTrip() {
   return {
-    type: ActionTypes.DECREMENT,
+    type: ActionTypes.FETCH_TRIP,
     payload: null,
   };
 }
