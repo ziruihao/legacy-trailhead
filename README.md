@@ -16,6 +16,6 @@ TODO: how to deploy the project
 
 ## Authors
 
-TODO: list of authors
+Samuel Schiff, Katie Bernardez, Ben Hannam, Brian Keare, Shashwat Chaturvedi, Isabel Hurley
 
 ## Acknowledgments
