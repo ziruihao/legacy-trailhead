@@ -12,9 +12,15 @@ export const ActionTypes = {
 const ROOT_URL = 'http://localhost:9090/api';
 
 export function fetchTrips() {
-  return {
-    type: ActionTypes.FETCH_TRIPS,
-    payload: null,
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/alltrips`).then((response) => {
+      dispatch({
+        type: ActionTypes.FETCH_TRIPS,
+        payload: response.data,
+      });
+    }).catch((error) => {
+      console.log('Fetch trips error');
+    });
   };
 }
 

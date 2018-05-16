@@ -5,31 +5,22 @@ import { fetchTrips } from '../actions';
 
 class AllTrips extends Component {
   componentDidMount(props) {
-    // this.props.fetchTrips(); TODO
+    this.props.fetchTrips();
   }
 
   renderTrips = () => {
-    // const trips =
-    //   this.props.trips.map((trip, id) => {
-    //     return (
-    //       <a href={`/alltrips/${trip.id}`}>
-    //         <div>
-    //           <h1>{trip.title}</h1>
-    //         </div>
-    //       </a>
-    //     );
-    //   });
-    // return trips;  TODO
-    return (
-      <div>
-        <h2>Trip 1</h2>
-        <p>Info about Trip 1</p>
-        <h2>Trip 2</h2>
-        <p>Info about Trip 2</p>
-        <h2>Trip 3</h2>
-        <p>Info about Trip 3</p>
-      </div>
-    );
+    const trips =
+      this.props.trips.map((trip, id) => {
+        return (
+          <a href={`/alltrips/${trip.id}`}>
+            <div>
+              <h1>{trip.title}</h1>
+              <p>{trip.date}</p>
+            </div>
+          </a>
+        );
+      });
+    return trips;
   }
 
   render() {
@@ -42,10 +33,10 @@ class AllTrips extends Component {
   }
 }
 
-// const mapStateToProps = state => (
-//   {
-//     trips: state.trips.all,
-//   }
-// ); TODO
+const mapStateToProps = state => (
+  {
+    trips: state.trips.all,
+  }
+);
 
-export default withRouter(connect(null, { fetchTrips })(AllTrips)); // connected component
+export default withRouter(connect(mapStateToProps, { fetchTrips })(AllTrips)); // connected component
