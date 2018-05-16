@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { postTrip } from '../actions';
+import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
   constructor(props) {
@@ -72,10 +73,10 @@ class CreateTrip extends Component {
         <input onChange={this.onTitleChange} className="one-line-content" placeholder="Trip title" value={this.state.title} />
         <input onChange={this.onLeadersChange} className="one-line-content" placeholder="Leaders" value={this.state.leaders} />
         <input onChange={this.onClubChange} className="one-line-content" placeholder="Club" value={this.state.club} />
-        <input onChange={this.onDescriptionChange} className="main-post-content" placeholder="Content" value={this.state.content} />
+        <input onChange={this.onDescriptionChange} className="one-line-content main-trip-content" placeholder="Description" value={this.state.description} />
         <input onChange={this.onTimeDateChange} className="one-line-content" placeholder="Time" value={this.state.timeDate} />
         <input onChange={this.onCostChange} className="one-line-content" placeholder="Cost" value={this.state.cost} />
-        <button onClick={this.createTrip}>Post trip</button>
+        <button id="post-button" onClick={this.createTrip}>Post trip</button>
       </div>
     );
   }
