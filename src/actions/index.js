@@ -41,14 +41,15 @@ export function fetchTrip(id) {
 export function createTrip(trip) {
   console.log('in createtrip');
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/trips`).then((response) => {
-      dispatch({
-        type: ActionTypes.CREATE_TRIP,
-        payload: response.data,
+    axios.post(`${ROOT_URL}/trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({
+          type: ActionTypes.CREATE_TRIP,
+          payload: response.data,
+        });
+      }).catch((error) => {
+        console.log(error);
       });
-    }).catch((error) => {
-      console.log('Create trip error');
-    });
   };
 }
 
