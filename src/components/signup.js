@@ -16,6 +16,12 @@ class SignUp extends Component {
     this.signUp = this.signUp.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.authenticated) {
+      this.props.history.push('/');
+    }
+  }
+
   onFieldChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -73,4 +79,10 @@ class SignUp extends Component {
   }
 }
 
-export default withRouter(connect(null, { signUp })(SignUp));
+const mapStateToProps = (state) => {
+  return {
+    authenticated: state.auth.authenticated,
+  };
+};
+
+export default withRouter(connect(mapStateToProps, { signUp })(SignUp));

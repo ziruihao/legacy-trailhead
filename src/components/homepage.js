@@ -15,6 +15,17 @@ class Homepage extends Component {
     if (this.props.authenticated) {
       buttons = (
         <div>
+          <nav>
+            <NavLink to="/alltrips">
+              <button>All Trips</button>
+            </NavLink>
+            <NavLink to="/createtrip">
+              <button>Create Trip</button>
+            </NavLink>
+            <NavLink to="/mytrips">
+              <button>My Trips</button>
+            </NavLink>
+          </nav>
           <div>Signed In</div>
           <button onClick={() => this.props.signOut(this.props.history)}>Sign Out</button>
         </div>
