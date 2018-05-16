@@ -1,0 +1,30 @@
+.container {
+  margin-top: 10px;
+  height: 500px;
+  width: 98%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+.one-line-content {
+  font-size: 15px;
+  margin-bottom: 10px;
+  height: 25px;
+  border-radius: 2px;
+  border: 1px solid gray;
+  padding: 4px;
+}
+
+.main-trip-content {
+  height: 100px;
+}
+
+#post-button {
+  border: 1px solid gray;
+  font-size: 20px;
+  border-radius: 5px;
+}
+
+#post-button:hover {
+  background-color: rgb(54, 135, 66);
+}
