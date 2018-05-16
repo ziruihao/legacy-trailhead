@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { postTrip } from '../actions';
+import { createTrip } from '../actions';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -21,7 +21,7 @@ class CreateTrip extends Component {
     this.onLeadersChange = this.onLeadersChange.bind(this);
     this.onCostChange = this.onCostChange.bind(this);
     this.onClubChange = this.onClubChange.bind(this);
-    this.createTrip = this.createTrip.bind(this);
+    this.postTrip = this.postTrip.bind(this);
   }
 
   onTitleChange(e) {
@@ -54,7 +54,7 @@ class CreateTrip extends Component {
       leaders: e.target.value,
     });
   }
-  createTrip() {
+  postTrip() {
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders,
@@ -64,7 +64,7 @@ class CreateTrip extends Component {
       cost: this.state.cost,
     };
     console.log(trip);
-    // this.props.postTrip(trip); TODO
+    this.props.createTrip(trip);
   }
 
   render() {
@@ -76,10 +76,10 @@ class CreateTrip extends Component {
         <input onChange={this.onDescriptionChange} className="one-line-content main-trip-content" placeholder="Description" value={this.state.description} />
         <input onChange={this.onTimeDateChange} className="one-line-content" placeholder="Time" value={this.state.timeDate} />
         <input onChange={this.onCostChange} className="one-line-content" placeholder="Cost" value={this.state.cost} />
-        <button id="post-button" onClick={this.createTrip}>Post trip</button>
+        <button id="post-button" onClick={this.postTrip}>Post trip</button>
       </div>
     );
   }
 }
 
-export default withRouter(connect(null, { postTrip })(CreateTrip));
+export default withRouter(connect(null, { createTrip })(CreateTrip));

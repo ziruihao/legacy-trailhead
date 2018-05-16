@@ -3,6 +3,7 @@ import axios from 'axios';
 export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
   FETCH_TRIP: 'FETCH_TRIP',
+  CREATE_TRIP: 'CREATE_TRIP',
   SIGN_UP_TRIP: 'SIGN_UP_TRIP',
   CANCEL_TRIP: 'CANCEL_TRIP',
   AUTH_USER: 'AUTH_USER',
@@ -33,6 +34,20 @@ export function fetchTrip(id) {
       });
     }).catch((error) => {
       console.log('Fetch trip error');
+    });
+  };
+}
+
+export function createTrip(trip) {
+  console.log('in createtrip');
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/trips`).then((response) => {
+      dispatch({
+        type: ActionTypes.CREATE_TRIP,
+        payload: response.data,
+      });
+    }).catch((error) => {
+      console.log('Create trip error');
     });
   };
 }
