@@ -24,10 +24,16 @@ export function fetchTrips() {
   };
 }
 
-export function fetchTrip() {
-  return {
-    type: ActionTypes.FETCH_TRIP,
-    payload: null,
+export function fetchTrip(id) {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/alltrips/${id}`).then((response) => {
+      dispatch({
+        type: ActionTypes.FETCH_TRIP,
+        payload: response.data,
+      });
+    }).catch((error) => {
+      console.log('Fetch trip error');
+    });
   };
 }
 

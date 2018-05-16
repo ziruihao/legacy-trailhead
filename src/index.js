@@ -6,7 +6,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 import reducers from './reducers';
-// import App from './components/app';
 import Homepage from './components/homepage';
 import SignIn from './components/signin';
 import SignUp from './components/signup';
@@ -42,17 +41,16 @@ const App = (props) => {
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/alltrips" component={AllTrips} />
+          <Route path="/alltrips/:tripID" component={TripDetails} />
           <Route path="/createtrip" component={CreateTrip} />
           <Route path="/mytrips" component={MyTrips} />
-          {/* <Route path="/mytrips/:tripID" component={TripDetails} /> */}
-          <Route path="/trip" component={TripDetails} /> {/* placeholder for above line */}
+          <Route path="/mytrips/:tripID" component={TripDetails} />
           <Route component={FallBack} />
         </Switch>
       </div>
     </Router>
   );
 };
-
 
 // we now wrap App in a Provider
 ReactDOM.render(
@@ -62,4 +60,4 @@ ReactDOM.render(
   , document.getElementById('main'),
 );
 
-// ReactDOM.render(<App />, document.getElementById('main'));
+ReactDOM.render(<App />, document.getElementById('main'));

@@ -14,7 +14,7 @@ class TripDetails extends Component {
   }
 
   // componentDidMount() {
-  //   this.props.loadTrip(this.props.trip.id);
+  //   this.props.fetchTrip(this.props.trip.id);
   // }
 
   onSubmit() {
