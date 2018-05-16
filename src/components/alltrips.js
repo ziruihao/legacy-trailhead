@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchTrips } from '../actions';
+import '../styles/alltrips-style.scss';
+
 
 class AllTrips extends Component {
   componentDidMount(props) {
@@ -13,7 +15,7 @@ class AllTrips extends Component {
       this.props.trips.map((trip, id) => {
         return (
           <a href={`/alltrips/${trip.id}`}>
-            <div>
+            <div className="trip">
               <h1>{trip.title}</h1>
               <p>{trip.date}</p>
             </div>
@@ -25,7 +27,7 @@ class AllTrips extends Component {
 
   render() {
     return (
-      <div>
+      <div className="alltrips">
         <h1>All Trips</h1>
         {this.renderTrips()}
       </div>
