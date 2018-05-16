@@ -12,6 +12,7 @@ import SignUp from './components/signup';
 import AllTrips from './components/alltrips';
 import CreateTrip from './components/createtrip';
 import MyTrips from './components/mytrips';
+import TripDetails from './components/tripdetails';
 import './style.scss';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
@@ -36,6 +37,8 @@ const App = (props) => {
           <Route path="/alltrips" component={AllTrips} />
           <Route path="/createtrip" component={CreateTrip} />
           <Route path="/mytrips" component={MyTrips} />
+          {/* <Route path="/mytrips/:tripID" component={TripDetails} /> */}
+          <Route path="/trip" component={TripDetails} /> {/* placeholder for above line */}
           <Route component={FallBack} />
         </Switch>
       </div>
