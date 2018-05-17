@@ -42,10 +42,10 @@ const App = (props) => {
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/alltrips" component={AllTrips} />
+          <Route path="/alltrips/:tripID" component={TripDetails} />
+          <Route path="/trip" component={TripDetails} />
           <Route path="/createtrip" component={CreateTrip} />
           <Route path="/mytrips" component={MyTrips} />
-          {/* <Route path="/mytrips/:tripID" component={TripDetails} /> */}
-          <Route path="/trip" component={TripDetails} /> {/* placeholder for above line */}
           <Route component={FallBack} />
         </Switch>
       </div>

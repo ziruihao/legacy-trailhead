@@ -3,8 +3,9 @@ import axios from 'axios';
 export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
   FETCH_TRIP: 'FETCH_TRIP',
-  SIGN_UP_TRIP: 'SIGN_UP_TRIP',
+  JOIN_TRIP: 'JOIN_TRIP',
   CANCEL_TRIP: 'CANCEL_TRIP',
+  IS_ON_TRIP: 'IS_ON_TRIP',
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
 };
@@ -18,19 +19,50 @@ export function fetchTrips() {
   };
 }
 
-export function fetchTrip() {
-  return {
-    type: ActionTypes.FETCH_TRIP,
-    payload: null,
+export function fetchTrip(tripID) {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/trip/${tripID}$`).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    });
   };
 }
 
-export function signUpTrip() {
-  return {
-    type: ActionTypes.SIGN_UP_TRIP,
-    payload: null,
+export function joinTrip(tripID) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/joinTrip/${tripID}$`).then((response) => {
+      dispatch({ type: ActionTypes.JOIN_TRIP, payload: response.data.isOnTrip });
+    }).catch((error) => {
+      console.log(error);
+    });
   };
 }
+
+export function cancelTrip(tripID) {
+  return {
+    type: ActionTypes.FETCH_TRIPS,
+    payload: null,
+  };
+  // return (dispatch) => {
+  //   axios.put(`${ROOT_URL}/joinTrip/${tripID}$`).then((response) => {
+  //     dispatch({ type: ActionTypes.JOIN_TRIP, payload: response.data.isOnTrip });
+  //   }).catch((error) => {
+  //     console.log(error);
+  //   });
+  // };
+}
+
+export function isOnTrip(tripID) {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/isOnTrip/${tripID}$`).then((response) => {
+      dispatch({ type: ActionTypes.IS_ON_TRIP, payload: response.data.isOnTrip });
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
 
 export function signIn({ email, password }, history) {
   return (dispatch) => {

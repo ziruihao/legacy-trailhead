@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 
 import '../style.scss';
-import { signUpTrip, fetchTrip, cancelTrip } from '../actions';
+import { joinTrip, fetchTrip, cancelTrip, isOnTrip } from '../actions';
 
 class TripDetails extends Component {
   constructor(props) {
@@ -13,14 +13,15 @@ class TripDetails extends Component {
     this.onCancel = this.onCancel.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.props.loadTrip(this.props.trip.id);
-  // }
+  componentDidMount() {
+    this.props.fetchTrip(this.props.trip.id);
+    this.props.isOnTrip(this.props.trip.id);
+  }
 
   onSubmit() {
     console.log('onSubmitClick');
 
-    this.props.signUpTrip(this.props.trip.id);
+    this.props.joinTrip(this.props.trip.id);
   }
 
   onCancel() {
@@ -32,17 +33,28 @@ class TripDetails extends Component {
   render() {
     return (
       <div>
-        {/*
-          <h1> {this.props.trip.title}</h3>
-          <h2> {this.props.trip.leader}</h2>
-          <h3> {this.props.trip.time}</h3>
-          <p> conditional on {this.props.trip.isAttending} </p>
-        */}
-        <h1> Whitewater Kayaking</h1>
+        <h1> {this.props.trip.title} </h1>
+        <h2> {this.props.trip.leader}</h2>
+        <h3> {this.props.trip.time}</h3>
+        { this.props.isOnTrip ?
+          (
+            <div>
+              <p> You are currently signed up for this trip </p>
+              <button className="button" onClick={this.onCancel}>Cancel Trip</button>
+            </div>
+          ) :
+          (
+            <button className="button" onClick={this.onSubmit}>Sign Up</button>
+          )
+        }
+        <NavLink to="/mytrips"> View your trips! </NavLink>
+
+        {/* <h1> Whitewater Kayaking</h1>
         <h2> Lead by: Sam Sam, Ben Ben </h2>
         <h3> Tuesday May 15, 3am - 5am </h3>
         <p> You are not currently signed up for this trip </p>
         <button className="button" onClick={this.onSubmit}>Submit</button>
+        <NavLink to="/mytrips"> View your trips! </NavLink> */}
       </div>
     );
   }
@@ -50,11 +62,14 @@ class TripDetails extends Component {
 
 
 // connects particular parts of redux state to this components props
-// const mapStateToProps = state => (
-//   {
-//     trip: state.trips.trip,
-//   }
-// );
+const mapStateToProps = state => (
+  {
+    trip: state.trips.trip,
+    isOnTrip: state.isOnTrip,
+  }
+);
 
-// export default withRouter(connect(mapStateToProps, { signUpTrip, fetchTrip, cancelTrip })(TripDetails));
-export default withRouter(connect(null, { signUpTrip, fetchTrip, cancelTrip })(TripDetails));
+export default withRouter(connect(mapStateToProps, {
+  joinTrip, fetchTrip, cancelTrip, isOnTrip,
+})(TripDetails));
+// export default withRouter(connect(null, { signUpTrip, fetchTrip, cancelTrip, isOnTrip })(TripDetails));
