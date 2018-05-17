@@ -4,7 +4,7 @@ import TripsReducer from './trips-reducer';
 
 const rootReducer = combineReducers({
   auth: AuthReducer,
-  trip: TripsReducer,
+  trips: TripsReducer,
 });
 
 export default rootReducer;

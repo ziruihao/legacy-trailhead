@@ -9,7 +9,7 @@ export const ActionTypes = {
   DEAUTH_USER: 'DEAUTH_USER',
 };
 
-const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
 
 export function fetchTrips() {
   return (dispatch) => {
@@ -26,7 +26,7 @@ export function fetchTrips() {
 
 export function fetchTrip(id) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/trips/${id}`).then((response) => {
+    axios.get(`${ROOT_URL}/trip/${id}`).then((response) => {
       dispatch({
         type: ActionTypes.FETCH_TRIP,
         payload: response.data,
