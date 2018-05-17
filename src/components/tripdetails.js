@@ -14,30 +14,36 @@ class TripDetails extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTrip(this.props.trip.id);
-    this.props.isOnTrip(this.props.trip.id);
+    console.log('trip id');
+    console.log(this.props.match.params.tripID);
+    this.props.fetchTrip(this.props.match.params.tripID);
+    // this.props.isOnTrip(this.props.match.params.tripID);
   }
 
   onSubmit() {
-    console.log('onSubmitClick');
+    console.log('onSubmitClick: joining trip');
 
-    this.props.joinTrip(this.props.trip.id);
+    this.props.joinTrip(this.props.trip._id);
   }
 
   onCancel() {
     console.log('onCancelClick');
 
-    this.props.cancelTrip(this.props.trip.id);
+    this.props.cancelTrip(this.props.trip._id);
   }
 
   render() {
     return (
-      <div>
-        <h1> Hi Brian </h1>
+      <div className="trip-detail-div">
         <h1> {this.props.trip.title} </h1>
-        <h2> {this.props.trip.leaders}</h2>
-        <h3> {this.props.trip.date}</h3>
-        { this.props.isOnTrip ?
+        <h2> Leaders: {this.props.trip.leaders}</h2>
+        <h3> Date: {this.props.trip.date}</h3>
+        <h3> Club: {this.props.trip.club}</h3><br />
+        <div>
+          <button className="button" onClick={this.onSubmit}>Sign Up</button>
+          <button className="button" onClick={this.onCancel}>Cancel Trip</button>
+        </div> <br />
+        {/* { this.props.isOnTrip ?
           (
             <div>
               <p> You are currently signed up for this trip. Click below to cancel </p>
@@ -47,7 +53,7 @@ class TripDetails extends Component {
           (
             <button className="button" onClick={this.onSubmit}>Sign Up</button>
           )
-        }
+        } */}
         <NavLink to="/mytrips"> View your trips! </NavLink>
       </div>
     );

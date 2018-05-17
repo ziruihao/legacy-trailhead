@@ -27,7 +27,8 @@ export function fetchTrips() {
 
 export function fetchTrip(tripID) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/trip/${tripID}$`).then((response) => {
+    axios.get(`${ROOT_URL}/trip/${tripID}`).then((response) => {
+      console.log(response.data);
       dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
       console.log(error);
@@ -38,9 +39,11 @@ export function fetchTrip(tripID) {
 
 export function joinTrip(tripID) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/joinTrip/${tripID}$`).then((response) => {
+    axios.put(`${ROOT_URL}/joinTrip/${tripID}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.JOIN_TRIP, payload: response.data.isOnTrip });
+      console.log(response.data);
     }).catch((error) => {
+      console.log('joinTrip error');
       console.log(error);
     });
   };
@@ -62,7 +65,7 @@ export function cancelTrip(tripID) {
 
 export function isOnTrip(tripID) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/isOnTrip/${tripID}$`).then((response) => {
+    axios.get(`${ROOT_URL}/isOnTrip/${tripID}$`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.IS_ON_TRIP, payload: response.data.isOnTrip });
     }).catch((error) => {
       console.log(error);
