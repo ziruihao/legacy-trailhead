@@ -13,7 +13,7 @@ const ROOT_URL = 'http://localhost:9090/api';
 
 export function fetchTrips() {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/alltrips`).then((response) => {
+    axios.get(`${ROOT_URL}/trips`).then((response) => {
       dispatch({
         type: ActionTypes.FETCH_TRIPS,
         payload: response.data,
@@ -26,7 +26,7 @@ export function fetchTrips() {
 
 export function fetchTrip(id) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/alltrips/${id}`).then((response) => {
+    axios.get(`${ROOT_URL}/trips/${id}`).then((response) => {
       dispatch({
         type: ActionTypes.FETCH_TRIP,
         payload: response.data,
