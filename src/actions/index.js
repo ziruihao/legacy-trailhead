@@ -10,8 +10,7 @@ export const ActionTypes = {
   DEAUTH_USER: 'DEAUTH_USER',
 };
 
-// const ROOT_URL = 'http://localhost:9090/api';
-const ROOT_URL = 'https://doc-planner-api.herokuapp.com/';
+const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
 
 export function fetchTrips() {
   return (dispatch) => {

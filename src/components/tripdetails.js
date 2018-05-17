@@ -34,9 +34,9 @@ class TripDetails extends Component {
     return (
       <div>
         <h1> Hi Brian </h1>
-        {/* <h1> {this.props.trip.title} </h1>
-        <h2> {this.props.trip.leader}</h2>
-        <h3> {this.props.trip.time}</h3>
+        <h1> {this.props.trip.title} </h1>
+        <h2> {this.props.trip.leaders}</h2>
+        <h3> {this.props.trip.date}</h3>
         { this.props.isOnTrip ?
           (
             <div>
@@ -47,7 +47,7 @@ class TripDetails extends Component {
           (
             <button className="button" onClick={this.onSubmit}>Sign Up</button>
           )
-        } */}
+        }
         <NavLink to="/mytrips"> View your trips! </NavLink>
       </div>
     );

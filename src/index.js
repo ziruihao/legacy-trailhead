@@ -41,8 +41,7 @@ const App = (props) => {
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/alltrips" component={AllTrips} />
-          <Route path="/alltrips/:tripID" component={TripDetails} />
-          <Route path="/trip" component={TripDetails} /> {/* for testing only */}
+          <Route path="/trip/:tripID" component={TripDetails} />
           <Route path="/createtrip" component={CreateTrip} />
           <Route path="/mytrips" component={MyTrips} />
           <Route component={FallBack} />
