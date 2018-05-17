@@ -60,11 +60,11 @@ class CreateTrip extends Component {
       leaders: this.state.leaders,
       club: this.state.club,
       description: this.state.description,
-      timeDate: this.state.timeDate,
+      date: this.state.timeDate,
       cost: this.state.cost,
     };
     console.log(trip);
-    this.props.createTrip(trip);
+    this.props.createTrip(trip, this.props.history);
   }
 
   render() {
@@ -74,7 +74,7 @@ class CreateTrip extends Component {
         <input onChange={this.onLeadersChange} className="one-line-content" placeholder="Leaders" value={this.state.leaders} />
         <input onChange={this.onClubChange} className="one-line-content" placeholder="Club" value={this.state.club} />
         <input onChange={this.onDescriptionChange} className="one-line-content main-trip-content" placeholder="Description" value={this.state.description} />
-        <input onChange={this.onTimeDateChange} className="one-line-content" placeholder="Time" value={this.state.timeDate} />
+        <input onChange={this.onTimeDateChange} className="one-line-content" placeholder="Time/Date" value={this.state.timeDate} />
         <input onChange={this.onCostChange} className="one-line-content" placeholder="Cost" value={this.state.cost} />
         <button id="post-button" onClick={this.postTrip}>Post trip</button>
       </div>

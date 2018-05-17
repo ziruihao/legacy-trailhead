@@ -38,15 +38,16 @@ export function fetchTrip(id) {
   };
 }
 
-export function createTrip(trip) {
+export function createTrip(trip, history) {
   console.log('in createtrip');
   return (dispatch) => {
     axios.post(`${ROOT_URL}/trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         dispatch({
           type: ActionTypes.CREATE_TRIP,
-          payload: response.data,
+          payload: trip,
         });
+        history.push('/alltrips');
       }).catch((error) => {
         console.log(error);
       });
