@@ -14,9 +14,10 @@ class AllTrips extends Component {
     const trips =
       this.props.trips.map((trip, id) => {
         return (
-          <a href={`/alltrips/${trip.id}`}>
+          <a href={`/trip/${trip.id}`}>
             <div className="trip">
               <h1>{trip.title}</h1>
+              <p>{trip.club}</p>
               <p>{trip.date}</p>
             </div>
           </a>
@@ -27,7 +28,7 @@ class AllTrips extends Component {
 
   render() {
     return (
-      <div className="alltrips">
+      <div className="trips">
         <h1>All Trips</h1>
         {this.renderTrips()}
       </div>
