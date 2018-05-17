@@ -10,12 +10,19 @@ export const ActionTypes = {
   DEAUTH_USER: 'DEAUTH_USER',
 };
 
-const ROOT_URL = 'http://localhost:9090/api';
+// const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = 'https://doc-planner-api.herokuapp.com/';
 
 export function fetchTrips() {
-  return {
-    type: ActionTypes.FETCH_TRIPS,
-    payload: null,
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/trips`).then((response) => {
+      dispatch({
+        type: ActionTypes.FETCH_TRIPS,
+        payload: response.data,
+      });
+    }).catch((error) => {
+      console.log('Fetch trips error');
+    });
   };
 }
 
@@ -25,6 +32,7 @@ export function fetchTrip(tripID) {
       dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
       console.log(error);
+      console.log('Fetch trip error');
     });
   };
 }

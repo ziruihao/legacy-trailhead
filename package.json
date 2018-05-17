@@ -6,6 +6,7 @@
   "author": "Samuel Schiff <samuel.b.schiff.20@dartmouth.edu>",
   "license": "MIT",
   "scripts": {
+    "test": "./node_modules/.bin/eslint src",
     "start": "NODE_ENV=development webpack-serve ./webpack.config.js",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
     "clean": "rimraf dist",

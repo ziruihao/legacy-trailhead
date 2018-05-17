@@ -14,6 +14,12 @@ class SignIn extends Component {
     this.signIn = this.signIn.bind(this);
   }
 
+  componentDidMount() {
+    if (this.props.authenticated) {
+      this.props.history.push('/');
+    }
+  }
+
   onFieldChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -51,4 +57,10 @@ class SignIn extends Component {
   }
 }
 
-export default withRouter(connect(null, { signIn })(SignIn));
+const mapStateToProps = (state) => {
+  return {
+    authenticated: state.auth.authenticated,
+  };
+};
+
+export default withRouter(connect(mapStateToProps, { signIn })(SignIn));
