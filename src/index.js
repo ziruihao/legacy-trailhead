@@ -44,7 +44,6 @@ const App = (props) => {
           <Route path="/trip/:tripID" component={TripDetails} />
           <Route path="/createtrip" component={CreateTrip} />
           <Route path="/mytrips" component={MyTrips} />
-          <Route path="/mytrips/:tripID" component={TripDetails} />
           <Route component={FallBack} />
         </Switch>
       </div>

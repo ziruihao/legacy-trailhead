@@ -9,7 +9,7 @@ class MyTrips extends Component {
 
   render() {
     return (
-      <div> Hello World! </div>
+      <div> Coming soon: Will show all trips the user is signed up for, and maybe taken </div>
     );
   }
 }
