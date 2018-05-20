@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips } from '../actions';
 import '../styles/alltrips-style.scss';
 
@@ -14,13 +14,15 @@ class AllTrips extends Component {
     const trips =
       this.props.trips.map((trip, id) => {
         return (
-          <a href={`/trip/${trip.id}`}>
-            <div className="trip">
-              <h1>{trip.title}</h1>
-              <p>{trip.club}</p>
-              <p>{trip.date}</p>
-            </div>
-          </a>
+          <div key={trip.id}>
+            <a href={`/trip/${trip.id}`}>
+              <div className="trip">
+                <h1>{trip.title}</h1>
+                <p>{trip.club}</p>
+                <p>{trip.date}</p>
+              </div>
+            </a>
+          </div>
         );
       });
     return trips;
@@ -30,6 +32,9 @@ class AllTrips extends Component {
     return (
       <div className="trips">
         <h1>All Trips</h1>
+        <NavLink to="/">
+          <button>All Trips</button>
+        </NavLink>
         {this.renderTrips()}
       </div>
     );
