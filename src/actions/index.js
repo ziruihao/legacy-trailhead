@@ -39,7 +39,7 @@ export function fetchTrip(tripID) {
 
 export function joinTrip(tripID) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/joinTrip/${tripID}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    axios.put(`${ROOT_URL}/jointrip`, { tripID }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.JOIN_TRIP, payload: response.data.isOnTrip });
       console.log(response.data);
     }).catch((error) => {
