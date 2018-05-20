@@ -70,6 +70,8 @@ export function createTrip(trip, history) {
 export function cancelTrip(tripID) {
 }
 export function signUpTrip() {
+}
+export function cancelTrip(tripID) {
   return {
     type: ActionTypes.FETCH_TRIPS,
     payload: null,
