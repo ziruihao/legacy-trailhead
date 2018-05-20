@@ -33,7 +33,7 @@ class AllTrips extends Component {
       <div className="trips">
         <h1>All Trips</h1>
         <NavLink to="/">
-          <button>All Trips</button>
+          <button>Home</button>
         </NavLink>
         {this.renderTrips()}
       </div>
