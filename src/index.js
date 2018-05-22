@@ -12,8 +12,9 @@ import SignUp from './components/signup';
 import AllTrips from './components/alltrips';
 import CreateTrip from './components/createtrip';
 import MyTrips from './components/mytrips';
+import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
-import { ActionTypes } from './actions';
+import { ActionTypes, getUser } from './actions';
 import './style.scss';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
@@ -26,6 +27,7 @@ const store = createStore(reducers, {}, compose(
 const token = localStorage.getItem('token');
 if (token) {
   store.dispatch({ type: ActionTypes.AUTH_USER });
+  store.dispatch(getUser());
 }
 
 const FallBack = (props) => {
@@ -38,6 +40,7 @@ const App = (props) => {
       <div>
         <Switch>
           <Route exact path="/" component={Homepage} />
+          <Route path="/user" component={ProfilePage} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/alltrips" component={AllTrips} />

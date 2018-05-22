@@ -9,74 +9,61 @@ class CreateTrip extends Component {
     super(props);
     this.state = {
       title: '',
+      leaders: '',
       club: '',
       description: '',
-      timeDate: '',
-      leaders: '',
+      startDate: '',
+      endDate: '',
       cost: '',
+      limit: '',
     };
-    this.onTitleChange = this.onTitleChange.bind(this);
-    this.onDescriptionChange = this.onDescriptionChange.bind(this);
-    this.onTimeDateChange = this.onTimeDateChange.bind(this);
-    this.onLeadersChange = this.onLeadersChange.bind(this);
-    this.onCostChange = this.onCostChange.bind(this);
-    this.onClubChange = this.onClubChange.bind(this);
-    this.postTrip = this.postTrip.bind(this);
+    this.onFieldChange = this.onFieldChange.bind(this);
+    this.createTrip = this.createTrip.bind(this);
   }
 
-  onTitleChange(e) {
+  onFieldChange(event) {
     this.setState({
-      title: e.target.value,
+      [event.target.name]: event.target.value,
     });
   }
-  onClubChange(e) {
-    this.setState({
-      club: e.target.value,
-    });
-  }
-  onCostChange(e) {
-    this.setState({
-      cost: e.target.value,
-    });
-  }
-  onDescriptionChange(e) {
-    this.setState({
-      description: e.target.value,
-    });
-  }
-  onTimeDateChange(e) {
-    this.setState({
-      timeDate: e.target.value,
-    });
-  }
-  onLeadersChange(e) {
-    this.setState({
-      leaders: e.target.value,
-    });
-  }
-  postTrip() {
+
+  createTrip() {
     const trip = {
       title: this.state.title,
-      leaders: this.state.leaders,
+      leaders: this.state.leaders.trim().split(','),
       club: this.state.club,
       description: this.state.description,
-      date: this.state.timeDate,
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
       cost: this.state.cost,
+      limit: this.state.limit,
     };
-    console.log(trip);
     this.props.createTrip(trip, this.props.history);
   }
 
   render() {
     return (
       <div className="container">
-        <input onChange={this.onTitleChange} className="one-line-content" placeholder="Trip title" value={this.state.title} />
-        <input onChange={this.onLeadersChange} className="one-line-content" placeholder="Leaders" value={this.state.leaders} />
-        <input onChange={this.onClubChange} className="one-line-content" placeholder="Club" value={this.state.club} />
-        <input onChange={this.onDescriptionChange} className="one-line-content main-trip-content" placeholder="Description" value={this.state.description} />
-        <input onChange={this.onTimeDateChange} className="one-line-content" placeholder="Time/Date" value={this.state.timeDate} />
-        <input onChange={this.onCostChange} className="one-line-content" placeholder="Cost" value={this.state.cost} />
-        <button id="post-button" onClick={this.postTrip}>Post trip</button>
+        <h1>Create your trip today!</h1>
+        <input className="form-control field" onChange={this.onFieldChange} name="title" placeholder="Trip title" value={this.state.title} />
+        <input className="form-control field" onChange={this.onFieldChange} name="leaders" placeholder="Leaders (please write emails, comma separated)" value={this.state.leaders} />
+        <input className="form-control field" onChange={this.onFieldChange} name="club" placeholder="Associated club" value={this.state.club} />
+        <input className="form-control field" type="number" onChange={this.onFieldChange} name="limit" placeholder="Max # of people (e.g. 8, 10, etc)" value={this.state.limit} />
+        <textarea className="form-control field" onChange={this.onFieldChange} name="description" placeholder="Trip description" value={this.state.description} />
+        <div className="input-group field">
+          <div className="input-group-prepend">
+            <span className="input-group-text">Start Date and End Date</span>
+          </div>
+          <input type="date" name="startDate" onChange={this.onFieldChange} className="form-control" value={this.state.startDate} />
+          <input type="date" name="endDate" onChange={this.onFieldChange} className="form-control" value={this.state.endDate} />
+        </div>
+        <div className="input-group field">
+          <div className="input-group-prepend">
+            <span className="input-group-text">Cost ($)</span>
+          </div>
+          <input type="number" name="cost" step="0.01" onChange={this.onFieldChange} className="form-control" value={this.state.cost} />
+        </div>
+        <button className="btn btn-success post-button" onClick={this.createTrip}>Post trip</button>
       </div>
     );
   }

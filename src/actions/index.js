@@ -4,16 +4,41 @@ export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
   FETCH_TRIP: 'FETCH_TRIP',
   JOIN_TRIP: 'JOIN_TRIP',
-  CREATE_TRIP: 'CREATE_TRIP',
-  SIGN_UP_TRIP: 'SIGN_UP_TRIP',
   CANCEL_TRIP: 'CANCEL_TRIP',
   IS_ON_TRIP: 'IS_ON_TRIP',
   MY_TRIPS: 'MY_TRIPS',
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
+  UPDATE_USER: 'UPDATE_USER',
 };
 
 const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
+
+export function getUser() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        console.log(response);
+        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function updateUser(updatedUser) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/user`, updatedUser, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        console.log(response);
+        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
 
 export function fetchTrips() {
   return (dispatch) => {
@@ -52,24 +77,6 @@ export function joinTrip(tripID) {
   };
 }
 
-export function createTrip(trip, history) {
-  console.log('in createtrip');
-  return (dispatch) => {
-    axios.post(`${ROOT_URL}/trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
-      .then((response) => {
-        dispatch({
-          type: ActionTypes.CREATE_TRIP,
-          payload: trip,
-        });
-        history.push('/alltrips');
-      }).catch((error) => {
-        console.log(error);
-      });
-  };
-}
-
-export function signUpTrip() {
-}
 export function cancelTrip(tripID) {
   return {
     type: ActionTypes.FETCH_TRIPS,
@@ -82,6 +89,19 @@ export function cancelTrip(tripID) {
   //     console.log(error);
   //   });
   // };
+}
+
+export function createTrip(trip, history) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        console.log(response);
+        history.push('/alltrips');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 }
 
 export function getMyTrips() {
