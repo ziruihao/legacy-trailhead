@@ -15,7 +15,7 @@ class Homepage extends Component {
     let buttons = null;
     if (this.props.authenticated) {
       buttons = (
-        <div id="three-buttons">
+        <div className="three-buttons">
           <nav>
             <NavLink to="/alltrips">
               <button>All Trips</button>
@@ -33,7 +33,7 @@ class Homepage extends Component {
       );
     } else {
       buttons = (
-        <div id="two-buttons">
+        <div className="two-buttons">
           <NavLink to="/signin">
             <button>Sign In</button>
           </NavLink>
@@ -45,7 +45,11 @@ class Homepage extends Component {
     }
 
     return (
-      <div id="main-buttons">
+      <div className="main1">
+        <div className="home-text">
+          <h1> Welcome to Dartmouth Outdoor Club trip planner! </h1>
+          <p> Please login or sign-up to find your next outdoor adventure! </p>
+        </div>
         { buttons }
       </div>
     );

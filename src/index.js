@@ -14,7 +14,7 @@ import CreateTrip from './components/createtrip';
 import MyTrips from './components/mytrips';
 import TripDetails from './components/tripdetails';
 import { ActionTypes } from './actions';
-// import './style.scss';
+import './style.scss';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
 // boilerplate to copy, don't have to know
