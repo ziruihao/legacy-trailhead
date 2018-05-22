@@ -6,13 +6,41 @@ export const ActionTypes = {
   JOIN_TRIP: 'JOIN_TRIP',
   LEAVE_TRIP: 'LEAVE_TRIP',
   IS_ON_TRIP: 'IS_ON_TRIP',
+  MY_TRIPS: 'MY_TRIPS',
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
+  UPDATE_USER: 'UPDATE_USER',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
 const ROOT_URL = 'http://localhost:9090/api';
 
+
+export function getUser() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        console.log(response);
+        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function updateUser(updatedUser) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/user`, updatedUser, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        console.log(response);
+        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
 
 export function fetchTrips() {
   return (dispatch) => {
@@ -60,6 +88,30 @@ export function leaveTrip(tripID) {
     }).catch((error) => {
       console.log(error);
     });
+  };
+}
+
+export function createTrip(trip, history) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        console.log(response);
+        history.push('/alltrips');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function getMyTrips() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/myTrips`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.MY_TRIPS, payload: response.data });
+      }).catch((error) => {
+        console.log(error);
+      });
   };
 }
 

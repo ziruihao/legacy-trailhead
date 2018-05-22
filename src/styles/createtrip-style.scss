@@ -1,30 +1,26 @@
 .container {
-  margin-top: 10px;
-  height: 500px;
-  width: 98%;
   display: flex;
   flex-flow: column nowrap;
+  margin-top: 10px;
+  width: 98%;
 }
 
-.one-line-content {
-  font-size: 15px;
-  margin-bottom: 10px;
-  height: 25px;
-  border-radius: 2px;
-  border: 1px solid gray;
-  padding: 4px;
+h1 {
+  align-self: center;
 }
 
-.main-trip-content {
-  height: 100px;
+.field {
+  margin: 10px 0px;
 }
 
-#post-button {
-  border: 1px solid gray;
+textarea.field {
+  height: 200px;
+  overflow: auto;
+  resize: none;
+}
+
+.post-button {
+  width: 200px;
   font-size: 20px;
-  border-radius: 5px;
-}
-
-#post-button:hover {
-  background-color: rgb(54, 135, 66);
+  align-self: center;
 }
