@@ -12,7 +12,7 @@ export const ActionTypes = {
   UPDATE_USER: 'UPDATE_USER',
 };
 
-const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
 
 export function getUser() {
   return (dispatch) => {
