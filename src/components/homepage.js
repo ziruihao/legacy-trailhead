@@ -26,6 +26,9 @@ class Homepage extends Component {
             <NavLink to="/mytrips">
               <button>My Trips</button>
             </NavLink>
+            <NavLink to="/user">
+              <button>My Profile</button>
+            </NavLink>
           </nav>
           <div>Signed In</div>
           <button onClick={() => this.props.signOut(this.props.history)}>Sign Out</button>
