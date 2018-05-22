@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { getMyTrips } from '../actions';
+import '../styles/mytrips-style.scss';
 
 class MyTrips extends Component {
   constructor(props) {
@@ -35,7 +36,7 @@ class MyTrips extends Component {
   render() {
     console.log(this.props.myTrips);
     return (
-      <div className="card">
+      <div className="card myTrips">
         <p>Coming soon: Will show all trips the user is signed up for, and maybe taken </p>
         <NavLink to="/">
           <button>Home</button>
