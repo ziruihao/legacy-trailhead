@@ -8,6 +8,7 @@ export const ActionTypes = {
   SIGN_UP_TRIP: 'SIGN_UP_TRIP',
   CANCEL_TRIP: 'CANCEL_TRIP',
   IS_ON_TRIP: 'IS_ON_TRIP',
+  MY_TRIPS: 'MY_TRIPS',
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
 };
@@ -81,6 +82,17 @@ export function cancelTrip(tripID) {
   //     console.log(error);
   //   });
   // };
+}
+
+export function getMyTrips() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/myTrips`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.MY_TRIPS, payload: response.data });
+      }).catch((error) => {
+        console.log(error);
+      });
+  };
 }
 
 export function isOnTrip(tripID) {
