@@ -41,12 +41,12 @@ class SignIn extends Component {
     return (
       <div className="main-signin">
         <div className="input-fields">
-          <input name="email" type="text" id="email-input" onChange={this.onFieldChange} placeholder="Dartmouth Email" value={this.state.email} />
-          <input name="password" type="password" placeholder="Password" onChange={this.onFieldChange} value={this.state.password} />
+          <input className="input-styling" name="email" type="text" id="email-input" onChange={this.onFieldChange} placeholder="Dartmouth Email" value={this.state.email} />
+          <input className="input-styling" name="password" type="password" placeholder="Password" onChange={this.onFieldChange} value={this.state.password} />
         </div>
         <div className="form-buttons">
-          <button type="submit" onClick={this.signIn}>Sign In</button>
-          <button type="reset" onClick={() => this.props.history.push('/')}>Cancel</button>
+          <button className="button-styling" type="submit" onClick={this.signIn}>Sign In</button>
+          <button className="button-styling" type="reset" onClick={() => this.props.history.push('/')}>Cancel</button>
         </div>
       </div>
     );

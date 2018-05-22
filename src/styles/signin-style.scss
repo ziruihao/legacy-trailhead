@@ -22,11 +22,23 @@
   margin-bottom: 5px;
 }
 
-input {
+.input-styling {
   font-family: 'Merriweather', serif;
   height: 30px;
   border-radius: 5px;
   border: none;
+}
+
+.button-styling {
+  font-family: 'Merriweather', serif;
+  background: none;
+  border-radius: 8px;
+  border-width: 2px;
+  border-color: white;
+  color: white;
+  height: 30px;
+  width: 90px;
+  margin-right: 5px;
 }
 
 #email-input {
