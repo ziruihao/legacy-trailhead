@@ -1,3 +1,17 @@
-div {
-  color: black;
+div .myTrips {
+  color: white;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.fa-tree {
+  font-size: 1.5em;
+  color: white;
+  margin: 6px;
+}
+
+.fa-tree:hover {
+  color: green;
 }

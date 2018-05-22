@@ -36,12 +36,16 @@ class MyTrips extends Component {
   render() {
     console.log(this.props.myTrips);
     return (
-      <div className="card myTrips">
-        <p>Coming soon: Will show all trips the user is signed up for, and maybe taken </p>
+      <div>
         <NavLink to="/">
-          <button>Home</button>
+          <i className="fas fa-tree" />
         </NavLink>
-        {this.renderMyTrips()}
+        <div className="myTrips">
+          <h1>My Trips</h1>
+          <p>Coming soon: Will show all trips the user is signed up for, and maybe taken </p>
+
+          {this.renderMyTrips()}
+        </div>
       </div>
     );
   }
