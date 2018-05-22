@@ -4,6 +4,8 @@ export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
   FETCH_TRIP: 'FETCH_TRIP',
   JOIN_TRIP: 'JOIN_TRIP',
+  CREATE_TRIP: 'CREATE_TRIP',
+  SIGN_UP_TRIP: 'SIGN_UP_TRIP',
   CANCEL_TRIP: 'CANCEL_TRIP',
   IS_ON_TRIP: 'IS_ON_TRIP',
   AUTH_USER: 'AUTH_USER',
@@ -49,6 +51,24 @@ export function joinTrip(tripID) {
   };
 }
 
+export function createTrip(trip, history) {
+  console.log('in createtrip');
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({
+          type: ActionTypes.CREATE_TRIP,
+          payload: trip,
+        });
+        history.push('/alltrips');
+      }).catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function signUpTrip() {
+}
 export function cancelTrip(tripID) {
   return {
     type: ActionTypes.FETCH_TRIPS,
