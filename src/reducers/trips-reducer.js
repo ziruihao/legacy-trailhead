@@ -4,6 +4,7 @@ const initialState = ({
   all: [],
   trip: {},
   isOnTrip: false,
+  myTrips: [],
 });
 
 // Trips reducer
@@ -21,6 +22,8 @@ const TripsReducer = (state = initialState, action) => {
       return state; // temporary
     case ActionTypes.IS_ON_TRIP:
       return Object.assign({}, state, { isOnTrip: action.payload });
+    case ActionTypes.MY_TRIPS:
+      return Object.assign({}, state, { myTrips: action.payload });
     default:
       return state;
   }
