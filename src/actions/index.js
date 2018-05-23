@@ -80,8 +80,6 @@ export function joinTrip(id) {
 }
 
 export function leaveTrip(id) {
-  console.log('token');
-  console.log(localStorage.getItem('token'));
   return (dispatch) => {
     axios.delete(`${ROOT_URL}/leaveTrip/${id}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.LEAVE_TRIP, payload: response.data });
@@ -116,9 +114,6 @@ export function getMyTrips() {
 }
 
 export function isOnTrip(tripID) {
-  console.log('is on trip action');
-  console.log('token');
-  console.log(localStorage.getItem('token'));
   return (dispatch) => {
     axios.get(`${ROOT_URL}/isOnTrip/${tripID}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.IS_ON_TRIP, payload: response.data.isOnTrip });

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
-import { joinTrip, fetchTrip, cancelTrip, isOnTrip } from '../actions';
+import { joinTrip, fetchTrip, leaveTrip, isOnTrip } from '../actions';
 
 class TripDetails extends Component {
   constructor(props) {
@@ -12,22 +12,15 @@ class TripDetails extends Component {
   }
 
   componentDidMount() {
-    console.log('trip id');
-    console.log(this.props.match.params.tripID);
     this.props.fetchTrip(this.props.match.params.tripID);
-    console.log('between fetch and isOnTrip');
     this.props.isOnTrip(this.props.match.params.tripID);
   }
 
   onSubmit() {
-    console.log('onSubmitClick: joining trip');
-
     this.props.joinTrip(this.props.trip._id);
   }
 
   onleave() {
-    console.log('onleaveClick');
-
     this.props.leaveTrip(this.props.trip._id);
   }
 
@@ -69,6 +62,6 @@ const mapStateToProps = state => (
 );
 
 export default withRouter(connect(mapStateToProps, {
-  joinTrip, fetchTrip, cancelTrip, isOnTrip,
+  joinTrip, fetchTrip, leaveTrip, isOnTrip,
 })(TripDetails));
 // export default withRouter(connect(null, { signUpTrip, fetchTrip, leaveTrip, isOnTrip })(TripDetails));
