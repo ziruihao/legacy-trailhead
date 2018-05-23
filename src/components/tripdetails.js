@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
-
-import '../style.scss';
 import { joinTrip, fetchTrip, cancelTrip, isOnTrip } from '../actions';
 
 class TripDetails extends Component {

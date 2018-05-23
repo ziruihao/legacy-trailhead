@@ -14,26 +14,7 @@ class Homepage extends Component {
   render() {
     let buttons = null;
     if (this.props.authenticated) {
-      buttons = (
-        <div className="three-buttons">
-          <nav>
-            <NavLink to="/alltrips">
-              <button>All Trips</button>
-            </NavLink>
-            <NavLink to="/createtrip">
-              <button>Create Trip</button>
-            </NavLink>
-            <NavLink to="/mytrips">
-              <button>My Trips</button>
-            </NavLink>
-            <NavLink to="/user">
-              <button>My Profile</button>
-            </NavLink>
-          </nav>
-          <div>Signed In</div>
-          <button onClick={() => this.props.signOut(this.props.history)}>Sign Out</button>
-        </div>
-      );
+      buttons = <span />;
     } else {
       buttons = (
         <div className="two-buttons">
@@ -50,8 +31,14 @@ class Homepage extends Component {
     return (
       <div className="main1">
         <div className="home-text">
-          <h1> Welcome to Dartmouth Outdoor Club trip planner! </h1>
-          <p> Please login or sign-up to find your next outdoor adventure! </p>
+          <h1> Welcome to the Dartmouth Outdoor Club trip planner! </h1>
+          <p>
+            {
+              this.props.authenticated ?
+              'Join or create a trip of your own!' :
+              'Please login or sign-up to find your next outdoor adventure!'
+            }
+          </p>
         </div>
         { buttons }
       </div>
