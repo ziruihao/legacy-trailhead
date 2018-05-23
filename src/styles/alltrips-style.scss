@@ -1,7 +1,5 @@
-.alltrips {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+.trips {
+  text-align: center;
 }
 
 a {
@@ -17,22 +15,4 @@ a:visited {
 }
 
 .trip {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  margin: 3.2em;
-
-  #text {
-    margin-top: 0;
-    background-color: white;
-    width: 15em;
-
-    h1 {
-      font-size: 1.5em
-    }
-
-    p {
-      font-size: 1em;
-    }
-  }
 }

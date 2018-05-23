@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { fetchTrips } from '../actions';
-import '../styles/alltrips-style.scss';
+// import '../styles/alltrips-style.scss';
 
 
 class AllTrips extends Component {
@@ -14,14 +14,16 @@ class AllTrips extends Component {
     const trips =
       this.props.trips.map((trip, id) => {
         return (
-          <div key={trip.id}>
-            <a href={`/trip/${trip.id}`}>
-              <div className="trip">
-                <h1>{trip.title}</h1>
-                <p>{trip.club}</p>
-                <p>{trip.date}</p>
+          <div className="col-md-4">
+            <div className="card mb-4 box-shadow">
+              <div className="card-body">
+                <a href={`/trip/${trip.id}`}>
+                  <h1 className="card-title">{trip.title}</h1>
+                  <p className="card-text">{trip.club}</p>
+                  <p className="card-text">{trip.date}</p>
+                </a>
               </div>
-            </a>
+            </div>
           </div>
         );
       });
@@ -30,13 +32,19 @@ class AllTrips extends Component {
 
   render() {
     return (
-      <div className="trips">
-        <h1>All Trips</h1>
-        <NavLink to="/">
-          <button>Home</button>
-        </NavLink>
-        {this.renderTrips()}
-      </div>
+      <main role="main">
+        <section className="jumbotron text-center">
+          <div className="container">
+            <h1 className="jumbotron-heading">All Trips</h1>
+            <p>
+              <a href="/" className="btn btn-primary">Home</a>
+            </p>
+          </div>
+        </section>
+        <div className="row">
+          {this.renderTrips()}
+        </div>
+      </main>
     );
   }
 }
