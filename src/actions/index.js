@@ -137,6 +137,7 @@ export function signIn({ email, password }, history) {
         console.log(response);
         localStorage.setItem('token', response.data.token);
         dispatch({ type: ActionTypes.AUTH_USER });
+        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
         history.push('/');
       })
       .catch((error) => {
@@ -153,6 +154,7 @@ export function signUp({ email, password, name }, history) {
         console.log(response);
         localStorage.setItem('token', response.data.token);
         dispatch({ type: ActionTypes.AUTH_USER });
+        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
         history.push('/');
       })
       .catch((error) => {

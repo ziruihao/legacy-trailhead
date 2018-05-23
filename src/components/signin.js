@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signIn } from '../actions';
+import '../styles/signin-style.scss';
 
 class SignIn extends Component {
   constructor(props) {
@@ -26,32 +27,27 @@ class SignIn extends Component {
     });
   }
 
-  signIn(event) {
+  signIn() {
     if (this.state.email !== '' && this.state.password !== '') {
       this.props.signIn({
         email: this.state.email,
         password: this.state.password,
       }, this.props.history);
     }
-    event.preventDefault();
   }
 
 
   render() {
     return (
-      <div>
-        <form className="input" onSubmit={this.signIn}>
-          <label htmlFor="email">
-            <div>Dartmouth e-mail:</div>
-            <input name="email" type="text" onChange={this.onFieldChange} value={this.state.email} />
-          </label>
-          <label htmlFor="password">
-            <div>Password:</div>
-            <input name="password" type="password" onChange={this.onFieldChange} value={this.state.password} />
-          </label>
-          <button type="submit">Sign In</button>
-          <button type="reset" onClick={() => this.props.history.push('/')}>Cancel</button>
-        </form>
+      <div className="main-signin">
+        <div className="input-fields">
+          <input className="input-styling" name="email" type="text" id="email-input" onChange={this.onFieldChange} placeholder="Dartmouth Email" value={this.state.email} />
+          <input className="input-styling" name="password" type="password" placeholder="Password" onChange={this.onFieldChange} value={this.state.password} />
+        </div>
+        <div className="form-buttons">
+          <button className="button-styling" type="submit" onClick={this.signIn}>Sign In</button>
+          <button className="button-styling" type="reset" onClick={() => this.props.history.push('/')}>Cancel</button>
+        </div>
       </div>
     );
   }

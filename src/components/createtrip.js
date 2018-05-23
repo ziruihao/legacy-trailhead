@@ -47,7 +47,7 @@ class CreateTrip extends Component {
         <h1>Create your trip today!</h1>
         <input className="form-control field" onChange={this.onFieldChange} name="title" placeholder="Trip title" value={this.state.title} />
         <input className="form-control field" onChange={this.onFieldChange} name="leaders" placeholder="Leaders (please write emails, comma separated)" value={this.state.leaders} />
-        <input className="form-control field" onChange={this.onFieldChange} name="club" placeholder="Associated club" value={this.state.club} />
+        <input className="form-control field" onChange={this.onFieldChange} name="club" placeholder="Associated club (e.g. Ledyard, CnT, etc)" value={this.state.club} />
         <input className="form-control field" type="number" onChange={this.onFieldChange} name="limit" placeholder="Max # of people (e.g. 8, 10, etc)" value={this.state.limit} />
         <textarea className="form-control field" onChange={this.onFieldChange} name="description" placeholder="Trip description" value={this.state.description} />
         <div className="input-group field">
