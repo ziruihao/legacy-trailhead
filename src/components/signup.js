@@ -48,7 +48,6 @@ class SignUp extends Component {
         password: this.state.password,
       }, this.props.history);
     }
-    // event.preventDefault();
   }
 
 
