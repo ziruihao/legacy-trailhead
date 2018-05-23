@@ -1,3 +1,18 @@
-.btn {
-  width: 300px;
+.profile-header {
+  color: black;
+  font-size: 40px;
+}
+
+.profile-field {
+  color: black;
+  margin-bottom: 20px;
+
+  .card-title {
+    font-size: 24px;
+    text-decoration: underline;
+  }
+}
+
+.card-body > button {
+  margin-right: 10px;
 }

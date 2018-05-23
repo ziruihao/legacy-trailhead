@@ -14,6 +14,7 @@ import CreateTrip from './components/createtrip';
 import MyTrips from './components/mytrips';
 import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
+import NavBar from './components/navbar';
 import { ActionTypes, getUser } from './actions';
 import './style.scss';
 
@@ -38,6 +39,7 @@ const App = (props) => {
   return (
     <Router>
       <div>
+        <NavBar />
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/user" component={ProfilePage} />
