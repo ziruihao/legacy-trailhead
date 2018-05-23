@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { getMyTrips } from '../actions';
+import '../styles/mytrips-style.scss';
 
 class MyTrips extends Component {
   constructor(props) {
@@ -15,17 +16,17 @@ class MyTrips extends Component {
   }
 
   renderMyTrips = () => {
+    const style = { width: '18rem' };
     const myTrips =
       this.props.myTrips.map((trip, id) => {
         return (
-          <div key={trip.id}>
-            <a href={`/trip/${trip.id}`}>
-              <div className="myTrip">
-                <h1>{trip.title}</h1>
-                <p>{trip.club}</p>
-                <p>{trip.date}</p>
-              </div>
-            </a>
+          <div key={trip.id} className="card text-center" style={style}>
+            <div className="card-body">
+              <h5 className="card-title">{trip.title}</h5>
+              <p className="card-text">{trip.club}</p>
+              <p className="card-text">{trip.date}</p>
+              <a href={`/trip/${trip.id}`} className="btn btn-primary">See details</a>
+            </div>
           </div>
         );
       });
@@ -35,12 +36,16 @@ class MyTrips extends Component {
   render() {
     console.log(this.props.myTrips);
     return (
-      <div className="myTrips">
-        <p>Coming soon: Will show all trips the user is signed up for, and maybe taken </p>
+      <div>
         <NavLink to="/">
-          <button>Home</button>
+          <i className="fas fa-tree" />
         </NavLink>
-        {this.renderMyTrips()}
+        <div className="myTrips">
+          <h1>My Trips</h1>
+          <p>Coming soon: Will show all trips the user is signed up for, and maybe taken </p>
+
+          {this.renderMyTrips()}
+        </div>
       </div>
     );
   }
