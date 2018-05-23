@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signUp } from '../actions';
+import '../styles/signup-style.scss';
 
 class SignUp extends Component {
   constructor(props) {
@@ -39,7 +40,7 @@ class SignUp extends Component {
     return true;
   }
 
-  signUp(event) {
+  signUp() {
     if (this.validateInput()) {
       this.props.signUp({
         name: this.state.name,
@@ -47,33 +48,23 @@ class SignUp extends Component {
         password: this.state.password,
       }, this.props.history);
     }
-    event.preventDefault();
+    // event.preventDefault();
   }
 
 
   render() {
     return (
-      <div>
-        <form className="input" onSubmit={this.signUp}>
-          <label htmlFor="name">
-            <div>Name:</div>
-            <input name="name" type="text" onChange={this.onFieldChange} value={this.state.name} />
-          </label>
-          <label htmlFor="email">
-            <div>Dartmouth e-mail:</div>
-            <input name="email" type="text" onChange={this.onFieldChange} value={this.state.email} />
-          </label>
-          <label htmlFor="password">
-            <div>Password:</div>
-            <input name="password" type="password" onChange={this.onFieldChange} value={this.state.password} />
-          </label>
-          <label htmlFor="confirmPassword">
-            <div>Confirm Password:</div>
-            <input name="confirmPassword" type="password" onChange={this.onFieldChange} value={this.state.confirmPassword} />
-          </label>
-          <button type="submit">Sign Up</button>
-          <button type="reset" onClick={() => this.props.history.push('/')}>Cancel</button>
-        </form>
+      <div className="main-signup">
+        <div className="input-fields">
+          <input className="input-styling" placeholder="Name" name="name" type="text" onChange={this.onFieldChange} value={this.state.name} />
+          <input className="input-styling" placeholder="Dartmouth Email" name="email" type="text" onChange={this.onFieldChange} value={this.state.email} />
+          <input className="input-styling" placeholder="Password" name="password" type="password" onChange={this.onFieldChange} value={this.state.password} />
+          <input className="input-styling" placeholder="Confirm Password" name="confirmPassword" type="password" onChange={this.onFieldChange} value={this.state.confirmPassword} />
+        </div>
+        <div className="form-buttons">
+          <button className="button-styling" type="submit" onClick={this.signUp}>Sign Up</button>
+          <button className="button-styling" type="reset" onClick={() => this.props.history.push('/')}>Cancel</button>
+        </div>
       </div>
     );
   }
