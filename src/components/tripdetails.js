@@ -17,6 +17,7 @@ class TripDetails extends Component {
     console.log('trip id');
     console.log(this.props.match.params.tripID);
     this.props.fetchTrip(this.props.match.params.tripID);
+    console.log('between fetch and isOnTrip');
     this.props.isOnTrip(this.props.match.params.tripID);
   }
 
@@ -43,7 +44,7 @@ class TripDetails extends Component {
           <button className="button" onClick={this.onSubmit}>Sign Up</button>
           <button className="button" onClick={this.onleave}>Leave Trip</button>
         </div> <br /> */}
-        { !this.props.isOnTrip ?
+        { this.props.isUserOnTrip ?
           (
             <div>
               <p> You are currently signed up for this trip. Click below to leave the trip </p>
@@ -65,7 +66,7 @@ class TripDetails extends Component {
 const mapStateToProps = state => (
   {
     trip: state.trips.trip,
-    isOnTrip: state.isOnTrip,
+    isUserOnTrip: state.trips.isUserOnTrip,
   }
 );
 

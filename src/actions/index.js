@@ -79,11 +79,11 @@ export function joinTrip(id) {
   };
 }
 
-export function leaveTrip(tripID) {
+export function leaveTrip(id) {
   console.log('token');
   console.log(localStorage.getItem('token'));
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/leaveTrip`, { tripID }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    axios.delete(`${ROOT_URL}/leaveTrip/${id}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.LEAVE_TRIP, payload: response.data });
     }).catch((error) => {
       console.log(error);
