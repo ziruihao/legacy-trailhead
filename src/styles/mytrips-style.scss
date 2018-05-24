@@ -4,18 +4,12 @@ div .myTrips {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-
-  .trip {
-    color: black;
-  }
 }
 
-.fa-tree {
-  font-size: 1.5em;
-  color: white;
-  margin: 6px;
+.margins {
+  margin-bottom: 10px;
 }
 
-.fa-tree:hover {
-  color: green;
+h1 {
+  margin-bottom: 10px;
 }
