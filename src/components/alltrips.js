@@ -20,7 +20,7 @@ class AllTrips extends Component {
                 <div className="card-body">
                   <h1 className="card-title">{trip.title}</h1>
                   <p className="card-text">{trip.club}</p>
-                  <p className="card-text">{trip.date}</p>
+                  <p className="card-text">{`${new Date(trip.startDate).toLocaleDateString('en-US')}-${new Date(trip.endDate).toLocaleDateString('en-US')}`}</p>
                 </div>
               </NavLink>
             </div>
