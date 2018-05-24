@@ -38,7 +38,7 @@ class ProfilePage extends Component {
     const updatedUser = {
       email: this.state.email,
       name: this.state.name,
-      leader_for: this.state.clubs.split(','),
+      leader_for: this.state.clubs,
       dash_number: this.state.dash_number,
     };
     this.setState({ isEditing: false });
@@ -49,7 +49,7 @@ class ProfilePage extends Component {
     if (!this.state.isEditing) {
       return (
         <div className="container">
-          <div className="card">
+          <div className="card profile">
             <div className="card-header profile-header">{`${this.props.user.name}'s Profile`}</div>
             <div className="card-body">
               <div className="profile-field">

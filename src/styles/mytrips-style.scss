@@ -4,6 +4,10 @@ div .myTrips {
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
+
+  .trip {
+    color: black;
+  }
 }
 
 .fa-tree {

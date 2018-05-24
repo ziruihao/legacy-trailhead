@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips } from '../actions';
 import '../styles/alltrips-style.scss';
 
@@ -15,14 +15,14 @@ class AllTrips extends Component {
       this.props.trips.map((trip, id) => {
         return (
           <div className="col-md-4" key={trip.id}>
-            <div className="card mb-4 box-shadow">
-              <a href={`/trip/${trip.id}`}>
+            <div className="card mb-4 box-shadow card-trip">
+              <NavLink to={`/trip/${trip.id}`}>
                 <div className="card-body">
                   <h1 className="card-title">{trip.title}</h1>
                   <p className="card-text">{trip.club}</p>
                   <p className="card-text">{trip.date}</p>
                 </div>
-              </a>
+              </NavLink>
             </div>
           </div>
         );

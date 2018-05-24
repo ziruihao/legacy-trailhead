@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { getMyTrips } from '../actions';
 import '../styles/mytrips-style.scss';
 
@@ -25,7 +25,7 @@ class MyTrips extends Component {
               <h5 className="card-title">{trip.title}</h5>
               <p className="card-text">{trip.club}</p>
               <p className="card-text">{trip.date}</p>
-              <a href={`/trip/${trip.id}`} className="btn btn-primary">See details</a>
+              <NavLink to={`/trip/${trip.id}`} className="btn btn-primary">See details</NavLink>
             </div>
           </div>
         );
@@ -40,8 +40,9 @@ class MyTrips extends Component {
         <div className="myTrips">
           <h1>My Trips</h1>
           <p>Coming soon: Will show all trips the user is signed up for, and maybe taken </p>
-
-          {this.renderMyTrips()}
+          <div className="trip">
+            {this.renderMyTrips()}
+          </div>
         </div>
       </div>
     );

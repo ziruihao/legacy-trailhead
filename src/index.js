@@ -16,7 +16,6 @@ import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
 import NavBar from './components/navbar';
 import { ActionTypes, getUser } from './actions';
-import './style.scss';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
 // boilerplate to copy, don't have to know
