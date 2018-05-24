@@ -36,12 +36,20 @@ class TripDetails extends Component {
     return '';
   }
 
+  formatDate = (date) => {
+    // date fix adapted from https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off/31732581
+    if (!date) {
+      return '';
+    }
+    return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
+  }
+
   render() {
     return (
       <div className="trip-detail-div">
         <h1> {this.props.trip.title} </h1>
         <h2> Leaders: {this.getLeaders(this.props.trip.leaders)}</h2>
-        <h3>{`Date: ${new Date(this.props.trip.startDate).toLocaleDateString('en-US')}-${new Date(this.props.trip.endDate).toLocaleDateString('en-US')}`}</h3>
+        <h3>{`${this.formatDate(this.props.trip.startDate)}-${this.formatDate(this.props.trip.endDate)}`}</h3>
         <h3> Club: {this.props.trip.club}</h3><br />
         { this.props.isUserOnTrip ?
           (

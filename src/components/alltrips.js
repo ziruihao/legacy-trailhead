@@ -10,6 +10,14 @@ class AllTrips extends Component {
     this.props.fetchTrips();
   }
 
+  formatDate = (date) => {
+    // date fix adapted from https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off/31732581
+    if (!date) {
+      return '';
+    }
+    return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
+  }
+
   renderTrips = () => {
     const trips =
       this.props.trips.map((trip, id) => {
@@ -20,7 +28,7 @@ class AllTrips extends Component {
                 <div className="card-body">
                   <h1 className="card-title">{trip.title}</h1>
                   <p className="card-text">{trip.club}</p>
-                  <p className="card-text">{`${new Date(trip.startDate).toLocaleDateString('en-US')}-${new Date(trip.endDate).toLocaleDateString('en-US')}`}</p>
+                  <p className="card-text">{`${this.formatDate(trip.startDate)}-${this.formatDate(trip.endDate)}`}</p>
                 </div>
               </NavLink>
             </div>

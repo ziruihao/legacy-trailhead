@@ -40,7 +40,7 @@ class MyTrips extends Component {
     return (
       <div className="container">
         <div className="myTrips">
-          <h1>My Trips</h1>
+          <h1 className="mytrips-header">My Trips</h1>
           <div className="myTrips">
             {this.renderMyTrips()}
           </div>
