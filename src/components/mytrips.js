@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { getMyTrips } from '../actions';
 import '../styles/mytrips-style.scss';
+import '../styles/alltrips-style.scss';
 
 class MyTrips extends Component {
   constructor(props) {
@@ -17,10 +18,11 @@ class MyTrips extends Component {
 
   renderMyTrips = () => {
     const style = { width: '18rem' };
-    const myTrips =
+    let myTrips = <p>Trips you sign up for will appear here!</p>;
+    myTrips =
       this.props.myTrips.map((trip, id) => {
         return (
-          <div key={trip.id} className="card text-center" style={style}>
+          <div key={trip.id} className="card text-center card-trip margins" style={style}>
             <div className="card-body">
               <h5 className="card-title">{trip.title}</h5>
               <p className="card-text">{trip.club}</p>
@@ -39,8 +41,7 @@ class MyTrips extends Component {
       <div className="container">
         <div className="myTrips">
           <h1>My Trips</h1>
-          <p>Coming soon: Will show all trips the user is signed up for, and maybe taken </p>
-          <div className="trip">
+          <div className="myTrips">
             {this.renderMyTrips()}
           </div>
         </div>
