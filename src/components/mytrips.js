@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { getMyTrips } from '../actions';
 import '../styles/mytrips-style.scss';
 
@@ -36,10 +36,7 @@ class MyTrips extends Component {
   render() {
     console.log(this.props.myTrips);
     return (
-      <div>
-        <NavLink to="/">
-          <i className="fas fa-tree" />
-        </NavLink>
+      <div className="container">
         <div className="myTrips">
           <h1>My Trips</h1>
           <p>Coming soon: Will show all trips the user is signed up for, and maybe taken </p>
