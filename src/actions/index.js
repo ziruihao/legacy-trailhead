@@ -4,7 +4,7 @@ export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
   FETCH_TRIP: 'FETCH_TRIP',
   JOIN_TRIP: 'JOIN_TRIP',
-  CANCEL_TRIP: 'CANCEL_TRIP',
+  LEAVE_TRIP: 'LEAVE_TRIP',
   IS_ON_TRIP: 'IS_ON_TRIP',
   MY_TRIPS: 'MY_TRIPS',
   AUTH_USER: 'AUTH_USER',
@@ -13,6 +13,8 @@ export const ActionTypes = {
 };
 
 const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
+// const ROOT_URL = 'http://localhost:9090/api';
+
 
 export function getUser() {
   return (dispatch) => {
@@ -65,10 +67,10 @@ export function fetchTrip(tripID) {
   };
 }
 
-export function joinTrip(tripID) {
+export function joinTrip(id) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/jointrip`, { tripID }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch({ type: ActionTypes.JOIN_TRIP, payload: response.data.isOnTrip });
+    axios.put(`${ROOT_URL}/jointrip`, { id }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+      dispatch({ type: ActionTypes.JOIN_TRIP, payload: response.data });
       console.log(response.data);
     }).catch((error) => {
       console.log('joinTrip error');
@@ -77,18 +79,14 @@ export function joinTrip(tripID) {
   };
 }
 
-export function cancelTrip(tripID) {
-  return {
-    type: ActionTypes.FETCH_TRIPS,
-    payload: null,
+export function leaveTrip(id) {
+  return (dispatch) => {
+    axios.delete(`${ROOT_URL}/leaveTrip/${id}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+      dispatch({ type: ActionTypes.LEAVE_TRIP, payload: response.data });
+    }).catch((error) => {
+      console.log(error);
+    });
   };
-  // return (dispatch) => {
-  //   axios.put(`${ROOT_URL}/joinTrip/${tripID}$`).then((response) => {
-  //     dispatch({ type: ActionTypes.JOIN_TRIP, payload: response.data.isOnTrip });
-  //   }).catch((error) => {
-  //     console.log(error);
-  //   });
-  // };
 }
 
 export function createTrip(trip, history) {
@@ -117,7 +115,7 @@ export function getMyTrips() {
 
 export function isOnTrip(tripID) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/isOnTrip/${tripID}$`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    axios.get(`${ROOT_URL}/isOnTrip/${tripID}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.IS_ON_TRIP, payload: response.data.isOnTrip });
     }).catch((error) => {
       console.log(error);
