@@ -8,8 +8,14 @@ class TripDetails extends Component {
   constructor(props) {
     super(props);
 
+    this.state = ({
+      showMembers: false,
+    });
+
     this.onSubmit = this.onSubmit.bind(this);
     this.onLeave = this.onLeave.bind(this);
+    this.toggleMembers = this.toggleMembers.bind(this);
+    this.spotsTaken = this.spotsTaken.bind(this);
   }
 
   componentDidMount() {
@@ -19,10 +25,12 @@ class TripDetails extends Component {
 
   onSubmit() {
     this.props.joinTrip(this.props.trip._id);
+    this.props.fetchTrip(this.props.match.params.tripID);
   }
 
   onLeave() {
     this.props.leaveTrip(this.props.trip._id);
+    this.props.fetchTrip(this.props.match.params.tripID);
   }
 
   getLeaders = (leaders) => {
@@ -44,17 +52,50 @@ class TripDetails extends Component {
     return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
   }
 
+  showMembers = (members) => {
+    console.log(members.length);
+    if (members.length < 1) {
+      return (<p> No Members Yet </p>);
+    }
+
+    return (
+      members.map((member) => {
+        return (<p className="member-name" key={member.id}> {member.name} </p>);
+      })
+    );
+  }
+
+  toggleMembers() {
+    const next = !this.state.showMembers;
+    this.setState({ showMembers: next });
+  }
+
+  spotsTaken = (members, limit) => {
+    if (!members) { return <p />; }
+    return (`${members.length} / ${limit}`);
+  }
+
   render() {
     return (
       <div className="trip-detail-div">
         <h1> {this.props.trip.title} </h1>
         <h2> Leaders: {this.getLeaders(this.props.trip.leaders)}</h2>
-        <h3>{`${this.formatDate(this.props.trip.startDate)}-${this.formatDate(this.props.trip.endDate)}`}</h3>
-        <h3> Club: {this.props.trip.club}</h3><br />
+        <h3> Dates: {`${this.formatDate(this.props.trip.startDate)}-${this.formatDate(this.props.trip.endDate)}`}</h3>
+        <h3> Cost: ${this.props.trip.cost}</h3>
+        <h3> Limit: {this.props.trip.limit} people</h3><br />
+        <h3 className="member-button" onClick={this.toggleMembers}> Members: </h3>
+        <p className="spots-taken"> {this.spotsTaken(this.props.trip.members, this.props.trip.limit)} spots taken </p>
+        {this.state.showMembers ?
+          (
+            this.showMembers(this.props.trip.members)
+          ) : (
+            <p />
+          )
+        }
         { this.props.isUserOnTrip ?
           (
             <div>
-              <p> You are currently signed up for this trip. Click below to leave the trip </p>
+              <p> You are currently signed up for this trip. Click below to leave. </p>
               <button className="button" onClick={this.onLeave}>Leave Trip</button>
             </div>
           ) :

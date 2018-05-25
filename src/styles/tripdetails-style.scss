@@ -4,4 +4,24 @@
   border-radius: 10px;
   padding: 20px;
   color: black;
+  opacity: .95;
+
+}
+
+.spots-taken {
+  padding-left: 1em;
+  display: inline-block;
+}
+
+.member-name {
+  padding-left: 1em;
+}
+
+.member-button {
+  text-decoration: underline;
+  display: inline-block;
+}
+
+.member-button:hover {
+  color: red;
 }
