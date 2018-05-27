@@ -53,7 +53,6 @@ class TripDetails extends Component {
   }
 
   showMembers = (members) => {
-    console.log(members.length);
     if (members.length < 1) {
       return (<p> No Members Yet </p>);
     }
@@ -84,7 +83,7 @@ class TripDetails extends Component {
         <h3> Cost: ${this.props.trip.cost}</h3>
         <h3> Limit: {this.props.trip.limit} people</h3><br />
         <h3 className="member-button" onClick={this.toggleMembers}> Members: </h3>
-        <p className="spots-taken"> {this.spotsTaken(this.props.trip.members, this.props.trip.limit)} spots taken </p>
+        <div className="spots-taken">{this.spotsTaken(this.props.trip.members, this.props.trip.limit)} spots taken</div>
         {this.state.showMembers ?
           (
             this.showMembers(this.props.trip.members)

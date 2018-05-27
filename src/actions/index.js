@@ -10,6 +10,7 @@ export const ActionTypes = {
   AUTH_USER: 'AUTH_USER',
   DEAUTH_USER: 'DEAUTH_USER',
   UPDATE_USER: 'UPDATE_USER',
+  ALL_CLUBS: 'ALL_CLUBS',
 };
 
 const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -163,5 +164,16 @@ export function signOut(history) {
     localStorage.removeItem('token');
     dispatch({ type: ActionTypes.DEAUTH_USER });
     history.push('/');
+  };
+}
+
+export function getClubs() {
+  return (dispatch) => {
+    axios
+      .get(`${ROOT_URL}/club`)
+      .then((response) => {
+        console.log(response);
+        dispatch({ type: ActionTypes.ALL_CLUBS, payload: response.data });
+      });
   };
 }

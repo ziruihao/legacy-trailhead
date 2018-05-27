@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { updateUser } from '../actions';
+import { updateUser, getClubs } from '../actions';
 import '../styles/profilepage-style.scss';
 
 class ProfilePage extends Component {
@@ -10,7 +10,8 @@ class ProfilePage extends Component {
     this.state = {
       email: '',
       name: '',
-      clubs: '',
+      clubsList: {},
+      dropdowns: [],
       dash_number: '',
       isEditing: false,
     };
@@ -18,10 +19,20 @@ class ProfilePage extends Component {
     this.updateUserInfo = this.updateUserInfo.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getClubs();
+  }
+
   onFieldChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+    if (event.target.name === 'select') {
+      this.setState({
+        clubsList: Object.assign({}, this.state.clubsList, { [event.target.getAttribute('data-key')]: event.target.value }),
+      });
+    } else {
+      this.setState({
+        [event.target.name]: event.target.value,
+      });
+    }
   }
 
   getUpdatedVals = () => {
@@ -29,19 +40,59 @@ class ProfilePage extends Component {
       name: this.props.user.name,
       email: this.props.user.email,
       dash_number: this.props.user.dash_number ? this.props.user.dash_number : '',
-      clubs: this.props.user.leader_for ? this.props.user.leader_for : '',
       isEditing: true,
     });
   }
 
+  displayClubs = () => {
+    if (!this.props.user.leader_for) {
+      return '';
+    }
+
+    let clubString = '';
+    this.props.user.leader_for.forEach((club) => {
+      clubString = clubString.concat(`${club.name}, `);
+    });
+    return clubString.substring(0, clubString.length - 2);
+  }
+
+  addDropdown = () => {
+    const options = this.props.clubs.map((club) => {
+      return <option key={club.id} value={club.id}>{club.name}</option>;
+    });
+    this.setState({
+      dropdowns: this.state.dropdowns.concat((
+        <select
+          name="select"
+          className="custom-select club-select"
+          defaultValue="none"
+          key={this.state.dropdowns.length}
+          data-key={this.state.dropdowns.length}
+          onChange={this.onFieldChange}
+        >
+          <option key="none" value="none">Choose a club...</option>
+          { options }
+        </select>
+      )),
+    });
+  }
+
   updateUserInfo(event) {
+    const clubs = [];
+    Object.keys(this.state.clubsList).forEach((k) => {
+      const val = this.state.clubsList[k];
+      if (val !== 'none' && clubs.indexOf(val) === -1) {
+        clubs.push(val);
+      }
+    });
+
     const updatedUser = {
       email: this.state.email,
       name: this.state.name,
-      leader_for: this.state.clubs,
+      leader_for: clubs,
       dash_number: this.state.dash_number,
     };
-    this.setState({ isEditing: false });
+    this.setState({ isEditing: false, clubsList: {}, dropdowns: [] });
     this.props.updateUser(updatedUser);
   }
 
@@ -61,8 +112,8 @@ class ProfilePage extends Component {
                 <p className="card-text">{this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}</p>
               </div>
               <div className="profile-field">
-                <h5 className="card-title">Clubs</h5>
-                <p className="card-text">{this.props.user.leader_for ? this.props.user.leader_for : 'Please fill out'}</p>
+                <h5 className="card-title">DOC clubs that you are a leader for</h5>
+                <p className="card-text">{this.displayClubs()}</p>
               </div>
               <button className="btn btn-primary" onClick={this.getUpdatedVals}>Update my info</button>
             </div>
@@ -89,11 +140,16 @@ class ProfilePage extends Component {
               <input type="text" name="dash_number" onChange={this.onFieldChange} className="form-control" value={this.state.dash_number} />
             </div>
             <div className="profile-field">
-              <h5 className="card-title">Clubs</h5>
-              <input type="text" name="clubs" onChange={this.onFieldChange} className="form-control" value={this.state.clubs} />
+              <h5 className="card-title">DOC clubs that you are a leader for</h5>
+              { this.state.dropdowns }
+              {
+                this.state.dropdowns.length < this.props.clubs.length
+                ? <button className="btn btn-primary" onClick={this.addDropdown}>Add club</button>
+                : <span />
+              }
             </div>
             <button className="btn btn-success" onClick={this.updateUserInfo}>Update info</button>
-            <button className="btn btn-danger" onClick={() => { this.setState({ isEditing: false }); }}>Cancel changes</button>
+            <button className="btn btn-danger" onClick={() => { this.setState({ isEditing: false, clubsList: {}, dropdowns: [] }); }}>Cancel changes</button>
           </div>
         </div>
       </div>
@@ -104,7 +160,8 @@ class ProfilePage extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    clubs: state.clubs,
   };
 };
 
-export default withRouter(connect(mapStateToProps, { updateUser })(ProfilePage));
+export default withRouter(connect(mapStateToProps, { updateUser, getClubs })(ProfilePage));
