@@ -31,7 +31,7 @@ class Homepage extends Component {
     return (
       <div className="main1">
         <div className="home-text">
-          <h1> Welcome to the Dartmouth Outdoor Club trip planner! </h1>
+          <h1> Welcome to the Dartmouth Outing Club trip planner! </h1>
           <p>
             {
               this.props.authenticated ?

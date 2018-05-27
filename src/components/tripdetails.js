@@ -19,13 +19,22 @@ class TripDetails extends Component {
   }
 
   componentDidMount() {
+    if (!this.props.authenticated) {
+      alert('Please sign in/sign up to view this page');
+      this.props.history.push('/');
+    }
     this.props.fetchTrip(this.props.match.params.tripID);
     this.props.isOnTrip(this.props.match.params.tripID);
   }
 
   onSubmit() {
-    this.props.joinTrip(this.props.trip._id);
-    this.props.fetchTrip(this.props.match.params.tripID);
+    if (!this.props.user.email || !this.props.user.name || !this.props.user.dash_number) {
+      alert('Please fill out all of your info before signing up');
+      this.props.history.push('/user');
+    } else {
+      this.props.joinTrip(this.props.trip._id);
+      this.props.fetchTrip(this.props.match.params.tripID);
+    }
   }
 
   onLeave() {
@@ -114,6 +123,8 @@ const mapStateToProps = state => (
   {
     trip: state.trips.trip,
     isUserOnTrip: state.trips.isUserOnTrip,
+    authenticated: state.auth.authenticated,
+    user: state.user,
   }
 );
 

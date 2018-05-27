@@ -11,6 +11,10 @@ h1 {
 
 .field {
   margin: 10px 0px;
+
+  &.top {
+    margin: 0px 0px 10px 0px;
+  }
 }
 
 textarea.field {

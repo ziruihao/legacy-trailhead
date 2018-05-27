@@ -13,6 +13,10 @@ class MyTrips extends Component {
   }
 
   componentDidMount(props) {
+    if (!this.props.authenticated) {
+      alert('Please sign in/sign up to view this page');
+      this.props.history.push('/');
+    }
     this.props.getMyTrips();
   }
 
@@ -25,7 +29,7 @@ class MyTrips extends Component {
           <div key={trip.id} className="card text-center card-trip margins" style={style}>
             <div className="card-body">
               <h5 className="card-title">{trip.title}</h5>
-              <p className="card-text">{trip.club}</p>
+              <p className="card-text">{trip.club ? trip.club.name : ''}</p>
               <p className="card-text">{trip.date}</p>
               <NavLink to={`/trip/${trip.id}`} className="btn btn-primary">See details</NavLink>
             </div>
@@ -52,6 +56,7 @@ class MyTrips extends Component {
 const mapStateToProps = state => (
   {
     myTrips: state.trips.myTrips,
+    authenticated: state.auth.authenticated,
   }
 );
 export default withRouter(connect(mapStateToProps, { getMyTrips })(MyTrips)); // connected component
