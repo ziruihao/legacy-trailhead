@@ -27,7 +27,7 @@ class AllTrips extends Component {
               <NavLink to={`/trip/${trip.id}`}>
                 <div className="card-body">
                   <h1 className="card-title">{trip.title}</h1>
-                  <p className="card-text">{trip.club}</p>
+                  <p className="card-text">{trip.club ? trip.club.name : ''}</p>
                   <p className="card-text">{`${this.formatDate(trip.startDate)}-${this.formatDate(trip.endDate)}`}</p>
                 </div>
               </NavLink>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createTrip } from '../actions';
+import { createTrip, getClubs } from '../actions';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -21,10 +21,21 @@ class CreateTrip extends Component {
     this.createTrip = this.createTrip.bind(this);
   }
 
+  componentDidMount() {
+    this.props.getClubs();
+  }
+
   onFieldChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
     });
+  }
+
+  getClubOptions = () => {
+    const options = this.props.clubs.map((club) => {
+      return <option key={club.id} value={club.id}>{club.name}</option>;
+    });
+    return options;
   }
 
   createTrip() {
@@ -47,7 +58,9 @@ class CreateTrip extends Component {
         <h1>Create your trip today!</h1>
         <input className="form-control field" onChange={this.onFieldChange} name="title" placeholder="Trip title" value={this.state.title} />
         <input className="form-control field" onChange={this.onFieldChange} name="leaders" placeholder="Leaders (please write emails, comma separated)" value={this.state.leaders} />
-        <input className="form-control field" onChange={this.onFieldChange} name="club" placeholder="Associated club (e.g. Ledyard, CnT, etc)" value={this.state.club} />
+        <select name="club" className="custom-select" defaultValue="Ledyard" onChange={this.onFieldChange}>
+          {this.getClubOptions()}
+        </select>
         <input className="form-control field" type="number" onChange={this.onFieldChange} name="limit" placeholder="Max # of people (e.g. 8, 10, etc)" value={this.state.limit} />
         <textarea className="form-control field" onChange={this.onFieldChange} name="description" placeholder="Trip description" value={this.state.description} />
         <div className="input-group field">
@@ -69,4 +82,10 @@ class CreateTrip extends Component {
   }
 }
 
-export default withRouter(connect(null, { createTrip })(CreateTrip));
+const mapStateToProps = (state) => {
+  return {
+    clubs: state.clubs,
+  };
+};
+
+export default withRouter(connect(mapStateToProps, { createTrip, getClubs })(CreateTrip));
