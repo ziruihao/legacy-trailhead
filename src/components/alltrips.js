@@ -44,7 +44,7 @@ class AllTrips extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container-alltrips">
         <h1>All Trips</h1>
         <div className="row">
           {this.renderTrips()}
