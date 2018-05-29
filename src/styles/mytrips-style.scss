@@ -13,3 +13,13 @@ div .myTrips {
 .mytrips-header {
   margin-bottom: 10px;
 }
+
+.leading-trip {
+  background: rgba(255,255,255,0.6);
+}
+
+.myTripsBox {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
