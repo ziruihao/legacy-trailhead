@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { joinTrip, fetchTrip, leaveTrip, isOnTrip } from '../actions';
 import '../styles/tripdetails-style.scss';
 
@@ -46,7 +46,7 @@ class TripDetails extends Component {
     if (leaders) {
       let leaderString = '';
       for (const leader of leaders) {
-        leaderString = leaderString.concat(`${leader.name}, `);
+        leaderString = leaderString.concat(`${leader.name} (${leader.email}), `);
       }
       return leaderString.substring(0, leaderString.length - 2);
     }
@@ -106,10 +106,12 @@ class TripDetails extends Component {
     return (
       <div className="trip-detail-div">
         <h1> {this.props.trip.title} </h1>
-        <h2> Leaders: {this.getLeaders(this.props.trip.leaders)}</h2>
+        <h2> Leaders:</h2>
+        <p className="leaders"> {this.getLeaders(this.props.trip.leaders)}</p>
         <h3> Dates: {`${this.formatDate(this.props.trip.startDate)}-${this.formatDate(this.props.trip.endDate)}`}</h3>
         <h3> Cost: ${this.props.trip.cost}</h3>
-        <h3> Limit: {this.props.trip.limit} people</h3><br />
+        <h3> Description:</h3>
+        <p className="description"> {this.props.trip.description}</p>
         <h3 className="member-button" onClick={this.toggleMembers}> Members: </h3>
         <div className="spots-taken">{this.spotsTaken(this.props.trip.members, this.props.trip.limit)} spots taken</div>
         {this.state.showMembers ?
@@ -122,7 +124,6 @@ class TripDetails extends Component {
         { this.props.isUserOnTrip ?
           (
             <div>
-              <p> You are currently signed up for this trip. Click below to leave. </p>
               <button className="button" onClick={this.onLeave}>Leave Trip</button>
             </div>
           ) :
@@ -130,7 +131,6 @@ class TripDetails extends Component {
             <button className="button" onClick={this.onSubmit}>Sign Up</button>
           )
         }
-        <br /><NavLink to="/mytrips">View your trips!</NavLink>
       </div>
     );
   }
