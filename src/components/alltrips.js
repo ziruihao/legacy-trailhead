@@ -22,9 +22,16 @@ class AllTrips extends Component {
     return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
   }
 
+  compareStartDates = (a, b) => {
+    const t1 = new Date(a.startDate);
+    const t2 = new Date(b.startDate);
+    return t1.getTime() - t2.getTime();
+  }
+
   renderTrips = () => {
+    const sortedTrips = this.props.trips.sort(this.compareStartDates);
     const trips =
-      this.props.trips.map((trip, id) => {
+      sortedTrips.map((trip, id) => {
         return (
           <div className="col-md-4" key={trip.id}>
             <div className="card mb-4 box-shadow card-trip">
