@@ -81,14 +81,14 @@ class CreateTrip extends Component {
   render() {
     return (
       <div className="container">
-        <div className="card">
+        <div className="card-createTrip">
           <div className="card-header profile-header">Create your trip today!</div>
           <input className="form-control field top" onChange={this.onFieldChange} name="title" placeholder="Trip title" value={this.state.title} />
           <input
             className="form-control field"
             onChange={this.onFieldChange}
             name="leaders"
-            placeholder="Leaders (please write emails, comma separated, you are by default a leader for your trip)"
+            placeholder="Leaders (comma separated emails, you are a leader by default)"
             value={this.state.leaders}
           />
           <select name="club" className="custom-select field" defaultValue="Ledyard" onChange={this.onFieldChange}>

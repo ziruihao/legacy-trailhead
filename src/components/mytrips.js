@@ -28,7 +28,7 @@ class MyTrips extends Component {
         return (
           <div key={trip.id} className="card text-center card-trip margins" style={style}>
             <div className="card-body">
-              <h5 className="card-title">{trip.title}</h5>
+              <h2 className="card-title">{trip.title}</h2>
               <p className="card-text">{trip.club ? trip.club.name : ''}</p>
               <p className="card-text">{trip.date}</p>
               <NavLink to={`/trip/${trip.id}`} className="btn btn-primary">See details</NavLink>

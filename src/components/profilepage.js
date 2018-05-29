@@ -104,7 +104,7 @@ class ProfilePage extends Component {
     if (!this.state.isEditing) {
       return (
         <div className="container">
-          <div className="card profile">
+          <div className="profile">
             <div className="card-header profile-header">{`${this.props.user.name}'s Profile`}</div>
             <div className="card-body">
               <div className="profile-field">
