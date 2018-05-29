@@ -66,10 +66,29 @@ class TripDetails extends Component {
       return (<p> No Members Yet </p>);
     }
 
+    const rows = members.map((member) => {
+      return (
+        <tr key={member.id}>
+          <td>{member.name}</td>
+          <td>{member.email}</td>
+          <td>{member.dash_number}</td>
+        </tr>
+      );
+    });
+
     return (
-      members.map((member) => {
-        return (<p className="member-name" key={member.id}> {member.name} </p>);
-      })
+      <table className="table">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Dash #</th>
+          </tr>
+        </thead>
+        <tbody>
+          { rows }
+        </tbody>
+      </table>
     );
   }
 
