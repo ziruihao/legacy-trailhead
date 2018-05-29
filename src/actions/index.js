@@ -150,7 +150,7 @@ export function signIn({ email, password }, history) {
         localStorage.setItem('token', response.data.token);
         dispatch({ type: ActionTypes.AUTH_USER });
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        history.push('/');
+        history.push('/alltrips');
       })
       .catch((error) => {
         console.log(error);
@@ -168,7 +168,7 @@ export function signUp({ email, password, name }, history) {
         localStorage.setItem('token', response.data.token);
         dispatch({ type: ActionTypes.AUTH_USER });
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        history.push('/');
+        history.push('/alltrips');
       })
       .catch((error) => {
         console.log(error);
