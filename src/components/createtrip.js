@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createTrip, getClubs } from '../actions';
+import { createTrip, getClubs, appError } from '../actions';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -62,6 +62,19 @@ class CreateTrip extends Component {
       cost: this.state.cost,
       limit: this.state.limit,
     };
+
+    // Validate input
+    if (!(trip.title && trip.leaders && trip.club && trip.description && trip.startDate && trip.endDate && trip.cost && trip.limit)) {
+      this.props.appError('All trip fields must be filled out');
+      return;
+    }
+    const start = new Date(trip.startDate);
+    const end = new Date(trip.endDate);
+    if (start.getTime() > end.getTime() || start.getTime() < Date.now() || end.getTime() < Date.now()) {
+      this.props.appError('Please enter valid dates');
+      return;
+    }
+
     this.props.createTrip(trip, this.props.history);
   }
 
@@ -71,7 +84,13 @@ class CreateTrip extends Component {
         <div className="card">
           <div className="card-header profile-header">Create your trip today!</div>
           <input className="form-control field top" onChange={this.onFieldChange} name="title" placeholder="Trip title" value={this.state.title} />
-          <input className="form-control field" onChange={this.onFieldChange} name="leaders" placeholder="Leaders (please write emails, comma separated)" value={this.state.leaders} />
+          <input
+            className="form-control field"
+            onChange={this.onFieldChange}
+            name="leaders"
+            placeholder="Leaders (please write emails, comma separated, you are by default a leader for your trip)"
+            value={this.state.leaders}
+          />
           <select name="club" className="custom-select field" defaultValue="Ledyard" onChange={this.onFieldChange}>
             {this.getClubOptions()}
           </select>
@@ -104,4 +123,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { createTrip, getClubs })(CreateTrip));
+export default withRouter(connect(mapStateToProps, { createTrip, getClubs, appError })(CreateTrip));

@@ -11,10 +11,25 @@ export const ActionTypes = {
   DEAUTH_USER: 'DEAUTH_USER',
   UPDATE_USER: 'UPDATE_USER',
   ALL_CLUBS: 'ALL_CLUBS',
+  ERROR: 'ERROR',
+  CLEAR_ERROR: 'CLEAR_ERROR',
 };
 
 const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
 // const ROOT_URL = 'http://localhost:9090/api';
+
+export function appError(message) {
+  return {
+    type: ActionTypes.ERROR,
+    message,
+  };
+}
+
+export function clearError() {
+  return {
+    type: ActionTypes.CLEAR_ERROR,
+  };
+}
 
 
 export function getUser() {
@@ -39,6 +54,7 @@ export function updateUser(updatedUser) {
       })
       .catch((error) => {
         console.log(error);
+        dispatch(appError(`Update user failed: ${error.response.data}`));
       });
   };
 }
@@ -138,6 +154,7 @@ export function signIn({ email, password }, history) {
       })
       .catch((error) => {
         console.log(error);
+        dispatch(appError(`Sign in failed: ${error.response.data}`));
       });
   };
 }
@@ -155,6 +172,7 @@ export function signUp({ email, password, name }, history) {
       })
       .catch((error) => {
         console.log(error);
+        dispatch(appError(`Sign up failed: ${error.response.data}`));
       });
   };
 }
