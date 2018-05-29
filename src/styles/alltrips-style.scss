@@ -15,13 +15,19 @@
   }
 
   h1 {
-    color: white;
+    color: black;
   }
 
   p {
-    color: white;
+    color: black;
   }
 }
+
+.card{
+  background: #eaeaea;
+  opacity: .95;
+}
+
 .container-alltrips {
   display: flex;
   flex-direction: column;
