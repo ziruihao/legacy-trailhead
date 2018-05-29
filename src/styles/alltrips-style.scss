@@ -21,3 +21,15 @@
     color: white;
   }
 }
+.container-alltrips {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 95%;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+}
+.row {
+  overflow-y: scroll;
+}
