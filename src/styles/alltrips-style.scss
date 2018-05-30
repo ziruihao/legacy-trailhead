@@ -37,6 +37,7 @@
 }
 
 .all-trips-box {
+  margin-top: 70px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -45,4 +46,11 @@
 
 .all-trips-card {
   width: 18rem;
+}
+
+.all-trips-select {
+  position: fixed;
+  top: 15%;
+  left: 50px;
+  width: 250px;
 }

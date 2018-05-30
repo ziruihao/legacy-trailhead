@@ -1,17 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import { fetchTrips } from '../actions';
+import { fetchTrips, getClubs } from '../actions';
 import '../styles/alltrips-style.scss';
 
 
 class AllTrips extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      club: '',
+    };
+  }
+
   componentDidMount(props) {
     if (!this.props.authenticated) {
       alert('Please sign in/sign up to view this page');
       this.props.history.push('/');
     }
     this.props.fetchTrips();
+    this.props.getClubs();
   }
 
   formatDate = (date) => {
@@ -28,10 +36,27 @@ class AllTrips extends Component {
     return t1.getTime() - t2.getTime();
   }
 
+  renderDropdown = () => {
+    const options = this.props.clubs.map((club) => {
+      return <option key={club.id} value={club.name}>{club.name}</option>;
+    });
+    return (
+      <select
+        name="select"
+        className="custom-select all-trips-select"
+        defaultValue=""
+        onChange={(e) => { this.setState({ club: e.target.value }); }}
+      >
+        <option key="none" value="">All Clubs</option>
+        { options }
+      </select>
+    );
+  }
+
   renderTrips = () => {
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
     const trips =
-      sortedTrips.map((trip, id) => {
+      sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
         return (
           <div className="card all-trips-card text-center card-trip margins">
             <NavLink to={`/trip/${trip.id}`} key={trip.id}>
@@ -44,6 +69,10 @@ class AllTrips extends Component {
           </div>
         );
       });
+
+    if (trips.length === 0) {
+      return <div>No upcoming trips for this club</div>;
+    }
     return trips;
   }
 
@@ -51,6 +80,7 @@ class AllTrips extends Component {
     return (
       <div className="all-trips">
         <h1 className="all-trips-header">All Trips</h1>
+        {this.renderDropdown()}
         <div className="all-trips-box">
           {this.renderTrips()}
         </div>
@@ -63,7 +93,8 @@ const mapStateToProps = state => (
   {
     trips: state.trips.all,
     authenticated: state.auth.authenticated,
+    clubs: state.clubs,
   }
 );
 
-export default withRouter(connect(mapStateToProps, { fetchTrips })(AllTrips)); // connected component
+export default withRouter(connect(mapStateToProps, { fetchTrips, getClubs })(AllTrips)); // connected component
