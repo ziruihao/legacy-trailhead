@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, NavLink } from 'react-router-dom';
 import { joinTrip, fetchTrip, leaveTrip, isOnTrip } from '../actions';
 import '../styles/tripdetails-style.scss';
 
@@ -102,6 +102,27 @@ class TripDetails extends Component {
     return (`${members.length} / ${limit}`);
   }
 
+  appropriateButton = () => {
+    if (!this.props.trip.leaders) {
+      return <span />;
+    }
+
+    let isLeaderForTrip = false;
+    this.props.trip.leaders.forEach((leader) => {
+      if (leader.id === this.props.user.id) {
+        isLeaderForTrip = true;
+      }
+    });
+
+    if (isLeaderForTrip) {
+      return <NavLink to={`/edittrip/${this.props.trip.id}`} className="edit-button"><button className="btn btn-success">Edit Trip</button></NavLink>;
+    } else if (this.props.isUserOnTrip) {
+      return <button className="btn btn-danger" onClick={this.onLeave}>Leave Trip</button>;
+    } else {
+      return <button className="btn btn-primary" onClick={this.onSubmit}>Sign Up</button>;
+    }
+  }
+
   render() {
     return (
       <div className="trip-detail-div">
@@ -110,8 +131,9 @@ class TripDetails extends Component {
         <p className="leaders"> {this.getLeaders(this.props.trip.leaders)}</p>
         <h3> Dates: {`${this.formatDate(this.props.trip.startDate)}-${this.formatDate(this.props.trip.endDate)}`}</h3>
         <h3> Cost: ${this.props.trip.cost}</h3>
+        <h3> Limit: {this.props.trip.limit} people</h3>
         <h3> Description:</h3>
-        <p className="description"> {this.props.trip.description}</p>
+        <p className="description"> {this.props.trip.description} </p>
         <h3 className="member-button" onClick={this.toggleMembers}> Members: </h3>
         <div className="spots-taken">{this.spotsTaken(this.props.trip.members, this.props.trip.limit)} spots taken</div>
         {this.state.showMembers ?
@@ -121,16 +143,7 @@ class TripDetails extends Component {
             <p />
           )
         }
-        { this.props.isUserOnTrip ?
-          (
-            <div>
-              <button className="button" onClick={this.onLeave}>Leave Trip</button>
-            </div>
-          ) :
-          (
-            <button className="button" onClick={this.onSubmit}>Sign Up</button>
-          )
-        }
+        { this.appropriateButton() }
       </div>
     );
   }

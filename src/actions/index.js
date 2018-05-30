@@ -5,6 +5,7 @@ export const ActionTypes = {
   FETCH_TRIP: 'FETCH_TRIP',
   JOIN_TRIP: 'JOIN_TRIP',
   LEAVE_TRIP: 'LEAVE_TRIP',
+  EDIT_TRIP: 'EDIT_TRIP',
   IS_ON_TRIP: 'IS_ON_TRIP',
   MY_TRIPS: 'MY_TRIPS',
   AUTH_USER: 'AUTH_USER',
@@ -15,8 +16,8 @@ export const ActionTypes = {
   CLEAR_ERROR: 'CLEAR_ERROR',
 };
 
-const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
-// const ROOT_URL = 'http://localhost:9090/api';
+// const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
+const ROOT_URL = 'http://localhost:9090/api';
 
 export function appError(message) {
   return {
@@ -72,9 +73,9 @@ export function fetchTrips() {
   };
 }
 
-export function fetchTrip(tripID) {
+export function fetchTrip(id) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/trip/${tripID}`).then((response) => {
+    axios.get(`${ROOT_URL}/trip/${id}`).then((response) => {
       console.log(response.data);
       dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
@@ -112,6 +113,21 @@ export function createTrip(trip, history) {
       .then((response) => {
         console.log(response);
         history.push('/alltrips');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
+export function editTrip(trip, history) {
+  console.log('trip');
+  console.log(trip);
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/trip/${trip.id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        console.log(response);
+        history.push(`/trip/${trip.id}`);
       })
       .catch((error) => {
         console.log(error);

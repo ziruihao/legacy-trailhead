@@ -14,6 +14,7 @@ import CreateTrip from './components/createtrip';
 import MyTrips from './components/mytrips';
 import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
+import EditTrip from './components/edittrip';
 import NavBar from './components/navbar';
 import { ActionTypes, getUser } from './actions';
 
@@ -48,6 +49,7 @@ const App = (props) => {
           <Route path="/trip/:tripID" component={TripDetails} />
           <Route path="/createtrip" component={CreateTrip} />
           <Route path="/mytrips" component={MyTrips} />
+          <Route path="/edittrip/:tripID" component={EditTrip} />
           <Route component={FallBack} />
         </Switch>
       </div>

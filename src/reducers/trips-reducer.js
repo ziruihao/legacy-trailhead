@@ -22,6 +22,8 @@ const TripsReducer = (state = initialState, action) => {
       return Object.assign({}, state, { isUserOnTrip: action.payload });
     case ActionTypes.MY_TRIPS:
       return Object.assign({}, state, { myTrips: action.payload });
+    case ActionTypes.EDIT_TRIP:
+      return Object.assign({}, state, { trip: action.payload });
     default:
       return state;
   }
