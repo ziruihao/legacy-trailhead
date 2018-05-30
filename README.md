@@ -1,4 +1,4 @@
-# DOC Planner
+# doc-planner (client)
 
 This project is creating a web app that allows for members of the Dartmouth community 
 to more easily browse, create, and sign up for Dartmouth Outing Club (DOC) trips. We 
