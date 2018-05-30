@@ -76,12 +76,10 @@ class MyTrips extends Component {
   render() {
     console.log(this.props.myTrips);
     return (
-      <div className="container">
-        <div className="myTrips">
-          <h1 className="mytrips-header">My Trips</h1>
-          <div className="myTripsBox">
-            {this.renderMyTrips()}
-          </div>
+      <div className="myTrips">
+        <h1 className="mytrips-header">My Trips</h1>
+        <div className="myTripsBox">
+          {this.renderMyTrips()}
         </div>
       </div>
     );

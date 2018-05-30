@@ -23,20 +23,26 @@
   }
 }
 
-.card{
-  background: #eaeaea;
-  opacity: .95;
+.all-trips {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-top: 10px;
 }
 
-.container-alltrips {
+.all-trips-header {
+  margin-bottom: 10px;
+}
+
+.all-trips-box {
   display: flex;
-  flex-direction: column;
-  height: 100%;
-  width: 95%;
-  position: fixed;
-  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
 }
-.row {
-  overflow-y: scroll;
+
+.all-trips-card {
+  width: 18rem;
 }

@@ -128,7 +128,7 @@ class ProfilePage extends Component {
 
     return (
       <div className="container">
-        <div className="card">
+        <div className="card profile">
           <div className="card-header profile-header">{`${this.props.user.name}'s Profile`}</div>
           <div className="card-body">
             <div className="profile-field">

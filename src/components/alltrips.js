@@ -33,16 +33,14 @@ class AllTrips extends Component {
     const trips =
       sortedTrips.map((trip, id) => {
         return (
-          <div className="col-md-4" key={trip.id}>
-            <div className="card mb-4 box-shadow card-trip">
-              <NavLink to={`/trip/${trip.id}`}>
-                <div className="card-body">
-                  <h1 className="card-title">{trip.title}</h1>
-                  <p className="card-text">{trip.club ? trip.club.name : ''}</p>
-                  <p className="card-text">{`${this.formatDate(trip.startDate)}-${this.formatDate(trip.endDate)}`}</p>
-                </div>
-              </NavLink>
-            </div>
+          <div className="card all-trips-card text-center card-trip margins">
+            <NavLink to={`/trip/${trip.id}`} key={trip.id}>
+              <div className="card-body">
+                <h2 className="card-title">{trip.title}</h2>
+                <p className="card-text">{trip.club ? trip.club.name : ''}</p>
+                <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
+              </div>
+            </NavLink>
           </div>
         );
       });
@@ -51,9 +49,9 @@ class AllTrips extends Component {
 
   render() {
     return (
-      <div className="container-alltrips">
-        <h1>All Trips</h1>
-        <div className="row">
+      <div className="all-trips">
+        <h1 className="all-trips-header">All Trips</h1>
+        <div className="all-trips-box">
           {this.renderTrips()}
         </div>
       </div>
