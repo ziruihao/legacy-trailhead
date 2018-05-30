@@ -107,6 +107,18 @@ export function leaveTrip(id) {
   };
 }
 
+export function emailTrip(id, subject, body, history) {
+  console.log('in email trip');
+  const json = { id, subject, text: body };
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/sendEmailToTrip`, json, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+      console.log(response);
+    }).catch((error) => {
+      console.log(error);
+    });
+  };
+}
+
 export function createTrip(trip, history) {
   return (dispatch) => {
     axios.post(`${ROOT_URL}/trips`, trip, { headers: { authorization: localStorage.getItem('token') } })

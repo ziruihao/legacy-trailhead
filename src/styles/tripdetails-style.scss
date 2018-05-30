@@ -34,3 +34,18 @@
   color: red;
   cursor: pointer;
 }
+
+.email {
+  margin-bottom: 5px;
+
+  &.body {
+    overflow: auto;
+    resize: none;
+    height: 250px;
+    width: 100%;
+  }
+}
+
+.btn-email {
+  margin-bottom: 10px;
+}
