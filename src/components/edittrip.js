@@ -94,9 +94,9 @@ class EditTrip extends Component {
             </div>
             <div className="input-group field">
               <div className="input-group-prepend">
-                <span className="input-group-text">Description</span>
+                <span className="input-group-text">Description (markdown supported)</span>
               </div>
-              <textarea className="form-control" onChange={this.onFieldChange} name="description" placeholder="Trip description" value={this.state.description} />
+              <textarea className="form-control field" onChange={this.onFieldChange} name="description" placeholder="Trip description" value={this.state.description} />
             </div>
             <h5> Current Dates: {this.formatDate(this.state.startDate)} - {this.formatDate(this.state.endDate)} </h5>
             <div className="input-group field">

@@ -95,7 +95,7 @@ class CreateTrip extends Component {
             {this.getClubOptions()}
           </select>
           <input className="form-control field" type="number" onChange={this.onFieldChange} name="limit" placeholder="Max # of people (e.g. 8, 10, etc)" value={this.state.limit} />
-          <textarea className="form-control field" onChange={this.onFieldChange} name="description" placeholder="Trip description" value={this.state.description} />
+          <textarea className="form-control field" onChange={this.onFieldChange} name="description" placeholder="Trip description (markdown supported)" value={this.state.description} />
           <div className="input-group field">
             <div className="input-group-prepend">
               <span className="input-group-text">Start Date and End Date</span>

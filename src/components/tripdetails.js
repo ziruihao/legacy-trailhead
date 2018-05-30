@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
+import marked from 'marked';
 import { joinTrip, fetchTrip, leaveTrip, isOnTrip, emailTrip } from '../actions';
 import '../styles/tripdetails-style.scss';
 
@@ -78,16 +79,27 @@ class TripDetails extends Component {
   }
 
   showMembers = (members) => {
+    if (!this.props.trip.leaders) {
+      return <span />;
+    }
+
     if (members.length < 1) {
       return (<p> No Members Yet </p>);
     }
+
+    let isLeaderForTrip = false;
+    this.props.trip.leaders.forEach((leader) => {
+      if (leader.id === this.props.user.id) {
+        isLeaderForTrip = true;
+      }
+    });
 
     const rows = members.map((member) => {
       return (
         <tr key={member.id}>
           <td>{member.name}</td>
           <td>{member.email}</td>
-          <td>{member.dash_number}</td>
+          { isLeaderForTrip ? <td>{member.dash_number}</td> : <td /> }
         </tr>
       );
     });
@@ -98,7 +110,7 @@ class TripDetails extends Component {
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
-            <th scope="col">Dash #</th>
+            { isLeaderForTrip ? <th scope="col">Dash #</th> : <th /> }
           </tr>
         </thead>
         <tbody>
@@ -178,7 +190,7 @@ class TripDetails extends Component {
         <h3> Cost: ${this.props.trip.cost}</h3>
         <h3> Limit: {this.props.trip.limit} people</h3>
         <h3> Description:</h3>
-        <p className="description"> {this.props.trip.description} </p>
+        <p className="description" dangerouslySetInnerHTML={{ __html: marked(this.props.trip.description || '') }} />
         <h3 className="member-button" onClick={this.toggleMembers}> Members: </h3>
         <div className="spots-taken">{this.spotsTaken(this.props.trip.members, this.props.trip.limit)} spots taken</div>
         {this.state.showMembers ?
