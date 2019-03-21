@@ -55,7 +55,7 @@ class NavBar extends Component {
               </NavLink>
             </li>
           </ul>
-          <button className="btn btn-danger signout-btn" onClick={() => this.props.signOut(this.props.history)}>Sign Out</button>
+          <button type="button" className="btn btn-danger signout-btn" onClick={() => this.props.signOut(this.props.history)}>Sign Out</button>
         </nav>
         { this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div> }
       </div>

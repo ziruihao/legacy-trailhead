@@ -38,38 +38,37 @@ class MyTrips extends Component {
     const style = { width: '18rem' };
     let myTrips = <p>Trips you sign up for will appear here!</p>;
     const sortedTrips = this.props.myTrips.sort(this.compareStartDates);
-    myTrips =
-      sortedTrips.map((trip, id) => {
-        let isLeading = false;
-        trip.leaders.forEach((leaderId) => {
-          if (leaderId === this.props.user.id) {
-            isLeading = true;
-          }
-        });
-        if (isLeading) {
-          return (
-            <div key={trip.id} className="card text-center card-trip margins" style={style}>
-              <div className="card-body leading-trip">
-                <h2 className="card-title">(L) {trip.title}</h2>
-                <p className="card-text">{trip.club ? trip.club.name : ''}</p>
-                <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-                <NavLink to={`/trip/${trip.id}`} className="btn btn-primary">See details</NavLink>
-              </div>
-            </div>
-          );
-        } else {
-          return (
-            <div key={trip.id} className="card text-center card-trip margins" style={style}>
-              <div className="card-body">
-                <h5 className="card-title">{trip.title}</h5>
-                <p className="card-text">{trip.club ? trip.club.name : ''}</p>
-                <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-                <NavLink to={`/trip/${trip.id}`} className="btn btn-primary">See details</NavLink>
-              </div>
-            </div>
-          );
+    myTrips = sortedTrips.map((trip, id) => {
+      let isLeading = false;
+      trip.leaders.forEach((leaderId) => {
+        if (leaderId === this.props.user.id) {
+          isLeading = true;
         }
       });
+      if (isLeading) {
+        return (
+          <div key={trip.id} className="card text-center card-trip margins" style={style}>
+            <div className="card-body leading-trip">
+              <h2 className="card-title">(L) {trip.title}</h2>
+              <p className="card-text">{trip.club ? trip.club.name : ''}</p>
+              <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
+              <NavLink to={`/trip/${trip.id}`} className="btn btn-primary">See details</NavLink>
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div key={trip.id} className="card text-center card-trip margins" style={style}>
+            <div className="card-body">
+              <h5 className="card-title">{trip.title}</h5>
+              <p className="card-text">{trip.club ? trip.club.name : ''}</p>
+              <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
+              <NavLink to={`/trip/${trip.id}`} className="btn btn-primary">See details</NavLink>
+            </div>
+          </div>
+        );
+      }
+    });
     return myTrips;
   }
 

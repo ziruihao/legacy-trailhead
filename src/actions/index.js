@@ -16,8 +16,8 @@ export const ActionTypes = {
   CLEAR_ERROR: 'CLEAR_ERROR',
 };
 
-const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
-// const ROOT_URL = 'http://localhost:9090/api';
+// const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
+const ROOT_URL = 'http://localhost:9090/api';
 
 export function appError(message) {
   return {

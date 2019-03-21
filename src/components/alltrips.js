@@ -55,20 +55,19 @@ class AllTrips extends Component {
 
   renderTrips = () => {
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
-    const trips =
-      sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
-        return (
-          <div className="card all-trips-card text-center card-trip margins">
-            <NavLink to={`/trip/${trip.id}`} key={trip.id}>
-              <div className="card-body">
-                <h2 className="card-title">{trip.title}</h2>
-                <p className="card-text">{trip.club ? trip.club.name : ''}</p>
-                <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-              </div>
-            </NavLink>
-          </div>
-        );
-      });
+    const trips = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
+      return (
+        <div className="card all-trips-card text-center card-trip margins">
+          <NavLink to={`/trip/${trip.id}`} key={trip.id}>
+            <div className="card-body">
+              <h2 className="card-title">{trip.title}</h2>
+              <p className="card-text">{trip.club ? trip.club.name : ''}</p>
+              <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
+            </div>
+          </NavLink>
+        </div>
+      );
+    });
 
     if (trips.length === 0) {
       return <div>No upcoming trips for this club</div>;

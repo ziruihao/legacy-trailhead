@@ -1,3 +1,5 @@
+/* eslint-disable react/button-has-type */
+/* eslint-disable react/no-access-state-in-setstate */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -148,8 +150,8 @@ class ProfilePage extends Component {
               { this.state.dropdowns }
               {
                 this.state.dropdowns.length < this.props.clubs.length
-                ? <button className="btn btn-primary" onClick={this.addDropdown}>Add club</button>
-                : <span />
+                  ? <button className="btn btn-primary" onClick={this.addDropdown}>Add club</button>
+                  : <span />
               }
             </div>
             <button className="btn btn-success" onClick={this.updateUserInfo}>Update info</button>

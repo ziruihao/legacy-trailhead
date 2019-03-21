@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
@@ -34,9 +35,9 @@ class Homepage extends Component {
           <h1> Welcome to the Dartmouth Outing Club trip planner! </h1>
           <p>
             {
-              this.props.authenticated ?
-              'Join or create a trip of your own!' :
-              'Please login or sign-up to find your next outdoor adventure!'
+              this.props.authenticated
+                ? 'Join or create a trip of your own!'
+                : 'Please login or sign-up to find your next outdoor adventure!'
             }
           </p>
         </div>

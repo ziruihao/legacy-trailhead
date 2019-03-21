@@ -61,6 +61,6 @@ const App = (props) => {
 ReactDOM.render(
   <Provider store={store}>
     <App />
-  </Provider>
-  , document.getElementById('main'),
+  </Provider>,
+  document.getElementById('main'),
 );

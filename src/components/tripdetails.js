@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
@@ -127,19 +128,9 @@ class TripDetails extends Component {
         <input name="emailSubject" className="email subject" type="text" onChange={this.onFieldChange} value={this.state.emailSubject} />
         <p>Body</p>
         <textarea name="emailBody" className="email body" type="text" onChange={this.onFieldChange} value={this.state.emailBody} />
-        <button className="btn btn-success btn-email" onClick={this.onEmail}>Send the email</button>
+        <button type="button" className="btn btn-success btn-email" onClick={this.onEmail}>Send the email</button>
       </div>
     );
-  }
-
-  toggleMembers() {
-    const next = !this.state.showMembers;
-    this.setState({ showMembers: next });
-  }
-
-  toggleEmail() {
-    const next = !this.state.showEmail;
-    this.setState({ showEmail: next });
   }
 
   spotsTaken = (members, limit) => {
@@ -163,8 +154,8 @@ class TripDetails extends Component {
       return (
         <div>
           <h3 className="member-button" onClick={this.toggleEmail}> Send Email To Your Trip </h3>
-          {this.state.showEmail ?
-            (
+          {this.state.showEmail
+            ? (
               this.showEmail()
             ) : (
               <p />
@@ -174,11 +165,24 @@ class TripDetails extends Component {
         </div>
       );
     } else if (this.props.isUserOnTrip) {
-      return <button className="btn btn-danger" onClick={this.onLeave}>Leave Trip</button>;
+      return <button className="btn btn-danger" type="button" onClick={this.onLeave}>Leave Trip</button>;
     } else {
-      return <button className="btn btn-primary" onClick={this.onSubmit}>Sign Up</button>;
+      return <button className="btn btn-primary" type="button" onClick={this.onSubmit}>Sign Up</button>;
     }
   }
+
+  toggleMembers() {
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    const next = !this.state.showMembers;
+    this.setState({ showMembers: next });
+  }
+
+  toggleEmail() {
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    const next = !this.state.showEmail;
+    this.setState({ showEmail: next });
+  }
+
 
   render() {
     return (
@@ -193,8 +197,8 @@ class TripDetails extends Component {
         <p className="description" dangerouslySetInnerHTML={{ __html: marked(this.props.trip.description || '') }} />
         <h3 className="member-button" onClick={this.toggleMembers}> Members: </h3>
         <div className="spots-taken">{this.spotsTaken(this.props.trip.members, this.props.trip.limit)} spots taken</div>
-        {this.state.showMembers ?
-          (
+        {this.state.showMembers
+          ? (
             this.showMembers(this.props.trip.members)
           ) : (
             <p />

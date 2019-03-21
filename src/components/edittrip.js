@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -46,6 +47,15 @@ class EditTrip extends Component {
     });
   }
 
+
+  formatDate = (date) => {
+    // date fix adapted from https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off/31732581
+    if (!date) {
+      return '';
+    }
+    return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
+  }
+
   editTrip() {
     const trip = {
       title: this.state.title ? this.state.title : this.props.trip.title,
@@ -66,13 +76,6 @@ class EditTrip extends Component {
     this.props.editTrip(trip, this.props.history);
   }
 
-  formatDate = (date) => {
-    // date fix adapted from https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off/31732581
-    if (!date) {
-      return '';
-    }
-    return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
-  }
 
   render() {
     return (
