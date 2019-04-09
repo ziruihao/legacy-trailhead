@@ -50,6 +50,7 @@ class Homepage extends Component {
 const mapStateToProps = (state) => {
   return {
     authenticated: state.auth.authenticated,
+    role: state.user.role,
   };
 };
 

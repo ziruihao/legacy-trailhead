@@ -12,6 +12,7 @@ import SignUp from './components/signup';
 import AllTrips from './components/alltrips';
 import CreateTrip from './components/createtrip';
 import MyTrips from './components/mytrips';
+import CarCalendar from './components/carcalendar';
 import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
 import EditTrip from './components/edittrip';
@@ -49,6 +50,7 @@ const App = (props) => {
           <Route path="/trip/:tripID" component={TripDetails} />
           <Route path="/createtrip" component={CreateTrip} />
           <Route path="/mytrips" component={MyTrips} />
+          <Route path="/vehicleassignment" component={CarCalendar} />
           <Route path="/edittrip/:tripID" component={EditTrip} />
           <Route component={FallBack} />
         </Switch>

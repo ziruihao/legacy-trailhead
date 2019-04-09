@@ -54,6 +54,11 @@ class NavBar extends Component {
                 My Profile
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/vehicleassignment">
+                Vehicle Assignment
+              </NavLink>
+            </li>
           </ul>
           <button type="button" className="btn btn-danger signout-btn" onClick={() => this.props.signOut(this.props.history)}>Sign Out</button>
         </nav>
