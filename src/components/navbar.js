@@ -24,6 +24,18 @@ class NavBar extends Component {
         </div>
       );
     }
+    let createTripsLink;
+    if (this.props.role === 'leader') {
+      createTripsLink = (
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/createtrip">
+            Create Trip
+          </NavLink>
+        </li>
+      );
+    } else {
+      createTripsLink = null;
+    }
 
     return (
       <div>
@@ -39,11 +51,9 @@ class NavBar extends Component {
                 All Trips
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/createtrip">
-                Create Trip
-              </NavLink>
-            </li>
+
+            {createTripsLink}
+
             <li className="nav-item">
               <NavLink className="nav-link" to="/mytrips">
                 My Trips
@@ -72,6 +82,7 @@ const mapStateToProps = (state) => {
   return {
     authenticated: state.auth.authenticated,
     errorMessage: state.error.errorMessage,
+    role: state.user.role,
   };
 };
 
