@@ -19,6 +19,9 @@ class ProfilePage extends Component {
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.updateUserInfo = this.updateUserInfo.bind(this);
+    this.changeToOPO = this.changeToOPO.bind(this);
+    this.changeToTrippee = this.changeToTrippee.bind(this);
+    this.changeToLeader = this.changeToLeader.bind(this);
   }
 
   componentDidMount() {
@@ -102,6 +105,66 @@ class ProfilePage extends Component {
     this.props.updateUser(updatedUser);
   }
 
+  changeToOPO(event) {
+    const clubs = [];
+    Object.keys(this.state.clubsList).forEach((k) => {
+      const val = this.state.clubsList[k];
+      if (val !== 'none' && clubs.indexOf(val) === -1) {
+        clubs.push(val);
+      }
+    });
+
+    const updatedUser = {
+      email: this.state.email,
+      name: this.state.name,
+      leader_for: clubs,
+      role: 'OPO',
+      dash_number: this.state.dash_number,
+    };
+    this.setState({ isEditing: false, clubsList: {}, dropdowns: [] });
+    this.props.updateUser(updatedUser);
+  }
+
+  changeToTrippee(event) {
+    const clubs = [];
+    Object.keys(this.state.clubsList).forEach((k) => {
+      const val = this.state.clubsList[k];
+      if (val !== 'none' && clubs.indexOf(val) === -1) {
+        clubs.push(val);
+      }
+    });
+
+    const updatedUser = {
+      email: this.state.email,
+      name: this.state.name,
+      leader_for: clubs,
+      role: 'trippee',
+      dash_number: this.state.dash_number,
+    };
+    this.setState({ isEditing: false, clubsList: {}, dropdowns: [] });
+    this.props.updateUser(updatedUser);
+  }
+
+  changeToLeader(event) {
+    const clubs = [];
+    Object.keys(this.state.clubsList).forEach((k) => {
+      const val = this.state.clubsList[k];
+      if (val !== 'none' && clubs.indexOf(val) === -1) {
+        clubs.push(val);
+      }
+    });
+
+    const updatedUser = {
+      email: this.state.email,
+      name: this.state.name,
+      leader_for: clubs,
+      role: 'leader',
+      dash_number: this.state.dash_number,
+    };
+    this.setState({ isEditing: false, clubsList: {}, dropdowns: [] });
+    this.props.updateUser(updatedUser);
+  }
+
   render() {
     if (!this.state.isEditing) {
       return (
@@ -154,6 +217,10 @@ class ProfilePage extends Component {
                   : <span />
               }
             </div>
+
+            <button className="btn btn-primary" onClick={this.changeToOPO}>Change to OPO</button>
+            <button className="btn btn-primary" onClick={this.changeToTrippee}>Change to Trippee</button>
+            <button className="btn btn-primary" onClick={this.changeToLeader}>Change to Leader</button>
             <button className="btn btn-success" onClick={this.updateUserInfo}>Update info</button>
             <button className="btn btn-danger" onClick={() => { this.setState({ isEditing: false, clubsList: {}, dropdowns: [] }); }}>Cancel changes</button>
           </div>
