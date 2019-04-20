@@ -11,7 +11,7 @@ class CreateTrip extends Component {
     this.state = {
       title: '',
       leaders: '',
-      club: '',
+      // club: '',
       description: '',
       startDate: '',
       endDate: '',
@@ -44,38 +44,48 @@ class CreateTrip extends Component {
   }
 
   createTrip() {
-    const defaultClub = () => {
-      for (const club of this.props.clubs) {
-        if (club.name === 'Ledyard') {
-          return club.id;
-        }
-      }
-      return '';
-    };
+    // const defaultClub = () => {
+    //   for (const club of this.props.clubs) {
+    //     if (club.name === 'Ledyard') {
+    //       return club.id;
+    //     }
+    //   }
+    //   return '';
+    // };
+
+    console.log('1creatign trip from createtrip.js');
 
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders.trim().split(','),
-      club: this.state.club !== '' ? this.state.club : defaultClub(),
+      // club: this.state.club !== '' ? this.state.club : defaultClub(),
+      club: 'Ledyard',
       description: this.state.description,
       startDate: this.state.startDate,
       endDate: this.state.endDate,
       cost: this.state.cost,
       limit: this.state.limit,
     };
+    console.log('2creatign trip from createtrip.js');
 
     // Validate input
     if (!(trip.title && trip.leaders && trip.club && trip.description && trip.startDate && trip.endDate && trip.cost && trip.limit)) {
       this.props.appError('All trip fields must be filled out');
       return;
     }
+    console.log('3creatign trip from createtrip.js');
+
     const start = new Date(trip.startDate);
     const end = new Date(trip.endDate);
+    console.log(Date.now());
     if (start.getTime() > end.getTime() || start.getTime() < Date.now() || end.getTime() < Date.now()) {
       this.props.appError('Please enter valid dates');
       return;
     }
+    console.log('4creatign trip from createtrip.js');
 
+
+    console.log('creatign trip from createtrip.js');
     this.props.createTrip(trip, this.props.history);
   }
 

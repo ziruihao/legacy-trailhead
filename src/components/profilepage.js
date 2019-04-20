@@ -138,7 +138,7 @@ class ProfilePage extends Component {
       email: this.state.email,
       name: this.state.name,
       leader_for: clubs,
-      role: 'trippee',
+      role: 'Trippee',
       dash_number: this.state.dash_number,
     };
     this.setState({ isEditing: false, clubsList: {}, dropdowns: [] });
@@ -158,7 +158,7 @@ class ProfilePage extends Component {
       email: this.state.email,
       name: this.state.name,
       leader_for: clubs,
-      role: 'leader',
+      role: 'Leader',
       dash_number: this.state.dash_number,
     };
     this.setState({ isEditing: false, clubsList: {}, dropdowns: [] });
@@ -175,6 +175,10 @@ class ProfilePage extends Component {
               <div className="profile-field">
                 <h5 className="card-title">Email</h5>
                 <p className="card-text">{this.props.user.email}</p>
+              </div>
+              <div className="profile-field">
+                <h5 className="card-title">Account Type</h5>
+                <p className="card-text">{this.props.user.role}</p>
               </div>
               <div className="profile-field">
                 <h5 className="card-title">Dash #</h5>

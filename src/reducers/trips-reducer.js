@@ -14,6 +14,8 @@ const TripsReducer = (state = initialState, action) => {
       return Object.assign({}, state, { all: action.payload });
     case ActionTypes.FETCH_TRIP:
       return Object.assign({}, state, { trip: action.payload.trip });
+    case ActionTypes.ADD_PENDING:
+      return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip });
     case ActionTypes.JOIN_TRIP:
       return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip });
     case ActionTypes.LEAVE_TRIP:
