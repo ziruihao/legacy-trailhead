@@ -3,6 +3,7 @@ import axios from 'axios';
 export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
   FETCH_TRIP: 'FETCH_TRIP',
+  ADD_PENDING: 'ADD_PENDING',
   JOIN_TRIP: 'JOIN_TRIP',
   LEAVE_TRIP: 'LEAVE_TRIP',
   EDIT_TRIP: 'EDIT_TRIP',
@@ -61,8 +62,10 @@ export function updateUser(updatedUser) {
 }
 
 export function fetchTrips() {
+  console.log('fetching trips');
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/trips`).then((response) => {
+    console.log('about to call axios for trips');
+    axios.get(`${ROOT_URL}/alltrips`).then((response) => {
       dispatch({
         type: ActionTypes.FETCH_TRIPS,
         payload: response.data,
@@ -81,6 +84,18 @@ export function fetchTrip(id) {
     }).catch((error) => {
       console.log(error);
       console.log('Fetch trip error');
+    });
+  };
+}
+
+export function addToPending(id) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/addpending`, { id }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+      dispatch({ type: ActionTypes.ADD_PENDING, payload: response.data });
+      console.log(response.data);
+    }).catch((error) => {
+      console.log('addpending error');
+      console.log(error);
     });
   };
 }
@@ -120,8 +135,9 @@ export function emailTrip(id, subject, body, history) {
 }
 
 export function createTrip(trip, history) {
+  console.log('trying to create a trip');
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
+    axios.post(`${ROOT_URL}/alltrips`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         console.log(response);
         history.push('/alltrips');
