@@ -10,7 +10,11 @@ class AllTrips extends Component {
     super(props);
     this.state = {
       club: '',
+      grid: true,
     };
+
+    this.onGrid = this.onGrid.bind(this);
+    this.onList = this.onList.bind(this);
   }
 
   componentDidMount(props) {
@@ -20,6 +24,14 @@ class AllTrips extends Component {
     }
     this.props.fetchTrips();
     this.props.getClubs();
+  }
+
+  onGrid() {
+    this.setState({ grid: true });
+  }
+
+  onList() {
+    this.setState({ grid: false });
   }
 
   formatDate = (date) => {
@@ -55,7 +67,8 @@ class AllTrips extends Component {
 
   renderTrips = () => {
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
-    const trips = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
+    console.log(sortedTrips);
+    const tripsGrid = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
       return (
         <div className="card all-trips-card text-center card-trip margins">
           <NavLink to={`/trip/${trip.id}`} key={trip.id}>
@@ -69,15 +82,36 @@ class AllTrips extends Component {
       );
     });
 
-    if (trips.length === 0) {
+    const tripsList = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
+      return (
+        <div>
+          <NavLink to={`/trip/${trip.id}`} key={trip.id}>
+            <div>
+              <h2>{trip.title}</h2>
+              <p>{trip.club ? trip.club.name : ''}</p>
+              <p>{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
+            </div>
+          </NavLink>
+        </div>
+      );
+    });
+
+    if (tripsGrid.length === 0) {
       return <div>No upcoming trips for this club</div>;
     }
-    return trips;
+
+    if (this.state.grid) {
+      return tripsGrid;
+    } else {
+      return tripsList;
+    }
   }
 
   render() {
     return (
       <div className="all-trips">
+        <button type="button" className="btn btn-success btn-email" onClick={this.onGrid}>GridView</button>
+        <button type="button" className="btn btn-success btn-email" onClick={this.onList}>ListView</button>
         <h1 className="all-trips-header">All Trips</h1>
         {this.renderDropdown()}
         <div className="all-trips-box">
