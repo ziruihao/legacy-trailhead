@@ -20,12 +20,12 @@ class NavBar extends Component {
       return (
         <div>
           <nav className="navbar navbar-expand-lg navbar-light bg-dark" />
-          { this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div> }
+          {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
         </div>
       );
     }
     let createTripsLink;
-    if (this.props.role === 'leader') {
+    if (this.props.role === 'Leader') {
       createTripsLink = (
         <li className="nav-item">
           <NavLink className="nav-link" to="/createtrip">
@@ -72,7 +72,7 @@ class NavBar extends Component {
           </ul>
           <button type="button" className="btn btn-danger signout-btn" onClick={() => this.props.signOut(this.props.history)}>Sign Out</button>
         </nav>
-        { this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div> }
+        {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
       </div>
     );
   }

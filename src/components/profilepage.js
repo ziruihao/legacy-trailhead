@@ -37,6 +37,7 @@ class ProfilePage extends Component {
       this.setState({
         clubsList: Object.assign({}, this.state.clubsList, { [event.target.getAttribute('data-key')]: event.target.value }),
       });
+      console.log(this.state.clubsList);
     } else {
       this.setState({
         [event.target.name]: event.target.value,
@@ -80,20 +81,21 @@ class ProfilePage extends Component {
           onChange={this.onFieldChange}
         >
           <option key="none" value="none">Choose a club...</option>
-          { options }
+          {options}
         </select>
       )),
     });
   }
 
   updateUserInfo(event) {
-    const clubs = [];
+    const clubs = this.props.user.leader_for;
     Object.keys(this.state.clubsList).forEach((k) => {
       const val = this.state.clubsList[k];
       if (val !== 'none' && clubs.indexOf(val) === -1) {
         clubs.push(val);
       }
     });
+    console.log(clubs);
 
     const updatedUser = {
       email: this.state.email,
@@ -214,7 +216,7 @@ class ProfilePage extends Component {
             </div>
             <div className="profile-field">
               <h5 className="card-title">DOC clubs that you are a leader for</h5>
-              { this.state.dropdowns }
+              {this.state.dropdowns}
               {
                 this.state.dropdowns.length < this.props.clubs.length
                   ? <button className="btn btn-primary" onClick={this.addDropdown}>Add club</button>
