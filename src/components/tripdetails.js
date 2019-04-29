@@ -11,8 +11,8 @@ class TripDetails extends Component {
     super(props);
 
     this.state = ({
-      showMembers: true,
-      showPending: true,
+      showMembers: false,
+      showPending: false,
       showEmail: false,
       emailSubject: '',
       emailBody: '',
@@ -24,16 +24,28 @@ class TripDetails extends Component {
     this.onEmail = this.onEmail.bind(this);
     this.toggleMembers = this.toggleMembers.bind(this);
     this.toggleEmail = this.toggleEmail.bind(this);
-    this.spotsTaken = this.spotsTaken.bind(this);
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     if (!this.props.authenticated) {
       alert('Please sign in/sign up to view this page');
       this.props.history.push('/');
     }
-    this.props.fetchTrip(this.props.match.params.tripID);
-    this.props.isOnTrip(this.props.match.params.tripID);
+    return Promise
+      .all([
+        this.props.isOnTrip(this.props.match.params.tripID),
+        this.props.fetchTrip(this.props.match.params.tripID),
+      ])
+      .then(() => {
+        this.props.trip.leaders.forEach((leader) => {
+          if (leader.id === this.props.user.id) {
+            this.setState({ showMembers: true, showPending: true });
+          }
+        });
+      })
+      .catch((error) => {
+        console.log(':( error');
+      });
   }
 
   onFieldChange(event) {
@@ -100,19 +112,12 @@ class TripDetails extends Component {
       return (<p> No Members Yet </p>);
     }
 
-    let isLeaderForTrip = false;
-    this.props.trip.leaders.forEach((leader) => {
-      if (leader.id === this.props.user.id) {
-        isLeaderForTrip = true;
-      }
-    });
-
     const rows = members.map((member) => {
       return (
         <tr key={member.id}>
           <td>{member.name}</td>
           <td>{member.email}</td>
-          { isLeaderForTrip ? <td>{member.dash_number}</td> : <td /> }
+          <td>{member.dash_number}</td>
         </tr>
       );
     });
@@ -123,7 +128,7 @@ class TripDetails extends Component {
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
-            { isLeaderForTrip ? <th scope="col">Dash #</th> : <th /> }
+            <th scope="col">Dash #</th>
           </tr>
         </thead>
         <tbody>
@@ -142,13 +147,6 @@ class TripDetails extends Component {
       return (<p> No Pending Yet </p>);
     }
 
-    let isLeaderForTrip = false;
-    this.props.trip.leaders.forEach((leader) => {
-      if (leader.id === this.props.user.id) {
-        isLeaderForTrip = true;
-      }
-    });
-
     const rows = pending.map((pend) => {
       return (
         <tr key={pend.id}>
@@ -165,7 +163,6 @@ class TripDetails extends Component {
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
-            { isLeaderForTrip ? <th scope="col">Dash #</th> : <th /> }
           </tr>
         </thead>
         <tbody>
@@ -187,12 +184,8 @@ class TripDetails extends Component {
     );
   }
 
-  spotsTaken = (members, limit) => {
-    if (!members) { return <p />; }
-    return (`${members.length} / ${limit}`);
-  }
-
   appropriateButton = () => {
+    console.log(this.props);
     if (!this.props.trip.leaders) {
       return <span />;
     }
@@ -243,7 +236,6 @@ class TripDetails extends Component {
     this.setState({ showEmail: next });
   }
 
-
   render() {
     return (
       <div className="trip-detail-div">
@@ -255,9 +247,13 @@ class TripDetails extends Component {
         <h3> Limit: {this.props.trip.limit} people</h3>
         <h3> Description:</h3>
         <p className="description" dangerouslySetInnerHTML={{ __html: marked(this.props.trip.description || '') }} />
-        <div className="spots-taken">{this.spotsTaken(this.props.trip.members, this.props.trip.limit)} spots taken</div>
-
-        <h3> Members: </h3>
+        {this.state.showMembers
+          ? (
+            <h3> Members </h3>
+          ) : (
+            <p />
+          )
+        }
         {this.state.showMembers
           ? (
             this.showMembers(this.props.trip.members)
@@ -265,7 +261,13 @@ class TripDetails extends Component {
             <p />
           )
         }
-        <h3 className="member-button" onClick={this.togglePending}> Pending: </h3>
+        {this.state.showPending
+          ? (
+            <h3> Pending </h3>
+          ) : (
+            <p />
+          )
+        }
         {this.state.showPending
           ? (
             this.showPending(this.props.trip.pending)
