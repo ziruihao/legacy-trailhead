@@ -15,6 +15,7 @@ export const ActionTypes = {
   ALL_CLUBS: 'ALL_CLUBS',
   ERROR: 'ERROR',
   CLEAR_ERROR: 'CLEAR_ERROR',
+  FETCH_APPROVALS: 'FETCH_APPROVALS',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -236,6 +237,33 @@ export function getClubs() {
       .then((response) => {
         console.log(response);
         dispatch({ type: ActionTypes.ALL_CLUBS, payload: response.data });
+      });
+  };
+}
+
+export function fetchApprovals() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/approvals`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({
+          type: ActionTypes.FETCH_APPROVALS,
+          payload: response.data,
+        });
+      }).catch((error) => {
+        console.log('Fetch Approvals error');
+        console.log(error);
+      });
+  };
+}
+
+export function reviewRoleRequest(review) {
+  console.log('ran');
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/approvals`, review, { headers: { authorization: localStorage.getItem('token') } })
+      .then(
+        dispatch(fetchApprovals()),
+      ).catch((error) => {
+        dispatch(appError(`Error responding to request: ${error}`));
       });
   };
 }

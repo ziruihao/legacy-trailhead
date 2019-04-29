@@ -17,13 +17,14 @@ import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
 import EditTrip from './components/edittrip';
 import NavBar from './components/navbar';
+import Approvals from './components/approvals';
 import { ActionTypes, getUser } from './actions';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
 // boilerplate to copy, don't have to know
 const store = createStore(reducers, {}, compose(
   applyMiddleware(thunk),
-  window.devToolsExtension ? window.devToolsExtension() : f => f,
+  window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
 ));
 
 const token = localStorage.getItem('token');
@@ -52,6 +53,7 @@ const App = (props) => {
           <Route path="/mytrips" component={MyTrips} />
           <Route path="/vehicleassignment" component={CarCalendar} />
           <Route path="/edittrip/:tripID" component={EditTrip} />
+          <Route path="/approvals" component={Approvals} />
           <Route component={FallBack} />
         </Switch>
       </div>
