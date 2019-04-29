@@ -33,18 +33,20 @@ class ProfilePage extends Component {
 
   onFieldChange(event) {
     event.persist();
-    if (event.target.checked) {
-      this.setState(prevState => ({
-        clubsList: [...prevState.clubsList, { _id: event.target.id, name: event.target.value }],
-      }));
-    } else if (!event.target.checked) {
-      this.setState((prevState) => {
-        const key = event.target.id;
-        const withoutClickedClub = prevState.clubsList.filter(club => club._id !== key);
-        return {
-          clubsList: withoutClickedClub,
-        };
-      });
+    if (event.target.type === 'checkbox') {
+      if (event.target.checked) {
+        this.setState(prevState => ({
+          clubsList: [...prevState.clubsList, { _id: event.target.id, name: event.target.value }],
+        }));
+      } else {
+        this.setState((prevState) => {
+          const key = event.target.id;
+          const withoutClickedClub = prevState.clubsList.filter(club => club._id !== key);
+          return {
+            clubsList: withoutClickedClub,
+          };
+        });
+      }
     } else {
       this.setState({
         [event.target.name]: event.target.value,
@@ -79,6 +81,9 @@ class ProfilePage extends Component {
   }
 
   getClubForm = () => {
+    if (this.props.user.has_pending_changes) {
+      return <h1>You can&apos;t update this until your previous changes have been reviewed</h1>;
+    }
     const currentClubIds = this.state.clubsList.map(club => club._id);
     return this.props.clubs.map((club) => {
       const checked = currentClubIds.includes(club.id);
@@ -119,6 +124,12 @@ class ProfilePage extends Component {
     } else {
       return null;
     }
+  }
+
+  pendingChanges = () => {
+    return this.props.user.has_pending_changes
+      ? <strong>You have changes pending approval</strong>
+      : null;
   }
 
   updateUserInfo(event) {
@@ -192,6 +203,7 @@ class ProfilePage extends Component {
                 <p className="card-text">{this.displayClubs()}</p>
               </div>
               <button className="btn btn-primary" onClick={this.getUpdatedVals}>Update my info</button>
+              {this.pendingChanges()}
             </div>
           </div>
         </div>
