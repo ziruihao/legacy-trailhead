@@ -26,6 +26,7 @@
         ],
         "object-curly-newline": 0,
         "no-debugger": "warn",
+        "no-param-reassign": 0,
         "react/no-danger": 0,
         "react/jsx-uses-react": 2,
         "react/jsx-uses-vars": 2,

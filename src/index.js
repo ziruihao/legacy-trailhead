@@ -12,7 +12,7 @@ import SignUp from './components/signup';
 import AllTrips from './components/alltrips';
 import CreateTrip from './components/createtrip';
 import MyTrips from './components/mytrips';
-import CarCalendar from './components/carcalendar';
+import TripsCal from './components/tripscalendar';
 import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
 import EditTrip from './components/edittrip';
@@ -48,10 +48,10 @@ const App = (props) => {
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/alltrips" component={AllTrips} />
+          <Route path="/tripscalendar" component={TripsCal} />
           <Route path="/trip/:tripID" component={TripDetails} />
           <Route path="/createtrip" component={CreateTrip} />
           <Route path="/mytrips" component={MyTrips} />
-          <Route path="/vehicleassignment" component={CarCalendar} />
           <Route path="/edittrip/:tripID" component={EditTrip} />
           <Route path="/approvals" component={Approvals} />
           <Route component={FallBack} />
