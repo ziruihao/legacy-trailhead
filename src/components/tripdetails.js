@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
 import marked from 'marked';
-import { joinTrip, addToPending, fetchTrip, leaveTrip, isOnTrip, emailTrip } from '../actions';
+import { joinTrip, addToPending, fetchTrip, leaveTrip, isOnTrip, emailTrip, deleteTrip } from '../actions';
 import '../styles/tripdetails-style.scss';
 
 class TripDetails extends Component {
@@ -209,6 +209,7 @@ class TripDetails extends Component {
             )
           }
           <NavLink to={`/edittrip/${this.props.trip.id}`} className="edit-button"><button className="btn btn-success">Edit Trip</button></NavLink>
+          <button onClick={this.handleDelete} className="btn btn-danger">Delete Trip</button>
         </div>
       );
     } else if (this.props.isUserOnTrip) {
@@ -216,6 +217,10 @@ class TripDetails extends Component {
     } else {
       return <button className="btn btn-primary" type="button" onClick={this.onSubmit}>Sign Up</button>;
     }
+  }
+
+  handleDelete = () => {
+    this.props.deleteTrip(this.props.trip, this.props.history);
   }
 
   toggleMembers() {
@@ -244,7 +249,6 @@ class TripDetails extends Component {
         <p className="leaders"> {this.getLeaders(this.props.trip.leaders)}</p>
         <h3> Dates: {`${this.formatDate(this.props.trip.startDate)}-${this.formatDate(this.props.trip.endDate)}`}</h3>
         <h3> Cost: ${this.props.trip.cost}</h3>
-        <h3> Limit: {this.props.trip.limit} people</h3>
         <h3> Description:</h3>
         <p className="description" dangerouslySetInnerHTML={{ __html: marked(this.props.trip.description || '') }} />
         {this.state.showMembers
@@ -293,5 +297,5 @@ const mapStateToProps = state => (
 );
 
 export default withRouter(connect(mapStateToProps, {
-  joinTrip, addToPending, fetchTrip, leaveTrip, isOnTrip, emailTrip,
+  joinTrip, addToPending, fetchTrip, leaveTrip, deleteTrip, isOnTrip, emailTrip,
 })(TripDetails));

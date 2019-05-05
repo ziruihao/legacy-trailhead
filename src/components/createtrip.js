@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { createTrip, getClubs, appError } from '../actions';
+import { createTrip, appError } from '../actions';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -12,7 +12,7 @@ class CreateTrip extends Component {
       title: '',
       leaders: '',
       club: '',
-      experienceNeeded: '',
+      experienceNeeded: false,
       description: '',
       startDate: '',
       endDate: '',
@@ -33,11 +33,9 @@ class CreateTrip extends Component {
       alert('Please sign in/sign up to view this page');
       this.props.history.push('/');
     }
-    this.props.getClubs();
   }
 
   onFieldChange(event) {
-    console.log(`field changing${event}and name ${event.target.name}and value ${event.target.value}`);
     this.setState({
       [event.target.name]: event.target.value,
     });
@@ -55,10 +53,12 @@ class CreateTrip extends Component {
   }
 
   getClubOptions = () => {
-    const listOfClubs = ['Ledyard', 'CNT', 'DMC'];
-    const options = listOfClubs.map((club) => {
-      return <option key={club} value={club}>{club}</option>;
-    });
+    let options = null;
+    if (this.props.userClubs) {
+      options = this.props.userClubs.map((club) => {
+        return <option key={club.id} value={club.name}>{club.name}</option>;
+      });
+    }
     return options;
   }
 
@@ -67,7 +67,7 @@ class CreateTrip extends Component {
       return (
         <div>
           <input type="date" name="startDate" onChange={this.onDateChange} className="form-control" value={this.state.startDate} />
-          <input type="date" name="startDate" onChange={this.onDateChange} className="form-control" value={this.state.startDate} />
+          <input type="date" name="endDate" onChange={this.onFieldChange} className="form-control" value={this.state.endDate} />
         </div>
       );
     } else {
@@ -91,9 +91,12 @@ class CreateTrip extends Component {
 
   handleDateChange = (changeEvent) => {
     if (changeEvent.target.value === 'single') {
-      this.setState({
-        length: 'single',
-      });
+      this.setState(prevState => (
+        {
+          length: 'single',
+          endDate: prevState.startDate,
+        }
+      ));
     } else {
       this.setState({
         length: 'multi',
@@ -102,10 +105,11 @@ class CreateTrip extends Component {
   };
 
   createTrip() {
+    const club = this.state.club ? this.state.club : this.props.userClubs[0];
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders.trim().split(','),
-      club: this.state.club,
+      club,
       experienceNeeded: this.state.experienceNeeded,
       description: this.state.description,
       mileage: this.state.mileage,
@@ -117,21 +121,9 @@ class CreateTrip extends Component {
       cost: this.state.cost,
     };
 
-    if (!trip.startDate) {
-      console.log('startdate');
-    }
-    if (!trip.endDate) {
-      console.log('endDate');
-    }
-    if (!trip.startTime) {
-      console.log('startTime');
-    }
-    if (!trip.endTime) {
-      console.log('endTime');
-    }
     // Validate input
-    if (!(trip.title && trip.leaders && trip.club && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
-      && trip.cost && trip.experienceNeeded && trip.mileage && trip.location)) {
+    if (!(trip.title && trip.club && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
+      && trip.cost && trip.mileage && trip.location)) {
       this.props.appError('All trip fields must be filled out');
       return;
     }
@@ -164,7 +156,7 @@ class CreateTrip extends Component {
             placeholder="Leaders (comma separated emails, you are a leader by default)"
             value={this.state.leaders}
           />
-          <select name="club" className="custom-select field" defaultValue="Ledyard" onChange={this.onFieldChange}>
+          <select name="club" className="custom-select field" defaultValue="Select Club" onChange={this.onFieldChange}>
             {this.getClubOptions()}
           </select>
           <div> Experience Needed </div>
@@ -232,9 +224,9 @@ class CreateTrip extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    clubs: state.clubs,
+    userClubs: state.user.leader_for,
     authenticated: state.auth.authenticated,
   };
 };
 
-export default withRouter(connect(mapStateToProps, { createTrip, getClubs, appError })(CreateTrip));
+export default withRouter(connect(mapStateToProps, { createTrip, appError })(CreateTrip));

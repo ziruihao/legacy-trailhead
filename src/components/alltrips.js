@@ -70,7 +70,7 @@ class AllTrips extends Component {
     console.log(sortedTrips);
     const tripsGrid = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
       return (
-        <div className="card all-trips-card text-center card-trip margins">
+        <div key={trip.id} className="card all-trips-card text-center card-trip margins">
           <NavLink to={`/trip/${trip.id}`} key={trip.id}>
             <div className="card-body">
               <h2 className="card-title">{trip.title}</h2>
