@@ -67,7 +67,7 @@ class CreateTrip extends Component {
       return (
         <div>
           <input type="date" name="startDate" onChange={this.onDateChange} className="form-control" value={this.state.startDate} />
-          <input type="date" name="endDate" onChange={this.onFieldChange} className="form-control" value={this.state.endDate} />
+          <input type="date" name="endDate" onChange={this.onDateChange} className="form-control" value={this.state.endDate} />
         </div>
       );
     } else {
