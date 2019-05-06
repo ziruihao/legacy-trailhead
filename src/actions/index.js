@@ -149,6 +149,18 @@ export function createTrip(trip, history) {
   };
 }
 
+export function deleteTrip(trip, history) {
+  return (dispatch) => {
+    axios.delete(`${ROOT_URL}/trip/${trip.id}`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        history.push('/alltrips');
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+}
+
 export function editTrip(trip, history) {
   console.log('trip');
   console.log(trip);
