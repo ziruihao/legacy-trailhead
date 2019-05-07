@@ -11,8 +11,6 @@ class TripDetails extends Component {
     super(props);
 
     this.state = ({
-      showMembers: false,
-      showPending: false,
       showEmail: false,
       emailSubject: '',
       emailBody: '',
@@ -22,7 +20,6 @@ class TripDetails extends Component {
     this.onJoin = this.onJoin.bind(this);
     this.onLeave = this.onLeave.bind(this);
     this.onEmail = this.onEmail.bind(this);
-    this.toggleMembers = this.toggleMembers.bind(this);
     this.toggleEmail = this.toggleEmail.bind(this);
   }
 
@@ -36,15 +33,8 @@ class TripDetails extends Component {
         this.props.isOnTrip(this.props.match.params.tripID),
         this.props.fetchTrip(this.props.match.params.tripID),
       ])
-      .then(() => {
-        this.props.trip.leaders.forEach((leader) => {
-          if (leader.id === this.props.user.id) {
-            this.setState({ showMembers: true, showPending: true });
-          }
-        });
-      })
       .catch((error) => {
-        console.log(':( error');
+        console.log(error);
       });
   }
 
@@ -103,16 +93,16 @@ class TripDetails extends Component {
     return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
   }
 
-  showMembers = (members) => {
+  showMembers = () => {
     if (!this.props.trip.leaders) {
       return <span />;
     }
 
-    if (members.length < 1) {
+    if (this.props.trip.members.length < 1) {
       return (<p> No Members Yet </p>);
     }
 
-    const rows = members.map((member) => {
+    const rows = this.props.trip.members.map((member) => {
       return (
         <tr key={member.id}>
           <td>{member.name}</td>
@@ -132,27 +122,27 @@ class TripDetails extends Component {
           </tr>
         </thead>
         <tbody>
-          { rows }
+          {rows}
         </tbody>
       </table>
     );
   }
 
-  showPending = (pending) => {
+  showPending = () => {
     if (!this.props.trip.leaders) {
       return <span />;
     }
 
-    if (pending.length < 1) {
+    if (this.props.trip.pending.length < 1) {
       return (<p> No Pending Yet </p>);
     }
 
-    const rows = pending.map((pend) => {
+    const rows = this.props.trip.pending.map((pend) => {
       return (
         <tr key={pend.id}>
           <td>{pend.name}</td>
           <td>{pend.email}</td>
-          <button type="button" className="btn btn-success btn-email" onClick={this.onJoin}>Add To Trip</button>
+          <td><button type="button" className="btn btn-success btn-email" onClick={this.onJoin}>Add To Trip</button></td>
         </tr>
       );
     });
@@ -166,7 +156,7 @@ class TripDetails extends Component {
           </tr>
         </thead>
         <tbody>
-          { rows }
+          {rows}
         </tbody>
       </table>
     );
@@ -184,8 +174,36 @@ class TripDetails extends Component {
     );
   }
 
+  getMemberList = () => {
+    if (!this.props.trip.leaders) {
+      return <span />;
+    }
+    let isLeaderForTrip = false;
+    this.props.trip.leaders.some((leader) => {
+      if (leader.id === this.props.user.id) {
+        isLeaderForTrip = true;
+      }
+      return leader.id === this.props.user.id;
+    });
+    if (isLeaderForTrip) {
+      return (
+        <div>
+          <div>
+            <h3> Members </h3>
+            {this.showMembers()}
+          </div>
+          <div>
+            <h3> Pending </h3>
+            {this.showPending()}
+          </div>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   appropriateButton = () => {
-    console.log(this.props);
     if (!this.props.trip.leaders) {
       return <span />;
     }
@@ -223,18 +241,6 @@ class TripDetails extends Component {
     this.props.deleteTrip(this.props.trip, this.props.history);
   }
 
-  toggleMembers() {
-    // eslint-disable-next-line react/no-access-state-in-setstate
-    const next = !this.state.showMembers;
-    this.setState({ showMembers: next });
-  }
-
-  togglePending() {
-    // eslint-disable-next-line react/no-access-state-in-setstate
-    const next = !this.state.showPending;
-    this.setState({ showPending: next });
-  }
-
   toggleEmail() {
     // eslint-disable-next-line react/no-access-state-in-setstate
     const next = !this.state.showEmail;
@@ -251,35 +257,8 @@ class TripDetails extends Component {
         <h3> Cost: ${this.props.trip.cost}</h3>
         <h3> Description:</h3>
         <p className="description" dangerouslySetInnerHTML={{ __html: marked(this.props.trip.description || '') }} />
-        {this.state.showMembers
-          ? (
-            <h3> Members </h3>
-          ) : (
-            <p />
-          )
-        }
-        {this.state.showMembers
-          ? (
-            this.showMembers(this.props.trip.members)
-          ) : (
-            <p />
-          )
-        }
-        {this.state.showPending
-          ? (
-            <h3> Pending </h3>
-          ) : (
-            <p />
-          )
-        }
-        {this.state.showPending
-          ? (
-            this.showPending(this.props.trip.pending)
-          ) : (
-            <p />
-          )
-        }
-        { this.appropriateButton() }
+        {this.getMemberList()}
+        {this.appropriateButton()}
       </div>
     );
   }
