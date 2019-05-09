@@ -21,11 +21,13 @@ class CreateTrip extends Component {
       mileage: '',
       location: '',
       cost: '',
-      length: '',
+      length: 'single',
+      gearRequests: [],
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
+    this.onGearChange = this.onGearChange.bind(this);
   }
 
   componentDidMount() {
@@ -104,8 +106,44 @@ class CreateTrip extends Component {
     }
   };
 
+  addGear = () => {
+    this.setState(prevState => ({ gearRequests: [...prevState.gearRequests, ''] }));
+  }
+
+  removeGear = (index) => {
+    this.setState((prevState) => {
+      const withoutDeleted = prevState.gearRequests.slice(0, index).concat(prevState.gearRequests.slice(index + 1));
+      return {
+        gearRequests: withoutDeleted,
+      };
+    });
+  }
+
+  getGearInputs = () => {
+    return this.state.gearRequests.map((gearRequest, index) => {
+      return (
+        <div key={index}>
+          <input type="text" name="gearRequest" onChange={event => this.onGearChange(event, index)} value={gearRequest} />
+          <button className="btn btn-danger btn-xs delete-gear-button" onClick={() => this.removeGear(index)}>Delete</button>
+        </div>
+      );
+    });
+  }
+
+  onGearChange = (event, idx) => {
+    event.persist();
+    this.setState((prevState) => {
+      const gearRequests = [...prevState.gearRequests];
+      gearRequests[idx] = event.target.value;
+      return {
+        gearRequests,
+      };
+    });
+  }
+
   createTrip() {
     const club = this.state.club ? this.state.club : this.props.userClubs[0];
+    const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders.trim().split(','),
@@ -119,6 +157,7 @@ class CreateTrip extends Component {
       startTime: this.state.startTime,
       endTime: this.state.endTime,
       cost: this.state.cost,
+      gearRequests,
     };
 
     // Validate input
@@ -127,7 +166,6 @@ class CreateTrip extends Component {
       this.props.appError('All trip fields must be filled out');
       return;
     }
-    console.log('3creatign trip from createtrip.js');
 
     const start = new Date(trip.startDate);
     const end = new Date(trip.endDate);
@@ -136,10 +174,7 @@ class CreateTrip extends Component {
       this.props.appError('Please enter valid dates');
       return;
     }
-    console.log('4creatign trip from createtrip.js');
 
-
-    console.log('creatign trip from createtrip.js');
     this.props.createTrip(trip, this.props.history);
   }
 
@@ -167,17 +202,17 @@ class CreateTrip extends Component {
               onChange={this.handleOptionChange}
               checked={this.state.experienceNeeded === true}
             />
-              Yes
+            Yes
             <input
               type="radio"
               value="No"
               onChange={this.handleOptionChange}
               checked={this.state.experienceNeeded === false}
             />
-              No
+            No
           </form>
           <textarea className="form-control field" onChange={this.onFieldChange} name="description" placeholder="Trip description (markdown supported)" value={this.state.description} />
-          <input onChange={this.onFieldChange} name="mileage" placeholder="Estimated mileage" value={this.state.mileage} />
+          <input type="number" onChange={this.onFieldChange} name="mileage" placeholder="Estimated mileage" value={this.state.mileage} />
           <input onChange={this.onFieldChange} name="location" placeholder="Location" value={this.state.location} />
           <div> Trip Duration </div>
           <form>
@@ -187,14 +222,14 @@ class CreateTrip extends Component {
               onChange={this.handleDateChange}
               checked={this.state.length === 'single'}
             />
-              Single Day
+            Single Day
             <input
               type="radio"
               value="multi"
               onChange={this.handleDateChange}
               checked={this.state.length === 'multi'}
             />
-              Multi-Day
+            Multi-Day
           </form>
           <div className="input-group field">
             <div className="input-group-prepend">
@@ -214,6 +249,10 @@ class CreateTrip extends Component {
               <span className="input-group-text">Cost ($)</span>
             </div>
             <input type="number" name="cost" step="0.01" onChange={this.onFieldChange} className="form-control" value={this.state.cost} />
+          </div>
+          <div>
+            {this.getGearInputs()}
+            <button className="btn btn-primary btn-xs gear-button" onClick={this.addGear}>Request gear</button>
           </div>
           <button className="btn btn-success post-button" onClick={this.createTrip}>Post trip</button>
         </div>

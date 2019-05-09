@@ -40,8 +40,8 @@ class NavBar extends Component {
     if (this.props.role === 'OPO') {
       viewApprovalsLink = (
         <li className="nav-item">
-          <NavLink className="nav-link" to="/approvals">
-            View Role Change Requests
+          <NavLink className="nav-link" to="/opo">
+            OPO Stuff
           </NavLink>
         </li>
       );

@@ -203,6 +203,40 @@ class TripDetails extends Component {
     }
   }
 
+  getGearRequests = () => {
+    if (!this.props.trip.leaders) {
+      return <span />;
+    }
+    let isLeaderForTrip = false;
+    this.props.trip.leaders.some((leader) => {
+      if (leader.id === this.props.user.id) {
+        isLeaderForTrip = true;
+      }
+      return leader.id === this.props.user.id;
+    });
+    if (isLeaderForTrip) {
+      let gearRequests, requestStatus;
+      if (this.props.trip.OPOGearRequests.length === 0) {
+        gearRequests = <span>None</span>;
+        requestStatus = null;
+      } else {
+        gearRequests = this.props.trip.OPOGearRequests.map(gearrequest => (
+          <li key={gearrequest}>{gearrequest}</li>
+        ));
+        requestStatus = <h3>Request Status: {this.props.trip.gearStatus}</h3>;
+      }
+      return (
+        <div>
+          <h3>Gear Requests:</h3>
+          {gearRequests}
+          {requestStatus}
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   appropriateButton = () => {
     if (!this.props.trip.leaders) {
       return <span />;
@@ -258,6 +292,7 @@ class TripDetails extends Component {
         <h3> Description:</h3>
         <p className="description" dangerouslySetInnerHTML={{ __html: marked(this.props.trip.description || '') }} />
         {this.getMemberList()}
+        {this.getGearRequests()}
         {this.appropriateButton()}
       </div>
     );
