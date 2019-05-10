@@ -160,8 +160,8 @@ class CreateTrip extends Component {
       gearRequests,
     };
 
-    // Validate input
-    if (!(trip.title && trip.club && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
+    // Validate input TOOK OUT CLUB FOR NOW BECAUSE IT DOENST WORK
+    if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
       && trip.cost && trip.mileage && trip.location)) {
       this.props.appError('All trip fields must be filled out');
       return;

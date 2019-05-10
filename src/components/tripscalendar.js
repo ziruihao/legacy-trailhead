@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchTrips } from '../actions';
-import dates from '../utils/dates';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../styles/alltrips-style.scss';
 
@@ -26,45 +25,55 @@ class TripsCal extends Component {
 
   createEvents = () => {
     const allTrips = this.props.trips.map((trip) => {
-      let multiDay = true;
-      if (trip.startDate === trip.endDate) {
-        multiDay = false;
+      const sy = trip.startDate.substring(0, 4);
+      const sm = trip.startDate.substring(5, 7);
+      const sd = trip.startDate.substring(8, 10);
+      let sh = 3;
+      let smin = 5;
+      let eh = 5;
+      let emin = 5;
+      if (trip.startTime && trip.endTime) {
+        sh = trip.startTime.substring(0, 2);
+        smin = trip.startTime.substring(3, 5);
+        eh = trip.endTime.substring(0, 2);
+        emin = trip.endTime.substring(3, 5);
       }
-      const startDayWrapper = moment(trip.startDate).hour(3).minute(14);
-      const endDayWrapper = moment(trip.endDate).hour(5).minute(14);
+      const ey = trip.endDate.substring(0, 4);
+      const em = trip.endDate.substring(5, 7);
+      const ed = trip.endDate.substring(8, 10);
       const Event = {
         title: trip.title,
-        start: startDayWrapper,
         id: trip._id,
-        end: endDayWrapper,
-        allDay: multiDay,
+        start: new Date(sy, sm - 1, sd, sh, smin, 0, 0),
+        end: new Date(ey, em - 1, ed, eh, emin, 0, 0),
+        allDay: false,
         resource: '',
       };
-      console.log(`Start is: ${Event.start}`);
       return Event;
     });
     return allTrips;
   }
 
-  handleSelect = ({ start, end }) => {
-    const title = window.prompt('New Event name');
-    console.log(title + start + end);
+  handleSelect = (event) => {
+    console.log(`event${event.title}`);
   }
 
   render() {
     return (
       <div className="calendar-container">
         <BigCalendar
-          localizer={localizer}
           events={this.createEvents()}
           startAccessor="start"
           endAccessor="end"
-          step={60}
-          views={allViews}
-          max={dates.add(dates.endOf(new Date(2028, 17, 1), 'day'), -1, 'hours')}
           selectable
-          onSelectEvent={event => alert(event.id)}
-          onSelectSlot={this.handleSelect}
+          views={allViews}
+          step={30}
+          showMultiDayTimes
+          defaultDate={new Date()}
+          defaultView={BigCalendar.Views.WEEK}
+          localizer={localizer}
+          scrollToTime={new Date(2019, 4, 12, 6, 0, 0)}
+          onSelectEvent={event => this.handleSelect(event)}
         />
       </div>
     );
