@@ -1,8 +1,9 @@
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
+import Modal from 'react-bootstrap/Modal';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips } from '../actions';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../styles/alltrips-style.scss';
@@ -16,7 +17,12 @@ class TripsCal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      show: false,
+      currEvent: '',
     };
+
+    this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount(props) {
@@ -55,26 +61,56 @@ class TripsCal extends Component {
   }
 
   handleSelect = (event) => {
-    console.log(`event${event.title}`);
+    this.setState({ currEvent: event });
+    this.handleShow();
   }
+
+  handleClose() {
+    this.setState({ show: false });
+  }
+
+  handleShow(event) {
+    this.setState({ show: true });
+  }
+
 
   render() {
     return (
-      <div className="calendar-container">
-        <BigCalendar
-          events={this.createEvents()}
-          startAccessor="start"
-          endAccessor="end"
-          selectable
-          views={allViews}
-          step={30}
-          showMultiDayTimes
-          defaultDate={new Date()}
-          defaultView={BigCalendar.Views.WEEK}
-          localizer={localizer}
-          scrollToTime={new Date(2019, 4, 12, 6, 0, 0)}
-          onSelectEvent={event => this.handleSelect(event)}
-        />
+      <div>
+        <div>
+          <Modal show={this.state.show} onHide={this.handleClose}>
+            <Modal.Header closeButton>
+              <Modal.Title>{this.state.currEvent.title}</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+            <Modal.Footer>
+              <button type="button" variant="secondary" onClick={this.handleClose}>
+            Close
+              </button>
+              <NavLink type="button" to={`/trip/${this.state.currEvent.id}`} key={this.state.currEvent._id}>
+                <div>
+                  <h2>See Trip Details</h2>
+                </div>
+              </NavLink>
+            </Modal.Footer>
+          </Modal>;
+        </div>
+        <div className="calendar-container">
+          <BigCalendar
+            events={this.createEvents()}
+            startAccessor="start"
+            endAccessor="end"
+            selectable
+            views={allViews}
+            step={30}
+            showMultiDayTimes
+            defaultDate={new Date()}
+            defaultView={BigCalendar.Views.WEEK}
+            localizer={localizer}
+            scrollToTime={new Date(2019, 4, 12, 6, 0, 0)}
+            onSelectEvent={event => this.handleSelect(event)}
+          />
+        </div>
       </div>
     );
   }
