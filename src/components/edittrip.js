@@ -14,7 +14,8 @@ class EditTrip extends Component {
       startDate: '',
       endDate: '',
       cost: '',
-      limit: '',
+      gearRequests: [],
+      newRequest: false,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.editTrip = this.editTrip.bind(this);
@@ -33,10 +34,10 @@ class EditTrip extends Component {
       this.setState({
         title: nextProps.trip.title,
         description: nextProps.trip.description,
-        startDate: nextProps.trip.startDate,
-        endDate: nextProps.trip.endDate,
+        startDate: nextProps.trip.startDate.substring(0, 10),
+        endDate: nextProps.trip.endDate.substring(0, 10),
         cost: nextProps.trip.cost,
-        limit: nextProps.trip.limit,
+        gearRequests: nextProps.trip.OPOGearRequests,
       });
     }
   }
@@ -47,23 +48,90 @@ class EditTrip extends Component {
     });
   }
 
-
-  formatDate = (date) => {
-    // date fix adapted from https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off/31732581
-    if (!date) {
-      return '';
+  getGearForm = () => {
+    if (this.props.trip.title) {
+      if (this.props.trip.gearStatus === 'pending' || this.state.newRequest) {
+        return (
+          <div>
+            <h4>Gear Requests:</h4>
+            {this.getGearInputs()}
+            <button className="btn btn-primary btn-xs gear-button" onClick={this.addGear}> Request gear</button>
+          </div>
+        );
+      } else {
+        let gearRequests, requestStatus;
+        if (this.props.trip.OPOGearRequests.length === 0) {
+          gearRequests = <p>None</p>;
+          requestStatus = null;
+        } else {
+          gearRequests = this.props.trip.OPOGearRequests.map(gearrequest => (
+            <li key={gearrequest}>{gearrequest}</li>
+          ));
+          requestStatus = <h3>Request Status: {this.props.trip.gearStatus}</h3>;
+        }
+        return (
+          <div>
+            <h4>Gear Requests:</h4>
+            {gearRequests}
+            {requestStatus}
+            <button className="btn btn-primary btn-xs gear-button" onClick={this.newGearRequest}> New Gear Request</button>
+          </div>
+        );
+      }
+    } else {
+      return null;
     }
-    return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
+  }
+
+  addGear = () => {
+    this.setState(prevState => ({ gearRequests: [...prevState.gearRequests, ''] }));
+  }
+
+  newGearRequest = () => {
+    this.setState({ newRequest: true });
+  }
+
+  removeGear = (index) => {
+    this.setState((prevState) => {
+      const withoutDeleted = prevState.gearRequests.slice(0, index).concat(prevState.gearRequests.slice(index + 1));
+      return {
+        gearRequests: withoutDeleted,
+      };
+    });
+  }
+
+  getGearInputs = () => {
+    return this.state.gearRequests.map((gearRequest, index) => {
+      return (
+        <div key={index}>
+          <input type="text" name="gearRequest" onChange={event => this.onGearChange(event, index)} value={gearRequest} />
+          <button className="btn btn-danger btn-xs delete-gear-button" onClick={() => this.removeGear(index)}>Delete</button>
+        </div>
+      );
+    });
+  }
+
+  onGearChange = (event, idx) => {
+    event.persist();
+    this.setState((prevState) => {
+      const gearRequests = [...prevState.gearRequests];
+      gearRequests[idx] = event.target.value;
+      return {
+        gearRequests,
+      };
+    });
   }
 
   editTrip() {
+    const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
     const trip = {
       title: this.state.title ? this.state.title : this.props.trip.title,
       description: this.state.description ? this.state.description : this.props.trip.description,
       startDate: this.state.startDate ? this.state.startDate : this.props.trip.startDate,
       endDate: this.state.endDate ? this.state.endDate : this.props.trip.endDate,
       cost: this.state.cost ? this.state.cost : this.props.trip.cost,
-      limit: this.state.limit ? this.state.limit : this.props.trip.limit,
+      gearRequests,
+      newRequest: this.state.newRequest,
       id: this.props.trip.id,
     };
 
@@ -90,18 +158,11 @@ class EditTrip extends Component {
               <input name="title" onChange={this.onFieldChange} className="form-control" placeholder="Trip Title" value={this.state.title} />
             </div>
             <div className="input-group field">
-              <div className="input-group-prepend d-span">
-                <span className="input-group-text d-span">Limit</span>
-              </div>
-              <input type="number" name="limit" step="1.0" onChange={this.onFieldChange} className="form-control" placeholder="Max # of people (e.g. 8, 10, etc)" value={this.state.limit} />
-            </div>
-            <div className="input-group field">
               <div className="input-group-prepend">
                 <span className="input-group-text">Description (markdown supported)</span>
               </div>
               <textarea className="form-control field" onChange={this.onFieldChange} name="description" placeholder="Trip description" value={this.state.description} />
             </div>
-            <h5> Current Dates: {this.formatDate(this.state.startDate)} - {this.formatDate(this.state.endDate)} </h5>
             <div className="input-group field">
               <div className="input-group-prepend">
                 <span className="input-group-text">Start Date and End Date</span>
@@ -115,6 +176,7 @@ class EditTrip extends Component {
               </div>
               <input type="number" name="cost" step="0.01" onChange={this.onFieldChange} className="form-control" value={this.state.cost} />
             </div>
+            {this.getGearForm()}
             <button className="btn btn-success" onClick={this.editTrip}>Update Trip</button>
             <button className="btn btn-danger" onClick={() => this.props.history.push(`/trip/${this.props.trip.id}`)}>Cancel changes</button>
           </div>

@@ -16,6 +16,7 @@ export const ActionTypes = {
   ERROR: 'ERROR',
   CLEAR_ERROR: 'CLEAR_ERROR',
   FETCH_APPROVALS: 'FETCH_APPROVALS',
+  FETCH_GEAR_REQUESTS: 'FETCH_GEAR_REQUESTS',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -80,7 +81,6 @@ export function fetchTrips() {
 export function fetchTrip(id) {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/trip/${id}`).then((response) => {
-      console.log(response.data);
       dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
       console.log(error);
@@ -269,13 +269,38 @@ export function fetchApprovals() {
 }
 
 export function reviewRoleRequest(review) {
-  console.log('ran');
   return (dispatch) => {
     axios.put(`${ROOT_URL}/approvals`, review, { headers: { authorization: localStorage.getItem('token') } })
       .then(
         dispatch(fetchApprovals()),
       ).catch((error) => {
-        dispatch(appError(`Error responding to request: ${error}`));
+        dispatch(appError(`Error responding to role request: ${error}`));
+      });
+  };
+}
+
+export function fetchGearRequests() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/gearrequests`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({
+          type: ActionTypes.FETCH_GEAR_REQUESTS,
+          payload: response.data,
+        });
+      }).catch((error) => {
+        console.log('Fetch gear requests error');
+        console.log(error);
+      });
+  };
+}
+
+export function reviewGearRequest(review) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/gearrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
+      .then(
+        dispatch(fetchGearRequests()),
+      ).catch((error) => {
+        dispatch(appError(`Error responding to gear request: ${error}`));
       });
   };
 }

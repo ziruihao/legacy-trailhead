@@ -17,7 +17,7 @@ import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
 import EditTrip from './components/edittrip';
 import NavBar from './components/navbar';
-import Approvals from './components/approvals';
+import OpoStuff from './components/opoStuff';
 import { ActionTypes, getUser } from './actions';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
@@ -53,7 +53,7 @@ const App = (props) => {
           <Route path="/createtrip" component={CreateTrip} />
           <Route path="/mytrips" component={MyTrips} />
           <Route path="/edittrip/:tripID" component={EditTrip} />
-          <Route path="/approvals" component={Approvals} />
+          <Route path="/opo" component={OpoStuff} />
           <Route component={FallBack} />
         </Switch>
       </div>
