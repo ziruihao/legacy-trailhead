@@ -101,9 +101,9 @@ export function addToPending(id) {
   };
 }
 
-export function joinTrip(id) {
+export function joinTrip(id, pend) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/jointrip`, { id }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    axios.put(`${ROOT_URL}/jointrip`, { id, pend }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.JOIN_TRIP, payload: response.data });
       console.log(response.data);
     }).catch((error) => {

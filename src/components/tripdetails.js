@@ -14,6 +14,7 @@ class TripDetails extends Component {
       showEmail: false,
       emailSubject: '',
       emailBody: '',
+      hasSignedUp: false,
     });
     this.onFieldChange = this.onFieldChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -21,6 +22,7 @@ class TripDetails extends Component {
     this.onLeave = this.onLeave.bind(this);
     this.onEmail = this.onEmail.bind(this);
     this.toggleEmail = this.toggleEmail.bind(this);
+    this.onPending = this.onPending.bind(this);
   }
 
   async componentDidMount() {
@@ -48,18 +50,35 @@ class TripDetails extends Component {
     if (!this.props.user.email || !this.props.user.name || !this.props.user.dash_number) {
       alert('Please fill out all of your info before signing up');
       this.props.history.push('/user');
-    } else {
+    } else if (!this.onPending()) {
       this.props.addToPending(this.props.trip._id);
+      this.setState({ hasSignedUp: true });
       this.props.fetchTrip(this.props.match.params.tripID);
+    } else {
+      alert('You are already on the pending list.');
     }
   }
 
-  onJoin() {
+  onPending() {
+    let isPending = false;
+    this.props.trip.pending.some((pender) => {
+      if (pender.id === this.props.user.id) {
+        isPending = true;
+      }
+      return isPending;
+    });
+    if (!isPending && !this.state.hasSignedUp) {
+      return false;
+    }
+    return true;
+  }
+
+  onJoin(pend) {
     if (!this.props.user.email || !this.props.user.name || !this.props.user.dash_number) {
       alert('Please fill out all of your info before signing up');
       this.props.history.push('/user');
     } else {
-      this.props.joinTrip(this.props.trip._id);
+      this.props.joinTrip(this.props.trip._id, pend);
       this.props.fetchTrip(this.props.match.params.tripID);
     }
   }
@@ -142,7 +161,7 @@ class TripDetails extends Component {
         <tr key={pend.id}>
           <td>{pend.name}</td>
           <td>{pend.email}</td>
-          <td><button type="button" className="btn btn-success btn-email" onClick={this.onJoin}>Add To Trip</button></td>
+          <td><button type="button" className="btn btn-success btn-email" onClick={() => this.onJoin(pend)}>Add To Trip</button></td>
         </tr>
       );
     });
@@ -266,6 +285,8 @@ class TripDetails extends Component {
       );
     } else if (this.props.isUserOnTrip) {
       return <button className="btn btn-danger" type="button" onClick={this.onLeave}>Leave Trip</button>;
+    } else if (this.onPending()) {
+      return <div>Your membership is pending</div>;
     } else {
       return <button className="btn btn-primary" type="button" onClick={this.onSubmit}>Sign Up</button>;
     }
