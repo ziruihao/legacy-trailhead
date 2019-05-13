@@ -82,6 +82,11 @@ class NavBar extends Component {
                 Trips Calendar
               </NavLink>
             </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/vehiclescheduler">
+                Vehicle Scheduler
+              </NavLink>
+            </li>
           </ul>
           <button type="button" className="btn btn-danger signout-btn" onClick={() => this.props.signOut(this.props.history)}>Sign Out</button>
         </nav>
