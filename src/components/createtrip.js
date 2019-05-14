@@ -23,6 +23,7 @@ class CreateTrip extends Component {
       cost: '',
       length: 'single',
       gearRequests: [],
+      trippeeGear: [],
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
@@ -110,11 +111,24 @@ class CreateTrip extends Component {
     this.setState(prevState => ({ gearRequests: [...prevState.gearRequests, ''] }));
   }
 
+  addTrippeeGear = () => {
+    this.setState(prevState => ({ trippeeGear: [...prevState.trippeeGear, ''] }));
+  }
+
   removeGear = (index) => {
     this.setState((prevState) => {
       const withoutDeleted = prevState.gearRequests.slice(0, index).concat(prevState.gearRequests.slice(index + 1));
       return {
         gearRequests: withoutDeleted,
+      };
+    });
+  }
+
+  removeTrippeeGear = (index) => {
+    this.setState((prevState) => {
+      const withoutDeleted = prevState.trippeeGear.slice(0, index).concat(prevState.trippeeGear.slice(index + 1));
+      return {
+        trippeeGear: withoutDeleted,
       };
     });
   }
@@ -125,6 +139,17 @@ class CreateTrip extends Component {
         <div key={index}>
           <input type="text" name="gearRequest" onChange={event => this.onGearChange(event, index)} value={gearRequest} />
           <button className="btn btn-danger btn-xs delete-gear-button" onClick={() => this.removeGear(index)}>Delete</button>
+        </div>
+      );
+    });
+  }
+
+  getTrippeeGear = () => {
+    return this.state.trippeeGear.map((gearRequest, index) => {
+      return (
+        <div key={index}>
+          <input type="text" name="trippeeGear" onChange={event => this.onTrippeeGearChange(event, index)} value={gearRequest} />
+          <button className="btn btn-danger btn-xs delete-gear-button" onClick={() => this.removeTrippeeGear(index)}>Delete</button>
         </div>
       );
     });
@@ -141,9 +166,21 @@ class CreateTrip extends Component {
     });
   }
 
+  onTrippeeGearChange = (event, idx) => {
+    event.persist();
+    this.setState((prevState) => {
+      const trippeeGear = [...prevState.trippeeGear];
+      trippeeGear[idx] = event.target.value;
+      return {
+        trippeeGear,
+      };
+    });
+  }
+
   createTrip() {
     const club = this.state.club ? this.state.club : this.props.userClubs[0];
     const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
+    const trippeeGear = this.state.trippeeGear.filter(gear => gear.length > 0);
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders.trim().split(','),
@@ -158,11 +195,12 @@ class CreateTrip extends Component {
       endTime: this.state.endTime,
       cost: this.state.cost,
       gearRequests,
+      trippeeGear,
     };
 
-    // Validate input TOOK OUT CLUB FOR NOW BECAUSE IT DOENST WORK
+    // Validate input
     if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
-      && trip.cost && trip.mileage && trip.location)) {
+      && trip.cost && trip.mileage && trip.location && trip.club)) {
       this.props.appError('All trip fields must be filled out');
       return;
     }
@@ -253,6 +291,10 @@ class CreateTrip extends Component {
           <div>
             {this.getGearInputs()}
             <button className="btn btn-primary btn-xs gear-button" onClick={this.addGear}>Request gear</button>
+          </div>
+          <div>
+            {this.getTrippeeGear()}
+            <button className="btn btn-primary btn-xs gear-button" onClick={this.addTrippeeGear}>Trippee gear</button>
           </div>
           <button className="btn btn-success post-button" onClick={this.createTrip}>Post trip</button>
         </div>
