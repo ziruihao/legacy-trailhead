@@ -1,32 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchGearRequests, reviewGearRequest } from '../actions';
+import { fetchTrippeeGearRequests, reviewTrippeeGearRequest } from '../actions';
 
-class gearRequests extends Component {
+class trippeeGearRequests extends Component {
   componentDidMount(props) {
     if (!this.props.authenticated) {
       alert('Please sign in/sign up to view this page');
       this.props.history.push('/');
     }
-    this.props.fetchGearRequests();
+    this.props.fetchTrippeeGearRequests();
   }
 
   getPendingRequests = () => {
-    if (this.props.gearRequests.length === 0) {
+    console.log(this.props.trippeeGearRequests);
+    if (this.props.trippeeGearRequests.length === 0) {
       return <strong>None</strong>;
     }
-    return this.props.gearRequests.map((gearRequest) => {
-      if (gearRequest.gearStatus === 'pending') {
+    return this.props.trippeeGearRequests.map((gearRequest) => {
+      if (gearRequest.trippeeGearStatus === 'pending') {
         return (
           <div key={gearRequest.id} className="container">
             <div>
-              <span>{gearRequest.leaders[0].name} is requesting the following gear</span>
+              <span>{gearRequest.leaders[0].name} is requesting the following gear for trippees</span>
               <button data-id={gearRequest.id} data-action="approve" type="button" className="btn btn-success" onClick={this.reviewRequest}>Approve</button>
               <button data-id={gearRequest.id} data-action="deny" type="button" className="btn btn-danger" onClick={this.reviewRequest}>Deny</button>
+              <br />
+              <span>Gear - Qty</span>
             </div>
-            {gearRequest.OPOGearRequests.map((gear, index) => (
-              <li key={`${gear}_${index}`}>{gear}</li>
+            {gearRequest.trippeeGear.map((gear, index) => (
+              <li key={`${gear}_${index}`}>{gear.gear} - {gear.quantity}</li>
             ))}
             <div>
               <p>for the following trip:</p>
@@ -42,19 +45,19 @@ class gearRequests extends Component {
   }
 
   getReviewedRequests = () => {
-    if (this.props.gearRequests.length === 0) {
+    if (this.props.trippeeGearRequests.length === 0) {
       return <strong>None</strong>;
     }
-    return this.props.gearRequests.map((gearRequest) => {
-      if (gearRequest.gearStatus !== 'pending') {
-        const status = gearRequest.gearStatus === 'approved' ? 'approved' : 'denied';
+    return this.props.trippeeGearRequests.map((gearRequest) => {
+      if (gearRequest.trippeeGearStatus !== 'pending') {
+        const status = gearRequest.trippeeGearStatus === 'approved' ? 'approved' : 'denied';
         return (
           <div key={gearRequest.id} className="container">
             <div>
               <span>You {status} {gearRequest.leaders[0].name}&apos;s request for the following gear:</span>
             </div>
-            {gearRequest.OPOGearRequests.map(gear => (
-              <li key={gear}>{gear}</li>
+            {gearRequest.trippeeGear.map(gear => (
+              <li key={gear}>{gear.gear} - {gear.quantity}</li>
             ))}
           </div>
         );
@@ -71,7 +74,7 @@ class gearRequests extends Component {
       id: event.target.dataset.id,
       status,
     };
-    this.props.reviewGearRequest(review);
+    this.props.reviewTrippeeGearRequest(review);
   }
 
   render() {
@@ -92,10 +95,10 @@ class gearRequests extends Component {
 
 const mapStateToProps = state => (
   {
-    gearRequests: state.opo.gearRequests,
+    trippeeGearRequests: state.opo.trippeeGearRequests,
     authenticated: state.auth.authenticated,
   }
 );
 
 
-export default withRouter(connect(mapStateToProps, { fetchGearRequests, reviewGearRequest })(gearRequests));
+export default withRouter(connect(mapStateToProps, { fetchTrippeeGearRequests, reviewTrippeeGearRequest })(trippeeGearRequests));

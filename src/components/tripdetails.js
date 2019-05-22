@@ -15,6 +15,7 @@ class TripDetails extends Component {
       emailSubject: '',
       emailBody: '',
       hasSignedUp: false,
+      trippeeGear: [],
     });
     this.onFieldChange = this.onFieldChange.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -41,9 +42,25 @@ class TripDetails extends Component {
   }
 
   onFieldChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+    event.persist();
+    if (event.target.type === 'checkbox') {
+      if (event.target.checked) {
+        this.setState(prevState => ({
+          trippeeGear: [...prevState.trippeeGear, { gearId: event.target.dataset.id, gear: event.target.dataset.gear }],
+        }));
+      } else {
+        this.setState((prevState) => {
+          const withoutClickedGear = prevState.trippeeGear.filter(gear => gear.gearId !== event.target.dataset.id);
+          return {
+            trippeeGear: withoutClickedGear,
+          };
+        });
+      }
+    } else {
+      this.setState({
+        [event.target.name]: event.target.value,
+      });
+    }
   }
 
   onSubmit() {
@@ -51,7 +68,11 @@ class TripDetails extends Component {
       alert('Please fill out all of your info before signing up');
       this.props.history.push('/user');
     } else if (!this.onPending()) {
-      this.props.addToPending(this.props.trip._id);
+      const signUpInfo = {
+        id: this.props.trip._id,
+        trippeeGear: this.state.trippeeGear,
+      };
+      this.props.addToPending(signUpInfo);
       this.setState({ hasSignedUp: true });
       this.props.fetchTrip(this.props.match.params.tripID);
     } else {
@@ -62,7 +83,7 @@ class TripDetails extends Component {
   onPending() {
     let isPending = false;
     this.props.trip.pending.some((pender) => {
-      if (pender.id === this.props.user.id) {
+      if (pender.user.id === this.props.user.id) {
         isPending = true;
       }
       return isPending;
@@ -123,10 +144,14 @@ class TripDetails extends Component {
 
     const rows = this.props.trip.members.map((member) => {
       return (
-        <tr key={member.id}>
-          <td>{member.name}</td>
-          <td>{member.email}</td>
-          <td>{member.dash_number}</td>
+        <tr key={member._id}>
+          <td>{member.user.name}</td>
+          <td>{member.user.email}</td>
+          <td>{member.user.dash_number}</td>
+          <td>{member.gear.map(gear => (
+            <li key={gear._id}>{gear.gear}</li>
+          ))}
+          </td>
         </tr>
       );
     });
@@ -138,6 +163,7 @@ class TripDetails extends Component {
             <th scope="col">Name</th>
             <th scope="col">Email</th>
             <th scope="col">Dash #</th>
+            <th scope="col">Requests</th>
           </tr>
         </thead>
         <tbody>
@@ -158,9 +184,13 @@ class TripDetails extends Component {
 
     const rows = this.props.trip.pending.map((pend) => {
       return (
-        <tr key={pend.id}>
-          <td>{pend.name}</td>
-          <td>{pend.email}</td>
+        <tr key={pend._id}>
+          <td>{pend.user.name}</td>
+          <td>{pend.user.email}</td>
+          <td>{pend.gear.map(gear => (
+            <li key={gear._id}>{gear.gear}</li>
+          ))}
+          </td>
           <td><button type="button" className="btn btn-success btn-email" onClick={() => this.onJoin(pend)}>Add To Trip</button></td>
         </tr>
       );
@@ -172,6 +202,7 @@ class TripDetails extends Component {
           <tr>
             <th scope="col">Name</th>
             <th scope="col">Email</th>
+            <th scope="col">Requests</th>
           </tr>
         </thead>
         <tbody>
@@ -256,6 +287,60 @@ class TripDetails extends Component {
     }
   }
 
+  getTrippeeGear = () => {
+    if (!this.props.trip.leaders) {
+      return <span />;
+    }
+    let isLeaderForTrip = false;
+    this.props.trip.leaders.some((leader) => {
+      if (leader.id === this.props.user.id) {
+        isLeaderForTrip = true;
+      }
+      return leader.id === this.props.user.id;
+    });
+    if (isLeaderForTrip) {
+      let trippeeGear, requestStatus;
+      if (this.props.trip.trippeeGear.length === 0) {
+        trippeeGear = <span>None</span>;
+        requestStatus = null;
+      } else {
+        trippeeGear = this.props.trip.trippeeGear.map(gearrequest => (
+          <li key={gearrequest.gear}>{gearrequest.gear} - {gearrequest.quantity}</li>
+        ));
+        requestStatus = <h3>Trippee Gear Status: {this.props.trip.trippeeGearStatus}</h3>;
+      }
+      return (
+        <div>
+          <h3>Trippe Gear:</h3>
+          {trippeeGear}
+          {requestStatus}
+        </div>
+      );
+    } else if (!this.onPending() && !this.props.isUserOnTrip && this.props.trip.trippeeGear.length > 0) {
+      return (
+        <div>
+          <h3>Need any of these?</h3>
+          {this.props.trip.trippeeGear.map(gearrequest => (
+            <div key={gearrequest._id}>
+              <label htmlFor={gearrequest._id}>
+                <input
+                  type="checkbox"
+                  name="gear"
+                  data-id={gearrequest._id}
+                  data-gear={gearrequest.gear}
+                  onChange={this.onFieldChange}
+                />
+                {gearrequest.gear}
+              </label>
+            </div>
+          ))}
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   appropriateButton = () => {
     if (!this.props.trip.leaders) {
       return <span />;
@@ -309,11 +394,13 @@ class TripDetails extends Component {
         <h2> Leaders:</h2>
         <p className="leaders"> {this.getLeaders(this.props.trip.leaders)}</p>
         <h3> Dates: {`${this.formatDate(this.props.trip.startDate)}-${this.formatDate(this.props.trip.endDate)}`}</h3>
+        <h3>Time: {`${this.props.trip.startTime} - ${this.props.trip.endTime}`}</h3>
         <h3> Cost: ${this.props.trip.cost}</h3>
         <h3> Description:</h3>
         <p className="description" dangerouslySetInnerHTML={{ __html: marked(this.props.trip.description || '') }} />
         {this.getMemberList()}
         {this.getGearRequests()}
+        {this.getTrippeeGear()}
         {this.appropriateButton()}
       </div>
     );

@@ -180,7 +180,8 @@ class CreateTrip extends Component {
   createTrip() {
     const club = this.state.club ? this.state.club : this.props.userClubs[0];
     const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
-    const trippeeGear = this.state.trippeeGear.filter(gear => gear.length > 0);
+    const trippeeGearStrings = this.state.trippeeGear.filter(gear => gear.length > 0);
+    const trippeeGear = trippeeGearStrings.map(gear => ({ gear, quantity: 0 }));
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders.trim().split(','),
@@ -207,7 +208,6 @@ class CreateTrip extends Component {
 
     const start = new Date(trip.startDate);
     const end = new Date(trip.endDate);
-    console.log(Date.now());
     if (start.getTime() > end.getTime() || start.getTime() < Date.now() || end.getTime() < Date.now()) {
       this.props.appError('Please enter valid dates');
       return;
