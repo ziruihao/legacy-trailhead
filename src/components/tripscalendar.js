@@ -82,7 +82,7 @@ class TripsCal extends Component {
             <Modal.Header closeButton>
               <Modal.Title>{this.state.currEvent.title}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+            <Modal.Body>{this.state.currEvent.id} and {this.state.currEvent._id}</Modal.Body>
             <Modal.Footer>
               <button type="button" variant="secondary" onClick={this.handleClose}>
             Close
