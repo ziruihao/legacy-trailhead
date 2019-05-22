@@ -17,6 +17,7 @@ export const ActionTypes = {
   CLEAR_ERROR: 'CLEAR_ERROR',
   FETCH_APPROVALS: 'FETCH_APPROVALS',
   FETCH_GEAR_REQUESTS: 'FETCH_GEAR_REQUESTS',
+  FETCH_TRIPPEE_GEAR_REQUESTS: 'FETCH_TRIPPEE_GEAR_REQUESTS',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -89,9 +90,9 @@ export function fetchTrip(id) {
   };
 }
 
-export function addToPending(id) {
+export function addToPending(signUpInfo) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/addpending`, { id }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    axios.put(`${ROOT_URL}/addpending`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.ADD_PENDING, payload: response.data });
       console.log(response.data);
     }).catch((error) => {
@@ -288,7 +289,7 @@ export function fetchGearRequests() {
           payload: response.data,
         });
       }).catch((error) => {
-        console.log('Fetch gear requests error');
+        dispatch(appError(`Error fetching gear request: ${error}`));
         console.log(error);
       });
   };
@@ -301,6 +302,32 @@ export function reviewGearRequest(review) {
         dispatch(fetchGearRequests()),
       ).catch((error) => {
         dispatch(appError(`Error responding to gear request: ${error}`));
+      });
+  };
+}
+
+export function fetchTrippeeGearRequests() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/trippeegearrequests`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({
+          type: ActionTypes.FETCH_TRIPPEE_GEAR_REQUESTS,
+          payload: response.data,
+        });
+      }).catch((error) => {
+        dispatch(appError(`Error fetching trippee gear request: ${error}`));
+        console.log(error);
+      });
+  };
+}
+
+export function reviewTrippeeGearRequest(review) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/trippeegearrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
+      .then(
+        dispatch(fetchTrippeeGearRequests()),
+      ).catch((error) => {
+        dispatch(appError(`Error responding to trippee gear request: ${error}`));
       });
   };
 }
