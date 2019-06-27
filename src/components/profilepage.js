@@ -117,7 +117,7 @@ class ProfilePage extends Component {
     } else if (this.props.user.role === 'Trippee' && this.state.clubsList.length > 0) {
       return (
         <p>
-          {`Submitting this form will trigger a request to the OPO for leader permissions. 
+          {`Submitting this form will trigger a request to the OPO for leader permissions.
           Please proceed only if you're a leader!`}
         </p>
       );
@@ -232,7 +232,6 @@ class ProfilePage extends Component {
               {this.displayClubs()}
               {this.displayFeedback()}
             </div>
-
             <button className="btn btn-primary" onClick={this.changeToOPO}>Change to OPO</button>
             <button className="btn btn-primary" onClick={this.changeToTrippee}>Change to Trippee</button>
             <button className="btn btn-primary" onClick={this.changeToLeader}>Change to Leader</button>
