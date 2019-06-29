@@ -6,17 +6,7 @@ import '../styles/mytrips-style.scss';
 import '../styles/alltrips-style.scss';
 
 class MyTrips extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-    };
-  }
-
   componentDidMount(props) {
-    if (!this.props.authenticated) {
-      alert('Please sign in/sign up to view this page');
-      this.props.history.push('/');
-    }
     this.props.getMyTrips();
   }
 
@@ -73,7 +63,6 @@ class MyTrips extends Component {
   }
 
   render() {
-    console.log(this.props.myTrips);
     return (
       <div className="myTrips">
         <h1 className="mytrips-header">My Trips</h1>
@@ -88,7 +77,6 @@ class MyTrips extends Component {
 const mapStateToProps = state => (
   {
     myTrips: state.trips.myTrips,
-    authenticated: state.auth.authenticated,
     user: state.user,
   }
 );

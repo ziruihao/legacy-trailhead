@@ -18,6 +18,7 @@ export const ActionTypes = {
   FETCH_APPROVALS: 'FETCH_APPROVALS',
   FETCH_GEAR_REQUESTS: 'FETCH_GEAR_REQUESTS',
   FETCH_TRIPPEE_GEAR_REQUESTS: 'FETCH_TRIPPEE_GEAR_REQUESTS',
+  UPDATE_RESTRICTED_PATH: 'UPDATE_RESTRICTED_PATH',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -36,6 +37,12 @@ export function clearError() {
   };
 }
 
+export function updateRestrictedPath(restrictedPath) {
+  return {
+    type: ActionTypes.UPDATE_RESTRICTED_PATH,
+    payload: restrictedPath,
+  };
+}
 
 export function getUser() {
   return (dispatch) => {
@@ -141,11 +148,11 @@ export function createTrip(trip, history) {
   return (dispatch) => {
     axios.post(`${ROOT_URL}/alltrips`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        console.log(response);
         history.push('/alltrips');
       })
       .catch((error) => {
         console.log(error);
+        dispatch(appError(`Error creating trip: ${error}`));
       });
   };
 }
@@ -158,21 +165,20 @@ export function deleteTrip(trip, history) {
       })
       .catch((error) => {
         console.log(error);
+        dispatch(appError(`Error deleting trip: ${error}`));
       });
   };
 }
 
 export function editTrip(trip, history) {
-  console.log('trip');
-  console.log(trip);
   return (dispatch) => {
     axios.put(`${ROOT_URL}/trip/${trip.id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        console.log(response);
         history.push(`/trip/${trip.id}`);
       })
       .catch((error) => {
         console.log(error);
+        dispatch(appError(`Error updating trip: ${error}`));
       });
   };
 }
@@ -200,15 +206,14 @@ export function isOnTrip(tripID) {
 
 
 export function signIn({ email, password }, history) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
     axios
       .post(`${ROOT_URL}/signin`, { email, password })
       .then((response) => {
-        console.log(response);
         localStorage.setItem('token', response.data.token);
         dispatch({ type: ActionTypes.AUTH_USER });
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        history.push('/alltrips');
+        history.push(getState().restrictedPath.restrictedPath);
       })
       .catch((error) => {
         console.log(error);

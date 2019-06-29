@@ -24,10 +24,6 @@ class ProfilePage extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.authenticated) {
-      alert('Please sign in/sign up to view this page');
-      this.props.history.push('/');
-    }
     this.props.getClubs();
   }
 
@@ -249,7 +245,6 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     clubs: state.clubs,
-    authenticated: state.auth.authenticated,
   };
 };
 

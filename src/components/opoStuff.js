@@ -4,6 +4,7 @@ import { Switch } from 'react-router';
 import Approvals from './approvals';
 import GearRequests from './gearrequests';
 import TrippeeGearRequests from './trippeegearrequests';
+import requireAuth from '../containers/requireAuth';
 
 const OpoStuff = ({ match }) => {
   return (
@@ -14,9 +15,9 @@ const OpoStuff = ({ match }) => {
         <Link className="btn btn-primary" to={`${match.url}/trippeegearrequests`}>Trippee Gear</Link>
       </div>
       <Switch>
-        <Route path="/opo/approvals" component={Approvals} />
-        <Route path={`${match.path}/gearRequests`} component={GearRequests} />
-        <Route path={`${match.path}/trippeegearrequests`} component={TrippeeGearRequests} />
+        <Route path="/opo/approvals" component={requireAuth(Approvals)} />
+        <Route path={`${match.path}/gearRequests`} component={requireAuth(GearRequests)} />
+        <Route path={`${match.path}/trippeegearrequests`} component={requireAuth(TrippeeGearRequests)} />
       </Switch>
     </div>
   );

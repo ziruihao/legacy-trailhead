@@ -31,13 +31,6 @@ class CreateTrip extends Component {
     this.onGearChange = this.onGearChange.bind(this);
   }
 
-  componentDidMount() {
-    if (!this.props.authenticated) {
-      alert('Please sign in/sign up to view this page');
-      this.props.history.push('/');
-    }
-  }
-
   onFieldChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
@@ -306,7 +299,6 @@ class CreateTrip extends Component {
 const mapStateToProps = (state) => {
   return {
     userClubs: state.user.leader_for,
-    authenticated: state.auth.authenticated,
   };
 };
 

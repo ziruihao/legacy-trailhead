@@ -19,6 +19,7 @@ import TripDetails from './components/tripdetails';
 import EditTrip from './components/edittrip';
 import NavBar from './components/navbar';
 import OpoStuff from './components/opoStuff';
+import requireAuth from './containers/requireAuth';
 import { ActionTypes, getUser } from './actions';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
@@ -45,17 +46,17 @@ const App = (props) => {
         <NavBar />
         <Switch>
           <Route exact path="/" component={Homepage} />
-          <Route path="/user" component={ProfilePage} />
+          <Route path="/user" component={requireAuth(ProfilePage)} />
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
           <Route path="/alltrips" component={AllTrips} />
           <Route path="/tripscalendar" component={TripsCal} />
           <Route path="/vehiclescheduler" component={VehicleScheduler} />
-          <Route path="/trip/:tripID" component={TripDetails} />
-          <Route path="/createtrip" component={CreateTrip} />
-          <Route path="/mytrips" component={MyTrips} />
-          <Route path="/edittrip/:tripID" component={EditTrip} />
-          <Route path="/opo" component={OpoStuff} />
+          <Route path="/trip/:tripID" component={requireAuth(TripDetails)} />
+          <Route path="/createtrip" component={requireAuth(CreateTrip)} />
+          <Route path="/mytrips" component={requireAuth(MyTrips)} />
+          <Route path="/edittrip/:tripID" component={requireAuth(EditTrip)} />
+          <Route path="/opo" component={requireAuth(OpoStuff)} />
           <Route component={FallBack} />
         </Switch>
       </div>
@@ -63,7 +64,6 @@ const App = (props) => {
   );
 };
 
-// we now wrap App in a Provider
 ReactDOM.render(
   <Provider store={store}>
     <App />
