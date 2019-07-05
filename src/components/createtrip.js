@@ -6,6 +6,10 @@ import { createTrip, appError } from '../actions';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
+  TRAILER_CONSTANT = 'TRAILER';
+
+  NONE_CONSTANT = 'NONE';
+
   constructor(props) {
     super(props);
     this.state = {
@@ -50,8 +54,8 @@ class CreateTrip extends Component {
 
   getClubOptions = () => {
     let options = null;
-    if (this.props.userClubs) {
-      options = this.props.userClubs.map((club) => {
+    if (this.props.user.leader_for) {
+      options = this.props.user.leader_for.map((club) => {
         return <option key={club.id} value={club.name}>{club.name}</option>;
       });
     }
@@ -73,17 +77,15 @@ class CreateTrip extends Component {
     }
   }
 
-  handleOptionChange = (changeEvent) => {
-    if (changeEvent.target.value === 'Yes') {
-      this.setState({
-        experienceNeeded: true,
-      });
+  getVehicleRequest() {
+    let certifications = '';
+    if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
+      certifications = this.NONE_CONSTANT;
     } else {
-      this.setState({
-        experienceNeeded: false,
-      });
+      certifications = this.props.user.trailer_cert ? `${this.props.user.driver_cert}, ${this.TRAILER_CONSTANT}` : this.props.driver_cert;
     }
-  };
+    return certifications;
+  }
 
   handleDateChange = (changeEvent) => {
     if (changeEvent.target.value === 'single') {
@@ -116,6 +118,19 @@ class CreateTrip extends Component {
       };
     });
   }
+
+  handleOptionChange = (changeEvent) => {
+    if (changeEvent.target.value === 'Yes') {
+      this.setState({
+        experienceNeeded: true,
+      });
+    } else {
+      this.setState({
+        experienceNeeded: false,
+      });
+    }
+  };
+
 
   removeTrippeeGear = (index) => {
     this.setState((prevState) => {
@@ -289,6 +304,10 @@ class CreateTrip extends Component {
             {this.getTrippeeGear()}
             <button className="btn btn-primary btn-xs gear-button" onClick={this.addTrippeeGear}>Trippee gear</button>
           </div>
+          <div>
+            <p>Vehicles you can request:</p>
+            {this.getVehicleRequest()}
+          </div>
           <button className="btn btn-success post-button" onClick={this.createTrip}>Post trip</button>
         </div>
       </div>
@@ -298,7 +317,7 @@ class CreateTrip extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userClubs: state.user.leader_for,
+    user: state.user,
   };
 };
 

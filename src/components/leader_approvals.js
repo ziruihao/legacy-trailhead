@@ -1,23 +1,20 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchApprovals, reviewRoleRequest } from '../actions';
+import { fetchLeaderApprovals, reviewRoleRequest } from '../actions';
 import '../styles/approvals-style.scss';
 
-class Approvals extends Component {
+class LeaderApprovals extends Component {
   componentDidMount(props) {
-    if (!this.props.authenticated) {
-      alert('Please sign in/sign up to view this page');
-      this.props.history.push('/');
-    }
     this.props.fetchApprovals();
   }
 
   getPendingRequests = () => {
-    if (this.props.approvals.length === 0) {
+    const pendingApprovals = this.props.approvals.filter(approval => approval.status === 'pending');
+    if (pendingApprovals.length === 0) {
       return <strong>None</strong>;
     }
-    return this.props.approvals.map((approval) => {
+    return pendingApprovals.map((approval) => {
       if (approval.status === 'pending') {
         return (
           <div key={approval.id} className="container">
@@ -38,10 +35,11 @@ class Approvals extends Component {
   }
 
   getReviewedRequests = () => {
-    if (this.props.approvals.length === 0) {
+    const reviewedApprovals = this.props.approvals.filter(approval => approval.status === 'approved');
+    if (reviewedApprovals.length === 0) {
       return <strong>None</strong>;
     }
-    return this.props.approvals.map((approval) => {
+    return reviewedApprovals.map((approval) => {
       if (approval.status !== 'pending') {
         const status = approval.status === 'approved' ? 'granted' : 'denied';
         return (
@@ -89,9 +87,9 @@ class Approvals extends Component {
 
 const mapStateToProps = state => (
   {
-    approvals: state.opo.approvals,
+    approvals: state.opo.leaderApprovals,
     authenticated: state.auth.authenticated,
   }
 );
 
-export default withRouter(connect(mapStateToProps, { fetchApprovals, reviewRoleRequest })(Approvals));
+export default withRouter(connect(mapStateToProps, { fetchApprovals: fetchLeaderApprovals, reviewRoleRequest })(LeaderApprovals));

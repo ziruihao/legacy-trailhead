@@ -111,7 +111,7 @@ class ProfilePage extends Component {
       if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
         certifications = this.NONE_CONSTANT;
       } else {
-        certifications = this.props.user.trailer_cert ? `${this.props.driver_cert}, ${this.TRAILER_CONSTANT}` : this.props.driver_cert;
+        certifications = this.props.user.trailer_cert ? `${this.props.user.driver_cert}, ${this.TRAILER_CONSTANT}` : this.props.driver_cert;
       }
       return (
         <div>
@@ -122,7 +122,7 @@ class ProfilePage extends Component {
     } else {
       return (
         <div>
-          <h5 className="card-title">Driver certifications</h5>
+          <h5 className="card-title">Select your highest level of driver certification</h5>
           {this.getCertificationsForm()}
         </div>
       );
@@ -130,7 +130,7 @@ class ProfilePage extends Component {
   }
 
   getClubForm = () => {
-    if (this.props.user.has_pending_changes) {
+    if (this.props.user.has_pending_leader_change) {
       return <h1>You can&apos;t update this until your previous changes have been reviewed</h1>;
     }
     const currentClubIds = this.state.clubsList.map(club => club._id);
@@ -161,7 +161,7 @@ class ProfilePage extends Component {
   }
 
   getCertificationsForm = () => {
-    if (this.props.user.has_pending_changes) {
+    if (this.props.user.has_pending_cert_change) {
       return <h1>You can&apos;t update this until your previous changes have been reviewed</h1>;
     }
 
@@ -253,7 +253,7 @@ class ProfilePage extends Component {
   }
 
   pendingChanges = () => {
-    return this.props.user.has_pending_changes
+    return this.props.user.has_pending_leader_change || this.props.user.has_pending_cert_change
       ? <strong>You have changes pending approval</strong>
       : null;
   }
