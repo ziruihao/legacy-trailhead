@@ -13,7 +13,7 @@ class ProfilePage extends Component {
 
   NONE_CONSTANT = 'NONE';
 
-  CERTIFICATIONS = [null, 'MICROBUS', 'VAN', 'MINIVAN'];
+  CERTIFICATIONS = [null, 'MICROBUS', 'VAN'];
 
   constructor(props) {
     super(props);
