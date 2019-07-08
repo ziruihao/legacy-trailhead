@@ -50,7 +50,8 @@ class Approvals extends Component {
     if (driverCert === null && !trailerCert) {
       certifications = this.NONE_CONSTANT;
     } else {
-      certifications = trailerCert ? `${driverCert}, ${this.TRAILER_CONSTANT}` : driverCert;
+      driverCert = driverCert === null ? '' : `${driverCert}, `;
+      certifications = trailerCert ? `${driverCert}${this.TRAILER_CONSTANT}` : driverCert;
     }
     return certifications;
   }
@@ -66,7 +67,7 @@ class Approvals extends Component {
         return (
           <div key={approval.id} className="container">
             <div>
-              <span>You {status} the following changes to {approval.user.name}&apos; driver certifications</span>
+              <span>You {status} the following changes to {approval.user.name}&apos;s driver certifications</span>
             </div>
             <div>
               <div>

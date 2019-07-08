@@ -111,7 +111,8 @@ class ProfilePage extends Component {
       if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
         certifications = this.NONE_CONSTANT;
       } else {
-        certifications = this.props.user.trailer_cert ? `${this.props.user.driver_cert}, ${this.TRAILER_CONSTANT}` : this.props.driver_cert;
+        const driverCertString = this.props.user.driver_cert === null ? '' : `${this.props.user.driver_cert}, `;
+        certifications = this.props.user.trailer_cert ? `${driverCertString}${this.TRAILER_CONSTANT}` : driverCertString;
       }
       return (
         <div>
@@ -209,15 +210,15 @@ class ProfilePage extends Component {
   }
 
   displayLeaderFeedback = () => {
-    if (this.props.user.role === 'Leader' && this.state.clubsList.length === 0) {
+    if (this.state.clubsList.length < this.props.user.leader_for.length) {
       return (
         <p>
-          Unchecking all clubs will revoke your leader permissions.
-          You will need to request acccess from the OPO to regain them.
+          Submitting this form will revoke your leader permissions in one or more clubs.
+          You will need approval from the OPO to regain them.
           Please review before you proceed.
         </p>
       );
-    } else if (this.props.user.role === 'Trippee' && this.state.clubsList.length > 0) {
+    } else if (this.state.clubsList.length > this.props.user.leader_for.length) {
       return (
         <p>
           Submitting this form will trigger a request to the OPO for leader permissions.
