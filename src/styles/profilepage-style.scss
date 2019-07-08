@@ -1,31 +1,195 @@
-.profile-header {
-  color: black;
-  font-size: 40px;
+.my-container {
+  display: flex;
 }
 
-.club-select {
-  margin-bottom: 10px;
+#page-header{
+  justify-content: space-between;
+  margin-top: 68px;
+  margin-left: 2.5%;
+  width: 90%;
+  flex: 0 1 auto;
 }
 
-.profile-field {
-  color: black;
-  margin-bottom: 20px;
-
-  .card-title {
-    font-size: 24px;
-    text-decoration: underline;
-  }
+.header{
+  position: relative;
+  width: 25rem;
+  height: 4.125rem;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 4rem;
+  letter-spacing: 0.05em;
+  color: #000000;
+}
+.line{
+  margin-top: .2rem;
+  margin-bottom: .8rem;
 }
 
-.card-body > button {
-  margin-right: 10px;
-}
-
-.profile {
-  margin: 5% 15%;
-  background: #eaeaea;
+.profile{
+  display: flex;
+  position: absolute;
+  height:475;
+  left: 3.89%;
+  right: 3.89%;
+  top: 27%;
+  bottom: 23.71%;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
-  padding: 20px;
-  color: black;
-  opacity: .95;
+  padding: 0rem;
 }
+
+.size{
+  width: 1135.72;
+  height: 348.05;
+}
+
+.profile-pic{
+  width: 20rem;
+  height: 20rem;
+  left: 1.25rem;
+  top: 2.2rem;
+  right: 2.7rem;
+  background: #D6D6D6;
+  position: relative;
+  flex: 0 1 auto;
+}
+
+.card-name{
+  top: 5px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 3rem;
+  line-height: 4rem;
+  letter-spacing: 0.05em;
+  margin-bottom: -2rem;
+  color: #000000;
+  flex: 0 1 auto;
+}
+
+.card-email{
+  font-family: 'Nunito Sans', sans-serif;;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 2rem;
+  line-height: 2.5rem;
+  letter-spacing: 0.05em;
+  margin-bottom: .1rem;
+  margin-top: 1.4rem;
+  color: #000000;
+  flex: 0 1 auto;
+}
+
+.card-headings{
+  font-family: 'Nunito Sans', sans-serif;;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.7rem;
+  letter-spacing: 0.05em;
+  color: #939393;
+  flex: 0 1 auto;
+}
+
+.card-info, .leader-option{
+  font-family: 'Nunito Sans', sans-serif;;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 1.7rem;
+  letter-spacing: 0.05em;
+  text-align: right;
+  color: #939393;
+  flex: 0 1 auto;
+}
+
+input.my-form-control{
+  float: right;
+  width: 22.6rem;
+  left: 61.43rem;
+  top: 33.125rem;
+  line-height: 1.0;
+  border: 1px solid #D6D6D6;
+  box-sizing: border-box;
+  flex: 0 1 auto;
+}
+
+.logout-button{
+  right: 2.89%;
+  top: 18.75rem;
+  float: right;
+  margin-top: 1.5rem;
+}
+
+.button-place{
+  top: 1.5rem;
+  padding-right: 1rem;
+
+}
+
+
+#edit-button{
+  height: 2rem;
+  width: 2.35rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  &:focus {
+    outline: 0px dashed #17171D;
+  }
+  &:hover {
+    svg {
+      transform: scale(1.1);
+    }
+  }
+  &::-moz-focus-inner {
+    border: 0;
+  }
+  svg {
+    outline: none;
+    transition: transform 0.3s linear;
+  }
+
+}
+
+#save-button{
+  height: 2rem;
+  width: 4.5rem;
+  padding-left: 3.5rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  &:focus {
+    outline: 0px dashed #17171D;
+  }
+  &:hover {
+    svg {
+      transform: scale(1.1);
+    }
+  }
+  &::-moz-focus-inner {
+    border: 0;
+  }
+  svg {
+    outline: none;
+    transition: transform 0.3s linear;
+  }
+
+}
+
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}

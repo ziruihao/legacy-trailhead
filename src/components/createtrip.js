@@ -321,8 +321,9 @@ class CreateTrip extends Component {
         </div>
       </div>
     );
-  }
-}
+    }
+    }
+
 
 const mapStateToProps = (state) => {
   return {

@@ -311,21 +311,70 @@ class ProfilePage extends Component {
   render() {
     if (!this.state.isEditing) {
       return (
-        <div className="container">
-          <div className="profile">
-            <div className="card-header profile-header">{`${this.props.user.name}'s Profile`}</div>
-            <div className="card-body">
-              <div className="profile-field">
-                <h5 className="card-title">Email</h5>
-                <p className="card-text">{this.props.user.email}</p>
+        <div className="my-container">
+          <div id="page-header" className="row">
+            <div className="col-6">
+              <h1 className="header">My Profile</h1>
+            </div>
+            <div className="col-6">
+              <button id="edit-button" className="logout-button">
+                <span>logout</span>
+              </button>
+            </div>
+          </div>
+          <div className="row profile justify-content-center">
+            <div className="col-4">
+              <p className="profile-pic" />
+            </div>
+
+            <div className="col-8 card-body">
+              <div className="row justify-content-between">
+                <div className="col-6 card-name">
+                  <p>{this.props.user.name}</p>
+                </div>
+                <div className="col-1 button-place">
+                  <button id="edit-button" onClick={this.getUpdatedVals}>
+                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M17.71 4.0425C18.1 3.6525 18.1 3.0025 17.71 2.6325L15.37 0.2925C15 -0.0975 14.35
+                      -0.0975 13.96 0.2925L12.12 2.1225L15.87 5.8725L17.71 4.0425ZM0 14.2525V18.0025H3.75L14.81
+                        6.9325L11.06 3.1825L0 14.2525Z"
+                        fill="#0CA074"
+                      />
+                    </svg>
+                  </button>
+                </div>
               </div>
-              <div className="profile-field">
-                <h5 className="card-title">Account Type</h5>
-                <p className="card-text">{this.props.user.role}</p>
+              <div className="row  justify-content-between">
+                <div className="col-12 card-email">
+                  <p>{this.props.user.email}</p>
+                </div>
+
               </div>
-              <div className="profile-field">
-                <h5 className="card-title">Dash #</h5>
-                <p className="card-text">{this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}</p>
+              <div className="row justify-content-between">
+                <div className="col-6">
+                  <p className="card-headings">DASH</p>
+                </div>
+                <div className="col-6">
+                  <p className="card-info">{this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}</p>
+                </div>
+              </div>
+              <hr className="line" />
+              <div className="row justify-content-between">
+                <div className="col-6">
+                  <p className="card-headings">Allergies</p>
+                </div>
+                <div className="col-6">
+                  <p className="card-info">Peanuts, Bee Stings</p>
+                </div>
+              </div>
+              <hr className="line" />
+              <div className="row justify-content-between">
+                <div className="col-6">
+                  <p className="card-headings">Dietary Restrictions</p>
+                </div>
+                <div className="col-6">
+                  <p className="card-info">n/a</p>
+                </div>
               </div>
               <div className="profile-field">
                 {this.displayClubs()}
@@ -335,41 +384,98 @@ class ProfilePage extends Component {
               </div>
               <button className="btn btn-primary" onClick={this.startEditing}>Update my info</button>
               {this.pendingChanges()}
+              <hr className="line" />
+              <div className="row justify-content-between">
+                <div className="col-6">
+                  <p className="card-headings">Relevant Medical Conditions</p>
+                </div>
+                <div className="col-6">
+                  <p className="card-info">Asthma</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       );
     }
 
+
     return (
-      <div className="container">
-        <div className="card profile">
-          <div className="card-header profile-header">{`${this.props.user.name}'s Profile`}</div>
-          <div className="card-body">
-            <div className="profile-field">
-              <h5 className="card-title">Name</h5>
-              <input type="text" name="name" onChange={this.onFieldChange} className="form-control" value={this.state.name} />
-            </div>
-            <div className="profile-field">
-              <h5 className="card-title">Email</h5>
-              <input type="text" name="email" onChange={this.onFieldChange} className="form-control" value={this.state.email} />
-            </div>
-            <div className="profile-field">
-              <h5 className="card-title">Dash #</h5>
-              <input type="text" name="dash_number" onChange={this.onFieldChange} className="form-control" value={this.state.dash_number} />
-            </div>
-            <div className="profile-field">
-              {this.displayClubs()}
-              {this.displayLeaderFeedback()}
-              {this.displayCertifications()}
-              {this.displayCertificationFeedback()}
+      <div className="my-container">
+        <div id="page-header" className="row">
+          <div className="col-6">
+            <h1 className="header">My Profile</h1>
+          </div>
+          <div className="col-6">
+            <button id="edit-button" className="logout-button">
+              <span>Save</span>
+            </button>
+          </div>
+          <div className="profile-field">
+            {this.displayClubs()}
+            {this.displayLeaderFeedback()}
+            {this.displayCertifications()}
+            {this.displayCertificationFeedback()}
+          </div>
+          <div className="row profile justify-content-center">
+            <div className="col-4">
+              <p className="profile-pic" />
             </div>
 
-            <button className="btn btn-primary" onClick={this.changeToOPO}>Change to OPO</button>
-            <button className="btn btn-primary" onClick={this.changeToTrippee}>Change to Trippee</button>
-            <button className="btn btn-primary" onClick={this.changeToLeader}>Change to Leader</button>
-            <button className="btn btn-success" onClick={this.updateUserInfo}>Update info</button>
-            <button className="btn btn-danger" onClick={() => { this.setState({ isEditing: false, clubsList: [] }); }}>Cancel changes</button>
+            <div className="col-8 card-body">
+              <div className="row justify-content-between">
+                <div className="col-6 card-name">
+                  <p>{this.props.user.name}</p>
+                </div>
+                <div className="col-2 button-place">
+                  <button id="save-button" onClick={this.updateUserInfo}>
+                    <span>Save</span>
+                  </button>
+                </div>
+              </div>
+              <div className="row  justify-content-between">
+                <div className="col-12 card-email">
+                  <p>{this.props.user.email}</p>
+                </div>
+
+              </div>
+              <div className="row justify-content-between">
+                <div className="col-6">
+                  <p className="card-headings">DASH</p>
+                </div>
+                <div className="col-6">
+                  <input type="text" name="dash_number" onChange={this.onFieldChange} className="form-control my-form-control" value={this.state.dash_number} />
+                </div>
+              </div>
+              <hr className="line" />
+              <div className="row justify-content-between">
+                <div className="col-6">
+                  <p className="card-headings">Allergies</p>
+                </div>
+                <div className="col-6">
+                  <input type="text" name="allergies" onChange={this.onFieldChange} className="form-control my-form-control" />
+                </div>
+              </div>
+              <hr className="line" />
+              <div className="row justify-content-between">
+                <div className="col-6">
+                  <p className="card-headings">Dietary Restrictions</p>
+                </div>
+                <div className="col-6">
+                  <input type="text" name="dietary_restrictions" onChange={this.onFieldChange} className="form-control my-form-control" />
+                </div>
+              </div>
+              <hr className="line" />
+              <div className="row justify-content-between">
+                <div className="col-6">
+                  <p className="card-headings">Relevant Medical Conditions</p>
+                </div>
+                <div className="col-6">
+                  <input type="text" name="medical_conditions" onChange={this.onFieldChange} className="form-control my-form-control" />
+                </div>
+              </div>
+
+            </div>
           </div>
         </div>
       </div>
