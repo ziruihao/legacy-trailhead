@@ -15,7 +15,7 @@ class CreateTrip extends Component {
     this.state = {
       title: '',
       leaders: '',
-      club: '',
+      club: {},
       experienceNeeded: false,
       description: '',
       startDate: '',
@@ -33,11 +33,20 @@ class CreateTrip extends Component {
     this.createTrip = this.createTrip.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onGearChange = this.onGearChange.bind(this);
+    this.onClubChange = this.onClubChange.bind(this);
   }
 
   onFieldChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
+    });
+  }
+
+  onClubChange(event) {
+    event.persist();
+    console.log(event);
+    this.setState({
+      club: { _id: event.target[event.target.selectedIndex].dataset.id, name: event.target.value },
     });
   }
 
@@ -56,7 +65,7 @@ class CreateTrip extends Component {
     let options = null;
     if (this.props.user.leader_for) {
       options = this.props.user.leader_for.map((club) => {
-        return <option key={club.id} value={club.name}>{club.name}</option>;
+        return <option key={club.id} data-id={club.id} value={club.name}>{club.name}</option>;
       });
     }
     return options;
@@ -186,7 +195,7 @@ class CreateTrip extends Component {
   }
 
   createTrip() {
-    const club = this.state.club ? this.state.club : this.props.userClubs[0];
+    const club = this.state.club ? this.state.club : this.props.user.leader_for[0];
     const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
     const trippeeGearStrings = this.state.trippeeGear.filter(gear => gear.length > 0);
     const trippeeGear = trippeeGearStrings.map(gear => ({ gear, quantity: 0 }));
@@ -237,7 +246,7 @@ class CreateTrip extends Component {
             placeholder="Leaders (comma separated emails, you are a leader by default)"
             value={this.state.leaders}
           />
-          <select name="club" className="custom-select field" defaultValue="Select Club" onChange={this.onFieldChange}>
+          <select name="club" className="custom-select field" defaultValue="Select Club" onChange={this.onClubChange}>
             {this.getClubOptions()}
           </select>
           <div> Experience Needed </div>
