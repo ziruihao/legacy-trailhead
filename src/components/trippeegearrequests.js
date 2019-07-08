@@ -13,7 +13,6 @@ class trippeeGearRequests extends Component {
   }
 
   getPendingRequests = () => {
-    console.log(this.props.trippeeGearRequests);
     if (this.props.trippeeGearRequests.length === 0) {
       return <strong>None</strong>;
     }

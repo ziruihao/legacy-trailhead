@@ -6,12 +6,16 @@ import { createTrip, appError } from '../actions';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
+  TRAILER_CONSTANT = 'TRAILER';
+
+  NONE_CONSTANT = 'NONE';
+
   constructor(props) {
     super(props);
     this.state = {
       title: '',
       leaders: '',
-      club: '',
+      club: {},
       experienceNeeded: false,
       description: '',
       startDate: '',
@@ -29,18 +33,20 @@ class CreateTrip extends Component {
     this.createTrip = this.createTrip.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onGearChange = this.onGearChange.bind(this);
-  }
-
-  componentDidMount() {
-    if (!this.props.authenticated) {
-      alert('Please sign in/sign up to view this page');
-      this.props.history.push('/');
-    }
+    this.onClubChange = this.onClubChange.bind(this);
   }
 
   onFieldChange(event) {
     this.setState({
       [event.target.name]: event.target.value,
+    });
+  }
+
+  onClubChange(event) {
+    event.persist();
+    console.log(event);
+    this.setState({
+      club: { _id: event.target[event.target.selectedIndex].dataset.id, name: event.target.value },
     });
   }
 
@@ -57,9 +63,9 @@ class CreateTrip extends Component {
 
   getClubOptions = () => {
     let options = null;
-    if (this.props.userClubs) {
-      options = this.props.userClubs.map((club) => {
-        return <option key={club.id} value={club.name}>{club.name}</option>;
+    if (this.props.user.leader_for) {
+      options = this.props.user.leader_for.map((club) => {
+        return <option key={club.id} data-id={club.id} value={club.name}>{club.name}</option>;
       });
     }
     return options;
@@ -80,17 +86,15 @@ class CreateTrip extends Component {
     }
   }
 
-  handleOptionChange = (changeEvent) => {
-    if (changeEvent.target.value === 'Yes') {
-      this.setState({
-        experienceNeeded: true,
-      });
+  getVehicleRequest() {
+    let certifications = '';
+    if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
+      certifications = this.NONE_CONSTANT;
     } else {
-      this.setState({
-        experienceNeeded: false,
-      });
+      certifications = this.props.user.trailer_cert ? `${this.props.user.driver_cert}, ${this.TRAILER_CONSTANT}` : this.props.driver_cert;
     }
-  };
+    return certifications;
+  }
 
   handleDateChange = (changeEvent) => {
     if (changeEvent.target.value === 'single') {
@@ -123,6 +127,19 @@ class CreateTrip extends Component {
       };
     });
   }
+
+  handleOptionChange = (changeEvent) => {
+    if (changeEvent.target.value === 'Yes') {
+      this.setState({
+        experienceNeeded: true,
+      });
+    } else {
+      this.setState({
+        experienceNeeded: false,
+      });
+    }
+  };
+
 
   removeTrippeeGear = (index) => {
     this.setState((prevState) => {
@@ -178,7 +195,7 @@ class CreateTrip extends Component {
   }
 
   createTrip() {
-    const club = this.state.club ? this.state.club : this.props.userClubs[0];
+    const club = this.state.club ? this.state.club : this.props.user.leader_for[0];
     const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
     const trippeeGearStrings = this.state.trippeeGear.filter(gear => gear.length > 0);
     const trippeeGear = trippeeGearStrings.map(gear => ({ gear, quantity: 0 }));
@@ -229,7 +246,7 @@ class CreateTrip extends Component {
             placeholder="Leaders (comma separated emails, you are a leader by default)"
             value={this.state.leaders}
           />
-          <select name="club" className="custom-select field" defaultValue="Select Club" onChange={this.onFieldChange}>
+          <select name="club" className="custom-select field" defaultValue="Select Club" onChange={this.onClubChange}>
             {this.getClubOptions()}
           </select>
           <div> Experience Needed </div>
@@ -296,6 +313,10 @@ class CreateTrip extends Component {
             {this.getTrippeeGear()}
             <button className="btn btn-primary btn-xs gear-button" onClick={this.addTrippeeGear}>Trippee gear</button>
           </div>
+          <div>
+            <p>Vehicles you can request:</p>
+            {this.getVehicleRequest()}
+          </div>
           <button className="btn btn-success post-button" onClick={this.createTrip}>Post trip</button>
         </div>
       </div>
@@ -306,8 +327,7 @@ class CreateTrip extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    userClubs: state.user.leader_for,
-    authenticated: state.auth.authenticated,
+    user: state.user,
   };
 };
 

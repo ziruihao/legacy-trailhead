@@ -5,10 +5,6 @@ import { fetchGearRequests, reviewGearRequest } from '../actions';
 
 class gearRequests extends Component {
   componentDidMount(props) {
-    if (!this.props.authenticated) {
-      alert('Please sign in/sign up to view this page');
-      this.props.history.push('/');
-    }
     this.props.fetchGearRequests();
   }
 
@@ -93,7 +89,6 @@ class gearRequests extends Component {
 const mapStateToProps = state => (
   {
     gearRequests: state.opo.gearRequests,
-    authenticated: state.auth.authenticated,
   }
 );
 

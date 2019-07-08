@@ -27,10 +27,6 @@ class TripDetails extends Component {
   }
 
   async componentDidMount() {
-    if (!this.props.authenticated) {
-      alert('Please sign in/sign up to view this page');
-      this.props.history.push('/');
-    }
     return Promise
       .all([
         this.props.isOnTrip(this.props.match.params.tripID),
@@ -413,7 +409,6 @@ const mapStateToProps = state => (
   {
     trip: state.trips.trip,
     isUserOnTrip: state.trips.isUserOnTrip,
-    authenticated: state.auth.authenticated,
     user: state.user,
   }
 );
