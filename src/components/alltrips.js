@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips, getClubs } from '../actions';
 import '../styles/alltrips-style.scss';
+import TripDetails from './tripdetails';
+
 
 
 class AllTrips extends Component {
@@ -41,6 +43,13 @@ class AllTrips extends Component {
     }
     return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
   }
+  formatDescription = (des) =>{
+      let description = des;
+      if(description.length > 100){
+        description = description.substring(0, 101) + "...";
+      }
+      return description;
+}
 
   compareStartDates = (a, b) => {
     const t1 = new Date(a.startDate);
@@ -53,43 +62,34 @@ class AllTrips extends Component {
       return <option key={club.id} value={club.name}>{club.name}</option>;
     });
     return (
-      <select
-        name="select"
-        className="custom-select all-trips-select"
-        defaultValue=""
-        onChange={(e) => { this.setState({ club: e.target.value }); }}
-      >
-        <option key="none" value="">All Clubs</option>
-        { options }
-      </select>
+      <span>
+        <select
+          name="select"
+          className="custom-select all-trips-select"
+          defaultValue=""
+          onChange={(e) => { this.setState({ club: e.target.value }); }}
+        >
+          <option key="none" value="">All Clubs</option>
+          { options }
+        </select>
+      </span>
     );
   }
 
   renderTrips = () => {
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
-    console.log(sortedTrips);
+
     const tripsGrid = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
       return (
         <div key={trip.id} className="card all-trips-card text-center card-trip margins">
           <NavLink to={`/trip/${trip.id}`} key={trip.id}>
+
             <div className="card-body">
               <h2 className="card-title">{trip.title}</h2>
-              <p className="card-text">{trip.club ? trip.club.name : ''}</p>
               <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-            </div>
-          </NavLink>
-        </div>
-      );
-    });
+              <p className="card-text">{this.formatDescription(trip.description)}</p>
+              <p className="card-club">{trip.club ? trip.club.name : ''}</p>
 
-    const tripsList = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
-      return (
-        <div>
-          <NavLink to={`/trip/${trip.id}`} key={trip.id}>
-            <div>
-              <h2>{trip.title}</h2>
-              <p>{trip.club ? trip.club.name : ''}</p>
-              <p>{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
             </div>
           </NavLink>
         </div>
@@ -110,10 +110,8 @@ class AllTrips extends Component {
   render() {
     return (
       <div className="all-trips">
-        <button type="button" className="btn btn-success btn-email" onClick={this.onGrid}>GridView</button>
-        <button type="button" className="btn btn-success btn-email" onClick={this.onList}>ListView</button>
         <h1 className="all-trips-header">All Trips</h1>
-        {this.renderDropdown()}
+        <span> Subclub: </span>  {this.renderDropdown()}
         <div className="all-trips-box">
           {this.renderTrips()}
         </div>
