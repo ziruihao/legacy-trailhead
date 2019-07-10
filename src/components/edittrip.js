@@ -22,10 +22,6 @@ class EditTrip extends Component {
   }
 
   componentDidMount() {
-    if (!this.props.authenticated) {
-      alert('Please sign in/sign up to view this page');
-      this.props.history.push('/');
-    }
     this.props.fetchTrip(this.props.match.params.tripID);
   }
 
@@ -189,7 +185,6 @@ class EditTrip extends Component {
 const mapStateToProps = (state) => {
   return {
     trip: state.trips.trip,
-    authenticated: state.auth.authenticated,
   };
 };
 
