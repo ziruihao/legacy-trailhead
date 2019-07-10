@@ -96,12 +96,25 @@ class AllTrips extends Component {
   }
   renderTrips = () => {
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
-    const tripsGrid = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club && trip.experienceNeeded !== this.state.beginner) .map((trip) => {
+    const tripsGrid = sortedTrips.filter(trip => (this.state.club === '' || trip.club.name === this.state.club ) && trip.experienceNeeded !== this.state.beginner).map((trip) => {
+      let card_id = trip.club.name;
+      if(card_id==="Cabin and Trail") card_id = "cnt";
+      if(card_id==="Women in the Wilderness") card_id = "wiw";
+      if(card_id==="Surf Club") card_id = "surf";
+      if(card_id==="Mountain Biking") card_id = "dmbc";
+      if(card_id==="Winter Sports") card_id = "wsc";
+
+
+
+
+
+      // TODO: make this less specific
+      if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
       return (
         <div key={trip.id} className="card all-trips-card text-center card-trip margins">
           <NavLink to={`/trip/${trip.id}`} key={trip.id}>
 
-            <div className="card-body">
+            <div className="card-body" id = {card_id}>
               <h2 className="card-title">{trip.title}</h2>
               <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
               <p className="card-text">{this.formatDescription(trip.description)}</p>
