@@ -29,7 +29,7 @@
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: black;
   margin-top: 10px;
 }
 
@@ -54,19 +54,24 @@
 }
 .card-title{
   font-size: 14pt;
-  font-weight:bold; 
+  font-weight:bold;
 }
 .all-trips-select {
-  position: fixed;
-  top: 15%;
-  left: 50px;
-  width: 250px;
+  display: inline-block;
+  width:15%;
 }
 .card-body{
   height:300px;
   border-radius: 0px;
   box-shadow: 2px 2px 2px gray;
 
+}
+.all-trips-dropdown-bar{
+  width: 100%;
+}
+.all-trips-dropdown-header{
+  display:inline-block;
+  width:fit-content;
 }
 .card-club{
   width:fit-content;

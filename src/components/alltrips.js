@@ -12,6 +12,7 @@ class AllTrips extends Component {
     super(props);
     this.state = {
       club: '',
+      beginner: true,
       grid: true,
     };
 
@@ -57,29 +58,45 @@ class AllTrips extends Component {
     return t1.getTime() - t2.getTime();
   }
 
-  renderDropdown = () => {
+  renderClubDropdown = () => {
     const options = this.props.clubs.map((club) => {
       return <option key={club.id} value={club.name}>{club.name}</option>;
     });
     return (
-      <span>
         <select
           name="select"
           className="custom-select all-trips-select"
           defaultValue=""
-          onChange={(e) => { this.setState({ club: e.target.value }); }}
+          onChange={(e) => {
+            this.setState({ club: e.target.value }); }}
         >
           <option key="none" value="">All Clubs</option>
           { options }
         </select>
-      </span>
     );
   }
+  renderBeginnerDropdown = () => {
+    return (
+        <select
+          name="select"
+          className="custom-select all-trips-select"
+          defaultValue=""
+          onChange={(e) => {
 
+              let bool = true;
+              if (e.target.value === "no") {
+                bool = false;
+              }
+              this.setState({ beginner: bool }); }}
+        >
+          <option key="yes" value="yes">Yes</option>
+          <option key="no" value="no">No</option>
+        </select>
+    );
+  }
   renderTrips = () => {
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
-
-    const tripsGrid = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
+    const tripsGrid = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club && trip.experienceNeeded !== this.state.beginner) .map((trip) => {
       return (
         <div key={trip.id} className="card all-trips-card text-center card-trip margins">
           <NavLink to={`/trip/${trip.id}`} key={trip.id}>
@@ -111,7 +128,11 @@ class AllTrips extends Component {
     return (
       <div className="all-trips">
         <h1 className="all-trips-header">All Trips</h1>
-        <span> Subclub: </span>  {this.renderDropdown()}
+        <div className = "all-trips-dropdown-bar">
+          <div className = "all-trips-dropdown-header"> Beginner: </div>  {this.renderBeginnerDropdown()}
+
+          <div className = "all-trips-dropdown-header"> Subclub: </div>  {this.renderClubDropdown()}
+        </div>
         <div className="all-trips-box">
           {this.renderTrips()}
         </div>

@@ -41,7 +41,6 @@ export function getUser() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        console.log(response);
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
       })
       .catch((error) => {
