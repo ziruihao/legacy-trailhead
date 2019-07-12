@@ -14,9 +14,9 @@ class AllTrips extends Component {
       club: '',
       beginner: "all",
       grid: true,
-      showTrip:"",
-      startDate:"",
-      endDate:"",
+      showTrip: "",
+      startDate: "",
+      endDate: "",
     };
   }
 
@@ -29,7 +29,7 @@ class AllTrips extends Component {
     this.props.getClubs();
   }
   showTrip(tripID){
-    this.setState({ showTrip: tripID});
+    this.setState({ showTrip: tripID });
   }
 
   formatDate = (date) => {
@@ -39,7 +39,7 @@ class AllTrips extends Component {
     }
     return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
   }
-  formatDescription = (des) =>{
+  formatDescription = (des) => {
       let description = des;
       if(description.length > 100){
         description = description.substring(0, 101) + "...";
@@ -51,6 +51,14 @@ class AllTrips extends Component {
     const t1 = new Date(a.startDate);
     const t2 = new Date(b.startDate);
     return t1.getTime() - t2.getTime();
+  }
+
+  //THIS ISNT WORKING-- BECAUSE OF THE FINAL COMPARISON?
+  compareStartDateWithInput = (a, b) => {
+    const t1 = new Date(a.startDate);
+    const t2 = new Date(b.startDate);
+    const d = new Date(this.state.startDate);
+    return ((t1.getTime()-d.getTime())-(t2.getTime()-d.getTime()));
   }
 
   renderClubDropdown = () => {
@@ -84,12 +92,12 @@ class AllTrips extends Component {
         </select>
     );
   }
-renderStartDropdown = () =>{
+renderStartDropdown = () => {
   return(
     <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value}); }} className="custom-select all-trips-date-select" value={this.state.startDate} />
   );
 }
-renderEndDropdown = () =>{
+renderEndDropdown = () => {
   return(
     <input type="date" name="endDate" onChange={(e) =>{this.setState({ endDate: e.target.value}); }} className="custom-select all-trips-date-select" value={this.state.endDate} />
 
@@ -99,6 +107,9 @@ renderEndDropdown = () =>{
   renderTrips = () => {
     //figure out how/when to filter by dates.
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
+    if(this.state.startDate!==""){
+      sortedTrips.sort(this.compareStartDateWithInput);
+    }
     let tripsGrid = sortedTrips;
     if(this.state.beginner === "all") {
        tripsGrid = sortedTrips.filter(trip => (this.state.club === '' || trip.club.name === this.state.club )).map((trip) => {
@@ -108,7 +119,7 @@ renderEndDropdown = () =>{
         if(card_id==="Surf Club") card_id = "surf";
         if(card_id==="Mountain Biking") card_id = "dmbc";
         if(card_id==="Winter Sports") card_id = "wsc";
-        
+
         //TODO: try to get bait and bullet logo 
         if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
           return (
