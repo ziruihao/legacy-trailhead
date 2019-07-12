@@ -57,6 +57,19 @@
 .all-trips-select {
   display: inline-block;
   width:15%;
+  color:rgb(75, 157, 119);
+  background: url(../img/dropdownarrow.svg);
+  background-repeat: no-repeat;
+  background-position-x: 90%;
+  background-position-y: 50%;
+
+}
+.all-trips-date-select{
+  display: inline-block;
+  width:20%;
+  color:rgb(75, 157, 119);
+  background: none;
+
 }
 .all-trips-card-body{
   padding:5%;
@@ -76,7 +89,14 @@
 .all-trips-dropdown-header{
   display:inline-block;
   width:fit-content;
+  margin-left:1.5%;
 }
+
+input[type=date]::-webkit-inner-spin-button,
+input[type=date]::-webkit-outer-spin-button {
+  display: none;
+}
+
 .card-club{
   width:fit-content;
   font-size: 10pt;

@@ -15,6 +15,8 @@ class AllTrips extends Component {
       beginner: "all",
       grid: true,
       showTrip:"",
+      startDate:"",
+      endDate:"",
     };
   }
 
@@ -82,8 +84,20 @@ class AllTrips extends Component {
         </select>
     );
   }
+renderStartDropdown = () =>{
+  return(
+    <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value}); }} className="custom-select all-trips-date-select" value={this.state.startDate} />
+  );
+}
+renderEndDropdown = () =>{
+  return(
+    <input type="date" name="endDate" onChange={(e) =>{this.setState({ endDate: e.target.value}); }} className="custom-select all-trips-date-select" value={this.state.endDate} />
 
+  );
+
+}
   renderTrips = () => {
+    //figure out how/when to filter by dates.
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
     let tripsGrid = sortedTrips;
     if(this.state.beginner === "all") {
@@ -94,8 +108,8 @@ class AllTrips extends Component {
         if(card_id==="Surf Club") card_id = "surf";
         if(card_id==="Mountain Biking") card_id = "dmbc";
         if(card_id==="Winter Sports") card_id = "wsc";
-
-        // TODO: make this less specific
+        
+        //TODO: try to get bait and bullet logo 
         if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
           return (
             <div key={trip.id} className="card all-trips-card text-center card-trip margins">
@@ -168,6 +182,8 @@ class AllTrips extends Component {
           <div className = "all-trips-dropdown-bar">
             <div className = "all-trips-dropdown-header"> Beginner: </div>  {this.renderBeginnerDropdown()}
             <div className = "all-trips-dropdown-header"> Subclub: </div>  {this.renderClubDropdown()}
+            <div className = "all-trips-dropdown-header"> Start: </div>  {this.renderStartDropdown()}
+            <div className = "all-trips-dropdown-header"> End: </div>  {this.renderEndDropdown()}
           </div>
           <div className="all-trips-box">
             {this.renderTrips()}
