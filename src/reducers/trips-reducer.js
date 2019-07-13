@@ -3,7 +3,7 @@ import { ActionTypes } from '../actions';
 const initialState = ({
   all: [],
   trip: {},
-  isUserOnTrip: false,
+  userTripStatus: '',
   myTrips: [],
 });
 
@@ -13,7 +13,7 @@ const TripsReducer = (state = initialState, action) => {
     case ActionTypes.FETCH_TRIPS:
       return Object.assign({}, state, { all: action.payload });
     case ActionTypes.FETCH_TRIP:
-      return Object.assign({}, state, { trip: action.payload.trip });
+      return Object.assign({}, state, { trip: action.payload.trip, userTripStatus: action.payload.userTripStatus });
     case ActionTypes.ADD_PENDING:
       return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip });
     case ActionTypes.JOIN_TRIP:
