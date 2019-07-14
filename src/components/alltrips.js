@@ -16,7 +16,6 @@ class AllTrips extends Component {
       grid: true,
       showTrip: "",
       startDate: "",
-      endDate: "",
     };
   }
 
@@ -58,9 +57,8 @@ class AllTrips extends Component {
     const t1 = new Date(a.startDate);
     const t2 = new Date(b.startDate);
     const d = new Date(this.state.startDate);
-    return ((t1.getTime()-d.getTime())-(t2.getTime()-d.getTime()));
+    return (Math.abs(d - t1) - Math.abs(d - t2));
   }
-
   renderClubDropdown = () => {
     const options = this.props.clubs.map((club) => {
       return <option key={club.id} value={club.name}>{club.name}</option>;
@@ -95,12 +93,6 @@ class AllTrips extends Component {
 renderStartDropdown = () => {
   return(
     <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value}); }} className="custom-select all-trips-date-select" value={this.state.startDate} />
-  );
-}
-renderEndDropdown = () => {
-  return(
-    <input type="date" name="endDate" onChange={(e) =>{this.setState({ endDate: e.target.value}); }} className="custom-select all-trips-date-select" value={this.state.endDate} />
-
   );
 
 }
@@ -185,6 +177,7 @@ renderEndDropdown = () => {
     }
   }
 
+
   render() {
     if(this.state.showTrip===""){
       return (
@@ -194,7 +187,6 @@ renderEndDropdown = () => {
             <div className = "all-trips-dropdown-header"> Beginner: </div>  {this.renderBeginnerDropdown()}
             <div className = "all-trips-dropdown-header"> Subclub: </div>  {this.renderClubDropdown()}
             <div className = "all-trips-dropdown-header"> Start: </div>  {this.renderStartDropdown()}
-            <div className = "all-trips-dropdown-header"> End: </div>  {this.renderEndDropdown()}
           </div>
           <div className="all-trips-box">
             {this.renderTrips()}
@@ -204,6 +196,7 @@ renderEndDropdown = () => {
     }
   }
 }
+
 
 const mapStateToProps = state => (
   {
