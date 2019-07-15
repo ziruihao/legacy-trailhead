@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips, getClubs } from '../actions';
-import '../styles/alltrips-style.scss';
-import TripDetails from './tripdetails';
+import '../styles/card-style.scss';
 
 
 
@@ -115,9 +114,9 @@ renderStartDropdown = () => {
         //TODO: try to get bait and bullet logo 
         if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
           return (
-            <div key={trip.id} className="card all-trips-card text-center card-trip margins">
+            <div key={trip.id} className="card text-center card-trip margins">
               <NavLink to={`/trip/${trip.id}`} key={trip.id}>
-                <div className="all-trips-card-body" id = {card_id}>
+                <div className="card-body" id = {card_id}>
                   <h2 className="card-title">{trip.title}</h2>
                   <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                   <p className="card-text">{this.formatDescription(trip.description)}</p>
@@ -148,9 +147,9 @@ renderStartDropdown = () => {
        // TODO: make this less specific
        if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
          return (
-           <div key={trip.id} className="card all-trips-card text-center card-trip margins">
+           <div key={trip.id} className="card card text-center card-trip margins">
              <NavLink to={`/trip/${trip.id}`} key={trip.id}>
-               <div className="all-trips-card-body" id = {card_id}>
+               <div className="card-body" id = {card_id}>
                  <h2 className="card-title">{trip.title}</h2>
                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                  <p className="card-text">{this.formatDescription(trip.description)}</p>
@@ -188,7 +187,7 @@ renderStartDropdown = () => {
             <div className = "all-trips-dropdown-header"> Subclub: </div>  {this.renderClubDropdown()}
             <div className = "all-trips-dropdown-header"> Start: </div>  {this.renderStartDropdown()}
           </div>
-          <div className="all-trips-box">
+          <div className="box">
             {this.renderTrips()}
           </div>
         </div>

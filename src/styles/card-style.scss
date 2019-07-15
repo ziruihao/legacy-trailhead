@@ -1,10 +1,10 @@
 .card-trip {
-  background-color: rgba(0,0,0,0.4);
   margin-right: 10px;
+  text-align: left;
 
-  &:hover {
-    background-color: #cacaca;
-  }
+  // &:hover {
+  //   background-color: #cacaca;
+  // }
 
   a {
     color: black;
@@ -23,14 +23,29 @@
     color: black;
   }
 }
-
+.create-trip-link{
+  color: rgb(131, 131, 131);
+  &:hover{
+    color: rgb(131, 131, 131);
+  }
+  &:link, &:visited {
+    text-decoration: none;
+  }
+}
 .all-trips {
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
   align-items: center;
   color: black;
-  margin-top: 10px;
+}
+
+.myTrips {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  color: black;
 }
 
 .all-trips-header {
@@ -38,16 +53,19 @@
   color:black;
 }
 
-.all-trips-box {
-  margin-top: 70px;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
+.box {
+  // // margin-top: 70px;
+  // display: flex;
+  // flex-direction: row;
+  // flex-wrap: wrap;
+  // justify-content: center;
+  text-align: center;
 }
 
-.all-trips-card {
+.card {
   width: 18rem;
+  margin: 1rem;
+  display:inline-block;
 }
 
 .card-title{
@@ -71,11 +89,11 @@
   background: none;
 
 }
-.all-trips-card-body{
+.card-body{
+  box-sizing: content-box;
   padding:5%;
   text-align: left;
   height:300px;
-  border-radius: 0px;
   box-shadow: 2px 2px 2px gray;
 
   position: relative;
@@ -118,6 +136,9 @@ input[type=date]::-webkit-outer-spin-button {
   background-color: red;
   background: red;
   color: black;
+}
+.create-trip-words{
+  margin-top: 20%;
 }
 #Ledyard::after{
   background-image: url("../img/ledyard.png");
@@ -237,4 +258,11 @@ input[type=date]::-webkit-outer-spin-button {
   height: 60%;
   z-index: 1;
   opacity: 0.2;
+}
+#create-trip{
+  height:18.5rem;
+  border-style: dashed;
+  box-shadow: none;
+  text-align: center;
+
 }
