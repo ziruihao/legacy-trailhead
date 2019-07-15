@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { getMyTrips } from '../actions';
-import '../styles/mytrips-style.scss';
-import '../styles/alltrips-style.scss';
+// import '../styles/mytrips-style.scss';
+import '../styles/card-style.scss';
+
+import createtrip from "../img/createtrip.svg"
 
 class MyTrips extends Component {
   componentDidMount(props) {
@@ -23,12 +25,37 @@ class MyTrips extends Component {
     const t2 = new Date(b.startDate);
     return t1.getTime() - t2.getTime();
   }
+  renderCreateTrip = () => {
+    return(
+      <div className="card text-center card-trip margins" >
+        <div className = "card-body" id = "create-trip">
+          <p className = "create-trip-words">create a trip</p>
+          <img src = {createtrip} alt = "green circle with a plus sign"/>
+        </div>
+      </div>
+    );
+  }
+  renderMyVehicles = () => {
+    return(
+      <div>
+        I don't know how to do this yet--make a get request
+      </div>
+    );
 
-  renderMyTrips = () => {
-    const style = { width: '18rem' };
+  }
+  renderMyTrips = () => {  
     let myTrips = <p>Trips you sign up for will appear here!</p>;
     const sortedTrips = this.props.myTrips.sort(this.compareStartDates);
     myTrips = sortedTrips.map((trip, id) => {
+      let card_id = trip.club.name;
+      if(card_id==="Cabin and Trail") card_id = "cnt";
+      if(card_id==="Women in the Wilderness") card_id = "wiw";
+      if(card_id==="Surf Club") card_id = "surf";
+      if(card_id==="Mountain Biking") card_id = "dmbc";
+      if(card_id==="Winter Sports") card_id = "wsc";
+
+      //TODO: try to get bait and bullet logo 
+      if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
       let isLeading = false;
       trip.leaders.forEach((leaderId) => {
         if (leaderId === this.props.user.id) {
@@ -37,24 +64,30 @@ class MyTrips extends Component {
       });
       if (isLeading) {
         return (
-          <div key={trip.id} className="card text-center card-trip margins" style={style}>
-            <div className="card-body leading-trip">
-              <h2 className="card-title">(L) {trip.title}</h2>
-              <p className="card-text">{trip.club ? trip.club.name : ''}</p>
-              <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-              <NavLink to={`/trip/${trip.id}`} className="btn btn-primary">See details</NavLink>
-            </div>
+          <div key={trip.id} className="card text-center card-trip margins">
+            <NavLink to={`/trip/${trip.id}`}>
+              <div className="card-body" id = {card_id}>
+                <h2 className="card-title">(L) {trip.title}</h2>
+                <p className="card-text">{trip.club ? trip.club.name : ''}</p>
+                <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
+                <p className="card-club">{trip.club ? trip.club.name : ''}</p>
+              </div>
+            </NavLink>
           </div>
         );
       } else {
         return (
-          <div key={trip.id} className="card text-center card-trip margins" style={style}>
-            <div className="card-body">
+          <div key={trip.id} className="card text-center card-trip margins" >
+            <NavLink to={`/trip/${trip.id}`}>
+
+            <div className="card-body" id = {card_id}>
               <h5 className="card-title">{trip.title}</h5>
               <p className="card-text">{trip.club ? trip.club.name : ''}</p>
               <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-              <NavLink to={`/trip/${trip.id}`} className="btn btn-primary">See details</NavLink>
+              <p className="card-club">{trip.club ? trip.club.name : ''}</p>
+
             </div>
+            </NavLink>
           </div>
         );
       }
@@ -65,9 +98,18 @@ class MyTrips extends Component {
   render() {
     return (
       <div className="myTrips">
-        <h1 className="mytrips-header">My Trips</h1>
-        <div className="myTripsBox">
+        <h1 className="mytrips-header">Leader Dashboard</h1>
+        <h2 className="mytrips-sub-header">Upcoming trips as a leader</h2>
+        <div className="box">
           {this.renderMyTrips()}
+          <NavLink className="create-trip-link" to="/createtrip">
+            {this.renderCreateTrip()}
+          </NavLink>
+        </div>
+        <h2 className="mytrips-sub-header"> Upcoming vehicle requests</h2>
+        <NavLink className="btn btn-primary">Request vehicle</NavLink>
+        <div className="box">
+          {this.renderMyVehicles()}
         </div>
       </div>
     );

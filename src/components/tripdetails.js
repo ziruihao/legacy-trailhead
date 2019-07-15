@@ -27,10 +27,16 @@ class TripDetails extends Component {
   }
 
   async componentDidMount() {
+    if (!this.props.authenticated) {
+      alert('Please sign in/sign up to view this page');
+      this.props.history.push('/');
+    }
     return Promise
       .all([
         this.props.isOnTrip(this.props.match.params.tripID),
+
         this.props.fetchTrip(this.props.match.params.tripID),
+
       ])
       .catch((error) => {
         console.log(error);
@@ -71,6 +77,7 @@ class TripDetails extends Component {
       this.props.addToPending(signUpInfo);
       this.setState({ hasSignedUp: true });
       this.props.fetchTrip(this.props.match.params.tripID);
+
     } else {
       alert('You are already on the pending list.');
     }
@@ -409,10 +416,10 @@ const mapStateToProps = state => (
   {
     trip: state.trips.trip,
     isUserOnTrip: state.trips.isUserOnTrip,
+    authenticated: state.auth.authenticated,
     user: state.user,
   }
 );
-
 export default withRouter(connect(mapStateToProps, {
   joinTrip, addToPending, fetchTrip, leaveTrip, deleteTrip, isOnTrip, emailTrip,
 })(TripDetails));

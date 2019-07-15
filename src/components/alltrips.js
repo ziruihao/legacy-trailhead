@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips, getClubs } from '../actions';
-import '../styles/alltrips-style.scss';
+import '../styles/card-style.scss';
+
 
 
 class AllTrips extends Component {
@@ -10,11 +11,11 @@ class AllTrips extends Component {
     super(props);
     this.state = {
       club: '',
+      beginner: "all",
       grid: true,
+      showTrip: "",
+      startDate: "",
     };
-
-    this.onGrid = this.onGrid.bind(this);
-    this.onList = this.onList.bind(this);
   }
 
   componentDidMount(props) {
@@ -25,13 +26,8 @@ class AllTrips extends Component {
     this.props.fetchTrips();
     this.props.getClubs();
   }
-
-  onGrid() {
-    this.setState({ grid: true });
-  }
-
-  onList() {
-    this.setState({ grid: false });
+  showTrip(tripID){
+    this.setState({ showTrip: tripID });
   }
 
   formatDate = (date) => {
@@ -41,6 +37,13 @@ class AllTrips extends Component {
     }
     return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
   }
+  formatDescription = (des) => {
+      let description = des;
+      if(description.length > 100){
+        description = description.substring(0, 101) + "...";
+      }
+      return description;
+}
 
   compareStartDates = (a, b) => {
     const t1 = new Date(a.startDate);
@@ -48,53 +51,119 @@ class AllTrips extends Component {
     return t1.getTime() - t2.getTime();
   }
 
-  renderDropdown = () => {
+  //THIS ISNT WORKING-- BECAUSE OF THE FINAL COMPARISON?
+  compareStartDateWithInput = (a, b) => {
+    const t1 = new Date(a.startDate);
+    const t2 = new Date(b.startDate);
+    const d = new Date(this.state.startDate);
+    return (Math.abs(d - t1) - Math.abs(d - t2));
+  }
+  renderClubDropdown = () => {
     const options = this.props.clubs.map((club) => {
       return <option key={club.id} value={club.name}>{club.name}</option>;
     });
     return (
-      <select
-        name="select"
-        className="custom-select all-trips-select"
-        defaultValue=""
-        onChange={(e) => { this.setState({ club: e.target.value }); }}
-      >
-        <option key="none" value="">All Clubs</option>
-        { options }
-      </select>
+        <select
+          name="select"
+          className="custom-select all-trips-select"
+          defaultValue=""
+          onChange={(e) => {
+            this.setState({ club: e.target.value }); }}
+        >
+          <option key="none" value="">All Clubs</option>
+          { options }
+        </select>
     );
   }
+  renderBeginnerDropdown = () => {
+    return (
+        <select
+          name="select"
+          className="custom-select all-trips-select"
+          defaultValue=""
+          onChange={(e) => {this.setState({ beginner: e.target.value }); }}
+        >
+          <option key = "all" value = "all"> All Trips </option>
+          <option key="yes" value="yes">Yes</option>
+          <option key="no" value="no">No</option>
+        </select>
+    );
+  }
+renderStartDropdown = () => {
+  return(
+    <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value}); }} className="custom-select all-trips-date-select" value={this.state.startDate} />
+  );
 
+}
   renderTrips = () => {
+    //figure out how/when to filter by dates.
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
-    console.log(sortedTrips);
-    const tripsGrid = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
-      return (
-        <div key={trip.id} className="card all-trips-card text-center card-trip margins">
-          <NavLink to={`/trip/${trip.id}`} key={trip.id}>
-            <div className="card-body">
-              <h2 className="card-title">{trip.title}</h2>
-              <p className="card-text">{trip.club ? trip.club.name : ''}</p>
-              <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-            </div>
-          </NavLink>
-        </div>
-      );
-    });
+    if(this.state.startDate!==""){
+      sortedTrips.sort(this.compareStartDateWithInput);
+    }
+    let tripsGrid = sortedTrips;
+    if(this.state.beginner === "all") {
+       tripsGrid = sortedTrips.filter(trip => (this.state.club === '' || trip.club.name === this.state.club )).map((trip) => {
+        let card_id = trip.club.name;
+        if(card_id==="Cabin and Trail") card_id = "cnt";
+        if(card_id==="Women in the Wilderness") card_id = "wiw";
+        if(card_id==="Surf Club") card_id = "surf";
+        if(card_id==="Mountain Biking") card_id = "dmbc";
+        if(card_id==="Winter Sports") card_id = "wsc";
 
-    const tripsList = sortedTrips.filter(trip => this.state.club === '' || trip.club.name === this.state.club).map((trip) => {
-      return (
-        <div>
-          <NavLink to={`/trip/${trip.id}`} key={trip.id}>
-            <div>
-              <h2>{trip.title}</h2>
-              <p>{trip.club ? trip.club.name : ''}</p>
-              <p>{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
+        //TODO: try to get bait and bullet logo 
+        if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
+          return (
+            <div key={trip.id} className="card text-center card-trip margins">
+              <NavLink to={`/trip/${trip.id}`} key={trip.id}>
+                <div className="card-body" id = {card_id}>
+                  <h2 className="card-title">{trip.title}</h2>
+                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
+                  <p className="card-text">{this.formatDescription(trip.description)}</p>
+                  <p className="card-club">{trip.club ? trip.club.name : ''}</p>
+
+                </div>
+              </NavLink>
             </div>
-          </NavLink>
-        </div>
-      );
-    });
+          );
+
+
+      });
+    }else{
+      let experienceNeeded = "";
+      if(this.state.beginner === "yes"){
+        experienceNeeded= false;
+      }else{
+        experienceNeeded = true;
+      }
+      tripsGrid = sortedTrips.filter(trip => (this.state.club === '' || trip.club.name === this.state.club )&& trip.experienceNeeded===experienceNeeded).map((trip) => {
+       let card_id = trip.club.name;
+       if(card_id==="Cabin and Trail") card_id = "cnt";
+       if(card_id==="Women in the Wilderness") card_id = "wiw";
+       if(card_id==="Surf Club") card_id = "surf";
+       if(card_id==="Mountain Biking") card_id = "dmbc";
+       if(card_id==="Winter Sports") card_id = "wsc";
+
+       // TODO: make this less specific
+       if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
+         return (
+           <div key={trip.id} className="card card text-center card-trip margins">
+             <NavLink to={`/trip/${trip.id}`} key={trip.id}>
+               <div className="card-body" id = {card_id}>
+                 <h2 className="card-title">{trip.title}</h2>
+                 <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
+                 <p className="card-text">{this.formatDescription(trip.description)}</p>
+                 <p className="card-club">{trip.club ? trip.club.name : ''}</p>
+
+               </div>
+             </NavLink>
+           </div>
+         );
+
+
+     });
+    }
+
 
     if (tripsGrid.length === 0) {
       return <div>No upcoming trips for this club</div>;
@@ -107,20 +176,26 @@ class AllTrips extends Component {
     }
   }
 
+
   render() {
-    return (
-      <div className="all-trips">
-        <button type="button" className="btn btn-success btn-email" onClick={this.onGrid}>GridView</button>
-        <button type="button" className="btn btn-success btn-email" onClick={this.onList}>ListView</button>
-        <h1 className="all-trips-header">All Trips</h1>
-        {this.renderDropdown()}
-        <div className="all-trips-box">
-          {this.renderTrips()}
+    if(this.state.showTrip===""){
+      return (
+        <div className="all-trips">
+          <h1 className="all-trips-header">All Trips</h1>
+          <div className = "all-trips-dropdown-bar">
+            <div className = "all-trips-dropdown-header"> Beginner: </div>  {this.renderBeginnerDropdown()}
+            <div className = "all-trips-dropdown-header"> Subclub: </div>  {this.renderClubDropdown()}
+            <div className = "all-trips-dropdown-header"> Start: </div>  {this.renderStartDropdown()}
+          </div>
+          <div className="box">
+            {this.renderTrips()}
+          </div>
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
+
 
 const mapStateToProps = state => (
   {
