@@ -2,10 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
-import marked from 'marked';
+// import marked from 'marked';
 import { joinTrip, addToPending, fetchTrip, leaveTrip, isOnTrip, emailTrip, deleteTrip } from '../actions';
 import '../styles/tripdetails-style.scss';
 import TripeeTripDetails from './tripdetails_trippee';
+import LeaderTripDetails from './tripdetails_leader';
 
 class TripDetails extends Component {
   constructor(props) {
@@ -385,26 +386,27 @@ class TripDetails extends Component {
   }
 
   render() {
-    if (this.props.user.role === 'Trippee') {
+    if (this.props.user.role !== 'Leader') {
       return (
         <TripeeTripDetails />
       );
     } else {
       return (
-        <div className="trip-detail-div">
-          <h1> {this.props.trip.title} </h1>
-          <h2> Leaders:</h2>
-          <p className="leaders"> {this.getLeaders(this.props.trip.leaders)}</p>
-          <h3> Dates: {`${this.formatDate(this.props.trip.startDate)}-${this.formatDate(this.props.trip.endDate)}`}</h3>
-          <h3>Time: {`${this.props.trip.startTime} - ${this.props.trip.endTime}`}</h3>
-          <h3> Cost: ${this.props.trip.cost}</h3>
-          <h3> Description:</h3>
-          <p className="description" dangerouslySetInnerHTML={{ __html: marked(this.props.trip.description || '') }} />
-          {this.getMemberList()}
-          {this.getGearRequests()}
-          {this.getTrippeeGear()}
-          {this.appropriateButton()}
-        </div>
+        <LeaderTripDetails />
+        // <div className="trip-detail-div">
+        //   <h1> {this.props.trip.title} </h1>
+        //   <h2> Leaders:</h2>
+        //   <p className="leaders"> {this.getLeaders(this.props.trip.leaders)}</p>
+        //   <h3> Dates: {`${this.formatDate(this.props.trip.startDate)}-${this.formatDate(this.props.trip.endDate)}`}</h3>
+        //   <h3>Time: {`${this.props.trip.startTime} - ${this.props.trip.endTime}`}</h3>
+        //   <h3> Cost: ${this.props.trip.cost}</h3>
+        //   <h3> Description:</h3>
+        //   <p className="description" dangerouslySetInnerHTML={{ __html: marked(this.props.trip.description || '') }} />
+        //   {this.getMemberList()}
+        //   {this.getGearRequests()}
+        //   {this.getTrippeeGear()}
+        //   {this.appropriateButton()}
+        // </div>
       );
     }
   }

@@ -73,9 +73,7 @@ export function updateUser(updatedUser) {
 }
 
 export function fetchTrips() {
-  console.log('fetching trips');
   return (dispatch) => {
-    console.log('about to call axios for trips');
     axios.get(`${ROOT_URL}/alltrips`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({
         type: ActionTypes.FETCH_TRIPS,
@@ -128,9 +126,19 @@ export function joinTrip(id, pend) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/jointrip/${id}`, { id, pend }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch(fetchTrip(id));
-      console.log(response.data);
     }).catch((error) => {
       console.log('joinTrip error');
+      console.log(error);
+    });
+  };
+}
+
+export function moveToPending(id, member) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/movetopending/${id}`, { id, member }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+      dispatch(fetchTrip(id));
+    }).catch((error) => {
+      console.log('move to pending error');
       console.log(error);
     });
   };
@@ -172,11 +180,11 @@ export function createTrip(trip, history) {
   };
 }
 
-export function deleteTrip(trip, history) {
+export function deleteTrip(id, history) {
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/trip/${trip.id}`, { headers: { authorization: localStorage.getItem('token') } })
+    axios.delete(`${ROOT_URL}/trip/${id}`, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        history.push('/alltrips');
+        history.goBack();
       })
       .catch((error) => {
         console.log(error);

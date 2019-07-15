@@ -144,7 +144,7 @@ class TripeeTripDetails extends Component {
         return (
           <div className="status-banner">
             <span className="status-icon">
-              <img src="/src/img/approved_badge.svg" alt="pending_badge" />
+              <img src="/src/img/approved_badge.svg" alt="approved_badge" />
             </span>
             <span className="status-message">
               <h4>
@@ -396,7 +396,6 @@ const mapStateToProps = state => (
     trip: state.trips.trip,
     userTripStatus: state.trips.userTripStatus,
     user: state.user,
-    authenticated: state.auth.authenticated,
   }
 );
 

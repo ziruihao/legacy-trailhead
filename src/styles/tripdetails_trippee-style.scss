@@ -56,7 +56,7 @@
   justify-content: center;
 }
 .trip-description{
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.5em;
   font-size: 1.2em;
   text-align: justify
@@ -71,6 +71,7 @@
   display: flex;
   justify-content: space-between;
   margin-top: 0.5em;
+  align-items: center;
 }
 .detail-left{
   margin-left: 0.5em;
@@ -238,8 +239,8 @@
 .confirm-cancel{
   background: #EE6E52;
   margin: 1em auto;
-  height: 3em;
-  width: 10em;
+  min-height: 3em;
+  min-width: 10em;
   border-radius: 5px;
   display: block;
   font-weight: 800;
