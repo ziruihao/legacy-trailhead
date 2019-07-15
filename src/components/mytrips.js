@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { getMyTrips } from '../actions';
-// import '../styles/mytrips-style.scss';
 import '../styles/card-style.scss';
 
 import createtrip from "../img/createtrip.svg"
@@ -37,8 +36,8 @@ class MyTrips extends Component {
   }
   renderMyVehicles = () => {
     return(
-      <div>
-        I don't know how to do this yet--make a get request
+      <div className = "vehicles">
+        filler words filler words filler words filler words
       </div>
     );
 
@@ -97,7 +96,7 @@ class MyTrips extends Component {
 
   render() {
     return (
-      <div className="myTrips">
+      <div className="tile-box">
         <h1 className="mytrips-header">Leader Dashboard</h1>
         <h2 className="mytrips-sub-header">Upcoming trips as a leader</h2>
         <div className="box">

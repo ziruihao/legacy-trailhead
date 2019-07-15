@@ -180,7 +180,7 @@ renderStartDropdown = () => {
   render() {
     if(this.state.showTrip===""){
       return (
-        <div className="all-trips">
+        <div className="tile-box">
           <h1 className="all-trips-header">All Trips</h1>
           <div className = "all-trips-dropdown-bar">
             <div className = "all-trips-dropdown-header"> Beginner: </div>  {this.renderBeginnerDropdown()}
