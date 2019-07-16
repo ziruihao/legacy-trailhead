@@ -1,39 +1,9 @@
-/* eslint-disable no-return-assign */
-import React, { Component } from 'react';
-// import { connect } from 'react-redux';
-// import { withRouter, Link } from 'react-router-dom';
+import React from 'react';
+import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-// import { fetchTrip, joinTrip, moveToPending, deleteTrip } from '../actions';
 import '../styles/tripdetails_leader.scss';
 import '../styles/tripdetails_trippee-style.scss';
-
-// class LeaderTripDetails extends Component {
-// constructor(props) {
-//   super(props);
-//   this.state = ({
-//     pendingEmail: '',
-//     onTripEmail: '',
-//     showModal: false,
-//   });
-// }
-
-// componentDidMount() {
-//   this.props.fetchTrip(this.props.match.params.tripID)
-//     .then(() => {
-//       let pendingEmail = '';
-//       let onTripEmail = '';
-//       this.props.trip.pending.forEach((pender) => {
-//         pendingEmail += `${pender.user.email}, `;
-//       });
-//       this.props.trip.members.forEach((member) => {
-//         onTripEmail += `${member.user.email}, `;
-//       });
-//       pendingEmail = pendingEmail.substring(0, pendingEmail.length - 2);
-//       onTripEmail = onTripEmail.substring(0, onTripEmail.length - 2);
-//       this.setState({ pendingEmail, onTripEmail });
-//     });
-// }
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -43,10 +13,11 @@ const getCoLeaders = (leaders) => {
     }
   });
   coleaders = coleaders.substring(0, coleaders.length - 2);
+  coleaders = coleaders.length === 0 ? 'None' : coleaders;
   return coleaders;
-}
+};
 
-formatDate = (date, time) => {
+const formatDate = (date, time) => {
   let timeString = '';
   const rawDate = new Date(date);
   const dateString = rawDate.toString();
@@ -59,13 +30,24 @@ formatDate = (date, time) => {
   }
   timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
   return timeString;
-}
+};
 
-// isObjectEmpty = (object) => {
-//   return Object.entries(object).length === 0 && object.constructor === Object;
-// }
+const getPendingRows = (penders, moveToTrip) => {
+  return penders.map(pender => (
+    <div key={pender._id} className="leader-detail-row">
+      <span>{pender.user.name}</span>
+      <span>{pender.user.email}</span>
+      <span>
+        {pender.gear.length !== 0 ? pender.gear.map(gear => (
+          <li key={gear._id}>{gear.gear}</li>
+        )) : <span>None</span>}
+      </span>
+      <button type="button" className="signup-button leader-signup-button" onClick={() => moveToTrip(pender)}>Move to trip</button>
+    </div>
+  ));
+};
 
-getPending = (props, pendingEmailRef) => {
+const getPending = (props, pendingEmailRef) => {
   if (props.trip.pending.length === 0) {
     return (
       <div className="no-on-trip">
@@ -83,7 +65,7 @@ getPending = (props, pendingEmailRef) => {
         </div>
         <hr className="detail-line" />
 
-        {getPendingRows()}
+        {getPendingRows(props.trip.pending, props.moveToTrip)}
 
         <div>
           <h5>Emails</h5>
@@ -97,25 +79,25 @@ getPending = (props, pendingEmailRef) => {
       </div>
     );
   }
-}
+};
 
-getPendingRows = (penders) => {
-  return penders.map(pender => (
-    <div key={pender._id} className="leader-detail-row">
-      <span>{pender.user.name}</span>
-      <span>{pender.user.email}</span>
+const getOnTripRows = (members, moveToPending) => {
+  return members.map(member => (
+    <div key={member._id} className="leader-detail-row">
+      <span>{member.user.name}</span>
+      <span>{member.user.email}</span>
       <span>
-        {pender.gear.map(gear => (
+        {member.gear.length !== 0 ? member.gear.map(gear => (
           <li key={gear._id}>{gear.gear}</li>
-        ))}
+        )) : <span>None</span>}
       </span>
-      <button type="button" className="signup-button leader-signup-button" onClick={() => props.moveToTrip(pender)}>Move to trip</button>
+      <button type="button" className="leader-cancel-button" onClick={() => moveToPending(member)}>Move to pending</button>
     </div>
   ));
-}
+};
 
-getOnTrip = () => {
-  if (this.props.trip.members.length === 0) {
+const getOnTrip = (props, onTripEmailRef) => {
+  if (props.trip.members.length === 0) {
     return (
       <div className="no-on-trip">
         <h4 className="none-f-now">None</h4>
@@ -132,149 +114,24 @@ getOnTrip = () => {
         </div>
         <hr className="detail-line" />
 
-        {this.getOnTripRows()}
+        {getOnTripRows(props.trip.members, props.moveToPending)}
 
         <div>
           <h5>Emails</h5>
           <div className="emails">
             <Form className="col-9">
-              <Form.Control ref={onTripEmail => this.onTripEmail = onTripEmail} as="textarea" value={this.state.onTripEmail} name="onTripEmail" onChange={this.onTextChange} />
+              <Form.Control ref={onTripEmailRef} as="textarea" value={props.onTripEmail} name="onTripEmail" onChange={props.onTextChange} />
             </Form>
-            <button type="button" className="signup-button leader-signup-button copy-button" onClick={this.copyOnTripToClip}>Copy</button>
+            <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyOnTripToClip}>Copy</button>
           </div>
         </div>
 
       </div>
     );
   }
-}
+};
 
-getOnTripRows = () => {
-  return this.props.trip.members.map(member => (
-    <div key={member._id} className="leader-detail-row">
-      <span>{member.user.name}</span>
-      <span>{member.user.email}</span>
-      <span>
-        {member.gear.map(gear => (
-          <li key={gear._id}>{gear.gear}</li>
-        ))}
-      </span>
-      <button type="button" className="leader-cancel-button" onClick={() => this.moveToPending(member)}>Move to pending</button>
-    </div>
-  ));
-}
-
-onTextChange = (event) => {
-  this.setState({
-    [event.target.name]: event.target.value,
-  });
-}
-
-// copyPendingToClip = (event) => {
-//   this.pendingEmail.select();
-//   document.execCommand('copy');
-//   event.target.focus();
-// }
-
-copyOnTripToClip = (event) => {
-  this.onTripEmail.select();
-  document.execCommand('copy');
-  event.target.focus();
-}
-
-// moveToTrip = (pender) => {
-//   this.props.joinTrip(this.props.trip._id, pender);
-// }
-
-// moveToPending = (member) => {
-//   this.props.moveToPending(this.props.trip._id, member);
-// }
-
-getIndividualGear = () => {
-  if (this.props.trip.trippeeGear.length === 0) {
-    return (
-      <div className="no-gear">
-        <div className="trip-detail">
-          <div className="no-on-trip">
-            <h4 className="none-f-now">None</h4>
-          </div>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <div className="detail-row gear-status">
-          <span className="detail-left">Status</span>
-          {this.getGearStatus(this.props.trip.trippeeGearStatus)}
-        </div>
-        <div className="trip-detail">
-          <div className="detail-row gear-header">
-            <h4 className="leader-detail-left">Gear</h4>
-            <h4 className="leader-detail-right">Quantity requested</h4>
-          </div>
-          <hr className="detail-line" />
-          {this.props.trip.trippeeGear.map((gear, index, array) => (
-            <div key={gear._id}>
-              <div className="detail-row">
-                <span>{gear.gear}</span>
-                <span>{gear.quantity}</span>
-              </div>
-              {index !== array.length - 1 ? <hr className="detail-line" /> : null}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-}
-
-getGroupGear = () => {
-  if (this.props.trip.OPOGearRequests.length === 0) {
-    return (
-      <div className="no-gear">
-        <div className="trip-detail">
-          <div className="no-on-trip">
-            <h4 className="none-f-now">None</h4>
-          </div>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <div className="detail-row gear-status">
-          <span className="detail-left">Status</span>
-          {this.getGearStatus(this.props.trip.gearStatus)}
-        </div>
-        <div className="trip-detail">
-          <div className="leader-trip-detail-row">
-            <h4>Gear</h4>
-          </div>
-          <hr className="detail-line" />
-          {this.props.trip.OPOGearRequests.map((gear, index, array) => (
-            <div key={gear._id}>
-              <div className="leader-trip-detail-row">
-                <span>{gear}</span>
-              </div>
-              {index !== array.length - 1 ? <hr className="detail-line" /> : null}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-}
-
-showModal = () => {
-  this.setState({ showModal: true });
-}
-
-closeModal = () => {
-  this.setState({ showModal: false });
-}
-
-getGearStatus = (gearStatus) => {
+const getGearStatus = (gearStatus) => {
   switch (gearStatus) {
     case 'pending':
       return (
@@ -293,11 +150,83 @@ getGearStatus = (gearStatus) => {
         <span className="detail-right">Pending <img className="status-badge" src="/src/img/pending_badge.svg" alt="pending_badge" /> </span>
       );
   }
-}
+};
 
-// deleteTrip = () => {
-//   this.props.deleteTrip(this.props.trip.id, this.props.history);
-// }
+const getIndividualGear = (individualGearArray, individualGearStatus) => {
+  if (individualGearArray.length === 0) {
+    return (
+      <div className="no-gear">
+        <div className="trip-detail">
+          <div className="no-on-trip">
+            <h4 className="none-f-now">None</h4>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <div className="detail-row gear-status">
+          <span className="detail-left">Status</span>
+          {getGearStatus(individualGearStatus)}
+        </div>
+        <div className="trip-detail">
+          <div className="detail-row gear-header">
+            <h4 className="leader-detail-left">Gear</h4>
+            <h4 className="leader-detail-right">Quantity</h4>
+          </div>
+          <hr className="detail-line" />
+          {individualGearArray.map((gear, index, array) => (
+            <div key={gear._id}>
+              <div className="detail-row">
+                <span>{gear.gear}</span>
+                <span>{gear.quantity}</span>
+              </div>
+              {index !== array.length - 1 ? <hr className="detail-line" /> : null}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+};
+
+const getGroupGear = (groupGearArray, groupGearStatus) => {
+  if (groupGearArray.length === 0) {
+    return (
+      <div className="no-gear">
+        <div className="trip-detail">
+          <div className="no-on-trip">
+            <h4 className="none-f-now">None</h4>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <div className="detail-row gear-status">
+          <span className="detail-left">Status</span>
+          {getGearStatus(groupGearStatus)}
+        </div>
+        <div className="trip-detail">
+          <div className="leader-trip-detail-row">
+            <h4>Gear</h4>
+          </div>
+          <hr className="detail-line" />
+          {groupGearArray.map((gear, index, array) => (
+            <div key={index}>
+              <div className="leader-trip-detail-row">
+                <span>{gear}</span>
+              </div>
+              {index !== array.length - 1 ? <hr className="detail-line" /> : null}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+};
 
 export default React.forwardRef((props, ref) => {
   const { pendingEmailRef, onTripEmailRef } = ref;
@@ -319,13 +248,13 @@ export default React.forwardRef((props, ref) => {
           <div className="trip-detail leader-trip-detail left-detail">
             <div className="detail-row">
               <span className="detail-left">Start</span>
-              <span className="detail-right">{this.formatDate(props.trip.startDate, props.trip.startTime)}</span>
+              <span className="detail-right">{formatDate(props.trip.startDate, props.trip.startTime)}</span>
             </div>
             <hr className="detail-line" />
 
             <div className="detail-row">
               <span className="detail-left">End</span>
-              <span className="detail-right">{this.formatDate(props.trip.endDate, props.trip.endTime)}</span>
+              <span className="detail-right">{formatDate(props.trip.endDate, props.trip.endTime)}</span>
             </div>
             <hr className="detail-line" />
 
@@ -383,7 +312,7 @@ export default React.forwardRef((props, ref) => {
       <div className="on-trip">
         <h2>On trip ({props.trip.members.length})</h2>
         <div className="trip-detail">
-          {this.getOnTrip(onTripEmailRef)}
+          {getOnTrip(props, onTripEmailRef)}
         </div>
       </div>
 
@@ -397,16 +326,16 @@ export default React.forwardRef((props, ref) => {
       <div className="gear-requests leader-trip-info">
         <div className="individual-gear leader-trip-detail left-detail">
           <h3>Individual gear</h3>
-          {getIndividualGear()}
+          {getIndividualGear(props.trip.trippeeGear, props.trip.trippeeGearStatus)}
         </div>
         <div className="group-gear leader-trip-detail right-detail">
           <h3>Group gear</h3>
-          {getGroupGear()}
+          {getGroupGear(props.trip.OPOGearRequests, props.trip.gearStatus)}
         </div>
       </div>
 
       <div className="center">
-        <Link to={`/edittrip/${props.trip.id}`} className="signup-button"><button type="submit" className="signup-button">Edit Trip</button></Link>
+        <Link to={`/edittrip/${props.trip.id}`} className="signup-button leader-edit-link"><button type="submit" className="signup-button">Edit Trip</button></Link>
       </div>
 
       <div className="center">
@@ -432,14 +361,3 @@ export default React.forwardRef((props, ref) => {
     </div>
   );
 });
-// }
-
-// const mapStateToProps = state => (
-//   {
-//     trip: state.trips.trip,
-//     userTripStatus: state.trips.userTripStatus,
-//     user: state.user,
-//   }
-// );
-
-// export default withRouter(connect(mapStateToProps, { fetchTrip, joinTrip, moveToPending, deleteTrip })(LeaderTripDetails));

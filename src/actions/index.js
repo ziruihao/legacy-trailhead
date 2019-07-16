@@ -102,19 +102,20 @@ export function fetchTrip(id) {
 
 export function addToPending(signUpInfo) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/addpending/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch(fetchTrip(signUpInfo.id));
-    }).catch((error) => {
-      console.log('addpending error');
-      console.log(error);
-    });
+    axios.put(`${ROOT_URL}/addpending/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+      }).catch((error) => {
+        console.log('addpending error');
+        console.log(error);
+      });
   };
 }
 
 export function editUserGear(signUpInfo) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/editusergear/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch(fetchTrip(signUpInfo.id));
+      dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
       console.log('addpending error');
       console.log(error);
@@ -124,22 +125,30 @@ export function editUserGear(signUpInfo) {
 
 export function joinTrip(id, pend) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/jointrip/${id}`, { id, pend }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch(fetchTrip(id));
-    }).catch((error) => {
-      console.log('joinTrip error');
-      console.log(error);
+    return new Promise((resolve, reject) => {
+      axios.put(`${ROOT_URL}/jointrip/${id}`, { id, pend }, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log('joinTrip error');
+          console.log(error);
+        });
     });
   };
 }
 
 export function moveToPending(id, member) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/movetopending/${id}`, { id, member }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch(fetchTrip(id));
-    }).catch((error) => {
-      console.log('move to pending error');
-      console.log(error);
+    return new Promise((resolve, reject) => {
+      axios.put(`${ROOT_URL}/movetopending/${id}`, { id, member }, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log('move to pending error');
+          console.log(error);
+        });
     });
   };
 }
@@ -147,7 +156,7 @@ export function moveToPending(id, member) {
 export function leaveTrip(id, userTripStatus) {
   return (dispatch) => {
     axios.delete(`${ROOT_URL}/leaveTrip/${id}`, { headers: { authorization: localStorage.getItem('token') }, data: { userTripStatus } }).then((response) => {
-      dispatch(fetchTrip(id));
+      dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
       console.log(error);
     });

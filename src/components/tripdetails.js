@@ -22,25 +22,14 @@ class TripDetails extends Component {
     this.onTextChange = this.onTextChange.bind(this);
     this.pendingEmailRef = React.createRef();
     this.onTripEmailRef = React.createRef();
-    ref = {pendingEmailRef: this.pendingEmailRef, onTripEmailRef: this.onTripEmailRef}
   }
 
   componentDidMount() {
     this.props.fetchTrip(this.props.match.params.tripID)
       .then(() => {
-        if (this.props.isLeaderOnTrip) {
-          let pendingEmail = '';
-          let onTripEmail = '';
-          this.props.trip.pending.forEach((pender) => {
-            pendingEmail += `${pender.user.email}, `;
-          });
-          this.props.trip.members.forEach((member) => {
-            onTripEmail += `${member.user.email}, `;
-          });
-          pendingEmail = pendingEmail.substring(0, pendingEmail.length - 2);
-          onTripEmail = onTripEmail.substring(0, onTripEmail.length - 2);
-          this.setState({ pendingEmail, onTripEmail });
-        } else if (this.props.userTripStatus === 'PENDING') {
+        if (this.props.isLeaderOnTrip) { // populate trip participant emails
+          this.populateEmails();
+        } else if (this.props.userTripStatus === 'PENDING') { // populate previously selected gear
           this.props.trip.pending.some((pender) => {
             if (pender.user._id === this.props.user.id) {
               this.setState({ trippeeGear: pender.gear, isEditing: false });
@@ -58,6 +47,7 @@ class TripDetails extends Component {
       });
   }
 
+  // TrippeeTripDetails component methods
   onGearChange(event) {
     event.persist();
     if (event.target.checked) {
@@ -91,16 +81,12 @@ class TripDetails extends Component {
     this.setState({ showTrippeeModal: true });
   }
 
-  activateLeaderModal = () => {
-    this.setState({ showLeaderModal: true });
-  }
-
   closeTrippeeModal = () => {
     this.setState({ showTrippeeModal: false });
   }
 
-  closeLeaderModal = () => {
-    this.setState({ showLeaderModal: false });
+  activateLeaderModal = () => {
+    this.setState({ showLeaderModal: true });
   }
 
   goBack = () => {
@@ -113,7 +99,7 @@ class TripDetails extends Component {
       resolve();
     });
     cancelPromise.then(() => {
-      this.setState({ showTrippeeModal: false, trippeeGear: [] });
+      this.setState({ showTrippeeModal: false, trippeeGear: [], isEditing: true });
       window.scrollTo(0, 0);
     });
   }
@@ -152,35 +138,74 @@ class TripDetails extends Component {
     });
   }
 
+  showError = () => {
+    this.props.appError('You can\'t edit your gear after you\'ve been approved for a trip');
+  }
+
+  // LeaderTripDetails component methods
   moveToTrip = (pender) => {
-    this.props.joinTrip(this.props.trip._id, pender);
+    this.props.joinTrip(this.props.trip._id, pender)
+      .then(() => {
+        this.populateEmails();
+      });
   }
 
   moveToPending = (member) => {
-    this.props.moveToPending(this.props.trip._id, member);
+    this.props.moveToPending(this.props.trip._id, member)
+      .then(() => {
+        this.populateEmails();
+      });
   }
 
   copyPendingToClip = (event) => {
-    this.pendingEmail.select();
+    this.pendingEmailRef.current.select();
     document.execCommand('copy');
     event.target.focus();
+    this.props.appError('Copied to clipboard!');
   }
-  
+
+  copyOnTripToClip = (event) => {
+    this.onTripEmailRef.current.select();
+    document.execCommand('copy');
+    event.target.focus();
+    this.props.appError('Copied to clipboard!');
+  }
+
   onTextChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value,
     });
   }
 
-  isObjectEmpty = (object) => {
-    return Object.entries(object).length === 0 && object.constructor === Object;
-  }
-
   deleteTrip = () => {
     this.props.deleteTrip(this.props.trip.id, this.props.history);
   }
 
+  closeLeaderModal = () => {
+    this.setState({ showLeaderModal: false });
+  }
+
+  isObjectEmpty = (object) => {
+    return Object.entries(object).length === 0 && object.constructor === Object;
+  }
+
+  populateEmails = () => {
+    let pendingEmail = '';
+    let onTripEmail = '';
+    this.props.trip.pending.forEach((pender) => {
+      pendingEmail += `${pender.user.email}, `;
+    });
+    this.props.trip.members.forEach((member) => {
+      onTripEmail += `${member.user.email}, `;
+    });
+    pendingEmail = pendingEmail.substring(0, pendingEmail.length - 2);
+    onTripEmail = onTripEmail.substring(0, onTripEmail.length - 2);
+    this.setState({ pendingEmail, onTripEmail });
+  }
+
   render() {
+    // ref used for copy to clipboard functionality
+    const ref = { pendingEmailRef: this.pendingEmailRef, onTripEmailRef: this.onTripEmailRef };
     if (!this.isObjectEmpty(this.props.trip)) {
       const appropriateComponent = this.props.isLeaderOnTrip
         ? (
@@ -191,10 +216,13 @@ class TripDetails extends Component {
             showModal={this.state.showLeaderModal}
             onTextChange={this.onTextChange}
             activateLeaderModal={this.activateLeaderModal}
-            closeLeaderModal={this.closeLeaderModal}
+            closeModal={this.closeLeaderModal}
             deleteTrip={this.deleteTrip}
             moveToTrip={this.moveToTrip}
-            ref={this.ref}
+            moveToPending={this.moveToPending}
+            copyPendingToClip={this.copyPendingToClip}
+            copyOnTripToClip={this.copyOnTripToClip}
+            ref={ref}
           />
         )
         : (
@@ -207,15 +235,18 @@ class TripDetails extends Component {
             startEditing={this.startEditing}
             cancelChanges={this.cancelChanges}
             activateTrippeeModal={this.activateTrippeeModal}
-            closeTrippeeModal={this.closeTrippeeModal}
+            closeModal={this.closeTrippeeModal}
             cancelSignup={this.cancelSignup}
             signUp={this.signUp}
             editGear={this.editGear}
+            goBack={this.goBack}
+            showError={this.showError}
+            userTripStatus={this.props.userTripStatus}
           />
         );
       return (
         appropriateComponent
-      ); 
+      );
     } else {
       return (
         <div>
@@ -231,7 +262,7 @@ class TripDetails extends Component {
 const mapStateToProps = state => (
   {
     trip: state.trips.trip,
-    isUserOnTrip: state.trips.isUserOnTrip,
+    userTripStatus: state.trips.userTripStatus,
     isLeaderOnTrip: state.trips.isLeaderOnTrip,
     user: state.user,
   }
