@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips } from '../actions';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import '../styles/alltrips-style.scss';
+import '../styles/card-style.scss';
 
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.

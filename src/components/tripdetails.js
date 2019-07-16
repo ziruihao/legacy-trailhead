@@ -267,7 +267,6 @@ const mapStateToProps = state => (
     user: state.user,
   }
 );
-
 export default withRouter(connect(mapStateToProps, {
   fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError,
 })(TripDetails));
