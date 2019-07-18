@@ -131,10 +131,16 @@ input[type=date]::-webkit-outer-spin-button {
 
 .trip-tiles{
   display: inline-block;
+
 }
 
-
-
+// these two elements have to be in line
+#modal{
+  width:20%;
+}
+#main-tiles{
+  width:70%;
+}
 
 
 #Ledyard::after{
