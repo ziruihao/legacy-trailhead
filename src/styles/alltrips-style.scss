@@ -1,0 +1,70 @@
+.card-trip {
+  background-color: rgba(0,0,0,0.4);
+  margin-right: 10px;
+
+  &:hover {
+    background-color: #cacaca;
+  }
+
+  a {
+    color: black;
+
+    &:link, &:visited, &:hover {
+      text-decoration: none;
+    }
+  }
+
+  h1 {
+    color: black;
+  }
+
+  p {
+    color: black;
+  }
+}
+
+.all-trips {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  margin-top: 10px;
+}
+
+.all-trips-header {
+  margin-bottom: 10px;
+}
+
+.all-trips-box {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.all-trips-card {
+  width: 18rem;
+}
+
+.all-trips-select {
+  position: fixed;
+  top: 15%;
+  left: 50px;
+  width: 250px;
+}
+
+.calendar-container {
+  margin-top: 2vh;
+  height: 90vh;
+  background-color: red;
+  background: red;
+}
+
+// .modal {
+//   height: 50vh;
+//   background-color: red;
+//   background: red;
+//   color: black;
+// }
