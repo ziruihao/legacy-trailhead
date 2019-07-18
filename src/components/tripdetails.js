@@ -77,7 +77,6 @@ class TripDetails extends Component {
       this.props.addToPending(signUpInfo);
       this.setState({ hasSignedUp: true });
       this.props.fetchTrip(this.props.match.params.tripID);
-
     } else {
       alert('You are already on the pending list.');
     }

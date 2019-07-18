@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
@@ -107,7 +108,7 @@ class MyTrips extends Component {
           </NavLink>
         </div>
         <h2 className="mytrips-sub-header"> Upcoming vehicle requests</h2>
-        <NavLink className="btn btn-primary">Request vehicle</NavLink>
+        <NavLink className="btn btn-primary" to="#">Request vehicle</NavLink>
         <div className="box">
           {this.renderMyVehicles()}
         </div>
