@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips, getClubs } from '../actions';
 import '../styles/card-style.scss';
+import TripDetailsModal from './tripDetailsModal';
 
 
 
@@ -27,6 +28,7 @@ class AllTrips extends Component {
     this.props.getClubs();
   }
   showTrip(tripID){
+    console.log(tripID);
     this.setState({ showTrip: tripID });
   }
 
@@ -95,6 +97,21 @@ renderStartDropdown = () => {
   );
 
 }
+setCurrTrip = (trip) => {
+  this.setState({
+    showTrip: trip 
+  })
+}
+renderTripDetailsModal=()=>{
+  console.log(this.state.showTrip);
+  if(this.state.showTrip===""){
+    return null;
+  }else{
+    return(
+      <TripDetailsModal tripID = {this.state.showTrip}/>
+    );
+  }
+}
   renderTrips = () => {
     //figure out how/when to filter by dates.
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
@@ -115,15 +132,13 @@ renderStartDropdown = () => {
         if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
           return (
             <div key={trip.id} className="card text-center card-trip margins">
-              <NavLink to={`/trip/${trip.id}`} key={trip.id}>
-                <div className="card-body" id = {card_id}>
+                <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip.id)}>
                   <h2 className="card-title">{trip.title}</h2>
                   <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                   <p className="card-text">{this.formatDescription(trip.description)}</p>
                   <p className="card-club">{trip.club ? trip.club.name : ''}</p>
 
                 </div>
-              </NavLink>
             </div>
           );
 
@@ -148,15 +163,13 @@ renderStartDropdown = () => {
        if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
          return (
            <div key={trip.id} className="card card text-center card-trip margins">
-             <NavLink to={`/trip/${trip.id}`} key={trip.id}>
-               <div className="card-body" id = {card_id}>
+               <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip.id)}>
                  <h2 className="card-title">{trip.title}</h2>
                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                  <p className="card-text">{this.formatDescription(trip.description)}</p>
                  <p className="card-club">{trip.club ? trip.club.name : ''}</p>
 
                </div>
-             </NavLink>
            </div>
          );
 
@@ -178,7 +191,6 @@ renderStartDropdown = () => {
 
 
   render() {
-    if(this.state.showTrip===""){
       return (
         <div className="tile-box">
           <h1 className="all-trips-header">All Trips</h1>
@@ -189,11 +201,12 @@ renderStartDropdown = () => {
           </div>
           <div className="box">
             {this.renderTrips()}
+            {this.renderTripDetailsModal()}
           </div>
         </div>
       );
     }
-  }
+  
 }
 
 

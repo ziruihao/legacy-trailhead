@@ -29,6 +29,18 @@ class TripDetailsModal extends Component{
           });
       }
     render(){
+      return(     
+        <div className = "trip-details-modal">
+          <h1> {this.props.trip.title} </h1>
+          <div>
+            Personal information
+            {this.props.user.name}
+          </div>
+
+        </div>
+        );
+
+
         
     }
 
@@ -43,4 +55,4 @@ const mapStateToProps = state => (
       user: state.user,
     }
   );
-export default withRouter(connect(mapStateToProps, { fetchTrips, getClubs })(TripDetailsModal)); // connected component
+export default withRouter(connect(mapStateToProps, { fetchTrip, isOnTrip })(TripDetailsModal)); // connected component

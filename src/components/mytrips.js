@@ -42,6 +42,7 @@ class MyTrips extends Component {
     );
 
   }
+
   renderMyTrips = () => {  
     let myTrips = <p>Trips you sign up for will appear here!</p>;
     const sortedTrips = this.props.myTrips.sort(this.compareStartDates);
@@ -65,7 +66,7 @@ class MyTrips extends Component {
         return (
           <div key={trip.id} className="card text-center card-trip margins">
             <NavLink to={`/trip/${trip.id}`}>
-              <div className="card-body" id = {card_id}>
+              <div className="card-body" id = {card_id} >
                 <h2 className="card-title">(L) {trip.title}</h2>
                 <p className="card-text">{trip.club ? trip.club.name : ''}</p>
                 <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
