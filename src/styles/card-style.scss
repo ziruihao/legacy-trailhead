@@ -128,6 +128,15 @@ input[type=date]::-webkit-outer-spin-button {
   font-size: 16pt;
   color: gray !important;
 }
+
+.trip-tiles{
+  display: inline-block;
+}
+
+
+
+
+
 #Ledyard::after{
   background-image: url("../img/ledyard.png");
   background-size: cover;

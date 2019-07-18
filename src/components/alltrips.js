@@ -27,9 +27,9 @@ class AllTrips extends Component {
     this.props.fetchTrips();
     this.props.getClubs();
   }
-  showTrip(tripID){
-    console.log(tripID);
-    this.setState({ showTrip: tripID });
+
+  closeTripModal(){
+    this.setState({showTrip: ""});
   }
 
   formatDate = (date) => {
@@ -100,15 +100,14 @@ renderStartDropdown = () => {
 setCurrTrip = (trip) => {
   this.setState({
     showTrip: trip 
-  })
+  });
 }
 renderTripDetailsModal=()=>{
-  console.log(this.state.showTrip);
   if(this.state.showTrip===""){
     return null;
   }else{
     return(
-      <TripDetailsModal tripID = {this.state.showTrip}/>
+      <TripDetailsModal tripID = {this.state.showTrip} closeModal = {() => this.closeTripModal()}/>
     );
   }
 }
@@ -200,8 +199,13 @@ renderTripDetailsModal=()=>{
             <div className = "all-trips-dropdown-header"> Start: </div>  {this.renderStartDropdown()}
           </div>
           <div className="box">
-            {this.renderTrips()}
-            {this.renderTripDetailsModal()}
+
+            <div className = "trip-tiles">
+              {this.renderTrips()}
+            </div>
+            <div className = "trip-tiles">
+              {this.renderTripDetailsModal()}
+            </div>
           </div>
         </div>
       );

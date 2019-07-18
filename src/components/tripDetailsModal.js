@@ -29,9 +29,11 @@ class TripDetailsModal extends Component{
           });
       }
     render(){
+      this.props.fetchTrip(this.props.tripID);
       return(     
         <div className = "trip-details-modal">
           <h1> {this.props.trip.title} </h1>
+          <div onClick = {this.props.closeModal}> CLOSE MODAL</div>
           <div>
             Personal information
             {this.props.user.name}
