@@ -1,0 +1,109 @@
+.leader-details-container{
+  width: 90%;
+  margin: 1em auto;
+}
+.leader-trip-info{
+  display: flex;
+  margin: 1em 0;
+}
+.leader-trip-detail{
+  width: 50%;
+}
+.leader-trip-detail-row{
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5em;
+  align-items: center;
+}
+.left-detail{
+  margin-right: 2em;
+}
+.right-detail{
+  margin-left: 2em;
+}
+.giphy-embed{
+  position: absolute;
+}
+.loading-gif{
+  width:100%;
+  height:0;
+  padding-bottom:77%;
+  position:relative;
+}
+.leader-detail-row{
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em;
+}
+.no-on-trip{
+  display: flex;
+  justify-content: center;
+  padding: 2em;
+}
+.none-f-now{
+  color: #939393
+}
+.emails{
+  display: flex;
+  align-items: center;
+}
+.copy-button{
+  margin-left: 2em;
+}
+.status-badge{
+  max-height: 3em;
+  margin-bottom: 0.5em;
+  max-width: 3em;
+  margin-left: 0.5em;
+}
+.no-gear{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.group-gear-list{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.leader-detail-left{
+  margin-left: 0.5em;
+}
+.leader-detail-right{
+  margin-right: 0.5em;
+  display: flex;
+}
+.leader-signup-button{
+  width: 8em;
+  height: 3em;
+}
+.leader-cancel-button{
+  background: #EE6E52;
+  padding: 1em;
+  min-height: 3em;
+  min-width: 10em;
+  border-radius: 5px;
+  display: block;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+}
+.leader-edit-link:hover{
+  text-decoration: none;
+}
+
+@media only screen and (max-width: 640px) {
+  .leader-trip-info{
+    flex-direction: column;
+  }
+  .leader-trip-detail{
+    width: 100%;
+  }
+  .left-detail{
+    margin-right: 0;
+  }
+  .right-detail{
+    margin-left: 0;
+  }
+}

@@ -23,6 +23,8 @@ class CreateTrip extends Component {
       startTime: '',
       endTime: '',
       mileage: '',
+      pickup: '',
+      dropoff: '',
       location: '',
       cost: '',
       length: 'single',
@@ -194,8 +196,12 @@ class CreateTrip extends Component {
     });
   }
 
+  isObjectEmpty = (object) => {
+    return Object.entries(object).length === 0 && object.constructor === Object;
+  }
+
   createTrip() {
-    const club = this.state.club ? this.state.club : this.props.user.leader_for[0];
+    const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
     const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
     const trippeeGearStrings = this.state.trippeeGear.filter(gear => gear.length > 0);
     const trippeeGear = trippeeGearStrings.map(gear => ({ gear, quantity: 0 }));
@@ -207,6 +213,8 @@ class CreateTrip extends Component {
       description: this.state.description,
       mileage: this.state.mileage,
       location: this.state.location,
+      pickup: this.state.pickup,
+      dropoff: this.state.dropoff,
       startDate: this.state.startDate,
       endDate: this.state.endDate,
       startTime: this.state.startTime,
@@ -269,6 +277,8 @@ class CreateTrip extends Component {
           <textarea className="form-control field" onChange={this.onFieldChange} name="description" placeholder="Trip description (markdown supported)" value={this.state.description} />
           <input type="number" onChange={this.onFieldChange} name="mileage" placeholder="Estimated mileage" value={this.state.mileage} />
           <input onChange={this.onFieldChange} name="location" placeholder="Location" value={this.state.location} />
+          <input onChange={this.onFieldChange} name="pickup" placeholder="Pickup Location" value={this.state.pickup} />
+          <input onChange={this.onFieldChange} name="dropoff" placeholder="Dropoff Location" value={this.state.dropoff} />
           <div> Trip Duration </div>
           <form>
             <input
@@ -321,8 +331,8 @@ class CreateTrip extends Component {
         </div>
       </div>
     );
-    }
-    }
+  }
+}
 
 
 const mapStateToProps = (state) => {
