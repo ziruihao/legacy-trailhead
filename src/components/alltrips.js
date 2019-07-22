@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
@@ -15,7 +14,7 @@ class AllTrips extends Component {
       club: '',
       beginner: "all",
       grid: true,
-      showTrip: "",
+      showTrip: null,
       startDate: "",
     };
   }
@@ -30,7 +29,7 @@ class AllTrips extends Component {
   }
 
   closeTripModal(){
-    this.setState({showTrip: ""});
+    this.setState({showTrip: null});
   }
 
   formatDate = (date) => {
@@ -104,16 +103,15 @@ setCurrTrip = (trip) => {
   });
 }
 renderTripDetailsModal=()=>{
-  if(this.state.showTrip===""){
+  if(this.state.showTrip === null || this.state.showTrip === undefined ){
     return null;
   }else{
     return(
-      <TripDetailsModal tripID = {this.state.showTrip} closeModal = {() => this.closeTripModal()}/>
+      <TripDetailsModal trip = {this.state.showTrip}  closeModal = {() => this.closeTripModal()}/>
     );
   }
 }
   renderTrips = () => {
-    //figure out how/when to filter by dates.
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
     if(this.state.startDate!==""){
       sortedTrips.sort(this.compareStartDateWithInput);
@@ -132,7 +130,7 @@ renderTripDetailsModal=()=>{
         if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
           return (
             <div key={trip.id} className="card text-center card-trip margins">
-                <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip.id)}>
+                <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
                   <h2 className="card-title">{trip.title}</h2>
                   <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                   <p className="card-text">{this.formatDescription(trip.description)}</p>
@@ -163,7 +161,7 @@ renderTripDetailsModal=()=>{
        if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
          return (
            <div key={trip.id} className="card card text-center card-trip margins">
-               <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip.id)}>
+               <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
                  <h2 className="card-title">{trip.title}</h2>
                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                  <p className="card-text">{this.formatDescription(trip.description)}</p>
@@ -191,6 +189,10 @@ renderTripDetailsModal=()=>{
 
 
   render() {
+    let tiles_id = "";
+    if(this.state.showTrip===""){
+      tiles_id = "tiles-modal-open";
+    }
       return (
         <div className="tile-box">
           <h1 className="all-trips-header">All Trips</h1>
@@ -201,12 +203,10 @@ renderTripDetailsModal=()=>{
           </div>
           <div className="box">
 
-            <div className = "trip-tiles">
+            <div className = "trip-tiles" id = "main-tiles">
               {this.renderTrips()}
             </div>
-            <div className = "trip-tiles">
               {this.renderTripDetailsModal()}
-            </div>
           </div>
         </div>
       );

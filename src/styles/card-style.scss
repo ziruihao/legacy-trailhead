@@ -134,12 +134,13 @@ input[type=date]::-webkit-outer-spin-button {
 
 }
 
-// these two elements have to be in line
-#modal{
-  width:20%;
-}
-#main-tiles{
-  width:70%;
+
+.trips-details-modal{
+  display: inline-block;
+  width:50%;
+  background-color: white;
+  border-style: none;
+  box-shadow: 2px 2px 2px gray;
 }
 
 
