@@ -312,19 +312,13 @@ class ProfilePage extends Component {
     if (!this.state.isEditing) {
       return (
         <div className="my-container">
-          <div id="page-header" className="row">
-            <div className="col-6">
-              <h1 className="header">My Profile</h1>
-            </div>
-            <div className="col-6">
-              <button id="edit-button" className="logout-button">
-                <span>logout</span>
-              </button>
-            </div>
+          <div className="profile-page-header">
+            <h1 className="header">My Profile</h1>
+            <span className="logout-button" onClick={this.logout} role="button" tabIndex={0}>Logout</span>
           </div>
-          <div className="row profile justify-content-center">
-            <div className="col-4">
-              <p className="profile-pic" />
+          <div className="profile">
+            <div className="profile-pic">
+              <h1>Test</h1>
             </div>
 
             <div className="col-8 card-body">

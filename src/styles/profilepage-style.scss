@@ -1,24 +1,23 @@
 .my-container {
   display: flex;
+  width: 95%;
+  margin: 0 auto;
 }
 
-#page-header{
+.profile-page-header{
+  margin-top: 2.25em;
+  display: flex;
+  align-items: flex-end;
   justify-content: space-between;
-  margin-top: 68px;
-  margin-left: 2.5%;
-  width: 90%;
-  flex: 0 1 auto;
+  width: 100%;
 }
 
 .header{
-  position: relative;
-  width: 25rem;
-  height: 4.125rem;
-  font-family: Nunito Sans;
+  margin-bottom: 0;
+  // font-family: Nunito Sans;
   font-style: normal;
   font-weight: 800;
   font-size: 3rem;
-  line-height: 4rem;
   letter-spacing: 0.05em;
   color: #000000;
 }
@@ -30,7 +29,7 @@
 .profile{
   display: flex;
   position: absolute;
-  height:475;
+  min-height:4.75em;
   left: 3.89%;
   right: 3.89%;
   top: 27%;
@@ -117,12 +116,9 @@ input.my-form-control{
   flex: 0 1 auto;
 }
 
-.logout-button{
-  right: 2.89%;
-  top: 18.75rem;
-  float: right;
-  margin-top: 1.5rem;
-}
+// .logout-button{
+  
+// }
 
 .button-place{
   top: 1.5rem;
