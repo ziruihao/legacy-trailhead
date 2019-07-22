@@ -24,7 +24,7 @@ class NavBar extends Component {
         </div>
       );
     }
-    let createTripsLink, viewApprovalsLink;
+    let createTripsLink, viewApprovalsLink, opoTrips;
     if (this.props.role === 'Leader') {
       createTripsLink = (
         <li className="nav-item">
@@ -45,8 +45,16 @@ class NavBar extends Component {
           </NavLink>
         </li>
       );
+      opoTrips = (
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/opo-trips">
+            OPO Trips
+          </NavLink>
+        </li>
+      );
     } else {
       viewApprovalsLink = null;
+      opoTrips = null;
     }
 
     return (
@@ -66,6 +74,7 @@ class NavBar extends Component {
 
             {createTripsLink}
             {viewApprovalsLink}
+            {opoTrips}
 
             <li className="nav-item">
               <NavLink className="nav-link" to="/mytrips">
