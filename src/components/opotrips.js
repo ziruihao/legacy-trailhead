@@ -24,6 +24,8 @@ class OpoTrips extends Component {
 
   GEAR_VALUE = 'Gear Requests';
 
+  now = new Date();
+
   constructor(props) {
     super(props);
     this.state = {
@@ -118,7 +120,9 @@ class OpoTrips extends Component {
           hasPendingPcard = trip.pcardStatus === 'pending';
           hasPendingVehicle = trip.vehicleStatus === 'pending';
       }
-      return (hasPendingTrippeeGear || hasPendingGear || hasPendingPcard || hasPendingVehicle);
+      const startDate = new Date(trip.startDate);
+      const hasPassed = startDate < this.now;
+      return (!hasPassed && (hasPendingTrippeeGear || hasPendingGear || hasPendingPcard || hasPendingVehicle));
     });
     if (pendingTrips.length === 0) {
       return (
@@ -154,7 +158,9 @@ class OpoTrips extends Component {
       const hasPendingGear = trip.gearStatus === 'pending';
       const hasPendingPcard = trip.pcardStatus === 'pending';
       const hasPendingVehicle = trip.vehicleStatus === 'pending';
-      return (!hasPendingTrippeeGear && !hasPendingGear && !hasPendingPcard && !hasPendingVehicle);
+      const startDate = new Date(trip.startDate);
+      const hasPassed = startDate < this.now;
+      return (hasPassed || (!hasPendingTrippeeGear && !hasPendingGear && !hasPendingPcard && !hasPendingVehicle));
     });
     const filteredTrips = approvedTrips.filter((trip) => {
       return trip.title.concat([this.formatDate(trip.startDate, trip.startTime), trip.leaders[0].name, trip.club.name])
@@ -235,7 +241,7 @@ class OpoTrips extends Component {
     return (
       <div className="leader-details-container dashboard-container">
         <div className="pending-and-dropdown">
-          <h2 className="trip-status">Pending Trips</h2>
+          <h4 className="trip-status">Pending Trips</h4>
           <div className="dropdown-and-label">
             <span className="dropdown-label">Filter by:</span>
             <Dropdown onSelect={this.onDropdownChange}>
@@ -261,10 +267,10 @@ class OpoTrips extends Component {
         </div>
 
         <div className="pending-and-dropdown">
-          <h2 className="trip-status">Reviewed Trips</h2>
+          <h4 className="trip-status">Reviewed & Past Trips</h4>
           <input
             name="search"
-            placeholder="Search reviewed trips"
+            placeholder="Search reviewed & past trips"
             value={this.state.searchTerm}
             onChange={this.onSearchTermChange}
             className="searchbox"
