@@ -311,80 +311,84 @@ class ProfilePage extends Component {
   render() {
     if (!this.state.isEditing) {
       return (
-        <div className="my-container">
-          <div className="profile-page-header">
-            <h1 className="header">My Profile</h1>
-            <span className="logout-button" onClick={this.logout} role="button" tabIndex={0}>Logout</span>
-          </div>
-          <div className="profile">
-            <div className="profile-pic">
-              <h1>Test</h1>
+        <div className="background">
+          <div className="my-container">
+            <div className="profile-page-header">
+              <h1 className="header">My Profile</h1>
+              <span className="logout-button" onClick={this.logout} role="button" tabIndex={0}>Logout</span>
             </div>
+            <div className="profile">
+              <div className="profile-pic-container">
+                <div className="profile-pic">
+                  {/* <h1>RY</h1> */}
+                </div>
+              </div>
 
-            <div className="col-8 card-body">
-              <div className="row justify-content-between">
-                <div className="col-6 card-name">
-                  <p>{this.props.user.name}</p>
+              <div className="profile-card-body">
+                <div className="card-header">
+                  <div className="name-and-email">
+                    <div className="card-name">
+                      <p>{this.props.user.name}</p>
+                    </div>
+                    <div className="card-email">
+                      <p>{this.props.user.email}</p>
+                    </div>
+                  </div>
+                  <div className="button-place">
+                    {/* <button id="edit-button" onClick={this.getUpdatedVals}> */}
+                      <img src="/src/img/editButton.svg" alt="edit button" />
+                      {/* <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M17.71 4.0425C18.1 3.6525 18.1 3.0025 17.71 2.6325L15.37 0.2925C15 -0.0975 14.35
+                        -0.0975 13.96 0.2925L12.12 2.1225L15.87 5.8725L17.71 4.0425ZM0 14.2525V18.0025H3.75L14.81
+                          6.9325L11.06 3.1825L0 14.2525Z"
+                          fill="#0CA074"
+                        />  
+                      </svg> */}
+                    {/* </button> */}
+                  </div>
                 </div>
-                <div className="col-1 button-place">
-                  <button id="edit-button" onClick={this.getUpdatedVals}>
-                    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M17.71 4.0425C18.1 3.6525 18.1 3.0025 17.71 2.6325L15.37 0.2925C15 -0.0975 14.35
-                      -0.0975 13.96 0.2925L12.12 2.1225L15.87 5.8725L17.71 4.0425ZM0 14.2525V18.0025H3.75L14.81
-                        6.9325L11.06 3.1825L0 14.2525Z"
-                        fill="#0CA074"
-                      />
-                    </svg>
-                  </button>
+                <div className="row justify-content-between">
+                  <div className="col-6">
+                    <p className="card-headings">DASH</p>
+                  </div>
+                  <div className="col-6">
+                    <p className="card-info">{this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}</p>
+                  </div>
                 </div>
-              </div>
-              <div className="row  justify-content-between">
-                <div className="col-12 card-email">
-                  <p>{this.props.user.email}</p>
+                <hr className="line" />
+                <div className="row justify-content-between">
+                  <div className="col-6">
+                    <p className="card-headings">Allergies</p>
+                  </div>
+                  <div className="col-6">
+                    <p className="card-info">Peanuts, Bee Stings</p>
+                  </div>
                 </div>
-
-              </div>
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">DASH</p>
+                <hr className="line" />
+                <div className="row justify-content-between">
+                  <div className="col-6">
+                    <p className="card-headings">Dietary Restrictions</p>
+                  </div>
+                  <div className="col-6">
+                    <p className="card-info">n/a</p>
+                  </div>
                 </div>
-                <div className="col-6">
-                  <p className="card-info">{this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}</p>
+                <div className="profile-field">
+                  {this.displayClubs()}
                 </div>
-              </div>
-              <hr className="line" />
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">Allergies</p>
+                <div className="profile-field">
+                  {this.displayCertifications()}
                 </div>
-                <div className="col-6">
-                  <p className="card-info">Peanuts, Bee Stings</p>
-                </div>
-              </div>
-              <hr className="line" />
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">Dietary Restrictions</p>
-                </div>
-                <div className="col-6">
-                  <p className="card-info">n/a</p>
-                </div>
-              </div>
-              <div className="profile-field">
-                {this.displayClubs()}
-              </div>
-              <div className="profile-field">
-                {this.displayCertifications()}
-              </div>
-              <button className="btn btn-primary" onClick={this.startEditing}>Update my info</button>
-              {this.pendingChanges()}
-              <hr className="line" />
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">Relevant Medical Conditions</p>
-                </div>
-                <div className="col-6">
-                  <p className="card-info">Asthma</p>
+                <button className="btn btn-primary" onClick={this.startEditing}>Update my info</button>
+                {this.pendingChanges()}
+                <hr className="line" />
+                <div className="row justify-content-between">
+                  <div className="col-6">
+                    <p className="card-headings">Relevant Medical Conditions</p>
+                  </div>
+                  <div className="col-6">
+                    <p className="card-info">Asthma</p>
+                  </div>
                 </div>
               </div>
             </div>
