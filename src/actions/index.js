@@ -20,6 +20,7 @@ export const ActionTypes = {
   FETCH_TRIPPEE_GEAR_REQUESTS: 'FETCH_TRIPPEE_GEAR_REQUESTS',
   UPDATE_RESTRICTED_PATH: 'UPDATE_RESTRICTED_PATH',
   FETCH_CERT_APPROVALS: 'FETCH_CERT_APPROVALS',
+  FETCH_OPO_TRIPS: 'FETCH_OPO_TRIPS',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -354,6 +355,25 @@ export function fetchGearRequests() {
         dispatch(appError(`Error fetching gear request: ${error}`));
         console.log(error);
       });
+  };
+}
+
+export function fetchOpoTrips() {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.get(`${ROOT_URL}/opotrips`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({
+            type: ActionTypes.FETCH_OPO_TRIPS,
+            payload: response.data,
+          });
+          resolve();
+        })
+        .catch((error) => {
+          dispatch(appError(`Error fetching opo trips: ${error}`));
+          console.log(error);
+        });
+    });
   };
 }
 

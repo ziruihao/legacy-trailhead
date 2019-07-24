@@ -5,6 +5,7 @@ const initialState = ({
   gearRequests: [],
   trippeeGearRequests: [],
   certApprovals: [],
+  opoTrips: [],
 });
 
 const OPOReducer = (state = initialState, action) => {
@@ -17,6 +18,8 @@ const OPOReducer = (state = initialState, action) => {
       return Object.assign({}, state, { trippeeGearRequests: action.payload });
     case ActionTypes.FETCH_CERT_APPROVALS:
       return Object.assign({}, state, { certApprovals: action.payload });
+    case ActionTypes.FETCH_OPO_TRIPS:
+      return Object.assign({}, state, { opoTrips: action.payload });
     default:
       return state;
   }
