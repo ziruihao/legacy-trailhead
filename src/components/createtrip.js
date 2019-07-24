@@ -19,6 +19,8 @@ class CreateTrip extends Component {
       startTime: '',
       endTime: '',
       mileage: '',
+      pickup: '',
+      dropoff: '',
       location: '',
       cost: '',
       length: 'single',
@@ -229,7 +231,7 @@ class CreateTrip extends Component {
       });
     }
 
-    
+
 
     createTrip() {
       const club = this.state.club ? this.state.club : this.props.user.leader_for[0];

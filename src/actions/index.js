@@ -20,6 +20,7 @@ export const ActionTypes = {
   FETCH_TRIPPEE_GEAR_REQUESTS: 'FETCH_TRIPPEE_GEAR_REQUESTS',
   UPDATE_RESTRICTED_PATH: 'UPDATE_RESTRICTED_PATH',
   FETCH_CERT_APPROVALS: 'FETCH_CERT_APPROVALS',
+  FETCH_OPO_TRIPS: 'FETCH_OPO_TRIPS',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -49,7 +50,6 @@ export function getUser() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        console.log(response);
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
       })
       .catch((error) => {
@@ -73,10 +73,8 @@ export function updateUser(updatedUser) {
 }
 
 export function fetchTrips() {
-  console.log('fetching trips');
   return (dispatch) => {
-    console.log('about to call axios for trips');
-    axios.get(`${ROOT_URL}/alltrips`).then((response) => {
+    axios.get(`${ROOT_URL}/alltrips`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({
         type: ActionTypes.FETCH_TRIPS,
         payload: response.data,
@@ -89,20 +87,35 @@ export function fetchTrips() {
 
 export function fetchTrip(id) {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/trip/${id}`).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
-    }).catch((error) => {
-      console.log(error);
-      console.log('Fetch trip error');
+    return new Promise((resolve, reject) => {
+      axios.get(`${ROOT_URL}/trip/${id}`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          console.log('Fetch trip error');
+        });
     });
   };
 }
 
 export function addToPending(signUpInfo) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/addpending`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch({ type: ActionTypes.ADD_PENDING, payload: response.data });
-      console.log(response.data);
+    axios.put(`${ROOT_URL}/addpending/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+      }).catch((error) => {
+        console.log('addpending error');
+        console.log(error);
+      });
+  };
+}
+
+export function editUserGear(signUpInfo) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/editusergear/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
       console.log('addpending error');
       console.log(error);
@@ -112,20 +125,38 @@ export function addToPending(signUpInfo) {
 
 export function joinTrip(id, pend) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/jointrip`, { id, pend }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch({ type: ActionTypes.JOIN_TRIP, payload: response.data });
-      console.log(response.data);
-    }).catch((error) => {
-      console.log('joinTrip error');
-      console.log(error);
+    return new Promise((resolve, reject) => {
+      axios.put(`${ROOT_URL}/jointrip/${id}`, { id, pend }, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log('joinTrip error');
+          console.log(error);
+        });
     });
   };
 }
 
-export function leaveTrip(id) {
+export function moveToPending(id, member) {
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/leaveTrip/${id}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch({ type: ActionTypes.LEAVE_TRIP, payload: response.data });
+    return new Promise((resolve, reject) => {
+      axios.put(`${ROOT_URL}/movetopending/${id}`, { id, member }, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log('move to pending error');
+          console.log(error);
+        });
+    });
+  };
+}
+
+export function leaveTrip(id, userTripStatus) {
+  return (dispatch) => {
+    axios.delete(`${ROOT_URL}/leaveTrip/${id}`, { headers: { authorization: localStorage.getItem('token') }, data: { userTripStatus } }).then((response) => {
+      dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
       console.log(error);
     });
@@ -158,11 +189,11 @@ export function createTrip(trip, history) {
   };
 }
 
-export function deleteTrip(trip, history) {
+export function deleteTrip(id, history) {
   return (dispatch) => {
-    axios.delete(`${ROOT_URL}/trip/${trip.id}`, { headers: { authorization: localStorage.getItem('token') } })
+    axios.delete(`${ROOT_URL}/trip/${id}`, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        history.push('/alltrips');
+        history.goBack();
       })
       .catch((error) => {
         console.log(error);
@@ -324,6 +355,25 @@ export function fetchGearRequests() {
         dispatch(appError(`Error fetching gear request: ${error}`));
         console.log(error);
       });
+  };
+}
+
+export function fetchOpoTrips() {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.get(`${ROOT_URL}/opotrips`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({
+            type: ActionTypes.FETCH_OPO_TRIPS,
+            payload: response.data,
+          });
+          resolve();
+        })
+        .catch((error) => {
+          dispatch(appError(`Error fetching opo trips: ${error}`));
+          console.log(error);
+        });
+    });
   };
 }
 

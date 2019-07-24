@@ -1,17 +1,24 @@
 html {
   height: 100%;
   width: 100%;
+  scroll-behavior: smooth;
+  font-family: 'Nunito Sans', serif !important;
 }
 
 body {
   height: 100%;
   width: 100%;
-  background-image: #FAFAFA;
+  background: #FAFAFA;
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
+<<<<<<< HEAD
   // color: white !important;
   font-family: 'Merriweather', serif !important;
+=======
+  color: black !important;
+  font-family: 'Nunito Sans', serif !important;
+>>>>>>> origin/master
 }
 
 .main1 {
