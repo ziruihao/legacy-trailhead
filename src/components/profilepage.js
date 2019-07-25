@@ -21,6 +21,9 @@ class ProfilePage extends Component {
       email: '',
       name: '',
       dash_number: '',
+      allergies: '',
+      diet: '',
+      medical: '',
       clubsList: [],
       driver_cert: null,
       trailer_cert: false,
@@ -28,9 +31,6 @@ class ProfilePage extends Component {
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.updateUserInfo = this.updateUserInfo.bind(this);
-    this.changeToOPO = this.changeToOPO.bind(this);
-    this.changeToTrippee = this.changeToTrippee.bind(this);
-    this.changeToLeader = this.changeToLeader.bind(this);
   }
 
   componentDidMount() {
@@ -60,6 +60,10 @@ class ProfilePage extends Component {
     }
   }
 
+  isObjectEmpty = (object) => {
+    return Object.entries(object).length === 0 && object.constructor === Object;
+  }
+
   onDriverCertChange = (event) => {
     event.persist();
     if (event.target.name === this.TRAILER_CONSTANT) {
@@ -83,51 +87,29 @@ class ProfilePage extends Component {
     });
   }
 
+  cancelChanges = () => {
+    this.setState({ isEditing: false });
+  }
+
   displayClubs = () => {
-    if (!this.props.user.leader_for) {
-      return '';
-    }
-    if (!this.state.isEditing) {
-      let clubString = '';
-      this.props.user.leader_for.forEach((club) => {
-        clubString = clubString.concat(`${club.name}, `);
-      });
-      const clubs = clubString.length - 2 <= 0
-        ? <em>None</em> : clubString.substring(0, clubString.length - 2);
-      return (
-        <div>
-          <h5 className="card-title">DOC clubs that you are a leader for</h5>
-          {clubs}
-        </div>
-      );
-    } else {
-      return this.getClubForm();
-    }
+    let clubString = '';
+    this.props.user.leader_for.forEach((club) => {
+      clubString = clubString.concat(`${club.name}, `);
+    });
+    const clubs = clubString.length - 2 <= 0
+      ? <em>None</em> : clubString.substring(0, clubString.length - 2);
+    return clubs;
   }
 
   displayCertifications = () => {
-    if (!this.state.isEditing) {
-      let certifications = '';
-      if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
-        certifications = this.NONE_CONSTANT;
-      } else {
-        const driverCertString = this.props.user.driver_cert === null ? '' : `${this.props.user.driver_cert}, `;
-        certifications = this.props.user.trailer_cert ? `${driverCertString}${this.TRAILER_CONSTANT}` : driverCertString;
-      }
-      return (
-        <div>
-          <h5 className="card-title">Driver certifications</h5>
-          <p>{certifications}</p>
-        </div>
-      );
+    let certifications = '';
+    if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
+      certifications = this.NONE_CONSTANT;
     } else {
-      return (
-        <div>
-          <h5 className="card-title">Select your highest level of driver certification</h5>
-          {this.getCertificationsForm()}
-        </div>
-      );
+      const driverCertString = this.props.user.driver_cert === null ? '' : `${this.props.user.driver_cert}, `;
+      certifications = this.props.user.trailer_cert ? `${driverCertString}${this.TRAILER_CONSTANT}` : driverCertString;
     }
+    return certifications;
   }
 
   getClubForm = () => {
@@ -255,7 +237,7 @@ class ProfilePage extends Component {
 
   pendingChanges = () => {
     return this.props.user.has_pending_leader_change || this.props.user.has_pending_cert_change
-      ? <strong>You have changes pending approval</strong>
+      ? '* You have changes pending approval'
       : null;
   }
 
@@ -272,44 +254,190 @@ class ProfilePage extends Component {
     this.setState({ isEditing: false });
   }
 
-  changeToOPO(event) {
-    const updatedUser = {
-      email: this.state.email,
-      name: this.state.name,
-      leader_for: [],
-      role: 'OPO',
-      dash_number: this.state.dash_number,
-    };
-    this.setState({ isEditing: false, clubsList: [] });
-    this.props.updateUser(updatedUser);
-  }
-
-  changeToTrippee(event) {
-    const updatedUser = {
-      email: this.state.email,
-      name: this.state.name,
-      leader_for: [],
-      role: 'Trippee',
-      dash_number: this.state.dash_number,
-    };
-    this.setState({ isEditing: false, clubsList: [] });
-    this.props.updateUser(updatedUser);
-  }
-
-  changeToLeader(event) {
-    const updatedUser = {
-      email: this.state.email,
-      name: this.state.name,
-      leader_for: this.state.clubsList,
-      role: 'Leader',
-      dash_number: this.state.dash_number,
-    };
-    this.setState({ isEditing: false, clubsList: [] });
-    this.props.updateUser(updatedUser);
-  }
-
   render() {
-    if (!this.state.isEditing) {
+    if (!this.isObjectEmpty(this.props.user)) {
+      if (!this.state.isEditing) {
+        return (
+          <div className="background">
+            <div className="my-container">
+              <div className="profile-page-header">
+                <h1 className="header">My Profile</h1>
+                <span className="logout-button" onClick={this.logout} role="button" tabIndex={0}>Logout</span>
+              </div>
+              <div className="profile">
+                <div className="profile-pic-container">
+                  <div className="profile-pic">
+                    {/* <h1>RY</h1> */}
+                  </div>
+                </div>
+
+                <div className="profile-card-body">
+                  <div className="profile-card-header">
+                    <div className="name-and-email">
+                      <div className="card-name">{this.props.user.name}</div>
+                      <div className="card-email">{this.props.user.email}</div>
+                    </div>
+                    <div className="button-place">
+                      <input className="edit-button" type="image" src="/src/img/editButton.svg" alt="edit button" onClick={this.startEditing} />
+                    </div>
+                  </div>
+                  <div className="profile-card-info">
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        DASH
+                      </span>
+                      <span className="card-info">
+                        {this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        Allergies
+                      </span>
+                      <span className="card-info">
+                        Peanuts, Bee Stings
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        Dietary Restrictions
+                      </span>
+                      <span className="card-info">
+                        n/a
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        Relevant Medical Conditions
+                      </span>
+                      <span className="card-info">
+                        Asthma
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        {this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
+                      </span>
+                      <span className="card-info">
+                        {this.displayClubs()}
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        {this.props.user.has_pending_cert_change ? 'Driver Certification(s)*' : 'Driver Certification(s)'}
+                      </span>
+                      <span className="card-info">
+                        {this.displayCertifications()}
+                      </span>
+                    </div>
+                    <div className="pending-changes">
+                      {this.pendingChanges()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        return (
+          <div className="background">
+            <div className="my-container">
+              <div className="profile-page-header">
+                <h1 className="header">My Profile</h1>
+                <span className="cancel-changes" onClick={this.cancelChanges} role="button" tabIndex={0}>Cancel changes</span>
+              </div>
+              <div className="profile">
+                <div className="profile-pic-container">
+                  <div className="profile-pic">
+                    {/* <h1>RY</h1> */}
+                  </div>
+                </div>
+
+                <div className="profile-card-body">
+                  <div className="profile-card-header">
+                    <div className="name-and-email">
+                      <div className="card-name">
+                        <input type="text" name="name" onChange={this.onFieldChange} className="my-form-control name-input" value={this.state.name} />
+                      </div>
+                      <div className="card-email">
+                        <input type="text" name="email" onChange={this.onFieldChange} className="my-form-control" value={this.state.email} />
+                      </div>
+                    </div>
+                    <div className="button-place">
+                      <span className="logout-button" onClick={this.updateUserInfo} role="button" tabIndex={0}>Save</span>
+                    </div>
+                  </div>
+                  <div className="profile-card-info">
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        DASH
+                      </span>
+                      <span className="card-info">
+                        <input type="text" name="dash_number" onChange={this.onFieldChange} className="my-form-control" value={this.state.dash_number} />
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        Allergies
+                      </span>
+                      <span className="card-info">
+                        <input type="text" name="allergies" onChange={this.onFieldChange} className="my-form-control" value={this.state.allergies} />
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        Dietary Restrictions
+                      </span>
+                      <span className="card-info">
+                        <input type="text" name="diet" onChange={this.onFieldChange} className="my-form-control" value={this.state.diet} />
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        Relevant Medical Conditions
+                      </span>
+                      <span className="card-info">
+                        <input type="text" name="medical" onChange={this.onFieldChange} className="my-form-control" value={this.state.medical} />
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        {this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
+                      </span>
+                      <span className="card-info">
+                        {this.displayClubs()}
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings">
+                        {this.props.user.has_pending_cert_change ? 'Driver Certification(s)*' : 'Driver Certification(s)'}
+                      </span>
+                      <span className="card-info">
+                        {this.displayCertifications()}
+                      </span>
+                    </div>
+                    <div className="pending-changes">
+                      {this.pendingChanges()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
+      }
+    } else {
       return (
         <div className="background">
           <div className="my-container">
@@ -318,166 +446,12 @@ class ProfilePage extends Component {
               <span className="logout-button" onClick={this.logout} role="button" tabIndex={0}>Logout</span>
             </div>
             <div className="profile">
-              <div className="profile-pic-container">
-                <div className="profile-pic">
-                  {/* <h1>RY</h1> */}
-                </div>
-              </div>
-
-              <div className="profile-card-body">
-                <div className="card-header">
-                  <div className="name-and-email">
-                    <div className="card-name">
-                      <p>{this.props.user.name}</p>
-                    </div>
-                    <div className="card-email">
-                      <p>{this.props.user.email}</p>
-                    </div>
-                  </div>
-                  <div className="button-place">
-                    {/* <button id="edit-button" onClick={this.getUpdatedVals}> */}
-                      <img src="/src/img/editButton.svg" alt="edit button" />
-                      {/* <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M17.71 4.0425C18.1 3.6525 18.1 3.0025 17.71 2.6325L15.37 0.2925C15 -0.0975 14.35
-                        -0.0975 13.96 0.2925L12.12 2.1225L15.87 5.8725L17.71 4.0425ZM0 14.2525V18.0025H3.75L14.81
-                          6.9325L11.06 3.1825L0 14.2525Z"
-                          fill="#0CA074"
-                        />  
-                      </svg> */}
-                    {/* </button> */}
-                  </div>
-                </div>
-                <div className="row justify-content-between">
-                  <div className="col-6">
-                    <p className="card-headings">DASH</p>
-                  </div>
-                  <div className="col-6">
-                    <p className="card-info">{this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}</p>
-                  </div>
-                </div>
-                <hr className="line" />
-                <div className="row justify-content-between">
-                  <div className="col-6">
-                    <p className="card-headings">Allergies</p>
-                  </div>
-                  <div className="col-6">
-                    <p className="card-info">Peanuts, Bee Stings</p>
-                  </div>
-                </div>
-                <hr className="line" />
-                <div className="row justify-content-between">
-                  <div className="col-6">
-                    <p className="card-headings">Dietary Restrictions</p>
-                  </div>
-                  <div className="col-6">
-                    <p className="card-info">n/a</p>
-                  </div>
-                </div>
-                <div className="profile-field">
-                  {this.displayClubs()}
-                </div>
-                <div className="profile-field">
-                  {this.displayCertifications()}
-                </div>
-                <button className="btn btn-primary" onClick={this.startEditing}>Update my info</button>
-                {this.pendingChanges()}
-                <hr className="line" />
-                <div className="row justify-content-between">
-                  <div className="col-6">
-                    <p className="card-headings">Relevant Medical Conditions</p>
-                  </div>
-                  <div className="col-6">
-                    <p className="card-info">Asthma</p>
-                  </div>
-                </div>
-              </div>
+              <h1>Loading...</h1>
             </div>
           </div>
         </div>
       );
     }
-
-
-    return (
-      <div className="my-container">
-        <div id="page-header" className="row">
-          <div className="col-6">
-            <h1 className="header">My Profile</h1>
-          </div>
-          <div className="col-6">
-            <button id="edit-button" className="logout-button">
-              <span>Save</span>
-            </button>
-          </div>
-          <div className="profile-field">
-            {this.displayClubs()}
-            {this.displayLeaderFeedback()}
-            {this.displayCertifications()}
-            {this.displayCertificationFeedback()}
-          </div>
-          <div className="row profile justify-content-center">
-            <div className="col-4">
-              <p className="profile-pic" />
-            </div>
-
-            <div className="col-8 card-body">
-              <div className="row justify-content-between">
-                <div className="col-6 card-name">
-                  <p>{this.props.user.name}</p>
-                </div>
-                <div className="col-2 button-place">
-                  <button id="save-button" onClick={this.updateUserInfo}>
-                    <span>Save</span>
-                  </button>
-                </div>
-              </div>
-              <div className="row  justify-content-between">
-                <div className="col-12 card-email">
-                  <p>{this.props.user.email}</p>
-                </div>
-
-              </div>
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">DASH</p>
-                </div>
-                <div className="col-6">
-                  <input type="text" name="dash_number" onChange={this.onFieldChange} className="form-control my-form-control" value={this.state.dash_number} />
-                </div>
-              </div>
-              <hr className="line" />
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">Allergies</p>
-                </div>
-                <div className="col-6">
-                  <input type="text" name="allergies" onChange={this.onFieldChange} className="form-control my-form-control" />
-                </div>
-              </div>
-              <hr className="line" />
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">Dietary Restrictions</p>
-                </div>
-                <div className="col-6">
-                  <input type="text" name="dietary_restrictions" onChange={this.onFieldChange} className="form-control my-form-control" />
-                </div>
-              </div>
-              <hr className="line" />
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">Relevant Medical Conditions</p>
-                </div>
-                <div className="col-6">
-                  <input type="text" name="medical_conditions" onChange={this.onFieldChange} className="form-control my-form-control" />
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </div>
-    );
   }
 }
 
