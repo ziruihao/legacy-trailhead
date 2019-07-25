@@ -19,6 +19,7 @@ import TripDetails from './components/tripdetails';
 import EditTrip from './components/edittrip';
 import NavBar from './components/navbar';
 import OpoStuff from './components/opoStuff';
+import OpoTrips from './components/opotrips';
 import requireAuth from './containers/requireAuth';
 import { ActionTypes, getUser } from './actions';
 
@@ -57,6 +58,7 @@ const App = (props) => {
           <Route path="/mytrips" component={requireAuth(MyTrips)} />
           <Route path="/edittrip/:tripID" component={requireAuth(EditTrip)} />
           <Route path="/opo" component={requireAuth(OpoStuff)} />
+          <Route path="/opo-trips" component={requireAuth(OpoTrips)} />
           <Route component={FallBack} />
         </Switch>
       </div>
