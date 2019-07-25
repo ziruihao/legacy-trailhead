@@ -43,6 +43,7 @@
 
 .box {
   text-align: left;
+  width:100%;
 }
 
 .card {
@@ -122,6 +123,7 @@ input[type=date]::-webkit-outer-spin-button {
   background-color: red;
   background: red;
   color: black;
+  float:right;
 }
 .create-trip-words{
   margin-top:20%;
@@ -129,21 +131,50 @@ input[type=date]::-webkit-outer-spin-button {
   color: gray !important;
 }
 
-.trip-tiles{
-  display: inline-block;
 
+.content{
+  padding:1%;
+  text-align: center;
+}
+.detail-right{
+  text-align:right;
 }
 
-
-.trips-details-modal{
-  display: inline-block;
-  width:50%;
+.trip-details-modal{
+  width: 40%;
   background-color: white;
   border-style: none;
+  border-radius: 2px;
   box-shadow: 2px 2px 2px gray;
+  position:fixed;
+  right:0;
+  margin-right: 2%;
+  margin-top:1%;
+}
+.trip-tiles{
+  float:left;
+  }
+ 
+  
+
+.trip-detail{
+  width: 50%;
+  display: inline-block;
 }
 
-
+#signup-button{
+  border-color:  rgb(75, 157, 119);
+  background-color:  rgb(75, 157, 119);
+  
+}
+.button-container{
+  text-align: center;
+  padding:5%;
+}
+.link{
+  background-color: rgb(75, 157, 119);
+  color:white;
+}
 #Ledyard::after{
   background-image: url("../img/ledyard.png");
   background-size: cover;
@@ -269,4 +300,9 @@ input[type=date]::-webkit-outer-spin-button {
   box-shadow: none;
   text-align: center;
 }
-
+#tiles-modal-open{
+  width: 50%;
+}
+#tiles-modal-closed{
+  width:100%;
+}

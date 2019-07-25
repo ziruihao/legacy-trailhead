@@ -107,7 +107,7 @@ renderTripDetailsModal=()=>{
     return null;
   }else{
     return(
-      <TripDetailsModal trip = {this.state.showTrip}  closeModal = {() => this.closeTripModal()}/>
+      <TripDetailsModal className = "modal" trip = {this.state.showTrip}  closeModal = {() => this.closeTripModal()}/>
     );
   }
 }
@@ -189,8 +189,8 @@ renderTripDetailsModal=()=>{
 
 
   render() {
-    let tiles_id = "";
-    if(this.state.showTrip===""){
+    let tiles_id = "tiles-modal-closed";
+    if(this.state.showTrip!==null){
       tiles_id = "tiles-modal-open";
     }
       return (
@@ -203,10 +203,10 @@ renderTripDetailsModal=()=>{
           </div>
           <div className="box">
 
-            <div className = "trip-tiles" id = "main-tiles">
+            <div className = "trip-tiles" id = {tiles_id}>
               {this.renderTrips()}
             </div>
-              {this.renderTripDetailsModal()}
+            {this.renderTripDetailsModal()}
           </div>
         </div>
       );

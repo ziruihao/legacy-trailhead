@@ -47,7 +47,7 @@ class TripDetailsModal extends Component{
               <div className="trip-details-close-button">
                 <i className="material-icons close-button" onClick={this.props.closeModal} role="button" tabIndex={0}>close</i>
               </div>
-              <div className="trip-details-content">
+              <div className="content">
               
                 <h1 className="trip-title">{this.props.trip.title}</h1>
                 <div className="trip-club-container">
@@ -90,7 +90,6 @@ class TripDetailsModal extends Component{
                     <span className="detail-right">{this.props.trip.location}</span>
                   </div>
                 </div>
-        
                 <div className="trip-detail">
                   <div className="detail-row">
                     <span className="detail-left">Leader</span>
@@ -122,7 +121,15 @@ class TripDetailsModal extends Component{
                   </div>
                 </div>
                 </div>
+                <div className = "button-container">
+                <NavLink  className="btn btn-primary" id = "signup-button"to={`/trip/${this.props.trip.id}`}>
+                      Sign up for Trip!
+                  </NavLink>
 
+                </div>
+                  
+
+                
                 </div>
         
             
