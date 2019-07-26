@@ -95,9 +95,13 @@ class ProfilePage extends Component {
       const clubs = clubString.length - 2 <= 0
         ? <em>None</em> : clubString.substring(0, clubString.length - 2);
       return (
-        <div>
-          <h5 className="card-title">DOC clubs that you are a leader for</h5>
-          {clubs}
+        <div className="row justify-content-between">
+          <div className="col-6">
+            <p className="card-headings">{this.props.user.role === 'Leader' ? 'DOC clubs that you are a leader for' : 'Request leader access'}</p>
+          </div>
+          <div className="col-6">
+            <p className="card-info">{clubs}</p>
+          </div>
         </div>
       );
     } else {
@@ -115,9 +119,13 @@ class ProfilePage extends Component {
         certifications = this.props.user.trailer_cert ? `${driverCertString}${this.TRAILER_CONSTANT}` : driverCertString;
       }
       return (
-        <div>
-          <h5 className="card-title">Driver certifications</h5>
-          <p>{certifications}</p>
+        <div className="row justify-content-between">
+          <div className="col-6">
+            <p className="card-headings">Driver certifications</p>
+          </div>
+          <div className="col-6">
+            <p className="card-info">{certifications}</p>
+          </div>
         </div>
       );
     } else {
@@ -154,9 +162,13 @@ class ProfilePage extends Component {
       );
     });
     return (
-      <div>
-        <h5 className="card-title"> {this.props.user.role === 'Leader' ? 'DOC clubs that you are a leader for' : 'Request leader access'}</h5>
-        {clubForm}
+      <div className="row justify-content-between">
+        <div className="col-6">
+          <p className="card-headings">{this.props.user.role === 'Leader' ? 'DOC clubs that you are a leader for' : 'Request leader access'}</p>
+        </div>
+        <div className="col-6">
+          <p className="card-info">{clubForm}</p>
+        </div>
       </div>
     );
   }
@@ -317,8 +329,8 @@ class ProfilePage extends Component {
               <h1 className="header">My Profile</h1>
             </div>
             <div className="col-6">
-              <button id="edit-button" className="logout-button">
-                <span>logout</span>
+              <button id="save-logout-button" className="logout-button">
+                <span>Logout</span>
               </button>
             </div>
           </div>
@@ -333,7 +345,7 @@ class ProfilePage extends Component {
                   <p>{this.props.user.name}</p>
                 </div>
                 <div className="col-1 button-place">
-                  <button id="edit-button" onClick={this.getUpdatedVals}>
+                  <button id="edit-button" onClick={this.startEditing}>
                     <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path d="M17.71 4.0425C18.1 3.6525 18.1 3.0025 17.71 2.6325L15.37 0.2925C15 -0.0975 14.35
                       -0.0975 13.96 0.2925L12.12 2.1225L15.87 5.8725L17.71 4.0425ZM0 14.2525V18.0025H3.75L14.81
@@ -342,6 +354,7 @@ class ProfilePage extends Component {
                       />
                     </svg>
                   </button>
+                  {this.pendingChanges()}
                 </div>
               </div>
               <div className="row  justify-content-between">
@@ -359,40 +372,9 @@ class ProfilePage extends Component {
                 </div>
               </div>
               <hr className="line" />
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">Allergies</p>
-                </div>
-                <div className="col-6">
-                  <p className="card-info">Peanuts, Bee Stings</p>
-                </div>
-              </div>
+              {this.displayClubs()}
               <hr className="line" />
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">Dietary Restrictions</p>
-                </div>
-                <div className="col-6">
-                  <p className="card-info">n/a</p>
-                </div>
-              </div>
-              <div className="profile-field">
-                {this.displayClubs()}
-              </div>
-              <div className="profile-field">
-                {this.displayCertifications()}
-              </div>
-              <button className="btn btn-primary" onClick={this.startEditing}>Update my info</button>
-              {this.pendingChanges()}
-              <hr className="line" />
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">Relevant Medical Conditions</p>
-                </div>
-                <div className="col-6">
-                  <p className="card-info">Asthma</p>
-                </div>
-              </div>
+              {this.displayCertifications()}
             </div>
           </div>
         </div>
@@ -407,16 +389,11 @@ class ProfilePage extends Component {
             <h1 className="header">My Profile</h1>
           </div>
           <div className="col-6">
-            <button id="edit-button" className="logout-button">
-              <span>Save</span>
+            <button id="save-logout-button" className="logout-button">
+              <span>Logout</span>
             </button>
           </div>
-          <div className="profile-field">
-            {this.displayClubs()}
-            {this.displayLeaderFeedback()}
-            {this.displayCertifications()}
-            {this.displayCertificationFeedback()}
-          </div>
+
           <div className="row profile justify-content-center">
             <div className="col-4">
               <p className="profile-pic" />
@@ -428,7 +405,7 @@ class ProfilePage extends Component {
                   <p>{this.props.user.name}</p>
                 </div>
                 <div className="col-2 button-place">
-                  <button id="save-button" onClick={this.updateUserInfo}>
+                  <button id="save-logout-button" onClick={this.updateUserInfo}>
                     <span>Save</span>
                   </button>
                 </div>
@@ -448,14 +425,7 @@ class ProfilePage extends Component {
                 </div>
               </div>
               <hr className="line" />
-              <div className="row justify-content-between">
-                <div className="col-6">
-                  <p className="card-headings">Allergies</p>
-                </div>
-                <div className="col-6">
-                  <input type="text" name="allergies" onChange={this.onFieldChange} className="form-control my-form-control" />
-                </div>
-              </div>
+              {this.displayClubs()}
               <hr className="line" />
               <div className="row justify-content-between">
                 <div className="col-6">
@@ -469,9 +439,13 @@ class ProfilePage extends Component {
               <div className="row justify-content-between">
                 <div className="col-6">
                   <p className="card-headings">Relevant Medical Conditions</p>
+                  {this.displayLeaderFeedback()}
+                  {this.displayCertifications()}
+                  {this.displayCertificationFeedback()}
                 </div>
                 <div className="col-6">
                   <input type="text" name="medical_conditions" onChange={this.onFieldChange} className="form-control my-form-control" />
+
                 </div>
               </div>
 
