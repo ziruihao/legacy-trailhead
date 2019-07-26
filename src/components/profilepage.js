@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { updateUser, getClubs } from '../actions';
 import '../styles/profilepage-style.scss';
 
@@ -101,27 +102,51 @@ class ProfilePage extends Component {
     return clubs;
   }
 
+  displaySelectedClubs = () => {
+    let clubString = '';
+    this.state.clubsList.forEach((club) => {
+      clubString = clubString.concat(`${club.name}, `);
+    });
+    const clubs = clubString.length - 2 <= 0
+      ? <em>None</em> : clubString.substring(0, clubString.length - 2);
+    return clubs;
+  }
+
   displayCertifications = () => {
     let certifications = '';
     if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
       certifications = this.NONE_CONSTANT;
-    } else {
-      const driverCertString = this.props.user.driver_cert === null ? '' : `${this.props.user.driver_cert}, `;
-      certifications = this.props.user.trailer_cert ? `${driverCertString}${this.TRAILER_CONSTANT}` : driverCertString;
+    } else if (!this.props.user.trailer_cert && this.props.user.driver_cert !== null) {
+      certifications = this.props.user.driver_cert;
+    } else if (this.props.user.trailer_cert && this.props.user.driver_cert === null) {
+      certifications = this.TRAILER_CONSTANT;
+    } else if (this.props.user.trailer_cert && this.props.user.driver_cert !== null) {
+      certifications = `${this.TRAILER_CONSTANT}, ${this.props.user.driver_cert}`;
+    }
+    return certifications;
+  }
+
+  displaySelectedCertifications = () => {
+    let certifications = '';
+    if (this.state.driver_cert === null && !this.state.trailer_cert) {
+      certifications = this.NONE_CONSTANT;
+    } else if (!this.state.trailer_cert && this.state.driver_cert !== null) {
+      certifications = `${this.state.driver_cert}`;
+    } else if (this.state.trailer_cert && this.state.driver_cert === null) {
+      certifications = `${this.TRAILER_CONSTANT}`;
+    } else if (this.state.trailer_cert && this.state.driver_cert !== null) {
+      certifications = `${this.TRAILER_CONSTANT}, ${this.state.driver_cert}`;
     }
     return certifications;
   }
 
   getClubForm = () => {
-    if (this.props.user.has_pending_leader_change) {
-      return <h1>You can&apos;t update this until your previous changes have been reviewed</h1>;
-    }
     const currentClubIds = this.state.clubsList.map(club => club._id);
     const clubForm = this.props.clubs.map((club) => {
       const checked = currentClubIds.includes(club.id);
       return (
-        <div key={club.id}>
-          <label htmlFor={club.id}>
+        <div className="club-option" key={club.id}>
+          <label className="checkbox-container club-checkbox" htmlFor={club.id}>
             <input
               type="checkbox"
               name="club"
@@ -130,27 +155,29 @@ class ProfilePage extends Component {
               onChange={this.onFieldChange}
               checked={checked}
             />
-            {club.name}
+            <span className="checkmark" />
           </label>
+          <span>{club.name}</span>
         </div>
       );
     });
     return (
-      <div>
-        <h5 className="card-title"> {this.props.user.role === 'Leader' ? 'DOC clubs that you are a leader for' : 'Request leader access'}</h5>
-        {clubForm}
-      </div>
+      <Dropdown>
+        <Dropdown.Toggle id="leader-dropdown">
+          <p className="current-filter">{this.displaySelectedClubs()}</p>
+          <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="filter-options">
+          {clubForm}
+        </Dropdown.Menu>
+      </Dropdown>
     );
   }
 
   getCertificationsForm = () => {
-    if (this.props.user.has_pending_cert_change) {
-      return <h1>You can&apos;t update this until your previous changes have been reviewed</h1>;
-    }
-
     const trailer = (
-      <div>
-        <label htmlFor={this.TRAILER_CONSTANT}>
+      <div className="club-option">
+        <label className="checkbox-container club-checkbox" htmlFor={this.TRAILER_CONSTANT}>
           <input
             type="checkbox"
             name={this.TRAILER_CONSTANT}
@@ -159,8 +186,9 @@ class ProfilePage extends Component {
             onChange={this.onDriverCertChange}
             checked={this.state.trailer_cert}
           />
-          {this.TRAILER_CONSTANT}
+          <span className="checkmark" />
         </label>
+        <span>{this.TRAILER_CONSTANT}</span>
       </div>
     );
 
@@ -168,8 +196,8 @@ class ProfilePage extends Component {
       const checked = certification === this.state.driver_cert;
       certification = certification === null ? this.NONE_CONSTANT : certification;
       return (
-        <div key={certification}>
-          <label htmlFor={certification}>
+        <div className="club-option" key={certification}>
+          <label className="checkbox-container club-checkbox" htmlFor={certification}>
             <input
               type="radio"
               name={this.CERTIFICATION_CONSTANT}
@@ -178,61 +206,61 @@ class ProfilePage extends Component {
               onChange={this.onDriverCertChange}
               checked={checked}
             />
-            {certification}
+            <span className="radio-button" />
           </label>
+          <span>{certification}</span>
         </div>
       );
     });
     return (
-      <div>
-        {certificationForm}
-        {trailer}
-      </div>
+      <Dropdown>
+        <Dropdown.Toggle id="driver-cert-dropdown">
+          <p className="current-filter">{this.displaySelectedCertifications()}</p>
+          <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="filter-options">
+          {certificationForm}
+          <Dropdown.Divider />
+          {trailer}
+        </Dropdown.Menu>
+      </Dropdown>
     );
   }
 
   displayLeaderFeedback = () => {
+    let message = '';
+    let className = 'feedback';
     if (this.state.clubsList.length < this.props.user.leader_for.length) {
-      return (
-        <p>
-          Submitting this form will revoke your leader permissions in one or more clubs.
-          You will need approval from the OPO to regain them.
-          Please review before you proceed.
-        </p>
-      );
+      message = 'You will need OPO approval to regain your leader permissions';
+      className = 'feedback show-feedback';
     } else if (this.state.clubsList.length > this.props.user.leader_for.length) {
-      return (
-        <p>
-          Submitting this form will trigger a request to the OPO for leader permissions.
-          Please proceed only if you are a leader in the selected clubs!
-        </p>
-      );
+      message = 'Your changes will be applied after OPO approves them';
+      className = 'feedback show-feedback';
     } else {
-      return null;
+      message = null;
     }
+    return (
+      <span className={className}>{message}</span>
+    );
   }
 
   displayCertificationFeedback = () => {
+    let message = '';
+    let className = 'feedback';
     if ((this.props.user.trailer_cert && !this.state.trailer_cert)
       || (this.props.user.driver_cert !== null && this.state.driver_cert === null)) {
-      return (
-        <p>
-          Submitting this form will revoke one or more of your driver certifications.
-          You will need approval from the OPO to regain them.
-          Please review before you proceed.
-        </p>
-      );
+      message = 'You will need OPO approval to regain your driver certifications';
+      className = 'feedback show-feedback';
     } else if ((!this.props.user.trailer_cert && this.state.trailer_cert)
       || (this.props.user.driver_cert !== this.state.driver_cert)) {
-      return (
-        <p>
-          Submitting this form will trigger a request to the OPO for approval.
-          Please proceed only if you have the selected driver certifications.
-        </p>
-      );
+      message = 'Your changes will be applied after OPO approves them';
+      className = 'feedback show-feedback';
     } else {
-      return null;
+      message = null;
     }
+    return (
+      <span className={className}>{message}</span>
+    );
   }
 
   pendingChanges = () => {
@@ -241,12 +269,22 @@ class ProfilePage extends Component {
       : null;
   }
 
+  getUserInitials = () => {
+    const names = this.props.user.name.split(' ');
+    const firstInitial = names[0].split('')[0];
+    const lastInitial = names.length > 1 ? names[names.length - 1].split('')[0] : '';
+    return `${firstInitial}${lastInitial}`;
+  }
+
   updateUserInfo(event) {
     const updatedUser = {
       email: this.state.email,
       name: this.state.name,
       leader_for: this.state.clubsList,
       dash_number: this.state.dash_number,
+      allergies: this.state.allergies,
+      dietary_restrictions: this.state.diet,
+      medical_conditions: this.state.medical,
       driver_cert: this.state.driver_cert,
       trailer_cert: this.state.trailer_cert,
     };
@@ -267,7 +305,7 @@ class ProfilePage extends Component {
               <div className="profile">
                 <div className="profile-pic-container">
                   <div className="profile-pic">
-                    {/* <h1>RY</h1> */}
+                    <span className="user-initials">{this.getUserInitials()}</span>
                   </div>
                 </div>
 
@@ -320,19 +358,19 @@ class ProfilePage extends Component {
                     <hr className="line" />
                     <div className="profile-card-row">
                       <span className="card-headings">
-                        {this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
+                        {this.props.user.has_pending_cert_change ? 'Driver Certification(s)*' : 'Driver Certification(s)'}
                       </span>
                       <span className="card-info">
-                        {this.displayClubs()}
+                        {this.displayCertifications()}
                       </span>
                     </div>
                     <hr className="line" />
                     <div className="profile-card-row">
                       <span className="card-headings">
-                        {this.props.user.has_pending_cert_change ? 'Driver Certification(s)*' : 'Driver Certification(s)'}
+                        {this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
                       </span>
                       <span className="card-info">
-                        {this.displayCertifications()}
+                        {this.displayClubs()}
                       </span>
                     </div>
                     <div className="pending-changes">
@@ -405,26 +443,30 @@ class ProfilePage extends Component {
                       <span className="card-headings">
                         Relevant Medical Conditions
                       </span>
-                      <span className="card-info">
+                      <span className="card-info extra-info">
                         <input type="text" name="medical" onChange={this.onFieldChange} className="my-form-control" value={this.state.medical} />
+                        <span className="extra-info-message">This will only be visible to your trip leaders and OPO staff</span>
                       </span>
                     </div>
                     <hr className="line" />
                     <div className="profile-card-row">
-                      <span className="card-headings">
-                        {this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
-                      </span>
-                      <span className="card-info">
-                        {this.displayClubs()}
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings">
+                      <span className="card-headings extra-info">
                         {this.props.user.has_pending_cert_change ? 'Driver Certification(s)*' : 'Driver Certification(s)'}
+                        {this.displayCertificationFeedback()}
+                      </span>
+                      <span className="card-info extra-info">
+                        {this.getCertificationsForm()}
+                        <span className="extra-info-message">Please select your highest level of driver certification</span>
+                      </span>
+                    </div>
+                    <hr className="line" />
+                    <div className="profile-card-row">
+                      <span className="card-headings extra-info">
+                        {this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
+                        {this.displayLeaderFeedback()}
                       </span>
                       <span className="card-info">
-                        {this.displayCertifications()}
+                        {this.getClubForm()}
                       </span>
                     </div>
                     <div className="pending-changes">
