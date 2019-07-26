@@ -11,7 +11,6 @@
         "strict": 0,
         "quotes": [2, "single"],
         "no-alert": 0,
-        "indent": ["warn", 2],
         "no-else-return": 0,
         "new-cap": ["error", {"capIsNewExceptions": ["Router"]}],
         "no-console": 0,
@@ -41,21 +40,10 @@
         "react/jsx-filename-extension": 0,
         "jsx-a11y/click-events-have-key-events": 0,
         "jsx-a11y/no-noninteractive-element-interactions": 0,
-<<<<<<< HEAD
-        "react/jsx-one-expression-per-line": 0,
-        "react/no-array-index-key": "warn",
-        "capIsNew": false,
-        "react/prefer-stateless-function": [1, { "ignorePureComponents": true }],
-        "react/no-unescaped-entities": "warn",
-        "jsx-a11y/no-autofocus": [ 2, {
-            "ignoreNonDOM": false
-        }],
-=======
         "react/jsx-one-expression-per-line":0,
         "react/no-array-index-key":"warn",
         "capIsNew": 0,
         "react/prefer-stateless-function": [1, { "ignorePureComponents": true }]
->>>>>>> origin/master
     },
     "plugins": [
         "react"

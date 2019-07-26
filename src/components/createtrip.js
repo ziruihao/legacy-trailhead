@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/no-autofocus */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -172,7 +173,7 @@ class CreateTrip extends Component {
       return this.state.gearRequests.map((gearRequest, index) => {
         return (
           <div className="gear-container" key={index}>
-            <input type="text" className="gear-input" name="opogearRequest" onChange={event => this.onGearChange(event, index)} value={gearRequest} autoFocus />
+            <input type="text" className="gear-input" name="opogearRequest" placeholder="Add Item" onChange={event => this.onGearChange(event, index)} value={gearRequest} autoFocus />
             <button type="button" className="delete-gear-button" onClick={() => this.removeGear(index)}>X</button>
           </div>
         );
@@ -183,7 +184,7 @@ class CreateTrip extends Component {
       return this.state.trippeeGear.map((gearRequest, index) => {
         return (
           <div className="gear-container" key={index}>
-            <input type="text" className="gear-input" name="trippeeGear" onChange={event => this.onTrippeeGearChange(event, index)} value={gearRequest} autoFocus />
+            <input type="text" className="gear-input" name="trippeeGear" placeholder="Add Item" onChange={event => this.onTrippeeGearChange(event, index)} value={gearRequest} autoFocus />
             <button type="button" className="delete-gear-button" onClick={() => this.removeTrippeeGear(index)}>X</button>
           </div>
         );
@@ -218,7 +219,7 @@ class CreateTrip extends Component {
       thecurrentStep = this.state.currentStep;
       thecurrentStep = thecurrentStep >= 5 ? 6 : thecurrentStep + 1;
       this.setState({
-      currentStep: thecurrentStep,
+        currentStep: thecurrentStep,
       });
     }
 
@@ -227,11 +228,9 @@ class CreateTrip extends Component {
       thecurrentStep = this.state.currentStep;
       thecurrentStep = thecurrentStep <= 1 ? 1 : thecurrentStep - 1;
       this.setState({
-      currentStep: thecurrentStep,
+        currentStep: thecurrentStep,
       });
     }
-
-
 
     createTrip() {
       const club = this.state.club ? this.state.club : this.props.user.leader_for[0];
@@ -289,7 +288,26 @@ class CreateTrip extends Component {
       return null;
     }
 
-
+    // validate() {
+    //   if (this.state.currentStep == 1) {
+    //     const { title, club, leaders };
+    //     if (title.length !== 0 && club !== {} && leaders.length !== 0){
+    //       const isValid = true;
+    //     }
+    //   }
+    //   if (this.state.currentStep == 2) {
+    //     const { startDate, startTime, endTime, location, mileage };
+    //     if (startDate.length !== 0 && startTime.length !== 0 && endTime.length !== 0 && location.length !== 0, mileage.length !== 0){
+    //       const isValid = true;
+    //     }
+    //   }
+    //   if (this.state.currentStep == 3) {
+    //     const { description };
+    //     if (description.length !== 0 && startTime.length !== 0 && endTime.length !== 0 && location.length !== 0, mileage.length !== 0){
+    //       const isValid = true;
+    //     }
+    //   }
+    // }
 
     render() {
       return (
@@ -315,7 +333,7 @@ class CreateTrip extends Component {
             </div>
             <div className="row column-sub-headers">
               <div className="side-bar-highlight" />
-              <p>What you'll need</p>
+              <p>What you&apo;sll need</p>
             </div>
             <div className="row column-headers">
               <p>Additional details</p>
@@ -326,7 +344,7 @@ class CreateTrip extends Component {
             </div>
             <div className="row column-sub-headers">
               <div className="side-bar-highlight" />
-              <p>What you'll need</p>
+              <p>What you&apo;ll need</p>
             </div>
           </div>
           <BasicTripInfo
@@ -351,6 +369,8 @@ class CreateTrip extends Component {
           />
           <AboutTheTrip
             currentStep={this.state.currentStep}
+            pickUp={this.state.pickup}
+            dropOff={this.state.dropoff}
             onFieldChange={this.onFieldChange}
             DescripValue={this.state.description}
           />
@@ -501,6 +521,28 @@ function AboutTheTrip(props) {
       <div className="row page-header">
         <p>About the trip</p>
       </div>
+      <div id="date-picker" className="row page-sub-headers">
+        <div>
+          <p>Pickup</p>
+          <input
+            className="form-control field top-create-trip pickupDropoff"
+            onChange={props.onFieldChange}
+            name="leaders"
+            placeholder="eg. Robo Hall"
+            value={props.pickUp}
+          />
+        </div>
+        <div>
+          <p>Dropoff</p>
+          <input
+            className="form-control field top-create-trip pickupDropoff"
+            onChange={props.onFieldChange}
+            name="leaders"
+            placeholder="eg. McNutt Hall"
+            value={props.dropOff}
+          />
+        </div>
+      </div>
       <div className="row page-sub-headers">
         <p>Trip decription</p>
         <textarea
@@ -514,7 +556,7 @@ function AboutTheTrip(props) {
       <div className="row page-sub-headers">
         <p>Things you can include</p>
         <ul className="descrip-list">
-          <li>What you'll be doing on the trip</li>
+          <li>What you&apos;ll be doing on the trip</li>
           <li>Prior experience that would be helpful (if applicable)</li>
           <li>Rough iternary of events and activities</li>
           <li>Short introduction of leaders</li>

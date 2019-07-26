@@ -20,10 +20,15 @@
     &.leaders{
       margin: 0rem 3rem 2.5rem 0rem;
     }
+    &.pickupDropoff{
+      width: 298px;
+      height: 69px;
+      margin: 0rem 3rem 2.5rem 0rem;
+    }
   }
   &.trip-descrip-box{
     width: 944px;
-    height: 393px;
+    height: 200px;
     left: 392px;
     top: 262px;
     border: 2px solid #C4C4C4;
@@ -93,7 +98,7 @@ input[type="text"]{
     height: 3rem;
     border-color: transparent;
     flex: 1;
-    color: #979797;
+    color: #474747;
     border-style: solid;
   }
   &:focus{
@@ -301,7 +306,7 @@ label{
   margin: 0px;
   display: block;
   &.trip-date-header{
-    margin-top: 2.0rem;
+    margin-top: 1.5rem;
   }
 
 }
