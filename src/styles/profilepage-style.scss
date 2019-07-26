@@ -1,17 +1,20 @@
+
 .my-container {
   display: flex;
+  height: 100%;
+  position: inherit;
 }
 
 #page-header{
   justify-content: space-between;
-  margin-top: 68px;
+  margin-top: 4.25rem;
   margin-left: 2.5%;
   width: 90%;
   flex: 0 1 auto;
 }
 
 .header{
-  position: relative;
+  position: inherit;
   width: 25rem;
   height: 4.125rem;
   font-family: Nunito Sans;
@@ -28,9 +31,10 @@
 }
 
 .profile{
+  flex: 0 1 auto;
   display: flex;
   position: absolute;
-  height:475;
+  height:24.25rem;
   left: 3.89%;
   right: 3.89%;
   top: 27%;
@@ -65,7 +69,7 @@
   font-size: 3rem;
   line-height: 4rem;
   letter-spacing: 0.05em;
-  margin-bottom: -2rem;
+  margin-bottom: -1rem;
   color: #000000;
   flex: 0 1 auto;
 }
@@ -127,8 +131,8 @@ input.my-form-control{
 .button-place{
   top: 1.5rem;
   padding-right: 1rem;
-
 }
+
 
 
 #edit-button{
@@ -155,10 +159,10 @@ input.my-form-control{
 
 }
 
-#save-button{
+#save-logout-button{
   height: 2rem;
   width: 4.5rem;
-  padding-left: 3.5rem;
+  padding-left: 3rem;
   border: none;
   background: none;
   cursor: pointer;
@@ -166,19 +170,30 @@ input.my-form-control{
     outline: 0px dashed #17171D;
   }
   &:hover {
-    svg {
+    span {
       transform: scale(1.1);
     }
   }
   &::-moz-focus-inner {
     border: 0;
   }
-  svg {
+  span {
+    display: inline-block;
+    font-family: Nunito Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    letter-spacing: 0.05em;
+    color: #0CA074;
     outline: none;
     transition: transform 0.3s linear;
+
   }
 
 }
+
+
 
 
 .col-1 {width: 8.33%;}
