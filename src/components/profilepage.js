@@ -22,8 +22,7 @@ class ProfilePage extends Component {
       email: '',
       name: '',
       dash_number: '',
-      allergies: '',
-      diet: '',
+      allergies_dietary_restrictions: '',
       medical: '',
       clubsList: [],
       driver_cert: null,
@@ -282,8 +281,7 @@ class ProfilePage extends Component {
       name: this.state.name,
       leader_for: this.state.clubsList,
       dash_number: this.state.dash_number,
-      allergies: this.state.allergies,
-      dietary_restrictions: this.state.diet,
+      allergies_dietary_restrictions: this.state.allergies_dietary_restrictions,
       medical_conditions: this.state.medical,
       driver_cert: this.state.driver_cert,
       trailer_cert: this.state.trailer_cert,
@@ -331,19 +329,10 @@ class ProfilePage extends Component {
                     <hr className="line" />
                     <div className="profile-card-row">
                       <span className="card-headings">
-                        Allergies
+                        Allergies/Dietary Restrictions
                       </span>
                       <span className="card-info">
-                        Peanuts, Bee Stings
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings">
-                        Dietary Restrictions
-                      </span>
-                      <span className="card-info">
-                        n/a
+                        {this.props.user.allergies_dietary_restrictions ? this.props.user.allergies_dietary_restrictions : 'Please fill out'}
                       </span>
                     </div>
                     <hr className="line" />
@@ -352,7 +341,7 @@ class ProfilePage extends Component {
                         Relevant Medical Conditions
                       </span>
                       <span className="card-info">
-                        Asthma
+                        {this.props.user.medical_conditions ? this.props.user.medical_conditions : 'Please fill out'}
                       </span>
                     </div>
                     <hr className="line" />
@@ -392,9 +381,7 @@ class ProfilePage extends Component {
               </div>
               <div className="profile">
                 <div className="profile-pic-container">
-                  <div className="profile-pic">
-                    {/* <h1>RY</h1> */}
-                  </div>
+                  <div className="profile-pic" />
                 </div>
 
                 <div className="profile-card-body">
@@ -404,7 +391,7 @@ class ProfilePage extends Component {
                         <input type="text" name="name" onChange={this.onFieldChange} className="my-form-control name-input" value={this.state.name} />
                       </div>
                       <div className="card-email">
-                        <input type="text" name="email" onChange={this.onFieldChange} className="my-form-control" value={this.state.email} />
+                        <input type="text" name="email" maxLength="50" onChange={this.onFieldChange} className="my-form-control" value={this.state.email} />
                       </div>
                     </div>
                     <div className="button-place">
@@ -417,25 +404,23 @@ class ProfilePage extends Component {
                         DASH
                       </span>
                       <span className="card-info">
-                        <input type="text" name="dash_number" onChange={this.onFieldChange} className="my-form-control" value={this.state.dash_number} />
+                        <input type="text" name="dash_number" maxLength="50" onChange={this.onFieldChange} className="my-form-control" value={this.state.dash_number} />
                       </span>
                     </div>
                     <hr className="line" />
                     <div className="profile-card-row">
                       <span className="card-headings">
-                        Allergies
+                        Allergies/Dietary Restrictions
                       </span>
                       <span className="card-info">
-                        <input type="text" name="allergies" onChange={this.onFieldChange} className="my-form-control" value={this.state.allergies} />
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings">
-                        Dietary Restrictions
-                      </span>
-                      <span className="card-info">
-                        <input type="text" name="diet" onChange={this.onFieldChange} className="my-form-control" value={this.state.diet} />
+                        <input
+                          className="my-form-control"
+                          type="text"
+                          name="allergies_dietary_restrictions"
+                          maxLength="50"
+                          onChange={this.onFieldChange}
+                          value={this.state.allergies_dietary_restrictions}
+                        />
                       </span>
                     </div>
                     <hr className="line" />
@@ -444,7 +429,7 @@ class ProfilePage extends Component {
                         Relevant Medical Conditions
                       </span>
                       <span className="card-info extra-info">
-                        <input type="text" name="medical" onChange={this.onFieldChange} className="my-form-control" value={this.state.medical} />
+                        <input type="text" name="medical" maxLength="50" onChange={this.onFieldChange} className="my-form-control" value={this.state.medical} />
                         <span className="extra-info-message">This will only be visible to your trip leaders and OPO staff</span>
                       </span>
                     </div>
