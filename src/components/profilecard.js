@@ -3,7 +3,7 @@ import '../styles/profilepage-style.scss';
 
 const TRAILER_CONSTANT = 'TRAILER';
 
-const NONE_CONSTANT = 'NONE';
+const NONE_CONSTANT = 'None';
 
 const displayClubs = (userClubs) => {
   let clubString = '';
@@ -11,7 +11,7 @@ const displayClubs = (userClubs) => {
     clubString = clubString.concat(`${club.name}, `);
   });
   const clubs = clubString.length - 2 <= 0
-    ? <em>None</em> : clubString.substring(0, clubString.length - 2);
+    ? NONE_CONSTANT : clubString.substring(0, clubString.length - 2);
   return clubs;
 };
 
@@ -43,7 +43,6 @@ const getUserInitials = (userName) => {
 };
 
 const ProfileCard = (props) => {
-  console.log(props.user);
   if (!props.isEditing) {
     return (
       <div className="profile">
@@ -124,7 +123,7 @@ const ProfileCard = (props) => {
             <hr className="line" />
             <div className="profile-card-row">
               <span className="card-headings">
-                {props.user.has_pending_cert_change ? 'Driver Certification(s)*' : 'Driver Certification(s)'}
+                {props.asProfilePage && props.user.has_pending_cert_change ? 'Driver Certification(s)*' : 'Driver Certification(s)'}
               </span>
               <span className="card-info">
                 {displayCertifications(props.user.driver_cert, props.user.trailer_cert)}
@@ -133,7 +132,7 @@ const ProfileCard = (props) => {
             <hr className="line" />
             <div className="profile-card-row">
               <span className="card-headings">
-                {props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
+                {props.asProfilePage && props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
               </span>
               <span className="card-info">
                 {displayClubs(props.user.leader_for)}
