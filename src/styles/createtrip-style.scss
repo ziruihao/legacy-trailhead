@@ -257,16 +257,16 @@ ul li .radio-button{
   padding-left: 30px;
   padding-right: 70px;
   flex-direction: column;
-  flex: 2 0 content;
+  flex: 0 1 auto;
   display: flex;
+  min-width: 15rem;
 }
 
 .side-bar-highlight{
   position: absolute;
   width: 7px;
-  height: 3rem;
+  height: 2.5rem;
   left: .96rem;
-  // top: 222px;
   background: #0CA074;
   border-radius: 0px 5px 5px 0px
 }
@@ -289,7 +289,7 @@ ul li .radio-button{
   letter-spacing: 0.05em;
   color: #000000;
   margin: 1rem 0rem 1rem 2rem;
-  flex: 0 1 auto;
+  flex: 0 1 content;
 }
 
 .column-adjust{
@@ -348,13 +348,14 @@ ul li .radio-button{
 .button-placement{
   position: absolute;
 }
-#next-button{
+.next-button{
   position: absolute;
   width: 129px;
   height: 66px;
   left: 65rem;
   top: 53rem;
-  background: #EDECEC;
+  background: #0CA074;
+  color: white;
   border-radius: 5px;
 }
 
@@ -364,6 +365,13 @@ ul li .radio-button{
   height: 66px;
   left: 23.5em;
   top: 53em;
-  background: #EDECEC;
+  background: #0CA074;
+  color: white;
   border-radius: 5px;
+}
+
+button:disabled,
+button[disabled]{
+  background-color: #EDECEC;
+  color: #919191;
 }
