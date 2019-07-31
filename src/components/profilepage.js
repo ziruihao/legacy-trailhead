@@ -1,10 +1,9 @@
-/* eslint-disable react/button-has-type */
-/* eslint-disable react/no-access-state-in-setstate */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { updateUser, getClubs } from '../actions';
+import ProfileCard from './profilecard';
 import '../styles/profilepage-style.scss';
 
 class ProfilePage extends Component {
@@ -80,6 +79,8 @@ class ProfilePage extends Component {
       name: this.props.user.name,
       email: this.props.user.email,
       dash_number: this.props.user.dash_number ? this.props.user.dash_number : '',
+      allergies_dietary_restrictions: this.props.user.allergies_dietary_restrictions ? this.props.user.allergies_dietary_restrictions : '',
+      medical: this.props.user.medical_conditions ? this.props.user.medical_conditions : '',
       clubsList: this.props.user.leader_for,
       driver_cert: this.props.user.driver_cert,
       trailer_cert: this.props.user.trailer_cert,
@@ -300,74 +301,12 @@ class ProfilePage extends Component {
                 <h1 className="header">My Profile</h1>
                 <span className="logout-button" onClick={this.logout} role="button" tabIndex={0}>Logout</span>
               </div>
-              <div className="profile">
-                <div className="profile-pic-container">
-                  <div className="profile-pic">
-                    <span className="user-initials">{this.getUserInitials()}</span>
-                  </div>
-                </div>
-
-                <div className="profile-card-body">
-                  <div className="profile-card-header">
-                    <div className="name-and-email">
-                      <div className="card-name">{this.props.user.name}</div>
-                      <div className="card-email">{this.props.user.email}</div>
-                    </div>
-                    <div className="button-place">
-                      <input className="edit-button" type="image" src="/src/img/editButton.svg" alt="edit button" onClick={this.startEditing} />
-                    </div>
-                  </div>
-                  <div className="profile-card-info">
-                    <div className="profile-card-row">
-                      <span className="card-headings">
-                        DASH
-                      </span>
-                      <span className="card-info">
-                        {this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings">
-                        Allergies/Dietary Restrictions
-                      </span>
-                      <span className="card-info">
-                        {this.props.user.allergies_dietary_restrictions ? this.props.user.allergies_dietary_restrictions : 'Please fill out'}
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings">
-                        Relevant Medical Conditions
-                      </span>
-                      <span className="card-info">
-                        {this.props.user.medical_conditions ? this.props.user.medical_conditions : 'Please fill out'}
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings">
-                        {this.props.user.has_pending_cert_change ? 'Driver Certification(s)*' : 'Driver Certification(s)'}
-                      </span>
-                      <span className="card-info">
-                        {this.displayCertifications()}
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings">
-                        {this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
-                      </span>
-                      <span className="card-info">
-                        {this.displayClubs()}
-                      </span>
-                    </div>
-                    <div className="pending-changes">
-                      {this.pendingChanges()}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ProfileCard
+                asProfilePage
+                isEditing={this.state.isEditing}
+                startEditing={this.startEditing}
+                user={this.props.user}
+              />
             </div>
           </div>
         );
@@ -379,87 +318,21 @@ class ProfilePage extends Component {
                 <h1 className="header">My Profile</h1>
                 <span className="cancel-changes" onClick={this.cancelChanges} role="button" tabIndex={0}>Cancel changes</span>
               </div>
-              <div className="profile">
-                <div className="profile-pic-container">
-                  <div className="profile-pic" />
-                </div>
-
-                <div className="profile-card-body">
-                  <div className="profile-card-header">
-                    <div className="name-and-email">
-                      <div className="card-name">
-                        <input type="text" name="name" onChange={this.onFieldChange} className="my-form-control name-input" value={this.state.name} />
-                      </div>
-                      <div className="card-email">
-                        <input type="text" name="email" maxLength="50" onChange={this.onFieldChange} className="my-form-control" value={this.state.email} />
-                      </div>
-                    </div>
-                    <div className="button-place">
-                      <span className="logout-button" onClick={this.updateUserInfo} role="button" tabIndex={0}>Save</span>
-                    </div>
-                  </div>
-                  <div className="profile-card-info">
-                    <div className="profile-card-row">
-                      <span className="card-headings">
-                        DASH
-                      </span>
-                      <span className="card-info">
-                        <input type="text" name="dash_number" maxLength="50" onChange={this.onFieldChange} className="my-form-control" value={this.state.dash_number} />
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings">
-                        Allergies/Dietary Restrictions
-                      </span>
-                      <span className="card-info">
-                        <input
-                          className="my-form-control"
-                          type="text"
-                          name="allergies_dietary_restrictions"
-                          maxLength="50"
-                          onChange={this.onFieldChange}
-                          value={this.state.allergies_dietary_restrictions}
-                        />
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings">
-                        Relevant Medical Conditions
-                      </span>
-                      <span className="card-info extra-info">
-                        <input type="text" name="medical" maxLength="50" onChange={this.onFieldChange} className="my-form-control" value={this.state.medical} />
-                        <span className="extra-info-message">This will only be visible to your trip leaders and OPO staff</span>
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings extra-info">
-                        {this.props.user.has_pending_cert_change ? 'Driver Certification(s)*' : 'Driver Certification(s)'}
-                        {this.displayCertificationFeedback()}
-                      </span>
-                      <span className="card-info extra-info">
-                        {this.getCertificationsForm()}
-                        <span className="extra-info-message">Please select your highest level of driver certification</span>
-                      </span>
-                    </div>
-                    <hr className="line" />
-                    <div className="profile-card-row">
-                      <span className="card-headings extra-info">
-                        {this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
-                        {this.displayLeaderFeedback()}
-                      </span>
-                      <span className="card-info">
-                        {this.getClubForm()}
-                      </span>
-                    </div>
-                    <div className="pending-changes">
-                      {this.pendingChanges()}
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <ProfileCard
+                asProfilePage
+                isEditing={this.state.isEditing}
+                onFieldChange={this.onFieldChange}
+                name={this.state.name}
+                email={this.state.email}
+                updateUserInfo={this.updateUserInfo}
+                dash_number={this.state.dash_number}
+                allergies_dietary_restrictions={this.state.allergies_dietary_restrictions}
+                medical={this.state.medical}
+                displayCertificationFeedback={this.displayCertificationFeedback}
+                getCertificationsForm={this.getCertificationsForm}
+                displayLeaderFeedback={this.displayLeaderFeedback}
+                getClubForm={this.getClubForm}
+              />
             </div>
           </div>
         );
