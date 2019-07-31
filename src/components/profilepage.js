@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { updateUser, getClubs } from '../actions';
+import { updateUser, getClubs, signOut } from '../actions';
 import ProfileCard from './profilecard';
 import '../styles/profilepage-style.scss';
 
@@ -23,6 +23,9 @@ class ProfilePage extends Component {
       dash_number: '',
       allergies_dietary_restrictions: '',
       medical: '',
+      height: '',
+      shoe_size: '',
+      clothe_size: '',
       clubsList: [],
       driver_cert: null,
       trailer_cert: false,
@@ -74,6 +77,10 @@ class ProfilePage extends Component {
     }
   }
 
+  onClotheSizeChange = (eventKey) => {
+    this.setState({ clothe_size: eventKey });
+  }
+
   startEditing = () => {
     this.setState({
       name: this.props.user.name,
@@ -81,6 +88,9 @@ class ProfilePage extends Component {
       dash_number: this.props.user.dash_number ? this.props.user.dash_number : '',
       allergies_dietary_restrictions: this.props.user.allergies_dietary_restrictions ? this.props.user.allergies_dietary_restrictions : '',
       medical: this.props.user.medical_conditions ? this.props.user.medical_conditions : '',
+      height: this.props.user.height ? this.props.user.height : '',
+      clothe_size: this.props.user.clothe_size ? this.props.user.clothe_size : '',
+      shoe_size: this.props.user.shoe_size ? this.props.user.shoe_size : '',
       clubsList: this.props.user.leader_for,
       driver_cert: this.props.user.driver_cert,
       trailer_cert: this.props.user.trailer_cert,
@@ -92,16 +102,6 @@ class ProfilePage extends Component {
     this.setState({ isEditing: false });
   }
 
-  displayClubs = () => {
-    let clubString = '';
-    this.props.user.leader_for.forEach((club) => {
-      clubString = clubString.concat(`${club.name}, `);
-    });
-    const clubs = clubString.length - 2 <= 0
-      ? <em>None</em> : clubString.substring(0, clubString.length - 2);
-    return clubs;
-  }
-
   displaySelectedClubs = () => {
     let clubString = '';
     this.state.clubsList.forEach((club) => {
@@ -110,20 +110,6 @@ class ProfilePage extends Component {
     const clubs = clubString.length - 2 <= 0
       ? <em>None</em> : clubString.substring(0, clubString.length - 2);
     return clubs;
-  }
-
-  displayCertifications = () => {
-    let certifications = '';
-    if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
-      certifications = this.NONE_CONSTANT;
-    } else if (!this.props.user.trailer_cert && this.props.user.driver_cert !== null) {
-      certifications = this.props.user.driver_cert;
-    } else if (this.props.user.trailer_cert && this.props.user.driver_cert === null) {
-      certifications = this.TRAILER_CONSTANT;
-    } else if (this.props.user.trailer_cert && this.props.user.driver_cert !== null) {
-      certifications = `${this.TRAILER_CONSTANT}, ${this.props.user.driver_cert}`;
-    }
-    return certifications;
   }
 
   displaySelectedCertifications = () => {
@@ -227,6 +213,26 @@ class ProfilePage extends Component {
     );
   }
 
+  getClotheForm = () => {
+    return (
+      <Dropdown onSelect={this.onClotheSizeChange}>
+        <Dropdown.Toggle id="clothe-size-dropdown">
+          <span>
+            <span className="selected-size">{this.state.clothe_size}</span>
+            <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+          </span>
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="filter-options clothe-options">
+          <Dropdown.Item eventKey="XS">XS</Dropdown.Item>
+          <Dropdown.Item eventKey="S">S</Dropdown.Item>
+          <Dropdown.Item eventKey="M">M</Dropdown.Item>
+          <Dropdown.Item eventKey="L">L</Dropdown.Item>
+          <Dropdown.Item eventKey="XL">XL</Dropdown.Item>
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  }
+
   displayLeaderFeedback = () => {
     let message = '';
     let className = 'feedback';
@@ -263,19 +269,6 @@ class ProfilePage extends Component {
     );
   }
 
-  pendingChanges = () => {
-    return this.props.user.has_pending_leader_change || this.props.user.has_pending_cert_change
-      ? '* You have changes pending approval'
-      : null;
-  }
-
-  getUserInitials = () => {
-    const names = this.props.user.name.split(' ');
-    const firstInitial = names[0].split('')[0];
-    const lastInitial = names.length > 1 ? names[names.length - 1].split('')[0] : '';
-    return `${firstInitial}${lastInitial}`;
-  }
-
   updateUserInfo(event) {
     const updatedUser = {
       email: this.state.email,
@@ -284,6 +277,9 @@ class ProfilePage extends Component {
       dash_number: this.state.dash_number,
       allergies_dietary_restrictions: this.state.allergies_dietary_restrictions,
       medical_conditions: this.state.medical,
+      clothe_size: this.state.clothe_size,
+      shoe_size: this.state.shoe_size,
+      height: this.state.height,
       driver_cert: this.state.driver_cert,
       trailer_cert: this.state.trailer_cert,
     };
@@ -299,7 +295,7 @@ class ProfilePage extends Component {
             <div className="my-container">
               <div className="profile-page-header">
                 <h1 className="header">My Profile</h1>
-                <span className="logout-button" onClick={this.logout} role="button" tabIndex={0}>Logout</span>
+                <span className="logout-button" onClick={() => this.props.signOut(this.props.history)} role="button" tabIndex={0}>Logout</span>
               </div>
               <ProfileCard
                 asProfilePage
@@ -328,10 +324,14 @@ class ProfilePage extends Component {
                 dash_number={this.state.dash_number}
                 allergies_dietary_restrictions={this.state.allergies_dietary_restrictions}
                 medical={this.state.medical}
+                height={this.state.height}
+                shoe_size={this.state.shoe_size}
+                clothe_size={this.state.clothe_size}
                 displayCertificationFeedback={this.displayCertificationFeedback}
                 getCertificationsForm={this.getCertificationsForm}
                 displayLeaderFeedback={this.displayLeaderFeedback}
                 getClubForm={this.getClubForm}
+                getClotheForm={this.getClotheForm}
               />
             </div>
           </div>
@@ -362,4 +362,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { updateUser, getClubs })(ProfilePage));
+export default withRouter(connect(mapStateToProps, { updateUser, getClubs, signOut })(ProfilePage));

@@ -41,7 +41,7 @@
 .pending-changes{
   display: flex;
   justify-content: flex-end;
-  margin-top: 1em;
+  margin-top: 2.5em;
   letter-spacing: 0.05em;
   color: #0CA074;
   font-size: 1em;
@@ -66,7 +66,7 @@
   box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
   width: 100%;
-  min-height: 29em;
+  margin-bottom: 1em;
 }
 
 .size{
@@ -74,7 +74,7 @@
   height: 348.05;
 }
 .profile-pic-container{
-  width: 30%;
+  width: 25%;
   display: flex;
 }
 .profile-pic{
@@ -96,9 +96,9 @@
 .profile-card-body{
   display: flex;
   flex-direction: column;
-  width: 70%;
+  width: 75%;
   margin-left: 1em;
-  margin-right: 1.5em;
+  margin-right: 2em;
   margin-top: 1.5em;
   margin-bottom: 1.5em;
 }
@@ -220,6 +220,18 @@ input.my-form-control{
   background: #FFFFFF;
   border: 2px solid #C4C4C4;
   min-width: 14em;
+}
+#clothe-size-dropdown{
+  background: #FFFFFF;
+  border: 2px solid #C4C4C4;
+}
+.selected-size{
+  color: #474747;
+  margin-right: 2em;
+  min-width: 2em;
+}
+.clothe-options{
+  left: -4.5em;
 }
 #driver-cert-dropdown:focus{
   box-shadow: 0 0 0 0.15rem #0CA074;

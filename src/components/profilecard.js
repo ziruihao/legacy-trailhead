@@ -43,6 +43,7 @@ const getUserInitials = (userName) => {
 };
 
 const ProfileCard = (props) => {
+  console.log(props.user);
   if (!props.isEditing) {
     return (
       <div className="profile">
@@ -73,6 +74,33 @@ const ProfileCard = (props) => {
               </span>
               <span className="card-info">
                 {props.user.dash_number ? props.user.dash_number : 'Please fill out'}
+              </span>
+            </div>
+            <hr className="line" />
+            <div className="profile-card-row">
+              <span className="card-headings">
+                Clothe Size
+              </span>
+              <span className="card-info">
+                {props.user.clothe_size ? props.user.clothe_size : 'Please fill out'}
+              </span>
+            </div>
+            <hr className="line" />
+            <div className="profile-card-row">
+              <span className="card-headings">
+                Shoe Size
+              </span>
+              <span className="card-info">
+                {props.user.shoe_size ? props.user.shoe_size : 'Please fill out'}
+              </span>
+            </div>
+            <hr className="line" />
+            <div className="profile-card-row">
+              <span className="card-headings">
+                Height
+              </span>
+              <span className="card-info">
+                {props.user.height ? props.user.height : 'Please fill out'}
               </span>
             </div>
             <hr className="line" />
@@ -112,7 +140,7 @@ const ProfileCard = (props) => {
               </span>
             </div>
             <div className="pending-changes">
-              {pendingChanges(props.user.has_pending_leader_change, props.user.has_pending_cert_change)}
+              {props.asProfilePage ? pendingChanges(props.user.has_pending_leader_change, props.user.has_pending_cert_change) : null}
             </div>
           </div>
         </div>
@@ -145,7 +173,34 @@ const ProfileCard = (props) => {
                 DASH
               </span>
               <span className="card-info">
-                <input type="text" name="dash_number" maxLength="50" onChange={props.onFieldChange} className="my-form-control" value={props.dash_number} />
+                <input type="number" name="dash_number" maxLength="50" onChange={props.onFieldChange} className="my-form-control" value={props.dash_number} />
+              </span>
+            </div>
+            <hr className="line" />
+            <div className="profile-card-row">
+              <span className="card-headings">
+                Clothe Size
+              </span>
+              <span className="card-info">
+                {props.getClotheForm()}
+              </span>
+            </div>
+            <hr className="line" />
+            <div className="profile-card-row">
+              <span className="card-headings">
+                Shoe Size
+              </span>
+              <span className="card-info">
+                <input type="number" name="shoe_size" step="0.5" maxLength="3" onChange={props.onFieldChange} className="my-form-control" value={props.shoe_size} />
+              </span>
+            </div>
+            <hr className="line" />
+            <div className="profile-card-row">
+              <span className="card-headings">
+                Height
+              </span>
+              <span className="card-info">
+                <input type="number" name="height" maxLength="4" onChange={props.onFieldChange} className="my-form-control" value={props.height} />
               </span>
             </div>
             <hr className="line" />

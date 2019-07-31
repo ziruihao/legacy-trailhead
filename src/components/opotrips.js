@@ -247,7 +247,7 @@ class OpoTrips extends Component {
             <Dropdown onSelect={this.onDropdownChange}>
               <Dropdown.Toggle id="filter-dropdown" onChange={this.onDropdownChange}>
                 <p className="current-filter">{this.getCurrentFilter()}</p>
-                <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+                <img className="dropdown-icon right-margin" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="filter-options">
                 <Dropdown.Item eventKey={this.ALL_KEY} active={this.ALL_KEY === this.state.selectedFilter}>{this.ALL_VALUE}</Dropdown.Item>
