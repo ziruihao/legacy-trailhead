@@ -33,9 +33,9 @@ const formatDate = (date, startTime, endTime) => {
   }
   if (endSplitTime[0] > 12) {
     endSplitTime[0] -= 12;
-    endSplitTime[2] = 'am';
+    endSplitTime[2] = 'pm';
   }
-  timeString = `${timeString}, ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]}, ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}}`;
+  timeString = `${timeString}, ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]} - ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}`;
   return timeString;
 };
 
