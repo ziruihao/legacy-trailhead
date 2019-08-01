@@ -20,6 +20,9 @@
 .dropdown-icon{
   width: 1.2em;
 }
+.right-margin{
+  margin-right: 1.5em;
+}
 .dropdown-and-label{
   display: flex;
   align-items: center;
@@ -35,6 +38,7 @@
   display: inline-block;
   color: #474747;
   margin-right: 4em;
+  min-width: 60%;
 }
 .filter-options{
   width: 90%;

@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import Collapse from 'react-bootstrap/Collapse';
+import ProfileCard from './profilecard';
 import '../styles/tripdetails_leader.scss';
 import '../styles/tripdetails_trippee-style.scss';
 
@@ -32,21 +34,6 @@ const formatDate = (date, time) => {
   return timeString;
 };
 
-const getPendingRows = (penders, moveToTrip) => {
-  return penders.map(pender => (
-    <div key={pender._id} className="leader-detail-row">
-      <span>{pender.user.name}</span>
-      <span>{pender.user.email}</span>
-      <span>
-        {pender.gear.length !== 0 ? pender.gear.map(gear => (
-          <li key={gear._id}>{gear.gear}</li>
-        )) : <span>None</span>}
-      </span>
-      <button type="button" className="signup-button leader-signup-button" onClick={() => moveToTrip(pender)}>Move to trip</button>
-    </div>
-  ));
-};
-
 const getPending = (props, pendingEmailRef) => {
   if (props.trip.pending.length === 0) {
     return (
@@ -58,14 +45,44 @@ const getPending = (props, pendingEmailRef) => {
     return (
       <div>
         <div className="leader-detail-row">
-          <span>Name</span>
-          <span>Email</span>
-          <span>Gear Requests</span>
-          <span>Action</span>
+          <span className="detail-cell">Name</span>
+          <span className="detail-cell">Email</span>
+          <span className="detail-cell">Allergies/Diet Restrictions</span>
+          <span className="detail-cell">Gear Requests</span>
+          <span className="detail-cell">Actions</span>
         </div>
         <hr className="detail-line" />
 
-        {getPendingRows(props.trip.pending, props.moveToTrip)}
+        {props.trip.pending.map(pender => (
+          <div key={pender._id}>
+            <div className="leader-detail-row">
+              <span className="detail-cell">{pender.user.name}</span>
+              <span className="detail-cell">{pender.user.email}</span>
+              <span className="detail-cell">{pender.user.allergies_dietary_restrictions}</span>
+              <span className="detail-cell detail-gear">
+                {pender.gear.length !== 0 ? pender.gear.map(gear => (
+                  <li key={gear._id}>{gear.gear}</li>
+                )) : <span>None</span>}
+              </span>
+              <span className="detail-cell">
+                <button type="button" className="leader-signup-button toggle-profile" onClick={() => props.toggleProfile(pender._id)}>{props.profiles[pender._id] ? 'Hide' : 'Show'} Profile</button>
+                <button type="button" className="signup-button leader-signup-button" onClick={() => props.moveToTrip(pender)}>Move to trip</button>
+              </span>
+            </div>
+            <Collapse
+              in={props.profiles[pender._id]}
+            >
+              <div className="leader-profile-card">
+                <ProfileCard
+                  asProfilePage={false}
+                  isEditing={false}
+                  user={pender.user}
+                />
+              </div>
+            </Collapse>
+            <hr className="line" />
+          </div>
+        ))}
 
         <div>
           <h5>Emails</h5>
@@ -81,21 +98,6 @@ const getPending = (props, pendingEmailRef) => {
   }
 };
 
-const getOnTripRows = (members, moveToPending) => {
-  return members.map(member => (
-    <div key={member._id} className="leader-detail-row">
-      <span>{member.user.name}</span>
-      <span>{member.user.email}</span>
-      <span>
-        {member.gear.length !== 0 ? member.gear.map(gear => (
-          <li key={gear._id}>{gear.gear}</li>
-        )) : <span>None</span>}
-      </span>
-      <button type="button" className="leader-cancel-button" onClick={() => moveToPending(member)}>Move to pending</button>
-    </div>
-  ));
-};
-
 const getOnTrip = (props, onTripEmailRef) => {
   if (props.trip.members.length === 0) {
     return (
@@ -107,14 +109,44 @@ const getOnTrip = (props, onTripEmailRef) => {
     return (
       <div className="leader-on-trip-details">
         <div className="leader-detail-row">
-          <span>Name</span>
-          <span>Email</span>
-          <span>Gear Requests</span>
-          <span>Action</span>
+          <span className="detail-cell">Name</span>
+          <span className="detail-cell">Email</span>
+          <span className="detail-cell">Allergies/Diet Restrictions</span>
+          <span className="detail-cell">Gear Requests</span>
+          <span className="detail-cell">Actions</span>
         </div>
         <hr className="detail-line" />
 
-        {getOnTripRows(props.trip.members, props.moveToPending)}
+        {props.trip.members.map(member => (
+          <div key={member._id}>
+            <div className="leader-detail-row">
+              <span className="detail-cell">{member.user.name}</span>
+              <span className="detail-cell">{member.user.email}</span>
+              <span className="detail-cell">{member.user.allergies_dietary_restrictions}</span>
+              <span className="detail-cell detail-gear">
+                {member.gear.length !== 0 ? member.gear.map(gear => (
+                  <li key={gear._id}>{gear.gear}</li>
+                )) : <span>None</span>}
+              </span>
+              <span className="detail-cell">
+                <button type="button" className="leader-signup-button toggle-profile" onClick={() => props.toggleProfile(member._id)}>{props.profiles[member._id] ? 'Hide' : 'Show'} Profile</button>
+                <button type="button" className="leader-cancel-button" onClick={() => props.moveToPending(member)}>Move to pending</button>
+              </span>
+            </div>
+            <Collapse
+              in={props.profiles[member._id]}
+            >
+              <div className="leader-profile-card">
+                <ProfileCard
+                  asProfilePage={false}
+                  isEditing={false}
+                  user={member.user}
+                />
+              </div>
+            </Collapse>
+            <hr className="line" />
+          </div>
+        ))}
 
         <div>
           <h5>Emails</h5>
@@ -232,7 +264,7 @@ export default React.forwardRef((props, ref) => {
   const { pendingEmailRef, onTripEmailRef } = ref;
   return (
     <div className="leader-details-container">
-      <h1 className="trip-title">{props.trip.title}</h1>
+      <h1 className="p-trip-title">{props.trip.title}</h1>
       <div className="trip-club-container">
         <span className="trip-club">{props.trip.club.name}</span>
       </div>
@@ -310,14 +342,24 @@ export default React.forwardRef((props, ref) => {
       </div>
 
       <div className="on-trip">
-        <h2>On trip ({props.trip.members.length})</h2>
+        <div className="leader-table-title">
+          <h2>On trip ({props.trip.members.length})</h2>
+          {props.trip.members.length === 0
+            ? null
+            : <span className="toggle-all" onClick={props.toggleAllOnTripProfiles} role="button" tabIndex={0}>{props.showAllOnTripProfiles ? 'Hide' : 'Show'} all profiles</span>}
+        </div>
         <div className="trip-detail">
           {getOnTrip(props, onTripEmailRef)}
         </div>
       </div>
 
       <div className="pending">
-        <h2>Pending ({props.trip.pending.length})</h2>
+        <div className="leader-table-title">
+          <h2>Pending ({props.trip.pending.length})</h2>
+          {props.trip.pending.length === 0
+            ? null
+            : <span className="toggle-all" onClick={props.toggleAllPendingProfiles} role="button" tabIndex={0}>{props.showAllPendingProfiles ? 'Hide' : 'Show'} all profiles</span>}
+        </div>
         <div className="trip-detail">
           {getPending(props, pendingEmailRef)}
         </div>
