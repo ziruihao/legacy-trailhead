@@ -321,18 +321,13 @@ class CreateTrip extends Component {
         endDate: this.state.endDate,
         startTime: this.state.startTime,
         endTime: this.state.endTime,
-<<<<<<< HEAD
-        // cost: this.state.cost,
-        gearRequests: this.state.gearRequests,
-        trippeeGear: this.state.trippeeRequests,
-=======
+
         cost: this.state.cost,
         pickup: this.state.pickup,
         dropoff: this.state.dropoff,
         co_leader_access: this.state.access,
         gearRequests,
         trippeeGear,
->>>>>>> fd4fc24b18b115d0dceb5505755faebef9638f30
       };
 
       // if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
