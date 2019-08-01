@@ -17,6 +17,22 @@ class trippeeGearRequests extends Component {
       return <strong>None</strong>;
     }
     return this.props.trippeeGearRequests.map((gearRequest) => {
+      const gearData = {};
+      gearRequest.trippeeGear.forEach((gear) => {
+        gearData[gear._id] = {};
+      });
+      gearRequest.members.forEach((member) => {
+        member.gear.forEach((gear) => {
+          const update = {};
+          if (Object.prototype.hasOwnProperty.call(gearData[gear.gearId], member.user.clothe_size)) {
+            update[member.user.clothe_size] = gearData[gear.gearId][member.user.clothe_size] + 1;
+            gearData[gear.gearId] = Object.assign({}, gearData[gear.gearId], update);
+          } else {
+            update[member.user.clothe_size] = 1;
+            gearData[gear.gearId] = Object.assign({}, gearData[gear.gearId], update);
+          }
+        });
+      });
       if (gearRequest.trippeeGearStatus === 'pending') {
         return (
           <div key={gearRequest.id} className="container">
@@ -25,11 +41,18 @@ class trippeeGearRequests extends Component {
               <button data-id={gearRequest.id} data-action="approve" type="button" className="btn btn-success" onClick={this.reviewRequest}>Approve</button>
               <button data-id={gearRequest.id} data-action="deny" type="button" className="btn btn-danger" onClick={this.reviewRequest}>Deny</button>
               <br />
-              <span>Gear - Qty</span>
             </div>
-            {gearRequest.trippeeGear.map((gear, index) => (
-              <li key={`${gear}_${index}`}>{gear.gear} - {gear.quantity}</li>
-            ))}
+            <span>Gear - Size - Qty</span>
+            {gearRequest.trippeeGear.map((gear, index) => {
+              if (Object.prototype.hasOwnProperty.call(gearData, gear._id)) {
+                const entries = Object.entries(gearData[gear._id]);
+                return entries.map(entry => (
+                  <li key={`${gear._id}_${entry[0]}`}>{gear.gear} - {entry[0]} - {entry[1]}</li>
+                ));
+              } else {
+                return <li key={`${gear._id}_${index}`}>{gear.gear} - N/A - {gear.quantity}</li>;
+              }
+            })}
             <div>
               <p>for the following trip:</p>
               <p>Trip Name: {gearRequest.title}</p>
@@ -48,6 +71,22 @@ class trippeeGearRequests extends Component {
       return <strong>None</strong>;
     }
     return this.props.trippeeGearRequests.map((gearRequest) => {
+      const gearData = {};
+      gearRequest.trippeeGear.forEach((gear) => {
+        gearData[gear._id] = {};
+      });
+      gearRequest.members.forEach((member) => {
+        member.gear.forEach((gear) => {
+          const update = {};
+          if (Object.prototype.hasOwnProperty.call(gearData[gear.gearId], member.user.clothe_size)) {
+            update[member.user.clothe_size] = gearData[gear.gearId][member.user.clothe_size] + 1;
+            gearData[gear.gearId] = Object.assign({}, gearData[gear.gearId], update);
+          } else {
+            update[member.user.clothe_size] = 1;
+            gearData[gear.gearId] = Object.assign({}, gearData[gear.gearId], update);
+          }
+        });
+      });
       if (gearRequest.trippeeGearStatus !== 'pending') {
         const status = gearRequest.trippeeGearStatus === 'approved' ? 'approved' : 'denied';
         return (
@@ -55,9 +94,17 @@ class trippeeGearRequests extends Component {
             <div>
               <span>You {status} {gearRequest.leaders[0].name}&apos;s request for the following gear:</span>
             </div>
-            {gearRequest.trippeeGear.map(gear => (
-              <li key={gear}>{gear.gear} - {gear.quantity}</li>
-            ))}
+            <span>Gear - Size - Qty</span>
+            {gearRequest.trippeeGear.map((gear, index) => {
+              if (Object.prototype.hasOwnProperty.call(gearData, gear._id)) {
+                const entries = Object.entries(gearData[gear._id]);
+                return entries.map(entry => (
+                  <li key={`${gear._id}_${entry[0]}`}>{gear.gear} - {entry[0]} - {entry[1]}</li>
+                ));
+              } else {
+                return <li key={`${gear._id}_${index}`}>{gear.gear} - N/A - {gear.quantity}</li>;
+              }
+            })}
           </div>
         );
       } else {
