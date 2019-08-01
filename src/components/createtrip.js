@@ -1,7 +1,9 @@
+/* eslint-disable */
 /* eslint-disable jsx-a11y/no-autofocus */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
 import { createTrip, appError } from '../actions';
 import '../styles/createtrip-style.scss';
 
@@ -44,11 +46,9 @@ class CreateTrip extends Component {
 
   onClubChange(event) {
     event.persist();
-    console.log(event);
     this.setState({
       club: { _id: event.target[event.target.selectedIndex].dataset.id, name: event.target.value },
     });
-    console.log(this.state.club);
   }
 
   onDateChange(event) {
@@ -123,12 +123,10 @@ class CreateTrip extends Component {
 
     addGear = () => {
       this.setState(prevState => ({ gearRequests: [...prevState.gearRequests, ''] }));
-      console.log('addGear working');
-      console.log(this.state.gearRequests);
     }
 
     addTrippeeGear = () => {
-      this.setState(prevState => ({ trippeeGear: [...prevState.trippeeGear, ''] }));
+      this.setState(prevState => ({ trippeeGear: [...prevState.trippeeGear, {gear: '', size_type: 'N/A', quantity: 0}] }));
     }
 
     removeGear = (index) => {
@@ -184,9 +182,34 @@ class CreateTrip extends Component {
     getTrippeeGear = () => {
       return this.state.trippeeGear.map((gearRequest, index) => {
         return (
-          <div className="gear-container" key={index}>
-            <input type="text" className="gear-input" name="trippeeGear" placeholder="Add Item" onChange={event => this.onTrippeeGearChange(event, index)} value={gearRequest} autoFocus />
-            <button type="button" className="delete-gear-button" onClick={() => this.removeTrippeeGear(index)}>X</button>
+          <div key={index}>
+            <div className="gear-container">
+              <div className="gear-and-size">
+                <div className="gear-field-and-form">
+                  <span className="gear-field">Gear:</span>
+                  <input type="text" className="my-form-control gear-input" name="trippeeGear" placeholder="Add Item" onChange={event => this.onTrippeeGearChange(event, index)} value={gearRequest.gear} autoFocus />
+                </div>
+                <div className="gear-field-and-form">
+                  <span className="gear-field">Size Type:</span>
+                  <Dropdown onSelect={eventKey => this.onSizeTypeChange(eventKey, index)}>
+                    <Dropdown.Toggle id="size-type-dropdown">
+                      <span>
+                        <span className="selected-size">{gearRequest.size_type}</span>
+                        <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+                      </span>
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu className="filter-options clothe-options">
+                      <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
+                      <Dropdown.Item eventKey="Clothe">Clothe</Dropdown.Item>
+                      <Dropdown.Item eventKey="Shoe">Shoe</Dropdown.Item>
+                      <Dropdown.Item eventKey="Height">Height</Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </div>
+              </div>
+              <button type="button" className="delete-gear-button" onClick={() => this.removeTrippeeGear(index)}>X</button>
+            </div>
+            <hr className="line" />
           </div>
         );
       });
@@ -207,12 +230,22 @@ class CreateTrip extends Component {
       event.persist();
       this.setState((prevState) => {
         const trippeeGear = [...prevState.trippeeGear];
-        trippeeGear[idx] = event.target.value;
+        trippeeGear[idx].gear = event.target.value;
         return {
           trippeeGear,
         };
       });
     }
+  
+  onSizeTypeChange = (eventKey, index) => {
+    this.setState((prevState) => {
+      const trippeeGear = [...prevState.trippeeGear];
+      trippeeGear[index].size_type = eventKey;
+      return {
+        trippeeGear,
+      };
+    });
+  }
 
 
     _next = () => {
@@ -235,8 +268,8 @@ class CreateTrip extends Component {
 
     validate = () => {
       if (this.state.currentStep === 1) {
-        const { title, club, leaders } = this.state;
-        if (title.length !== 0 && club !== {} && leaders.length !== 0) {
+        const { title, club } = this.state;
+        if (title.length !== 0 && club !== {}) {
           return false;
         }
       }
@@ -270,8 +303,7 @@ class CreateTrip extends Component {
     createTrip() {
       const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
       const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
-      const trippeeGearStrings = this.state.trippeeGear.filter(gear => gear.length > 0);
-      const trippeeGear = trippeeGearStrings.map(gear => ({ gear, quantity: 0 }));
+      const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
       const trip = {
         title: this.state.title,
         leaders: this.state.leaders.trim().split(','),
@@ -284,7 +316,9 @@ class CreateTrip extends Component {
         endDate: this.state.endDate,
         startTime: this.state.startTime,
         endTime: this.state.endTime,
-        // cost: this.state.cost,
+        cost: this.state.cost,
+        pickup: this.state.pickup,
+        dropoff: this.state.dropoff,
         gearRequests,
         trippeeGear,
       };
@@ -306,9 +340,7 @@ class CreateTrip extends Component {
         this.props.appError('Please enter valid dates');
         return;
       }
-      console.log('before');
       this.props.createTrip(trip, this.props.history);
-      console.log('after');
     }
 
     previousButton() {
@@ -360,7 +392,7 @@ class CreateTrip extends Component {
             </div>
             <div className="row column-sub-headers">
               <div className={this.state.currentStep === 4 ? 'side-bar-highlight' : ''} />
-              <p>What you&apo;sll need</p>
+              <p>What you&apos;ll need</p>
             </div>
             <div className="row column-headers">
               <p>Additional details</p>
@@ -369,7 +401,7 @@ class CreateTrip extends Component {
               <p>About the trip</p>
             </div>
             <div className="row column-sub-headers">
-              <p>What you&apo;ll need</p>
+              <p>What you&apos;ll need</p>
             </div>
           </div>
           <BasicTripInfo

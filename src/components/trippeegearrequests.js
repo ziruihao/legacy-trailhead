@@ -5,10 +5,6 @@ import { fetchTrippeeGearRequests, reviewTrippeeGearRequest } from '../actions';
 
 class trippeeGearRequests extends Component {
   componentDidMount(props) {
-    if (!this.props.authenticated) {
-      alert('Please sign in/sign up to view this page');
-      this.props.history.push('/');
-    }
     this.props.fetchTrippeeGearRequests();
   }
 
@@ -18,18 +14,41 @@ class trippeeGearRequests extends Component {
     }
     return this.props.trippeeGearRequests.map((gearRequest) => {
       const gearData = {};
+      const gearSizeType = {};
       gearRequest.trippeeGear.forEach((gear) => {
-        gearData[gear._id] = {};
+        gearSizeType[gear._id] = gear.size_type;
+        if (gear.size_type !== 'N/A') {
+          gearData[gear._id] = {};
+        }
       });
       gearRequest.members.forEach((member) => {
         member.gear.forEach((gear) => {
-          const update = {};
-          if (Object.prototype.hasOwnProperty.call(gearData[gear.gearId], member.user.clothe_size)) {
-            update[member.user.clothe_size] = gearData[gear.gearId][member.user.clothe_size] + 1;
-            gearData[gear.gearId] = Object.assign({}, gearData[gear.gearId], update);
-          } else {
-            update[member.user.clothe_size] = 1;
-            gearData[gear.gearId] = Object.assign({}, gearData[gear.gearId], update);
+          const { gearId } = gear;
+          const { user } = member;
+          if (gearSizeType[gearId] !== 'N/A') {
+            const sizeType = gearSizeType[gearId];
+            let indexer = '';
+            switch (sizeType) {
+              case 'Height':
+                indexer = 'height';
+                break;
+              case 'Clothe':
+                indexer = 'clothe_size';
+                break;
+              case 'Shoe':
+                indexer = 'shoe_size';
+                break;
+              default:
+                indexer = '';
+            }
+            const update = {};
+            if (Object.prototype.hasOwnProperty.call(gearData[gearId], user[indexer])) {
+              update[user[indexer]] = gearData[gearId][user[indexer]] + 1;
+              gearData[gearId] = Object.assign({}, gearData[gearId], update);
+            } else {
+              update[user[indexer]] = 1;
+              gearData[gearId] = Object.assign({}, gearData[gearId], update);
+            }
           }
         });
       });
@@ -72,18 +91,41 @@ class trippeeGearRequests extends Component {
     }
     return this.props.trippeeGearRequests.map((gearRequest) => {
       const gearData = {};
+      const gearSizeType = {};
       gearRequest.trippeeGear.forEach((gear) => {
-        gearData[gear._id] = {};
+        gearSizeType[gear._id] = gear.size_type;
+        if (gear.size_type !== 'N/A') {
+          gearData[gear._id] = {};
+        }
       });
       gearRequest.members.forEach((member) => {
         member.gear.forEach((gear) => {
-          const update = {};
-          if (Object.prototype.hasOwnProperty.call(gearData[gear.gearId], member.user.clothe_size)) {
-            update[member.user.clothe_size] = gearData[gear.gearId][member.user.clothe_size] + 1;
-            gearData[gear.gearId] = Object.assign({}, gearData[gear.gearId], update);
-          } else {
-            update[member.user.clothe_size] = 1;
-            gearData[gear.gearId] = Object.assign({}, gearData[gear.gearId], update);
+          const { gearId } = gear;
+          const { user } = member;
+          if (gearSizeType[gearId] !== 'N/A') {
+            const sizeType = gearSizeType[gearId];
+            let indexer = '';
+            switch (sizeType) {
+              case 'Height':
+                indexer = 'height';
+                break;
+              case 'Clothe':
+                indexer = 'clothe_size';
+                break;
+              case 'Shoe':
+                indexer = 'shoe_size';
+                break;
+              default:
+                indexer = '';
+            }
+            const update = {};
+            if (Object.prototype.hasOwnProperty.call(gearData[gearId], user[indexer])) {
+              update[user[indexer]] = gearData[gearId][user[indexer]] + 1;
+              gearData[gearId] = Object.assign({}, gearData[gearId], update);
+            } else {
+              update[user[indexer]] = 1;
+              gearData[gearId] = Object.assign({}, gearData[gearId], update);
+            }
           }
         });
       });

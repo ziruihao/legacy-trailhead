@@ -264,7 +264,7 @@ export default React.forwardRef((props, ref) => {
   const { pendingEmailRef, onTripEmailRef } = ref;
   return (
     <div className="leader-details-container">
-      <h1 className="trip-title">{props.trip.title}</h1>
+      <h1 className="p-trip-title">{props.trip.title}</h1>
       <div className="trip-club-container">
         <span className="trip-club">{props.trip.club.name}</span>
       </div>
