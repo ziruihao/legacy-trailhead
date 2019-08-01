@@ -15,6 +15,20 @@
   margin-top: 0.5em;
   align-items: center;
 }
+.leader-table-title{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.toggle-all{
+  color: #4399f5;;
+  font-weight: 600;
+  margin-right: 1em;
+  cursor: pointer;
+}
+.toggle-all:hover{
+  text-decoration: underline;
+}
 .left-detail{
   margin-right: 2em;
 }
@@ -25,6 +39,18 @@
   display: flex;
   justify-content: space-between;
   padding: 0.5em;
+  padding-right: 0;
+}
+.detail-cell{
+  display: flex;
+  justify-content: flex-start;
+  width: 20%;
+  word-break: break-word;
+  margin-right: 1em;
+}
+.detail-gear{
+  flex-direction: column;
+  list-style-type: none;
 }
 .no-on-trip{
   display: flex;
@@ -66,19 +92,37 @@
   display: flex;
 }
 .leader-signup-button{
-  width: 8em;
-  height: 3em;
-}
-.leader-cancel-button{
-  background: #EE6E52;
-  padding: 1em;
+  width: 50%;
   min-height: 3em;
-  min-width: 10em;
+}
+.toggle-profile{
+  background: #497fb9;
+  margin-right: 1em;
+  width: 50%;
   border-radius: 5px;
   display: block;
   font-weight: 800;
   color: #ffffff;
   cursor: pointer;
+}
+.toggle-profile:hover{
+  background: #6789ad;
+}
+.leader-profile-card{
+  margin-top: 1em;
+}
+.leader-cancel-button{
+  background: #EE6E52;
+  width: 50%;
+  min-height: 3em;
+  border-radius: 5px;
+  display: block;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+}
+.leader-cancel-button:hover{
+  background: rgb(241, 130, 105)
 }
 .leader-edit-link:hover{
   text-decoration: none;

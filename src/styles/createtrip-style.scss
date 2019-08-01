@@ -94,12 +94,13 @@ color: #0CA074;
 }
 input[type="text"]{
   &.gear-input{
-    width: 27rem;
+    max-width: 13rem;
+    margin-bottom: 1em;
     height: 3rem;
-    border-color: transparent;
-    flex: 1;
-    color: #474747;
-    border-style: solid;
+    // border-color: transparent;
+    // flex: 1;
+    // color: #474747;
+    // border-style: solid;
   }
   &:focus{
     outline: none;
@@ -371,4 +372,22 @@ button:disabled,
 button[disabled]{
   background-color: #EDECEC;
   color: #919191;
+}
+
+.gear-and-size{
+  display: flex;
+  flex-direction: column;
+  margin-right: 1em;
+}
+.gear-field{
+  font-weight: 600;
+  font-size: 1em;
+  margin-right: 1em;
+}
+.gear-field-and-form{
+  display: flex;
+}
+#size-type-dropdown{
+  background: #FFFFFF;
+  border: 2px solid #C4C4C4;
 }

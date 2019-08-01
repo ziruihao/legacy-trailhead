@@ -17,6 +17,9 @@ class TripDetails extends Component {
       trippeeGear: [],
       isEditing: true,
       showTrippeeModal: false,
+      profiles: {},
+      showAllPendingProfiles: false,
+      showAllOnTripProfiles: false,
     });
     this.onGearChange = this.onGearChange.bind(this);
     this.goBack = this.goBack.bind(this);
@@ -30,6 +33,7 @@ class TripDetails extends Component {
       .then(() => {
         if (this.props.isLeaderOnTrip) { // populate trip participant emails
           this.populateEmails();
+          this.getProfiles();
         } else if (this.props.userTripStatus === 'PENDING') { // populate previously selected gear
           this.props.trip.pending.some((pender) => {
             if (pender.user._id === this.props.user.id) {
@@ -106,7 +110,7 @@ class TripDetails extends Component {
   }
 
   signUp = () => {
-    if (!this.props.user.email || !this.props.user.name || !this.props.user.dash_number) {
+    if (!this.props.user.email || !this.props.user.name || !this.props.user.dash_number || !this.props.user.clothe_size || !this.props.user.shoe_size || !this.props.user.height) {
       this.props.appError('Please fill out all of your info before signing up');
       this.props.history.push('/user');
     } else {
@@ -148,6 +152,7 @@ class TripDetails extends Component {
     this.props.joinTrip(this.props.trip._id, pender)
       .then(() => {
         this.populateEmails();
+        this.getProfiles();
       });
   }
 
@@ -155,6 +160,7 @@ class TripDetails extends Component {
     this.props.moveToPending(this.props.trip._id, member)
       .then(() => {
         this.populateEmails();
+        this.getProfiles();
       });
   }
 
@@ -204,6 +210,45 @@ class TripDetails extends Component {
     this.setState({ pendingEmail, onTripEmail });
   }
 
+  getProfiles = () => {
+    const profiles = {};
+    this.props.trip.pending.forEach((pender) => {
+      profiles[pender._id] = false;
+    });
+    this.props.trip.members.forEach((member) => {
+      profiles[member._id] = false;
+    });
+    this.setState({ profiles });
+  }
+
+  toggleProfile = (profileId) => {
+    this.setState((prevState) => {
+      const toggled = {};
+      toggled[profileId] = !prevState.profiles[profileId];
+      return { profiles: Object.assign({}, prevState.profiles, toggled) };
+    });
+  }
+
+  toggleAllPendingProfiles = () => {
+    this.setState((prevState) => {
+      const toggled = {};
+      this.props.trip.pending.forEach((pender) => {
+        toggled[pender._id] = !prevState.showAllPendingProfiles;
+      });
+      return { profiles: Object.assign({}, prevState.profiles, toggled), showAllPendingProfiles: !prevState.showAllPendingProfiles };
+    });
+  }
+
+  toggleAllOnTripProfiles = () => {
+    this.setState((prevState) => {
+      const toggled = {};
+      this.props.trip.members.forEach((pender) => {
+        toggled[pender._id] = !prevState.showAllOnTripProfiles;
+      });
+      return { profiles: Object.assign({}, prevState.profiles, toggled), showAllOnTripProfiles: !prevState.showAllOnTripProfiles };
+    });
+  }
+
   render() {
     // ref used for copy to clipboard functionality
     const ref = { pendingEmailRef: this.pendingEmailRef, onTripEmailRef: this.onTripEmailRef };
@@ -216,6 +261,9 @@ class TripDetails extends Component {
             onTripEmail={this.state.onTripEmail}
             pendingEmail={this.state.pendingEmail}
             showModal={this.state.showLeaderModal}
+            profiles={this.state.profiles}
+            showAllPendingProfiles={this.state.showAllPendingProfiles}
+            showAllOnTripProfiles={this.state.showAllOnTripProfiles}
             onTextChange={this.onTextChange}
             activateLeaderModal={this.activateLeaderModal}
             closeModal={this.closeLeaderModal}
@@ -224,6 +272,9 @@ class TripDetails extends Component {
             moveToPending={this.moveToPending}
             copyPendingToClip={this.copyPendingToClip}
             copyOnTripToClip={this.copyOnTripToClip}
+            toggleProfile={this.toggleProfile}
+            toggleAllPendingProfiles={this.toggleAllPendingProfiles}
+            toggleAllOnTripProfiles={this.toggleAllOnTripProfiles}
             ref={ref}
           />
         );
