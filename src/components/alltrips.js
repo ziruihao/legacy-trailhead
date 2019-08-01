@@ -1,9 +1,9 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips, getClubs } from '../actions';
 import '../styles/card-style.scss';
+import TripDetailsModal from './tripDetailsModal';
 
 
 
@@ -14,7 +14,7 @@ class AllTrips extends Component {
       club: '',
       beginner: "all",
       grid: true,
-      showTrip: "",
+      showTrip: null,
       startDate: "",
     };
   }
@@ -27,8 +27,9 @@ class AllTrips extends Component {
     this.props.fetchTrips();
     this.props.getClubs();
   }
-  showTrip(tripID){
-    this.setState({ showTrip: tripID });
+
+  closeTripModal(){
+    this.setState({showTrip: null});
   }
 
   formatDate = (date) => {
@@ -96,8 +97,21 @@ renderStartDropdown = () => {
   );
 
 }
+setCurrTrip = (trip) => {
+  this.setState({
+    showTrip: trip 
+  });
+}
+renderTripDetailsModal=()=>{
+  if(this.state.showTrip === null || this.state.showTrip === undefined ){
+    return null;
+  }else{
+    return(
+      <TripDetailsModal className = "modal" trip = {this.state.showTrip}  closeModal = {() => this.closeTripModal()}/>
+    );
+  }
+}
   renderTrips = () => {
-    //figure out how/when to filter by dates.
     const sortedTrips = this.props.trips.sort(this.compareStartDates);
     if(this.state.startDate!==""){
       sortedTrips.sort(this.compareStartDateWithInput);
@@ -116,15 +130,13 @@ renderStartDropdown = () => {
         if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
           return (
             <div key={trip.id} className="card text-center card-trip margins">
-              <NavLink to={`/trip/${trip.id}`} key={trip.id}>
-                <div className="card-body" id = {card_id}>
+                <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
                   <h2 className="card-title">{trip.title}</h2>
                   <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                   <p className="card-text">{this.formatDescription(trip.description)}</p>
                   <p className="card-club">{trip.club ? trip.club.name : ''}</p>
 
                 </div>
-              </NavLink>
             </div>
           );
 
@@ -149,15 +161,13 @@ renderStartDropdown = () => {
        if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
          return (
            <div key={trip.id} className="card card text-center card-trip margins">
-             <NavLink to={`/trip/${trip.id}`} key={trip.id}>
-               <div className="card-body" id = {card_id}>
+               <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
                  <h2 className="card-title">{trip.title}</h2>
                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                  <p className="card-text">{this.formatDescription(trip.description)}</p>
                  <p className="card-club">{trip.club ? trip.club.name : ''}</p>
 
                </div>
-             </NavLink>
            </div>
          );
 
@@ -179,9 +189,12 @@ renderStartDropdown = () => {
 
 
   render() {
-    if(this.state.showTrip===""){
+    let tiles_id = "tiles-modal-closed";
+    if(this.state.showTrip!==null){
+      tiles_id = "tiles-modal-open";
+    }
       return (
-        <div className="all-trips">
+        <div className="tile-box">
           <h1 className="all-trips-header">All Trips</h1>
           <div className = "all-trips-dropdown-bar">
             <div className = "all-trips-dropdown-header"> Beginner: </div>  {this.renderBeginnerDropdown()}
@@ -189,12 +202,16 @@ renderStartDropdown = () => {
             <div className = "all-trips-dropdown-header"> Start: </div>  {this.renderStartDropdown()}
           </div>
           <div className="box">
-            {this.renderTrips()}
+
+            <div className = "trip-tiles" id = {tiles_id}>
+              {this.renderTrips()}
+            </div>
+            {this.renderTripDetailsModal()}
           </div>
         </div>
       );
     }
-  }
+  
 }
 
 
