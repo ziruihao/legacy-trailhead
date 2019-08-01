@@ -16,6 +16,7 @@ class CreateTrip extends Component {
       leaders: '',
       club: {},
       experienceNeeded: false,
+      access: false,
       description: '',
       startDate: '',
       endDate: '',
@@ -150,6 +151,10 @@ class CreateTrip extends Component {
     //   });
     // }
     };
+  
+  toggleAccess = (event) => {
+    this.setState({ access: event.target.checked });
+  }
 
     handleStateChange = (event) => {
       const { name, value } = event.target;
@@ -319,6 +324,7 @@ class CreateTrip extends Component {
         cost: this.state.cost,
         pickup: this.state.pickup,
         dropoff: this.state.dropoff,
+        co_leader_access: this.state.access,
         gearRequests,
         trippeeGear,
       };
@@ -408,9 +414,11 @@ class CreateTrip extends Component {
             currentStep={this.state.currentStep}
             onFieldChange={this.onFieldChange}
             onClubChange={this.onClubChange}
+            toggleAccess={this.toggleAccess}
             titleValue={this.state.title}
             leaderValue={this.state.leaders}
             experienceValue={this.state.experienceNeeded}
+            accessValue={this.state.access}
             experienceOption={this.handleOptionChange}
             clubOptions={this.getClubOptions()}
           />
@@ -484,6 +492,19 @@ function BasicTripInfo(props) {
           placeholder="Tim Tregubov"
           value={props.leaderValue}
         />
+        <div className="checkbox-beginner">
+          <input
+            type="checkbox"
+            name="access"
+            id="co-leader-access"
+            onChange={props.toggleAccess}
+            checked={props.accessValue}
+          />
+          <label htmlFor="co-leader-access">
+            Give co-leaders edit access to this trip?
+          </label>
+          <div className="radio-button" />
+        </div>
       </div>
       <div className="row page-sub-headers">
         <p>Beginner trip</p>
