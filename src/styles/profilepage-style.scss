@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .background{
   width: 100%;
   min-height: 100vh;
@@ -8,6 +9,13 @@
   flex-direction: column;
   width: 95%;
   margin: 0 auto;
+=======
+
+.my-container {
+  display: flex;
+  height: 100%;
+  position: inherit;
+>>>>>>> origin/master
 }
 
 .profile-page-header{
@@ -16,6 +24,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+<<<<<<< HEAD
   width: 100%;
 }
 .logout-button{
@@ -49,6 +58,19 @@
 
 .header{
   margin-bottom: 0;
+=======
+  margin-top: 4.25rem;
+  margin-left: 2.5%;
+  width: 90%;
+  flex: 0 1 auto;
+}
+
+.header{
+  position: inherit;
+  width: 25rem;
+  height: 4.125rem;
+  font-family: Nunito Sans;
+>>>>>>> origin/master
   font-style: normal;
   font-weight: 800;
   font-size: 2.5rem;
@@ -61,7 +83,17 @@
 }
 
 .profile{
+  flex: 0 1 auto;
   display: flex;
+<<<<<<< HEAD
+=======
+  position: absolute;
+  height:24.25rem;
+  left: 3.89%;
+  right: 3.89%;
+  top: 27%;
+  bottom: 23.71%;
+>>>>>>> origin/master
   background: #FFFFFF;
   box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
   border-radius: 10px;
@@ -122,6 +154,10 @@
   font-size: 2.5rem;
   line-height: 4rem;
   letter-spacing: 0.05em;
+<<<<<<< HEAD
+=======
+  margin-bottom: -1rem;
+>>>>>>> origin/master
   color: #000000;
 }
 
@@ -197,6 +233,7 @@ input.my-form-control{
   outline: none;
   box-shadow: 0 0 0 0.15rem #0CA074;
 }
+<<<<<<< HEAD
 .name-input{
   height: 1.5em;
   margin-bottom: 0.3em;
@@ -288,11 +325,60 @@ input.my-form-control{
 @media only screen and (max-width: 980px) {
   .profile{
     flex-direction: column;
+=======
+
+.button-place{
+  top: 1.5rem;
+  padding-right: 1rem;
+}
+
+
+
+#edit-button{
+  height: 2rem;
+  width: 2.35rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  &:focus {
+    outline: 0px dashed #17171D;
+  }
+  &:hover {
+    svg {
+      transform: scale(1.1);
+    }
+  }
+  &::-moz-focus-inner {
+    border: 0;
+  }
+  svg {
+    outline: none;
+    transition: transform 0.3s linear;
+  }
+
+}
+
+#save-logout-button{
+  height: 2rem;
+  width: 4.5rem;
+  padding-left: 3rem;
+  border: none;
+  background: none;
+  cursor: pointer;
+  &:focus {
+    outline: 0px dashed #17171D;
+  }
+  &:hover {
+    span {
+      transform: scale(1.1);
+    }
+>>>>>>> origin/master
   }
   .profile-pic-container{
     width: 100%;
     justify-content: center;
   }
+<<<<<<< HEAD
   .profile-card-body{
     width: 100%;
     padding-left: 1.5em;
@@ -301,3 +387,36 @@ input.my-form-control{
     margin-right: 0;
   }
 }
+=======
+  span {
+    display: inline-block;
+    font-family: Nunito Sans;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 33px;
+    letter-spacing: 0.05em;
+    color: #0CA074;
+    outline: none;
+    transition: transform 0.3s linear;
+
+  }
+
+}
+
+
+
+
+.col-1 {width: 8.33%;}
+.col-2 {width: 16.66%;}
+.col-3 {width: 25%;}
+.col-4 {width: 33.33%;}
+.col-5 {width: 41.66%;}
+.col-6 {width: 50%;}
+.col-7 {width: 58.33%;}
+.col-8 {width: 66.66%;}
+.col-9 {width: 75%;}
+.col-10 {width: 83.33%;}
+.col-11 {width: 91.66%;}
+.col-12 {width: 100%;}
+>>>>>>> origin/master

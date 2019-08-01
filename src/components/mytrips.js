@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { getMyTrips } from '../actions';
-// import '../styles/mytrips-style.scss';
 import '../styles/card-style.scss';
 
 import createtrip from "../img/createtrip.svg"
@@ -38,12 +37,13 @@ class MyTrips extends Component {
   }
   renderMyVehicles = () => {
     return(
-      <div>
-        I don't know how to do this yet--make a get request
+      <div className = "vehicles">
+        filler words filler words filler words filler words
       </div>
     );
 
   }
+
   renderMyTrips = () => {  
     let myTrips = <p>Trips you sign up for will appear here!</p>;
     const sortedTrips = this.props.myTrips.sort(this.compareStartDates);
@@ -67,7 +67,7 @@ class MyTrips extends Component {
         return (
           <div key={trip.id} className="card text-center card-trip margins">
             <NavLink to={`/trip/${trip.id}`}>
-              <div className="card-body" id = {card_id}>
+              <div className="card-body" id = {card_id} >
                 <h2 className="card-title">(L) {trip.title}</h2>
                 <p className="card-text">{trip.club ? trip.club.name : ''}</p>
                 <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
@@ -98,7 +98,7 @@ class MyTrips extends Component {
 
   render() {
     return (
-      <div className="myTrips">
+      <div className="tile-box">
         <h1 className="mytrips-header">Leader Dashboard</h1>
         <h2 className="mytrips-sub-header">Upcoming trips as a leader</h2>
         <div className="box">

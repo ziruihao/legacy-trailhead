@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../actions';
 import TripeeTripDetails from './tripdetails_trippee';
 import LeaderTripDetails from './tripdetails_leader';
+import OPOTripDetails from './tripdetails_opo';
 
 class TripDetails extends Component {
   constructor(props) {
@@ -252,8 +253,9 @@ class TripDetails extends Component {
     // ref used for copy to clipboard functionality
     const ref = { pendingEmailRef: this.pendingEmailRef, onTripEmailRef: this.onTripEmailRef };
     if (!this.isObjectEmpty(this.props.trip)) {
-      const appropriateComponent = this.props.isLeaderOnTrip
-        ? (
+      let appropriateComponent;
+      if (this.props.isLeaderOnTrip) {
+        appropriateComponent = (
           <LeaderTripDetails
             trip={this.props.trip}
             onTripEmail={this.state.onTripEmail}
@@ -275,8 +277,15 @@ class TripDetails extends Component {
             toggleAllOnTripProfiles={this.toggleAllOnTripProfiles}
             ref={ref}
           />
-        )
-        : (
+        );
+      } else if (this.props.user.role === 'OPO') {
+        appropriateComponent = (
+          <OPOTripDetails
+            trip={this.props.trip}
+          />
+        );
+      } else {
+        appropriateComponent = (
           <TripeeTripDetails
             trip={this.props.trip}
             trippeeGear={this.state.trippeeGear}
@@ -295,6 +304,7 @@ class TripDetails extends Component {
             userTripStatus={this.props.userTripStatus}
           />
         );
+      }
       return (
         appropriateComponent
       );
