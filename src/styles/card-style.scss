@@ -117,17 +117,6 @@ input[type=date]::-webkit-outer-spin-button {
   background-color: red;
   background: red;
 }
-.vehicles{
-  text-align: center;
-}
-.modal {
-  height: 50vh;
-  background-color: red;
-  background: red;
-  color: black;
-  float:right;
-
-}
 .create-trip-words{
   margin-top:20%;
   font-size: 16pt;
@@ -155,7 +144,7 @@ input[type=date]::-webkit-outer-spin-button {
   float: right;
   // position: sticky;
   // position:-webkit-sticky;
-  position:fixed;
+  // position:fixed;
   right:0;
   margin-right: 2%;
   margin-top:1%;
@@ -167,10 +156,10 @@ input[type=date]::-webkit-outer-spin-button {
  
   
 
-.trip-detail{
-  width: 50%;
-  display: inline-block;
-}
+// .trip-detail{
+//   width: 50%;
+//   display: inline-block;
+// }
 
 #signup-button{
   border-color:  rgb(75, 157, 119);
