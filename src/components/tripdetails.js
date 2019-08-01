@@ -110,7 +110,7 @@ class TripDetails extends Component {
   }
 
   signUp = () => {
-    if (!this.props.user.email || !this.props.user.name || !this.props.user.dash_number) {
+    if (!this.props.user.email || !this.props.user.name || !this.props.user.dash_number || !this.props.user.clothe_size || !this.props.user.shoe_size || !this.props.user.height) {
       this.props.appError('Please fill out all of your info before signing up');
       this.props.history.push('/user');
     } else {

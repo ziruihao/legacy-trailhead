@@ -26,7 +26,7 @@ class CreateTrip extends Component {
       pickup: '',
       dropoff: '',
       location: '',
-      // cost: '',
+      cost: '',
       length: 'single',
       gearRequests: [],
       trippeeGear: [],
@@ -416,6 +416,7 @@ class CreateTrip extends Component {
             onClubChange={this.onClubChange}
             toggleAccess={this.toggleAccess}
             titleValue={this.state.title}
+            costValue={this.state.cost}
             leaderValue={this.state.leaders}
             experienceValue={this.state.experienceNeeded}
             accessValue={this.state.access}
@@ -482,6 +483,16 @@ function BasicTripInfo(props) {
         <select name="club" className="custom-select field top-create-trip" defaultValue="Select Club" onChange={props.onClubChange}>
           {props.clubOptions}
         </select>
+      </div>
+      <div className="row page-sub-headers">
+        <p>Cost</p>
+        <input className="form-control field top-create-trip"
+          onChange={props.onFieldChange}
+          name="cost"
+          placeholder="0"
+          type="number"
+          value={props.costValue}
+        />
       </div>
       <div className="row page-sub-headers">
         <p>Co-leader name(s)</p>
