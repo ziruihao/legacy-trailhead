@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 // import { Link } from 'react-router-dom';
 // import Modal from 'react-bootstrap/Modal';
 // import Form from 'react-bootstrap/Form';
@@ -6,7 +6,18 @@ import '../styles/tripdetails_opo.scss';
 import '../styles/createtrip-style.scss';
 
 
-const getCoLeaders = (leaders) => {
+
+class OPOTripDetails extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      //0 is basic info, 1 is gear requests, 2 is pcard requests
+      render: 0
+    }
+  }
+
+
+ getCoLeaders = (leaders) => {
   let coleaders = '';
   leaders.forEach((leader, index) => {
     if (index !== 0) {
@@ -16,9 +27,9 @@ const getCoLeaders = (leaders) => {
   coleaders = coleaders.substring(0, coleaders.length - 2);
   coleaders = coleaders.length === 0 ? 'None' : coleaders;
   return coleaders;
-};
+}
 
-const formatDate = (date, startTime, endTime) => {
+formatDate = (date, startTime, endTime) => {
   let timeString = '';
   const rawDate = new Date(date);
   const dateString = rawDate.toString();
@@ -37,7 +48,93 @@ const formatDate = (date, startTime, endTime) => {
   }
   timeString = `${timeString}, ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]}, ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}}`;
   return timeString;
-};
+}
+
+renderBasicInformation = () => {
+  return(
+    <div className="col-9 right-column">
+        <span className="page-title">Basic Information</span>
+        <div className="row">
+          <span className="sub-titles">Date</span>
+          <span className="sub-fields">{this.formatDate(this.props.trip.startDate, this.props.trip.startTime, this.props.trip.endTime)}</span>
+        </div>
+        <div className="row">
+          <span className="sub-titles">Subclub</span>
+          <span className="sub-fields">{this.props.trip.club.name}</span>
+        </div>
+        <div className="row">
+          <span className="sub-titles">Leader</span>
+          <span className="sub-fields">{this.props.trip.leaders[0].name}</span>
+        </div>
+        <div className="row">
+          <span className="sub-titles">Co-Leader(s)</span>
+          <span className="sub-fields">{this.getCoLeaders(this.props.trip.leaders)}</span>
+        </div>
+        <div className="row">
+          <span id="description" className="sub-titles">Description</span>
+        </div>
+        <div className="row">
+          <span id="description-field" className="sub-fields">{this.props.trip.description}</span>
+        </div>
+      </div>
+  );
+}
+renderPCardRequest = () =>{
+  return(
+    <div>
+        pcard request frontend
+    </div>
+
+  );
+}
+renderGearRequest = () =>{
+  return(
+    <div>
+        gear request frontend
+    </div>
+
+  );
+}
+renderInfo = (info) => {
+  if(this.state.render === 1){
+    return this.renderGearRequest();
+  }else if (this.state.render === 2){
+    return this.renderPCardRequest();
+  }
+  return this.renderBasicInformation();
+  
+}
+changeRenderState = (num) =>{
+  this.setState({
+    render: num
+  });
+
+}
+render(){
+  return (
+    <div className="row my-row">
+      <div className="col-3 left-column">
+        <span className="trip-title">{this.props.trip.title}</span>
+        <div className="row column-headers column-adjust">
+          <p>Trip Overview</p>
+        </div>
+        <div className="row column-sub-headers" onClick = {() => this.changeRenderState(0)}>
+          <p>Basic information</p>
+        </div>
+        <div className="row column-headers">
+          <p>OPO Requests</p>
+        </div>
+        <div className="row column-sub-headers" onClick = {() => this.changeRenderState(1)}>
+          <p>Gear Request</p>
+        </div>
+        <div className="row column-sub-headers" onClick = {() => this.changeRenderState(2)}>
+          <p>P-Card Request</p>
+        </div>
+      </div>
+      {this.renderInfo(this.state.render)}
+    </div>
+  );
+}
 
 // const getPendingRows = (penders, moveToTrip) => {
 //   return penders.map(pender => (
@@ -235,54 +332,7 @@ const formatDate = (date, startTime, endTime) => {
 //   }
 // };
 
-const OPOTripDetails = (props) => {
-  return (
-    <div className="row my-row">
-      <div className="col-3 left-column">
-        <span className="trip-title">{props.trip.title}</span>
-        <div className="row column-headers column-adjust">
-          <p>Trip Overview</p>
-        </div>
-        <div className="row column-sub-headers">
-          <p>Basic information</p>
-        </div>
-        <div className="row column-headers">
-          <p>OPO Requests</p>
-        </div>
-        <div className="row column-sub-headers">
-          <p>Gear Request</p>
-        </div>
-        <div className="row column-sub-headers">
-          <p>P-Card Request</p>
-        </div>
-      </div>
-      <div className="col-9 right-column">
-        <span className="page-title">Basic Information</span>
-        <div className="row">
-          <span className="sub-titles">Date</span>
-          <span className="sub-fields">{formatDate(props.trip.startDate, props.trip.startTime, props.trip.endTime)}</span>
-        </div>
-        <div className="row">
-          <span className="sub-titles">Subclub</span>
-          <span className="sub-fields">{props.trip.club.name}</span>
-        </div>
-        <div className="row">
-          <span className="sub-titles">Leader</span>
-          <span className="sub-fields">{props.trip.leaders[0].name}</span>
-        </div>
-        <div className="row">
-          <span className="sub-titles">Co-Leader(s)</span>
-          <span className="sub-fields">{getCoLeaders(props.trip.leaders)}</span>
-        </div>
-        <div className="row">
-          <span id="description" className="sub-titles">Description</span>
-        </div>
-        <div className="row">
-          <span id="description-field" className="sub-fields">{props.trip.description}</span>
-        </div>
-      </div>
-    </div>
-  );
-};
+}
+
 
 export default OPOTripDetails;

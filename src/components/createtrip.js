@@ -285,8 +285,8 @@ class CreateTrip extends Component {
         startTime: this.state.startTime,
         endTime: this.state.endTime,
         // cost: this.state.cost,
-        gearRequests,
-        trippeeGear,
+        gearRequests: this.state.gearRequests,
+        trippeeGear: this.state.trippeeRequests,
       };
 
       // if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
