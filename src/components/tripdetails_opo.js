@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-d4fc24b18b115d0dceb5505755faebef9638f30
 // import { Link } from 'react-router-dom';
 // import Modal from 'react-bootstrap/Modal';
 // import Form from 'react-bootstrap/Form';

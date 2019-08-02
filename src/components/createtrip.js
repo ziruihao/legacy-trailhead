@@ -1,6 +1,6 @@
 /* eslint-disable */
 /* eslint-disable jsx-a11y/no-autofocus */
-import React, { Component } from 'react';
+import React, { Component } from 'react'; 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -30,6 +30,14 @@ class CreateTrip extends Component {
       length: 'single',
       gearRequests: [],
       trippeeGear: [],
+      numTripLeader: '',
+      numTripees:'',
+      snacks:'',
+      breakfast:'',
+      lunch:'',
+      dinner:'',
+      otherCostsTitle: '',
+      otherCostsCost:'',
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
@@ -361,15 +369,15 @@ class CreateTrip extends Component {
 
     nextButton() {
       // const formValid = validate();
-      if (this.state.currentStep < 4) {
+      if (this.state.currentStep < 5) {
         return (
           <button disabled={this.validate()} type="button" className="btn next-button" onClick={this._next}>Next</button>
         );
       }
 
-      if (this.state.currentStep === 4) {
+      if (this.state.currentStep === 5) {
         return (
-          <button disabled={this.validate()} type="button" className="btn next-button" onClick={this.createTrip}>Submit</button>
+          <button disabled={false} type="button" className="btn next-button" onClick={this.createTrip}>Submit</button>
         );
       }
       return null;
@@ -448,6 +456,11 @@ class CreateTrip extends Component {
             addGear={this.addGear}
             getGearInputs={this.getGearInputs}
             getTrippeeGear={this.getTrippeeGear}
+          />
+          <PCardRequest
+             currentStep={this.state.currentStep}
+
+          
           />
           <div className="row right-column button-placement">
             {this.nextButton()}
@@ -679,6 +692,97 @@ function Equipment(props) {
           {props.getGearInputs()}
           <button className="add-gear-button" type="button" onClick={props.addGear}>Add item</button>
         </div>
+      </div>
+    </div>
+  );
+}
+function PCardRequest(props){
+  if (props.currentStep !== 5) {
+    return null;
+  }
+  return(
+    <div className="col-4 right-column">
+      <div className="row page-header">
+        <p>P-Card Request</p>
+      </div>
+      <div className = "page-sub-headers">
+        <p>Estimated number of people on trip</p>
+      </div>
+
+      <div className="row page-sub-headers">
+        <p>Trip Leaders</p>
+        <input className="form-control field top-create-trip"
+          onChange={props.onFieldChange}
+          name="num-trip-leaders"
+          placeholder="e.g. 2"
+          value={props.numTripLeader}
+        />
+      </div>
+      <div className="row page-sub-headers">
+        <p>Tripees</p>
+        <input className="form-control field top-create-trip"
+          onChange={props.onFieldChange}
+          name="num-tripees"
+          placeholder="e.g. 5"
+          value={props.numTripees}
+        />
+      </div>
+      <div className = "page-sub-headers">
+        <p>Food per person on the trip</p>
+      </div>
+      <div className="row page-sub-headers">
+        <p>Snacks</p>
+        <input className="form-control field top-create-trip"
+          onChange={props.onFieldChange}
+          name="snacks"
+          placeholder="e.g. 1"
+          value={props.snacks}
+        />
+      </div>
+      <div className="row page-sub-headers">
+        <p>Breakfast</p>
+        <input className="form-control field top-create-trip"
+          onChange={props.onFieldChange}
+          name="breakfast"
+          placeholder="e.g. 1"
+          value={props.breakfast}
+        />
+      </div>
+      <div className="row page-sub-headers">
+        <p>Lunch</p>
+        <input className="form-control field top-create-trip"
+          onChange={props.onFieldChange}
+          name="lunch"
+          placeholder="e.g. 1"
+          value={props.lunch}
+        />
+      </div>
+      <div className="row page-sub-headers">
+        <p>Dinner</p>
+        <input className="form-control field top-create-trip"
+          onChange={props.onFieldChange}
+          name="dinner"
+          placeholder="e.g. 1"
+          value={props.dinner}
+        />
+      </div>
+      <div className = "page-sub-headers">
+        <p>Other Costs</p>
+      </div>
+      <div className="row page-sub-headers">
+        <input className="form-control field top-create-trip"
+          onChange={props.onFieldChange}
+          name="otherCostTitle"
+          placeholder="e.g. Tickets for EVO"
+          value={props.dinner}
+        />
+        $
+        <input className="form-control field top-create-trip"
+          onChange={props.onFieldChange}
+          name="otherCostsCost"
+          placeholder="e.g. 10"
+          value={props.dinner}
+        />
       </div>
     </div>
   );
