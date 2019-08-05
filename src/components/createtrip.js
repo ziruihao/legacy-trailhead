@@ -404,7 +404,7 @@ class CreateTrip extends Component {
               <p>Additional details</p>
             </div>
             <div className="row column-sub-headers">
-              <p>About the trip</p>
+              <p>Vehicle Request</p>
             </div>
             <div className="row column-sub-headers">
               <p>What you&apos;ll need</p>
@@ -448,6 +448,9 @@ class CreateTrip extends Component {
             getGearInputs={this.getGearInputs}
             getTrippeeGear={this.getTrippeeGear}
           />
+          {/* <VehicleRequest
+            currentStep={this.state.currentStep}
+          /> */}
           <div className="row right-column button-placement">
             {this.nextButton()}
             {this.previousButton()}

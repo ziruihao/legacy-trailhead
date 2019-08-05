@@ -1,0 +1,122 @@
+.vrf-container{
+  display: flex;
+  flex-direction: column;
+  padding-right: 1.5em;
+  padding-left: 1.5em;
+}
+.vrf-title-container{
+  width: 100%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+.vrf-title-size{
+  font-size: 2em;
+}
+.vrf-form-row{
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5em;
+}
+.vrf-label{
+  font-weight: 600;
+  font-size: 1.3em;
+  line-height: 2em;
+  letter-spacing: 0.05em;
+  margin-bottom: 0;
+}
+textarea.vrf-req-details-input{
+  height: 6em;
+  width: 60%;
+  margin-bottom: 1em;
+}
+.vrf-req-group{
+  margin-top: 1em;
+  margin-bottom: 1em;
+  border-top: 2px dashed #b8b6b6;
+  border-bottom: 2px dashed #b8b6b6;
+}
+.vrf-req-header{
+  display: flex;
+  justify-content: space-between;
+}
+.vrf-req-no{
+  font-size: 1.75em;
+}
+.vrf-req-options{
+  width: 0;
+  margin-top: 0.3em;
+  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+#vehicle-type-dropdown{
+  background: #FFFFFF;
+  border: 2px solid #C4C4C4;
+}
+input.vrf-vehicle-detail{
+  width: 60%;
+  margin-bottom: 0;
+}
+.vrf-radio-row{
+  display: flex;
+  align-items: center;
+}
+.vrf-trip-length{
+  font-weight: 400;
+  font-size: 1.2em;
+}
+input[type="date"]::-webkit-calendar-picker-indicator {
+  color: rgba(0, 0, 0, 0);
+  opacity: 1;
+  display: block;
+  background: url('/src/img/date-picker-calendar.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: auto;
+  width: 2em;
+  height: 2em;
+}
+.vrf-req-dates{
+  flex-direction: row;
+  justify-content: space-between;
+}
+.vrf-req-date{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.no-date{
+  color: #C4C4C4;
+}
+.vrf-add-and-submit{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1em;
+  margin-bottom: 1.2em;
+}
+.vrf-add-button{
+  width: 10em;
+  border-radius: 0.3em;
+  height: 2.5em;
+  background: none;
+  border: 2px solid #0CA074;
+  font-weight: 600;
+  font-size: 1.3em;
+  letter-spacing: 0.05em;
+  color: #0CA074;
+}
+.vrf-add-button:hover{
+  color: #FFFFFF;
+  background: rgba(12, 160, 116, 0.801);
+}
+button.vrf-submit-button{
+  width: 14em;
+  min-height: 3.5em;
+}
+
+
+@media only screen and (max-width: 640px) {
+  .vrf-req-details-input{
+    width: 100%;
+  }
+}

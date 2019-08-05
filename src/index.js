@@ -13,7 +13,7 @@ import AllTrips from './components/alltrips';
 import CreateTrip from './components/createtrip';
 import MyTrips from './components/mytrips';
 import TripsCal from './components/tripscalendar';
-import VehicleScheduler from './components/scheduler/vehiclescheduler';
+import VehicleRequest from './components/vehiclerequest';
 import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
 import EditTrip from './components/edittrip';
@@ -52,7 +52,7 @@ const App = (props) => {
           <Route path="/signup" component={SignUp} />
           <Route path="/alltrips" component={AllTrips} />
           <Route path="/tripscalendar" component={TripsCal} />
-          <Route path="/vehiclescheduler" component={VehicleScheduler} />
+          <Route path="/vehiclerequest" component={VehicleRequest} />
           <Route path="/trip/:tripID" component={requireAuth(TripDetails)} />
           <Route path="/createtrip" component={requireAuth(CreateTrip)} />
           <Route path="/mytrips" component={requireAuth(MyTrips)} />

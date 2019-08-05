@@ -87,13 +87,13 @@ class NavBar extends Component {
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/tripscalendar">
-                Trips Calendar
+              <NavLink className="nav-link" to="/vehiclerequest">
+                Vehicle Request
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/vehiclescheduler">
-                Vehicle Scheduler
+              <NavLink className="nav-link" to="/tripscalendar">
+                Trips Calendar
               </NavLink>
             </li>
           </ul>
