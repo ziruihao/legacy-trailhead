@@ -33,7 +33,6 @@ textarea.vrf-req-details-input{
   margin-top: 1em;
   margin-bottom: 1em;
   border-top: 2px dashed #b8b6b6;
-  border-bottom: 2px dashed #b8b6b6;
 }
 .vrf-req-header{
   display: flex;
@@ -48,13 +47,16 @@ textarea.vrf-req-details-input{
   box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
 }
-#vehicle-type-dropdown{
-  background: #FFFFFF;
-  border: 2px solid #C4C4C4;
+.vehicle-type-dropdown{
+  background-color: #FFFFFF !important;
+  border: 2px solid #C4C4C4 !important; // I tried
 }
 input.vrf-vehicle-detail{
   width: 60%;
   margin-bottom: 0;
+}
+input.vrf-single-day-date{
+  width: 30%;
 }
 .vrf-radio-row{
   display: flex;
@@ -116,7 +118,19 @@ button.vrf-submit-button{
 
 
 @media only screen and (max-width: 640px) {
-  .vrf-req-details-input{
+  textarea.vrf-req-details-input, input.vrf-vehicle-detail{
     width: 100%;
+  }
+  .vrf-req-dates{
+    flex-direction: column;
+  }
+  .vrf-req-date{
+    width: 70%;
+  }
+  .vrf-add-and-submit{
+    flex-direction: column;
+  }
+  .vrf-add-button{
+    margin-bottom: 0.5em;
   }
 }
