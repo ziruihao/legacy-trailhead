@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { createTrip, appError } from '../actions';
+import PCardRequest from './pcard_request';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -19,7 +20,7 @@ class CreateTrip extends Component {
       access: false,
       description: '',
       startDate: '',
-      endDate: '',
+      endDate: '', 
       startTime: '',
       endTime: '',
       mileage: '',
@@ -30,14 +31,14 @@ class CreateTrip extends Component {
       length: 'single',
       gearRequests: [],
       trippeeGear: [],
-      numTripLeader: '',
-      numTripees:'',
-      snacks:'',
-      breakfast:'',
-      lunch:'',
-      dinner:'',
-      otherCostsTitle: '',
-      otherCostsCost:'',
+      numPeople:0,
+      snacks:0,
+      breakfast:0,
+      lunch:0,
+      dinner:0,
+      otherCostsTitle: [],
+      otherCostsCost:[],
+      totalCost: 0,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
@@ -48,9 +49,20 @@ class CreateTrip extends Component {
   }
 
   onFieldChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+    if(event.target.name === "otherCostsTitle"){
+      this.setState({
+        [event.target.name]: this.state.event.target.name.push(event.target.value)
+      });
+    } else if(event.target.name === "otherCostsCosts" ){
+      this.setState({
+        [event.target.name]: this.state.event.target.name.push(event.target.value)
+      });
+    }else{
+      this.setState({
+        [event.target.name]: event.target.value,
+      });
+    }
+
   }
 
   onClubChange(event) {
@@ -213,7 +225,7 @@ class CreateTrip extends Component {
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="filter-options clothe-options">
                       <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
-                      <Dropdown.Item eventKey="Clothe">Clothe</Dropdown.Item>
+                      <Dropdown.Item eventKey="Clothe">Clothes</Dropdown.Item>
                       <Dropdown.Item eventKey="Shoe">Shoe</Dropdown.Item>
                       <Dropdown.Item eventKey="Height">Height</Dropdown.Item>
                     </Dropdown.Menu>
@@ -312,8 +324,11 @@ class CreateTrip extends Component {
     isObjectEmpty = (object) => {
       return Object.entries(object).length === 0 && object.constructor === Object;
     }
-
+    updatePCardRequest= () =>{
+      return null;
+    }
     createTrip() {
+      console.log(this.state);
       const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
       const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
       const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
@@ -329,13 +344,44 @@ class CreateTrip extends Component {
         endDate: this.state.endDate,
         startTime: this.state.startTime,
         endTime: this.state.endTime,
-
         cost: this.state.cost,
         pickup: this.state.pickup,
         dropoff: this.state.dropoff,
         co_leader_access: this.state.access,
         gearRequests,
         trippeeGear,
+        pcardRequest: [{subclub: this.state.club}, 
+                       {participants: this.state.numTripees},
+                       {totalCost: this.state.totalCost}, 
+                        {reason:[
+                                {category: "Food"},
+                                {info:[
+                                    {expenseDetails: "Snacks",
+                                    unitCost: 3,
+                                    totalCost: 3*this.state.snacks*this.state.numPeople},
+                                    {expenseDetails: "Breakfast",
+                                    unitCost: 10,
+                                    totalCost:10*this.state.breakfast*this.state.numPeople},
+                                    {expenseDetails: "Lunch",
+                                    unitCost: 14,
+                                    totalCost: 14*this.state.lunch*this.state.numPeople},
+                                    {expenseDetails: "Dinner",
+                                    unitCost: 16,
+                                    totalCost: 16*this.state.dinner*this.state.numPeople}        
+                                ]},
+                                {category:"Other Costs"},
+                                {info: this.state.otherCostsCost.map((i, value)=>[
+                                          {
+                                            expenseDetails: this.state.otherCostsTitle[i],
+                                            unitCost: this.state.otherCostsCost[i],
+                                            totalCost:(this.state.numPeople)*this.state.otherCostsCost[i]
+                                          }                                    
+                                      ])
+                                    
+                                    }
+
+                        ]}
+                      ]
       };
 
       // if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
@@ -459,6 +505,8 @@ class CreateTrip extends Component {
           />
           <PCardRequest
              currentStep={this.state.currentStep}
+             onFieldChange = {this.onFieldChange}
+
 
           
           />
@@ -692,97 +740,6 @@ function Equipment(props) {
           {props.getGearInputs()}
           <button className="add-gear-button" type="button" onClick={props.addGear}>Add item</button>
         </div>
-      </div>
-    </div>
-  );
-}
-function PCardRequest(props){
-  if (props.currentStep !== 5) {
-    return null;
-  }
-  return(
-    <div className="col-4 right-column">
-      <div className="row page-header">
-        <p>P-Card Request</p>
-      </div>
-      <div className = "page-sub-headers">
-        <p>Estimated number of people on trip</p>
-      </div>
-
-      <div className="row page-sub-headers">
-        <p>Trip Leaders</p>
-        <input className="form-control field top-create-trip"
-          onChange={props.onFieldChange}
-          name="num-trip-leaders"
-          placeholder="e.g. 2"
-          value={props.numTripLeader}
-        />
-      </div>
-      <div className="row page-sub-headers">
-        <p>Tripees</p>
-        <input className="form-control field top-create-trip"
-          onChange={props.onFieldChange}
-          name="num-tripees"
-          placeholder="e.g. 5"
-          value={props.numTripees}
-        />
-      </div>
-      <div className = "page-sub-headers">
-        <p>Food per person on the trip</p>
-      </div>
-      <div className="row page-sub-headers">
-        <p>Snacks</p>
-        <input className="form-control field top-create-trip"
-          onChange={props.onFieldChange}
-          name="snacks"
-          placeholder="e.g. 1"
-          value={props.snacks}
-        />
-      </div>
-      <div className="row page-sub-headers">
-        <p>Breakfast</p>
-        <input className="form-control field top-create-trip"
-          onChange={props.onFieldChange}
-          name="breakfast"
-          placeholder="e.g. 1"
-          value={props.breakfast}
-        />
-      </div>
-      <div className="row page-sub-headers">
-        <p>Lunch</p>
-        <input className="form-control field top-create-trip"
-          onChange={props.onFieldChange}
-          name="lunch"
-          placeholder="e.g. 1"
-          value={props.lunch}
-        />
-      </div>
-      <div className="row page-sub-headers">
-        <p>Dinner</p>
-        <input className="form-control field top-create-trip"
-          onChange={props.onFieldChange}
-          name="dinner"
-          placeholder="e.g. 1"
-          value={props.dinner}
-        />
-      </div>
-      <div className = "page-sub-headers">
-        <p>Other Costs</p>
-      </div>
-      <div className="row page-sub-headers">
-        <input className="form-control field top-create-trip"
-          onChange={props.onFieldChange}
-          name="otherCostTitle"
-          placeholder="e.g. Tickets for EVO"
-          value={props.dinner}
-        />
-        $
-        <input className="form-control field top-create-trip"
-          onChange={props.onFieldChange}
-          name="otherCostsCost"
-          placeholder="e.g. 10"
-          value={props.dinner}
-        />
       </div>
     </div>
   );
