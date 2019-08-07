@@ -352,47 +352,48 @@ class CreateTrip extends Component {
         co_leader_access: this.state.access,
         gearRequests,
         trippeeGear,
-        pcard: [{subclub: this.state.club}, 
-                       {participants: this.state.numPeople},
-                       {totalCost: this.state.totalCost}, 
-                        {reason:[
-                                {category: "Food"},
-                                {info:[
-                                    {expenseDetails: "Snacks",
-                                    unitCost: 3,
-                                    totalCost: 3*this.state.snacks*this.state.numPeople},
-                                    {expenseDetails: "Breakfast",
-                                    unitCost: 10,
-                                    totalCost:10*this.state.breakfast*this.state.numPeople},
-                                    {expenseDetails: "Lunch",
-                                    unitCost: 14,
-                                    totalCost: 14*this.state.lunch*this.state.numPeople},
-                                    {expenseDetails: "Dinner",
-                                    unitCost: 16,
-                                    totalCost: 16*this.state.dinner*this.state.numPeople}        
-                                ]},
-                                {category:"Other Costs"},
-                                // {info: this.state.otherCostsCost.map((i, value)=>[
-                                //           {
-                                //             expenseDetails: this.state.otherCostsTitle[i],
-                                //             unitCost: this.state.otherCostsCost[i],
-                                //             totalCost:(this.state.numPeople)*this.state.otherCostsCost[i]
-                                //           }                                    
-                                //       ])
-                                    
-                                //     }
-                                [{info: [
-                                  {
-                                    expenseDetails: this.state.otherCostsTitle,
-                                    unitCost: this.state.otherCostsCost,
-                                    totalCost:(this.state.numPeople)*this.state.otherCostsCost
-                                  }                                    
-                              ]
-                            }]
+        pcard: [
+                {subclub: this.state.club}, 
+                {participants: this.state.numPeople},
+                {totalCost: this.state.totalCost}, 
+                {reason:[
+                        {category: "Food"},
+                        {info:[
+                            {expenseDetails: "Snacks",
+                            unitCost: 3,
+                            totalCost: 3*this.state.snacks*this.state.numPeople},
+                            {expenseDetails: "Breakfast",
+                            unitCost: 10,
+                            totalCost:10*this.state.breakfast*this.state.numPeople},
+                            {expenseDetails: "Lunch",
+                            unitCost: 14,
+                            totalCost: 14*this.state.lunch*this.state.numPeople},
+                            {expenseDetails: "Dinner",
+                            unitCost: 16,
+                            totalCost: 16*this.state.dinner*this.state.numPeople}        
+                        ]},
+                        {category:"Other Costs"},
+                        // {info: this.state.otherCostsCost.map((i, value)=>[
+                        //           {
+                        //             expenseDetails: this.state.otherCostsTitle[i],
+                        //             unitCost: this.state.otherCostsCost[i],
+                        //             totalCost:(this.state.numPeople)*this.state.otherCostsCost[i]
+                        //           }                                    
+                        //       ])
                             
-
-                        ]}
+                        //     }
+                        [{info: [
+                          {
+                            expenseDetails: this.state.otherCostsTitle,
+                            unitCost: this.state.otherCostsCost,
+                            totalCost:(this.state.numPeople)*this.state.otherCostsCost
+                          }                                    
                       ]
+                    }]
+                    
+
+                ]}
+              ]
       };
 
       // if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime

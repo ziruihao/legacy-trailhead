@@ -82,7 +82,37 @@ renderBasicInformation = () => {
 renderPCardRequest = () =>{
   return(
     <div>
-        pcard request frontend
+      <p> P-Card Request </p>
+      <div>
+
+      </div>
+      <div>
+        <table>
+          <tr>
+            <th>Reason</th>
+            <th>Subclub</th>
+            <th># of Participants</th>
+            <th>Total Cost</th>
+
+          </tr>
+          <tr>
+              <td>Food, others</td>
+              <td>{this.props.trip.club.name}</td>
+              <td>{this.props.trip.pcard.numPeople}</td>
+              <td>{this.props.trip.pcard.totalCost}</td>
+          </tr>
+        </table>
+        <table>
+        <tr>
+            <th>Category</th>
+            <th>Expense Details</th>
+            <th>Unit Cost</th>
+            <th>Total Cost</th>
+          </tr>
+
+        </table>
+      </div>
+
     </div>
 
   );
