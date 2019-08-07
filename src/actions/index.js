@@ -178,6 +178,7 @@ export function emailTrip(id, subject, body, history) {
 
 export function createTrip(trip, history) {
   console.log('trying to create a trip');
+  console.log(trip);
   return (dispatch) => {
     axios.post(`${ROOT_URL}/alltrips`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {

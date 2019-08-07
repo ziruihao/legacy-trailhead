@@ -36,8 +36,8 @@ class CreateTrip extends Component {
       breakfast:0,
       lunch:0,
       dinner:0,
-      otherCostsTitle: [],
-      otherCostsCost:[],
+      otherCostsTitle: "",
+      otherCostsCost:"",
       totalCost: 0,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
@@ -49,19 +49,22 @@ class CreateTrip extends Component {
   }
 
   onFieldChange(event) {
-    if(event.target.name === "otherCostsTitle"){
-      this.setState({
-        [event.target.name]: this.state.event.target.name.push(event.target.value)
-      });
-    } else if(event.target.name === "otherCostsCosts" ){
-      this.setState({
-        [event.target.name]: this.state.event.target.name.push(event.target.value)
-      });
-    }else{
+    // if(event.target.name === "otherCostsTitle"){
+    //   let temp = this.state.otherCostsTitle.push(event.target.value);
+    //   this.setState({
+    //     [event.target.name]: temp
+    //   });
+    // } else if(event.target.name === "otherCostsCost" ){
+    //   let temp = this.state.otherCostsCost.push(event.target.value);
+
+    //   this.setState({
+    //     [event.target.name]: temp
+    //   });
+    // }else{
       this.setState({
         [event.target.name]: event.target.value,
       });
-    }
+    //}
 
   }
 
@@ -328,7 +331,6 @@ class CreateTrip extends Component {
       return null;
     }
     createTrip() {
-      console.log(this.state);
       const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
       const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
       const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
@@ -350,8 +352,8 @@ class CreateTrip extends Component {
         co_leader_access: this.state.access,
         gearRequests,
         trippeeGear,
-        pcardRequest: [{subclub: this.state.club}, 
-                       {participants: this.state.numTripees},
+        pcard: [{subclub: this.state.club}, 
+                       {participants: this.state.numPeople},
                        {totalCost: this.state.totalCost}, 
                         {reason:[
                                 {category: "Food"},
@@ -370,15 +372,24 @@ class CreateTrip extends Component {
                                     totalCost: 16*this.state.dinner*this.state.numPeople}        
                                 ]},
                                 {category:"Other Costs"},
-                                {info: this.state.otherCostsCost.map((i, value)=>[
-                                          {
-                                            expenseDetails: this.state.otherCostsTitle[i],
-                                            unitCost: this.state.otherCostsCost[i],
-                                            totalCost:(this.state.numPeople)*this.state.otherCostsCost[i]
-                                          }                                    
-                                      ])
+                                // {info: this.state.otherCostsCost.map((i, value)=>[
+                                //           {
+                                //             expenseDetails: this.state.otherCostsTitle[i],
+                                //             unitCost: this.state.otherCostsCost[i],
+                                //             totalCost:(this.state.numPeople)*this.state.otherCostsCost[i]
+                                //           }                                    
+                                //       ])
                                     
-                                    }
+                                //     }
+                                [{info: [
+                                  {
+                                    expenseDetails: this.state.otherCostsTitle,
+                                    unitCost: this.state.otherCostsCost,
+                                    totalCost:(this.state.numPeople)*this.state.otherCostsCost
+                                  }                                    
+                              ]
+                            }]
+                            
 
                         ]}
                       ]
@@ -506,9 +517,6 @@ class CreateTrip extends Component {
           <PCardRequest
              currentStep={this.state.currentStep}
              onFieldChange = {this.onFieldChange}
-
-
-          
           />
           <div className="row right-column button-placement">
             {this.nextButton()}
@@ -576,7 +584,6 @@ function BasicTripInfo(props) {
           <label htmlFor="co-leader-access">
             Give co-leaders edit access to this trip?
           </label>
-          <div className="radio-button" />
         </div>
       </div>
       <div className="row page-sub-headers">
@@ -592,7 +599,6 @@ function BasicTripInfo(props) {
           <label htmlFor="beginner">
             Do Trippees need prior experience to go on this trip?
           </label>
-          <div className="radio-button" />
         </div>
       </div>
     </div>

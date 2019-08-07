@@ -14,8 +14,8 @@ class PCardRequest extends Component {
         breakfast:null,
         lunch:null,
         dinner:null,
-        otherCostsTitle: [],
-        otherCostsCost:[],
+        otherCostsTitle: "",
+        otherCostsCost:"",
       };
 
     }
@@ -94,14 +94,16 @@ class PCardRequest extends Component {
             onChange={this.props.onFieldChange}
             name="otherCostsTitle"
             placeholder="e.g. Tickets for EVO"
-            value={this.state.dinner}
+            value={this.state.otherCostsTitle[0]}
             />
-            <p style = {{fontWeight: 700, display:"inline-block", width: "fit-content"}}>$</p>
+            <p style = {{fontWeight: 700, display:"inline-block", width: "fit-content", fontSize:"18pt"}}>
+                $
+            </p>
             <input className="field top-create-trip leaders other_costs other_costs_num"
             onChange={this.props.onFieldChange}
             name="otherCostsCost"
             placeholder="e.g. 10"
-            value={this.state.dinner}
+            value={this.state.otherCostsCost[0]}
             />
         </div>
     </div>
