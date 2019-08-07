@@ -14,12 +14,21 @@ class VehicleRequest extends Component {
     pickupTime: '',
     returnTime: '',
     passNeeded: false,
+    errorFields: {
+      vehicleType: false,
+      vehicleDetails: false,
+      pickupDate: false,
+      returnDate: false,
+      pickupTime: false,
+      returnTime: false,
+    },
   }
 
   constructor(props) {
     super(props);
     this.state = {
       requestDetails: '',
+      reqDetailsError: false,
       vehicles: [this.defaultVehicleReq],
     };
   }
@@ -73,6 +82,56 @@ class VehicleRequest extends Component {
       const oldVehicles = prevState.vehicles;
       const withoutDeletedVehicle = oldVehicles.slice(0, index).concat(oldVehicles.slice(index + 1));
       return { vehicles: withoutDeletedVehicle };
+    });
+  }
+
+  isStringEmpty = (string) => {
+    return string.length === 0 || !string.trim();
+  }
+
+  validate = () => {
+    let hasEmptyField = false;
+    let reqDetailsError = false;
+    if (this.isStringEmpty(this.state.requestDetails)) {
+      hasEmptyField = true;
+      reqDetailsError = true;
+    }
+    const { vehicles } = this.state;
+    vehicles.some((vehicle) => {
+      const errorFields = Object.keys(vehicle.errorFields);
+      const updatedErrorFields = {};
+      errorFields.map((errorField) => {
+        if (this.isStringEmpty(vehicle[errorField])) {
+          updatedErrorFields[errorField] = true;
+          hasEmptyField = true;
+        }
+      });
+      if (hasEmptyField) {
+      }
+      // vehicle.errorFields = Object.assign({}, vehicle.errorFields, updatedErrorFields);
+
+      let dateHasPassed = false;
+      const now = new Date();
+      const pickupDate = new Date(vehicle.pickupDate);
+      const pickupTime = vehicle.pickupTime.split(':');
+      pickupDate.setHours(pickupTime[0], pickupTime[1]);
+      if (pickupDate < now) {
+        updatedErrorFields[pickupDate] = true;
+        updatedErrorFields[pickupTime] = true;
+        dateHasPassed = true;
+      }
+
+      let returnBeforePickup = false;
+      const returnDate = new Date(vehicle.returnDate);
+      const returnTime = vehicle.returnTime.split(':');
+      returnDate.setHours(returnTime[0], returnTime[1]);
+      if (returnDate < pickupDate) {
+        updatedErrorFields[pickupDate] = true;
+        updatedErrorFields[pickupTime] = true;
+        updatedErrorFields[returnDate] = true;
+        updatedErrorFields[returnTime] = true;
+        returnBeforePickup = true;
+      }
     });
   }
 
