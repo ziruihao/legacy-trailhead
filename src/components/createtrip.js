@@ -357,7 +357,6 @@ class CreateTrip extends Component {
                 {participants: this.state.numPeople},
                 {totalCost: this.state.totalCost}, 
                 {reason:[
-                        {category: "Food"},
                         {info:[
                             {expenseDetails: "Snacks",
                             unitCost: 3,
@@ -372,7 +371,6 @@ class CreateTrip extends Component {
                             unitCost: 16,
                             totalCost: 16*this.state.dinner*this.state.numPeople}        
                         ]},
-                        {category:"Other Costs"},
                         // {info: this.state.otherCostsCost.map((i, value)=>[
                         //           {
                         //             expenseDetails: this.state.otherCostsTitle[i],
@@ -382,15 +380,15 @@ class CreateTrip extends Component {
                         //       ])
                             
                         //     }
-                        [{info: [
+                        {info: [
                           {
                             expenseDetails: this.state.otherCostsTitle,
                             unitCost: this.state.otherCostsCost,
                             totalCost:(this.state.numPeople)*this.state.otherCostsCost
                           }                                    
                       ]
-                    }]
                     
+                        }
 
                 ]}
               ]

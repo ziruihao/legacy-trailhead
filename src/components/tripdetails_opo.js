@@ -103,11 +103,26 @@ renderPCardRequest = () =>{
           </tr>
         </table>
         <table>
-        <tr>
-            <th>Category</th>
+          <tr>
             <th>Expense Details</th>
             <th>Unit Cost</th>
             <th>Total Cost</th>
+          </tr>
+          {this.props.trip.pcard.reason.map((key, value) =>{
+            return( 
+              <tr>
+                <td>value.expenseDetails</td>
+                <td>value.unitCost</td>
+                <td>value.totalCost</td>
+               </tr>
+              );
+
+             
+          })}
+          <tr>
+              <td> Food </td>
+              <td> Snacks </td>
+              <td> $3 </td>
           </tr>
 
         </table>
