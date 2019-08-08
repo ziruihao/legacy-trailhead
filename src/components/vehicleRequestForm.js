@@ -18,7 +18,7 @@ const getVehicles = (props) => {
         <div className="vrf-form-row">
           <label className="vrf-label" htmlFor="vehicle_type">Vehicle Type</label>
           <Dropdown id={`vehicle_type_${index}`} onSelect={eventKey => props.onVehicleTypeChange(eventKey, index)}>
-            <Dropdown.Toggle className="vehicle-type-dropdown">
+            <Dropdown.Toggle className={`vehicle-type-dropdown ${vehicle.errorFields.vehicleType ? 'vrf-error' : ''}`}>
               <span>
                 <span className="selected-size">{vehicleType.length === 0 ? 'Select a vehicle' : vehicleType}</span>
                 <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
@@ -37,7 +37,7 @@ const getVehicles = (props) => {
           <input
             type="text"
             id={`vehicle_details_${index}`}
-            className="trip-detail vrf-vehicle-detail"
+            className={`trip-detail vrf-vehicle-detail ${vehicle.errorFields.vehicleDetails ? 'vrf-error' : ''}`}
             placeholder="e.g. I need Steakie!"
             maxLength="50"
             name="vehicleDetails"
@@ -82,7 +82,7 @@ const getVehicles = (props) => {
             <input
               type="date"
               id={`pickup_date_${index}`}
-              className={`trip-detail vrf-vehicle-detail ${singleDayClass} ${vehicle.pickupDate.length === 0 ? 'no-date' : ''}`}
+              className={`trip-detail vrf-vehicle-detail  ${singleDayClass} ${vehicle.pickupDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupDate ? 'vrf-error' : ''}`}
               name="pickupDate"
               value={vehicle.pickupDate}
               onChange={event => props.onVehicleDetailChange(event, index)}
@@ -95,7 +95,7 @@ const getVehicles = (props) => {
                 <input
                   type="date"
                   id={`return_date_${index}`}
-                  className={`trip-detail vrf-vehicle-detail ${vehicle.returnDate.length === 0 ? 'no-date' : ''}`}
+                  className={`trip-detail vrf-vehicle-detail ${vehicle.returnDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnDate ? 'vrf-error' : ''}`}
                   name="returnDate"
                   value={vehicle.returnDate}
                   onChange={event => props.onVehicleDetailChange(event, index)}
@@ -111,7 +111,7 @@ const getVehicles = (props) => {
             <input
               type="time"
               id={`pickup_time_${index}`}
-              className={`trip-detail vrf-vehicle-detail ${vehicle.pickupTime.length === 0 ? 'no-date' : ''}`}
+              className={`trip-detail vrf-vehicle-detail ${vehicle.pickupTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupTime ? 'vrf-error' : ''}`}
               name="pickupTime"
               value={vehicle.pickupTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
@@ -122,7 +122,7 @@ const getVehicles = (props) => {
             <input
               type="time"
               id={`return_time_${index}`}
-              className={`trip-detail vrf-vehicle-detail ${vehicle.returnTime.length === 0 ? 'no-date' : ''}`}
+              className={`trip-detail vrf-vehicle-detail ${vehicle.returnTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnTime ? 'vrf-error' : ''}`}
               name="returnTime"
               value={vehicle.returnTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
@@ -164,7 +164,7 @@ const VehicleRequestForm = (props) => {
           value={props.requestDetails}
           onChange={props.onReqDetailsChange}
           id="request_details"
-          className="trip-detail vrf-req-details-input"
+          className={`trip-detail vrf-req-details-input ${props.reqDetailsError ? 'vrf-error' : ''}`}
           placeholder="e.g. I need a car to deliver wood to Cabin A"
         />
       </div>
