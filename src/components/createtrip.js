@@ -391,8 +391,10 @@ class CreateTrip extends Component {
                         }
 
                 ]}
-              ]
-      };
+        ]
+        };
+      
+    
 
       // if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
       //   && trip.cost && trip.mileage && trip.location && trip.club)) {
