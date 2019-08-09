@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { appError } from '../actions';
+import { appError, submitVehicleRequest } from '../actions';
 import VehicleRequestForm from './vehicleRequestForm';
 
 class VehicleRequest extends Component {
@@ -14,6 +14,7 @@ class VehicleRequest extends Component {
     pickupTime: '',
     returnTime: '',
     passNeeded: false,
+    trailerCompatible: false,
     errorFields: {
       vehicleType: false,
       vehicleDetails: false,
@@ -204,10 +205,24 @@ class VehicleRequest extends Component {
   }
 
   submit = () => {
-    console.log(this.isFormValid());
+    if (this.isFormValid()) {
+      const vehicles = this.state.vehicles.map((vehicle) => {
+        delete vehicle.errorFields;
+        return vehicle;
+      });
+      const vehicleRequest = {
+        requestDetails: this.state.requestDetails,
+        vehicles,
+      };
+      this.props.submitVehicleRequest(vehicleRequest);
+    }
   }
 
   render() {
+    const userCertifications = {
+      driverCert: this.props.user.driver_cert,
+      trailerCert: this.props.user.trailer_cert,
+    };
     return (
       <VehicleRequestForm
         requestDetails={this.state.requestDetails}
@@ -219,6 +234,7 @@ class VehicleRequest extends Component {
         addVehicle={this.addVehicle}
         removeVehicle={this.removeVehicle}
         submit={this.submit}
+        userCertifications={userCertifications}
       />
     );
   }
@@ -230,4 +246,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { appError })(VehicleRequest));
+export default withRouter(connect(mapStateToProps, { appError, submitVehicleRequest })(VehicleRequest));

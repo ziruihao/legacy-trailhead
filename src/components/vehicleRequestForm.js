@@ -2,6 +2,34 @@ import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import '../styles/vehicleRequestForm-style.scss';
 
+const getApprpriateVehicleMenu = (userCertifications) => {
+  let microbusVan;
+  switch (userCertifications.driverCert) {
+    case 'MICROBUS':
+      microbusVan = (
+        <div>
+          <Dropdown.Item eventKey="Microbus">Microbus</Dropdown.Item>
+          <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
+        </div>
+      );
+      break;
+    case 'VAN':
+      microbusVan = <Dropdown.Item eventKey="Van">Van</Dropdown.Item>;
+      break;
+    default:
+      microbusVan = null;
+  }
+
+  if (userCertifications.driverCert === null && !userCertifications.trailerCert) {
+    microbusVan = <Dropdown.Item eventKey="">Request access in profile page</Dropdown.Item>;
+  }
+  return (
+    <Dropdown.Menu className="vrf-req-options">
+      {microbusVan}
+    </Dropdown.Menu>
+  );
+};
+
 const getVehicles = (props) => {
   return props.vehicles.map((vehicle, index) => {
     const { vehicleType } = vehicle;
@@ -24,11 +52,8 @@ const getVehicles = (props) => {
                 <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
               </span>
             </Dropdown.Toggle>
-            <Dropdown.Menu className="vrf-req-options">
-              <Dropdown.Item eventKey="Microbus">Microbus</Dropdown.Item>
-              <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
-              <Dropdown.Item eventKey="Trailer">Trailer</Dropdown.Item>
-            </Dropdown.Menu>
+
+            {getApprpriateVehicleMenu(props.userCertifications)}
           </Dropdown>
         </div>
 
@@ -145,6 +170,27 @@ const getVehicles = (props) => {
             <span className="vrf-label">WMNF Pass Needed?</span>
           </div>
         </div>
+
+        {props.userCertifications.trailerCert
+          ? (
+            <div className="vrf-form-row vrf-req-dates">
+              <div className="club-option">
+                <label className="checkbox-container club-checkbox" htmlFor={`trailerCompatible_${index}`}>
+                  <input
+                    type="checkbox"
+                    name="trailerCompatible"
+                    id={`trailerCompatible_${index}`}
+                    checked={vehicle.trailerCompatible}
+                    onChange={event => props.onVehicleDetailChange(event, index)}
+                  />
+                  <span className="checkmark" />
+                </label>
+                <span className="vrf-label">Trailer Compatible?</span>
+              </div>
+            </div>
+          )
+          : null
+        }
 
       </div>
     );

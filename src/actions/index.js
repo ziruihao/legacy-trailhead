@@ -413,3 +413,9 @@ export function reviewTrippeeGearRequest(review) {
       });
   };
 }
+
+export function submitVehicleRequest(vehicleRequest) {
+  return (dispatch) => {
+    // axios.post(`${ROOT_URL}/`);
+  };
+}
