@@ -53,6 +53,7 @@ const App = (props) => {
           <Route path="/alltrips" component={AllTrips} />
           <Route path="/tripscalendar" component={TripsCal} />
           <Route path="/vehiclerequest" component={VehicleRequest} />
+          <Route path="/vehiclerequest/:vehicleReqId" component={requireAuth(VehicleRequest)} />
           <Route path="/trip/:tripID" component={requireAuth(TripDetails)} />
           <Route path="/createtrip" component={requireAuth(CreateTrip)} />
           <Route path="/mytrips" component={requireAuth(MyTrips)} />

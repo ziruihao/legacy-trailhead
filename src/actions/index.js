@@ -380,9 +380,12 @@ export function fetchOpoTrips() {
 export function reviewGearRequest(review) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/gearrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
-      .then(
-        dispatch(fetchGearRequests()),
-      ).catch((error) => {
+      .then((response) => {
+        dispatch({
+          type: ActionTypes.FETCH_GEAR_REQUESTS,
+          payload: response.data,
+        });
+      }).catch((error) => {
         dispatch(appError(`Error responding to gear request: ${error}`));
       });
   };
@@ -406,16 +409,24 @@ export function fetchTrippeeGearRequests() {
 export function reviewTrippeeGearRequest(review) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/trippeegearrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
-      .then(
-        dispatch(fetchTrippeeGearRequests()),
-      ).catch((error) => {
+      .then((response) => {
+        dispatch({
+          type: ActionTypes.FETCH_TRIPPEE_GEAR_REQUESTS,
+          payload: response.data,
+        });
+      }).catch((error) => {
         dispatch(appError(`Error responding to trippee gear request: ${error}`));
       });
   };
 }
 
-export function submitVehicleRequest(vehicleRequest) {
+export function submitVehicleRequest(vehicleRequest, history) {
   return (dispatch) => {
-    // axios.post(`${ROOT_URL}/`);
+    axios.post(`${ROOT_URL}/vehicleRequest`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        history.push('/mytrips');
+      }).catch((error) => {
+        dispatch(appError(`Error making vehicle request: ${error}`));
+      });
   };
 }

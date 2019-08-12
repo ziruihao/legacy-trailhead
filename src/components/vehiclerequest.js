@@ -30,9 +30,14 @@ class VehicleRequest extends Component {
     this.state = {
       requestDetails: '',
       reqDetailsError: false,
+      requestType: 'SOLO',
       vehicles: [this.defaultVehicleReq],
     };
   }
+
+  // componentDidMount() {
+  //   this.props.fetchVehicleReq(this.props.match.params.vehicleReqId);
+  // }
 
   onReqDetailsChange = (event) => {
     event.persist();
@@ -211,10 +216,12 @@ class VehicleRequest extends Component {
         return vehicle;
       });
       const vehicleRequest = {
+        requester: this.props.user,
         requestDetails: this.state.requestDetails,
-        vehicles,
+        requestType: this.state.requestType,
+        requestedVehicles: vehicles,
       };
-      this.props.submitVehicleRequest(vehicleRequest);
+      this.props.submitVehicleRequest(vehicleRequest, this.props.history);
     }
   }
 
@@ -225,6 +232,7 @@ class VehicleRequest extends Component {
     };
     return (
       <VehicleRequestForm
+        requestType={this.state.requestType}
         requestDetails={this.state.requestDetails}
         reqDetailsError={this.state.reqDetailsError}
         vehicles={this.state.vehicles}

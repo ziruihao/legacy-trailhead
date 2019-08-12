@@ -10,11 +10,17 @@ const getApprpriateVehicleMenu = (userCertifications) => {
         <div>
           <Dropdown.Item eventKey="Microbus">Microbus</Dropdown.Item>
           <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
+          <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>
         </div>
       );
       break;
     case 'VAN':
-      microbusVan = <Dropdown.Item eventKey="Van">Van</Dropdown.Item>;
+      microbusVan = (
+        <div>
+          <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
+          <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>
+        </div>
+      );
       break;
     default:
       microbusVan = null;
@@ -204,16 +210,20 @@ const VehicleRequestForm = (props) => {
         <h2 className="p-trip-title vrf-title-size">Vehicle Request</h2>
       </div>
 
-      <div className="vrf-form-row">
-        <label className="vrf-label" htmlFor="request_detail">Request Details</label>
-        <textarea
-          value={props.requestDetails}
-          onChange={props.onReqDetailsChange}
-          id="request_details"
-          className={`trip-detail vrf-req-details-input ${props.reqDetailsError ? 'vrf-error' : ''}`}
-          placeholder="e.g. I need a car to deliver wood to Cabin A"
-        />
-      </div>
+      {props.requestType === 'SOLO'
+        ? (
+          <div className="vrf-form-row">
+            <label className="vrf-label" htmlFor="request_detail">Request Details</label>
+            <textarea
+              value={props.requestDetails}
+              onChange={props.onReqDetailsChange}
+              id="request_details"
+              className={`trip-detail vrf-req-details-input ${props.reqDetailsError ? 'vrf-error' : ''}`}
+              placeholder="e.g. I need a car to deliver wood to Cabin A"
+            />
+          </div>
+        )
+        : null}
 
       {getVehicles(props)}
 
