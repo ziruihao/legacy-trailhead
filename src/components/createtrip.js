@@ -67,7 +67,7 @@ class CreateTrip extends Component {
       }else{
         this.setState((prevState) => {
           const otherCostsCost = [...prevState.otherCostsCost];
-          otherCostsCost[idx] = event.target.value;
+          otherCostsCost[idx] = parseInt(event.target.value);
           return {
             otherCostsCost,
           };
@@ -339,10 +339,17 @@ class CreateTrip extends Component {
       return null;
     }
     createTrip() {
-      console.log(this.state);
       const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
       const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
       const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
+      const otherPcardRequests = this.state.otherCostsCost.map((value, i)=>(
+        {
+          expenseDetails: this.state.otherCostsTitle[i],
+          unitCost: value,
+          totalCost:(this.state.numPeople)*value,
+        }
+      ));
+      console.log(otherPcardRequests);
       const trip = {
         title: this.state.title,
         leaders: this.state.leaders.trim().split(','),
@@ -361,9 +368,7 @@ class CreateTrip extends Component {
         co_leader_access: this.state.access,
         gearRequests,
         trippeeGear,
-        pcard: [
-                {subclub: this.state.club}, 
-                {participants: this.state.numPeople},
+        pcard: [{participants: this.state.numPeople},
                 {totalCost: this.state.totalCost}, 
                 {reason:[
                         {info:[
@@ -380,21 +385,12 @@ class CreateTrip extends Component {
                             unitCost: 16,
                             totalCost: 16*this.state.dinner*this.state.numPeople}        
                         ]},
-                        {info: this.state.otherCostsCost.map((value, i)=>[
-                                  {
-                                    expenseDetails: this.state.otherCostsTitle[i],
-                                    unitCost: this.state.otherCostsCost[i],
-                                    totalCost:(this.state.numPeople)*this.state.otherCostsCost[i]
-                                  }                                    
-                              ])
-                            
-                            }
+                        {info: otherPcardRequests}
 
                 ]}
         ]
         };
       
-    
 
       // if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
       //   && trip.cost && trip.mileage && trip.location && trip.club)) {

@@ -95,8 +95,8 @@ renderPCardRequest = () =>{
               <tr>
               <td>Food, others</td>
               <td>{this.props.trip.club.name}</td>
-              <td>{this.props.trip.pcard[1].participants}</td>
-              <td>{this.props.trip.pcard[2].totalCost}</td>
+              <td>{this.props.trip.pcard[0].participants}</td>
+              <td>{this.props.trip.pcard[1].totalCost}</td>
               </tr>
           </tbody>
         </table>
@@ -109,7 +109,7 @@ renderPCardRequest = () =>{
             </tr>
           </thead>
           <tbody>
-          { this.props.trip.pcard[3].reason.map((i) =>{
+          { this.props.trip.pcard[2].reason.map((i) =>{
             return(
               i.info.map((j)=>{
                 return(
