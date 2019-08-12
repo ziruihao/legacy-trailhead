@@ -5,7 +5,6 @@ class PCardRequest extends Component {
       super(props);
       this.state = {
         numPeople: null,
-        numTripees:null,
         snacks:null,
         breakfast:null,
         lunch:null,
@@ -13,6 +12,7 @@ class PCardRequest extends Component {
         otherCostsTitle: [],
         otherCostsCost:[],
         numOtherRequests: 1,
+        totalCost: 0,
       };
 
     }
@@ -95,14 +95,14 @@ class PCardRequest extends Component {
             onChange={this.props.onFieldChange}
             name="numPeople"
             placeholder="e.g. 8"
-            value={this.state.numTripLeader}
+            value={this.state.numPeople}
             />
         </div>
         <div className = "page-sub-headers">
             <p>Food per person on the trip</p>
         </div>
 
-        <div>
+        <div style = {{width:'200%'}}>
             <div className="row page-sub-headers pcard">
                 <p>Snacks</p>
                 <input className="field top-create-trip leaders pcard"
@@ -121,9 +121,6 @@ class PCardRequest extends Component {
                 value={this.state.breakfast}
                 />
             </div>
-        </div>
-        
-        <div>
             <div className="row page-sub-headers pcard">
                 <p>Lunch</p>
                 <input className="field top-create-trip leaders pcard"
@@ -149,7 +146,7 @@ class PCardRequest extends Component {
         <div>
         {this.otherCosts(this.state.numOtherRequests)}
         </div>
-        <button className="add-gear-button" type="button" onClick={this.updateOtherRequests}>+ Add another response</button>
+        <button className="add-gear-button" type="button" onClick={this.updateOtherRequests}>+</button>
 
         </div>
 

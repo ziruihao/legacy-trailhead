@@ -120,8 +120,8 @@ input[type="text"]{
 
 .delete-gear-button {
 	content: "X";
-	display: block;
-  width: 27rem;
+	display: inline-block;
+  width: 1rem;
   height: 4rem;
 	background-color: transparent;
 	z-index:1;
@@ -336,7 +336,7 @@ ul li .radio-button{
   }
   &.pcard{
     display: inline-block;
-    width: 50%;
+    width: 25%;
   }
 
 }

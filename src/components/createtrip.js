@@ -31,11 +31,11 @@ class CreateTrip extends Component {
       length: 'single',
       gearRequests: [],
       trippeeGear: [],
-      numPeople:0,
-      snacks:0,
-      breakfast:0,
-      lunch:0,
-      dinner:0,
+      numPeople:null,
+      snacks:null,
+      breakfast:null,
+      lunch:null,
+      dinner:null,
       otherCostsTitle: [],
       otherCostsCost:[],
       totalCost: 0,
@@ -50,28 +50,42 @@ class CreateTrip extends Component {
   }
 
   onFieldChange(event) {
+    let c = parseInt(this.state.totalCost);
+    if(event.target.name === "snacks"){
+      c = c + 3*parseInt(event.target.value)*parseInt(this.state.numPeople);
+    }else if(event.target.name === "breakfast"){
+      c = c + 10*parseInt(event.target.value)*parseInt(this.state.numPeople);
+    }else if(event.target.name === "lunch"){
+      c = c + 14*parseInt(event.target.value)*parseInt(this.state.numPeople);
+    }else if(event.target.name === "dinner"){
+      c = c + 16*parseInt(event.target.value)*parseInt(this.state.numPeople);
+    }
+    console.log(c);
       this.setState({
         [event.target.name]: event.target.value,
+        totalCost: c,
       });
     }
   onFieldChangeOther(event, idx) {      
 
       if(event.target.name === "otherCostsTitle"){
-        this.setState((prevState) => {
-          const otherCostsTitle = [...prevState.otherCostsTitle];
-          otherCostsTitle[idx] = event.target.value;
-          return {
+        const otherCostsTitle = [...prevState.otherCostsTitle];
+        otherCostsTitle[idx] = event.target.value;
+        this.setState({
             otherCostsTitle,
-          };
         });
       }else{
-        this.setState((prevState) => {
-          const otherCostsCost = [...prevState.otherCostsCost];
+
+        const otherCostsCost = this.state.otherCostsCost;
           otherCostsCost[idx] = parseInt(event.target.value);
-          return {
-            otherCostsCost,
-          };
-        });
+          let totalCost = this.state.totalCost;
+          totalCost += parseInt(this.state.numPeople) * parseInt(event.target.value);
+          this.setState({
+            
+              otherCostsCost,
+              totalCost,
+              
+          });
       }
 
   }
@@ -339,6 +353,7 @@ class CreateTrip extends Component {
       return null;
     }
     createTrip() {
+      console.log(this.state);
       const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
       const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
       const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
@@ -349,7 +364,6 @@ class CreateTrip extends Component {
           totalCost:(this.state.numPeople)*value,
         }
       ));
-      console.log(otherPcardRequests);
       const trip = {
         title: this.state.title,
         leaders: this.state.leaders.trim().split(','),
