@@ -34,7 +34,7 @@ class PCardRequest extends Component {
         ret.push(
         <div style= {{width: '200%'}}>
         <input id = "0" className="field top-create-trip leaders other_costs"
-        onChange={this.props.onFieldChangeOther(event, 0)}
+        onChange={()=>this.props.onFieldChangeOther(event, 0)}
         name="otherCostsTitle"
         placeholder="e.g. Tickets for EVO"
         value={this.state.otherCostsTitle[0]}
@@ -43,7 +43,7 @@ class PCardRequest extends Component {
             $
         </p>
         <input id = "0" className="field top-create-trip leaders other_costs other_costs_num"
-        onChange={this.props.onFieldChangeOther(event, 0)}
+        onChange={()=>this.props.onFieldChangeOther(event, 0)}
         name="otherCostsCost"
         placeholder="e.g. 10"
         value={this.state.otherCostsCost[0]}
@@ -53,7 +53,7 @@ class PCardRequest extends Component {
             ret.push(
                 <div key = {i} style= {{width: '200%'}}>
                     <input className="field top-create-trip leaders other_costs"
-                    onChange={this.props.onFieldChangeOther(event, i)}
+                    onChange={()=>this.props.onFieldChangeOther(event, i)}
                     name="otherCostsTitle"
                     placeholder="e.g. Tickets for EVO"
                     value={this.state.otherCostsTitle[i]}
@@ -62,7 +62,7 @@ class PCardRequest extends Component {
                         $
                     </p>
                     <input className="field top-create-trip leaders other_costs other_costs_num"
-                    onChange={this.props.onFieldChangeOther(event, i)}
+                    onChange={() => this.props.onFieldChangeOther(event, i)}
                     name="otherCostsCost"
                     placeholder="e.g. 10"
                     value={this.state.otherCostsCost[i]}

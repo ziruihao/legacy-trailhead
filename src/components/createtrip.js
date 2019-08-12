@@ -41,6 +41,7 @@ class CreateTrip extends Component {
       totalCost: 0,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
+    this.onFieldChangeOther = this.onFieldChangeOther.bind(this);
     this.createTrip = this.createTrip.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onGearChange = this.onGearChange.bind(this);
@@ -54,23 +55,21 @@ class CreateTrip extends Component {
       });
     }
   onFieldChangeOther(event, idx) {      
-    
-      console.log("event: " + event.target.name);      
-      console.log("id: " + idx);
+
       if(event.target.name === "otherCostsTitle"){
         this.setState((prevState) => {
-          const titles = [...prevState.otherCostsTitle];
-          titles[idx] = event.target.value;
+          const otherCostsTitle = [...prevState.otherCostsTitle];
+          otherCostsTitle[idx] = event.target.value;
           return {
-            titles,
+            otherCostsTitle,
           };
         });
       }else{
         this.setState((prevState) => {
-          const costs = [...prevState.otherCostsCost];
-          costs[idx] = event.target.value;
+          const otherCostsCost = [...prevState.otherCostsCost];
+          otherCostsCost[idx] = event.target.value;
           return {
-            costs,
+            otherCostsCost,
           };
         });
       }
@@ -340,6 +339,7 @@ class CreateTrip extends Component {
       return null;
     }
     createTrip() {
+      console.log(this.state);
       const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
       const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
       const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
@@ -380,7 +380,7 @@ class CreateTrip extends Component {
                             unitCost: 16,
                             totalCost: 16*this.state.dinner*this.state.numPeople}        
                         ]},
-                        {info: this.state.otherCostsCost.map((i, value)=>[
+                        {info: this.state.otherCostsCost.map((value, i)=>[
                                   {
                                     expenseDetails: this.state.otherCostsTitle[i],
                                     unitCost: this.state.otherCostsCost[i],
