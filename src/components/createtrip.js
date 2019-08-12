@@ -36,8 +36,8 @@ class CreateTrip extends Component {
       breakfast:0,
       lunch:0,
       dinner:0,
-      otherCostsTitle: "",
-      otherCostsCost:"",
+      otherCostsTitle: [],
+      otherCostsCost:[],
       totalCost: 0,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
@@ -49,22 +49,31 @@ class CreateTrip extends Component {
   }
 
   onFieldChange(event) {
-    // if(event.target.name === "otherCostsTitle"){
-    //   let temp = this.state.otherCostsTitle.push(event.target.value);
-    //   this.setState({
-    //     [event.target.name]: temp
-    //   });
-    // } else if(event.target.name === "otherCostsCost" ){
-    //   let temp = this.state.otherCostsCost.push(event.target.value);
-
-    //   this.setState({
-    //     [event.target.name]: temp
-    //   });
-    // }else{
       this.setState({
         [event.target.name]: event.target.value,
       });
-    //}
+    }
+  onFieldChangeOther(event, idx) {      
+    
+      console.log("event: " + event.target.name);      
+      console.log("id: " + idx);
+      if(event.target.name === "otherCostsTitle"){
+        this.setState((prevState) => {
+          const titles = [...prevState.otherCostsTitle];
+          titles[idx] = event.target.value;
+          return {
+            titles,
+          };
+        });
+      }else{
+        this.setState((prevState) => {
+          const costs = [...prevState.otherCostsCost];
+          costs[idx] = event.target.value;
+          return {
+            costs,
+          };
+        });
+      }
 
   }
 
@@ -371,24 +380,15 @@ class CreateTrip extends Component {
                             unitCost: 16,
                             totalCost: 16*this.state.dinner*this.state.numPeople}        
                         ]},
-                        // {info: this.state.otherCostsCost.map((i, value)=>[
-                        //           {
-                        //             expenseDetails: this.state.otherCostsTitle[i],
-                        //             unitCost: this.state.otherCostsCost[i],
-                        //             totalCost:(this.state.numPeople)*this.state.otherCostsCost[i]
-                        //           }                                    
-                        //       ])
+                        {info: this.state.otherCostsCost.map((i, value)=>[
+                                  {
+                                    expenseDetails: this.state.otherCostsTitle[i],
+                                    unitCost: this.state.otherCostsCost[i],
+                                    totalCost:(this.state.numPeople)*this.state.otherCostsCost[i]
+                                  }                                    
+                              ])
                             
-                        //     }
-                        {info: [
-                          {
-                            expenseDetails: this.state.otherCostsTitle,
-                            unitCost: this.state.otherCostsCost,
-                            totalCost:(this.state.numPeople)*this.state.otherCostsCost
-                          }                                    
-                      ]
-                    
-                        }
+                            }
 
                 ]}
         ]
@@ -518,6 +518,7 @@ class CreateTrip extends Component {
           <PCardRequest
              currentStep={this.state.currentStep}
              onFieldChange = {this.onFieldChange}
+             onFieldChangeOther = {this.onFieldChangeOther}
           />
           <div className="row right-column button-placement">
             {this.nextButton()}

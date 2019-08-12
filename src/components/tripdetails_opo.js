@@ -77,6 +77,7 @@ renderBasicInformation = () => {
   );
 }
 renderPCardRequest = () =>{
+  console.log(this.props.trip);
   return(
     <div>
       <p> P-Card Request </p>

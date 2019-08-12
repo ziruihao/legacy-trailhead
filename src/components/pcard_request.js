@@ -1,8 +1,4 @@
 import React, { Component } from 'react'; 
-import { getPCardRequests } from '../../../project-doc-website-api/src/controllers/trip_controller';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { appError } from '../actions';
 
 class PCardRequest extends Component {
     constructor(props) {
@@ -14,11 +10,70 @@ class PCardRequest extends Component {
         breakfast:null,
         lunch:null,
         dinner:null,
-        otherCostsTitle: "",
-        otherCostsCost:"",
+        otherCostsTitle: [],
+        otherCostsCost:[],
+        numOtherRequests: 1,
       };
 
     }
+    updateOtherRequests = () => {
+        this.setState({
+            numOtherRequests: this.state.numOtherRequests+1,
+        })
+    }
+    removeOtherRequests = (key) =>{
+
+        this.setState({
+            numOtherRequests: this.state.numOtherRequests - 1,
+            otherCostsTitle: this.state.otherCostsTitle.splice(key, 1),
+            otherCostsCost: this.state.otherCostsCost.splice(key, 1),
+        });
+    }
+    otherCosts = (n) => {
+        let ret = [];
+        ret.push(
+        <div style= {{width: '200%'}}>
+        <input id = "0" className="field top-create-trip leaders other_costs"
+        onChange={this.props.onFieldChangeOther(event, 0)}
+        name="otherCostsTitle"
+        placeholder="e.g. Tickets for EVO"
+        value={this.state.otherCostsTitle[0]}
+        />
+        <p style = {{fontWeight: 700, display:"inline-block", width: "fit-content", fontSize:"18pt"}}>
+            $
+        </p>
+        <input id = "0" className="field top-create-trip leaders other_costs other_costs_num"
+        onChange={this.props.onFieldChangeOther(event, 0)}
+        name="otherCostsCost"
+        placeholder="e.g. 10"
+        value={this.state.otherCostsCost[0]}
+        />
+        </div>);
+        for(let i = 1; i < n-1; i++){
+            ret.push(
+                <div key = {i} style= {{width: '200%'}}>
+                    <input className="field top-create-trip leaders other_costs"
+                    onChange={this.props.onFieldChangeOther(event, i)}
+                    name="otherCostsTitle"
+                    placeholder="e.g. Tickets for EVO"
+                    value={this.state.otherCostsTitle[i]}
+                    />
+                    <p style = {{fontWeight: 700, display:"inline-block", width: "fit-content", fontSize:"18pt"}}>
+                        $
+                    </p>
+                    <input className="field top-create-trip leaders other_costs other_costs_num"
+                    onChange={this.props.onFieldChangeOther(event, i)}
+                    name="otherCostsCost"
+                    placeholder="e.g. 10"
+                    value={this.state.otherCostsCost[i]}
+                    />
+                    <button type="button" className="delete-gear-button" onClick={() => this.removeOtherRequests(i)}>X</button>
+                    </div>
+            );
+        }
+        return ret;
+    }
+
 
     render(){
         if (this.props.currentStep !== 5) {
@@ -89,25 +144,14 @@ class PCardRequest extends Component {
         <div className = "page-sub-headers">
             <p>Other Costs</p>
         </div>
-        <div style= {{width: '200%'}}>
-            <input className="field top-create-trip leaders other_costs"
-            onChange={this.props.onFieldChange}
-            name="otherCostsTitle"
-            placeholder="e.g. Tickets for EVO"
-            value={this.state.otherCostsTitle[0]}
-            />
-            <p style = {{fontWeight: 700, display:"inline-block", width: "fit-content", fontSize:"18pt"}}>
-                $
-            </p>
-            <input className="field top-create-trip leaders other_costs other_costs_num"
-            onChange={this.props.onFieldChange}
-            name="otherCostsCost"
-            placeholder="e.g. 10"
-            value={this.state.otherCostsCost[0]}
-            />
+        <div>
+        {this.otherCosts(this.state.numOtherRequests)}
         </div>
-    </div>
-    );
+        <button onClick={this.updateOtherRequests}> + Add another response</button>
+
+        </div>
+
+        );
     }
 
     }
