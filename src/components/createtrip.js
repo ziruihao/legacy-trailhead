@@ -60,7 +60,6 @@ class CreateTrip extends Component {
     }else if(event.target.name === "dinner"){
       c = c + 16*parseInt(event.target.value)*parseInt(this.state.numPeople);
     }
-    console.log(c);
       this.setState({
         [event.target.name]: event.target.value,
         totalCost: c,
@@ -69,7 +68,7 @@ class CreateTrip extends Component {
   onFieldChangeOther(event, idx) {      
 
       if(event.target.name === "otherCostsTitle"){
-        const otherCostsTitle = [...prevState.otherCostsTitle];
+        const otherCostsTitle = this.state.otherCostsTitle;
         otherCostsTitle[idx] = event.target.value;
         this.setState({
             otherCostsTitle,

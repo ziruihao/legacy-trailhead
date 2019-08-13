@@ -1,4 +1,10 @@
 import React, {Component, Fragment} from 'react';
+import Modal from 'react-bootstrap/Modal';
+
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { editTrip, appError } from '../actions';
+
 import '../styles/tripdetails_opo.scss';
 import '../styles/createtrip-style.scss';
 
@@ -9,8 +15,15 @@ class OPOTripDetails extends Component {
     super(props);
     this.state = {
       //0 is basic info, 1 is gear requests, 2 is pcard requests
-      render: 0
+      render: 0,
+      pcardAssigned: null,
+      showModal: false,
     }
+    this.onFieldChange = this.onFieldChange.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.showModal = this.showModal.bind(this);
+    this.deny = this.deny.bind(this);
+    this.approve = this.approve.bind(this);
   }
 
 
@@ -46,7 +59,11 @@ formatDate = (date, startTime, endTime) => {
   timeString = `${timeString}, ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]}, ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}}`;
   return timeString;
 }
-
+onFieldChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
 renderBasicInformation = () => {
   return(
     <div className="col-9 right-column">
@@ -76,31 +93,121 @@ renderBasicInformation = () => {
       </div>
   );
 }
+showModal = () =>{
+  this.setState({
+    showModal: true,
+  });
+}
+closeModal = () =>{
+  this.setState({
+    showModal: false,
+  });
+}
+
+approve = () =>{
+  const trip = {
+    title: this.props.trip.title,
+    leaders: this.props.trip.leaders,
+    club: this.props.trip.club,
+    members: this.props.trip.members,
+    pending: this.props.trip.pending,
+    startDate: this.props.trip.startDate,
+    endDate: this.props.trip.endDate,
+    location: this.props.trip.location,
+    pickup: this.props.trip.pickup,
+    dropoff: this.props.trip.dropoff,
+    mileage: this.props.trip.mileage,
+    cost: this.props.trip.cost,
+    description: this.props.trip.description,
+    experienceNeeded: this.props.trip.experienceNeeded,
+    co_leader_access: this.props.trip.co_leader_access,
+    OPOGearRequests: this.props.trip.OPOGearRequests,
+    trippeeGear: this.props.trip.trippeeGear,
+    gearStatus: this.props.trip.gearStatus,
+    trippeeGearStatus: this.props.trippeeGearStatus,
+    pcard: this.props.pcard,
+    pcardStatus: "approved",
+    pcardAssigned: this.state.pcardAssigned,
+    vehicleStatus: this.props.trip.vehicleStatus,
+    id: this.props.trip.id,
+
+  }
+
+  this.props.editTrip(trip, this.props.history);
+
+}
+
+deny = () => {
+  this.showModal();
+  const trip = {
+    title: this.props.trip.title,
+    leaders: this.props.trip.leaders,
+    club: this.props.trip.club,
+    members: this.props.trip.members,
+    pending: this.props.trip.pending,
+    startDate: this.props.trip.startDate,
+    endDate: this.props.trip.endDate,
+    location: this.props.trip.location,
+    pickup: this.props.trip.pickup,
+    dropoff: this.props.trip.dropoff,
+    mileage: this.props.trip.mileage,
+    cost: this.props.trip.cost,
+    description: this.props.trip.description,
+    experienceNeeded: this.props.trip.experienceNeeded,
+    co_leader_access: this.props.trip.co_leader_access,
+    OPOGearRequests: this.props.trip.OPOGearRequests,
+    trippeeGear: this.props.trip.trippeeGear,
+    gearStatus: this.props.trip.gearStatus,
+    trippeeGearStatus: this.props.trippeeGearStatus,
+    pcard: this.props.pcard,
+    pcardStatus: "denied",
+    pcardAssigned: this.state.pcardAssigned,
+    vehicleStatus: this.props.trip.vehicleStatus,
+    id: this.props.trip.id,
+
+  }
+
+  this.props.editTrip(trip, this.props.history);
+
+}
 renderPCardRequest = () =>{
-  console.log(this.props.trip);
   return(
-    <div>
-      <p> P-Card Request </p>
+    <div className = "pcard-opo">
+      <Modal
+    centered
+    show = {this.state.showModal}
+  >
+    <div className="trip-details-close-button">
+      <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
+    </div>
+    <div className="cancel-content">
+      <p className="cancel-question">Contact Leader</p>
+      <p className="cancel-message">To contact the trip leader, please copy their email address and send them an email</p>
+      <p className="cancel-question">{this.props.trip.leaders[0].email}</p>
+    </div>
+
+  </Modal>
+      <h1> P-Card Request </h1>
       <div>
-        <table>
-          <thead>
-            <tr>
-            <th>Reason</th>
-            <th>Subclub</th>
-            <th># of Participants</th>
-            <th>Total Cost</th>
-            </tr>
-          </thead>
-          <tbody>
+          <table className = "pcard-overview-table">
+            <thead>
               <tr>
-              <td>Food, others</td>
-              <td>{this.props.trip.club.name}</td>
-              <td>{this.props.trip.pcard[0].participants}</td>
-              <td>{this.props.trip.pcard[1].totalCost}</td>
+              <th>Reason</th>
+              <th>Subclub</th>
+              <th># of Participants</th>
+              <th>Total Cost</th>
               </tr>
-          </tbody>
-        </table>
-        <table>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Food, others</td>
+                <td>{this.props.trip.club.name}</td>
+                <td>{this.props.trip.pcard[0].participants}</td>
+                <td>${this.props.trip.pcard[1].totalCost}</td>
+                </tr>
+            </tbody>
+          </table>
+          <table>
           <thead>
             <tr>
             <th>Expense Details</th>
@@ -116,19 +223,24 @@ renderPCardRequest = () =>{
                     <tr>
                       <td>{j.expenseDetails}</td>
                       <td>{j.unitCost}</td>
-                      <td>{j.totalCost}</td>
+                      <td>${j.totalCost}</td>
                     </tr>
-                );
-              }  
-              )            
-              );
-            }
-            )
-            }
+                );}));})}
           </tbody>
         </table>
+        <div className = "pcard-assign">
+            <p style= {{display: "block", fontWeight: "bold", fontSize: "12pt"}}>P-Card Assigned</p>
+            <input 
+                    className = "pcard-assign-input"
+                    onChange={this.props.onFieldChange}
+                    name="pcardAssigned"
+                    placeholder="e.g. 1234"
+                    value={this.state.pcardAssigned}
+                    />
+          </div>
       </div>
-
+      <button type="button" className="btn approve-button" onClick={this.approve}>Approve and Notify Leader</button>
+      <button type="button" className="btn deny-button" onClick={this.deny}>Contact Leader</button>
     </div>
 
   );
@@ -184,5 +296,10 @@ render(){
 
 }
 
+const mapStateToProps = (state) => {
+  return {
+    trip: state.trips.trip,
+  };
+};
 
-export default OPOTripDetails;
+export default withRouter(connect(mapStateToProps,{ editTrip, appError })(OPOTripDetails));;
