@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { appError, submitVehicleRequest } from '../actions';
+import { appError, fetchVehicleReq, submitVehicleRequest } from '../actions';
 import VehicleRequestForm from './vehicleRequestForm';
+import VehicleRequestDisplay from './vehicleRequestDisplay';
 
 class VehicleRequest extends Component {
   defaultVehicleReq = {
@@ -14,7 +15,7 @@ class VehicleRequest extends Component {
     pickupTime: '',
     returnTime: '',
     passNeeded: false,
-    trailerCompatible: false,
+    trailerNeeded: false,
     errorFields: {
       vehicleType: false,
       vehicleDetails: false,
@@ -28,6 +29,7 @@ class VehicleRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isEditing: true,
       requestDetails: '',
       reqDetailsError: false,
       requestType: 'SOLO',
@@ -35,9 +37,14 @@ class VehicleRequest extends Component {
     };
   }
 
-  // componentDidMount() {
-  //   this.props.fetchVehicleReq(this.props.match.params.vehicleReqId);
-  // }
+  componentDidMount() {
+    if (this.props.viewMode) {
+      this.props.fetchVehicleReq(this.props.match.params.vehicleReqId)
+        .then(() => {
+          this.setState({ isEditing: false });
+        });
+    }
+  }
 
   onReqDetailsChange = (event) => {
     event.persist();
@@ -225,33 +232,77 @@ class VehicleRequest extends Component {
     }
   }
 
+  startEditing = () => {
+    const { vehicleRequest } = this.props;
+    const withMoreFields = vehicleRequest.requestedVehicles.map((vehicle) => {
+      const forEdititing = {};
+      forEdititing.errorFields = {
+        vehicleType: false,
+        vehicleDetails: false,
+        pickupDate: false,
+        returnDate: false,
+        pickupTime: false,
+        returnTime: false,
+      };
+      forEdititing.pickupDate = vehicle.pickupDate.substring(0, 10);
+      forEdititing.returnDate = vehicle.returnDate.substring(0, 10);
+      const pickupAsDate = new Date(vehicle.pickupDate);
+      const returnAsDate = new Date(vehicle.returnDate);
+      forEdititing.tripLength = pickupAsDate.getTime() === returnAsDate.getTime() ? 'single-day-trip' : 'multi-day-trip';
+      return Object.assign({}, vehicle, forEdititing);
+    });
+    this.setState({
+      requestDetails: vehicleRequest.requestDetail,
+      vehicles: withMoreFields,
+      isEditing: true,
+    });
+  }
+
+  cancelUpdate = () => {
+    this.setState({ isEditing: false });
+  }
+
   render() {
     const userCertifications = {
       driverCert: this.props.user.driver_cert,
       trailerCert: this.props.user.trailer_cert,
     };
-    return (
-      <VehicleRequestForm
-        requestType={this.state.requestType}
-        requestDetails={this.state.requestDetails}
-        reqDetailsError={this.state.reqDetailsError}
-        vehicles={this.state.vehicles}
-        onReqDetailsChange={this.onReqDetailsChange}
-        onVehicleTypeChange={this.onVehicleTypeChange}
-        onVehicleDetailChange={this.onVehicleDetailChange}
-        addVehicle={this.addVehicle}
-        removeVehicle={this.removeVehicle}
-        submit={this.submit}
-        userCertifications={userCertifications}
-      />
-    );
+    if (this.state.isEditing) {
+      return (
+        <VehicleRequestForm
+          requestType={this.state.requestType}
+          requestDetails={this.state.requestDetails}
+          reqDetailsError={this.state.reqDetailsError}
+          vehicles={this.state.vehicles}
+          onReqDetailsChange={this.onReqDetailsChange}
+          onVehicleTypeChange={this.onVehicleTypeChange}
+          onVehicleDetailChange={this.onVehicleDetailChange}
+          addVehicle={this.addVehicle}
+          removeVehicle={this.removeVehicle}
+          submit={this.submit}
+          userCertifications={userCertifications}
+          asUpdate={this.props.viewMode}
+          cancelUpdate={this.cancelUpdate}
+        />
+      );
+    } else {
+      return (
+        <VehicleRequestDisplay
+          userCertifications={userCertifications}
+          requestType={this.state.requestType}
+          vehicleRequest={this.props.vehicleRequest}
+          startEditing={this.startEditing}
+        />
+      );
+    }
   }
 }
 
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    vehicleRequest: state.vehicleRequests.vehicleReq,
   };
 };
 
-export default withRouter(connect(mapStateToProps, { appError, submitVehicleRequest })(VehicleRequest));
+export default withRouter(connect(mapStateToProps, { appError, fetchVehicleReq, submitVehicleRequest })(VehicleRequest));

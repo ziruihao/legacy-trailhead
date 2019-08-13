@@ -8,9 +8,24 @@
   width: 100%;
   padding-top: 1em;
   padding-bottom: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .vrf-title-size{
   font-size: 2em;
+}
+.vrf-req-status-display{
+  margin-left: 0.3em;
+  margin-right: 0.4em;
+  font-size: 1.4em
+}
+.vrf-cancel-and-update-buttons{
+  display: flex;
+  align-items: center;
+}
+.vrf-cancel-update-button{
+  margin-right: 2em;
 }
 .vrf-form-row{
   display: flex;
@@ -110,6 +125,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #FFFFFF;
   background: rgba(12, 160, 116, 0.801);
 }
+.vrf-cancel-button{
+  border: 2px solid #d8000c;
+  color: #d8000c;
+}
+.vrf-cancel-button:hover{
+  color: #FFFFFF;
+  background: #c7020cb0;
+}
+.vrf-req-details-display{
+  font-size: 1.4em;
+}
 button.vrf-submit-button{
   width: 14em;
   min-height: 3.5em;
@@ -117,6 +143,9 @@ button.vrf-submit-button{
 .vrf-error{
   border: 2px solid #d8000c !important;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+}
+.vrf-req-status-display{
+  text-transform: capitalize;
 }
 
 
@@ -133,7 +162,14 @@ button.vrf-submit-button{
   .vrf-add-and-submit{
     flex-direction: column;
   }
-  .vrf-add-button{
-    margin-bottom: 0.5em;
+  .vrf-small-cancel, .vrf-small-add{
+    margin-bottom: 1em;
+  }
+  .vrf-cancel-and-update-buttons{
+    flex-direction: column;
+  }
+  .vrf-cancel-update-button{
+    margin-right: 0;
+    margin-bottom: 1em;
   }
 }

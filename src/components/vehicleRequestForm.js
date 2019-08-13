@@ -181,11 +181,11 @@ const getVehicles = (props) => {
           ? (
             <div className="vrf-form-row vrf-req-dates">
               <div className="club-option">
-                <label className="checkbox-container club-checkbox" htmlFor={`trailerCompatible_${index}`}>
+                <label className="checkbox-container club-checkbox" htmlFor={`trailerNeeded_${index}`}>
                   <input
                     type="checkbox"
-                    name="trailerCompatible"
-                    id={`trailerCompatible_${index}`}
+                    name="trailerNeeded"
+                    id={`trailerNeeded_${index}`}
                     checked={vehicle.trailerCompatible}
                     onChange={event => props.onVehicleDetailChange(event, index)}
                   />
@@ -228,8 +228,15 @@ const VehicleRequestForm = (props) => {
       {getVehicles(props)}
 
       <div className="vrf-add-and-submit">
-        <button type="button" className="vrf-add-button" onClick={props.addVehicle}>Add Vehicle</button>
-        <button type="submit" className="vrf-submit-button signup-button" onClick={props.submit}>Submit</button>
+        <button type="button" className="vrf-add-button vrf-small-add" onClick={props.addVehicle}>Add Vehicle</button>
+        {props.asUpdate
+          ? (
+            <div className="vrf-cancel-and-update-buttons">
+              <button type="button" className="vrf-add-button vrf-cancel-button vrf-cancel-update-button" onClick={props.cancelUpdate}>Cancel update</button>
+              <button type="submit" className="vrf-submit-button signup-button" onClick={props.update}>Update</button>
+            </div>
+          )
+          : <button type="submit" className="vrf-submit-button signup-button" onClick={props.submit}>Submit</button>}
       </div>
     </div>
   );

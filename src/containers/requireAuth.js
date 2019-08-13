@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { appError, updateRestrictedPath } from '../actions';
 
-export default function (ComposedComponent) {
+export default function (ComposedComponent, viewMode) {
   class RequireAuth extends Component {
     componentWillMount() {
       if (!this.props.authenticated) {
@@ -24,7 +24,10 @@ export default function (ComposedComponent) {
     render() {
       return (
         <div>
-          <ComposedComponent {...this.props} />
+          <ComposedComponent
+            viewMode={viewMode ? true : undefined}
+            {...this.props}
+          />
         </div>
       );
     }

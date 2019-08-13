@@ -21,6 +21,7 @@ export const ActionTypes = {
   UPDATE_RESTRICTED_PATH: 'UPDATE_RESTRICTED_PATH',
   FETCH_CERT_APPROVALS: 'FETCH_CERT_APPROVALS',
   FETCH_OPO_TRIPS: 'FETCH_OPO_TRIPS',
+  FETCH_VEHICLE_REQUEST: 'FETCH_VEHICLE_REQUEST',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -285,7 +286,6 @@ export function getClubs() {
     axios
       .get(`${ROOT_URL}/club`)
       .then((response) => {
-        console.log(response);
         dispatch({ type: ActionTypes.ALL_CLUBS, payload: response.data });
       });
   };
@@ -428,5 +428,20 @@ export function submitVehicleRequest(vehicleRequest, history) {
       }).catch((error) => {
         dispatch(appError(`Error making vehicle request: ${error}`));
       });
+  };
+}
+
+export function fetchVehicleReq(id) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.get(`${ROOT_URL}/vehiclerequest/${id}`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          console.log('Fetch vehicle request error');
+        });
+    });
   };
 }
