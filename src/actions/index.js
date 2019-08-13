@@ -63,7 +63,6 @@ export function updateUser(updatedUser) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/user`, updatedUser, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        console.log(response);
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
       })
       .catch((error) => {
@@ -431,7 +430,7 @@ export function submitVehicleRequest(vehicleRequest, history) {
   };
 }
 
-export function fetchVehicleReq(id) {
+export function fetchVehicleRequest(id) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios.get(`${ROOT_URL}/vehiclerequest/${id}`, { headers: { authorization: localStorage.getItem('token') } })
@@ -440,8 +439,20 @@ export function fetchVehicleReq(id) {
           resolve();
         }).catch((error) => {
           console.log(error);
-          console.log('Fetch vehicle request error');
+          dispatch(appError(`Error making vehicle request: ${error}`));
         });
     });
+  };
+}
+
+export function updateVehicleRequest(vehicleRequest) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/vehicleRequest/${vehicleRequest.id}`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
+      }).catch((error) => {
+        console.log(error);
+        dispatch(appError(`Error making vehicle request: ${error}`));
+      });
   };
 }

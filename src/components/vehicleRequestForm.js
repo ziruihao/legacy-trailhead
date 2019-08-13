@@ -186,7 +186,7 @@ const getVehicles = (props) => {
                     type="checkbox"
                     name="trailerNeeded"
                     id={`trailerNeeded_${index}`}
-                    checked={vehicle.trailerCompatible}
+                    checked={vehicle.trailerNeeded}
                     onChange={event => props.onVehicleDetailChange(event, index)}
                   />
                   <span className="checkmark" />

@@ -73,7 +73,7 @@ const getVehicles = (props) => {
                     type="checkbox"
                     name="trailerNeeded"
                     id={`trailerNeeded_${index}`}
-                    checked={vehicle.trailerCompatible}
+                    checked={vehicle.trailerNeeded}
                     disabled
                   />
                   <span className="checkmark" />
@@ -111,7 +111,7 @@ const VehicleRequestDisplay = (props) => {
         ? (
           <div className="vrf-form-row">
             <span className="vrf-label">Request Details</span>
-            <span className="vrf-req-details-display">{props.vehicleRequest.requestDetail}</span>
+            <span className="vrf-req-details-display">{props.vehicleRequest.requestDetails}</span>
           </div>
         )
         : null}
@@ -120,7 +120,9 @@ const VehicleRequestDisplay = (props) => {
 
       <div className="vrf-add-and-submit">
         <button type="button" className="vrf-add-button vrf-cancel-button vrf-small-cancel" onClick={props.addVehicle}>Cancel request</button>
-        <button type="submit" className="vrf-submit-button signup-button" onClick={props.startEditing}>Update request</button>
+        {props.vehicleRequest.status === 'pending'
+          ? <button type="submit" className="vrf-submit-button signup-button" onClick={props.startEditing}>Update request</button>
+          : <button type="submit" className="disabled vrf-submit-button" onClick={props.showError}>Update request</button>}
       </div>
     </div>
   );

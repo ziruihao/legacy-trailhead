@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { appError, fetchVehicleReq, submitVehicleRequest } from '../actions';
+import { appError, fetchVehicleRequest, submitVehicleRequest, updateVehicleRequest } from '../actions';
 import VehicleRequestForm from './vehicleRequestForm';
 import VehicleRequestDisplay from './vehicleRequestDisplay';
 
@@ -39,7 +39,7 @@ class VehicleRequest extends Component {
 
   componentDidMount() {
     if (this.props.viewMode) {
-      this.props.fetchVehicleReq(this.props.match.params.vehicleReqId)
+      this.props.fetchVehicleRequest(this.props.match.params.vehicleReqId)
         .then(() => {
           this.setState({ isEditing: false });
         });
@@ -252,7 +252,7 @@ class VehicleRequest extends Component {
       return Object.assign({}, vehicle, forEdititing);
     });
     this.setState({
-      requestDetails: vehicleRequest.requestDetail,
+      requestDetails: vehicleRequest.requestDetails,
       vehicles: withMoreFields,
       isEditing: true,
     });
@@ -260,6 +260,29 @@ class VehicleRequest extends Component {
 
   cancelUpdate = () => {
     this.setState({ isEditing: false });
+  }
+
+  showError = () => {
+    window.scrollTo(0, 0);
+    this.props.appError('You can\'t edit your vehicle request after it\'s been reviewed');
+  }
+
+  update = () => {
+    if (this.isFormValid()) {
+      const vehicles = this.state.vehicles.map((vehicle) => {
+        delete vehicle.errorFields;
+        return vehicle;
+      });
+      const updatedVehicleRequest = {
+        id: this.props.vehicleRequest.id,
+        requester: this.props.user,
+        requestDetails: this.state.requestDetails,
+        requestType: this.state.requestType,
+        requestedVehicles: vehicles,
+      };
+      this.props.updateVehicleRequest(updatedVehicleRequest);
+      this.setState({ isEditing: false });
+    }
   }
 
   render() {
@@ -283,6 +306,7 @@ class VehicleRequest extends Component {
           userCertifications={userCertifications}
           asUpdate={this.props.viewMode}
           cancelUpdate={this.cancelUpdate}
+          update={this.update}
         />
       );
     } else {
@@ -292,6 +316,7 @@ class VehicleRequest extends Component {
           requestType={this.state.requestType}
           vehicleRequest={this.props.vehicleRequest}
           startEditing={this.startEditing}
+          showError={this.showError}
         />
       );
     }
@@ -305,4 +330,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { appError, fetchVehicleReq, submitVehicleRequest })(VehicleRequest));
+export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, submitVehicleRequest, updateVehicleRequest })(VehicleRequest));

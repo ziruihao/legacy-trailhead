@@ -61,9 +61,9 @@ class MyTrips extends Component {
         if (card_id === "Winter Sports") card_id = "wsc";
 
         //TODO: try to get bait and bullet logo 
-      //TODO: try to get bait and bullet logo 
         //TODO: try to get bait and bullet logo 
-      //TODO: try to get bait and bullet logo 
+        //TODO: try to get bait and bullet logo 
+        //TODO: try to get bait and bullet logo 
         //TODO: try to get bait and bullet logo 
         if (trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other') card_id = "doc";
         let isLeading = false;
@@ -107,7 +107,7 @@ class MyTrips extends Component {
           reqTitle = vehicleReq.associatedTrip.title;
           reqLink = `/trip/${vehicleReq.associatedTrip.id}`;
         } else if (vehicleReq.requestType === 'SOLO') {
-          reqTitle = vehicleReq.requestDetail;
+          reqTitle = vehicleReq.requestDetails;
           reqLink = `/vehiclerequest/${vehicleReq.id}`;
         }
         return (
