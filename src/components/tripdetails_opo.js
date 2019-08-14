@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react';
+import React, {Component} from 'react';
 import Modal from 'react-bootstrap/Modal';
 
 import { connect } from 'react-redux';
@@ -105,68 +105,36 @@ closeModal = () =>{
 }
 
 approve = () =>{
-  const trip = {
-    title: this.props.trip.title,
-    leaders: this.props.trip.leaders,
-    club: this.props.trip.club,
-    members: this.props.trip.members,
-    pending: this.props.trip.pending,
-    startDate: this.props.trip.startDate,
-    endDate: this.props.trip.endDate,
-    location: this.props.trip.location,
-    pickup: this.props.trip.pickup,
-    dropoff: this.props.trip.dropoff,
-    mileage: this.props.trip.mileage,
-    cost: this.props.trip.cost,
-    description: this.props.trip.description,
-    experienceNeeded: this.props.trip.experienceNeeded,
-    co_leader_access: this.props.trip.co_leader_access,
-    OPOGearRequests: this.props.trip.OPOGearRequests,
-    trippeeGear: this.props.trip.trippeeGear,
-    gearStatus: this.props.trip.gearStatus,
-    trippeeGearStatus: this.props.trippeeGearStatus,
-    pcard: this.props.pcard,
-    pcardStatus: "approved",
-    pcardAssigned: this.state.pcardAssigned,
-    vehicleStatus: this.props.trip.vehicleStatus,
-    id: this.props.trip.id,
-
+  if(this.state.pcardAssigned === null){
+    this.props.appError('Please assign a pcard to this request');
+  }else{
+    let trip = this.props.trip;
+    trip.pcardStatus = "approved";
+    trip.pcardAssigned = this.state.pcardAssigned;
+    this.props.editTrip(trip, this.props.history);
+  
   }
+  
+}
 
-  this.props.editTrip(trip, this.props.history);
-
+//https://stackoverflow.com/questions/52923771/react-copy-component-state-value-to-clipboard-without-dummy-element
+copy = () =>{
+  let text = document.getElementById("leader-email").innerText;
+  let elem = document.createElement("textarea");
+  document.body.appendChild(elem);
+  elem.value = text;
+  elem.select();
+  document.execCommand("copy");
+  document.body.removeChild(elem);
+  this.closeModal();
 }
 
 deny = () => {
   this.showModal();
-  const trip = {
-    title: this.props.trip.title,
-    leaders: this.props.trip.leaders,
-    club: this.props.trip.club,
-    members: this.props.trip.members,
-    pending: this.props.trip.pending,
-    startDate: this.props.trip.startDate,
-    endDate: this.props.trip.endDate,
-    location: this.props.trip.location,
-    pickup: this.props.trip.pickup,
-    dropoff: this.props.trip.dropoff,
-    mileage: this.props.trip.mileage,
-    cost: this.props.trip.cost,
-    description: this.props.trip.description,
-    experienceNeeded: this.props.trip.experienceNeeded,
-    co_leader_access: this.props.trip.co_leader_access,
-    OPOGearRequests: this.props.trip.OPOGearRequests,
-    trippeeGear: this.props.trip.trippeeGear,
-    gearStatus: this.props.trip.gearStatus,
-    trippeeGearStatus: this.props.trippeeGearStatus,
-    pcard: this.props.pcard,
-    pcardStatus: "denied",
-    pcardAssigned: this.state.pcardAssigned,
-    vehicleStatus: this.props.trip.vehicleStatus,
-    id: this.props.trip.id,
-
-  }
-
+  let trip = this.props.trip;
+  trip[pcardStatus] = "denied";
+  trip[pcardAssigned] = this.state.pcardAssigned;
+  
   this.props.editTrip(trip, this.props.history);
 
 }
@@ -183,8 +151,9 @@ renderPCardRequest = () =>{
     <div className="cancel-content">
       <p className="cancel-question">Contact Leader</p>
       <p className="cancel-message">To contact the trip leader, please copy their email address and send them an email</p>
-      <p className="cancel-question">{this.props.trip.leaders[0].email}</p>
+      <p className="cancel-question" id = "leader-email">{this.props.trip.leaders[0].email}</p>
     </div>
+    <button type="button" className="btn email-copy-button" onClick={this.copy}>copy email</button>
 
   </Modal>
       <h1> P-Card Request </h1>
@@ -222,7 +191,7 @@ renderPCardRequest = () =>{
                 return(
                     <tr>
                       <td>{j.expenseDetails}</td>
-                      <td>{j.unitCost}</td>
+                      <td>${j.unitCost}</td>
                       <td>${j.totalCost}</td>
                     </tr>
                 );}));})}
@@ -232,7 +201,7 @@ renderPCardRequest = () =>{
             <p style= {{display: "block", fontWeight: "bold", fontSize: "12pt"}}>P-Card Assigned</p>
             <input 
                     className = "pcard-assign-input"
-                    onChange={this.props.onFieldChange}
+                    onChange={this.onFieldChange}
                     name="pcardAssigned"
                     placeholder="e.g. 1234"
                     value={this.state.pcardAssigned}

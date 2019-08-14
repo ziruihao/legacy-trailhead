@@ -348,9 +348,6 @@ class CreateTrip extends Component {
     isObjectEmpty = (object) => {
       return Object.entries(object).length === 0 && object.constructor === Object;
     }
-    updatePCardRequest= () =>{
-      return null;
-    }
     createTrip() {
       console.log(this.state);
       const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;

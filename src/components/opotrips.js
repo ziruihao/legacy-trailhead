@@ -57,7 +57,8 @@ class OpoTrips extends Component {
     const rawDate = new Date(date);
     const dateString = rawDate.toString();
     timeString = `${dateString.slice(0, 3)},${dateString.slice(3, 10)}`;
-    const splitTime = time.split(':');
+    let splitTime = time;
+    if(time.includes(':')) splitTime = time.split(':');
     splitTime.push('am');
     if (splitTime[0] > 12) {
       splitTime[0] -= 12;
@@ -134,6 +135,7 @@ class OpoTrips extends Component {
       return (
         <Table responsive="lg" hover>
           <thead>
+
             <tr>
               <th>Trip</th>
               <th>Start Time</th>
