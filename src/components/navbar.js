@@ -24,7 +24,7 @@ class NavBar extends Component {
         </div>
       );
     }
-    let createTripsLink, viewApprovalsLink, opoTrips;
+    let createTripsLink, viewApprovalsLink, opoTrips, vehicleRequest, vehicleRequests;
     if (this.props.role === 'Leader') {
       createTripsLink = (
         <li className="nav-item">
@@ -35,6 +35,18 @@ class NavBar extends Component {
       );
     } else {
       createTripsLink = null;
+    }
+
+    if (this.props.role !== 'OPO') {
+      vehicleRequest = (
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/vehiclerequest">
+            Vehicle Request
+          </NavLink>
+        </li>
+      );
+    } else {
+      vehicleRequest = null;
     }
 
     if (this.props.role === 'OPO') {
@@ -52,9 +64,17 @@ class NavBar extends Component {
           </NavLink>
         </li>
       );
+      vehicleRequests = (
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/vehicle-requests">
+            Vehicle Requests
+          </NavLink>
+        </li>
+      );
     } else {
       viewApprovalsLink = null;
       opoTrips = null;
+      vehicleRequests = null;
     }
 
     return (
@@ -86,11 +106,8 @@ class NavBar extends Component {
                 My Profile
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/vehiclerequest">
-                Vehicle Request
-              </NavLink>
-            </li>
+            {vehicleRequest}
+            {vehicleRequests}
             <li className="nav-item">
               <NavLink className="nav-link" to="/tripscalendar">
                 Trips Calendar

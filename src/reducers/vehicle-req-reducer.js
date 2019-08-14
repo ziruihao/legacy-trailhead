@@ -2,12 +2,15 @@ import { ActionTypes } from '../actions';
 
 const initialState = ({
   vehicleReq: {},
+  vehicleRequests: [],
 });
 
 const OPOReducer = (state = initialState, action) => {
   switch (action.type) {
     case ActionTypes.FETCH_VEHICLE_REQUEST:
       return Object.assign({}, state, { vehicleReq: action.payload });
+    case ActionTypes.FETCH_VEHICLE_REQUESTS:
+      return Object.assign({}, state, { vehicleRequests: action.payload });
     default:
       return state;
   }

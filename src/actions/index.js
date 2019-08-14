@@ -22,6 +22,7 @@ export const ActionTypes = {
   FETCH_CERT_APPROVALS: 'FETCH_CERT_APPROVALS',
   FETCH_OPO_TRIPS: 'FETCH_OPO_TRIPS',
   FETCH_VEHICLE_REQUEST: 'FETCH_VEHICLE_REQUEST',
+  FETCH_VEHICLE_REQUESTS: 'FETCH_VEHICLE_REQUESTS',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -421,7 +422,7 @@ export function reviewTrippeeGearRequest(review) {
 
 export function submitVehicleRequest(vehicleRequest, history) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/vehicleRequest`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
+    axios.post(`${ROOT_URL}/vehicleRequests`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         history.push('/mytrips');
       }).catch((error) => {
@@ -442,6 +443,17 @@ export function fetchVehicleRequest(id) {
           dispatch(appError(`Error making vehicle request: ${error}`));
         });
     });
+  };
+}
+
+export function fetchVehicleRequests() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/vehicleRequests`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUESTS, payload: response.data });
+      }).catch((error) => {
+        dispatch(appError(`Error fetching vehicle requests: ${error}`));
+      });
   };
 }
 
