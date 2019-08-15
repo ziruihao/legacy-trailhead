@@ -273,4 +273,5 @@ export {
   GearRequest,
   BasicInfo,
   LeftColumn,
+  PCardRequest,
 }

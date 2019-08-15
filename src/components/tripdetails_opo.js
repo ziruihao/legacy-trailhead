@@ -10,7 +10,7 @@ import { GearRequest, BasicInfo, LeftColumn, PCardRequest } from './opo-trip-inf
 import '../styles/tripdetails_opo.scss';
 import '../styles/createtrip-style.scss';
 
-class OPOTripForm extends Component {
+class OPOTripDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,6 +18,9 @@ class OPOTripForm extends Component {
       pcardAssigned: this.props.trip.pcardAssigned ? this.props.trip.pcardAssigned : null,
       showModal: false,
     }
+    this.onFieldChange = this.onFieldChange.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.approve = this.approve.bind(this);
   }
 
   nextPage = (e) => {
@@ -178,8 +181,10 @@ class OPOTripForm extends Component {
     );
 
   }
-}
-
-
-
+}const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    trip: state.trips.trip,
+  };
+};
 export default withRouter(connect(mapStateToProps,{ fetchTrip, reviewPCardRequests, appError })(OPOTripDetails));;
