@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { appError, fetchVehicleRequest } from '../actions';
+import '../styles/opoVehicleRequest-style.scss';
 
 class OPOVehicleRequest extends Component {
   componentDidMount() {
@@ -11,7 +12,9 @@ class OPOVehicleRequest extends Component {
   render() {
     return (
       <div className="ovr-container">
-        <h1>Wadup</h1>
+        <div className="ovr-sidebar">
+          <h3>External Vehicle Request</h3>
+        </div>
       </div>
     );
   }

@@ -6,6 +6,21 @@ import VehicleRequestForm from './vehicleRequestForm';
 import VehicleRequestDisplay from './vehicleRequestDisplay';
 
 class VehicleRequest extends Component {
+  errorFields = {
+    vehicleType: false,
+    vehicleDetails: false,
+    pickupDate: false,
+    returnDate: false,
+    pickupTime: false,
+    returnTime: false,
+  }
+
+  soloErrorFields = {
+    requestDetails: false,
+    noOfPeople: false,
+    mileage: false,
+  }
+
   defaultVehicleReq = {
     vehicleType: '',
     vehicleDetails: '',
@@ -16,14 +31,7 @@ class VehicleRequest extends Component {
     returnTime: '',
     passNeeded: false,
     trailerNeeded: false,
-    errorFields: {
-      vehicleType: false,
-      vehicleDetails: false,
-      pickupDate: false,
-      returnDate: false,
-      pickupTime: false,
-      returnTime: false,
-    },
+    errorFields: { ...this.errorFields },
   }
 
   constructor(props) {
@@ -31,7 +39,9 @@ class VehicleRequest extends Component {
     this.state = {
       isEditing: true,
       requestDetails: '',
-      reqDetailsError: false,
+      noOfPeople: '',
+      mileage: '',
+      soloErrorFields: { ...this.soloErrorFields },
       requestType: 'SOLO',
       vehicles: [this.defaultVehicleReq],
     };
@@ -46,11 +56,13 @@ class VehicleRequest extends Component {
     }
   }
 
-  onReqDetailsChange = (event) => {
+  onSoloReqDetailsChange = (event) => {
     event.persist();
-    this.setState({
-      requestDetails: event.target.value,
-      reqDetailsError: this.isStringEmpty(event.target.value),
+    this.setState((prevState) => {
+      const update = {};
+      update[event.target.name] = event.target.value;
+      update.soloErrorFields = Object.assign({}, prevState.soloErrorFields, { [event.target.name]: this.isStringEmpty(event.target.value) });
+      return update;
     });
   }
 
@@ -109,28 +121,25 @@ class VehicleRequest extends Component {
   }
 
   isStringEmpty = (string) => {
-    return string.length === 0 || !string.trim();
+    return string.length === 0 || !string.toString().trim();
   }
 
   isFormValid = () => {
     let hasEmptyField = false;
-    let reqDetailsError = false;
-    if (this.isStringEmpty(this.state.requestDetails)) {
-      hasEmptyField = true;
-      reqDetailsError = true;
-    }
+    const updatedSoloErrorFields = { ...this.soloErrorFields };
+    const soloErrorFields = Object.keys(updatedSoloErrorFields);
+    soloErrorFields.forEach((errorField) => {
+      if (this.isStringEmpty(this.state[errorField])) {
+        hasEmptyField = true;
+        updatedSoloErrorFields[errorField] = true;
+      }
+    });
+
     const { vehicles } = this.state;
 
     // check for and mark empty fields
     const markedEmptyFields = vehicles.map((vehicle) => {
-      const updatedErrorFields = {
-        vehicleType: false,
-        vehicleDetails: false,
-        pickupDate: false,
-        returnDate: false,
-        pickupTime: false,
-        returnTime: false,
-      };
+      const updatedErrorFields = { ...this.errorFields };
       const errorFields = Object.keys(updatedErrorFields);
       errorFields.forEach((errorField) => {
         if (this.isStringEmpty(vehicle[errorField])) {
@@ -143,8 +152,20 @@ class VehicleRequest extends Component {
     });
     // break if there's an empty field
     if (hasEmptyField) {
-      this.setState({ vehicles: markedEmptyFields, reqDetailsError });
+      this.setState({ vehicles: markedEmptyFields, soloErrorFields: updatedSoloErrorFields });
       this.props.appError('Please complete all fields');
+      window.scrollTo(0, 0);
+      return false;
+    }
+
+    // check if entered invalid zero
+    const enteredZeroPeople = Number(this.state.noOfPeople) === 0;
+    const enteredZeroMileage = Number(this.state.mileage) === 0;
+    if (enteredZeroPeople || enteredZeroMileage) {
+      this.setState((prevState) => {
+        return { soloErrorFields: Object.assign({}, prevState.soloErrorFields, { noOfPeople: enteredZeroPeople, mileage: enteredZeroMileage }) };
+      });
+      this.props.appError('Zero is not a valid input for the higlighted fields');
       window.scrollTo(0, 0);
       return false;
     }
@@ -152,14 +173,7 @@ class VehicleRequest extends Component {
     let dateHasPassed = false;
     const now = new Date();
     const markedPastDate = vehicles.map((vehicle) => {
-      const updatedErrorFields = {
-        vehicleType: false,
-        vehicleDetails: false,
-        pickupDate: false,
-        returnDate: false,
-        pickupTime: false,
-        returnTime: false,
-      };
+      const updatedErrorFields = { ...this.errorFields };
       const pickupDate = new Date(vehicle.pickupDate);
       const pickupTime = vehicle.pickupTime.split(':');
       pickupDate.setHours(pickupTime[0], pickupTime[1]);
@@ -181,14 +195,7 @@ class VehicleRequest extends Component {
 
     let returnBeforePickup = false;
     const markedReturnBeforePickup = vehicles.map((vehicle) => {
-      const updatedErrorFields = {
-        vehicleType: false,
-        vehicleDetails: false,
-        pickupDate: false,
-        returnDate: false,
-        pickupTime: false,
-        returnTime: false,
-      };
+      const updatedErrorFields = { ...this.errorFields };
       const pickupDate = new Date(vehicle.pickupDate);
       const pickupTime = vehicle.pickupTime.split(':');
       pickupDate.setHours(pickupTime[0], pickupTime[1]);
@@ -225,6 +232,8 @@ class VehicleRequest extends Component {
       const vehicleRequest = {
         requester: this.props.user,
         requestDetails: this.state.requestDetails,
+        noOfPeople: this.state.noOfPeople,
+        mileage: this.state.mileage,
         requestType: this.state.requestType,
         requestedVehicles: vehicles,
       };
@@ -236,14 +245,7 @@ class VehicleRequest extends Component {
     const { vehicleRequest } = this.props;
     const withMoreFields = vehicleRequest.requestedVehicles.map((vehicle) => {
       const forEdititing = {};
-      forEdititing.errorFields = {
-        vehicleType: false,
-        vehicleDetails: false,
-        pickupDate: false,
-        returnDate: false,
-        pickupTime: false,
-        returnTime: false,
-      };
+      forEdititing.errorFields = { ...this.errorFields };
       forEdititing.pickupDate = vehicle.pickupDate.substring(0, 10);
       forEdititing.returnDate = vehicle.returnDate.substring(0, 10);
       const pickupAsDate = new Date(vehicle.pickupDate);
@@ -295,9 +297,11 @@ class VehicleRequest extends Component {
         <VehicleRequestForm
           requestType={this.state.requestType}
           requestDetails={this.state.requestDetails}
-          reqDetailsError={this.state.reqDetailsError}
+          soloErrorFields={this.state.soloErrorFields}
+          noOfPeople={this.state.noOfPeople}
+          mileage={this.state.mileage}
           vehicles={this.state.vehicles}
-          onReqDetailsChange={this.onReqDetailsChange}
+          onSoloReqDetailsChange={this.onSoloReqDetailsChange}
           onVehicleTypeChange={this.onVehicleTypeChange}
           onVehicleDetailChange={this.onVehicleDetailChange}
           addVehicle={this.addVehicle}

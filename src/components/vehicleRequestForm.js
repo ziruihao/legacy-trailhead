@@ -212,15 +212,42 @@ const VehicleRequestForm = (props) => {
 
       {props.requestType === 'SOLO'
         ? (
-          <div className="vrf-form-row">
-            <label className="vrf-label" htmlFor="request_detail">Request Details</label>
-            <textarea
-              value={props.requestDetails}
-              onChange={props.onReqDetailsChange}
-              id="request_details"
-              className={`trip-detail vrf-req-details-input ${props.reqDetailsError ? 'vrf-error' : ''}`}
-              placeholder="e.g. I need a car to deliver wood to Cabin A"
-            />
+          <div className="vrf-solo-req">
+            <div className="vrf-form-row">
+              <label className="vrf-label" htmlFor="request_detail">Request Details</label>
+              <textarea
+                value={props.requestDetails}
+                onChange={props.onSoloReqDetailsChange}
+                name="requestDetails"
+                id="request_details"
+                className={`trip-detail vrf-req-details-input ${props.soloErrorFields.requestDetails ? 'vrf-error' : ''}`}
+                placeholder="e.g. I need a car to deliver wood to Cabin A"
+              />
+            </div>
+            <span className="vrf-form-row">
+              <label className="vrf-label" htmlFor="noOfPeople">Number of people</label>
+              <input
+                type="number"
+                id="noOfPeople"
+                className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.noOfPeople) === 0 ? 'no-date' : ''} ${props.soloErrorFields.noOfPeople ? 'vrf-error' : ''}`}
+                name="noOfPeople"
+                placeholder="0"
+                value={props.noOfPeople}
+                onChange={props.onSoloReqDetailsChange}
+              />
+            </span>
+            <span className="vrf-form-row">
+              <label className="vrf-label" htmlFor="mileage">Estimated mileage</label>
+              <input
+                type="number"
+                id="mileage"
+                className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'vrf-error' : ''}`}
+                name="mileage"
+                placeholder="0"
+                value={props.mileage}
+                onChange={props.onSoloReqDetailsChange}
+              />
+            </span>
           </div>
         )
         : null}
