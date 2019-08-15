@@ -43,7 +43,7 @@ class SignIn extends Component {
       <div className="main-signin">
         <div className="input-fields">
           <input className="input-styling" name="email" type="text" id="email-input" onChange={this.onFieldChange} placeholder="Dartmouth Email" value={this.state.email} />
-          <input className="input-styling" name="password" type="password" placeholder="Password" onChange={this.onFieldChange} value={this.state.password} />
+          <input className="input-styling" name="password" type="password" id="email-input" placeholder="Password" onChange={this.onFieldChange} value={this.state.password} />
         </div>
         <div className="form-buttons">
           <button className="button-styling" type="submit" onClick={this.signIn}>Sign In</button>

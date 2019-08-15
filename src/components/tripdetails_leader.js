@@ -261,6 +261,7 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
 };
 
 export default React.forwardRef((props, ref) => {
+  console.log(props.trip.id);
   const { pendingEmailRef, onTripEmailRef } = ref;
   return (
     <div className="leader-details-container">

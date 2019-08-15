@@ -1,73 +1,99 @@
 .main-signin{
   position: absolute;
-  height: 20%;
-  top: 30%;
-  left: 40%;
-  width: 20%;
+  // bottom: 25%
+  top: 25%;
+  left: 35%;
+  width: 500px;
+  height: 350px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  background-color: rgba(0,0,0,0.4);
+  background-color:#FFFFFF;
   border-radius: 10px;
-  padding: 10px;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: 800;
 }
 
 .input-fields {
-  font-family: 'Merriweather', serif;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width:100%;
+  margin-top: 5rem;
+  width:77%;
   margin-bottom: 5px;
 }
 
 .input-styling {
-  font-family: 'Merriweather', serif;
-  height: 30px;
+
   border-radius: 5px;
-  border: none;
+  border: 3px solid #0CA074;
   padding-left: 5px;
+  justify-content: center;
+  height: 50%;
+  width:77%;
 }
 
 .button-styling {
-  font-family: 'Merriweather', serif;
-  background: none;
-  border-radius: 8px;
-  border-width: 2px;
-  border-color: white;
-  color: white;
-  height: 30px;
-  width: 90px;
+  // font-family: 'Merriweather', serif;
+  // background: none;
+  // border-radius: 8px;
+  // border-width: 2px;
+  // border-color: white;
+  // color: white;
+  // height: 30px;
+  // width: 90px;
+  // margin-right: 5px;
+
   margin-right: 5px;
+  border-radius: 8px;
+  height: 50px;
+  width: 143px;
+  margin-right: 5px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  border: 3px solid #0CA074;
+  color: #0CA074;
 }
 
 #email-input {
-  margin-bottom: 5px;
+  border-radius: 5px;
+  border: 3px solid #0CA074;
+  padding-left: 5px;
+  margin-left: 25%;
+  height: 40%;
+  justify-content: center;
 }
 .form-buttons {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  margin-top: 0rem;
 }
 
 .form-buttons button{
-  font-family: 'Merriweather', serif;
-  background: none;
-  border-radius: 8px;
-  border-width: 2px;
-  border-color: white;
-  color: white;
-  height: 30px;
-  width: 90px;
+  // font-family: 'Merriweather', serif;
+  // background: none;
+  // border-radius: 8px;
+  // border-width: 2px;
+  // border-color: white;
+  // color: white;
+  // height: 30px;
+  // width: 90px;
   margin-right: 5px;
+  border-radius: 8px;
+  height: 50px;
+  width: 143px;
+  margin-right: 5px;
+  margin-bottom: 30px;
+  font-size: 20px;
+  border: 3px solid #0CA074;
+  color: #0CA074;
 }
 
 .form-buttons button:hover{
   background: rgba(255,255,255,0.6);
   border-radius: 5px;
-  border-color: white;
-  color: white;
   height: 30px;
   width: 90px;
   margin-right: 5px;

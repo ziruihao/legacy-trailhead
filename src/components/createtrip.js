@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { fetchTrip } from '../actions';
 import { createTrip, appError } from '../actions';
 import '../styles/createtrip-style.scss';
 
@@ -37,6 +38,37 @@ class CreateTrip extends Component {
     this.onGearChange = this.onGearChange.bind(this);
     this.onClubChange = this.onClubChange.bind(this);
     this.validate = this.validate.bind(this);
+  }
+
+  componentDidMount() {
+    if (this.props.trip.isEditMode !== false){
+      this.props.fetchTrip(this.props.match.params.tripID)
+      .then(() => {
+        let gear = this.props.trip.OPOGearRequests;
+        let tripGear = this.props.trip.trippeeGear;
+        console.log(tripGear)
+        // console.log(gear);
+        this.setState({
+          currentStep: 1,
+          title: this.props.trip.title,
+          leaders: this.props.trip.leaders,
+          club: this.props.trip.club,
+          experienceNeeded: this.props.trip.experienceNeeded,
+          description: this.props.trip.description,
+          startDate: this.props.trip.startDate,
+          endDate: this.props.trip.endDate,
+          startTime: this.props.trip.startTime,
+          endTime: this.props.trip.endTime,
+          mileage: this.props.trip.mileage,
+          pickup: this.props.trip.pickup,
+          dropoff: this.props.trip.dropoff,
+          location: this.props.trip.location,
+          cost: this.props.trip.cost,
+          gearRequests: gear,
+          trippeeGear: tripGear,
+        });
+      });
+    }
   }
 
   onFieldChange(event) {
@@ -151,7 +183,7 @@ class CreateTrip extends Component {
     //   });
     // }
     };
-  
+
   toggleAccess = (event) => {
     this.setState({ access: event.target.checked });
   }
@@ -173,8 +205,10 @@ class CreateTrip extends Component {
       });
     }
 
-    getGearInputs = () => {
-      return this.state.gearRequests.map((gearRequest, index) => {
+    getGearInputs = (props) => {
+      const gearRequests = props.isEditMode ? props.trip.gearRequests : this.state.gearRequests;
+      console.log('gearRequest');
+      return gearRequests.map((gearRequest, index) => {
         return (
           <div className="gear-container" key={index}>
             <input type="text" className="gear-input" name="opogearRequest" placeholder="Add Item" onChange={event => this.onGearChange(event, index)} value={gearRequest} autoFocus />
@@ -184,8 +218,10 @@ class CreateTrip extends Component {
       });
     }
 
-    getTrippeeGear = () => {
-      return this.state.trippeeGear.map((gearRequest, index) => {
+
+    getTrippeeGear = (props) => {
+      const trippeeGearRequests = props.isEditMode ? props.trippeeGear : this.state.trippeeGear;
+      return trippeeGearRequests.map((gearRequest, index) => {
         return (
           <div key={index}>
             <div className="gear-container">
@@ -220,6 +256,7 @@ class CreateTrip extends Component {
       });
     }
 
+
     onGearChange = (event, idx) => {
       event.persist();
       this.setState((prevState) => {
@@ -241,7 +278,7 @@ class CreateTrip extends Component {
         };
       });
     }
-  
+
   onSizeTypeChange = (eventKey, index) => {
     this.setState((prevState) => {
       const trippeeGear = [...prevState.trippeeGear];
@@ -307,8 +344,8 @@ class CreateTrip extends Component {
 
     createTrip() {
       const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
-      const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
-      const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
+      let gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
+      let trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
       const trip = {
         title: this.state.title,
         leaders: this.state.leaders.trim().split(','),
@@ -346,6 +383,7 @@ class CreateTrip extends Component {
         this.props.appError('Please enter valid dates');
         return;
       }
+      console.log(gearRequests);
       this.props.createTrip(trip, this.props.history);
     }
 
@@ -445,8 +483,8 @@ class CreateTrip extends Component {
             currentStep={this.state.currentStep}
             addTrippeeGear={this.addTrippeeGear}
             addGear={this.addGear}
-            getGearInputs={this.getGearInputs}
-            getTrippeeGear={this.getTrippeeGear}
+            getGearInputs={this.getGearInputs(this.props)}
+            getTrippeeGear={this.getTrippeeGear(this.props)}
           />
           <div className="row right-column button-placement">
             {this.nextButton()}
@@ -514,7 +552,6 @@ function BasicTripInfo(props) {
           <label htmlFor="co-leader-access">
             Give co-leaders edit access to this trip?
           </label>
-          <div className="radio-button" />
         </div>
       </div>
       <div className="row page-sub-headers">
@@ -530,7 +567,6 @@ function BasicTripInfo(props) {
           <label htmlFor="beginner">
             Do Trippees need prior experience to go on this trip?
           </label>
-          <div className="radio-button" />
         </div>
       </div>
     </div>
@@ -669,13 +705,13 @@ function Equipment(props) {
         <div id="gear-content" className="page-sub-headers">
           <p>Individual gear</p>
           <span id="equipment-description">Gear trippees should bring/rent</span>
-          {props.getTrippeeGear()}
+          {props.getTrippeeGear}
           <button className="add-gear-button" type="button" onClick={props.addTrippeeGear}>Add item</button>
         </div>
         <div id="gear-content" className="page-sub-headers">
           <p>Group Gear</p>
           <span id="equipment-description">Gear for the entire group that needs to be rented</span>
-          {props.getGearInputs()}
+          {props.getGearInputs}
           <button className="add-gear-button" type="button" onClick={props.addGear}>Add item</button>
         </div>
       </div>
@@ -686,7 +722,8 @@ function Equipment(props) {
 const mapStateToProps = (state) => {
   return {
     user: state.user,
+    trip: state.trips.trip,
   };
 };
 
-export default withRouter(connect(mapStateToProps, { createTrip, appError })(CreateTrip));
+export default withRouter(connect(mapStateToProps, { fetchTrip, createTrip, appError })(CreateTrip));

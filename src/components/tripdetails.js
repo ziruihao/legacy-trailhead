@@ -4,12 +4,11 @@ import { withRouter } from 'react-router-dom';
 import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../actions';
 import TripeeTripDetails from './tripdetails_trippee';
 import LeaderTripDetails from './tripdetails_leader';
-import OPOTripDetails from './tripdetails_opo';
+import OPOTripForm from './tripdetails_opo';
 
 class TripDetails extends Component {
   constructor(props) {
     super(props);
-
     this.state = ({
       pendingEmail: '',
       onTripEmail: '',
@@ -280,7 +279,7 @@ class TripDetails extends Component {
         );
       } else if (this.props.user.role === 'OPO') {
         appropriateComponent = (
-          <OPOTripDetails
+          <OPOTripForm
             trip={this.props.trip}
           />
         );
