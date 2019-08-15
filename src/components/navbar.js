@@ -19,12 +19,12 @@ class NavBar extends Component {
     if (!this.props.authenticated) {
       return (
         <div>
-          <nav className="navbar navbar-expand-lg navbar-light bg-dark" />
+          <nav className="navbar navbar-expand-lg navbar-light" />
           {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
         </div>
       );
     }
-    let createTripsLink, viewApprovalsLink, opoTrips;
+    let createTripsLink, viewApprovalsLink, opoTrips, opoDashboard;
     if (this.props.role === 'Leader') {
       createTripsLink = (
         <li className="nav-item">
@@ -52,6 +52,13 @@ class NavBar extends Component {
           </NavLink>
         </li>
       );
+      opoDashboard = (
+        <li className="nav-item">
+          <NavLink className="nav-link" to="/opo-dashboard">
+            OPO Dashboard
+          </NavLink>
+        </li>
+      );
     } else {
       viewApprovalsLink = null;
       opoTrips = null;
@@ -59,7 +66,7 @@ class NavBar extends Component {
 
     return (
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-dark">
+        <nav className="navbar navbar-expand-lg navbar-light">
           <ul className="nav nav-pills">
             <li className="nav-item">
               <NavLink className="nav-link" exact to="/">
@@ -75,6 +82,7 @@ class NavBar extends Component {
             {createTripsLink}
             {viewApprovalsLink}
             {opoTrips}
+            {opoDashboard}
 
             <li className="nav-item">
               <NavLink className="nav-link" to="/mytrips">

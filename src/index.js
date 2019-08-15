@@ -16,10 +16,10 @@ import TripsCal from './components/tripscalendar';
 import VehicleScheduler from './components/scheduler/vehiclescheduler';
 import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
-import EditTrip from './components/edittrip';
+import OpoApprovals from './components/opoStuff';
 import NavBar from './components/navbar';
-import OpoStuff from './components/opoStuff';
 import OpoTrips from './components/opotrips';
+import OpoDashboard from './components/opo_dashboard';
 import requireAuth from './containers/requireAuth';
 import { ActionTypes, getUser } from './actions';
 
@@ -40,6 +40,7 @@ const FallBack = (props) => {
   return <div>URL Not Found</div>;
 };
 
+
 const App = (props) => {
   return (
     <Router>
@@ -54,18 +55,20 @@ const App = (props) => {
           <Route path="/tripscalendar" component={TripsCal} />
           <Route path="/vehiclescheduler" component={VehicleScheduler} />
           <Route path="/trip/:tripID" component={requireAuth(TripDetails)} />
-          <Route path="/createtrip" component={requireAuth(CreateTrip)} />
+          <Route path="/createtrip" component={requireAuth(CreateTrip)} isEditMode={false} />
           <Route path="/mytrips" component={requireAuth(MyTrips)} />
-          <Route path="/edittrip/:tripID" component={requireAuth(EditTrip)} />
-          <Route path="/opo" component={requireAuth(OpoStuff)} />
+          <Route path="/edittrip/:tripID" component={requireAuth(CreateTrip)} isEditMode />
           <Route path="/opo-trips" component={requireAuth(OpoTrips)} />
+          <Route path="/opo-dashboard" component={requireAuth(OpoDashboard)} />
+          <Route path="/leader_approvals" component={requireAuth(OpoApprovals)} />
+          <Route path="/driver_cert_approvals" component={requireAuth()} />
           <Route component={FallBack} />
         </Switch>
       </div>
     </Router>
   );
 };
-
+// component={requireAuth() => <CreateTrip isEditMode={true} />}
 ReactDOM.render(
   <Provider store={store}>
     <App />
