@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getTrip } from '../../../project-doc-website-api/src/controllers/trip_controller';
 
 export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
@@ -205,6 +206,7 @@ export function deleteTrip(id, history) {
 }
 
 export function editTrip(trip, history) {
+  console.log(trip);
   return (dispatch) => {
     axios.put(`${ROOT_URL}/trip/${trip.id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
@@ -425,12 +427,12 @@ export function fetchPCardRequests() {
           payload: response.data,
         });
       }).catch((error) => {
-        dispatch(appError(`Error fetching trippee gear request: ${error}`));
-        console.log(error);
+        dispatch(appError(`Error fetching pcard request: ${error}`));
       });
   };
 }
 export function reviewPCardRequests(review) {
+  console.log(review);
   return (dispatch) => {
     axios.put(`${ROOT_URL}/pcardrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
       .then(

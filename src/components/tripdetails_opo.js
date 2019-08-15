@@ -3,7 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { editTrip, appError } from '../actions';
+import { fetchTrip, reviewPCardRequests, appError } from '../actions';
 
 import '../styles/tripdetails_opo.scss';
 import '../styles/createtrip-style.scss';
@@ -16,7 +16,7 @@ class OPOTripDetails extends Component {
     this.state = {
       //0 is basic info, 1 is gear requests, 2 is pcard requests
       render: 0,
-      pcardAssigned: null,
+      pcardAssigned: this.props.trip.pcardAssigned ? this.props.trip.pcardAssigned : null,
       showModal: false,
     }
     this.onFieldChange = this.onFieldChange.bind(this);
@@ -25,7 +25,10 @@ class OPOTripDetails extends Component {
     this.deny = this.deny.bind(this);
     this.approve = this.approve.bind(this);
   }
-
+  componentDidMount() {
+    this.props.fetchTrip(this.props.match.params.tripID);
+    console.log(this.props.trip);
+  }
 
  getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -108,10 +111,13 @@ approve = () =>{
   if(this.state.pcardAssigned === null){
     this.props.appError('Please assign a pcard to this request');
   }else{
-    let trip = this.props.trip;
-    trip.pcardStatus = "approved";
-    trip.pcardAssigned = this.state.pcardAssigned;
-    this.props.editTrip(trip, this.props.history);
+    const review = {
+      id:this.props.trip.id,
+      pcardStatus: "approved",
+      pcardAssigned: parseInt(this.state.pcardAssigned),
+    };
+    
+    this.props.reviewPCardRequests(review);
   
   }
   
@@ -131,11 +137,13 @@ copy = () =>{
 
 deny = () => {
   this.showModal();
-  let trip = this.props.trip;
-  trip[pcardStatus] = "denied";
-  trip[pcardAssigned] = this.state.pcardAssigned;
+  const review = {
+    id: this.props.trip.id,
+    pcardStatus: "denied",
+    pcardAssigned: parseInt(this.state.pcardAssigned),
+  };
   
-  this.props.editTrip(trip, this.props.history);
+  this.props.reviewPCardRequests(review);
 
 }
 renderPCardRequest = () =>{
@@ -203,7 +211,7 @@ renderPCardRequest = () =>{
                     className = "pcard-assign-input"
                     onChange={this.onFieldChange}
                     name="pcardAssigned"
-                    placeholder="e.g. 1234"
+                    placeholder={this.props.trip.pcardAssigned ? this.props.trip.pcardAssigned : "e.g. 1234"}
                     value={this.state.pcardAssigned}
                     />
           </div>
@@ -271,4 +279,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps,{ editTrip, appError })(OPOTripDetails));;
+export default withRouter(connect(mapStateToProps,{ fetchTrip, reviewPCardRequests, appError })(OPOTripDetails));;

@@ -50,7 +50,7 @@ class PCardRequest extends Component {
         value={this.state.otherCostsCost[0]}
         />
         </div>);
-        for(let i = 1; i < n-1; i++){
+        for(let i = 0; i < n-1; i++){
             ret.push(
                 <div key = {i} style= {{width: '200%'}}>
                     <input className="field top-create-trip leaders other_costs"
