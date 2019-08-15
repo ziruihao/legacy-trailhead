@@ -418,25 +418,13 @@ export function reviewTrippeeGearRequest(review) {
   };
 }
 
-export function fetchPCardRequests() {
-  return (dispatch) => {
-    axios.get(`${ROOT_URL}/pcardrequests`, { headers: { authorization: localStorage.getItem('token') } })
-      .then((response) => {
-        dispatch({
-          type: ActionTypes.FETCH_PCARD_REQUESTS,
-          payload: response.data,
-        });
-      }).catch((error) => {
-        dispatch(appError(`Error fetching pcard request: ${error}`));
-      });
-  };
-}
+
 export function reviewPCardRequests(review) {
   console.log(review);
   return (dispatch) => {
     axios.put(`${ROOT_URL}/pcardrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
       .then(
-        dispatch(fetchPCardRequests()),
+        dispatch(fetchTrip(review.id)),
       ).catch((error) => {
         dispatch(appError(`Error responding to pcard  request: ${error}`));
       });
