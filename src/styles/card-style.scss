@@ -142,9 +142,6 @@ input[type=date]::-webkit-outer-spin-button {
   border-color: white;
   border-radius: 5px;
   float: right;
-  // position: sticky;
-  // position:-webkit-sticky;
-  // position:fixed;
   right:0;
   margin-right: 2%;
   margin-top:1%;
@@ -153,13 +150,6 @@ input[type=date]::-webkit-outer-spin-button {
 .trip-tiles{
   float:left;
   }
- 
-  
-
-// .trip-detail{
-//   width: 50%;
-//   display: inline-block;
-// }
 
 #signup-button{
   border-color:  rgb(75, 157, 119);
