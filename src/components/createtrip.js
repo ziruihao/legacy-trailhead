@@ -46,12 +46,13 @@ class CreateTrip extends Component {
       .then(() => {
         let gear = this.props.trip.OPOGearRequests;
         let tripGear = this.props.trip.trippeeGear;
+        let coLeaders = this.getCoLeaders(this.props.trip.leaders);
         console.log(tripGear)
         // console.log(gear);
         this.setState({
           currentStep: 1,
           title: this.props.trip.title,
-          leaders: this.props.trip.leaders,
+          leaders: coLeaders,
           club: this.props.trip.club,
           experienceNeeded: this.props.trip.experienceNeeded,
           description: this.props.trip.description,
@@ -289,6 +290,17 @@ class CreateTrip extends Component {
     });
   }
 
+  getCoLeaders = (leaders) => {
+    let coleaders = '';
+    leaders.forEach((leader, index) => {
+      if (index !== 0) {
+        coleaders += `${leader.email}, `;
+      }
+    });
+    coleaders = coleaders.substring(0, coleaders.length - 2);
+    coleaders = coleaders.length === 0 ? 'None' : coleaders;
+    return coleaders;
+  };
 
     _next = () => {
       let thecurrentStep;
@@ -421,31 +433,31 @@ class CreateTrip extends Component {
             </div>
             <div className="row column-sub-headers">
               <div className={this.state.currentStep === 1 ? 'side-bar-highlight' : ''} />
-              <p>Basic information</p>
+              <p className={this.state.currentStep === 1 ? 'text-highlight' : ''}>Basic information</p>
             </div>
             <div className="row column-sub-headers">
               <div className={this.state.currentStep === 2 ? 'side-bar-highlight' : ''} />
-              <p>Dates and location</p>
+              <p className={this.state.currentStep === 2 ? 'text-highlight' : ''}>Dates and location</p>
             </div>
             <div className="row column-headers">
               <p>Trips description</p>
             </div>
             <div className="row column-sub-headers">
               <div className={this.state.currentStep === 3 ? 'side-bar-highlight' : ''} />
-              <p>About the trip</p>
+              <p className={this.state.currentStep === 3 ? 'text-highlight' : ''}>About the trip</p>
             </div>
             <div className="row column-sub-headers">
               <div className={this.state.currentStep === 4 ? 'side-bar-highlight' : ''} />
-              <p>What you&apos;ll need</p>
+              <p className={this.state.currentStep === 4 ? 'text-highlight' : ''}>What you&apos;ll need</p>
             </div>
             <div className="row column-headers">
               <p>Additional details</p>
             </div>
             <div className="row column-sub-headers">
-              <p>About the trip</p>
+              <p className={this.state.currentStep === 5 ? 'text-highlight' : ''}>About the trip</p>
             </div>
             <div className="row column-sub-headers">
-              <p>What you&apos;ll need</p>
+              <p className={this.state.currentStep === 6 ? 'text-highlight' : ''}>What you&apos;ll need</p>
             </div>
           </div>
           <BasicTripInfo

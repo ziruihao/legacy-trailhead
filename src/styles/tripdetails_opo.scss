@@ -83,6 +83,21 @@
   border-radius: 5px;
 }
 
+.side-links{
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 27px;
+  transition: transform .2s;
+}
+.side-links:hover{
+  transform: scale(1.1);
+}
+
 @media all and (max-width: 800px) {
   .sub-fields {
    margin: 5rem;

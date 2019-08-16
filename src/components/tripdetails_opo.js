@@ -41,6 +41,15 @@ class OPOTripForm extends Component {
         });
   }
 
+  onButtonClick = (value) => {
+    this.setState({
+      step : value,
+    });
+    console.log('this is the new step:', this.state.step);
+  }
+
+
+
   // getEachPage = (page) => {
   //   this.setState({
   //     step: page
@@ -97,6 +106,7 @@ class OPOTripForm extends Component {
         <LeftColumn
           tripTitle={this.props.trip.title}
           step={this.state.step}
+          setState={this.onButtonClick}
         />
         { page }
 
