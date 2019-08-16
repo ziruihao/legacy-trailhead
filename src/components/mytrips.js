@@ -26,14 +26,19 @@ class MyTrips extends Component {
     return t1.getTime() - t2.getTime();
   }
   renderCreateTrip = () => {
-    return(
-      <div className="card text-center card-trip margins" >
-        <div className = "card-body" id = "create-trip">
-          <p className = "create-trip-words">create a trip</p>
-          <img src = {createtrip} alt = "green circle with a plus sign"/>
+    if(this.props.user.role === "Leader"){
+      return(
+        <div className="card text-center card-trip margins" >
+          <div className = "card-body" id = "create-trip">
+            <p className = "create-trip-words">create a trip</p>
+            <img src = {createtrip} alt = "green circle with a plus sign"/>
+          </div>
         </div>
-      </div>
-    );
+      );
+    }else{
+      return null;
+    }
+    
   }
   renderMyVehicles = () => {
     return(
@@ -100,9 +105,10 @@ class MyTrips extends Component {
     return (
       <div className="tile-box">
         <h1 className="mytrips-header">Leader Dashboard</h1>
-        <h2 className="mytrips-sub-header">Upcoming trips as a leader</h2>
+        <h2 className="mytrips-sub-header">Upcoming trips</h2>
         <div className="box">
           {this.renderMyTrips()}
+
           <NavLink className="create-trip-link" to="/createtrip">
             {this.renderCreateTrip()}
           </NavLink>

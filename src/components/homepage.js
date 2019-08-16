@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { signOut } from '../actions';
+import DocLogo from '../img/DOC-log.svg';
 import '../styles/homepage-style.scss';
 
 class Homepage extends Component {
@@ -20,28 +21,33 @@ class Homepage extends Component {
       buttons = (
         <div className="two-buttons">
           <NavLink to="/signin">
-            <button>Sign In</button>
+            <button className="log-in">Log In</button>
           </NavLink>
           <NavLink to="/signup">
-            <button>Sign Up</button>
+            <button className="sign-up">Sign Up</button>
           </NavLink>
         </div>
       );
     }
 
     return (
-      <div className="main1">
-        <div className="home-text">
-          <h1> Welcome to the Dartmouth Outing Club trip planner! </h1>
-          <p>
-            {
-              this.props.authenticated
-                ? 'Join or create a trip of your own!'
-                : 'Please login or sign-up to find your next outdoor adventure!'
-            }
-          </p>
+      <div id="landing-page">
+        <div id="doc-icon">
+          <img src={DocLogo} alt="DOC Logo" />
         </div>
-        { buttons }
+        <div className="main1">
+          <div className="home-text">
+            <h1> Stay Crunchy. </h1>
+            <p>
+              {
+                this.props.authenticated
+                  ? 'Join or create a trip of your own!'
+                  : 'Hello there! This is the Dartmouth Outing Club (DOC) Website. Here, you can view, sign up for, or form trips.'
+              }
+            </p>
+          </div>
+          { buttons }
+        </div>
       </div>
     );
   }
