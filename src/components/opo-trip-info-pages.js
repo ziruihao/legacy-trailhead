@@ -1,5 +1,7 @@
 /* eslint-disable */
 import React from 'react';
+import Modal from 'react-bootstrap/Modal';
+
 import '../styles/createtrip-style.scss';
 import '../styles/tripdetails_leader.scss';
 import '../styles/tripdetails_trippee-style.scss';
@@ -172,6 +174,82 @@ const BasicInfo = (props) => {
 }
 
 
+const PCardRequest = (props) =>{
+  return(
+    <div className = "pcard-opo">
+      <Modal
+    centered
+    show = {props.showModal}
+  >
+    <div className="trip-details-close-button">
+      <i className="material-icons close-button" onClick={props.closeModal} role="button" tabIndex={0}>close</i>
+    </div>
+    <div className="cancel-content">
+      <p className="cancel-question">Contact Leader</p>
+      <p className="cancel-message">To contact the trip leader, please copy their email address and send them an email</p>
+      <p className="cancel-question" id = "leader-email">{props.trip.leaders[0].email}</p>
+    </div>
+    <button type="button" className="btn email-copy-button" onClick={props.copy}>copy email</button>
+
+  </Modal>
+      <h1> P-Card Request </h1>
+      <div>
+          <table className = "pcard-overview-table">
+            <thead>
+              <tr>
+              <th>Reason</th>
+              <th>Subclub</th>
+              <th># of Participants</th>
+              <th>Total Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                <td>Food, others</td>
+                <td>{props.trip.club.name}</td>
+                <td>{props.trip.pcard[0].participants}</td>
+                <td>${props.trip.pcard[1].totalCost}</td>
+                </tr>
+            </tbody>
+          </table>
+          <table>
+          <thead>
+            <tr>
+            <th>Expense Details</th>
+            <th>Unit Cost</th>
+            <th>Total Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+          {props.trip.pcard[2].reason.map((i) =>{
+            return(
+              i.info.map((j)=>{
+                return(
+                    <tr>
+                      <td>{j.expenseDetails}</td>
+                      <td>${j.unitCost}</td>
+                      <td>${j.totalCost}</td>
+                    </tr>
+                );}));})}
+          </tbody>
+        </table>
+        <div className = "pcard-assign">
+            <p style= {{display: "block", fontWeight: "bold", fontSize: "12pt"}}>P-Card Assigned</p>
+            <input 
+                    className = "pcard-assign-input"
+                    onChange={props.onFieldChange}
+                    name="pcardAssigned"
+                    placeholder={props.trip.pcardAssigned ? props.trip.pcardAssigned : "e.g. 1234"}
+                    value={props.pcardAssigned}
+                    />
+          </div>
+      </div>
+      <button type="button" className="btn approve-button" onClick={props.approve}>Approve and Notify Leader</button>
+      <button type="button" className="btn deny-button" onClick={props.deny}>Contact Leader</button>
+    </div>
+
+  );
+}
 const GearRequest = (props) => {
   return (
     <div className="col-9 right-column">
@@ -206,4 +284,5 @@ export {
   GearRequest,
   BasicInfo,
   LeftColumn,
+  PCardRequest,
 }

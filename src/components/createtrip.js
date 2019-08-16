@@ -1,11 +1,12 @@
 /* eslint-disable */
 /* eslint-disable jsx-a11y/no-autofocus */
-import React, { Component } from 'react';
+import React, { Component } from 'react'; 
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { fetchTrip } from '../actions';
 import { createTrip, appError } from '../actions';
+import PCardRequest from './pcard_request';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -20,7 +21,7 @@ class CreateTrip extends Component {
       access: false,
       description: '',
       startDate: '',
-      endDate: '',
+      endDate: '', 
       startTime: '',
       endTime: '',
       mileage: '',
@@ -31,8 +32,17 @@ class CreateTrip extends Component {
       length: 'single',
       gearRequests: [],
       trippeeGear: [],
+      numPeople:null,
+      snacks:null,
+      breakfast:null,
+      lunch:null,
+      dinner:null,
+      otherCostsTitle: [],
+      otherCostsCost:[],
+      totalCost: 0,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
+    this.onFieldChangeOther = this.onFieldChangeOther.bind(this);
     this.createTrip = this.createTrip.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onGearChange = this.onGearChange.bind(this);
@@ -73,9 +83,43 @@ class CreateTrip extends Component {
   }
 
   onFieldChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
-    });
+    let c = parseInt(this.state.totalCost);
+    if(event.target.name === "snacks"){
+      c = c + 3*parseInt(event.target.value)*parseInt(this.state.numPeople);
+    }else if(event.target.name === "breakfast"){
+      c = c + 10*parseInt(event.target.value)*parseInt(this.state.numPeople);
+    }else if(event.target.name === "lunch"){
+      c = c + 14*parseInt(event.target.value)*parseInt(this.state.numPeople);
+    }else if(event.target.name === "dinner"){
+      c = c + 16*parseInt(event.target.value)*parseInt(this.state.numPeople);
+    }
+      this.setState({
+        [event.target.name]: event.target.value,
+        totalCost: c,
+      });
+    }
+  onFieldChangeOther(event, idx) {      
+
+      if(event.target.name === "otherCostsTitle"){
+        const otherCostsTitle = this.state.otherCostsTitle;
+        otherCostsTitle[idx] = event.target.value;
+        this.setState({
+            otherCostsTitle,
+        });
+      }else{
+
+        const otherCostsCost = this.state.otherCostsCost;
+          otherCostsCost[idx] = parseInt(event.target.value);
+          let totalCost = this.state.totalCost;
+          totalCost += parseInt(this.state.numPeople) * parseInt(event.target.value);
+          this.setState({
+            
+              otherCostsCost,
+              totalCost,
+              
+          });
+      }
+
   }
 
   onClubChange(event) {
@@ -174,15 +218,6 @@ class CreateTrip extends Component {
 
     handleOptionChange = (changeEvent) => {
       this.setState({ experienceNeeded: changeEvent.target.checked });
-    // if (changeEvent.target.checked) {
-    //   this.setState({
-    //     experienceNeeded: true,
-    //   });
-    // } else {
-    //   this.setState({
-    //     experienceNeeded: false,
-    //   });
-    // }
     };
 
   toggleAccess = (event) => {
@@ -242,7 +277,7 @@ class CreateTrip extends Component {
                     </Dropdown.Toggle>
                     <Dropdown.Menu className="filter-options clothe-options">
                       <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
-                      <Dropdown.Item eventKey="Clothe">Clothe</Dropdown.Item>
+                      <Dropdown.Item eventKey="Clothe">Clothes</Dropdown.Item>
                       <Dropdown.Item eventKey="Shoe">Shoe</Dropdown.Item>
                       <Dropdown.Item eventKey="Height">Height</Dropdown.Item>
                     </Dropdown.Menu>
@@ -353,11 +388,18 @@ class CreateTrip extends Component {
     isObjectEmpty = (object) => {
       return Object.entries(object).length === 0 && object.constructor === Object;
     }
-
     createTrip() {
+      console.log(this.state);
       const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
-      let gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
-      let trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
+      const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
+      const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
+      const otherPcardRequests = this.state.otherCostsCost.map((value, i)=>(
+        {
+          expenseDetails: this.state.otherCostsTitle[i],
+          unitCost: value,
+          totalCost:(this.state.numPeople)*value,
+        }
+      ));
       const trip = {
         title: this.state.title,
         leaders: this.state.leaders.trim().split(','),
@@ -376,7 +418,29 @@ class CreateTrip extends Component {
         co_leader_access: this.state.access,
         gearRequests,
         trippeeGear,
-      };
+        pcard: [{participants: this.state.numPeople},
+                {totalCost: this.state.totalCost}, 
+                {reason:[
+                        {info:[
+                            {expenseDetails: "Snacks",
+                            unitCost: 3,
+                            totalCost: 3*this.state.snacks*this.state.numPeople},
+                            {expenseDetails: "Breakfast",
+                            unitCost: 10,
+                            totalCost:10*this.state.breakfast*this.state.numPeople},
+                            {expenseDetails: "Lunch",
+                            unitCost: 14,
+                            totalCost: 14*this.state.lunch*this.state.numPeople},
+                            {expenseDetails: "Dinner",
+                            unitCost: 16,
+                            totalCost: 16*this.state.dinner*this.state.numPeople}        
+                        ]},
+                        {info: otherPcardRequests}
+
+                ]}
+        ]
+        };
+      
 
       // if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
       //   && trip.cost && trip.mileage && trip.location && trip.club)) {
@@ -410,15 +474,15 @@ class CreateTrip extends Component {
 
     nextButton() {
       // const formValid = validate();
-      if (this.state.currentStep < 4) {
+      if (this.state.currentStep < 5) {
         return (
           <button disabled={this.validate()} type="button" className="btn next-button" onClick={this._next}>Next</button>
         );
       }
 
-      if (this.state.currentStep === 4) {
+      if (this.state.currentStep === 5) {
         return (
-          <button disabled={this.validate()} type="button" className="btn next-button" onClick={this.createTrip}>Submit</button>
+          <button disabled={false} type="button" className="btn next-button" onClick={this.createTrip}>Submit</button>
         );
       }
       return null;
@@ -497,6 +561,11 @@ class CreateTrip extends Component {
             addGear={this.addGear}
             getGearInputs={this.getGearInputs(this.props)}
             getTrippeeGear={this.getTrippeeGear(this.props)}
+          />
+          <PCardRequest
+             currentStep={this.state.currentStep}
+             onFieldChange = {this.onFieldChange}
+             onFieldChangeOther = {this.onFieldChangeOther}
           />
           <div className="row right-column button-placement">
             {this.nextButton()}

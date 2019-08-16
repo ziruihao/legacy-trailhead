@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getTrip } from '../../../project-doc-website-api/src/controllers/trip_controller';
 
 export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
@@ -21,6 +22,7 @@ export const ActionTypes = {
   UPDATE_RESTRICTED_PATH: 'UPDATE_RESTRICTED_PATH',
   FETCH_CERT_APPROVALS: 'FETCH_CERT_APPROVALS',
   FETCH_OPO_TRIPS: 'FETCH_OPO_TRIPS',
+  FETCH_PCARD_REQUESTS:'FETCH_PCARD_REQUESTS',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -177,6 +179,7 @@ export function emailTrip(id, subject, body, history) {
 
 export function createTrip(trip, history) {
   console.log('trying to create a trip');
+  console.log(trip);
   return (dispatch) => {
     axios.post(`${ROOT_URL}/alltrips`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
@@ -203,6 +206,7 @@ export function deleteTrip(id, history) {
 }
 
 export function editTrip(trip, history) {
+  console.log(trip);
   return (dispatch) => {
     axios.put(`${ROOT_URL}/trip/${trip.id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
@@ -410,6 +414,19 @@ export function reviewTrippeeGearRequest(review) {
         dispatch(fetchTrippeeGearRequests()),
       ).catch((error) => {
         dispatch(appError(`Error responding to trippee gear request: ${error}`));
+      });
+  };
+}
+
+
+export function reviewPCardRequests(review) {
+  console.log(review);
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/pcardrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
+      .then(
+        dispatch(fetchTrip(review.id)),
+      ).catch((error) => {
+        dispatch(appError(`Error responding to pcard  request: ${error}`));
       });
   };
 }

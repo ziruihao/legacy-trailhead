@@ -15,15 +15,26 @@
   line-height: 33px;
   letter-spacing: 0.05em;
   color: #939393;
+
   &.top-create-trip{
     margin: 0rem 0rem 3rem 0rem;
     &.leaders{
       margin: 0rem 3rem 2.5rem 0rem;
+      &.pcard{
+        width: 50%;
+      }
     }
     &.pickupDropoff{
       width: 298px;
       height: 69px;
       margin: 0rem 3rem 2.5rem 0rem;
+    }
+    &.other_costs{
+      width: 60%;
+      display: inline-block;
+      &.other_costs_num{
+        width:20%;
+      }
     }
   }
   &.trip-descrip-box{
@@ -110,8 +121,8 @@ input[type="text"]{
 
 .delete-gear-button {
 	content: "X";
-	display: block;
-  width: 27rem;
+	display: inline-block;
+  width: 1rem;
   height: 4rem;
 	background-color: transparent;
 	z-index:1;
@@ -223,6 +234,7 @@ label{
   width: max-content;
 }
 
+
 ul li .radio-button{
   display: block;
   position: absolute;
@@ -236,7 +248,6 @@ ul li .radio-button{
 	transition: border .25s linear;
 	-webkit-transition: border .25s linear;
 }
-
 
 .my-row{
   display: flex;
@@ -327,6 +338,10 @@ ul li .radio-button{
   &.trip-date-header{
     margin-top: 1.5rem;
   }
+  &.pcard{
+    display: inline-block;
+    width: 25%;
+  }
 
 }
 .page-header{
@@ -359,6 +374,37 @@ ul li .radio-button{
   color: white;
   border-radius: 5px;
 }
+.approve-button{
+  position: absolute;
+  height: 66px;
+  left: 65rem;
+  top: 53rem;
+  background: #0CA074;
+  color: white;
+  border-radius: 5px;
+}
+.email-copy-button{
+  text-align: center;
+  height: 30px;
+  margin: 1%;
+  margin-left:175px;
+  width:150px;
+  background: #0CA074;
+  color: white;
+  border-radius: 5px;
+}
+.deny-button{
+  position: absolute;
+  width: 129px;
+  height: 66px;
+  left: 30em;
+  top: 53em;
+  border-radius: 5px;
+  color: #0CA074;
+  font-weight: 600;
+  background-color: inherit;
+}
+
 
 #prev-button{
   position: absolute;
@@ -393,4 +439,25 @@ button[disabled]{
 #size-type-dropdown{
   background: #FFFFFF;
   border: 2px solid #C4C4C4;
+}
+tr{
+  height:50px;
+  width:100%;
+}
+tbody{
+  border-width: 2px;
+  border-color: #C4C4C4;
+  border-style: solid;
+  border-radius: 5px;
+
+}
+table{
+  width: 100%;
+}
+thead{
+  text-align: center;
+  margin-left: 5%;
+}
+tr:nth-child(even) {
+  background-color: #f2f2f2
 }
