@@ -22,8 +22,8 @@ const getCoLeaders = (leaders) => {
 const formatDate = (date, startTime, endTime) => {
   let timeString = '';
   const rawDate = new Date(date);
-  const dateString = rawDate.toString();
-  timeString = `${dateString.slice(0, 3)},${dateString.slice(3, 10)}`;
+  const dateString = rawDate.toUTCString();
+  timeString = dateString.substring(0, 11);
   const startSplitTime = startTime.split(':');
   const endSplitTime = endTime.split(':');
   startSplitTime.push('am');

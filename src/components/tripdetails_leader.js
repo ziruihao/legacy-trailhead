@@ -22,8 +22,8 @@ const getCoLeaders = (leaders) => {
 const formatDate = (date, time) => {
   let timeString = '';
   const rawDate = new Date(date);
-  const dateString = rawDate.toString();
-  timeString = `${dateString.slice(0, 3)},${dateString.slice(3, 10)}`;
+  const dateString = rawDate.toUTCString();
+  timeString = dateString.substring(0, 11);
   const splitTime = time.split(':');
   splitTime.push('am');
   if (splitTime[0] > 12) {
@@ -175,7 +175,7 @@ const getGearStatus = (gearStatus) => {
       );
     case 'denied':
       return (
-        <span className="leader-detail-right">Denied <img className="status-badge" src="/src/img/denied_badge.svg" alt="denied_badge" /> </span>
+        <span className="leader-detail-right">Denied <img className="status-badge" src="/src/img/warning_badge.svg" alt="denied_badge" /> </span>
       );
     default:
       return (

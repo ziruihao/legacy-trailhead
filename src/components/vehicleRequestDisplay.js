@@ -4,8 +4,8 @@ import '../styles/vehicleRequestForm-style.scss';
 const formatDate = (date, time) => {
   let timeString = '';
   const rawDate = new Date(date);
-  const dateString = rawDate.toString();
-  timeString = `${dateString.slice(0, 3)},${dateString.slice(3, 10)}`;
+  const dateString = rawDate.toUTCString();
+  timeString = dateString.substring(0, 11);
   const splitTime = time.split(':');
   splitTime.push('am');
   if (splitTime[0] > 12) {
@@ -109,9 +109,19 @@ const VehicleRequestDisplay = (props) => {
 
       {props.requestType === 'SOLO'
         ? (
-          <div className="vrf-form-row">
-            <span className="vrf-label">Request Details</span>
-            <span className="vrf-req-details-display">{props.vehicleRequest.requestDetails}</span>
+          <div className="vrf-solo-req">
+            <div className="vrf-form-row">
+              <span className="vrf-label">Request Details</span>
+              <span className="vrf-req-details-display">{props.vehicleRequest.requestDetails}</span>
+            </div>
+            <div className="vrf-form-row">
+              <span className="vrf-label">Number of people</span>
+              <span className="vrf-req-details-display">{props.vehicleRequest.noOfPeople}</span>
+            </div>
+            <div className="vrf-form-row">
+              <span className="vrf-label">Estimated mileage</span>
+              <span className="vrf-req-details-display">{props.vehicleRequest.mileage}</span>
+            </div>
           </div>
         )
         : null}

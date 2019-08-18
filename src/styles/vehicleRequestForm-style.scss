@@ -101,7 +101,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   flex-direction: column;
 }
 .no-date{
-  color: #C4C4C4;
+  color: #C4C4C4 !important;
 }
 .vrf-add-and-submit{
   display: flex;

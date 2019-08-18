@@ -159,13 +159,13 @@ class VehicleRequest extends Component {
     }
 
     // check if entered invalid zero
-    const enteredZeroPeople = Number(this.state.noOfPeople) === 0;
-    const enteredZeroMileage = Number(this.state.mileage) === 0;
-    if (enteredZeroPeople || enteredZeroMileage) {
+    const enteredBadNoOfPeople = Number(this.state.noOfPeople) <= 0;
+    const enteredBadMileage = Number(this.state.mileage) <= 0;
+    if (enteredBadNoOfPeople || enteredBadMileage) {
       this.setState((prevState) => {
-        return { soloErrorFields: Object.assign({}, prevState.soloErrorFields, { noOfPeople: enteredZeroPeople, mileage: enteredZeroMileage }) };
+        return { soloErrorFields: Object.assign({}, prevState.soloErrorFields, { noOfPeople: enteredBadNoOfPeople, mileage: enteredBadMileage }) };
       });
-      this.props.appError('Zero is not a valid input for the higlighted fields');
+      this.props.appError('Value must be greater than zero for the higlighted fields');
       window.scrollTo(0, 0);
       return false;
     }
@@ -255,6 +255,8 @@ class VehicleRequest extends Component {
     });
     this.setState({
       requestDetails: vehicleRequest.requestDetails,
+      noOfPeople: vehicleRequest.noOfPeople,
+      mileage: vehicleRequest.mileage,
       vehicles: withMoreFields,
       isEditing: true,
     });
