@@ -51,7 +51,7 @@ class CreateTrip extends Component {
   }
 
   componentDidMount() {
-    if (this.props.trip.isEditMode !== false){
+    if (this.props.match.params.tripID !== undefined){
       this.props.fetchTrip(this.props.match.params.tripID)
       .then(() => {
         let gear = this.props.trip.OPOGearRequests;

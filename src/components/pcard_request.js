@@ -54,22 +54,22 @@ class PCardRequest extends Component {
             ret.push(
                 <div key = {i} style= {{width: '200%'}}>
                     <input className="field top-create-trip leaders other_costs"
-                    onChange={()=>this.props.onFieldChangeOther(event, i)}
+                    onChange={()=>this.props.onFieldChangeOther(event, i+1)}
                     name="otherCostsTitle"
                     placeholder="e.g. Tickets for EVO"
-                    value={this.state.otherCostsTitle[i]}
+                    value={this.state.otherCostsTitle[i+1]}
                     />
                     <p style = {{fontWeight: 700, display:"inline-block", width: "fit-content", fontSize:"18pt"}}>
                         $
                     </p>
                     <input className="field top-create-trip leaders other_costs other_costs_num"
-                    onChange={() => this.props.onFieldChangeOther(event, i)}
+                    onChange={() => this.props.onFieldChangeOther(event, i+1)}
                     name="otherCostsCost"
                     type = "number"
                     placeholder="e.g. 10"
-                    value={this.state.otherCostsCost[i]}
+                    value={this.state.otherCostsCost[i+1]}
                     />
-                    <button type="button" className="delete-gear-button" onClick={() => this.removeOtherRequests(i)}>X</button>
+                    <button type="button" className="delete-gear-button" onClick={() => this.removeOtherRequests(i+1)}>X</button>
                     </div>
             );
         }
