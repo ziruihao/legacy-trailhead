@@ -24,18 +24,29 @@ const formatDate = (date, startTime, endTime) => {
   const rawDate = new Date(date);
   const dateString = rawDate.toUTCString();
   timeString = dateString.substring(0, 11);
+  
   const startSplitTime = startTime.split(':');
+  startSplitTime.push(' AM');
+  const originalStartHour = startSplitTime[0];
+  startSplitTime[0] = originalStartHour % 12;
+  if (originalStartHour >= 12) {
+    startSplitTime[2] = ' PM';
+  }
+  if (startSplitTime[0] === 0) {
+    startSplitTime[0] = 12;
+  }
+
   const endSplitTime = endTime.split(':');
-  startSplitTime.push('am');
-  endSplitTime.push('pm');
-  if (startSplitTime[0] > 12) {
-    startSplitTime[0] -= 12;
-    startSplitTime[2] = 'pm';
+  endSplitTime.push(' AM');
+  const originalEndHour = endSplitTime[0];
+  endSplitTime[0] = originalEndHour % 12;
+  if (originalEndHour >= 12) {
+    endSplitTime[2] = ' PM';
   }
-  if (endSplitTime[0] > 12) {
-    endSplitTime[0] -= 12;
-    endSplitTime[2] = 'am';
+  if (endSplitTime[0] === 0) {
+    endSplitTime[0] = 12;
   }
+
   timeString = `${timeString}, ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]}, ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}}`;
   return timeString;
 };

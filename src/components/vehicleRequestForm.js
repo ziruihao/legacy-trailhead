@@ -68,7 +68,7 @@ const getVehicles = (props) => {
           <input
             type="text"
             id={`vehicle_details_${index}`}
-            className={`trip-detail vrf-vehicle-detail ${vehicle.errorFields.vehicleDetails ? 'vrf-error' : ''}`}
+            className="trip-detail vrf-vehicle-detail"
             placeholder="e.g. I need Steakie!"
             maxLength="50"
             name="vehicleDetails"

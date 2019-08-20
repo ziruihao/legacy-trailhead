@@ -75,14 +75,14 @@
   text-align: justify;
 }
 .ovr-req-labels{
-  width: 33%;
+  min-width: 33%;
   display: flex;
   flex-direction: column;
 }
 .ovr-req-vehicle-details, .ovr-req-assignment{
   display: flex;
   flex-direction: column;
-  width: 25%;
+  min-width: 25%;
   margin-right: 1em;
 }
 .ovr-request-and-assignment{
@@ -166,4 +166,26 @@ input.ovr-date-input{
 .ovr-requester-email{
   border: 0;
   font-weight: 800;
+}
+.ovr-vehicle-option{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ovr-vehicle-option-type{
+  margin-left: 1.5em;
+  color: #C4C4C4;
+  font-size: 0.8em;
+}
+.ovr-vehicle-options{
+  width: unset;
+}
+.ovr-skip-vehicle-button{
+  display: flex;
+  justify-content: center;
+}
+.ovr-skipped-detail{
+  color: #C4C4C4;
+  font-style: italic;
+  letter-spacing: 0.1em;
 }

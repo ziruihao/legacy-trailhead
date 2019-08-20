@@ -8,7 +8,6 @@ import VehicleRequestDisplay from './vehicleRequestDisplay';
 class VehicleRequest extends Component {
   errorFields = {
     vehicleType: false,
-    vehicleDetails: false,
     pickupDate: false,
     returnDate: false,
     pickupTime: false,
@@ -153,7 +152,7 @@ class VehicleRequest extends Component {
     // break if there's an empty field
     if (hasEmptyField) {
       this.setState({ vehicles: markedEmptyFields, soloErrorFields: updatedSoloErrorFields });
-      this.props.appError('Please complete all fields');
+      this.props.appError('Please complete the highlighted fields');
       window.scrollTo(0, 0);
       return false;
     }

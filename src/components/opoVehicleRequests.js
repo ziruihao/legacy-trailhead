@@ -41,10 +41,14 @@ class OpoVehicleRequests extends Component {
     const dateString = rawDate.toUTCString();
     timeString = dateString.substring(0, 11);
     const splitTime = time.split(':');
-    splitTime.push('am');
-    if (splitTime[0] > 12) {
-      splitTime[0] -= 12;
-      splitTime[2] = 'pm';
+    splitTime.push(' AM');
+    const originalHour = splitTime[0];
+    splitTime[0] = originalHour % 12;
+    if (originalHour >= 12) {
+      splitTime[2] = ' PM';
+    }
+    if (splitTime[0] === 0) {
+      splitTime[0] = 12;
     }
     timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
     return timeString;
@@ -54,6 +58,14 @@ class OpoVehicleRequests extends Component {
     const pendingRequests = this.props.vehicleRequests.filter((request) => {
       return request.status === 'pending';
     });
+
+    if (pendingRequests.length === 0) {
+      return (
+        <div className="no-on-trip">
+          <h4 className="none-f-now">None</h4>
+        </div>
+      );
+    }
 
     const searchedRequests = pendingRequests.filter((request) => {
       const reason = request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title;
@@ -86,6 +98,13 @@ class OpoVehicleRequests extends Component {
     const approvedRequests = this.props.vehicleRequests.filter((request) => {
       return request.status !== 'pending';
     });
+    if (approvedRequests.length === 0) {
+      return (
+        <div className="no-on-trip">
+          <h4 className="none-f-now">None</h4>
+        </div>
+      );
+    }
     const searchedRequests = approvedRequests.filter((request) => {
       const reason = request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title;
       return request.requestDetails.concat([request.requester.name, reason]).toLowerCase().includes(this.state.searchReviewedTerm.toLowerCase());

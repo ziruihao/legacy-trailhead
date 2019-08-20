@@ -441,7 +441,7 @@ export function fetchVehicleRequest(id) {
           resolve();
         }).catch((error) => {
           console.log(error);
-          dispatch(appError(`Error making vehicle request: ${error}`));
+          dispatch(appError(`Error fetching vehicle request: ${error}`));
         });
     });
   };
