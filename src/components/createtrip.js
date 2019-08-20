@@ -1,12 +1,12 @@
 /* eslint-disable */
 /* eslint-disable jsx-a11y/no-autofocus */
-import React, { Component } from 'react'; 
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { fetchTrip } from '../actions';
-import { createTrip, appError } from '../actions';
+import { fetchTrip, createTrip, appError } from '../actions';
 import PCardRequest from './pcard_request';
+import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } from './create_trip_pages';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -21,7 +21,7 @@ class CreateTrip extends Component {
       access: false,
       description: '',
       startDate: '',
-      endDate: '', 
+      endDate: '',
       startTime: '',
       endTime: '',
       mileage: '',
@@ -32,13 +32,13 @@ class CreateTrip extends Component {
       length: 'single',
       gearRequests: [],
       trippeeGear: [],
-      numPeople:null,
-      snacks:null,
-      breakfast:null,
-      lunch:null,
-      dinner:null,
+      numPeople: null,
+      snacks: null,
+      breakfast: null,
+      lunch: null,
+      dinner: null,
       otherCostsTitle: [],
-      otherCostsCost:[],
+      otherCostsCost: [],
       totalCost: 0,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
@@ -53,72 +53,70 @@ class CreateTrip extends Component {
   componentDidMount() {
     if (this.props.match.params.tripID !== undefined){
       this.props.fetchTrip(this.props.match.params.tripID)
-      .then(() => {
-        let gear = this.props.trip.OPOGearRequests;
-        let tripGear = this.props.trip.trippeeGear;
-        console.log(tripGear)
-        // console.log(gear);
-        this.setState({
-          currentStep: 1,
-          title: this.props.trip.title,
-          leaders: this.props.trip.leaders,
-          club: this.props.trip.club,
-          experienceNeeded: this.props.trip.experienceNeeded,
-          description: this.props.trip.description,
-          startDate: this.props.trip.startDate,
-          endDate: this.props.trip.endDate,
-          startTime: this.props.trip.startTime,
-          endTime: this.props.trip.endTime,
-          mileage: this.props.trip.mileage,
-          pickup: this.props.trip.pickup,
-          dropoff: this.props.trip.dropoff,
-          location: this.props.trip.location,
-          cost: this.props.trip.cost,
-          gearRequests: gear,
-          trippeeGear: tripGear,
+        .then(() => {
+          const gear = this.props.trip.OPOGearRequests;
+          const tripGear = this.props.trip.trippeeGear;
+          const coLeaders = this.getCoLeaders(this.props.trip.leaders);
+          // console.log(tripGear)
+          // console.log(gear);
+          this.setState({
+            currentStep: 1,
+            title: this.props.trip.title,
+            leaders: coLeaders,
+            club: this.props.trip.club,
+            experienceNeeded: this.props.trip.experienceNeeded,
+            description: this.props.trip.description,
+            startDate: this.props.trip.startDate,
+            endDate: this.props.trip.endDate,
+            startTime: this.props.trip.startTime,
+            endTime: this.props.trip.endTime,
+            mileage: this.props.trip.mileage,
+            pickup: this.props.trip.pickup,
+            dropoff: this.props.trip.dropoff,
+            location: this.props.trip.location,
+            cost: this.props.trip.cost,
+            gearRequests: gear,
+            trippeeGear: tripGear,
+          });
         });
-      });
     }
   }
 
   onFieldChange(event) {
-    let c = parseInt(this.state.totalCost);
-    if(event.target.name === "snacks"){
-      c = c + 3*parseInt(event.target.value)*parseInt(this.state.numPeople);
-    }else if(event.target.name === "breakfast"){
-      c = c + 10*parseInt(event.target.value)*parseInt(this.state.numPeople);
-    }else if(event.target.name === "lunch"){
-      c = c + 14*parseInt(event.target.value)*parseInt(this.state.numPeople);
-    }else if(event.target.name === "dinner"){
-      c = c + 16*parseInt(event.target.value)*parseInt(this.state.numPeople);
+    let c;
+    const cX = parseInt(this.state.totalCost, 10);
+    if (event.target.name === 'snacks') {
+      c = cX + 3 * parseInt(event.target.value, 10) * parseInt(this.state.numPeople, 10);
+    } else if (event.target.name === 'breakfast') {
+      c = cX + 10 * parseInt(event.target.value, 10) * parseInt(this.state.numPeople, 10);
+    } else if (event.target.name === 'lunch') {
+      c = cX + 14 * parseInt(event.target.value, 10) * parseInt(this.state.numPeople, 10);
+    } else if (event.target.name === 'dinner') {
+      c = cX + 16 * parseInt(event.target.value, 10) * parseInt(this.state.numPeople, 10);
     }
+    this.setState({
+      [event.target.name]: event.target.value,
+      totalCost: c,
+    });
+  }
+
+  onFieldChangeOther(event, idx) {
+    if (event.target.name === 'otherCostsTitle') {
+      const { otherCostsTitle: otherCTitle } = this.state;
+      otherCTitle[idx] = event.target.value;
       this.setState({
-        [event.target.name]: event.target.value,
-        totalCost: c,
+        otherCostsTitle: otherCTitle,
+      });
+    } else {
+      const { otherCostsCost: otherCCost } = this.state;
+      otherCCost[idx] = parseInt(event.target.value, 10);
+      let { totalCost: totalC } = this.state;
+      totalC += parseInt(this.state.numPeople, 10) * parseInt(event.target.value, 10);
+      this.setState({
+        otherCostsCost: otherCCost,
+        totalCost: totalC,
       });
     }
-  onFieldChangeOther(event, idx) {      
-
-      if(event.target.name === "otherCostsTitle"){
-        const otherCostsTitle = this.state.otherCostsTitle;
-        otherCostsTitle[idx] = event.target.value;
-        this.setState({
-            otherCostsTitle,
-        });
-      }else{
-
-        const otherCostsCost = this.state.otherCostsCost;
-          otherCostsCost[idx] = parseInt(event.target.value);
-          let totalCost = this.state.totalCost;
-          totalCost += parseInt(this.state.numPeople) * parseInt(event.target.value);
-          this.setState({
-            
-              otherCostsCost,
-              totalCost,
-              
-          });
-      }
-
   }
 
   onClubChange(event) {
@@ -139,180 +137,184 @@ class CreateTrip extends Component {
     }
   }
 
-    getClubOptions = () => {
-      let options = null;
-      if (this.props.user.leader_for) {
-        options = this.props.user.leader_for.map((club) => {
-          return <option key={club.id} data-id={club.id} value={club.name}>{club.name}</option>;
-        });
-      }
-      return options;
-    }
-
-    getDateOptions = () => {
-      if (this.state.length === 'multi') {
-        return (
-          <div id="date-picker" className="row page-sub-headers trip-date-header">
-            <div>
-              <p>Start date</p>
-              <input type="date" name="startDate" onChange={this.onDateChange} className="field top-create-trip leaders" value={this.state.startDate} />
-            </div>
-            <div>
-              <p>End date</p>
-              <input type="date" name="endDate" onChange={this.onDateChange} className="field top-create-trip leaders" value={this.state.endDate} />
-            </div>
-          </div>
-        );
-        } else {
-        return (
-          <div className="row page-sub-headers trip-date-header">
-            <p>Trip date</p>
-            <input type="date" name="startDate" onChange={this.onDateChange} className="field top-create-trip leaders" value={this.state.startDate} />
-          </div>
-        );
-      }
-    }
-
-    getVehicleRequest() {
-      let certifications = '';
-      if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
-        certifications = this.NONE_CONSTANT;
-      } else {
-        certifications = this.props.user.trailer_cert ? `${this.props.user.driver_cert}, ${this.TRAILER_CONSTANT}` : this.props.driver_cert;
-      }
-      return certifications;
-    }
-
-    handleDateChange = (changeEvent) => {
-      if (changeEvent.target.value === 'single') {
-        this.setState(prevState => (
-          {
-            length: 'single',
-            endDate: prevState.startDate,
-          }
-        ));
-      } else {
-        this.setState({
-          length: 'multi',
-        });
-      }
-    };
-
-    addGear = () => {
-      this.setState(prevState => ({ gearRequests: [...prevState.gearRequests, ''] }));
-    }
-
-    addTrippeeGear = () => {
-      this.setState(prevState => ({ trippeeGear: [...prevState.trippeeGear, {gear: '', size_type: 'N/A', quantity: 0}] }));
-    }
-
-    removeGear = (index) => {
-      this.setState((prevState) => {
-        const withoutDeleted = prevState.gearRequests.slice(0, index).concat(prevState.gearRequests.slice(index + 1));
-        return {
-          gearRequests: withoutDeleted,
-        };
+  getClubOptions = () => {
+    let options = null;
+    if (this.props.user.leader_for) {
+      options = this.props.user.leader_for.map((club) => {
+        return <option key={club.id} data-id={club.id} value={club.name}>{club.name}</option>;
       });
     }
+    return options;
+  }
 
-    handleOptionChange = (changeEvent) => {
-      this.setState({ experienceNeeded: changeEvent.target.checked });
-    };
+  getDateOptions = () => {
+    if (this.state.length === 'multi') {
+      return (
+        <div id="date-picker" className="row page-sub-headers trip-date-header">
+          <div>
+            <p>Start date</p>
+            <input type="date" name="startDate" onChange={this.onDateChange} className="field top-create-trip leaders" value={this.state.startDate} />
+          </div>
+          <div>
+            <p>End date</p>
+            <input type="date" name="endDate" onChange={this.onDateChange} className="field top-create-trip leaders" value={this.state.endDate} />
+          </div>
+        </div>
+      );
+    } else {
+      return (
+        <div className="row page-sub-headers trip-date-header">
+          <p>Trip date</p>
+          <input type="date" name="startDate" onChange={this.onDateChange} className="field top-create-trip leaders" value={this.state.startDate} />
+        </div>
+      );
+    }
+  }
+
+  getVehicleRequest = () => {
+    let certifications = '';
+    if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
+      certifications = this.NONE_CONSTANT;
+    } else {
+      certifications = this.props.user.trailer_cert ? `${this.props.user.driver_cert}, ${this.TRAILER_CONSTANT}` : this.props.driver_cert;
+    }
+    return certifications;
+  }
+
+  handleDateChange = (changeEvent) => {
+    if (changeEvent.target.value === 'single') {
+      this.setState(prevState => ({
+        length: 'single',
+        endDate: prevState.startDate,
+      }));
+    } else {
+      this.setState({
+        length: 'multi',
+      });
+    }
+  };
+
+  addGear = () => {
+    this.setState(prevState => ({ gearRequests: [...prevState.gearRequests, ''] }));
+  }
+
+  addTrippeeGear = () => {
+    this.setState(prevState => ({ trippeeGear: [...prevState.trippeeGear, { gear: '', size_type: 'N/A', quantity: 0 }] }));
+  }
+
+  removeGear = (index) => {
+    this.setState((prevState) => {
+      const withoutDeleted = prevState.gearRequests.slice(0, index).concat(prevState.gearRequests.slice(index + 1));
+      return {
+        gearRequests: withoutDeleted,
+      };
+    });
+  }
+
+  handleOptionChange = (changeEvent) => {
+    this.setState({ experienceNeeded: changeEvent.target.checked });
+  };
 
   toggleAccess = (event) => {
     this.setState({ access: event.target.checked });
   }
 
-    handleStateChange = (event) => {
-      const { name, value } = event.target;
-      this.setState({
-        [name]: value,
-      });
-    };
+  handleStateChange = (event) => {
+    const { name, value } = event.target;
+    this.setState({
+      [name]: value,
+    });
+  };
 
+  removeTrippeeGear = (index) => {
+    this.setState((prevState) => {
+      const withoutDeleted = prevState.trippeeGear.slice(0, index).concat(prevState.trippeeGear.slice(index + 1));
+      return {
+        trippeeGear: withoutDeleted,
+      };
+    });
+  }
 
-    removeTrippeeGear = (index) => {
-      this.setState((prevState) => {
-        const withoutDeleted = prevState.trippeeGear.slice(0, index).concat(prevState.trippeeGear.slice(index + 1));
-        return {
-          trippeeGear: withoutDeleted,
-        };
-      });
-    }
+  getGearInputs = (props) => {
+    const gearRequests = props.isEditMode ? props.trip.gearRequests : this.state.gearRequests;
+    console.log('gearRequest');
+    return gearRequests.map((gearRequest, index) => {
+      return (
+        <div className="gear-container" key={index}>
+          <input type="text" className="gear-input" name="opogearRequest" placeholder="Add Item" onChange={event => this.onGearChange(event, index)} value={gearRequest} autoFocus />
+          <button type="button" className="delete-gear-button" onClick={() => this.removeGear(index)}>X</button>
+        </div>
+      );
+    });
+  }
 
-    getGearInputs = (props) => {
-      const gearRequests = props.isEditMode ? props.trip.gearRequests : this.state.gearRequests;
-      console.log('gearRequest');
-      return gearRequests.map((gearRequest, index) => {
-        return (
-          <div className="gear-container" key={index}>
-            <input type="text" className="gear-input" name="opogearRequest" placeholder="Add Item" onChange={event => this.onGearChange(event, index)} value={gearRequest} autoFocus />
-            <button type="button" className="delete-gear-button" onClick={() => this.removeGear(index)}>X</button>
-          </div>
-        );
-      });
-    }
-
-
-    getTrippeeGear = (props) => {
-      const trippeeGearRequests = props.isEditMode ? props.trippeeGear : this.state.trippeeGear;
-      return trippeeGearRequests.map((gearRequest, index) => {
-        return (
-          <div key={index}>
-            <div className="gear-container">
-              <div className="gear-and-size">
-                <div className="gear-field-and-form">
-                  <span className="gear-field">Gear:</span>
-                  <input type="text" className="my-form-control gear-input" name="trippeeGear" placeholder="Add Item" onChange={event => this.onTrippeeGearChange(event, index)} value={gearRequest.gear} autoFocus />
-                </div>
-                <div className="gear-field-and-form">
-                  <span className="gear-field">Size Type:</span>
-                  <Dropdown onSelect={eventKey => this.onSizeTypeChange(eventKey, index)}>
-                    <Dropdown.Toggle id="size-type-dropdown">
-                      <span>
-                        <span className="selected-size">{gearRequest.size_type}</span>
-                        <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
-                      </span>
-                    </Dropdown.Toggle>
-                    <Dropdown.Menu className="filter-options clothe-options">
-                      <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
-                      <Dropdown.Item eventKey="Clothe">Clothes</Dropdown.Item>
-                      <Dropdown.Item eventKey="Shoe">Shoe</Dropdown.Item>
-                      <Dropdown.Item eventKey="Height">Height</Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </div>
+  getTrippeeGear = (props) => {
+    const trippeeGearRequests = props.isEditMode ? props.trippeeGear : this.state.trippeeGear;
+    return trippeeGearRequests.map((gearRequest, index) => {
+      return (
+        <div key={index}>
+          <div className="gear-container">
+            <div className="gear-and-size">
+              <div className="gear-field-and-form">
+                <span className="gear-field">Gear:</span>
+                <input
+                  type="text"
+                  className="my-form-control gear-input"
+                  name="trippeeGear"
+                  placeholder="Add Item"
+                  onChange={event => this.onTrippeeGearChange(event, index)}
+                  value={gearRequest.gear}
+                  autoFocus
+                />
               </div>
-              <button type="button" className="delete-gear-button" onClick={() => this.removeTrippeeGear(index)}>X</button>
+              <div className="gear-field-and-form">
+                <span className="gear-field">Size Type:</span>
+                <Dropdown onSelect={eventKey => this.onSizeTypeChange(eventKey, index)}>
+                  <Dropdown.Toggle id="size-type-dropdown">
+                    <span>
+                      <span className="selected-size">{gearRequest.size_type}</span>
+                      <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+                    </span>
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className="filter-options clothe-options">
+                    <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
+                    <Dropdown.Item eventKey="Clothe">Clothes</Dropdown.Item>
+                    <Dropdown.Item eventKey="Shoe">Shoe</Dropdown.Item>
+                    <Dropdown.Item eventKey="Height">Height</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
             </div>
-            <hr className="line" />
+            <button type="button" className="delete-gear-button" onClick={() => this.removeTrippeeGear(index)}>X</button>
           </div>
-        );
-      });
-    }
+          <hr className="line" />
+        </div>
+      );
+    });
+  }
 
 
-    onGearChange = (event, idx) => {
-      event.persist();
-      this.setState((prevState) => {
-        const gearRequests = [...prevState.gearRequests];
-        gearRequests[idx] = event.target.value;
-        return {
-          gearRequests,
-        };
-      });
-    }
+  onGearChange = (event, idx) => {
+    event.persist();
+    this.setState((prevState) => {
+      const gearRequests = [...prevState.gearRequests];
+      gearRequests[idx] = event.target.value;
+      return {
+        gearRequests,
+      };
+    });
+  }
 
-    onTrippeeGearChange = (event, idx) => {
-      event.persist();
-      this.setState((prevState) => {
-        const trippeeGear = [...prevState.trippeeGear];
-        trippeeGear[idx].gear = event.target.value;
-        return {
-          trippeeGear,
-        };
-      });
-    }
+  onTrippeeGearChange = (event, idx) => {
+    event.persist();
+    this.setState((prevState) => {
+      const trippeeGear = [...prevState.trippeeGear];
+      trippeeGear[idx].gear = event.target.value;
+      return {
+        trippeeGear,
+      };
+    });
+  }
 
   onSizeTypeChange = (eventKey, index) => {
     this.setState((prevState) => {
@@ -324,194 +326,152 @@ class CreateTrip extends Component {
     });
   }
 
+  getCoLeaders = (leaders) => {
+    let coleaders = '';
+    leaders.forEach((leader, index) => {
+      if (index !== 0) {
+        coleaders += `${leader.email}, `;
+      }
+    });
+    coleaders = coleaders.substring(0, coleaders.length - 2);
+    coleaders = coleaders.length === 0 ? 'None' : coleaders;
+    return coleaders;
+  };
 
-    _next = () => {
-      let thecurrentStep;
-      thecurrentStep = this.state.currentStep;
-      thecurrentStep = thecurrentStep >= 5 ? 6 : thecurrentStep + 1;
-      this.setState({
-        currentStep: thecurrentStep,
-      });
+  previousButton = (e) => {
+    e.preventDefault();
+    this._prev();
+  }
+
+  nextButton = (e) => {
+    console.log("next");
+    e.preventDefault();
+    this._next();
+  }
+
+  _next = () => {
+    console.log(this.state.currentStep);
+    const { currentStep } = this.state;
+    this.setState({
+      currentStep: currentStep + 1,
+    });
+  }
+
+  _prev = () => {
+    const { currentStep } = this.state;
+    this.setState({
+      currentStep: currentStep - 1,
+    });
+  }
+
+  validate = () => {
+    if (this.state.currentStep === 1) {
+      const { title, club, cost } = this.state;
+      if (title.length !== 0 && club !== {} && cost.length !==0) {
+        return false;
+      }
+    }
+    if (this.state.currentStep === 2) {
+      const { startDate, startTime, endTime, location, mileage } = this.state;
+      if (startDate.length !== 0 && startTime.length !== 0 && endTime.length !== 0 && location.length !== 0 && mileage.length !== 0) {
+        return false;
+      }
+    }
+    if (this.state.currentStep === 3) {
+      const { description, pickup, dropoff } = this.state;
+      if (description.length !== 0 && pickup.length !== 0 && dropoff.length !== 0) {
+        return false;
+      }
     }
 
-    _prev = () => {
-      let thecurrentStep;
-      thecurrentStep = this.state.currentStep;
-      thecurrentStep = thecurrentStep <= 1 ? 1 : thecurrentStep - 1;
-      this.setState({
-        currentStep: thecurrentStep,
-      });
+    if (this.state.currentStep === 4) {
+      const { gearRequest, trippeeGear } = this.state;
+      if (gearRequest !== [] && trippeeGear !== []) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  isObjectEmpty = (object) => {
+    return Object.entries(object).length === 0 && object.constructor === Object;
+  }
+
+  createTrip() {
+    console.log(this.state);
+    const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
+    const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
+    const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
+    const otherPcardRequests = this.state.otherCostsCost.map((value, i) => (
+      {
+        expenseDetails: this.state.otherCostsTitle[i],
+        unitCost: value,
+        totalCost: (this.state.numPeople) * value,
+      }
+    ));
+    const trip = {
+      title: this.state.title,
+      leaders: this.state.leaders.trim().split(','),
+      club,
+      experienceNeeded: this.state.experienceNeeded,
+      description: this.state.description,
+      mileage: this.state.mileage,
+      location: this.state.location,
+      startDate: this.state.startDate,
+      endDate: this.state.endDate,
+      startTime: this.state.startTime,
+      endTime: this.state.endTime,
+      cost: this.state.cost,
+      pickup: this.state.pickup,
+      dropoff: this.state.dropoff,
+      co_leader_access: this.state.access,
+      gearRequests,
+      trippeeGear,
+      pcard: [{ participants: this.state.numPeople },
+        { totalCost: this.state.totalCost },
+        { reason: [
+          { info: [
+            { expenseDetails: 'Snacks',
+              unitCost: 3,
+              totalCost: 3 * this.state.snacks * this.state.numPeople },
+            { expenseDetails: 'Breakfast',
+              unitCost: 10,
+              totalCost: 10 * this.state.breakfast * this.state.numPeople },
+            { expenseDetails: 'Lunch',
+              unitCost: 14,
+              totalCost: 14 * this.state.lunch * this.state.numPeople },
+            { expenseDetails: 'Dinner',
+              unitCost: 16,
+              totalCost: 16 * this.state.dinner * this.state.numPeople },
+          ] },
+          { info: otherPcardRequests },
+
+        ] },
+      ],
+    };
+
+    if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
+     && trip.mileage && trip.location && trip.club)) {
+      this.props.appError('All trip fields must be filled out');
+      return;
     }
 
-    validate = () => {
-      if (this.state.currentStep === 1) {
-        const { title, club } = this.state;
-        if (title.length !== 0 && club !== {}) {
-          return false;
-        }
-      }
-      if (this.state.currentStep === 2) {
-        const { startDate, startTime, endTime, location, mileage } = this.state;
-        if (startDate.length !== 0 && startTime.length !== 0 && endTime.length !== 0 && location.length !== 0 && mileage.length !== 0) {
-          return false;
-        }
-      }
-      if (this.state.currentStep === 3) {
-        const { description, pickup, dropoff } = this.state;
-        if (description.length !== 0 && pickup.length !== 0 && dropoff.length !== 0) {
-          return false;
-        }
-      }
-
-      if (this.state.currentStep === 4) {
-        const { gearRequest, trippeeGear } = this.state;
-        if (gearRequest !== [] && trippeeGear !== []) {
-          return false;
-        }
-      }
-
-      return true;
+    const start = new Date(trip.startDate);
+    const end = new Date(trip.endDate);
+    if (start.getTime() > end.getTime() || start.getTime() < Date.now() || end.getTime() < Date.now()) {
+      this.props.appError('Please enter valid dates');
+      return;
     }
+    console.log(gearRequests);
+    this.props.createTrip(trip, this.props.history);
+  }
 
-    isObjectEmpty = (object) => {
-      return Object.entries(object).length === 0 && object.constructor === Object;
-    }
-    createTrip() {
-      console.log(this.state);
-      const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
-      const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
-      const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
-      const otherPcardRequests = this.state.otherCostsCost.map((value, i)=>(
-        {
-          expenseDetails: this.state.otherCostsTitle[i],
-          unitCost: value,
-          totalCost:(this.state.numPeople)*value,
-        }
-      ));
-      const trip = {
-        title: this.state.title,
-        leaders: this.state.leaders.trim().split(','),
-        club,
-        experienceNeeded: this.state.experienceNeeded,
-        description: this.state.description,
-        mileage: this.state.mileage,
-        location: this.state.location,
-        startDate: this.state.startDate,
-        endDate: this.state.endDate,
-        startTime: this.state.startTime,
-        endTime: this.state.endTime,
-        cost: this.state.cost,
-        pickup: this.state.pickup,
-        dropoff: this.state.dropoff,
-        co_leader_access: this.state.access,
-        gearRequests,
-        trippeeGear,
-        pcard: [{participants: this.state.numPeople},
-                {totalCost: this.state.totalCost}, 
-                {reason:[
-                        {info:[
-                            {expenseDetails: "Snacks",
-                            unitCost: 3,
-                            totalCost: 3*this.state.snacks*this.state.numPeople},
-                            {expenseDetails: "Breakfast",
-                            unitCost: 10,
-                            totalCost:10*this.state.breakfast*this.state.numPeople},
-                            {expenseDetails: "Lunch",
-                            unitCost: 14,
-                            totalCost: 14*this.state.lunch*this.state.numPeople},
-                            {expenseDetails: "Dinner",
-                            unitCost: 16,
-                            totalCost: 16*this.state.dinner*this.state.numPeople}        
-                        ]},
-                        {info: otherPcardRequests}
 
-                ]}
-        ]
-        };
-      
-
-      // if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
-      //   && trip.cost && trip.mileage && trip.location && trip.club)) {
-      //   this.props.appError('All trip fields must be filled out');
-      //   return;
-      // }
-      if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
-       && trip.mileage && trip.location && trip.club)) {
-        this.props.appError('All trip fields must be filled out');
-        return;
-      }
-
-      const start = new Date(trip.startDate);
-      const end = new Date(trip.endDate);
-      if (start.getTime() > end.getTime() || start.getTime() < Date.now() || end.getTime() < Date.now()) {
-        this.props.appError('Please enter valid dates');
-        return;
-      }
-      console.log(gearRequests);
-      this.props.createTrip(trip, this.props.history);
-    }
-
-    previousButton() {
-      if (this.state.currentStep !== 1) {
-        return (
-          <button type="button" id="prev-button" className="btn btn-outline-success" onClick={this._prev}>Previous</button>
-        );
-      }
-      return null;
-    }
-
-    nextButton() {
-      // const formValid = validate();
-      if (this.state.currentStep < 5) {
-        return (
-          <button disabled={this.validate()} type="button" className="btn next-button" onClick={this._next}>Next</button>
-        );
-      }
-
-      if (this.state.currentStep === 5) {
-        return (
-          <button disabled={false} type="button" className="btn next-button" onClick={this.createTrip}>Submit</button>
-        );
-      }
-      return null;
-    }
-
-    render() {
-      return (
-        <div className="row my-row">
-          <div className="col-3 left-column">
-            <div className="row column-headers column-adjust">
-              <p>Create a trip</p>
-            </div>
-            <div className="row column-sub-headers">
-              <div className={this.state.currentStep === 1 ? 'side-bar-highlight' : ''} />
-              <p>Basic information</p>
-            </div>
-            <div className="row column-sub-headers">
-              <div className={this.state.currentStep === 2 ? 'side-bar-highlight' : ''} />
-              <p>Dates and location</p>
-            </div>
-            <div className="row column-headers">
-              <p>Trips description</p>
-            </div>
-            <div className="row column-sub-headers">
-              <div className={this.state.currentStep === 3 ? 'side-bar-highlight' : ''} />
-              <p>About the trip</p>
-            </div>
-            <div className="row column-sub-headers">
-              <div className={this.state.currentStep === 4 ? 'side-bar-highlight' : ''} />
-              <p>What you&apos;ll need</p>
-            </div>
-            <div className="row column-headers">
-              <p>Additional details</p>
-            </div>
-            <div className="row column-sub-headers">
-              <p>About the trip</p>
-            </div>
-            <div className="row column-sub-headers">
-              <p>What you&apos;ll need</p>
-            </div>
-          </div>
+  render() {
+    let page;
+    switch (this.state.currentStep) {
+      case 1:
+        page = (
           <BasicTripInfo
             currentStep={this.state.currentStep}
             onFieldChange={this.onFieldChange}
@@ -524,7 +484,13 @@ class CreateTrip extends Component {
             accessValue={this.state.access}
             experienceOption={this.handleOptionChange}
             clubOptions={this.getClubOptions()}
+            nextButton={this.nextButton}
+            validate={this.validate}
           />
+        );
+        break;
+      case 2:
+        page = (
           <DatesLocation
             currentStep={this.state.currentStep}
             onFieldChange={this.onFieldChange}
@@ -535,264 +501,86 @@ class CreateTrip extends Component {
             theEndTime={this.state.endTime}
             tripLocation={this.state.location}
             tripMileage={this.state.mileage}
+            nextButton={this.nextButton}
+            prevButton={this.previousButton}
+            validate={this.validate}
           />
+        );
+        break;
+      case 3:
+        page = (
           <AboutTheTrip
             currentStep={this.state.currentStep}
             pickUp={this.state.pickup}
             dropOff={this.state.dropoff}
             onFieldChange={this.onFieldChange}
             DescripValue={this.state.description}
+            nextButton={this.nextButton}
+            prevButton={this.previousButton}
+            validate={this.validate}
           />
+        );
+        break;
+      case 4:
+        page = (
           <Equipment
             currentStep={this.state.currentStep}
             addTrippeeGear={this.addTrippeeGear}
             addGear={this.addGear}
             getGearInputs={this.getGearInputs(this.props)}
             getTrippeeGear={this.getTrippeeGear(this.props)}
+            nextButton={this.nextButton}
+            prevButton={this.previousButton}
+            validate={this.validate}
           />
+        );
+        break;
+      case 5:
+        page = (
           <PCardRequest
-             currentStep={this.state.currentStep}
-             onFieldChange = {this.onFieldChange}
-             onFieldChangeOther = {this.onFieldChangeOther}
+            currentStep={this.state.currentStep}
+            onFieldChange={this.onFieldChange}
+            onFieldChangeOther={this.onFieldChangeOther}
+            prevButton={this.previousButton}
+            validate={this.validate}
+            createTrip={this.createTrip}
           />
-          <div className="row right-column button-placement">
-            {this.nextButton()}
-            {this.previousButton()}
-          </div>
-
-        </div>
-
-      );
+        );
+        break;
+      default:
+        page = (
+          <BasicTripInfo
+            currentStep={this.state.currentStep}
+            onFieldChange={this.onFieldChange}
+            onClubChange={this.onClubChange}
+            toggleAccess={this.toggleAccess}
+            titleValue={this.state.title}
+            costValue={this.state.cost}
+            leaderValue={this.state.leaders}
+            experienceValue={this.state.experienceNeeded}
+            accessValue={this.state.access}
+            experienceOption={this.handleOptionChange}
+            clubOptions={this.getClubOptions()}
+            nextButton={this.nextButton}
+            validate={this.validate}
+          />
+        );
+        break;
     }
-}
-
-
-function BasicTripInfo(props) {
-  if (props.currentStep !== 1) {
-    return null;
+    return (
+      <div className="row my-row">
+        <LeftColumn
+          currentStep={this.state.currentStep}
+        />
+        { page }
+      </div>
+    );
   }
-  return (
-    <div className="col-9 right-column">
-      <div className="row page-header">
-        <p>Basic trip information</p>
-      </div>
-      <div className="row page-sub-headers">
-        <p>Trip name</p>
-        <input className="form-control field top-create-trip"
-          onChange={props.onFieldChange}
-          name="title"
-          placeholder="e.g. Weekend Mt. Moosilauke Hike!"
-          value={props.titleValue}
-        />
-      </div>
-      <div className="row page-sub-headers">
-        <p>Subclub</p>
-        <select name="club" className="custom-select field top-create-trip" defaultValue="Select Club" onChange={props.onClubChange}>
-          {props.clubOptions}
-        </select>
-      </div>
-      <div className="row page-sub-headers">
-        <p>Cost</p>
-        <input className="form-control field top-create-trip"
-          onChange={props.onFieldChange}
-          name="cost"
-          placeholder="0"
-          type="number"
-          value={props.costValue}
-        />
-      </div>
-      <div className="row page-sub-headers">
-        <p>Co-leader name(s)</p>
-        <input
-          className="form-control field top-create-trip leaders"
-          onChange={props.onFieldChange}
-          name="leaders"
-          placeholder="Tim Tregubov"
-          value={props.leaderValue}
-        />
-        <div className="checkbox-beginner">
-          <input
-            type="checkbox"
-            name="access"
-            id="co-leader-access"
-            onChange={props.toggleAccess}
-            checked={props.accessValue}
-          />
-          <label htmlFor="co-leader-access">
-            Give co-leaders edit access to this trip?
-          </label>
-        </div>
-      </div>
-      <div className="row page-sub-headers">
-        <p>Beginner trip</p>
-        <div className="checkbox-beginner">
-          <input
-            type="checkbox"
-            value="Yes"
-            id="beginner"
-            onChange={props.experienceOption}
-            checked={props.experienceValue}
-          />
-          <label htmlFor="beginner">
-            Do Trippees need prior experience to go on this trip?
-          </label>
-        </div>
-      </div>
-    </div>
-
-  );
 }
-
-function DatesLocation(props) {
-  if (props.currentStep !== 2) {
-    return null;
-  }
-  return (
-    <div className="col-9 right-column">
-      <div className="row page-header date-loc-header">
-        <p>Dates and Location</p>
-      </div>
-      <div className="row checkbox-beginner">
-        <input
-          type="checkbox"
-          value="single"
-          id="single-day"
-          onChange={props.onDateChange}
-          checked={props.dateLength === 'single'}
-        />
-        <label htmlFor="single-day">
-          Single day trip
-        </label>
-      </div>
-      <div className="row checkbox-beginner">
-        <input
-          type="checkbox"
-          value="multi"
-          id="multi-day"
-          onChange={props.onDateChange}
-          checked={props.dateLength === 'multi'}
-        />
-        <label htmlFor="multi-day">
-          Multi-day trip
-        </label>
-      </div>
-      {props.dateOptions}
-      <p className="see-vehic-cal">See Vehicle Calendar</p>
-      <div id="date-picker" className="row page-sub-headers trip-date-header">
-        <div>
-          <p>Start time</p>
-          <input type="time" name="startTime" onChange={props.onFieldChange} className="field top-create-trip leaders" value={props.theStartTime} />
-        </div>
-        <div>
-          <p>End time</p>
-          <input type="time" name="endTime" onChange={props.onFieldChange} className="field top-create-trip leaders" value={props.theEndTime} />
-        </div>
-      </div>
-      <div className="row page-sub-headers">
-        <p>Location</p>
-        <input
-          className="form-control field top-create-trip leaders"
-          name="location"
-          onChange={props.onFieldChange}
-          placeholder="e.g. Mt. Cube"
-          value={props.tripLocation}
-        />
-      </div>
-      <div className="row page-sub-headers trip-date-header">
-        <p>Estimated mileage (round trip)</p>
-        <input type="number" onChange={props.onFieldChange} name="mileage" placeholder="Estimated mileage" className="field top-create-trip leaders" value={props.tripMileage} />
-      </div>
-
-    </div>
-  );
-}
-
-function AboutTheTrip(props) {
-  if (props.currentStep !== 3) {
-    return null;
-  }
-  return (
-    <div className="col-9 right-column">
-      <div className="row page-header">
-        <p>About the trip</p>
-      </div>
-      <div id="date-picker" className="row page-sub-headers">
-        <div>
-          <p>Pickup</p>
-          <input
-            className="form-control field top-create-trip pickupDropoff"
-            onChange={props.onFieldChange}
-            name="pickup"
-            placeholder="eg. Robo Hall"
-            value={props.pickUp}
-          />
-        </div>
-        <div>
-          <p>Dropoff</p>
-          <input
-            className="form-control field top-create-trip pickupDropoff"
-            onChange={props.onFieldChange}
-            name="dropoff"
-            placeholder="eg. McNutt Hall"
-            value={props.dropOff}
-          />
-        </div>
-      </div>
-      <div className="row page-sub-headers">
-        <p>Trip decription</p>
-        <textarea
-          className="form-control field trip-descrip-box"
-          onChange={props.onFieldChange}
-          name="description"
-          placeholder="e.g. Our trip will feature amazing views and fun times..."
-          value={props.DescripValue}
-        />
-      </div>
-      <div className="row page-sub-headers">
-        <p>Things you can include</p>
-        <ul className="descrip-list">
-          <li>What you&apos;ll be doing on the trip</li>
-          <li>Prior experience that would be helpful (if applicable)</li>
-          <li>Rough iternary of events and activities</li>
-          <li>Short introduction of leaders</li>
-        </ul>
-      </div>
-    </div>
-  );
-}
-
-function Equipment(props) {
-  if (props.currentStep !== 4) {
-    return null;
-  }
-  return (
-    <div className="col-4 right-column">
-      <div className="row page-header">
-        <p>Equipment</p>
-      </div>
-      <div className="row gearForm">
-        <div id="gear-content" className="page-sub-headers">
-          <p>Individual gear</p>
-          <span id="equipment-description">Gear trippees should bring/rent</span>
-          {props.getTrippeeGear}
-          <button className="add-gear-button" type="button" onClick={props.addTrippeeGear}>Add item</button>
-        </div>
-        <div id="gear-content" className="page-sub-headers">
-          <p>Group Gear</p>
-          <span id="equipment-description">Gear for the entire group that needs to be rented</span>
-          {props.getGearInputs}
-          <button className="add-gear-button" type="button" onClick={props.addGear}>Add item</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 const mapStateToProps = (state) => {
   return {
     user: state.user,
     trip: state.trips.trip,
   };
 };
-
 export default withRouter(connect(mapStateToProps, { fetchTrip, createTrip, appError })(CreateTrip));
