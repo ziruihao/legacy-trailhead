@@ -65,7 +65,7 @@
 #gear-content{
   margin-right: 10rem;
   width: 20rem;
-  height: 3rem;
+  height: 100%;
 }
 
 #date-picker{
@@ -143,6 +143,7 @@ input[type="text"]{
 }
 
 #equipment-description{
+  height: 100%;
   font-family: Nunito Sans;
   font-style: normal;
   font-weight: normal;
@@ -255,7 +256,8 @@ ul li .radio-button{
   width: 100%;
   flex-direction: row;
   align-items: stretch;
-  height: 1000px;
+  flex-shrink: 0;
+  min-height: 100%;
   justify-content: flex-start;
 }
 
@@ -266,9 +268,11 @@ ul li .radio-button{
   padding-left: 30px;
   padding-right: 70px;
   flex-direction: column;
-  flex: 0 1 auto;
+  // flex: 1 0 auto;
   display: flex;
-  min-width: 15rem;
+  min-width: 20rem;
+  max-height: 100%;
+  min-height: 800px;
 }
 
 .side-bar-highlight{
@@ -281,8 +285,10 @@ ul li .radio-button{
 }
 
 .right-column{
+  height: 10%;
   margin-top: 50px;
   margin-left: 50px;
+  width: 100%;
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
@@ -362,20 +368,41 @@ ul li .radio-button{
 
 
 .button-placement{
-  position: absolute;
+  display: flex;
+  max-width: 90%;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  justify-content: space-between;
+  &.correct{
+    justify-content: flex-end;
+  }
+  &.pcard-page{
+    max-width: 100%;
+  }
 }
 .next-button{
-  position: absolute;
+  // position: absolute;
   width: 129px;
   height: 66px;
-  left: 65rem;
-  top: 55rem;
+  // left: 65rem;
+  // top: 55rem;
   background: #0CA074;
   color: white;
   border-radius: 5px;
 }
+#prev-button{
+  // position: absolute;
+  width: 129px;
+  height: 66px;
+  // left: 23.5em;
+  // top: 55em;
+  background: #0CA074;
+  color: white;
+  border-radius: 5px;
+}
+
 .approve-button{
-  position: absolute;
+  // position: absolute;
   height: 66px;
   left: 65rem;
   top: 53rem;
@@ -383,6 +410,7 @@ ul li .radio-button{
   color: white;
   border-radius: 5px;
 }
+
 .email-copy-button{
   text-align: center;
   height: 30px;
@@ -405,17 +433,6 @@ ul li .radio-button{
   background-color: inherit;
 }
 
-
-#prev-button{
-  position: absolute;
-  width: 129px;
-  height: 66px;
-  left: 23.5em;
-  top: 55em;
-  background: #0CA074;
-  color: white;
-  border-radius: 5px;
-}
 
 button:disabled,
 button[disabled]{

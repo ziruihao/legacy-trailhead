@@ -22,11 +22,11 @@ const getCoLeaders = (leaders) => {
   return coleaders;
 };
 
-const formatDate = (date, startTime, endTime) => {
+const formatDate = (startDate, endDate, startTime, endTime) => {
   let timeString = '';
-  const rawDate = new Date(date);
-  const dateString = rawDate.toString();
-  timeString = `${dateString.slice(0, 3)},${dateString.slice(3, 10)}`;
+  const rawStartDate = new Date(startDate);
+  const startDateString = rawStartDate.toString();
+
   const startSplitTime = startTime.split(':');
   const endSplitTime = endTime.split(':');
   startSplitTime.push('am');
@@ -39,7 +39,18 @@ const formatDate = (date, startTime, endTime) => {
     endSplitTime[0] -= 12;
     endSplitTime[2] = 'am';
   }
-  timeString = `${timeString}, ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]}, ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}}`;
+  if (endDate === startDate) {
+    timeString = `${startDateString.slice(0, 3)},${startDateString.slice(3, 10)}`;
+    timeString = `${timeString} || ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]} - ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}`;
+  }
+  else if (endDate !== ''){
+    const rawEndDate = new Date(endDate);
+    const endDateString = rawEndDate.toString();
+    timeString = `${startDateString.slice(0, 3)},${startDateString.slice(3, 10)} - ${endDateString.slice(0, 3)},${endDateString.slice(3, 10)}`;
+
+    timeString = `${timeString} || ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]} - ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}`;
+  }
+
   return timeString;
 };
 
@@ -112,18 +123,18 @@ const LeftColumn = (props) => {
       </div>
       <div className="row column-sub-headers">
         <div className={props.step === 1 ? 'side-bar-highlight' : ''} />
-        <p className={props.step === 1 ? 'text-highlight' : ''}>Basic information</p>
+        <button className={props.step === 1 ? 'btn side-links text-highlight' : 'btn side-links'} onClick={() => props.setState(1)}>Basic information</button>
       </div>
       <div className="row column-headers">
         <p>OPO Requests</p>
       </div>
       <div className="row column-sub-headers">
         <div className={props.step === 2 ? 'side-bar-highlight' : ''} />
-        <p className={props.step === 2 ? 'text-highlight' : ''}>Gear Request</p>
+        <button className={props.step === 2 ? 'btn side-links text-highlight' : 'btn side-links'} onClick={() => props.setState(2)}>Gear Request</button>
       </div>
       <div className="row column-sub-headers">
         <div className={props.step === 3 ? 'side-bar-highlight' : ''} />
-        <p className={props.step === 3 ? 'text-highlight' : ''}>P-Card Request</p>
+        <button className={props.step === 3 ? 'btn side-links text-highlight' : 'btn side-links'} onClick={() => props.setState(3)}>P-Card Request</button>
       </div>
     </div>
   );
@@ -135,7 +146,7 @@ const BasicInfo = (props) => {
       <span className="page-title">Basic Information</span>
       <div className="row">
         <span className="sub-titles">Date</span>
-        <span className="sub-fields">{formatDate(props.startDate, props.startTime, props.endTime)}</span>
+        <span className="sub-fields">{formatDate(props.startDate, props.endDate, props.startTime, props.endTime)}</span>
       </div>
       <div className="row">
         <span className="sub-titles">Subclub</span>
