@@ -11,12 +11,13 @@ class OPOTripDetails extends Component {
     super(props);
     this.state = {
       step: 1,
-      pcardAssigned: this.props.trip.pcardAssigned ? this.props.trip.pcardAssigned : null,
+      pcardAssigned:"",
       showModal: false,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.approve = this.approve.bind(this);
+    console.log(this.state);
   }
 
   onFieldChange(event) {
