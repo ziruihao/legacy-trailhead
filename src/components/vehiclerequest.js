@@ -214,7 +214,7 @@ class VehicleRequest extends Component {
     // break if there's return date before pickup date
     if (returnBeforePickup) {
       this.setState({ vehicles: markedReturnBeforePickup });
-      this.props.appError('Return date must be before pickup date');
+      this.props.appError('Return time must be before pickup time');
       window.scrollTo(0, 0);
       return false;
     }

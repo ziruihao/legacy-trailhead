@@ -5,7 +5,7 @@ import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import ProfileCard from './profilecard';
-import { appError, fetchVehicleRequest, getVehicles } from '../actions';
+import { appError, fetchVehicleRequest, getVehicles, assignVehicles } from '../actions';
 import '../styles/opoVehicleRequest-style.scss';
 
 class OPOVehicleRequest extends Component {
@@ -18,7 +18,6 @@ class OPOVehicleRequest extends Component {
     returnDate: false,
     returnTime: false,
     assignedKey: false,
-    conflictingEvents: [],
   }
 
   defaultAssignment = {
@@ -29,6 +28,8 @@ class OPOVehicleRequest extends Component {
     returnTime: '',
     assignedKey: '',
     errorFields: { ...this.errorFields },
+    conflictingEvents: [],
+    responseIndex: 0,
   }
 
   constructor(props) {
@@ -47,7 +48,6 @@ class OPOVehicleRequest extends Component {
   componentDidMount() {
     Promise.all([this.props.fetchVehicleRequest(this.props.match.params.vehicleReqId), this.props.getVehicles()])
       .then(() => {
-        console.log(this.props.vehicles);
         this.vehicleForm = this.props.vehicles.map((vehicle) => {
           return (
             <Dropdown.Item className="ovr-vehicle-option" key={vehicle.id} eventKey={vehicle.name}>
@@ -56,8 +56,9 @@ class OPOVehicleRequest extends Component {
             </Dropdown.Item>
           );
         });
-        const assignments = this.props.vehicleRequest.requestedVehicles.map((vehicle) => {
-          return this.defaultAssignment;
+        const assignments = this.props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
+          const { defaultAssignment } = this;
+          return Object.assign({}, defaultAssignment, { responseIndex: index });
         });
         const unreviewed = this.props.vehicleRequest.status === 'pending';
         this.setState({ isEditing: unreviewed, assignments, ready: true });
@@ -90,29 +91,11 @@ class OPOVehicleRequest extends Component {
     return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
   }
 
-  assignmentDisplay = (index) => {
-    return (
-      <div className="ovr-req-assignment">
-        <span className="vrf-label ovr-column-header">Assigned</span>
-        <div className="trip-detail ovr-white-background">
-          <span className="ovr-req-row ovr-req-vehicle-detail">Van</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">4/15/19</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">9:00 AM</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">4/15/19</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">4:00 PM</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">Yes</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">No</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">63</span>
-        </div>
-      </div>
-    );
+  copyEmail = (event) => {
+    this.emailRef.current.select();
+    document.execCommand('copy');
+    event.target.focus();
+    this.props.appError('Email copied to clipboard!');
   }
 
   onVehicleTypeChange = (eventkey, index) => {
@@ -138,10 +121,6 @@ class OPOVehicleRequest extends Component {
       const update = {};
       // update entry with new value
       update[updatedEntry] = newValue;
-      // error highlight form if value is empty
-      // if (Object.prototype.hasOwnProperty.call(oldVehicle.errorFields, updatedEntry)) {
-      //   update.errorFields = Object.assign({}, oldVehicle.errorFields, { [updatedEntry]: this.isStringEmpty(event.target.value) });
-      // }
       const updatedVehicle = Object.assign({}, oldVehicle, update);
       const updatedVehicles = Object.assign([], oldVehicles, { [index]: updatedVehicle });
       return { assignments: updatedVehicles };
@@ -156,6 +135,172 @@ class OPOVehicleRequest extends Component {
     });
     if (index < this.state.assignments.length - 1) {
       window.location.hash = `#vehicle_req_${index + 1}`;
+    }
+  }
+
+  createDateObject = (date, time) => {
+    const dateObject = new Date(date);
+    const splitTime = time.split(':');
+    dateObject.setHours(splitTime[0], splitTime[1]);
+    return dateObject;
+  }
+
+  isStringEmpty = (string) => {
+    return string.length === 0 || !string.toString().trim();
+  }
+
+  isValid = () => {
+    const { assignments } = this.state;
+
+    let hasIncompleteAssignment = false;
+    const hasFilledOutField = {};
+    const markedEmptyFields = assignments.map((assignment, index) => {
+      const updatedErrorFields = { ...this.errorFields };
+      const errorFields = Object.keys(updatedErrorFields);
+      let hasEmptyField = false;
+      hasFilledOutField[index] = false;
+      errorFields.forEach((errorField) => {
+        if (this.isStringEmpty(assignment[errorField])) {
+          updatedErrorFields[errorField] = true;
+          hasEmptyField = true;
+        } else {
+          hasFilledOutField[index] = true;
+        }
+      });
+      if (hasEmptyField && hasFilledOutField[index]) {
+        hasIncompleteAssignment = true;
+        assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
+      }
+      return assignment;
+    });
+
+    const hasFilledOutFieldValues = Object.values(hasFilledOutField);
+    const hasFilledOutAssignment = hasFilledOutFieldValues.some((assignment) => {
+      return assignment === true;
+    });
+    if (!hasFilledOutAssignment) {
+      this.props.appError('Please assign at least one vehicle');
+      window.scrollTo(0, 0);
+      return false;
+    }
+    if (hasIncompleteAssignment) {
+      this.setState({ assignments: markedEmptyFields });
+      this.props.appError('Please complete or clear the highlighted assignments');
+      window.scrollTo(0, 0);
+      return false;
+    }
+
+    let returnBeforePickup = false;
+    const markedReturnBeforePickup = assignments.map((assignment) => {
+      if (!this.isStringEmpty(assignment.pickupDate) && !this.isStringEmpty(assignment.pickupTime) && !this.isStringEmpty(assignment.returnDate) && !this.isStringEmpty(assignment.returnTime)) {
+        const updatedErrorFields = { ...this.errorFields };
+        const pickupDate = new Date(assignment.pickupDate);
+        const pickupTime = assignment.pickupTime.split(':');
+        pickupDate.setHours(pickupTime[0], pickupTime[1]);
+        const returnDate = new Date(assignment.returnDate);
+        const returnTime = assignment.returnTime.split(':');
+        returnDate.setHours(returnTime[0], returnTime[1]);
+        if (returnDate < pickupDate) {
+          updatedErrorFields.pickupDate = true;
+          updatedErrorFields.pickupTime = true;
+          updatedErrorFields.returnDate = true;
+          updatedErrorFields.returnTime = true;
+          returnBeforePickup = true;
+        }
+        assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
+        return assignment;
+      } else {
+        return assignment;
+      }
+    });
+
+    // break if there's return date before pickup date
+    if (returnBeforePickup) {
+      this.setState({ assignments: markedReturnBeforePickup });
+      this.props.appError('Return time must be before pickup time');
+      window.scrollTo(0, 0);
+      return false;
+    }
+
+    let hasConflictingEvent = false;
+    const { vehicles } = this.props;
+    const markedConflictingAssignments = assignments.map((assignment) => {
+      if (!this.isStringEmpty(assignment.assignedVehicle) && !this.isStringEmpty(assignment.pickupDate)
+        && !this.isStringEmpty(assignment.pickupTime) && !this.isStringEmpty(assignment.returnDate) && !this.isStringEmpty(assignment.returnTime)) {
+        const selectedVehicle = vehicles.find((vehicle) => {
+          return vehicle.name === assignment.assignedVehicle;
+        });
+        const conflictingEvents = selectedVehicle.bookings.filter((booking) => {
+          const existingPickupDateAndTime = this.createDateObject(booking.assigned_pickupDate, booking.assigned_pickupTime);
+
+          const existingReturnDateAndTime = this.createDateObject(booking.assigned_returnDate, booking.assigned_returnTime);
+
+          const proposedPickupDateAndTime = this.createDateObject(assignment.pickupDate, assignment.pickupTime);
+
+          const proposedReturnDateAndTime = this.createDateObject(assignment.returnDate, assignment.returnTime);
+
+          return (proposedReturnDateAndTime >= existingPickupDateAndTime) || (proposedPickupDateAndTime <= existingReturnDateAndTime);
+        });
+
+        if (conflictingEvents.length > 0) {
+          const updatedErrorFields = { ...this.errorFields };
+          updatedErrorFields.pickupDate = true;
+          updatedErrorFields.pickupTime = true;
+          updatedErrorFields.returnDate = true;
+          updatedErrorFields.returnTime = true;
+          updatedErrorFields.conflictingEvents = conflictingEvents;
+          assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
+          hasConflictingEvent = true;
+        }
+
+        return assignment;
+      } else {
+        return assignment;
+      }
+    });
+
+    if (hasConflictingEvent) {
+      this.setState({ assignments: markedConflictingAssignments });
+      this.props.appError('Please complete or clear the highlighted assignments');
+      window.scrollTo(0, 0);
+      return false;
+    }
+
+    return true;
+  }
+
+  activateModal = (trigger) => {
+    this.setState({ showModal: true, modalTrigger: trigger });
+  }
+
+  closeModal = () => {
+    this.setState({ showModal: false });
+  }
+
+  approve = () => {
+    if (this.isValid()) {
+      const nonEmptyAssignemnts = this.state.assignments.filter((assignment) => {
+        const fields = Object.keys(this.errorFields);
+        let hasFilledOutField = false;
+        fields.forEach((field) => {
+          if (!this.isStringEmpty(assignment[field])) {
+            hasFilledOutField = true;
+          }
+        });
+        return hasFilledOutField;
+      });
+
+      const deletedErrorFields = nonEmptyAssignemnts.map((assignment) => {
+        delete assignment.errorFields;
+        delete assignment.conflictingEvents;
+        return assignment;
+      });
+
+      const response = {
+        reqId: this.props.vehicleRequest.id,
+        assignments: deletedErrorFields,
+      };
+      this.props.assignVehicles(response);
     }
   }
 
@@ -244,133 +389,29 @@ class OPOVehicleRequest extends Component {
     );
   }
 
-  createDateObject = (date, time) => {
-    const dateObject = new Date(date);
-    const splitTime = time.split(':');
-    dateObject.setHours(splitTime[0], splitTime[1]);
-    return dateObject;
-  }
-
-  isStringEmpty = (string) => {
-    return string.length === 0 || !string.toString().trim();
-  }
-
-  isValid = () => {
-    const { assignments } = this.state;
-
-    let hasIncompleteAssignment = false;
-    const markedEmptyFields = assignments.map((assignment) => {
-      const updatedErrorFields = { ...this.errorFields };
-      const errorFields = Object.keys(updatedErrorFields);
-      let hasEmptyField = false;
-      let hasFilledOutField = false;
-      errorFields.forEach((errorField) => {
-        if (this.isStringEmpty(assignment[errorField])) {
-          updatedErrorFields[errorField] = true;
-          hasEmptyField = true;
-        } else {
-          hasFilledOutField = true;
-        }
-      });
-      if (hasEmptyField && hasFilledOutField) {
-        hasIncompleteAssignment = true;
-        assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
-      }
-      return assignment;
-    });
-
-    if (hasIncompleteAssignment) {
-      this.setState({ assignments: markedEmptyFields });
-      this.props.appError('Please complete or clear the highlighted assignments');
-      window.scrollTo(0, 0);
-      return false;
-    }
-
-    let returnBeforePickup = false;
-    const markedReturnBeforePickup = assignments.map((assignment) => {
-      if (!this.isStringEmpty(assignment.pickupDate) && !this.isStringEmpty(assignment.pickupTime) && !this.isStringEmpty(assignment.returnDate) && !this.isStringEmpty(assignment.returnTime)) {
-        const updatedErrorFields = { ...this.errorFields };
-        const pickupDate = new Date(assignment.pickupDate);
-        const pickupTime = assignment.pickupTime.split(':');
-        pickupDate.setHours(pickupTime[0], pickupTime[1]);
-        const returnDate = new Date(assignment.returnDate);
-        const returnTime = assignment.returnTime.split(':');
-        returnDate.setHours(returnTime[0], returnTime[1]);
-        if (returnDate < pickupDate) {
-          updatedErrorFields.pickupDate = true;
-          updatedErrorFields.pickupTime = true;
-          updatedErrorFields.returnDate = true;
-          updatedErrorFields.returnTime = true;
-          returnBeforePickup = true;
-        }
-        assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
-        return assignment;
-      } else {
-        return assignment;
-      }
-    });
-
-    // break if there's return date before pickup date
-    if (returnBeforePickup) {
-      this.setState({ assignments: markedReturnBeforePickup });
-      this.props.appError('Return date must be before pickup date');
-      window.scrollTo(0, 0);
-      return false;
-    }
-
-    let hasConflictingEvent = false;
-    const vehicles = this.props;
-    const markedConflictingAssignments = assignments.map((assignment) => {
-      if (!this.isStringEmpty(assignment.assignedVehicle) && !this.isStringEmpty(assignment.pickupDate)
-        && !this.isStringEmpty(assignment.pickupTime) && !this.isStringEmpty(assignment.returnDate) && !this.isStringEmpty(assignment.returnTime)) {
-        const selectedVehicle = vehicles.find((vehicle) => {
-          return vehicle.name === assignment.assignedVehicle;
-        });
-        const conflictingEvents = selectedVehicle.bookings.filter((booking) => {
-          const existingPickupDateAndTime = this.createDateObject(booking.assigned_pickupDate, booking.assigned_pickupTime);
-
-          const existingReturnDateAndTime = this.createDateObject(booking.assigned_returnDate, booking.assigned_returnTime);
-
-          const proposedPickupDateAndTime = this.createDateObject(assignment.pickupDate, assignment.pickupTime);
-
-          const proposedReturnDateAndTime = this.createDateObject(assignment.returnDate, assignment.returnTime);
-
-          return (proposedReturnDateAndTime >= existingPickupDateAndTime) || (proposedPickupDateAndTime <= existingReturnDateAndTime);
-        });
-
-        if (conflictingEvents.length > 0) {
-          const updatedErrorFields = { ...this.errorFields };
-          updatedErrorFields.pickupDate = true;
-          updatedErrorFields.pickupTime = true;
-          updatedErrorFields.returnDate = true;
-          updatedErrorFields.returnTime = true;
-          updatedErrorFields.conflictingEvents = conflictingEvents;
-          assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
-          hasConflictingEvent = true;
-        }
-
-        return assignment;
-      } else {
-        return assignment;
-      }
-    });
-
-    if (hasConflictingEvent) {
-      this.setState({ assignments: markedConflictingAssignments });
-      this.props.appError('Please complete or clear the highlighted assignments');
-      window.scrollTo(0, 0);
-      return false;
-    }
-
-    return true;
-  }
-
-  activateModal = (trigger) => {
-    this.setState({ showModal: true, modalTrigger: trigger });
-  }
-
-  closeModal = () => {
-    this.setState({ showModal: false });
+  assignmentDisplay = (index) => {
+    return (
+      <div className="ovr-req-assignment">
+        <span className="vrf-label ovr-column-header">Assigned</span>
+        <div className="trip-detail ovr-white-background">
+          <span className="ovr-req-row ovr-req-vehicle-detail">Van</span>
+          <hr className="detail-line" />
+          <span className="ovr-req-row ovr-req-vehicle-detail">4/15/19</span>
+          <hr className="detail-line" />
+          <span className="ovr-req-row ovr-req-vehicle-detail">9:00 AM</span>
+          <hr className="detail-line" />
+          <span className="ovr-req-row ovr-req-vehicle-detail">4/15/19</span>
+          <hr className="detail-line" />
+          <span className="ovr-req-row ovr-req-vehicle-detail">4:00 PM</span>
+          <hr className="detail-line" />
+          <span className="ovr-req-row ovr-req-vehicle-detail">Yes</span>
+          <hr className="detail-line" />
+          <span className="ovr-req-row ovr-req-vehicle-detail">No</span>
+          <hr className="detail-line" />
+          <span className="ovr-req-row ovr-req-vehicle-detail">63</span>
+        </div>
+      </div>
+    );
   }
 
   getVehicles = () => {
@@ -449,12 +490,6 @@ class OPOVehicleRequest extends Component {
     }
   }
 
-  copyEmail = (event) => {
-    this.emailRef.current.select();
-    document.execCommand('copy');
-    event.target.focus();
-    this.props.appError('Email copied to clipboard!');
-  }
 
   getModalContent = () => {
     if (this.state.modalTrigger === 'CONTACT') {
@@ -598,4 +633,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, getVehicles })(OPOVehicleRequest));
+export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, getVehicles, assignVehicles })(OPOVehicleRequest));

@@ -484,3 +484,17 @@ export function getVehicles() {
     });
   };
 }
+export function assignVehicles(vehicleResponse) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.put(`${ROOT_URL}/opoVehicleRequest/${vehicleResponse.id}`, vehicleResponse, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          dispatch(appError(`Error responding to vehicle request: ${error}`));
+        });
+    });
+  };
+}
