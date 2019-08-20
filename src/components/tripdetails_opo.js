@@ -15,12 +15,13 @@ class OPOTripDetails extends Component {
     super(props);
     this.state = {
       step: 1,
-      pcardAssigned: this.props.trip.pcardAssigned ? this.props.trip.pcardAssigned : null,
+      pcardAssigned:"",
       showModal: false,
     }
     this.onFieldChange = this.onFieldChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.approve = this.approve.bind(this);
+    console.log(this.state);
   }
 
   nextPage = (e) => {
@@ -93,7 +94,7 @@ class OPOTripDetails extends Component {
   }
   
    deny = () => {
-    this.showModal();
+    this.openModal();
     const review = {
       id: this.props.trip.id,
       pcardStatus: "denied",
@@ -112,17 +113,8 @@ class OPOTripDetails extends Component {
     console.log('this is the new step:', this.state.step);
   }
 
-
-
-  // getEachPage = (page) => {
-  //   this.setState({
-  //     step: page
-  //   });
-  // }
-
   render() {
     let page;
-    console.log(this.state.step);
     switch(this.state.step) {
 
       case 1:  page = <BasicInfo
@@ -137,7 +129,6 @@ class OPOTripDetails extends Component {
                         nextPage={this.nextPage}
                         />;
                         break;
-                        // console.log("case1");
       case 2:  page = <GearRequest
                         trippeeGear={this.props.trip.trippeeGear}
                         groupGear={this.props.trip.OPOGearRequests}
@@ -177,7 +168,6 @@ class OPOTripDetails extends Component {
                           />;
                           break;
     }
-    console.log(page);
     return (
       <div className="row my-row">
         <LeftColumn
@@ -191,7 +181,8 @@ class OPOTripDetails extends Component {
     );
 
   }
-}const mapStateToProps = (state) => {
+}
+const mapStateToProps = (state) => {
   return {
     user: state.user,
     trip: state.trips.trip,

@@ -225,7 +225,7 @@ const PCardRequest = (props) =>{
             return(
               i.info.map((j)=>{
                 return(
-                    <tr>
+                    <tr key = {j.expenseDetails}>
                       <td>{j.expenseDetails}</td>
                       <td>${j.unitCost}</td>
                       <td>${j.totalCost}</td>
