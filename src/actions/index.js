@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { getTrip } from '../../../project-doc-website-api/src/controllers/trip_controller';
 
 export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
@@ -22,7 +21,7 @@ export const ActionTypes = {
   UPDATE_RESTRICTED_PATH: 'UPDATE_RESTRICTED_PATH',
   FETCH_CERT_APPROVALS: 'FETCH_CERT_APPROVALS',
   FETCH_OPO_TRIPS: 'FETCH_OPO_TRIPS',
-  FETCH_PCARD_REQUESTS:'FETCH_PCARD_REQUESTS',
+  FETCH_PCARD_REQUESTS: 'FETCH_PCARD_REQUESTS',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';

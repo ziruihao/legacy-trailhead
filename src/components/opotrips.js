@@ -58,7 +58,7 @@ class OpoTrips extends Component {
     const dateString = rawDate.toString();
     timeString = `${dateString.slice(0, 3)},${dateString.slice(3, 10)}`;
     let splitTime = time;
-    if(time.includes(':')) splitTime = time.split(':');
+    if (time.includes(':')) splitTime = time.split(':');
     splitTime.push('am');
     if (splitTime[0] > 12) {
       splitTime[0] -= 12;
