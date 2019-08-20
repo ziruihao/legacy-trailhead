@@ -57,7 +57,7 @@ const formatDate = (startDate, endDate, startTime, endTime) => {
 const getIndividualGear = (individualGearArray) => {
   if (individualGearArray.length === 0) {
     return (
-      <div className="no-gear">
+      <div className="no-gears">
         <div className="trip-detail">
           <div className="no-on-trip">
             <h4 className="none-f-now">None</h4>
@@ -88,7 +88,7 @@ const getIndividualGear = (individualGearArray) => {
 const getGroupGear = (groupGearArray, groupGearStatus) => {
   if (groupGearArray.length === 0) {
     return (
-      <div className="no-gear">
+      <div className="no-gears">
         <div className="trip-detail">
           <div className="no-on-trip">
             <h4 className="none-f-now">None</h4>
@@ -166,7 +166,7 @@ const BasicInfo = (props) => {
       <div className="row">
         <span id="description-field" className="sub-fields">{props.description}</span>
       </div>
-      <div>
+      <div className="row theButtons nextOnly">
         <button type="button" className="btn next-buttons" onClick={props.nextPage}>Next</button>
       </div>
     </div>
@@ -235,7 +235,7 @@ const PCardRequest = (props) =>{
         </table>
         <div className = "pcard-assign">
             <p style= {{display: "block", fontWeight: "bold", fontSize: "12pt"}}>P-Card Assigned</p>
-            <input 
+            <input
                     className = "pcard-assign-input"
                     onChange={props.onFieldChange}
                     name="pcardAssigned"
@@ -244,8 +244,14 @@ const PCardRequest = (props) =>{
                     />
           </div>
       </div>
-      <button type="button" className="btn approve-button" onClick={props.approve}>Approve and Notify Leader</button>
-      <button type="button" className="btn deny-button" onClick={props.deny}>Contact Leader</button>
+      <div className="row theButtons">
+        <button type="button" className="btn approve-button" onClick={props.approve}>Approve and Notify Leader</button>
+        <button type="button" className="btn deny-button" onClick={props.deny}>Contact Leader</button>
+      </div>
+      <div className="row theButtons">
+        <button type="button" id="prev-buttons" className="btn btn-outline-success" onClick={props.prevPage}>Previous</button>
+        <button type="button" className="btn next-buttons" onClick={props.nextPage}>Next</button>
+      </div>
     </div>
 
   );
@@ -272,9 +278,9 @@ const GearRequest = (props) => {
           {getGroupGear(props.groupGear, props.gearStatus)}
         </div>
       </div>
-      <div>
-        <button type="button" className="btn next-buttons" onClick={props.nextPage}>Next</button>
+      <div className="row theButtons">
         <button type="button" id="prev-buttons" className="btn btn-outline-success" onClick={props.prevPage}>Previous</button>
+        <button type="button" className="btn next-buttons" onClick={props.nextPage}>Next</button>
       </div>
     </div>
   );
