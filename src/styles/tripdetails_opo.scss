@@ -88,25 +88,33 @@
 }
 
 .next-buttons{
-  position: absolute;
+  // position: absolute;
   width: 129px;
   height: 66px;
-  left: 50rem;
-  top: 35rem;
+  // left: 50rem;
+  // top: 35rem;
   background: #0CA074;
   color: white;
   border-radius: 5px;
 }
 
 #prev-buttons{
-  position: absolute;
+  // position: absolute;
   width: 129px;
   height: 66px;
-  left: 2em;
-  top: 35em;
+  // left: 2em;
+  // top: 35em;
   background: #0CA074;
   color: white;
   border-radius: 5px;
+}
+.theButtons{
+  display: flex;
+  justify-content: space-between;
+  max-width: 90%;
+  &.nextOnly{
+    justify-content: flex-end;
+  }
 }
 
 .side-links{
@@ -124,8 +132,17 @@
   transform: scale(1.1);
 }
 
+.no-gears{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 @media all and (max-width: 800px) {
   .sub-fields {
    margin: 5rem;
+  }
+  .individual {
+    margin-right: 0rem;
   }
 }

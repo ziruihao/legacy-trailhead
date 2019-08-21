@@ -1,23 +1,23 @@
 html {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   scroll-behavior: smooth;
   font-family: 'Nunito Sans', serif !important;
 }
 
 body {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
-  background: #E5E5E5;
-  // background-repeat: no-repeat;
-  // background-size: cover;
+  background: url(../img/landingpage.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
   // background-attachment: fixed;
   color: black;
   font-family: 'Nunito Sans', serif !important;
 }
 
 #landing-page{
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   background: url(../img/background.png);
   background-repeat: no-repeat;
@@ -111,4 +111,9 @@ body {
     color: #0CA074;
     background: none;
   }
+}
+
+.theBody{
+  margin-top: 4.5rem;
+  padding-top: 1rem;
 }

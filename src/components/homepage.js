@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { signOut } from '../actions';
-import DocLogo from '../img/DOC-log.svg';
 import '../styles/homepage-style.scss';
 
 class Homepage extends Component {
@@ -32,9 +31,6 @@ class Homepage extends Component {
 
     return (
       <div id="landing-page">
-        <div id="doc-icon">
-          <img src={DocLogo} alt="DOC Logo" />
-        </div>
         <div className="main1">
           <div className="home-text">
             <h1> Stay Crunchy. </h1>

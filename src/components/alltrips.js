@@ -100,7 +100,7 @@ renderStartDropdown = () => {
 }
 setCurrTrip = (trip) => {
   this.setState({
-    showTrip: trip 
+    showTrip: trip
   });
 }
 renderTripDetailsModal=()=>{
@@ -127,7 +127,7 @@ renderTripDetailsModal=()=>{
         if(card_id==="Mountain Biking") card_id = "dmbc";
         if(card_id==="Winter Sports") card_id = "wsc";
 
-        //TODO: try to get bait and bullet logo 
+        //TODO: try to get bait and bullet logo
         if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
           return (
             <div key={trip.id} className="card text-center card-trip margins">
@@ -196,7 +196,6 @@ renderTripDetailsModal=()=>{
     }
       return (
         <div className="tile-box">
-          <h1 className="all-trips-header">All Trips</h1>
           <div className = "all-trips-dropdown-bar">
             <div className = "all-trips-dropdown-header"> Beginner: </div>  {this.renderBeginnerDropdown()}
             <div className = "all-trips-dropdown-header"> Subclub: </div>  {this.renderClubDropdown()}
@@ -212,7 +211,7 @@ renderTripDetailsModal=()=>{
         </div>
       );
     }
-  
+
 }
 
 
