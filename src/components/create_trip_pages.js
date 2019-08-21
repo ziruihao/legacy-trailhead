@@ -4,7 +4,7 @@ import '../styles/createtrip-style.scss';
 
 const LeftColumn = (props) => {
   return (
-    <div className="col-3 left-column">
+    <div className="left-column">
       <div className="row column-headers column-adjust">
         <p>Create a trip</p>
       </div>
@@ -42,7 +42,7 @@ const LeftColumn = (props) => {
 
 const BasicTripInfo = (props) => {
   return (
-    <div className="col-9 right-column">
+    <div className="create-trip-form-content">
       <div className="row page-header">
         <p>Basic trip information</p>
       </div>
@@ -72,12 +72,12 @@ const BasicTripInfo = (props) => {
         />
       </div>
       <div className="row page-sub-headers">
-        <p>Co-leader name(s)</p>
+        <p>Co-leader email addresses, seperated by commas</p>
         <input
           className="form-control field top-create-trip leaders"
           onChange={props.onFieldChange}
           name="leaders"
-          placeholder="Tim Tregubov"
+          placeholder="my.buddy.21@dartmouth.edu, my.driver.21@dartmouth.edu"
           value={props.leaderValue}
         />
         <div className="checkbox-beginner">
@@ -108,9 +108,6 @@ const BasicTripInfo = (props) => {
           </label>
         </div>
       </div>
-      <div className="row button-placement correct">
-        <button disabled={props.validate()} type="button" className="btn next-button" onClick={props.nextButton}>Next</button>
-      </div>
     </div>
 
   );
@@ -118,7 +115,7 @@ const BasicTripInfo = (props) => {
 
 const DatesLocation = (props) => {
   return (
-    <div className="col-9 right-column">
+    <div className="create-trip-form-content">
       <div className="row page-header date-loc-header">
         <p>Dates and Location</p>
       </div>
@@ -148,14 +145,14 @@ const DatesLocation = (props) => {
       </div>
       {props.dateOptions}
       <p className="see-vehic-cal">See Vehicle Calendar</p>
-      <div id="date-picker" className="row page-sub-headers trip-date-header">
-        <div>
+      <div className="row page-sub-headers trip-date-header create-trip-bottom-buttons">
+        <div className="createtrips-one-of-two">
           <p>Start time</p>
-          <input type="time" name="startTime" onChange={props.onFieldChange} className="field top-create-trip leaders" value={props.theStartTime} />
+          <input type="time" name="startTime" onChange={props.onFieldChange} className="field top-create-trip leaders pickupDropoff" value={props.theStartTime} />
         </div>
-        <div>
+        <div className="createtrips-one-of-two">
           <p>End time</p>
-          <input type="time" name="endTime" onChange={props.onFieldChange} className="field top-create-trip leaders" value={props.theEndTime} />
+          <input type="time" name="endTime" onChange={props.onFieldChange} className="field top-create-trip leaders pickupDropoff" value={props.theEndTime} />
         </div>
       </div>
       <div className="row page-sub-headers">
@@ -172,22 +169,18 @@ const DatesLocation = (props) => {
         <p>Estimated mileage (round trip)</p>
         <input type="number" onChange={props.onFieldChange} name="mileage" placeholder="Estimated mileage" className="field top-create-trip leaders" value={props.tripMileage} />
       </div>
-      <div className="row button-placement">
-        <button type="button" id="prev-button" className="btn btn-outline-success" onClick={props.prevButton}>Previous</button>
-        <button disabled={props.validate()} type="button" className="btn next-button" onClick={props.nextButton}>Next</button>
-      </div>
     </div>
   );
 };
 
 const AboutTheTrip = (props) => {
   return (
-    <div className="col-9 right-column">
+    <div className="create-trip-form-content">
       <div className="row page-header">
         <p>About the trip</p>
       </div>
-      <div id="date-picker" className="row page-sub-headers">
-        <div>
+      <div id="date-picker" className="row page-sub-headers create-trip-bottom-buttons">
+        <div className="createtrips-one-of-two">
           <p>Pickup</p>
           <input
             className="form-control field top-create-trip pickupDropoff"
@@ -197,7 +190,7 @@ const AboutTheTrip = (props) => {
             value={props.pickUp}
           />
         </div>
-        <div>
+        <div className="createtrips-one-of-two">
           <p>Dropoff</p>
           <input
             className="form-control field top-create-trip pickupDropoff"
@@ -227,37 +220,29 @@ const AboutTheTrip = (props) => {
           <li>Short introduction of leaders</li>
         </ul>
       </div>
-      <div className="row button-placement">
-        <button type="button" id="prev-button" className="btn btn-outline-success" onClick={props.prevButton}>Previous</button>
-        <button disabled={props.validate()} type="button" className="btn next-button" onClick={props.nextButton}>Next</button>
-      </div>
     </div>
   );
 };
 
 const Equipment = (props) => {
   return (
-    <div className="col-9 right-column">
+    <div className="create-trip-form-content">
       <div className="row page-header">
         <p>Equipment</p>
       </div>
       <div className="row gearForm">
-        <div id="gear-content" className="page-sub-headers">
+        <div className="page-sub-headers gear-content">
           <p>Individual gear</p>
           <span id="equipment-description">Gear trippees should bring/rent</span>
           {props.getTrippeeGear}
           <button className="add-gear-button" type="button" onClick={props.addTrippeeGear}>Add item</button>
         </div>
-        <div id="gear-content" className="page-sub-headers">
+        <div className="page-sub-headers gear-content">
           <p>Group Gear</p>
           <span id="equipment-description">Gear for the entire group that needs to be rented</span>
           {props.getGearInputs}
           <button className="add-gear-button" type="button" onClick={props.addGear}>Add item</button>
         </div>
-      </div>
-      <div className="row button-placement">
-        <button type="button" id="prev-button" className="btn btn-outline-success" onClick={props.prevButton}>Previous</button>
-        <button disabled={props.validate()} type="button" className="btn next-button" onClick={props.nextButton}>Next</button>
       </div>
     </div>
   );

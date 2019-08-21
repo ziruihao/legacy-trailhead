@@ -10,10 +10,38 @@ import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } fro
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
+  defaultOtherCost = {
+    title: '',
+    cost: '',
+  }
+
+  defaultPcardReq = {
+    numPeople: '',
+    snacks: '',
+    breakfast: '',
+    lunch: '',
+    dinner: '',
+    otherCosts: [],
+  }
+
+  errorFields = {
+    title: false,
+    cost: false,
+    startDate: false,
+    endDate: false,
+    startTime: false,
+    endTime: false,
+    mileage: false,
+    location: false,
+    pickUp: false,
+    dropOff: false,
+    description: false,
+  }
+
   constructor(props) {
     super(props);
     this.state = {
-      currentStep: 1,
+      currentStep: 5,
       title: '',
       leaders: '',
       club: {},
@@ -32,17 +60,10 @@ class CreateTrip extends Component {
       length: 'single',
       gearRequests: [],
       trippeeGear: [],
-      numPeople: null,
-      snacks: null,
-      breakfast: null,
-      lunch: null,
-      dinner: null,
-      otherCostsTitle: [],
-      otherCostsCost: [],
-      totalCost: 0,
+      pcardRequest: [],
+      errorFields: this.errorFields,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
-    this.onFieldChangeOther = this.onFieldChangeOther.bind(this);
     this.createTrip = this.createTrip.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
     this.onGearChange = this.onGearChange.bind(this);
@@ -51,14 +72,12 @@ class CreateTrip extends Component {
   }
 
   componentDidMount() {
-    if (this.props.match.params.tripID !== undefined){
+    if (this.props.match.params.tripID !== undefined) {
       this.props.fetchTrip(this.props.match.params.tripID)
         .then(() => {
           const gear = this.props.trip.OPOGearRequests;
           const tripGear = this.props.trip.trippeeGear;
           const coLeaders = this.getCoLeaders(this.props.trip.leaders);
-          // console.log(tripGear)
-          // console.log(gear);
           this.setState({
             currentStep: 1,
             title: this.props.trip.title,
@@ -79,44 +98,72 @@ class CreateTrip extends Component {
             trippeeGear: tripGear,
           });
         });
+    } else {
+      console.log(this.props.user);
+      // this.setState({
+      //   club: this.props.user.leader_for[0]
+      // });
     }
   }
 
   onFieldChange(event) {
-    let c;
-    const cX = parseInt(this.state.totalCost, 10);
-    if (event.target.name === 'snacks') {
-      c = cX + 3 * parseInt(event.target.value, 10) * parseInt(this.state.numPeople, 10);
-    } else if (event.target.name === 'breakfast') {
-      c = cX + 10 * parseInt(event.target.value, 10) * parseInt(this.state.numPeople, 10);
-    } else if (event.target.name === 'lunch') {
-      c = cX + 14 * parseInt(event.target.value, 10) * parseInt(this.state.numPeople, 10);
-    } else if (event.target.name === 'dinner') {
-      c = cX + 16 * parseInt(event.target.value, 10) * parseInt(this.state.numPeople, 10);
-    }
     this.setState({
       [event.target.name]: event.target.value,
-      totalCost: c,
     });
   }
 
-  onFieldChangeOther(event, idx) {
-    if (event.target.name === 'otherCostsTitle') {
-      const { otherCostsTitle: otherCTitle } = this.state;
-      otherCTitle[idx] = event.target.value;
-      this.setState({
-        otherCostsTitle: otherCTitle,
-      });
-    } else {
-      const { otherCostsCost: otherCCost } = this.state;
-      otherCCost[idx] = parseInt(event.target.value, 10);
-      let { totalCost: totalC } = this.state;
-      totalC += parseInt(this.state.numPeople, 10) * parseInt(event.target.value, 10);
-      this.setState({
-        otherCostsCost: otherCCost,
-        totalCost: totalC,
-      });
-    }
+  togglePcard = () => {
+    this.setState((prevState) => {
+      if (prevState.pcardRequest.length === 0) {
+        return { pcardRequest: [this.defaultPcardReq] };
+      } else {
+        return { pcardRequest: [] };
+      }
+    });
+  }
+
+  onPcardFieldChange = (event, index) => {
+    event.persist();
+    this.setState((prevState) => {
+      const pcardRequest = prevState.pcardRequest[index];
+      const update = Object.assign({}, pcardRequest, { [event.target.name]: event.target.value });
+      const updatedRequests = Object.assign([], prevState.pcardRequest, { [index]: update });
+      return { pcardRequest: updatedRequests };
+    });
+  }
+
+  onOtherCostsChange = (event, pCardIndex, otherCostIndex) => {
+    this.setState((prevState) => {
+      const pcardRequest = prevState.pcardRequest[pCardIndex];
+      const otherCost = pcardRequest.otherCosts[otherCostIndex];
+      const updatedOtherCost = Object.assign({}, otherCost, { [event.target.name]: event.target.value });
+      const updatedOtherCosts = Object.assign([], pcardRequest.otherCosts, { [otherCostIndex]: updatedOtherCost });
+      const update = Object.assign({}, pcardRequest, { otherCosts: updatedOtherCosts });
+      const updatedRequests = Object.assign([], prevState.pcardRequest, { [pCardIndex]: update });
+      return { pcardRequest: updatedRequests };
+    });
+  }
+
+  deleteOtherCost = (event, pCardIndex, otherCostIndex) => {
+    this.setState((prevState) => {
+      const pcardRequest = prevState.pcardRequest[pCardIndex];
+      const { otherCosts } = pcardRequest;
+      const withoutDeletedCost = [...otherCosts.slice(0, otherCostIndex), ...otherCosts.slice(otherCostIndex + 1)];
+      const update = Object.assign({}, pcardRequest, { otherCosts: withoutDeletedCost });
+      const updatedRequests = Object.assign([], prevState.pcardRequest, { [pCardIndex]: update });
+      return { pcardRequest: updatedRequests };
+    })
+  }
+
+  addOtherCost = (event, pCardIndex) => {
+    this.setState((prevState) => {
+      const pcardRequest = prevState.pcardRequest[pCardIndex];
+      const { otherCosts } = pcardRequest;
+      const withAddedCost = [...otherCosts, this.defaultOtherCost];
+      const update = Object.assign({}, pcardRequest, { otherCosts: withAddedCost });
+      const updatedRequests = Object.assign([], prevState.pcardRequest, { [pCardIndex]: update });
+      return { pcardRequest: updatedRequests };
+    })
   }
 
   onClubChange(event) {
@@ -143,6 +190,9 @@ class CreateTrip extends Component {
       options = this.props.user.leader_for.map((club) => {
         return <option key={club.id} data-id={club.id} value={club.name}>{club.name}</option>;
       });
+      if (options.length === 0) {
+        options = <option key={club.id} data-id={club.id} value={club.name}>Request leader access in profile page</option>;
+      }
     }
     return options;
   }
@@ -237,7 +287,6 @@ class CreateTrip extends Component {
 
   getGearInputs = (props) => {
     const gearRequests = props.isEditMode ? props.trip.gearRequests : this.state.gearRequests;
-    console.log('gearRequest');
     return gearRequests.map((gearRequest, index) => {
       return (
         <div className="gear-container" key={index}>
@@ -344,13 +393,11 @@ class CreateTrip extends Component {
   }
 
   nextButton = (e) => {
-    console.log("next");
     e.preventDefault();
     this._next();
   }
 
   _next = () => {
-    console.log(this.state.currentStep);
     const { currentStep } = this.state;
     this.setState({
       currentStep: currentStep + 1,
@@ -367,7 +414,7 @@ class CreateTrip extends Component {
   validate = () => {
     if (this.state.currentStep === 1) {
       const { title, club, cost } = this.state;
-      if (title.length !== 0 && club !== {} && cost.length !==0) {
+      if (title.length !== 0 && club !== {} && cost.length !== 0) {
         return false;
       }
     }
@@ -390,6 +437,10 @@ class CreateTrip extends Component {
         return false;
       }
     }
+
+    if (this.state.currentStep === 5) {
+      return false;
+    }
     return true;
   }
 
@@ -398,7 +449,6 @@ class CreateTrip extends Component {
   }
 
   createTrip() {
-    console.log(this.state);
     const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
     const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
     const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
@@ -428,30 +478,42 @@ class CreateTrip extends Component {
       gearRequests,
       trippeeGear,
       pcard: [{ participants: this.state.numPeople },
-        { totalCost: this.state.totalCost },
-        { reason: [
-          { info: [
-            { expenseDetails: 'Snacks',
-              unitCost: 3,
-              totalCost: 3 * this.state.snacks * this.state.numPeople },
-            { expenseDetails: 'Breakfast',
-              unitCost: 10,
-              totalCost: 10 * this.state.breakfast * this.state.numPeople },
-            { expenseDetails: 'Lunch',
-              unitCost: 14,
-              totalCost: 14 * this.state.lunch * this.state.numPeople },
-            { expenseDetails: 'Dinner',
-              unitCost: 16,
-              totalCost: 16 * this.state.dinner * this.state.numPeople },
-          ] },
+      { totalCost: this.state.totalCost },
+      {
+        reason: [
+          {
+            info: [
+              {
+                expenseDetails: 'Snacks',
+                unitCost: 3,
+                totalCost: 3 * this.state.snacks * this.state.numPeople
+              },
+              {
+                expenseDetails: 'Breakfast',
+                unitCost: 10,
+                totalCost: 10 * this.state.breakfast * this.state.numPeople
+              },
+              {
+                expenseDetails: 'Lunch',
+                unitCost: 14,
+                totalCost: 14 * this.state.lunch * this.state.numPeople
+              },
+              {
+                expenseDetails: 'Dinner',
+                unitCost: 16,
+                totalCost: 16 * this.state.dinner * this.state.numPeople
+              },
+            ]
+          },
           { info: otherPcardRequests },
 
-        ] },
+        ]
+      },
       ],
     };
 
     if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
-     && trip.mileage && trip.location && trip.club)) {
+      && trip.mileage && trip.location && trip.club)) {
       this.props.appError('All trip fields must be filled out');
       return;
     }
@@ -462,7 +524,6 @@ class CreateTrip extends Component {
       this.props.appError('Please enter valid dates');
       return;
     }
-    console.log(gearRequests);
     this.props.createTrip(trip, this.props.history);
   }
 
@@ -473,7 +534,6 @@ class CreateTrip extends Component {
       case 1:
         page = (
           <BasicTripInfo
-            currentStep={this.state.currentStep}
             onFieldChange={this.onFieldChange}
             onClubChange={this.onClubChange}
             toggleAccess={this.toggleAccess}
@@ -484,15 +544,12 @@ class CreateTrip extends Component {
             accessValue={this.state.access}
             experienceOption={this.handleOptionChange}
             clubOptions={this.getClubOptions()}
-            nextButton={this.nextButton}
-            validate={this.validate}
           />
         );
         break;
       case 2:
         page = (
           <DatesLocation
-            currentStep={this.state.currentStep}
             onFieldChange={this.onFieldChange}
             onDateChange={this.handleDateChange}
             dateLength={this.state.length}
@@ -501,56 +558,44 @@ class CreateTrip extends Component {
             theEndTime={this.state.endTime}
             tripLocation={this.state.location}
             tripMileage={this.state.mileage}
-            nextButton={this.nextButton}
-            prevButton={this.previousButton}
-            validate={this.validate}
           />
         );
         break;
       case 3:
         page = (
           <AboutTheTrip
-            currentStep={this.state.currentStep}
             pickUp={this.state.pickup}
             dropOff={this.state.dropoff}
             onFieldChange={this.onFieldChange}
             DescripValue={this.state.description}
-            nextButton={this.nextButton}
-            prevButton={this.previousButton}
-            validate={this.validate}
           />
         );
         break;
       case 4:
         page = (
           <Equipment
-            currentStep={this.state.currentStep}
             addTrippeeGear={this.addTrippeeGear}
             addGear={this.addGear}
             getGearInputs={this.getGearInputs(this.props)}
             getTrippeeGear={this.getTrippeeGear(this.props)}
-            nextButton={this.nextButton}
-            prevButton={this.previousButton}
-            validate={this.validate}
           />
         );
         break;
       case 5:
         page = (
           <PCardRequest
-            currentStep={this.state.currentStep}
-            onFieldChange={this.onFieldChange}
-            onFieldChangeOther={this.onFieldChangeOther}
-            prevButton={this.previousButton}
-            validate={this.validate}
-            createTrip={this.createTrip}
+            pcardRequest={this.state.pcardRequest}
+            togglePcard={this.togglePcard}
+            onPcardFieldChange={this.onPcardFieldChange}
+            onOtherCostsChange={this.onOtherCostsChange}
+            deleteOtherCost={this.deleteOtherCost}
+            addOtherCost={this.addOtherCost}
           />
         );
         break;
       default:
         page = (
           <BasicTripInfo
-            currentStep={this.state.currentStep}
             onFieldChange={this.onFieldChange}
             onClubChange={this.onClubChange}
             toggleAccess={this.toggleAccess}
@@ -561,8 +606,6 @@ class CreateTrip extends Component {
             accessValue={this.state.access}
             experienceOption={this.handleOptionChange}
             clubOptions={this.getClubOptions()}
-            nextButton={this.nextButton}
-            validate={this.validate}
           />
         );
         break;
@@ -572,7 +615,18 @@ class CreateTrip extends Component {
         <LeftColumn
           currentStep={this.state.currentStep}
         />
-        { page }
+        <div className="right-column">
+          <div className="create-trip-form-page">
+            {page}
+          </div>
+          <div className="create-trip-bottom-buttons create-trips-top-margin">
+            <button disabled={this.state.currentStep === 1} type="button" className="btn next-button" onClick={this.previousButton}>Previous</button>
+            <button disabled={this.validate()} type="button" className="btn next-button" onClick={this.state.currentStep === 5 ? this.createTrip : this.nextButton}>
+              {this.state.currentStep === 5 ? 'Create Trip!' : 'Next'}
+            </button>
+          </div>
+        </div>
+
       </div>
     );
   }

@@ -366,7 +366,7 @@ export default React.forwardRef((props, ref) => {
         </div>
       </div>
 
-      <div className="gear-requests leader-trip-info">
+      <div className="tripdetail-gear-requests leader-trip-info">
         <div className="individual-gear leader-trip-detail left-detail">
           <h3>Individual gear</h3>
           {getIndividualGear(props.trip.trippeeGear, props.trip.trippeeGearStatus)}
