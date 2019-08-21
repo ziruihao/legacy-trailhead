@@ -23,7 +23,7 @@ const opoDashboard = () => {
         </NavLink>
       </div>
       <div className="section">
-        <NavLink to="/opo-trips">
+        <NavLink to="/vehicle-requests">
           <div>
             <img src={VehicleRequests} alt="Vehicle Requests Icon" />
             <p className="titles">Vehicle Requests</p>
