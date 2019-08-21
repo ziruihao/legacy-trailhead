@@ -513,3 +513,16 @@ export function reviewPCardRequests(review) {
       });
   };
 }
+
+
+export function reviewPCardRequests(review) {
+  console.log(review);
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/pcardrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
+      .then(
+        // dispatch(fetchTrip(review.id)),
+      ).catch((error) => {
+        dispatch(appError(`Error responding to pcard  request: ${error}`));
+      });
+  };
+}

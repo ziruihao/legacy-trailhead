@@ -88,6 +88,7 @@ class OPOTripDetails extends Component {
 
     }
 
+
 const formatDate = (date, startTime, endTime) => {
   let timeString = '';
   const rawDate = new Date(date);
@@ -142,7 +143,6 @@ const formatDate = (date, startTime, endTime) => {
     };
 
     this.props.reviewPCardRequests(review);
-
   }
 
 

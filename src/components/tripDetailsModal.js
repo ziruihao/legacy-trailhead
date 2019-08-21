@@ -129,7 +129,6 @@ class TripDetailsModal extends Component {
             <NavLink className="btn btn-primary" id="signup-button" to={`/trip/${this.props.trip.id}`}>
                 Sign up for Trip!
             </NavLink>
-
           </div>
         </div>
 
