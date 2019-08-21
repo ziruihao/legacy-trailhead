@@ -381,21 +381,15 @@ ul li .radio-button{
   }
 }
 .next-button{
-  // position: absolute;
-  width: 129px;
-  height: 66px;
-  // left: 65rem;
-  // top: 55rem;
+  min-width: 8em;
+  height: 4em;
   background: #0CA074;
   color: white;
   border-radius: 5px;
 }
 #prev-button{
-  // position: absolute;
-  width: 129px;
-  height: 66px;
-  // left: 23.5em;
-  // top: 55em;
+  min-width: 8em;
+  height: 4em;
   background: #0CA074;
   color: white;
   border-radius: 5px;

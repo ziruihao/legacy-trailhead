@@ -35,10 +35,10 @@ class CreateTrip extends Component {
 
   defaultPcardReq = {
     numPeople: '',
-    snacks: '',
-    breakfast: '',
-    lunch: '',
-    dinner: '',
+    snacks: '0',
+    breakfast: '0',
+    lunch: '0',
+    dinner: '0',
     otherCosts: [],
     numPeopleError: false,
   }
@@ -367,11 +367,15 @@ class CreateTrip extends Component {
   onGearChange = (event, idx) => {
     event.persist();
     this.setState((prevState) => {
-      const { gearRequests } = prevState
-      gearRequests[idx].groupGear = event.target.value;
-      gearRequests[idx].hasError = this.isStringEmpty(event.target.value);
+      const gearArray = prevState.gearRequests;
+      const changedGearObject = gearArray[idx];
+      const updates = {};
+      updates.groupGear = event.target.value;
+      updates.hasError = this.isStringEmpty(event.target.value);
+      const updatedGearObject = Object.assign({}, changedGearObject, updates);
+
       return {
-        gearRequests,
+        gearRequests: Object.assign([], gearArray, { [idx]: updatedGearObject })
       };
     });
   }
@@ -379,11 +383,15 @@ class CreateTrip extends Component {
   onTrippeeGearChange = (event, idx) => {
     event.persist();
     this.setState((prevState) => {
-      const trippeeGear = [...prevState.trippeeGear];
-      trippeeGear[idx].gear = event.target.value;
-      trippeeGear[idx].hasError = this.isStringEmpty(event.target.value);
+      const trippeeGearArray = prevState.trippeeGear;
+      const changedTrippeeGearObject = trippeeGearArray[idx];
+      const updates = {};
+      updates.gear = event.target.value;
+      updates.hasError = this.isStringEmpty(event.target.value);
+      const updatedTrippeeGearObject = Object.assign({}, changedTrippeeGearObject, updates);
+
       return {
-        trippeeGear,
+        trippeeGear: Object.assign([], trippeeGearArray, { [idx]: updatedTrippeeGearObject })
       };
     });
   }
@@ -715,7 +723,6 @@ class CreateTrip extends Component {
             </button>
           </div>
         </div>
-
       </div>
     );
   }
