@@ -1,10 +1,6 @@
 
 .field {
-  // margin: 10px 0px;
-  width: 650px;
-  height: 69px;
-  left: 392px;
-  top: 264px;
+  height: 3em;
   border: 2px solid #C4C4C4;
   box-sizing: border-box;
   border-radius: 5px;
@@ -14,7 +10,7 @@
   font-size: 24px;
   line-height: 33px;
   letter-spacing: 0.05em;
-  color: #939393;
+  color: #2c2f33;
 
   &.top-create-trip{
     margin: 0rem 0rem 3rem 0rem;
@@ -25,8 +21,8 @@
       }
     }
     &.pickupDropoff{
-      width: 298px;
-      height: 69px;
+      width: 85%;
+      height: 3em;
       margin: 0rem 3rem 2.5rem 0rem;
     }
     &.other_costs{
@@ -38,10 +34,7 @@
     }
   }
   &.trip-descrip-box{
-    width: 944px;
     height: 200px;
-    left: 392px;
-    top: 262px;
     border: 2px solid #C4C4C4;
     box-sizing: border-box;
     border-radius: 5px;
@@ -62,10 +55,16 @@
   margin-left: 0rem;
   display: -webkit-inline-box;
 }
-#gear-content{
-  margin-right: 10rem;
-  width: 20rem;
+div.gear-content{
+  display: flex;
+  flex-direction: column;
+  margin-right: 2rem;
+  width: 50%;
   height: 100%;
+}
+.create-trip-form-content{
+  display: flex;
+  flex-direction: column;
 }
 
 #date-picker{
@@ -76,12 +75,11 @@ input[type="date"]{
   margin-right: 4rem;
 }
 input[type="time"]{
-  width: 18.6rem;
   margin-right: 4rem;
 }
 
 .add-gear-button{
-  width: 10rem;
+  width: 50%;
   height: 3.5rem;
   border: 3px solid #0CA074;
   box-sizing: border-box;
@@ -262,17 +260,17 @@ ul li .radio-button{
 }
 
 .left-column{
-  background: #FFFFFF;
-  box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
-  margin-left: 0px;
-  padding-left: 30px;
-  padding-right: 70px;
-  flex-direction: column;
-  // flex: 1 0 auto;
+  background: white;
+  width: 30%;
   display: flex;
-  min-width: 20rem;
-  max-height: 100%;
-  min-height: 800px;
+  flex-direction: column;
+  height: 100%;
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+  z-index: 1; /* Stay on top */
+  overflow-x: hidden;
+  box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
+  padding-right: 0.5em;
+  padding-top: 1em;
 }
 
 .side-bar-highlight{
@@ -285,13 +283,13 @@ ul li .radio-button{
 }
 
 .right-column{
-  height: 10%;
-  margin-top: 50px;
-  margin-left: 50px;
-  width: 100%;
-  flex: 1 1 auto;
-  display: flex;
-  flex-direction: column;
+  margin-left: 30%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 2.5em;
+  padding-right: 2.5em;
+  width: 70%;
+  min-height: 100%;
 }
 
 .column-headers{
@@ -345,8 +343,10 @@ ul li .radio-button{
     margin-top: 1.5rem;
   }
   &.pcard{
-    display: inline-block;
-    width: 25%;
+    display: flex;
+    width: 70%;
+    align-items: center;
+    justify-content: space-between;
   }
 
 }
@@ -381,21 +381,15 @@ ul li .radio-button{
   }
 }
 .next-button{
-  // position: absolute;
-  width: 129px;
-  height: 66px;
-  // left: 65rem;
-  // top: 55rem;
+  min-width: 8em;
+  height: 4em;
   background: #0CA074;
   color: white;
   border-radius: 5px;
 }
 #prev-button{
-  // position: absolute;
-  width: 129px;
-  height: 66px;
-  // left: 23.5em;
-  // top: 55em;
+  min-width: 8em;
+  height: 4em;
   background: #0CA074;
   color: white;
   border-radius: 5px;
@@ -457,4 +451,39 @@ thead{
 }
 tr:nth-child(even) {
   background-color: #f2f2f2
+}
+.create-trip-bottom-buttons{
+  display: flex;
+  justify-content: space-between;
+}
+.createtrips-one-of-two{
+  width: 50%;
+}
+.checkbox-beginner{
+  display: flex;
+}
+.create-trip-form-page{
+  min-height: 75vh;
+}
+.pcard-food-breakdown{
+  display: flex;
+  flex-direction: column;
+}
+.create-trips-top-margin{
+  margin-top: 2em;
+}
+.create-trip-cancel-button{
+  border-color: #EE6E52;
+  color: #EE6E52;
+}
+.create-trip-pcard-add-other{
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 1em;
+  font-size: 1.3em;
+  color: #0CA074;
+}
+.create-trip-error{
+  border: 2px solid #d8000c !important;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
 }

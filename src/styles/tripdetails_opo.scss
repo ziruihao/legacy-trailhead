@@ -30,7 +30,7 @@
   line-height: 33px;
   margin-left: 5rem;
   margin-bottom: 1rem;
-  width: 15rem;
+  margin-right: 1em;
   &.gear-titles{
     margin-left: 0rem;
   }
@@ -160,10 +160,10 @@
   transform: scale(1.1);
 }
 
-.no-gears{
+.pcard-bottom-buttons{
+  margin-top: 1em;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
 }
 
 @media all and (max-width: 800px) {

@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import { getTrip } from '../../../project-doc-website-api/src/controllers/trip_controller';
 
 export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
