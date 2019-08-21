@@ -22,6 +22,9 @@ export const ActionTypes = {
   UPDATE_RESTRICTED_PATH: 'UPDATE_RESTRICTED_PATH',
   FETCH_CERT_APPROVALS: 'FETCH_CERT_APPROVALS',
   FETCH_OPO_TRIPS: 'FETCH_OPO_TRIPS',
+  FETCH_VEHICLE_REQUEST: 'FETCH_VEHICLE_REQUEST',
+  FETCH_VEHICLE_REQUESTS: 'FETCH_VEHICLE_REQUESTS',
+  FETCH_VEHICLES: 'FETCH_VEHICLES',
   FETCH_PCARD_REQUESTS: 'FETCH_PCARD_REQUESTS',
 };
 
@@ -64,7 +67,6 @@ export function updateUser(updatedUser) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/user`, updatedUser, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        console.log(response);
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
       })
       .catch((error) => {
@@ -285,7 +287,6 @@ export function getClubs() {
     axios
       .get(`${ROOT_URL}/club`)
       .then((response) => {
-        console.log(response);
         dispatch({ type: ActionTypes.ALL_CLUBS, payload: response.data });
       });
   };
@@ -380,9 +381,12 @@ export function fetchOpoTrips() {
 export function reviewGearRequest(review) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/gearrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
-      .then(
-        dispatch(fetchGearRequests()),
-      ).catch((error) => {
+      .then((response) => {
+        dispatch({
+          type: ActionTypes.FETCH_GEAR_REQUESTS,
+          payload: response.data,
+        });
+      }).catch((error) => {
         dispatch(appError(`Error responding to gear request: ${error}`));
       });
   };
@@ -406,10 +410,103 @@ export function fetchTrippeeGearRequests() {
 export function reviewTrippeeGearRequest(review) {
   return (dispatch) => {
     axios.put(`${ROOT_URL}/trippeegearrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
-      .then(
-        dispatch(fetchTrippeeGearRequests()),
-      ).catch((error) => {
+      .then((response) => {
+        dispatch({
+          type: ActionTypes.FETCH_TRIPPEE_GEAR_REQUESTS,
+          payload: response.data,
+        });
+      }).catch((error) => {
         dispatch(appError(`Error responding to trippee gear request: ${error}`));
+      });
+  };
+}
+
+export function submitVehicleRequest(vehicleRequest, history) {
+  return (dispatch) => {
+    axios.post(`${ROOT_URL}/vehicleRequests`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        history.push('/mytrips');
+      }).catch((error) => {
+        dispatch(appError(`Error making vehicle request: ${error}`));
+      });
+  };
+}
+
+export function fetchVehicleRequest(id) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.get(`${ROOT_URL}/vehiclerequest/${id}`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          dispatch(appError(`Error fetching vehicle request: ${error}`));
+        });
+    });
+  };
+}
+
+export function fetchVehicleRequests() {
+  return (dispatch) => {
+    axios.get(`${ROOT_URL}/vehicleRequests`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUESTS, payload: response.data });
+      }).catch((error) => {
+        dispatch(appError(`Error fetching vehicle requests: ${error}`));
+      });
+  };
+}
+
+export function updateVehicleRequest(vehicleRequest) {
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/vehicleRequest/${vehicleRequest.id}`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
+      }).catch((error) => {
+        console.log(error);
+        dispatch(appError(`Error making vehicle request: ${error}`));
+      });
+  };
+}
+
+export function getVehicles() {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.get(`${ROOT_URL}/vehicles`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_VEHICLES, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          dispatch(appError(`Error fetching vehicles : ${error}`));
+        });
+    });
+  };
+}
+export function assignVehicles(vehicleResponse) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.put(`${ROOT_URL}/opoVehicleRequest/${vehicleResponse.id}`, vehicleResponse, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          dispatch(appError(`Error responding to vehicle request: ${error}`));
+        });
+    });
+  };
+}
+
+export function reviewPCardRequests(review) {
+  console.log(review);
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/pcardrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
+      .then(
+        // dispatch(fetchTrip(review.id)),
+      ).catch((error) => {
+        dispatch(appError(`Error responding to pcard  request: ${error}`));
       });
   };
 }

@@ -148,6 +148,9 @@
 .checkbox-container:hover input ~ .checkmark {
   background-color: rgba(182, 236, 175, 0.658);
 }
+.checkbox-container:hover input:disabled ~ .checkmark {
+  cursor: default;
+}
 .checkbox-container input:checked ~ .checkmark {
   background-color: #0CA074;
 }

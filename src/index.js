@@ -13,12 +13,14 @@ import AllTrips from './components/alltrips';
 import CreateTrip from './components/createtrip';
 import MyTrips from './components/mytrips';
 import TripsCal from './components/tripscalendar';
-import VehicleScheduler from './components/scheduler/vehiclescheduler';
+import VehicleRequest from './components/vehiclerequest';
 import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
 import OpoApprovals from './components/opoStuff';
 import NavBar from './components/navbar';
 import OpoTrips from './components/opotrips';
+import OpoVehicleRequests from './components/opoVehicleRequests';
+import OpoVehicleRequest from './components/opoVehicleRequest';
 import OpoDashboard from './components/opo_dashboard';
 import requireAuth from './containers/requireAuth';
 import { ActionTypes, getUser } from './actions';
@@ -54,12 +56,15 @@ const App = (props) => {
           <Route path="/signup" component={SignUp} />
           <Route path="/alltrips" component={AllTrips} />
           <Route path="/tripscalendar" component={TripsCal} />
-          <Route path="/vehiclescheduler" component={VehicleScheduler} />
+          <Route path="/vehiclerequest/:vehicleReqId" component={requireAuth(VehicleRequest, 'viewMode')} />
+          <Route path="/vehiclerequest" component={requireAuth(VehicleRequest)} />
           <Route path="/trip/:tripID" component={requireAuth(TripDetails)} />
           <Route path="/createtrip" component={requireAuth(CreateTrip)} isEditMode={false} />
           <Route path="/mytrips" component={requireAuth(MyTrips)} />
           <Route path="/edittrip/:tripID" component={requireAuth(CreateTrip)} isEditMode />
           <Route path="/opo-trips" component={requireAuth(OpoTrips)} />
+          <Route path="/vehicle-requests" component={requireAuth(OpoVehicleRequests)} />
+          <Route path="/opo-vehicle-request/:vehicleReqId" component={requireAuth(OpoVehicleRequest)} />
           <Route path="/opo-dashboard" component={requireAuth(OpoDashboard)} />
           <Route path="/leader_approvals" component={requireAuth(OpoApprovals)} />
           <Route path="/driver_cert_approvals" component={requireAuth()} />
