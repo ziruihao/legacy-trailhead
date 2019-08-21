@@ -33,7 +33,6 @@
 .tile-box {
   text-align: center;
   padding-left: 5%;
-
 }
 
 .all-trips-header {
@@ -91,6 +90,7 @@
 .all-trips-dropdown-bar{
   width: 100%;
   text-align: center;
+  margin-top: 6rem;
 }
 .all-trips-dropdown-header{
   display:inline-block;
@@ -154,7 +154,7 @@ input[type=date]::-webkit-outer-spin-button {
 #signup-button{
   border-color:  rgb(75, 157, 119);
   background-color:  rgb(75, 157, 119);
-  
+
 }
 .button-container{
   text-align: center;
