@@ -202,7 +202,7 @@ const PCardRequest = (props) => {
     <button type="button" className="btn email-copy-button" onClick={props.copy}>copy email</button>
 
   </Modal>
-      <h1> P-Card Request </h1>
+      <span className="page-title">P-Card Request</span>
       <div>
           <table className = "pcard-overview-table">
             <thead>

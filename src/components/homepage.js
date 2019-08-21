@@ -33,12 +33,12 @@ class Homepage extends Component {
       <div id="landing-page">
         <div className="main1">
           <div className="home-text">
-            <h1> Stay Crunchy. </h1>
+            <h1>Welcome to the Dartmouth Outing Club website!</h1>
             <p>
               {
                 this.props.authenticated
                   ? 'Join or create a trip of your own!'
-                  : 'Hello there! This is the Dartmouth Outing Club (DOC) Website. Here, you can view, sign up for, or form trips.'
+                  : 'Hello there! Log in to view, sign up for, or create trips. See you in the out o’ doors!'
               }
             </p>
           </div>
