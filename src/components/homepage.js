@@ -27,6 +27,7 @@ class Homepage extends Component {
 
 
   render() {
+    console.log(this.props.user);
       if(this.props.user.name === ""){
         return(
           <SignUp id = {this.props.user.id}/>
