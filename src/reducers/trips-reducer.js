@@ -5,7 +5,7 @@ const initialState = ({
   trip: {},
   userTripStatus: '',
   myTrips: [],
-  isLeaderOnTrip: false,
+  myVehicleReqs: [],
 });
 
 // Trips reducer
@@ -21,10 +21,8 @@ const TripsReducer = (state = initialState, action) => {
       return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip });
     case ActionTypes.LEAVE_TRIP:
       return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip }); // isontrip?
-    case ActionTypes.IS_ON_TRIP:
-      return Object.assign({}, state, { isUserOnTrip: action.payload });
     case ActionTypes.MY_TRIPS:
-      return Object.assign({}, state, { myTrips: action.payload });
+      return Object.assign({}, state, { myTrips: action.payload.trips, myVehicleReqs: action.payload.vehicleRequests });
     case ActionTypes.EDIT_TRIP:
       return Object.assign({}, state, { trip: action.payload });
     default:

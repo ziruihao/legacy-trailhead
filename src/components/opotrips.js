@@ -55,14 +55,17 @@ class OpoTrips extends Component {
   formatDate = (date, time) => {
     let timeString = '';
     const rawDate = new Date(date);
-    const dateString = rawDate.toString();
-    timeString = `${dateString.slice(0, 3)},${dateString.slice(3, 10)}`;
-    let splitTime = time;
-    if (time.includes(':')) splitTime = time.split(':');
-    splitTime.push('am');
-    if (splitTime[0] > 12) {
-      splitTime[0] -= 12;
-      splitTime[2] = 'pm';
+    const dateString = rawDate.toUTCString();
+    timeString = dateString.substring(0, 11);
+    const splitTime = time.split(':');
+    splitTime.push(' AM');
+    const originalHour = splitTime[0];
+    splitTime[0] = originalHour % 12;
+    if (originalHour >= 12) {
+      splitTime[2] = ' PM';
+    }
+    if (splitTime[0] === 0) {
+      splitTime[0] = 12;
     }
     timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
     return timeString;

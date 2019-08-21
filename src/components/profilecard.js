@@ -123,7 +123,7 @@ const ProfileCard = (props) => {
             <hr className="line" />
             <div className="profile-card-row">
               <span className="card-headings">
-                {props.asProfilePage && props.user.has_pending_cert_change ? 'Driver Certification(s)*' : 'Driver Certification(s)'}
+                {props.asProfilePage && props.user.has_pending_cert_change ? 'Driver Certifications*' : 'Driver Certifications'}
               </span>
               <span className="card-info">
                 {displayCertifications(props.user.driver_cert, props.user.trailer_cert)}

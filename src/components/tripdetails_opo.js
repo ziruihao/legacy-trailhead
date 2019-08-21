@@ -88,6 +88,38 @@ class OPOTripDetails extends Component {
 
     }
 
+
+const formatDate = (date, startTime, endTime) => {
+  let timeString = '';
+  const rawDate = new Date(date);
+  const dateString = rawDate.toUTCString();
+  timeString = dateString.substring(0, 11);
+  
+  const startSplitTime = startTime.split(':');
+  startSplitTime.push(' AM');
+  const originalStartHour = startSplitTime[0];
+  startSplitTime[0] = originalStartHour % 12;
+  if (originalStartHour >= 12) {
+    startSplitTime[2] = ' PM';
+  }
+  if (startSplitTime[0] === 0) {
+    startSplitTime[0] = 12;
+  }
+
+  const endSplitTime = endTime.split(':');
+  endSplitTime.push(' AM');
+  const originalEndHour = endSplitTime[0];
+  endSplitTime[0] = originalEndHour % 12;
+  if (originalEndHour >= 12) {
+    endSplitTime[2] = ' PM';
+  }
+  if (endSplitTime[0] === 0) {
+    endSplitTime[0] = 12;
+  }
+
+  timeString = `${timeString}, ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]}, ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}}`;
+  return timeString;
+};
   }
 
   //https://stackoverflow.com/questions/52923771/react-copy-component-state-value-to-clipboard-without-dummy-element
@@ -111,7 +143,6 @@ class OPOTripDetails extends Component {
     };
 
     this.props.reviewPCardRequests(review);
-
   }
 
 
