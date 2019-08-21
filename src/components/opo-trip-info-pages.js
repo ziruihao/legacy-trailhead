@@ -57,7 +57,7 @@ const formatDate = (startDate, endDate, startTime, endTime) => {
 const getIndividualGear = (individualGearArray) => {
   if (individualGearArray.length === 0) {
     return (
-      <div className="no-gear">
+      <div className="no-gears">
         <div className="trip-detail">
           <div className="no-on-trip">
             <h4 className="none-f-now">None</h4>
@@ -88,7 +88,7 @@ const getIndividualGear = (individualGearArray) => {
 const getGroupGear = (groupGearArray, groupGearStatus) => {
   if (groupGearArray.length === 0) {
     return (
-      <div className="no-gear">
+      <div className="no-gears">
         <div className="trip-detail">
           <div className="no-on-trip">
             <h4 className="none-f-now">None</h4>
@@ -269,7 +269,7 @@ const PCardRequest = (props) => {
         </table>
         <div className = "pcard-assign">
             <p style= {{display: "block", fontWeight: "bold", fontSize: "12pt"}}>P-Card Assigned</p>
-            <input 
+            <input
                     className = "pcard-assign-input"
                     onChange={props.onFieldChange}
                     name="pcardAssigned"

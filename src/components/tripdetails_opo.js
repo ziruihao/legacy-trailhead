@@ -6,8 +6,6 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchTrip, reviewPCardRequests, appError } from '../actions';
 import { GearRequest, BasicInfo, LeftColumn, PCardRequest } from './opo-trip-info-pages';
-
-
 import '../styles/tripdetails_opo.scss';
 import '../styles/createtrip-style.scss';
 
@@ -18,15 +16,20 @@ class OPOTripDetails extends Component {
       step: 1,
       pcardAssigned: "",
       showModal: false,
-    }
+    };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.closeModal = this.closeModal.bind(this);
     this.approve = this.approve.bind(this);
     console.log(this.state);
   }
 
+  onFieldChange(event) {
+    this.setState({
+      [event.target.name]: event.target.value,
+    });
+  }
+
   nextPage = (e) => {
-    // console.log(this.state);
     e.preventDefault();
     this.nextStep();
   }
@@ -45,9 +48,10 @@ class OPOTripDetails extends Component {
   }
   onFieldChange(event) {
     this.setState({
-      [event.target.name]: event.target.value,
+      step: step + 1,
     });
   }
+
 
   prevStep = () => {
     const { step } = this.state
@@ -93,7 +97,7 @@ class OPOTripDetails extends Component {
     document.body.appendChild(elem);
     elem.value = text;
     elem.select();
-    document.execCommand("copy");
+    document.execCommand('copy');
     document.body.removeChild(elem);
     this.closeModal();
   }
@@ -102,8 +106,8 @@ class OPOTripDetails extends Component {
     this.openModal();
     const review = {
       id: this.props.trip.id,
-      pcardStatus: "denied",
-      pcardAssigned: parseInt(this.state.pcardAssigned),
+      pcardStatus: 'denied',
+      pcardAssigned: parseInt(this.state.pcardAssigned, 10),
     };
 
     this.props.reviewPCardRequests(review);
@@ -184,7 +188,6 @@ class OPOTripDetails extends Component {
         </div>
       </div>
     );
-
   }
 }
 const mapStateToProps = (state) => {

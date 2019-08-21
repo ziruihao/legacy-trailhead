@@ -9,7 +9,6 @@ import TripApprovals from '../img/mountain.svg';
 import VehicleRequests from '../img/vehicle.svg';
 import LeaderApproval from '../img/leader.svg';
 import OPOAssignments from '../img/opoicon.svg';
-import newClub from '../img/newClub.svg';
 import '../styles/opo-dashboard-style.scss';
 
 const opoDashboard = () => {
@@ -35,8 +34,7 @@ const opoDashboard = () => {
         <NavLink to="/leader_approvals">
           <div>
             <img src={LeaderApproval} alt="Leader Icon" />
-            <p className="titles">Leader Profile</p>
-            <p className="titles">Approvals</p>
+            <p className="titles">Profile Approvals</p>
           </div>
         </NavLink>
       </div>
@@ -46,14 +44,6 @@ const opoDashboard = () => {
             <img src={OPOAssignments} alt="Opo Icon" />
             <p className="titles">OPO Officer</p>
             <p className="titles"> Assignments</p>
-          </div>
-        </NavLink>
-      </div>
-      <div className="section">
-        <NavLink to="/leader_approvals">
-          <div>
-            <img src={newClub} alt="new club icon" />
-            <p className="titles">Create New Club</p>
           </div>
         </NavLink>
       </div>

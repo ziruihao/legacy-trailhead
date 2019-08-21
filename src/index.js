@@ -22,6 +22,7 @@ import OpoTrips from './components/opotrips';
 import OpoDashboard from './components/opo_dashboard';
 import requireAuth from './containers/requireAuth';
 import { ActionTypes, getUser } from './actions';
+import './styles/homepage-style.scss';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
 // boilerplate to copy, don't have to know
@@ -46,6 +47,8 @@ const App = (props) => {
     <Router>
       <div>
         <NavBar />
+      </div>
+      <div className="theBody">
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/user" component={requireAuth(ProfilePage)} />
