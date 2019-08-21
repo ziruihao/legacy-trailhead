@@ -10,9 +10,27 @@ import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } fro
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
+  otherCostErrorFields = {
+    title: false,
+    cost: false,
+  }
+
   defaultOtherCost = {
     title: '',
     cost: '',
+    errorFields: { ...this.otherCostErrorFields },
+  }
+
+  defaultGroupGear = {
+    groupGear: '',
+    hasError: false,
+  }
+
+  defaultTrippeeGear = {
+    gear: '',
+    size_type: 'N/A',
+    quantity: 0,
+    hasError: false,
   }
 
   defaultPcardReq = {
@@ -22,6 +40,7 @@ class CreateTrip extends Component {
     lunch: '',
     dinner: '',
     otherCosts: [],
+    numPeopleError: false,
   }
 
   errorFields = {
@@ -33,15 +52,15 @@ class CreateTrip extends Component {
     endTime: false,
     mileage: false,
     location: false,
-    pickUp: false,
-    dropOff: false,
+    pickup: false,
+    dropoff: false,
     description: false,
   }
 
   constructor(props) {
     super(props);
     this.state = {
-      currentStep: 5,
+      currentStep: 1,
       title: '',
       leaders: '',
       club: {},
@@ -68,7 +87,7 @@ class CreateTrip extends Component {
     this.onDateChange = this.onDateChange.bind(this);
     this.onGearChange = this.onGearChange.bind(this);
     this.onClubChange = this.onClubChange.bind(this);
-    this.validate = this.validate.bind(this);
+    this.pageIsValid = this.pageIsValid.bind(this);
   }
 
   componentDidMount() {
@@ -98,17 +117,16 @@ class CreateTrip extends Component {
             trippeeGear: tripGear,
           });
         });
-    } else {
-      console.log(this.props.user);
-      // this.setState({
-      //   club: this.props.user.leader_for[0]
-      // });
     }
   }
 
   onFieldChange(event) {
-    this.setState({
-      [event.target.name]: event.target.value,
+    event.persist();
+    this.setState((prevState) => {
+      const updates = {};
+      updates[event.target.name] = event.target.value;
+      updates.errorFields = Object.assign({}, prevState.errorFields, { [event.target.name]: this.isStringEmpty(event.target.value) });
+      return updates;
     });
   }
 
@@ -126,8 +144,13 @@ class CreateTrip extends Component {
     event.persist();
     this.setState((prevState) => {
       const pcardRequest = prevState.pcardRequest[index];
-      const update = Object.assign({}, pcardRequest, { [event.target.name]: event.target.value });
-      const updatedRequests = Object.assign([], prevState.pcardRequest, { [index]: update });
+      const updates = {};
+      updates[event.target.name] = event.target.value;
+      if (event.target.name === 'numPeople') {
+        updates.numPeopleError = this.isStringEmpty(event.target.value)
+      }
+      const updatedReq = Object.assign({}, pcardRequest, updates);
+      const updatedRequests = Object.assign([], prevState.pcardRequest, { [index]: updatedReq });
       return { pcardRequest: updatedRequests };
     });
   }
@@ -136,7 +159,10 @@ class CreateTrip extends Component {
     this.setState((prevState) => {
       const pcardRequest = prevState.pcardRequest[pCardIndex];
       const otherCost = pcardRequest.otherCosts[otherCostIndex];
-      const updatedOtherCost = Object.assign({}, otherCost, { [event.target.name]: event.target.value });
+      const updates = {};
+      updates[event.target.name] = event.target.value;
+      updates.errorFields = Object.assign({}, otherCost.errorFields, { [event.target.name]: this.isStringEmpty(event.target.value) });
+      const updatedOtherCost = Object.assign({}, otherCost, updates);
       const updatedOtherCosts = Object.assign([], pcardRequest.otherCosts, { [otherCostIndex]: updatedOtherCost });
       const update = Object.assign({}, pcardRequest, { otherCosts: updatedOtherCosts });
       const updatedRequests = Object.assign([], prevState.pcardRequest, { [pCardIndex]: update });
@@ -198,27 +224,22 @@ class CreateTrip extends Component {
   }
 
   getDateOptions = () => {
-    if (this.state.length === 'multi') {
-      return (
-        <div id="date-picker" className="row page-sub-headers trip-date-header">
-          <div>
-            <p>Start date</p>
-            <input type="date" name="startDate" onChange={this.onDateChange} className="field top-create-trip leaders" value={this.state.startDate} />
-          </div>
-          <div>
-            <p>End date</p>
-            <input type="date" name="endDate" onChange={this.onDateChange} className="field top-create-trip leaders" value={this.state.endDate} />
-          </div>
+    return (
+      <div id="date-picker" className="row page-sub-headers trip-date-header">
+        <div>
+          <p>{this.state.length === 'multi' ? 'Start' : 'Trip'} date</p>
+          <input type="date" name="startDate" onChange={this.onDateChange} className={`field top-create-trip leaders ${this.state.errorFields.startDate ? 'create-trip-error' : ''}`} value={this.state.startDate} />
         </div>
-      );
-    } else {
-      return (
-        <div className="row page-sub-headers trip-date-header">
-          <p>Trip date</p>
-          <input type="date" name="startDate" onChange={this.onDateChange} className="field top-create-trip leaders" value={this.state.startDate} />
-        </div>
-      );
-    }
+        {this.state.length === 'multi'
+          ? (
+            <div>
+              <p>End date</p>
+              <input type="date" name="endDate" onChange={this.onDateChange} className={`field top-create-trip leaders ${this.state.errorFields.endDate ? 'create-trip-error' : ''}`} value={this.state.endDate} />
+            </div>
+          )
+          : null}
+      </div>
+    );
   }
 
   getVehicleRequest = () => {
@@ -245,11 +266,11 @@ class CreateTrip extends Component {
   };
 
   addGear = () => {
-    this.setState(prevState => ({ gearRequests: [...prevState.gearRequests, ''] }));
+    this.setState(prevState => ({ gearRequests: [...prevState.gearRequests, this.defaultGroupGear] }));
   }
 
   addTrippeeGear = () => {
-    this.setState(prevState => ({ trippeeGear: [...prevState.trippeeGear, { gear: '', size_type: 'N/A', quantity: 0 }] }));
+    this.setState(prevState => ({ trippeeGear: [...prevState.trippeeGear, this.defaultTrippeeGear] }));
   }
 
   removeGear = (index) => {
@@ -290,7 +311,7 @@ class CreateTrip extends Component {
     return gearRequests.map((gearRequest, index) => {
       return (
         <div className="gear-container" key={index}>
-          <input type="text" className="gear-input" name="opogearRequest" placeholder="Add Item" onChange={event => this.onGearChange(event, index)} value={gearRequest} autoFocus />
+          <input type="text" className={`gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`} name="opogearRequest" placeholder="Add Item" onChange={event => this.onGearChange(event, index)} value={gearRequest.groupGear} autoFocus />
           <button type="button" className="delete-gear-button" onClick={() => this.removeGear(index)}>X</button>
         </div>
       );
@@ -308,7 +329,7 @@ class CreateTrip extends Component {
                 <span className="gear-field">Gear:</span>
                 <input
                   type="text"
-                  className="my-form-control gear-input"
+                  className={`my-form-control gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`}
                   name="trippeeGear"
                   placeholder="Add Item"
                   onChange={event => this.onTrippeeGearChange(event, index)}
@@ -346,8 +367,9 @@ class CreateTrip extends Component {
   onGearChange = (event, idx) => {
     event.persist();
     this.setState((prevState) => {
-      const gearRequests = [...prevState.gearRequests];
-      gearRequests[idx] = event.target.value;
+      const { gearRequests } = prevState
+      gearRequests[idx].groupGear = event.target.value;
+      gearRequests[idx].hasError = this.isStringEmpty(event.target.value);
       return {
         gearRequests,
       };
@@ -359,6 +381,7 @@ class CreateTrip extends Component {
     this.setState((prevState) => {
       const trippeeGear = [...prevState.trippeeGear];
       trippeeGear[idx].gear = event.target.value;
+      trippeeGear[idx].hasError = this.isStringEmpty(event.target.value);
       return {
         trippeeGear,
       };
@@ -393,14 +416,19 @@ class CreateTrip extends Component {
   }
 
   nextButton = (e) => {
-    e.preventDefault();
-    this._next();
+    if (this.pageIsValid()) {
+      e.preventDefault();
+      if (this.state.currentStep !== 5) {
+        this._next();
+      } else {
+        this.createTrip();
+      }
+    }
   }
 
   _next = () => {
-    const { currentStep } = this.state;
-    this.setState({
-      currentStep: currentStep + 1,
+    this.setState((prevState) => {
+      return { currentStep: prevState.currentStep + 1 };
     });
   }
 
@@ -411,35 +439,128 @@ class CreateTrip extends Component {
     });
   }
 
-  validate = () => {
-    if (this.state.currentStep === 1) {
-      const { title, club, cost } = this.state;
-      if (title.length !== 0 && club !== {} && cost.length !== 0) {
-        return false;
+  isStringEmpty = (string) => {
+    return string.length === 0 || !string.toString().trim();
+  };
+
+  pageHasEmptyFields = (fields) => {
+    const updates = {};
+    let hasEmptyField = false;
+    fields.forEach((field) => {
+      const isFieldEmpty = this.isStringEmpty(this.state[field]);
+      updates[field] = isFieldEmpty;
+      if (isFieldEmpty) {
+        hasEmptyField = true;
       }
+    });
+    if (hasEmptyField) {
+      this.setState((prevState) => {
+        return { errorFields: Object.assign({}, prevState.errorFields, updates) };
+      });
+      this.props.appError('Please complete all highlighted fields');
+      window.scrollTo(0, 0);
+      return true;
+    }
+  }
+
+  pageIsValid = () => {
+    if (this.state.currentStep === 1) {
+      return !this.pageHasEmptyFields(['title', 'cost']);
     }
     if (this.state.currentStep === 2) {
-      const { startDate, startTime, endTime, location, mileage } = this.state;
-      if (startDate.length !== 0 && startTime.length !== 0 && endTime.length !== 0 && location.length !== 0 && mileage.length !== 0) {
+      if (!this.pageHasEmptyFields(['startDate', 'startTime', 'endTime', 'endDate', 'location', 'mileage'])) {
+        const { startDate, startTime, endDate, endTime } = this.state;
+        const now = new Date();
+        const startAsDate = new Date(startDate);
+        const startAsTime = startTime.split(':');
+        startAsDate.setHours(startAsTime[0], startAsTime[1]);
+        if (startAsDate < now) {
+          this.setState((prevState) => {
+            return { errorFields: Object.assign({}, prevState.errorFields, { startDate: true, startTime: true }) };
+          });
+          this.props.appError('Trip cannot be in the past');
+          window.scrollTo(0, 0);
+          return false;
+        }
+        const endAsDate = new Date(endAsDate);
+        const endAsTime = endTime.split(':');
+        endAsDate.setHours(endAsTime[0], endAsTime[1]);
+        if (endAsDate < startAsDate) {
+          this.setState((prevState) => {
+            return { errorFields: Object.assign({}, prevState.errorFields, { startDate: true, startTime: true, endDate: true, endTime: true }) };
+          });
+          this.props.appError('Start time must be before end time');
+          window.scrollTo(0, 0);
+          return false;
+        }
+        return true;
+      } else {
         return false;
       }
     }
     if (this.state.currentStep === 3) {
-      const { description, pickup, dropoff } = this.state;
-      if (description.length !== 0 && pickup.length !== 0 && dropoff.length !== 0) {
-        return false;
-      }
+      return !this.pageHasEmptyFields(['description', 'pickup', 'dropoff']);
     }
 
     if (this.state.currentStep === 4) {
-      const { gearRequest, trippeeGear } = this.state;
-      if (gearRequest !== [] && trippeeGear !== []) {
+      const { gearRequests, trippeeGear } = this.state;
+      let hasEmptyField = false;
+      const markedEmptyGroupFields = gearRequests.map((gear) => {
+        const isFieldEmpty = this.isStringEmpty(gear.groupGear);
+        if (isFieldEmpty) {
+          hasEmptyField = true;
+        };
+        return Object.assign({}, gear, { hasError: isFieldEmpty });
+      });
+      const markedEmptyTrippeFields = trippeeGear.map((gear) => {
+        const isFieldEmpty = this.isStringEmpty(gear.gear);
+        if (isFieldEmpty) {
+          hasEmptyField = true;
+        }
+        return Object.assign({}, gear, { hasError: isFieldEmpty });
+      });
+      if (hasEmptyField) {
+        this.setState({ gearRequests: markedEmptyGroupFields, trippeeGear: markedEmptyTrippeFields });
+        this.props.appError('Please complete or clear the highlighted fields');
+        window.scrollTo(0, 0);
         return false;
       }
     }
 
     if (this.state.currentStep === 5) {
-      return false;
+      const pcards = this.state.pcardRequest;
+      let hasEmptyField = false;
+      const markedEmptyFields = pcards.map((pcard) => {
+        // const pcard = this.state.pcardRequest[0];
+        const { otherCosts } = pcard;
+        // let hasEmptyOtherCost = false;
+        const markedEmptyOtherCosts = otherCosts.map((otherCost) => {
+          const updatedErrorFields = {};
+          const isTitleEmpty = this.isStringEmpty(otherCost.title);
+          const isCostEmpty = this.isStringEmpty(otherCost.cost);
+          updatedErrorFields.title = isTitleEmpty;
+          updatedErrorFields.cost = isCostEmpty;
+          if (isTitleEmpty || isCostEmpty) {
+            hasEmptyField = true;
+          }
+          return Object.assign({}, otherCost, { errorFields: updatedErrorFields });
+        });
+        const updates = {};
+        updates.otherCosts = markedEmptyOtherCosts;
+        const numPeopleError = this.isStringEmpty(pcard.numPeople);
+        updates.numPeopleError = numPeopleError;
+        if (numPeopleError) {
+          hasEmptyField = true;
+        }
+        return Object.assign({}, pcard, updates);
+      });
+      if (hasEmptyField) {
+        this.setState({ pcardRequest: markedEmptyFields });
+        this.props.appError('Please complete or clear the highlighted fields');
+        window.scrollTo(0, 0);
+        return false;
+      }
+
     }
     return true;
   }
@@ -450,15 +571,22 @@ class CreateTrip extends Component {
 
   createTrip() {
     const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
-    const gearRequests = this.state.gearRequests.filter(gear => gear.length > 0);
-    const trippeeGear = this.state.trippeeGear.filter(gear => gear.gear.length > 0);
-    const otherPcardRequests = this.state.otherCostsCost.map((value, i) => (
-      {
-        expenseDetails: this.state.otherCostsTitle[i],
-        unitCost: value,
-        totalCost: (this.state.numPeople) * value,
-      }
-    ));
+    const gearRequests = this.state.gearRequests.map((groupGear) => {
+      return groupGear.groupGear;
+    });
+    const trippeeGear = this.state.trippeeGear.map((trippeeGear) => {
+      delete trippeeGear.hasError;
+      return trippeeGear;
+    });
+    const pcard = this.state.pcardRequest.map((pcardRequest) => {
+      const deletedErrorFields = pcardRequest.otherCosts.map((otherCost) => {
+        delete otherCost.errorFields;
+        return otherCost;
+      });
+      const updatedRequest = Object.assign({}, pcardRequest, { otherCosts: deletedErrorFields });
+      delete updatedRequest.numPeopleError;
+      return updatedRequest;
+    })
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders.trim().split(','),
@@ -477,53 +605,8 @@ class CreateTrip extends Component {
       co_leader_access: this.state.access,
       gearRequests,
       trippeeGear,
-      pcard: [{ participants: this.state.numPeople },
-      { totalCost: this.state.totalCost },
-      {
-        reason: [
-          {
-            info: [
-              {
-                expenseDetails: 'Snacks',
-                unitCost: 3,
-                totalCost: 3 * this.state.snacks * this.state.numPeople
-              },
-              {
-                expenseDetails: 'Breakfast',
-                unitCost: 10,
-                totalCost: 10 * this.state.breakfast * this.state.numPeople
-              },
-              {
-                expenseDetails: 'Lunch',
-                unitCost: 14,
-                totalCost: 14 * this.state.lunch * this.state.numPeople
-              },
-              {
-                expenseDetails: 'Dinner',
-                unitCost: 16,
-                totalCost: 16 * this.state.dinner * this.state.numPeople
-              },
-            ]
-          },
-          { info: otherPcardRequests },
-
-        ]
-      },
-      ],
+      pcard,
     };
-
-    if (!(trip.title && trip.description && trip.startDate && trip.endDate && trip.startTime && trip.endTime
-      && trip.mileage && trip.location && trip.club)) {
-      this.props.appError('All trip fields must be filled out');
-      return;
-    }
-
-    const start = new Date(trip.startDate);
-    const end = new Date(trip.endDate);
-    if (start.getTime() > end.getTime() || start.getTime() < Date.now() || end.getTime() < Date.now()) {
-      this.props.appError('Please enter valid dates');
-      return;
-    }
     this.props.createTrip(trip, this.props.history);
   }
 
@@ -544,6 +627,7 @@ class CreateTrip extends Component {
             accessValue={this.state.access}
             experienceOption={this.handleOptionChange}
             clubOptions={this.getClubOptions()}
+            errorFields={this.state.errorFields}
           />
         );
         break;
@@ -558,6 +642,7 @@ class CreateTrip extends Component {
             theEndTime={this.state.endTime}
             tripLocation={this.state.location}
             tripMileage={this.state.mileage}
+            errorFields={this.state.errorFields}
           />
         );
         break;
@@ -568,6 +653,7 @@ class CreateTrip extends Component {
             dropOff={this.state.dropoff}
             onFieldChange={this.onFieldChange}
             DescripValue={this.state.description}
+            errorFields={this.state.errorFields}
           />
         );
         break;
@@ -578,6 +664,7 @@ class CreateTrip extends Component {
             addGear={this.addGear}
             getGearInputs={this.getGearInputs(this.props)}
             getTrippeeGear={this.getTrippeeGear(this.props)}
+            errorFields={this.state.errorFields}
           />
         );
         break;
@@ -590,6 +677,7 @@ class CreateTrip extends Component {
             onOtherCostsChange={this.onOtherCostsChange}
             deleteOtherCost={this.deleteOtherCost}
             addOtherCost={this.addOtherCost}
+            errorFields={this.state.errorFields}
           />
         );
         break;
@@ -606,6 +694,7 @@ class CreateTrip extends Component {
             accessValue={this.state.access}
             experienceOption={this.handleOptionChange}
             clubOptions={this.getClubOptions()}
+            errorFields={this.state.errorFields}
           />
         );
         break;
@@ -621,7 +710,7 @@ class CreateTrip extends Component {
           </div>
           <div className="create-trip-bottom-buttons create-trips-top-margin">
             <button disabled={this.state.currentStep === 1} type="button" className="btn next-button" onClick={this.previousButton}>Previous</button>
-            <button disabled={this.validate()} type="button" className="btn next-button" onClick={this.state.currentStep === 5 ? this.createTrip : this.nextButton}>
+            <button type="button" className="btn next-button" onClick={this.nextButton}>
               {this.state.currentStep === 5 ? 'Create Trip!' : 'Next'}
             </button>
           </div>

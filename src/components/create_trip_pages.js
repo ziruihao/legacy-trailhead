@@ -48,7 +48,7 @@ const BasicTripInfo = (props) => {
       </div>
       <div className="row page-sub-headers">
         <p>Trip name</p>
-        <input className="form-control field top-create-trip"
+        <input className={`form-control field top-create-trip ${props.errorFields.title ? 'create-trip-error' : ''}`}
           onChange={props.onFieldChange}
           name="title"
           placeholder="e.g. Weekend Mt. Moosilauke Hike!"
@@ -63,7 +63,7 @@ const BasicTripInfo = (props) => {
       </div>
       <div className="row page-sub-headers">
         <p>Cost</p>
-        <input className="form-control field top-create-trip"
+        <input className={`form-control field top-create-trip ${props.errorFields.cost ? 'create-trip-error' : ''}`}
           onChange={props.onFieldChange}
           name="cost"
           placeholder="0"
@@ -148,17 +148,29 @@ const DatesLocation = (props) => {
       <div className="row page-sub-headers trip-date-header create-trip-bottom-buttons">
         <div className="createtrips-one-of-two">
           <p>Start time</p>
-          <input type="time" name="startTime" onChange={props.onFieldChange} className="field top-create-trip leaders pickupDropoff" value={props.theStartTime} />
+          <input
+            type="time"
+            name="startTime"
+            onChange={props.onFieldChange}
+            className={`field top-create-trip leaders pickupDropoff ${props.errorFields.startTime ? 'create-trip-error' : ''}`}
+            value={props.theStartTime}
+          />
         </div>
         <div className="createtrips-one-of-two">
           <p>End time</p>
-          <input type="time" name="endTime" onChange={props.onFieldChange} className="field top-create-trip leaders pickupDropoff" value={props.theEndTime} />
+          <input
+            type="time"
+            name="endTime"
+            onChange={props.onFieldChange}
+            className={`field top-create-trip leaders pickupDropoff ${props.errorFields.endTime ? 'create-trip-error' : ''}`}
+            value={props.theEndTime}
+          />
         </div>
       </div>
       <div className="row page-sub-headers">
         <p>Location</p>
         <input
-          className="form-control field top-create-trip leaders"
+          className={`form-control field top-create-trip leaders ${props.errorFields.location ? 'create-trip-error' : ''}`}
           name="location"
           onChange={props.onFieldChange}
           placeholder="e.g. Mt. Cube"
@@ -167,7 +179,14 @@ const DatesLocation = (props) => {
       </div>
       <div className="row page-sub-headers trip-date-header">
         <p>Estimated mileage (round trip)</p>
-        <input type="number" onChange={props.onFieldChange} name="mileage" placeholder="Estimated mileage" className="field top-create-trip leaders" value={props.tripMileage} />
+        <input
+          type="number"
+          onChange={props.onFieldChange}
+          name="mileage"
+          placeholder="Estimated mileage"
+          className={`field top-create-trip leaders ${props.errorFields.mileage ? 'create-trip-error' : ''}`}
+          value={props.tripMileage}
+        />
       </div>
     </div>
   );
@@ -183,7 +202,7 @@ const AboutTheTrip = (props) => {
         <div className="createtrips-one-of-two">
           <p>Pickup</p>
           <input
-            className="form-control field top-create-trip pickupDropoff"
+            className={`form-control field top-create-trip pickupDropoff ${props.errorFields.pickup ? 'create-trip-error' : ''}`}
             onChange={props.onFieldChange}
             name="pickup"
             placeholder="eg. Robo Hall"
@@ -193,7 +212,7 @@ const AboutTheTrip = (props) => {
         <div className="createtrips-one-of-two">
           <p>Dropoff</p>
           <input
-            className="form-control field top-create-trip pickupDropoff"
+            className={`form-control field top-create-trip pickupDropoff ${props.errorFields.dropoff ? 'create-trip-error' : ''}`}
             onChange={props.onFieldChange}
             name="dropoff"
             placeholder="eg. McNutt Hall"
@@ -204,7 +223,7 @@ const AboutTheTrip = (props) => {
       <div className="row page-sub-headers">
         <p>Trip decription</p>
         <textarea
-          className="form-control field trip-descrip-box"
+          className={`form-control field trip-descrip-box ${props.errorFields.description ? 'create-trip-error' : ''}`}
           onChange={props.onFieldChange}
           name="description"
           placeholder="e.g. Our trip will feature amazing views and fun times..."
