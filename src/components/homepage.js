@@ -48,9 +48,6 @@ class Homepage extends Component {
   
       return (
         <div id="landing-page">
-          <div id="doc-icon">
-            <img src={DocLogo} alt="DOC Logo" />
-          </div>
           <div className="main1">
             <div className="home-text">
               <h1> Stay Crunchy. </h1>
