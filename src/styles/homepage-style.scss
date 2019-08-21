@@ -8,7 +8,7 @@ html {
 body {
   min-height: 100%;
   width: 100%;
-  background: url(../img/landingpage.svg);
+  background: url(../img/doclandingpage.svg);
   background-repeat: no-repeat;
   background-size: cover;
   // background-attachment: fixed;
@@ -19,7 +19,7 @@ body {
 #landing-page{
   min-height: 100%;
   width: 100%;
-  background: url(../img/background.png);
+  // background: url(../img/background.png);
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
@@ -115,5 +115,5 @@ body {
 
 .theBody{
   margin-top: 4.5rem;
-  padding-top: 1rem;
+  // padding-top: 1rem;
 }

@@ -146,7 +146,7 @@ class PCardRequest extends Component {
         </div>
         <button className="add-gear-button" type="button" onClick={this.updateOtherRequests}>+</button>
         <div className="row button-placement correct pcard-page">
-          <button disabled={this.props.validate()} type="button" className="btn next-button" onClick={this.props.createTrip}>Submit</button>
+          <button type="button" className="btn next-button" onClick={this.props.createTrip}>Submit</button>
         </div>
       </div>
     );
