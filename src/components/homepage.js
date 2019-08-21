@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import { signOut } from '../actions';
+import {signIn, signOut, authed } from '../actions';
 import DocLogo from '../img/DOC-log.svg';
 import '../styles/homepage-style.scss';
 
@@ -10,19 +10,38 @@ class Homepage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      auth: false,
     };
   }
 
+  componentDidMount(){
+    let url = window.location.href;
+    if(url.includes("?") & url.includes("&")){
+      //snag the jwt token returned by the server
+      let token = url.substring(url.indexOf("?")+1, url.indexOf("&"));
+      let id = url.substring(url.indexOf("&")+1, url.length)
+      console.log(token);
+      this.props.authed(token, id, this.props.history);
+      this.setState({
+        auth: true,
+      })
+    }
+
+  }
+
+
   render() {
     let buttons = null;
-    if (this.props.authenticated) {
+    if (this.props.authenticated || this.state.auth) {
       buttons = <span />;
     } else {
       buttons = (
         <div className="two-buttons">
-          <NavLink to="/signin">
+          {/* <NavLink to="/signin">
             <button className="log-in">Log In</button>
-          </NavLink>
+          </NavLink> */}
+          <button className="log-in" onClick = {() => this.props.signIn(this.props.history)}>Log In</button>
+
           <NavLink to="/signup">
             <button className="sign-up">Sign Up</button>
           </NavLink>
@@ -60,4 +79,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { signOut })(Homepage));
+export default withRouter(connect(mapStateToProps, { signIn,signOut,authed  })(Homepage));

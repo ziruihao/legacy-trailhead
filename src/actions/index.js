@@ -52,6 +52,7 @@ export function getUser() {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
+        console.log(response.data);
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
       })
       .catch((error) => {
@@ -240,23 +241,37 @@ export function isOnTrip(tripID) {
   };
 }
 
-
-export function signIn({ email, password }, history) {
+export function signIn(history) {
   return (dispatch, getState) => {
-    axios
-      .post(`${ROOT_URL}/signin`, { email, password })
-      .then((response) => {
-        localStorage.setItem('token', response.data.token);
-        dispatch({ type: ActionTypes.AUTH_USER });
-        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        history.push(getState().restrictedPath.restrictedPath);
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(appError(`Sign in failed: ${error.response.data}`));
-      });
+    window.location=(`${ROOT_URL}/signin`);
   };
 }
+export function authed(token, id, history){
+  return(dispatch, getState)=>{
+    localStorage.setItem('token', token);
+    dispatch({ type: ActionTypes.AUTH_USER });
+    dispatch({ type: ActionTypes.UPDATE_USER, payload: id });
+    history.push(getState().restrictedPath.restrictedPath);
+
+  }
+ 
+}
+// export function signIn({ email, password }, history) {
+//   return (dispatch, getState) => {
+//     axios
+//       .post(`${ROOT_URL}/signin`, { email, password })
+//       .then((response) => {
+//         localStorage.setItem('token', response.data.token);
+//         dispatch({ type: ActionTypes.AUTH_USER });
+//         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
+//         history.push(getState().restrictedPath.restrictedPath);
+//       })
+//       .catch((error) => {
+//         console.log(error);
+//         dispatch(appError(`Sign in failed: ${error.response.data}`));
+//       });
+//   };
+// }
 
 export function signUp({ email, password, name }, history) {
   return (dispatch) => {
