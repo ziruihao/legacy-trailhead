@@ -46,7 +46,7 @@ const App = (props) => {
   return (
     <Router>
       <NavBar />
-      <div className="theBody">
+      <div id="theBody">
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/user" component={requireAuth(ProfilePage)} />

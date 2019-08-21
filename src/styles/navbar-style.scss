@@ -43,7 +43,7 @@
   color: white;
 }
 .navbar-style{
-  background-image: url(../img/navbar-style.svg);
+  background-image: url(../img/smallerNavDes.svg);
   // background-repeat: no-repeat;
   background-origin: border-box;
   background-clip: border-box;
@@ -51,7 +51,20 @@
   background-attachment: local;
   // background-size: cover;ß
 }
-// .navbar-clear{
-//   background-color: transparent;
-//   // position: sticky;
-// }
+
+@media only screen and (max-width: 800px) {
+  .dropdown-toggle:hover .dropdown-menu {
+    display: none;
+  }
+  .navbar-style{
+    background-color: #1F8365;
+    background-image: none;
+    // background-repeat: no-repeat;
+    background-origin: border-box;
+    background-clip: border-box;
+    background-position: center;
+    background-attachment: local;
+    // background-size: cover;ß
+  }
+
+}
