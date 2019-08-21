@@ -11,7 +11,7 @@ class OPOTripDetails extends Component {
     super(props);
     this.state = {
       step: 1,
-      pcardAssigned:"",
+      pcardAssigned: '',
       showModal: false,
     };
     this.onFieldChange = this.onFieldChange.bind(this);

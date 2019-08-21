@@ -53,7 +53,8 @@
 .pcard-opo{
   width:100%;
   margin: 5%;
-  text-align: center;
+  margin-bottom: 2rem;
+  // text-align: center;
 }
 .pcard-assign-input{
   height: 40px;
@@ -72,8 +73,10 @@
 }
 .pcard-assign{
   text-align: left;
-  width:50%;
+  width:88%;
   margin-top: 5%;
+  display: flex;
+  justify-content: space-between;
 
 }
 
@@ -115,6 +118,29 @@
   &.nextOnly{
     justify-content: flex-end;
   }
+}
+
+.approve-buttons{
+  width: 16rem;
+  height: 3rem;
+  border-radius: 5px;
+  background: #0CA074;
+  color: white;
+  border-radius: 5px;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
+  margin-left: 2rem;
+}
+
+.deny-buttons{
+  width: 10rem;
+  height: 3rem;
+  border-radius: 5px;
+  color: white;
+  font-weight: 600;
+  background-color: #EE6E52;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
 }
 
 .side-links{

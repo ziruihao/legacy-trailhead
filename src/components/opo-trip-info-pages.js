@@ -192,7 +192,7 @@ const PCardRequest = (props) =>{
     <button type="button" className="btn email-copy-button" onClick={props.copy}>copy email</button>
 
   </Modal>
-      <h1> P-Card Request </h1>
+      <span className="page-title">P-Card Request</span>
       <div>
           <table className = "pcard-overview-table">
             <thead>
@@ -234,22 +234,24 @@ const PCardRequest = (props) =>{
           </tbody>
         </table>
         <div className = "pcard-assign">
-            <p style= {{display: "block", fontWeight: "bold", fontSize: "12pt"}}>P-Card Assigned</p>
-            <input
-                    className = "pcard-assign-input"
-                    onChange={props.onFieldChange}
-                    name="pcardAssigned"
-                    placeholder={props.trip.pcardAssigned ? props.trip.pcardAssigned : "e.g. 1234"}
-                    value={props.pcardAssigned}
-                    />
-          </div>
+            <div>
+              <p style= {{display: "block", fontWeight: "bold", fontSize: "12pt"}}>P-Card Assigned</p>
+              <input
+                      className = "pcard-assign-input"
+                      onChange={props.onFieldChange}
+                      name="pcardAssigned"
+                      placeholder={props.trip.pcardAssigned ? props.trip.pcardAssigned : "e.g. 1234"}
+                      value={props.pcardAssigned}
+              />
+            </div>
+            <div className="theButtons">
+              <button type="button" className="btn deny-buttons" onClick={props.deny}>Contact Leader</button>
+              <button type="button" className="btn approve-buttons" onClick={props.approve}>Approve and Notify Leader</button>
+            </div>
+        </div>
       </div>
       <div className="row theButtons">
-        <button type="button" className="btn approve-button" onClick={props.approve}>Approve and Notify Leader</button>
-        <button type="button" className="btn deny-button" onClick={props.deny}>Contact Leader</button>
-      </div>
-      <div className="row theButtons">
-        <button type="button" id="prev-buttons" className="btn btn-outline-success" onClick={props.prevPage}>Previous</button>
+        <button type="button" id="prev-buttons" className="btn" onClick={props.prevPage}>Previous</button>
         <button type="button" className="btn next-buttons" onClick={props.nextPage}>Next</button>
       </div>
     </div>
