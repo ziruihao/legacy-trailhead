@@ -39,7 +39,7 @@ class NavBar extends Component {
       dashboard = (
         <NavDropdown onClick={this.goToDashboard} title="Dashboard" id="collapsible-nav-dropdown" className="dropdown-toggle drop-hover">
           <NavDropdown.Item className="dropdown-hover" href="/opo-trips">Trip Approvals</NavDropdown.Item>
-          <NavDropdown.Item className="dropdown-hover" href="#action/3.2">Vehicle Requests</NavDropdown.Item>
+          <NavDropdown.Item className="dropdown-hover" href="/vehicle-requests">Vehicle Requests</NavDropdown.Item>
           <NavDropdown.Item className="dropdown-hover" href="/leader_approvals">Profile Approvals</NavDropdown.Item>
           <NavDropdown.Item className="dropdown-hover" href="#action/3.3">OPO Officer Assignments</NavDropdown.Item>
           <NavDropdown.Divider className="dropdown-hover" />
@@ -55,7 +55,7 @@ class NavBar extends Component {
 
     return (
       <div>
-        <Navbar collapseOnSelect fixed="top" expand="lg" className="navbar-style">
+        <Navbar collapseOnSelect fixed="top" expand="md" className="navbar-style">
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
             <Nav>
