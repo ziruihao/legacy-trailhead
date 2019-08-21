@@ -2,12 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-<<<<<<< HEAD
 import {signIn, signOut, authed, getUser } from '../actions';
-import DocLogo from '../img/DOC-log.svg';
-=======
-import { signOut } from '../actions';
->>>>>>> cd664144cef2d1f035a299cd3490db10cd9d2d1e
 import '../styles/homepage-style.scss';
 import SignUp from './signup';
 class Homepage extends Component {
@@ -27,9 +22,8 @@ class Homepage extends Component {
       this.props.getUser();      
 
     }
-
-<<<<<<< HEAD
   }
+
 
 
   render() {
