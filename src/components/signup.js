@@ -12,7 +12,6 @@ class SignUp extends Component {
       name: '',
       email: '',
       password: '',
-      confirmPassword: '',
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.signUp = this.signUp.bind(this);
@@ -31,12 +30,9 @@ class SignUp extends Component {
   }
 
   validateInput = () => {
-    if (this.state.password !== this.state.confirmPassword) {
-      this.props.appError('Error: passwords must match');
-      return false;
-    }
 
-    if (this.state.name === '' || this.state.email === '' || this.state.password === '') {
+
+    if (this.state.name === '' || this.state.email === '') {
       this.props.appError('Error: all fields must be filled');
       return false;
     }
@@ -51,13 +47,15 @@ class SignUp extends Component {
   }
 
   signUp() {
-    if (this.validateInput()) {
-      this.props.signUp({
+    // if (this.validateInput()) {
+      this.props.signUp(
+        {
+        id: this.props.user.id,
         name: this.state.name,
         email: this.state.email,
-        password: this.state.password,
-      }, this.props.history);
-    }
+      }, 
+      this.props.history);
+    // }
   }
 
 
@@ -67,8 +65,6 @@ class SignUp extends Component {
         <div className="input-fields">
           <input className="input-styling" placeholder="Name" name="name" type="text" onChange={this.onFieldChange} value={this.state.name} />
           <input className="input-styling" placeholder="Dartmouth Email" name="email" type="text" onChange={this.onFieldChange} value={this.state.email} />
-          <input className="input-styling" placeholder="Password" name="password" type="password" onChange={this.onFieldChange} value={this.state.password} />
-          <input className="input-styling" placeholder="Confirm Password" name="confirmPassword" type="password" onChange={this.onFieldChange} value={this.state.confirmPassword} />
         </div>
         <div className="form-buttons">
           <button className="button-styling" type="submit" onClick={this.signUp}>Sign Up</button>
@@ -82,6 +78,8 @@ class SignUp extends Component {
 const mapStateToProps = (state) => {
   return {
     authenticated: state.auth.authenticated,
+    user: state.user,
+
   };
 };
 
