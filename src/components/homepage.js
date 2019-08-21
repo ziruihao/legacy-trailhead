@@ -20,28 +20,30 @@ class Homepage extends Component {
       buttons = (
         <div className="two-buttons">
           <NavLink to="/signin">
-            <button>Sign In</button>
+            <button className="log-in">Log In</button>
           </NavLink>
           <NavLink to="/signup">
-            <button>Sign Up</button>
+            <button className="sign-up">Sign Up</button>
           </NavLink>
         </div>
       );
     }
 
     return (
-      <div className="main1">
-        <div className="home-text">
-          <h1> Welcome to the Dartmouth Outing Club trip planner! </h1>
-          <p>
-            {
-              this.props.authenticated
-                ? 'Join or create a trip of your own!'
-                : 'Please login or sign-up to find your next outdoor adventure!'
-            }
-          </p>
+      <div id="landing-page">
+        <div className="main1">
+          <div className="home-text">
+            <h1>Welcome to the Dartmouth Outing Club website!</h1>
+            <p>
+              {
+                this.props.authenticated
+                  ? 'Join or create a trip of your own!'
+                  : 'Hello there! Log in to view, sign up for, or create trips. See you in the out o’ doors!'
+              }
+            </p>
+          </div>
+          { buttons }
         </div>
-        { buttons }
       </div>
     );
   }

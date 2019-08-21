@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, NavLink } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 import { signOut, clearError } from '../actions';
 import '../styles/navbar-style.scss';
+
 
 class NavBar extends Component {
   componentDidMount() {
@@ -10,6 +14,11 @@ class NavBar extends Component {
       this.props.clearError();
     });
   }
+
+  goToDashboard = () => {
+    this.props.history.push('/opo-dashboard');
+  };
+
 
   render() {
     if (this.props.errorMessage !== '') {
@@ -19,112 +28,48 @@ class NavBar extends Component {
     if (!this.props.authenticated) {
       return (
         <div>
-          <nav className="navbar navbar-expand-lg navbar-light bg-dark" />
+          <nav className="navbar navbar-expand-lg navbar-light" />
           {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
         </div>
       );
     }
-    let createTripsLink, viewApprovalsLink, opoTrips, vehicleRequest, vehicleRequests, myTrips;
-    if (this.props.role === 'Leader') {
-      createTripsLink = (
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/createtrip">
-            Create Trip
-          </NavLink>
-        </li>
-      );
-    } else {
-      createTripsLink = null;
-    }
 
-    if (this.props.role !== 'OPO') {
-      vehicleRequest = (
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/vehiclerequest">
-            Vehicle Request
-          </NavLink>
-        </li>
-      );
-      myTrips = (
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/mytrips">
-            My Trips
-          </NavLink>
-        </li>
-      );
-    } else {
-      vehicleRequest = null;
-      myTrips = null;
-    }
-
+    let dashboard;
     if (this.props.role === 'OPO') {
-      viewApprovalsLink = (
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/opo">
-            OPO Stuff
-          </NavLink>
-        </li>
-      );
-      opoTrips = (
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/opo-trips">
-            OPO Trips
-          </NavLink>
-        </li>
-      );
-      vehicleRequests = (
-        <li className="nav-item">
-          <NavLink className="nav-link" to="/vehicle-requests">
-            Vehicle Requests
-          </NavLink>
-        </li>
+      dashboard = (
+        <NavDropdown onClick={this.goToDashboard} title="Dashboard" id="collapsible-nav-dropdown" className="dropdown-toggle drop-hover">
+          <NavDropdown.Item className="dropdown-hover" href="/opo-trips">Trip Approvals</NavDropdown.Item>
+          <NavDropdown.Item className="dropdown-hover" href="#action/3.2">Vehicle Requests</NavDropdown.Item>
+          <NavDropdown.Item className="dropdown-hover" href="/leader_approvals">Profile Approvals</NavDropdown.Item>
+          <NavDropdown.Item className="dropdown-hover" href="#action/3.3">OPO Officer Assignments</NavDropdown.Item>
+          <NavDropdown.Divider className="dropdown-hover" />
+          <NavDropdown.Item className="dropdown-hover" href="/opo-dashboard">Back to Dashboard</NavDropdown.Item>
+        </NavDropdown>
       );
     } else {
-      viewApprovalsLink = null;
-      opoTrips = null;
-      vehicleRequests = null;
+      dashboard = (
+        <Nav.Link href="/mytrips">Dashboard</Nav.Link>
+      );
     }
+
 
     return (
       <div>
-        <nav className="navbar navbar-expand-lg navbar-light bg-dark">
-          <ul className="nav nav-pills">
-            <li className="nav-item">
-              <NavLink className="nav-link" exact to="/">
-                <i className="fas fa-home" />
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/alltrips">
-                All Trips
-              </NavLink>
-            </li>
-
-            {createTripsLink}
-            {viewApprovalsLink}
-            {opoTrips}
-            {myTrips}
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/user">
-                My Profile
-              </NavLink>
-            </li>
-            {vehicleRequest}
-            {vehicleRequests}
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/tripscalendar">
-                Trips Calendar
-              </NavLink>
-            </li>
-          </ul>
-          <button type="button" className="btn btn-danger signout-btn" onClick={() => this.props.signOut(this.props.history)}>Sign Out</button>
-        </nav>
+        <Navbar collapseOnSelect fixed="top" expand="lg" className="navbar-style">
+          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+          <Navbar.Collapse id="responsive-navbar-nav">
+            <Nav>
+              {dashboard}
+              <Nav.Link href="/alltrips">All Trips</Nav.Link>
+              <Nav.Link href="/user">Profile</Nav.Link>
+            </Nav>
+          </Navbar.Collapse>
+        </Navbar>
         {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
       </div>
     );
   }
 }
-
 const mapStateToProps = (state) => {
   return {
     authenticated: state.auth.authenticated,

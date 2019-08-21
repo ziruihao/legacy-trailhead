@@ -24,6 +24,7 @@ export const ActionTypes = {
   FETCH_VEHICLE_REQUEST: 'FETCH_VEHICLE_REQUEST',
   FETCH_VEHICLE_REQUESTS: 'FETCH_VEHICLE_REQUESTS',
   FETCH_VEHICLES: 'FETCH_VEHICLES',
+  FETCH_PCARD_REQUESTS: 'FETCH_PCARD_REQUESTS',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -179,6 +180,7 @@ export function emailTrip(id, subject, body, history) {
 
 export function createTrip(trip, history) {
   console.log('trying to create a trip');
+  console.log(trip);
   return (dispatch) => {
     axios.post(`${ROOT_URL}/alltrips`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
@@ -205,6 +207,7 @@ export function deleteTrip(id, history) {
 }
 
 export function editTrip(trip, history) {
+  console.log(trip);
   return (dispatch) => {
     axios.put(`${ROOT_URL}/trip/${trip.id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
@@ -496,5 +499,17 @@ export function assignVehicles(vehicleResponse) {
           dispatch(appError(`Error responding to vehicle request: ${error}`));
         });
     });
+  };
+}
+
+export function reviewPCardRequests(review) {
+  console.log(review);
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/pcardrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
+      .then(
+        // dispatch(fetchTrip(review.id)),
+      ).catch((error) => {
+        dispatch(appError(`Error responding to pcard  request: ${error}`));
+      });
   };
 }

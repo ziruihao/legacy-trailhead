@@ -138,6 +138,7 @@ class OpoTrips extends Component {
       return (
         <Table responsive="lg" hover>
           <thead>
+
             <tr>
               <th>Trip</th>
               <th>Start Time</th>

@@ -1,34 +1,48 @@
 html {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
   scroll-behavior: smooth;
   font-family: 'Nunito Sans', serif !important;
 }
 
 body {
-  height: 100%;
+  min-height: 100%;
   width: 100%;
-  background: #FAFAFA;
+  background: url(../img/doclandingpage.svg);
   background-repeat: no-repeat;
   background-size: cover;
-  background-attachment: fixed;
+  // background-attachment: fixed;
   color: black;
   font-family: 'Nunito Sans', serif !important;
 }
 
+#landing-page{
+  min-height: 100%;
+  width: 100%;
+  // background: url(../img/background.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  color: black;
+}
+
 .main1 {
   position: absolute;
-  top: 30%;
-  left: 15%;
-  width: 70%;
+  // bottom: 25%
+  top: 25%;
+  left: 25%;
+  width: 752px;
+  height: 375px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  background-color: #eaeaea;
+  background-color:#FFFFFF;
   border-radius: 10px;
-  opacity: .95;
-
+  // opacity: .95;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: 800;
   .home-text {
     margin-top: 30px;
   }
@@ -36,18 +50,28 @@ body {
 
 .main1 h1{
   text-align: center;
-  font-family: 'Merriweather', serif;
-  margin-bottom: 0px;
+  margin-bottom: 3rem;
   color: black;
+  font-size: 50px;
+  font-weight: 800;
 }
 
 .main1 p{
   text-align: center;
-  font-family: 'Merriweather', serif;
   margin-top: 0px;
   color: black;
+  font-size: 25px;
+  font-weight: 600;
+  margin-bottom: 2rem;
 }
 
+#doc-icon{
+  position: absolute;
+  left: 2.64%;
+  right: 92.5%;
+  top: 3%;
+  bottom: 91.33%;
+}
 .two-buttons {
   display: flex;
   flex-direction: row;
@@ -55,23 +79,41 @@ body {
 }
 
 .two-buttons button{
-  background: none;
   border-radius: 8px;
-  border-width: 2px;
-  border-color: white;
-  color: black;
-  height: 30px;
-  width: 90px;
+  height: 50px;
+  width: 143px;
   margin-right: 5px;
   margin-bottom: 30px;
+  font-size: 20px;
+  &.log-in{
+    border: 3px solid #0CA074;
+    color: #0CA074;
+    background: none;
+  }
+  &.sign-up{
+    background: #0CA074;
+    color: #FFFFFF;
+  }
 }
 
 .two-buttons button:hover{
-  background: rgba(255,255,255,0.6);
-  border-radius: 5px;
-  border-color: white;
-  color: black;
-  height: 30px;
-  width: 90px;
+  border-radius: 8px;
+  height: 50px;
+  width: 143px;
   margin-right: 5px;
+  margin-bottom: 30px;
+  &.log-in{
+    background: #0CA074;
+    color: #FFFFFF;
+  }
+  &.sign-up{
+    border: 3px solid #0CA074;
+    color: #0CA074;
+    background: none;
+  }
+}
+
+.theBody{
+  margin-top: 4.5rem;
+  // padding-top: 1rem;
 }
