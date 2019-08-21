@@ -1,5 +1,5 @@
 .nav-link {
-  color: rgb(131, 131, 131);
+  color: white;
 
   &:hover {
     color: white;
@@ -10,12 +10,48 @@
   }
 }
 
+.Nav{
+  color:white;
+}
+
 .error {
-  position: absolute;
+  position: fixed;
   width: 100%;
   z-index: 999;
+
 }
 
 .signout-btn {
   margin-left: auto;
 }
+.dropdown-toggle:hover .dropdown-menu {
+  display: block;
+}
+
+.navbar-collapse{
+  justify-content: flex-end;
+  margin-right: 2rem;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.25rem;
+  line-height: 41px;
+  letter-spacing: 0.05em;
+  color: white;
+}
+.navbar-light .navbar-nav .nav-link{
+  color: white;
+}
+.navbar-style{
+  background-image: url(../img/navbar-style.svg);
+  // background-repeat: no-repeat;
+  background-origin: border-box;
+  background-clip: border-box;
+  background-position: center;
+  background-attachment: local;
+  // background-size: cover;ß
+}
+// .navbar-clear{
+//   background-color: transparent;
+//   // position: sticky;
+// }

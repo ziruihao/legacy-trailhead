@@ -22,11 +22,11 @@ const getCoLeaders = (leaders) => {
   return coleaders;
 };
 
-const formatDate = (date, startTime, endTime) => {
+const formatDate = (startDate, endDate, startTime, endTime) => {
   let timeString = '';
-  const rawDate = new Date(date);
-  const dateString = rawDate.toString();
-  timeString = `${dateString.slice(0, 3)},${dateString.slice(3, 10)}`;
+  const rawStartDate = new Date(startDate);
+  const startDateString = rawStartDate.toString();
+
   const startSplitTime = startTime.split(':');
   const endSplitTime = endTime.split(':');
   startSplitTime.push('am');
@@ -39,14 +39,25 @@ const formatDate = (date, startTime, endTime) => {
     endSplitTime[0] -= 12;
     endSplitTime[2] = 'am';
   }
-  timeString = `${timeString}, ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]}, ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}}`;
+  if (endDate === startDate) {
+    timeString = `${startDateString.slice(0, 3)},${startDateString.slice(3, 10)}`;
+    timeString = `${timeString} || ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]} - ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}`;
+  }
+  else if (endDate !== ''){
+    const rawEndDate = new Date(endDate);
+    const endDateString = rawEndDate.toString();
+    timeString = `${startDateString.slice(0, 3)},${startDateString.slice(3, 10)} - ${endDateString.slice(0, 3)},${endDateString.slice(3, 10)}`;
+
+    timeString = `${timeString} || ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]} - ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}`;
+  }
+
   return timeString;
 };
 
 const getIndividualGear = (individualGearArray) => {
   if (individualGearArray.length === 0) {
     return (
-      <div className="no-gear">
+      <div className="no-gears">
         <div className="trip-detail">
           <div className="no-on-trip">
             <h4 className="none-f-now">None</h4>
@@ -77,7 +88,7 @@ const getIndividualGear = (individualGearArray) => {
 const getGroupGear = (groupGearArray, groupGearStatus) => {
   if (groupGearArray.length === 0) {
     return (
-      <div className="no-gear">
+      <div className="no-gears">
         <div className="trip-detail">
           <div className="no-on-trip">
             <h4 className="none-f-now">None</h4>
@@ -105,25 +116,25 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
 
 const LeftColumn = (props) => {
   return (
-    <div className="col-3 left-column">
+    <div className="left-column">
       <span className="trip-title">{props.title}</span>
       <div className="row column-headers column-adjust">
         <p>Trip Overview</p>
       </div>
       <div className="row column-sub-headers">
         <div className={props.step === 1 ? 'side-bar-highlight' : ''} />
-        <p className={props.step === 1 ? 'text-highlight' : ''}>Basic information</p>
+        <button className={props.step === 1 ? 'btn side-links text-highlight' : 'btn side-links'} onClick={() => props.setState(1)}>Basic information</button>
       </div>
       <div className="row column-headers">
         <p>OPO Requests</p>
       </div>
       <div className="row column-sub-headers">
         <div className={props.step === 2 ? 'side-bar-highlight' : ''} />
-        <p className={props.step === 2 ? 'text-highlight' : ''}>Gear Request</p>
+        <button className={props.step === 2 ? 'btn side-links text-highlight' : 'btn side-links'} onClick={() => props.setState(2)}>Gear Request</button>
       </div>
       <div className="row column-sub-headers">
         <div className={props.step === 3 ? 'side-bar-highlight' : ''} />
-        <p className={props.step === 3 ? 'text-highlight' : ''}>P-Card Request</p>
+        <button className={props.step === 3 ? 'btn side-links text-highlight' : 'btn side-links'} onClick={() => props.setState(3)}>P-Card Request</button>
       </div>
     </div>
   );
@@ -131,11 +142,11 @@ const LeftColumn = (props) => {
 
 const BasicInfo = (props) => {
   return (
-    <div className="col-9 right-column">
+    <div className="create-trip-form-content">
       <span className="page-title">Basic Information</span>
       <div className="row">
         <span className="sub-titles">Date</span>
-        <span className="sub-fields">{formatDate(props.startDate, props.startTime, props.endTime)}</span>
+        <span className="sub-fields">{formatDate(props.startDate, props.endDate, props.startTime, props.endTime)}</span>
       </div>
       <div className="row">
         <span className="sub-titles">Subclub</span>
@@ -155,17 +166,27 @@ const BasicInfo = (props) => {
       <div className="row">
         <span id="description-field" className="sub-fields">{props.description}</span>
       </div>
-      <div>
-        <button type="button" className="btn next-buttons" onClick={props.nextPage}>Next</button>
-      </div>
     </div>
   );
 }
 
 
-const PCardRequest = (props) =>{
+const PCardRequest = (props) => {
+  const pcardRequest = props.trip.pcard[0];
+  const snacks_unit = 3;
+  const breakfast_unit = 4;
+  const lunch_unit = 5;
+  const dinner_unit = 6;
+  const snack_total = snacks_unit * pcardRequest.snacks * pcardRequest.numPeople;
+  const breakfast_total = breakfast_unit * pcardRequest.breakfast * pcardRequest.numPeople;
+  const lunch_total = lunch_unit * pcardRequest.lunch * pcardRequest.numPeople;
+  const dinner_total = dinner_unit * pcardRequest.dinner * pcardRequest.numPeople;
+  let total = snack_total + breakfast_total + lunch_total + dinner_total;
+  pcardRequest.otherCosts.forEach((otherCost) => {
+    total += otherCost.cost;
+  });
   return(
-    <div className = "pcard-opo">
+    <div className= "create-trip-form-content">
       <Modal
     centered
     show = {props.showModal}
@@ -181,12 +202,11 @@ const PCardRequest = (props) =>{
     <button type="button" className="btn email-copy-button" onClick={props.copy}>copy email</button>
 
   </Modal>
-      <h1> P-Card Request </h1>
+      <span className="page-title">P-Card Request</span>
       <div>
           <table className = "pcard-overview-table">
             <thead>
               <tr>
-              <th>Reason</th>
               <th>Subclub</th>
               <th># of Participants</th>
               <th>Total Cost</th>
@@ -194,10 +214,9 @@ const PCardRequest = (props) =>{
             </thead>
             <tbody>
                 <tr>
-                <td>Food, others</td>
                 <td>{props.trip.club.name}</td>
-                <td>{props.trip.pcard[0].participants}</td>
-                <td>${props.trip.pcard[1].totalCost}</td>
+                <td>{pcardRequest.numPeople}</td>
+                <td>${total}</td>
                 </tr>
             </tbody>
           </table>
@@ -206,42 +225,70 @@ const PCardRequest = (props) =>{
             <tr>
             <th>Expense Details</th>
             <th>Unit Cost</th>
+            <th># per participant</th>
             <th>Total Cost</th>
             </tr>
           </thead>
           <tbody>
-          {props.trip.pcard[2].reason.map((i) =>{
-            return(
-              i.info.map((j)=>{
-                return(
-                    <tr key = {j.expenseDetails}>
-                      <td>{j.expenseDetails}</td>
-                      <td>${j.unitCost}</td>
-                      <td>${j.totalCost}</td>
-                    </tr>
-                );}));})}
+            <tr>
+              <td>Snacks</td>
+              <td>${snacks_unit}</td>
+              <td>{pcardRequest.snacks}</td>
+              <td>${snack_total}</td>
+            </tr>
+            <tr>
+              <td>Breakfast</td>
+              <td>${breakfast_unit}</td>
+              <td>{pcardRequest.breakfast}</td>
+              <td>${breakfast_total}</td>
+            </tr>
+            <tr>
+              <td>Lunch</td>
+              <td>${lunch_unit}</td>
+              <td>{pcardRequest.lunch}</td>
+              <td>${lunch_total}</td>
+            </tr>
+            <tr>
+              <td>Dinner</td>
+              <td>${dinner_unit}</td>
+              <td>{pcardRequest.dinner}</td>
+              <td>${dinner_total}</td>
+            </tr>
+            
+            {pcardRequest.otherCosts.map((otherCost, index) => {
+              return (
+                <tr key={`othercosts_${index}`}>
+                  <td>{otherCost.title}</td>
+                  <td>-</td>
+                  <td>-</td>
+                  <td>${otherCost.cost}</td>
+                </tr>
+              )
+            })}
           </tbody>
         </table>
         <div className = "pcard-assign">
             <p style= {{display: "block", fontWeight: "bold", fontSize: "12pt"}}>P-Card Assigned</p>
-            <input 
+            <input
                     className = "pcard-assign-input"
                     onChange={props.onFieldChange}
                     name="pcardAssigned"
-                    placeholder={props.trip.pcardAssigned ? props.trip.pcardAssigned : "e.g. 1234"}
+                    placeholder="e.g. 1234"
                     value={props.pcardAssigned}
                     />
           </div>
       </div>
-      <button type="button" className="btn approve-button" onClick={props.approve}>Approve and Notify Leader</button>
-      <button type="button" className="btn deny-button" onClick={props.deny}>Contact Leader</button>
+      <div className="pcard-bottom-buttons">
+        <span className="create-trip-pcard-add-other" onClick={props.deny} role="button" tabIndex={0}>Contact Leader</span>
+        <button type="button" className="btn approve-button" onClick={props.approve}>Approve and Notify Leader</button>
+      </div>
     </div>
 
   );
 }
 const GearRequest = (props) => {
   return (
-    <div className="col-9 right-column">
+    <div className="create-trip-form-content">
       <span className="page-title">Gear Request</span>
       <div className="row">
         <div className="gear-requests individual">
@@ -260,10 +307,6 @@ const GearRequest = (props) => {
           </div>
           {getGroupGear(props.groupGear, props.gearStatus)}
         </div>
-      </div>
-      <div>
-        <button type="button" className="btn next-buttons" onClick={props.nextPage}>Next</button>
-        <button type="button" id="prev-buttons" className="btn btn-outline-success" onClick={props.prevPage}>Previous</button>
       </div>
     </div>
   );

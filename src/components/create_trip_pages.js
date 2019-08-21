@@ -1,0 +1,276 @@
+import React from 'react';
+import '../styles/createtrip-style.scss';
+
+
+const LeftColumn = (props) => {
+  return (
+    <div className="left-column">
+      <div className="row column-headers column-adjust">
+        <p>Create a trip</p>
+      </div>
+      <div className="row column-sub-headers">
+        <div className={props.currentStep === 1 ? 'side-bar-highlight' : ''} />
+        <p className={props.currentStep === 1 ? 'text-highlight' : ''}>Basic information</p>
+      </div>
+      <div className="row column-sub-headers">
+        <div className={props.currentStep === 2 ? 'side-bar-highlight' : ''} />
+        <p className={props.currentStep === 2 ? 'text-highlight' : ''}>Dates and location</p>
+      </div>
+      <div className="row column-headers">
+        <p>Trips description</p>
+      </div>
+      <div className="row column-sub-headers">
+        <div className={props.currentStep === 3 ? 'side-bar-highlight' : ''} />
+        <p className={props.currentStep === 3 ? 'text-highlight' : ''}>About the trip</p>
+      </div>
+      <div className="row column-sub-headers">
+        <div className={props.currentStep === 4 ? 'side-bar-highlight' : ''} />
+        <p className={props.currentStep === 4 ? 'text-highlight' : ''}>What you&apos;ll need</p>
+      </div>
+      <div className="row column-headers">
+        <p>Additional details</p>
+      </div>
+      <div className="row column-sub-headers">
+        <p className={props.currentStep === 5 ? 'text-highlight' : ''}>P-Card Request</p>
+      </div>
+      <div className="row column-sub-headers">
+        <p className={props.currentStep === 6 ? 'text-highlight' : ''}>Vehicle Request</p>
+      </div>
+    </div>
+  );
+};
+
+const BasicTripInfo = (props) => {
+  return (
+    <div className="create-trip-form-content">
+      <div className="row page-header">
+        <p>Basic trip information</p>
+      </div>
+      <div className="row page-sub-headers">
+        <p>Trip name</p>
+        <input className={`form-control field top-create-trip ${props.errorFields.title ? 'create-trip-error' : ''}`}
+          onChange={props.onFieldChange}
+          name="title"
+          placeholder="e.g. Weekend Mt. Moosilauke Hike!"
+          value={props.titleValue}
+        />
+      </div>
+      <div className="row page-sub-headers">
+        <p>Subclub</p>
+        <select name="club" className="custom-select field top-create-trip" defaultValue="Select Club" onChange={props.onClubChange}>
+          {props.clubOptions}
+        </select>
+      </div>
+      <div className="row page-sub-headers">
+        <p>Cost</p>
+        <input className={`form-control field top-create-trip ${props.errorFields.cost ? 'create-trip-error' : ''}`}
+          onChange={props.onFieldChange}
+          name="cost"
+          placeholder="0"
+          type="number"
+          value={props.costValue}
+        />
+      </div>
+      <div className="row page-sub-headers">
+        <p>Co-leader email addresses, seperated by commas</p>
+        <input
+          className="form-control field top-create-trip leaders"
+          onChange={props.onFieldChange}
+          name="leaders"
+          placeholder="my.buddy.21@dartmouth.edu, my.driver.21@dartmouth.edu"
+          value={props.leaderValue}
+        />
+        <div className="checkbox-beginner">
+          <input
+            type="checkbox"
+            name="access"
+            id="co-leader-access"
+            onChange={props.toggleAccess}
+            checked={props.accessValue}
+          />
+          <label htmlFor="co-leader-access">
+            Give co-leaders edit access to this trip?
+          </label>
+        </div>
+      </div>
+      <div className="row page-sub-headers">
+        <p>Beginner trip</p>
+        <div className="checkbox-beginner">
+          <input
+            type="checkbox"
+            value="Yes"
+            id="beginner"
+            onChange={props.experienceOption}
+            checked={props.experienceValue}
+          />
+          <label htmlFor="beginner">
+            Do Trippees need prior experience to go on this trip?
+          </label>
+        </div>
+      </div>
+    </div>
+
+  );
+};
+
+const DatesLocation = (props) => {
+  return (
+    <div className="create-trip-form-content">
+      <div className="row page-header date-loc-header">
+        <p>Dates and Location</p>
+      </div>
+      <div className="row checkbox-beginner">
+        <input
+          type="checkbox"
+          value="single"
+          id="single-day"
+          onChange={props.onDateChange}
+          checked={props.dateLength === 'single'}
+        />
+        <label htmlFor="single-day">
+          Single day trip
+        </label>
+      </div>
+      <div className="row checkbox-beginner">
+        <input
+          type="checkbox"
+          value="multi"
+          id="multi-day"
+          onChange={props.onDateChange}
+          checked={props.dateLength === 'multi'}
+        />
+        <label htmlFor="multi-day">
+          Multi-day trip
+        </label>
+      </div>
+      {props.dateOptions}
+      <p className="see-vehic-cal">See Vehicle Calendar</p>
+      <div className="row page-sub-headers trip-date-header create-trip-bottom-buttons">
+        <div className="createtrips-one-of-two">
+          <p>Start time</p>
+          <input
+            type="time"
+            name="startTime"
+            onChange={props.onFieldChange}
+            className={`field top-create-trip leaders pickupDropoff ${props.errorFields.startTime ? 'create-trip-error' : ''}`}
+            value={props.theStartTime}
+          />
+        </div>
+        <div className="createtrips-one-of-two">
+          <p>End time</p>
+          <input
+            type="time"
+            name="endTime"
+            onChange={props.onFieldChange}
+            className={`field top-create-trip leaders pickupDropoff ${props.errorFields.endTime ? 'create-trip-error' : ''}`}
+            value={props.theEndTime}
+          />
+        </div>
+      </div>
+      <div className="row page-sub-headers">
+        <p>Location</p>
+        <input
+          className={`form-control field top-create-trip leaders ${props.errorFields.location ? 'create-trip-error' : ''}`}
+          name="location"
+          onChange={props.onFieldChange}
+          placeholder="e.g. Mt. Cube"
+          value={props.tripLocation}
+        />
+      </div>
+      <div className="row page-sub-headers trip-date-header">
+        <p>Estimated mileage (round trip)</p>
+        <input
+          type="number"
+          onChange={props.onFieldChange}
+          name="mileage"
+          placeholder="Estimated mileage"
+          className={`field top-create-trip leaders ${props.errorFields.mileage ? 'create-trip-error' : ''}`}
+          value={props.tripMileage}
+        />
+      </div>
+    </div>
+  );
+};
+
+const AboutTheTrip = (props) => {
+  return (
+    <div className="create-trip-form-content">
+      <div className="row page-header">
+        <p>About the trip</p>
+      </div>
+      <div id="date-picker" className="row page-sub-headers create-trip-bottom-buttons">
+        <div className="createtrips-one-of-two">
+          <p>Pickup</p>
+          <input
+            className={`form-control field top-create-trip pickupDropoff ${props.errorFields.pickup ? 'create-trip-error' : ''}`}
+            onChange={props.onFieldChange}
+            name="pickup"
+            placeholder="eg. Robo Hall"
+            value={props.pickUp}
+          />
+        </div>
+        <div className="createtrips-one-of-two">
+          <p>Dropoff</p>
+          <input
+            className={`form-control field top-create-trip pickupDropoff ${props.errorFields.dropoff ? 'create-trip-error' : ''}`}
+            onChange={props.onFieldChange}
+            name="dropoff"
+            placeholder="eg. McNutt Hall"
+            value={props.dropOff}
+          />
+        </div>
+      </div>
+      <div className="row page-sub-headers">
+        <p>Trip decription</p>
+        <textarea
+          className={`form-control field trip-descrip-box ${props.errorFields.description ? 'create-trip-error' : ''}`}
+          onChange={props.onFieldChange}
+          name="description"
+          placeholder="e.g. Our trip will feature amazing views and fun times..."
+          value={props.DescripValue}
+        />
+      </div>
+      <div className="row page-sub-headers">
+        <p>Things you can include</p>
+        <ul className="descrip-list">
+          <li>What you&apos;ll be doing on the trip</li>
+          <li>Prior experience that would be helpful (if applicable)</li>
+          <li>Rough iternary of events and activities</li>
+          <li>Short introduction of leaders</li>
+        </ul>
+      </div>
+    </div>
+  );
+};
+
+const Equipment = (props) => {
+  return (
+    <div className="create-trip-form-content">
+      <div className="row page-header">
+        <p>Equipment</p>
+      </div>
+      <div className="row gearForm">
+        <div className="page-sub-headers gear-content">
+          <p>Individual gear</p>
+          <span id="equipment-description">Gear trippees should bring/rent</span>
+          {props.getTrippeeGear}
+          <button className="add-gear-button" type="button" onClick={props.addTrippeeGear}>Add item</button>
+        </div>
+        <div className="page-sub-headers gear-content">
+          <p>Group Gear</p>
+          <span id="equipment-description">Gear for the entire group that needs to be rented</span>
+          {props.getGearInputs}
+          <button className="add-gear-button" type="button" onClick={props.addGear}>Add item</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export {
+  LeftColumn,
+  BasicTripInfo,
+  Equipment,
+  AboutTheTrip,
+  DatesLocation,
+};
