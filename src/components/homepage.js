@@ -1,5 +1,6 @@
 /* eslint-disable react/button-has-type */
 import React, { Component } from 'react';
+import {Modal} from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import {signIn, signOut, authed, getUser } from '../actions';
@@ -9,6 +10,7 @@ class Homepage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      continue:false
     };
   }
 
@@ -24,7 +26,11 @@ class Homepage extends Component {
     }
   }
 
-
+ continue =()=>{
+  this.setState({
+    continue: true
+  });
+}
 
   render() {
     console.log(this.props.user);
@@ -45,25 +51,44 @@ class Homepage extends Component {
           );
         }
         
-      
-  
-      return (
-        <div id="landing-page">
-          <div className="main1">
-            <div className="home-text">
-              <h1> Stay Crunchy. </h1>
-              <p>
-                {
-                  this.props.authenticated
-                    ? 'Join or create a trip of your own!'
-                    : 'Hello there! This is the Dartmouth Outing Club (DOC) Website. Here, you can view, sign up for, or form trips.'
-                }
-              </p>
+        if (window.innerWidth > 760 || this.state.continue) {
+          return (
+            <div id="landing-page">
+              <div className="main1">
+                <div className="home-text">
+                  <h1> Stay Crunchy. </h1>
+                  <p>
+                    {
+                      this.props.authenticated
+                        ? 'Join or create a trip of your own!'
+                        : 'Hello there! This is the Dartmouth Outing Club (DOC) Website. Here, you can view, sign up for, or form trips.'
+                    }
+                  </p>
+                </div>
+                { buttons }
+              </div>
             </div>
-            { buttons }
-          </div>
-        </div>
-      );
+          );         
+         }else{
+            return(
+            <div>
+
+              <Modal
+                      centered
+                      show = {true}
+                    >
+
+                      <img src="/src/img/confirmCancel.svg" alt="confirm-delete" className="cancel-image" />
+                      <div className="cancel-content">
+                        <p className="cancel-message">Uh oh! This site is not mobile-friendly. Please view it on a desktop.</p>
+                      </div>
+                      <button type="submit" className="leader-cancel-button confirm-cancel" onClick={this.continue}>Visit site anyways </button>
+
+                </Modal>           
+       </div>);
+          }
+  
+      
       }
     }
      
