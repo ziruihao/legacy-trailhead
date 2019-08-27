@@ -25,6 +25,7 @@ export const ActionTypes = {
   FETCH_VEHICLE_REQUESTS: 'FETCH_VEHICLE_REQUESTS',
   FETCH_VEHICLES: 'FETCH_VEHICLES',
   FETCH_PCARD_REQUESTS: 'FETCH_PCARD_REQUESTS',
+  OPO_RESPOND_TO_VEHICLE_REQUEST: 'OPO_RESPOND_TO_VEHICLE_REQUEST',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -490,9 +491,9 @@ export function getVehicles() {
 export function assignVehicles(vehicleResponse) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${ROOT_URL}/opoVehicleRequest/${vehicleResponse.id}`, vehicleResponse, { headers: { authorization: localStorage.getItem('token') } })
+      axios.put(`${ROOT_URL}/opoVehicleRequest/${vehicleResponse.reqId}`, vehicleResponse, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
-          dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
+          dispatch({ type: ActionTypes.OPO_RESPOND_TO_VEHICLE_REQUEST, payload: response.data });
           resolve();
         }).catch((error) => {
           console.log(error);

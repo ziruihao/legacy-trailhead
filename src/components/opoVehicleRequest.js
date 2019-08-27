@@ -61,7 +61,9 @@ class OPOVehicleRequest extends Component {
           return Object.assign({}, defaultAssignment, { responseIndex: index });
         });
         const unreviewed = this.props.vehicleRequest.status === 'pending';
-        this.setState({ isEditing: unreviewed, assignments, ready: true });
+        this.setState((prevState) => {
+          return { isEditing: unreviewed, assignments, ready: true };
+        });
       });
   }
 
@@ -127,7 +129,7 @@ class OPOVehicleRequest extends Component {
     });
   }
 
-  skipVehicle = (index) => {
+  skipAssignment = (index) => {
     this.setState((prevState) => {
       const { assignments } = prevState;
       assignments[index] = this.defaultAssignment;
@@ -261,7 +263,7 @@ class OPOVehicleRequest extends Component {
 
     if (hasConflictingEvent) {
       this.setState({ assignments: markedConflictingAssignments });
-      this.props.appError('Please complete or clear the highlighted assignments');
+      this.props.appError('The highlighted assignment conflicts with an already existing one');
       window.scrollTo(0, 0);
       return false;
     }
@@ -300,7 +302,10 @@ class OPOVehicleRequest extends Component {
         reqId: this.props.vehicleRequest.id,
         assignments: deletedErrorFields,
       };
-      this.props.assignVehicles(response);
+      this.props.assignVehicles(response)
+        .then(() => {
+          console.log(this.props.vehicleRequest);
+        });
     }
   }
 
@@ -384,7 +389,7 @@ class OPOVehicleRequest extends Component {
           </span>
           <hr className="detail-line" />
         </div>
-        <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.skipVehicle(index)} role="button" tabIndex={0}>Skip vehicle</span>
+        <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.skipAssignment(index)} role="button" tabIndex={0}>Skip assignment</span>
       </div>
     );
   }
@@ -630,6 +635,7 @@ const mapStateToProps = (state) => {
   return {
     vehicleRequest: state.vehicleRequests.vehicleReq,
     vehicles: state.vehicleRequests.vehicles,
+    invalidAssignments: state.vehicleRequests.invalidAssignments,
   };
 };
 
