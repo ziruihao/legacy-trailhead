@@ -78,6 +78,7 @@
   min-width: 33%;
   display: flex;
   flex-direction: column;
+  margin-right: 1.5em;
 }
 .ovr-req-vehicle-details, .ovr-req-assignment{
   display: flex;
@@ -189,4 +190,7 @@ input.ovr-date-input{
   color: #C4C4C4;
   font-style: italic;
   letter-spacing: 0.1em;
+}
+.ovr-display-flex{
+  display: flex;
 }

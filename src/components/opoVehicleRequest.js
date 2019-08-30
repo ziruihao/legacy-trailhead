@@ -5,7 +5,7 @@ import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import ProfileCard from './profilecard';
-import { appError, fetchVehicleRequest, getVehicles, assignVehicles } from '../actions';
+import { appError, fetchVehicleRequest, getVehicles, assignVehicles, updateVehicleAssignment } from '../actions';
 import '../styles/opoVehicleRequest-style.scss';
 
 class OPOVehicleRequest extends Component {
@@ -58,7 +58,13 @@ class OPOVehicleRequest extends Component {
         });
         const assignments = this.props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
           const { defaultAssignment } = this;
-          return Object.assign({}, defaultAssignment, { responseIndex: index });
+          const updates = {};
+          updates.responseIndex = index;
+          updates.pickupDate = vehicle.pickupDate.substring(0, 10);
+          updates.pickupTime = vehicle.pickupTime;
+          updates.returnDate = vehicle.returnDate.substring(0, 10);
+          updates.returnTime = vehicle.returnTime;
+          return Object.assign({}, defaultAssignment, updates);
         });
         const unreviewed = this.props.vehicleRequest.status === 'pending';
         this.setState((prevState) => {
@@ -118,7 +124,7 @@ class OPOVehicleRequest extends Component {
     this.setState((prevState) => {
       const oldVehicles = prevState.assignments;
       const oldVehicle = oldVehicles[index];
-      const newValue = event.target.value;
+      const newValue = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
       const updatedEntry = event.target.name;
       const update = {};
       // update entry with new value
@@ -229,10 +235,31 @@ class OPOVehicleRequest extends Component {
     const markedConflictingAssignments = assignments.map((assignment) => {
       if (!this.isStringEmpty(assignment.assignedVehicle) && !this.isStringEmpty(assignment.pickupDate)
         && !this.isStringEmpty(assignment.pickupTime) && !this.isStringEmpty(assignment.returnDate) && !this.isStringEmpty(assignment.returnTime)) {
-        const selectedVehicle = vehicles.find((vehicle) => {
-          return vehicle.name === assignment.assignedVehicle;
-        });
-        const conflictingEvents = selectedVehicle.bookings.filter((booking) => {
+        let selectedVehicleBookings, selectedVehicle;
+        if (assignment.existingAssignment) { // is update to response
+          const oldAssignment = this.props.vehicleRequest.assignments.find((element) => { // find old assignment
+            return element.id === assignment.id;
+          });
+          if (assignment.assignVehicle === oldAssignment.assignVehicle) { // if vehicle was not changed,
+            selectedVehicle = vehicles.find((vehicle) => { // consider selected vehicle
+              return vehicle.name === assignment.assignedVehicle;
+            });
+            selectedVehicleBookings = selectedVehicle.bookings.filter((booking) => { // remove modified assignment to avoid conflicting with self when checking for validity
+              return booking.id !== assignment.id;
+            });
+          } else { // vehicle was changed
+            selectedVehicle = vehicles.find((vehicle) => { // consider selected vehicle
+              return vehicle.name === assignment.assignedVehicle;
+            });
+            selectedVehicleBookings = selectedVehicle.bookings; // no need to remove because assignment does not exist in new assigned vehicle
+          }
+        } else { // is new response
+          selectedVehicle = vehicles.find((vehicle) => {
+            return vehicle.name === assignment.assignedVehicle;
+          });
+          selectedVehicleBookings = selectedVehicle.bookings;
+        }
+        const conflictingEvents = selectedVehicleBookings.filter((booking) => {
           const existingPickupDateAndTime = this.createDateObject(booking.assigned_pickupDate, booking.assigned_pickupTime);
 
           const existingReturnDateAndTime = this.createDateObject(booking.assigned_returnDate, booking.assigned_returnTime);
@@ -304,7 +331,81 @@ class OPOVehicleRequest extends Component {
       };
       this.props.assignVehicles(response)
         .then(() => {
-          console.log(this.props.vehicleRequest);
+          this.setState({ isEditing: false });
+        });
+    }
+  }
+
+  startEditing = () => {
+    this.props.getVehicles()
+      .then(() => {
+        this.vehicleForm = this.props.vehicles.map((vehicle) => {
+          return (
+            <Dropdown.Item className="ovr-vehicle-option" key={vehicle.id} eventKey={vehicle.name}>
+              <span>{vehicle.name}</span>
+              <span className="ovr-vehicle-option-type">{vehicle.type}</span>
+            </Dropdown.Item>
+          );
+        });
+        const assignments = this.props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
+          const assignment = this.props.vehicleRequest.assignments.find((element) => {
+            return element.responseIndex === index;
+          });
+          const { defaultAssignment } = this;
+          if (assignment) {
+            const updates = {};
+            updates.existingAssignment = true;
+            updates.id = assignment.id;
+            updates.responseIndex = index;
+            updates.assignedVehicle = assignment.assigned_vehicle.name;
+            updates.pickupDate = assignment.assigned_pickupDate.substring(0, 10);
+            updates.pickupTime = assignment.assigned_pickupTime;
+            updates.returnDate = assignment.assigned_returnDate.substring(0, 10);
+            updates.returnTime = assignment.assigned_returnTime;
+            updates.pickedUp = assignment.pickedUp;
+            updates.returned = assignment.returned;
+            updates.assignedKey = assignment.assigned_key;
+            return Object.assign({}, defaultAssignment, updates);
+          } else {
+            return defaultAssignment;
+          }
+        });
+        this.setState((prevState) => {
+          return { isEditing: true, assignments };
+        });
+      });
+  }
+
+  cancelUpdate = () => {
+    this.setState({ isEditing: false });
+  }
+
+  update = () => {
+    if (this.isValid()) {
+      const nonEmptyAssignemnts = this.state.assignments.filter((assignment) => {
+        const fields = Object.keys(this.errorFields);
+        let hasFilledOutField = false;
+        fields.forEach((field) => {
+          if (!this.isStringEmpty(assignment[field])) {
+            hasFilledOutField = true;
+          }
+        });
+        return hasFilledOutField;
+      });
+
+      const deletedErrorFields = nonEmptyAssignemnts.map((assignment) => {
+        delete assignment.errorFields;
+        delete assignment.conflictingEvents;
+        return assignment;
+      });
+
+      const response = {
+        reqId: this.props.vehicleRequest.id,
+        assignments: deletedErrorFields,
+      };
+      this.props.updateVehicleAssignment(response)
+        .then(() => {
+          // this.setState({ isEditing: false });
         });
     }
   }
@@ -388,39 +489,109 @@ class OPOVehicleRequest extends Component {
             />
           </span>
           <hr className="detail-line" />
+          {assignment.existingAssignment
+            ? (
+              <div>
+                <span className="ovr-req-row ovr-req-vehicle-detail">
+                  <label className="checkbox-container club-checkbox" htmlFor={`pickedUp_${index}`}>
+                    <input
+                      type="checkbox"
+                      name="pickedUp"
+                      id={`pickedUp_${index}`}
+                      checked={assignment.pickedUp}
+                      onChange={event => this.onAssignmentDetailChange(event, index)}
+                    />
+                    <span className="checkmark" />
+                  </label>
+                </span>
+                <hr className="detail-line" />
+                <span className="ovr-req-row ovr-req-vehicle-detail">
+                  <label className="checkbox-container club-checkbox" htmlFor={`returned_${index}`}>
+                    <input
+                      type="checkbox"
+                      name="returned"
+                      id={`returned_${index}`}
+                      checked={assignment.returned}
+                      onChange={event => this.onAssignmentDetailChange(event, index)}
+                    />
+                    <span className="checkmark" />
+                  </label>
+                </span>
+              </div>
+            )
+            : null
+          }
         </div>
-        <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.skipAssignment(index)} role="button" tabIndex={0}>Skip assignment</span>
+        {assignment.existingAssignment
+          ? null
+          : <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.skipAssignment(index)} role="button" tabIndex={0}>Skip assignment</span>}
       </div>
     );
   }
 
   assignmentDisplay = (index) => {
-    return (
-      <div className="ovr-req-assignment">
-        <span className="vrf-label ovr-column-header">Assigned</span>
-        <div className="trip-detail ovr-white-background">
-          <span className="ovr-req-row ovr-req-vehicle-detail">Van</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">4/15/19</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">9:00 AM</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">4/15/19</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">4:00 PM</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">Yes</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">No</span>
-          <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">63</span>
+    const assignment = this.props.vehicleRequest.assignments.find((element) => {
+      return element.responseIndex === index;
+    });
+    if (assignment) {
+      return (
+        <div className="ovr-req-assignment">
+          <span className="vrf-label ovr-column-header">Assigned</span>
+          <div className="trip-detail ovr-white-background">
+            <span className="ovr-req-row ovr-req-vehicle-detail">{assignment.assigned_vehicle.name}</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatDate(assignment.assigned_pickupDate.substring(0, 10))}</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatTime(assignment.assigned_pickupTime)}</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatDate(assignment.assigned_returnDate.substring(0, 10))}</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatTime(assignment.assigned_returnTime)}</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail">{assignment.assigned_key}</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail">{assignment.pickedUp ? 'Yes' : 'No'}</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail">{assignment.returned ? 'Yes' : 'No'}</span>
+          </div>
+          <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.activateModal('CANCEL')} role="button" tabIndex={0}>Cancel assignment</span>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div className="ovr-req-assignment">
+          <span className="vrf-label ovr-column-header">Skipped Assignment</span>
+          <div className="trip-detail ovr-white-background">
+            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <hr className="detail-line" />
+            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+          </div>
+        </div>
+      );
+    }
   }
 
   getVehicles = () => {
     return this.props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
+      const assignment = this.props.vehicleRequest.assignments.find((element) => {
+        return element.responseIndex === index;
+      });
       return (
         <div key={`vehicle_#${index}`} id={`vehicle_req_${index}`} className="vrf-req-group">
           <div className="vrf-req-header">
@@ -445,7 +616,16 @@ class OPOVehicleRequest extends Component {
               <span className="ovr-req-row vrf-label ovr-req-label">Pickup Time</span>
               <span className="ovr-req-row vrf-label ovr-req-label">Return Date</span>
               <span className="ovr-req-row vrf-label ovr-req-label">Return Time</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Key Assignment </span>
+              <span className="ovr-req-row vrf-label ovr-req-label">Key Assignment</span>
+              {assignment
+                ? (
+                  <div>
+                    <span className="ovr-req-row vrf-label ovr-req-label">Picked up?</span>
+                    <span className="ovr-req-row vrf-label ovr-req-label">Returned?</span>
+                  </div>
+                )
+                : null
+              }
             </div>
 
             <div className="ovr-req-vehicle-details">
@@ -466,10 +646,21 @@ class OPOVehicleRequest extends Component {
                 <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatTime(vehicle.returnTime)}</span>
                 <hr className="detail-line" />
                 <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+                {assignment
+                  ? (
+                    <div>
+                      <hr className="detail-line" />
+                      <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+                      <hr className="detail-line" />
+                      <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+                    </div>
+                  )
+                  : null
+                }
               </div>
             </div>
 
-            {this.props.vehicleRequest.status === 'pending' ? this.assignmentForm(index) : this.assignmentDisplay(index)}
+            {this.state.isEditing ? this.assignmentForm(index) : this.assignmentDisplay(index)}
 
           </div>
         </div>
@@ -481,7 +672,7 @@ class OPOVehicleRequest extends Component {
     if (this.state.isEditing) {
       return <span className="cancel-link ovr-bottom-link ovr-contact-link" onClick={() => this.activateModal('CONTACT')} role="button" tabIndex={0}>Contact requester</span>;
     } else if (!this.state.isEditing && this.props.vehicleRequest.status === 'approved') {
-      return <span className="cancel-link ovr-bottom-link" onClick={() => this.activateModal('CANCEL')} role="button" tabIndex={0}>Cancel assignment</span>;
+      return <span className="cancel-link ovr-bottom-link" onClick={() => this.activateModal('CANCEL')} role="button" tabIndex={0}>Cancel all assignments</span>;
     } else {
       return null;
     }
@@ -489,7 +680,16 @@ class OPOVehicleRequest extends Component {
 
   getAppropriateButton = () => {
     if (this.state.isEditing) {
-      return <button type="submit" className="vrf-submit-button signup-button" onClick={this.approve}>{this.props.vehicleRequest.status === 'pending' ? 'Approve request' : 'Update'}</button>;
+      if (this.props.vehicleRequest.status === 'pending') {
+        return <button type="submit" className="vrf-submit-button signup-button" onClick={this.approve}>Approve request</button>;
+      } else {
+        return (
+          <span className="ovr-display-flex">
+            <button type="button" className="vrf-add-button vrf-cancel-button vrf-cancel-update-button" onClick={this.cancelUpdate}>Cancel update</button>
+            <button type="submit" className="vrf-submit-button signup-button" onClick={this.update}>Save</button>
+          </span>
+        );
+      }
     } else {
       return <button type="submit" className="vrf-submit-button signup-button" onClick={this.startEditing}>Update assignment</button>;
     }
@@ -559,8 +759,19 @@ class OPOVehicleRequest extends Component {
             </div>
           </div>
           <div className="ovr-req-content">
-            <div className="ovr-req-content-header">
-              <h1 className="mytrips-header">Vehicle Request</h1>
+            <div className="vrf-title-container">
+              <h2 className="p-trip-title vrf-title-size">Vehicle Request</h2>
+              <span className="vrf-status-display">
+                <span className="vrf-label">
+                  Status:
+                </span>
+                <span className="vrf-req-status-display">
+                  {this.props.vehicleRequest.status}
+                </span>
+                <span className="vrf-req-status-badge">
+                  <img className="status-badge" src={`/src/img/${this.props.vehicleRequest.status}_badge.svg`} alt={`${this.props.vehicleRequest.status}_badge`} />
+                </span>
+              </span>
             </div>
             <div id="req_details" className="trip-detail pending-table ovr-white-background">
               <div className="leader-detail-row">
@@ -639,4 +850,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, getVehicles, assignVehicles })(OPOVehicleRequest));
+export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, getVehicles, assignVehicles, updateVehicleAssignment })(OPOVehicleRequest));

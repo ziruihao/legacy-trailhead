@@ -425,6 +425,18 @@ export function reviewTrippeeGearRequest(review) {
   };
 }
 
+export function reviewPCardRequests(review) {
+  console.log(review);
+  return (dispatch) => {
+    axios.put(`${ROOT_URL}/pcardrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
+      .then(
+        // dispatch(fetchTrip(review.id)),
+      ).catch((error) => {
+        dispatch(appError(`Error responding to pcard  request: ${error}`));
+      });
+  };
+}
+
 export function submitVehicleRequest(vehicleRequest, history) {
   return (dispatch) => {
     axios.post(`${ROOT_URL}/vehicleRequests`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
@@ -491,7 +503,7 @@ export function getVehicles() {
 export function assignVehicles(vehicleResponse) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${ROOT_URL}/opoVehicleRequest/${vehicleResponse.reqId}`, vehicleResponse, { headers: { authorization: localStorage.getItem('token') } })
+      axios.post(`${ROOT_URL}/opoVehicleRequest/${vehicleResponse.reqId}`, vehicleResponse, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
           dispatch({ type: ActionTypes.OPO_RESPOND_TO_VEHICLE_REQUEST, payload: response.data });
           resolve();
@@ -503,14 +515,17 @@ export function assignVehicles(vehicleResponse) {
   };
 }
 
-export function reviewPCardRequests(review) {
-  console.log(review);
+export function updateVehicleAssignment(updatedResponse) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/pcardrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
-      .then(
-        // dispatch(fetchTrip(review.id)),
-      ).catch((error) => {
-        dispatch(appError(`Error responding to pcard  request: ${error}`));
-      });
+    return new Promise((resolve, reject) => {
+      axios.put(`${ROOT_URL}/opoVehicleRequest/${updatedResponse.reqId}`, updatedResponse, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.OPO_RESPOND_TO_VEHICLE_REQUEST, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          dispatch(appError(`Error responding to vehicle request: ${error}`));
+        });
+    });
   };
 }
