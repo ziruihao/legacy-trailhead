@@ -128,8 +128,8 @@ renderTripDetailsModal=()=>{
         if(card_id==="Winter Sports") card_id = "wsc";
 
         //TODO: try to get bait and bullet logo
-        if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
-          return (
+        if(trip.club.name !== ('Ledyard' || 'Mountaineering' || 'cnt'|| 'wiw' || 'Woodsmen' || 'surf' || 'dmbc' || 'wsc')) card_id = "doc";
+        return (
             <div key={trip.id} className="card text-center card-trip margins">
                 <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
                   <h2 className="card-title">{trip.title}</h2>
@@ -158,8 +158,8 @@ renderTripDetailsModal=()=>{
        if(card_id==="Mountain Biking") card_id = "dmbc";
        if(card_id==="Winter Sports") card_id = "wsc";
 
-       // TODO: make this less specific
-       if(trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other' ) card_id = "doc";
+
+       if(trip.club.name !== ('Ledyard' || 'Mountaineering' || 'cnt'|| 'wiw' || 'Woodsmen' || 'surf' || 'dmbc' || 'wsc')) card_id = "doc";
          return (
            <div key={trip.id} className="card card text-center card-trip margins">
                <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
