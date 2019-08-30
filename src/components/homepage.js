@@ -23,6 +23,8 @@ class Homepage extends Component {
       this.props.authed(token, id, this.props.history);
       this.props.getUser();      
 
+    }else{
+      this.props.signIn(this.props.history);
     }
   }
 
