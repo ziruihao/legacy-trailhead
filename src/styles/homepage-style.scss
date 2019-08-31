@@ -106,14 +106,10 @@ html {
   width: 143px;
   margin-right: 5px;
   margin-bottom: 30px;
+  font-size: 20px;
   &.log-in{
     background: #0CA074;
     color: #FFFFFF;
-  }
-  &.sign-up{
-    border: 3px solid #0CA074;
-    color: #0CA074;
-    background: none;
   }
 }
 

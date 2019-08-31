@@ -46,7 +46,7 @@ const getPcardForm = (props) => {
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="snacks"
 							placeholder="e.g. 1"
-							value={request.snack}
+							value={request.snacks}
 							type="number"
 						/>
 					</div>
@@ -58,6 +58,7 @@ const getPcardForm = (props) => {
 							name="breakfast"
 							placeholder="e.g. 1"
 							value={request.breakfast}
+							type="number"
 						/>
 					</div>
 					<div className="row page-sub-headers pcard">
