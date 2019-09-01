@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { appError, getVehicles } from '../actions';
+import VehicleCalendarComponent from './vehicleCalendarComponent';
 import '../styles/vehicle-calendar-style.scss';
 
 class VehicleCalendar extends Component {
@@ -25,6 +26,11 @@ class VehicleCalendar extends Component {
         <div className="vehicle-calendar-container">
           <div className="mytrips-flex-start">
             <h1 className="mytrips-header">Vehicle Calendar</h1>
+          </div>
+          <div className="vcc-container">
+            <VehicleCalendarComponent
+              vehicles={this.props.vehicles}
+            />
           </div>
         </div>
       );
