@@ -208,7 +208,6 @@ export function deleteTrip(id, history) {
 }
 
 export function editTrip(trip, history) {
-  console.log(trip);
   return (dispatch) => {
     axios.put(`${ROOT_URL}/trip/${trip.id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
@@ -426,7 +425,6 @@ export function reviewTrippeeGearRequest(review) {
 }
 
 export function reviewPCardRequests(review) {
-  console.log(review);
   return (dispatch) => {
     axios.put(`${ROOT_URL}/pcardrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
       .then(
@@ -500,11 +498,13 @@ export function getVehicles() {
     });
   };
 }
-export function assignVehicles(vehicleResponse) {
+
+export function assignVehicles(vehicleResponse, finishEditing) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios.post(`${ROOT_URL}/opoVehicleRequest/${vehicleResponse.reqId}`, vehicleResponse, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
+          finishEditing();
           dispatch({ type: ActionTypes.OPO_RESPOND_TO_VEHICLE_REQUEST, payload: response.data });
           resolve();
         }).catch((error) => {
@@ -515,16 +515,31 @@ export function assignVehicles(vehicleResponse) {
   };
 }
 
-export function updateVehicleAssignment(updatedResponse) {
+export function cancelAssignments(deleteInfo) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${ROOT_URL}/opoVehicleRequest/${updatedResponse.reqId}`, updatedResponse, { headers: { authorization: localStorage.getItem('token') } })
+      axios.delete(`${ROOT_URL}/opoVehicleRequest/${deleteInfo.reqId}`, { headers: { authorization: localStorage.getItem('token') }, data: { deleteInfo } })
         .then((response) => {
           dispatch({ type: ActionTypes.OPO_RESPOND_TO_VEHICLE_REQUEST, payload: response.data });
           resolve();
         }).catch((error) => {
           console.log(error);
-          dispatch(appError(`Error responding to vehicle request: ${error}`));
+          dispatch(appError(`Error canceling assignment: ${error}`));
+        });
+    });
+  };
+}
+
+export function denyVehicleRequest(id) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.put(`${ROOT_URL}/opoVehicleRequest/${id}`, id, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.OPO_RESPOND_TO_VEHICLE_REQUEST, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          dispatch(appError(`Error denying vehicle request: ${error}`));
         });
     });
   };

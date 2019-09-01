@@ -5,7 +5,7 @@ import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import ProfileCard from './profilecard';
-import { appError, fetchVehicleRequest, getVehicles, assignVehicles, updateVehicleAssignment } from '../actions';
+import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../actions';
 import '../styles/opoVehicleRequest-style.scss';
 
 class OPOVehicleRequest extends Component {
@@ -40,7 +40,7 @@ class OPOVehicleRequest extends Component {
       showProfile: false,
       assignments: [],
       showModal: false,
-      modalTrigger: 'CONTACT',
+      modalInfo: { trigger: 'CONTACT', ids: [] },
       ready: false,
     };
   }
@@ -235,28 +235,22 @@ class OPOVehicleRequest extends Component {
     const markedConflictingAssignments = assignments.map((assignment) => {
       if (!this.isStringEmpty(assignment.assignedVehicle) && !this.isStringEmpty(assignment.pickupDate)
         && !this.isStringEmpty(assignment.pickupTime) && !this.isStringEmpty(assignment.returnDate) && !this.isStringEmpty(assignment.returnTime)) {
-        let selectedVehicleBookings, selectedVehicle;
+        const selectedVehicle = vehicles.find((vehicle) => { // consider selected vehicle
+          return vehicle.name === assignment.assignedVehicle;
+        });
+        let selectedVehicleBookings;
         if (assignment.existingAssignment) { // is update to response
           const oldAssignment = this.props.vehicleRequest.assignments.find((element) => { // find old assignment
             return element.id === assignment.id;
           });
           if (assignment.assignVehicle === oldAssignment.assignVehicle) { // if vehicle was not changed,
-            selectedVehicle = vehicles.find((vehicle) => { // consider selected vehicle
-              return vehicle.name === assignment.assignedVehicle;
-            });
             selectedVehicleBookings = selectedVehicle.bookings.filter((booking) => { // remove modified assignment to avoid conflicting with self when checking for validity
               return booking.id !== assignment.id;
             });
           } else { // vehicle was changed
-            selectedVehicle = vehicles.find((vehicle) => { // consider selected vehicle
-              return vehicle.name === assignment.assignedVehicle;
-            });
             selectedVehicleBookings = selectedVehicle.bookings; // no need to remove because assignment does not exist in new assigned vehicle
           }
         } else { // is new response
-          selectedVehicle = vehicles.find((vehicle) => {
-            return vehicle.name === assignment.assignedVehicle;
-          });
           selectedVehicleBookings = selectedVehicle.bookings;
         }
         const conflictingEvents = selectedVehicleBookings.filter((booking) => {
@@ -298,8 +292,8 @@ class OPOVehicleRequest extends Component {
     return true;
   }
 
-  activateModal = (trigger) => {
-    this.setState({ showModal: true, modalTrigger: trigger });
+  activateModal = (modalInfo) => {
+    this.setState({ showModal: true, modalInfo });
   }
 
   closeModal = () => {
@@ -329,10 +323,11 @@ class OPOVehicleRequest extends Component {
         reqId: this.props.vehicleRequest.id,
         assignments: deletedErrorFields,
       };
-      this.props.assignVehicles(response)
-        .then(() => {
-          this.setState({ isEditing: false });
+      this.props.assignVehicles(response, () => {
+        this.setState((prevState) => {
+          return { isEditing: false };
         });
+      });
     }
   }
 
@@ -367,7 +362,13 @@ class OPOVehicleRequest extends Component {
             updates.assignedKey = assignment.assigned_key;
             return Object.assign({}, defaultAssignment, updates);
           } else {
-            return defaultAssignment;
+            const updates = {};
+            updates.responseIndex = index;
+            updates.pickupDate = vehicle.pickupDate.substring(0, 10);
+            updates.pickupTime = vehicle.pickupTime;
+            updates.returnDate = vehicle.returnDate.substring(0, 10);
+            updates.returnTime = vehicle.returnTime;
+            return Object.assign({}, defaultAssignment, updates);
           }
         });
         this.setState((prevState) => {
@@ -380,34 +381,22 @@ class OPOVehicleRequest extends Component {
     this.setState({ isEditing: false });
   }
 
-  update = () => {
-    if (this.isValid()) {
-      const nonEmptyAssignemnts = this.state.assignments.filter((assignment) => {
-        const fields = Object.keys(this.errorFields);
-        let hasFilledOutField = false;
-        fields.forEach((field) => {
-          if (!this.isStringEmpty(assignment[field])) {
-            hasFilledOutField = true;
-          }
-        });
-        return hasFilledOutField;
+  cancelAssignments = () => {
+    const deleteInfo = {
+      reqId: this.props.vehicleRequest.id,
+      toBeDeleted: this.state.modalInfo.ids,
+    };
+    this.props.cancelAssignments(deleteInfo)
+      .then(() => {
+        this.setState({ showModal: false });
       });
+  }
 
-      const deletedErrorFields = nonEmptyAssignemnts.map((assignment) => {
-        delete assignment.errorFields;
-        delete assignment.conflictingEvents;
-        return assignment;
+  denyVehicleRequest = () => {
+    this.props.denyVehicleRequest(this.props.vehicleRequest.id)
+      .then(() => {
+        this.setState({ isEditing: false });
       });
-
-      const response = {
-        reqId: this.props.vehicleRequest.id,
-        assignments: deletedErrorFields,
-      };
-      this.props.updateVehicleAssignment(response)
-        .then(() => {
-          // this.setState({ isEditing: false });
-        });
-    }
   }
 
   assignmentForm = (index) => {
@@ -558,7 +547,9 @@ class OPOVehicleRequest extends Component {
             <hr className="detail-line" />
             <span className="ovr-req-row ovr-req-vehicle-detail">{assignment.returned ? 'Yes' : 'No'}</span>
           </div>
-          <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.activateModal('CANCEL')} role="button" tabIndex={0}>Cancel assignment</span>
+          <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.activateModal({ trigger: 'CANCEL', ids: [assignment.id] })} role="button" tabIndex={0}>
+            Cancel assignment
+          </span>
         </div>
       );
     } else {
@@ -669,10 +660,17 @@ class OPOVehicleRequest extends Component {
   }
 
   getAppropriateLink = () => {
+    const allAssignmentIds = this.props.vehicleRequest.assignments.map((assignment) => {
+      return assignment.id;
+    });
     if (this.state.isEditing) {
-      return <span className="cancel-link ovr-bottom-link ovr-contact-link" onClick={() => this.activateModal('CONTACT')} role="button" tabIndex={0}>Contact requester</span>;
+      return <span className="cancel-link ovr-bottom-link ovr-contact-link" onClick={() => this.activateModal({ trigger: 'CONTACT' })} role="button" tabIndex={0}>Contact requester</span>;
     } else if (!this.state.isEditing && this.props.vehicleRequest.status === 'approved') {
-      return <span className="cancel-link ovr-bottom-link" onClick={() => this.activateModal('CANCEL')} role="button" tabIndex={0}>Cancel all assignments</span>;
+      return (
+        <span className="cancel-link ovr-bottom-link" onClick={() => this.activateModal({ trigger: 'CANCEL ALL', ids: allAssignmentIds })} role="button" tabIndex={0}>
+          Cancel all assignments
+        </span>
+      );
     } else {
       return null;
     }
@@ -681,12 +679,17 @@ class OPOVehicleRequest extends Component {
   getAppropriateButton = () => {
     if (this.state.isEditing) {
       if (this.props.vehicleRequest.status === 'pending') {
-        return <button type="submit" className="vrf-submit-button signup-button" onClick={this.approve}>Approve request</button>;
+        return (
+          <span className="ovr-display-flex">
+            <button type="button" className="vrf-add-button vrf-cancel-button vrf-cancel-update-button" onClick={this.denyVehicleRequest}>Deny request</button>
+            <button type="submit" className="vrf-submit-button signup-button" onClick={this.approve}>Approve request</button>
+          </span>
+        );
       } else {
         return (
           <span className="ovr-display-flex">
             <button type="button" className="vrf-add-button vrf-cancel-button vrf-cancel-update-button" onClick={this.cancelUpdate}>Cancel update</button>
-            <button type="submit" className="vrf-submit-button signup-button" onClick={this.update}>Save</button>
+            <button type="submit" className="vrf-submit-button signup-button" onClick={this.approve}>Save</button>
           </span>
         );
       }
@@ -697,7 +700,7 @@ class OPOVehicleRequest extends Component {
 
 
   getModalContent = () => {
-    if (this.state.modalTrigger === 'CONTACT') {
+    if (this.state.modalInfo.trigger === 'CONTACT') {
       return (
         <div className="cancel-content">
           <p className="cancel-question">{`Contact ${this.props.vehicleRequest.requester.name}`}</p>
@@ -715,13 +718,23 @@ class OPOVehicleRequest extends Component {
           </div>
         </div>
       );
-    } else if (this.state.modalTrigger === 'CANCEL') {
+    } else if (this.state.modalInfo.trigger === 'CANCEL ALL') {
+      return (
+        <div className="cancel-content">
+          <p className="cancel-question">Cancel all assignments for this request?</p>
+          <p className="cancel-message">The assigned vehicles will become available for other requests</p>
+          <div className="ovr-modal-button-container">
+            <button type="submit" className="leader-cancel-button confirm-cancel" onClick={() => this.cancelAssignments(this.state.modalInfo.ids)}>Cancel All</button>
+          </div>
+        </div>
+      );
+    } else if (this.state.modalInfo.trigger === 'CANCEL') {
       return (
         <div className="cancel-content">
           <p className="cancel-question">Cancel assignment?</p>
           <p className="cancel-message">The assigned vehicle will become available for other requests</p>
           <div className="ovr-modal-button-container">
-            <button type="submit" className="leader-cancel-button confirm-cancel" onClick={this.cancelAssignment}>Cancel</button>
+            <button type="submit" className="leader-cancel-button confirm-cancel" onClick={() => this.cancelAssignments(this.state.modalInfo.ids)}>Cancel</button>
           </div>
         </div>
       );
@@ -850,4 +863,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, getVehicles, assignVehicles, updateVehicleAssignment })(OPOVehicleRequest));
+export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest })(OPOVehicleRequest));
