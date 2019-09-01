@@ -147,6 +147,28 @@ button.vrf-submit-button{
 .vrf-req-status-display{
   text-transform: capitalize;
 }
+.vrf-requested-vehicles{
+  width: 50%;
+}
+.vrf-req-and-assignment{
+  display: flex;
+}
+.vrf-skipped-assignment{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: #939393;
+  font-size: 1.4em;
+}
+button.disabled-cancel-button{
+  border: 2px solid #939393;
+  color: #939393;
+}
+button.disabled-cancel-button:hover{
+  border: 2px solid #939393;
+  color: #939393;
+  background: none;
+}
 
 
 @media only screen and (max-width: 640px) {

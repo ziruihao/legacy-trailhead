@@ -266,8 +266,7 @@ class VehicleRequest extends Component {
   }
 
   showError = () => {
-    window.scrollTo(0, 0);
-    this.props.appError('You can\'t edit your vehicle request after it\'s been reviewed');
+    this.props.appError('You can\'t edit or cancel your vehicle request after it\'s been approved');
   }
 
   update = () => {

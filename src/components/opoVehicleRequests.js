@@ -122,9 +122,7 @@ class OpoVehicleRequests extends Component {
             <tr>
               <th>Requester</th>
               <th>Reason</th>
-              <th>Assigned Vehicle</th>
-              <th>Picked up</th>
-              <th>Returned</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -135,20 +133,34 @@ class OpoVehicleRequests extends Component {
     }
   }
 
+  getReqStatus = (status) => {
+    if (status === 'N/A') {
+      return <td>N/A</td>;
+    } else if (status === 'pending') {
+      return <td className="pending">Pending</td>;
+    } else if (status === 'approved') {
+      return <td className="approved">Approved</td>;
+    } else {
+      return <td className="denied">Denied</td>;
+    }
+  }
+
   getPendingRequestRows = (pendingRequests) => {
     return pendingRequests.map(request => (
       <tr key={request.id} onClick={() => this.onRowClick(request.id)}>
         <td>{request.requester.name}</td>
-        {request.requestType === 'SOLO'
-          ? <td>{request.requestDetails}</td>
-          : <td>{request.associatedTrip.title}</td>}
+        <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
       </tr>
     ));
   }
 
   getApprovedRequestsRows = (approvedRequests) => {
     return approvedRequests.map(request => (
-      <div />
+      <tr key={request.id} onClick={() => this.onRowClick(request.id)}>
+        <td>{request.requester.name}</td>
+        <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
+        {this.getReqStatus(request.status)}
+      </tr>
     ));
   }
 
@@ -174,10 +186,10 @@ class OpoVehicleRequests extends Component {
         </div>
 
         <div className="pending-and-dropdown">
-          <h4 className="trip-status">Reviewed & Past Requests</h4>
+          <h4 className="trip-status">Reviewed Requests</h4>
           <input
             name="searchReviewed"
-            placeholder="Search reviewed & past requests"
+            placeholder="Search reviewed requests"
             value={this.state.searchReviewedTerm}
             onChange={this.onSearchReviewedTermChange}
             className="searchbox"
