@@ -152,7 +152,7 @@ class MyTrips extends Component {
               ? < Link to="/vehiclerequest" className="mytrips-request-button">Request vehicle</Link>
               : null}
             {(this.props.user.trailer_cert || this.props.user.driver_cert !== null) || this.props.user.role !== 'Trippee'
-              ? <Link to="/vehiclecalendar" className="mytrips-calendar-link">View vehicle calendar</Link>
+              ? <Link to="/vehicle-calendar" className="mytrips-calendar-link">View vehicle calendar</Link>
               : null}
           </div>
         </div>

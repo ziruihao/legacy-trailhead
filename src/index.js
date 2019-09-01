@@ -23,6 +23,7 @@ import OpoVehicleRequests from './components/opoVehicleRequests';
 import OpoVehicleRequest from './components/opoVehicleRequest';
 import OpoDashboard from './components/opo_dashboard';
 import requireAuth from './containers/requireAuth';
+import VehicleCalendar from './components/vehiclecalendar';
 import { ActionTypes, getUser } from './actions';
 import './styles/homepage-style.scss';
 
@@ -67,7 +68,7 @@ const App = (props) => {
           <Route path="/opo-vehicle-request/:vehicleReqId" component={requireAuth(OpoVehicleRequest)} />
           <Route path="/opo-dashboard" component={requireAuth(OpoDashboard)} />
           <Route path="/leader_approvals" component={requireAuth(OpoApprovals)} />
-          <Route path="/driver_cert_approvals" component={requireAuth()} />
+          <Route path="/vehicle-calendar" component={requireAuth(VehicleCalendar)} />
           <Route component={FallBack} />
         </Switch>
       </div>
