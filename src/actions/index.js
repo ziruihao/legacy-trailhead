@@ -26,6 +26,7 @@ export const ActionTypes = {
   FETCH_VEHICLES: 'FETCH_VEHICLES',
   FETCH_PCARD_REQUESTS: 'FETCH_PCARD_REQUESTS',
   OPO_RESPOND_TO_VEHICLE_REQUEST: 'OPO_RESPOND_TO_VEHICLE_REQUEST',
+  FETCH_ASSIGNMENTS: 'FETCH_ASSIGNMENTS',
 };
 
 // const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
@@ -540,6 +541,21 @@ export function denyVehicleRequest(id) {
         }).catch((error) => {
           console.log(error);
           dispatch(appError(`Error denying vehicle request: ${error}`));
+        });
+    });
+  };
+}
+
+export function fetchVehicleAssignments() {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.get(`${ROOT_URL}/vehicle-assignments`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_ASSIGNMENTS, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          dispatch(appError(`Error fetching vehicle request: ${error}`));
         });
     });
   };

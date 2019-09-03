@@ -114,6 +114,8 @@
   display: flex;
   justify-content: center;
   align-items: flex-end;
+  word-break: break-word;
+  text-align: center;
 }
 .ovr-header-filler{
   visibility: hidden;

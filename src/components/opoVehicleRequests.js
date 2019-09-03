@@ -182,7 +182,7 @@ class OpoVehicleRequests extends Component {
         </div>
 
         <div className="calendar-link-div">
-          <Link to="/vehicle-calendar" className="calendar-link">View Vehicle Calendar</Link>
+          <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
         </div>
 
         <div className="pending-and-dropdown">

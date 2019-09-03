@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { appError, getVehicles } from '../actions';
+import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
 import VehicleCalendarComponent from './vehicleCalendarComponent';
 import '../styles/vehicle-calendar-style.scss';
 
@@ -14,7 +14,7 @@ class VehicleCalendar extends Component {
   }
 
   componentDidMount() {
-    this.props.getVehicles()
+    Promise.all([this.props.getVehicles(), this.props.fetchVehicleAssignments()])
       .then(() => {
         this.setState({ ready: true });
       });
@@ -27,7 +27,7 @@ class VehicleCalendar extends Component {
           <div className="mytrips-flex-start">
             <h1 className="mytrips-header">Vehicle Calendar</h1>
           </div>
-          <div className="vcc-container">
+          <div className="vcc-container trip-detail">
             <VehicleCalendarComponent
               vehicles={this.props.vehicles}
             />
@@ -49,7 +49,8 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     vehicles: state.vehicleRequests.vehicles,
+    assignments: state.vehicleRequests.allAssignments,
   };
 };
 
-export default withRouter(connect(mapStateToProps, { appError, getVehicles })(VehicleCalendar));
+export default withRouter(connect(mapStateToProps, { appError, getVehicles, fetchVehicleAssignments })(VehicleCalendar));

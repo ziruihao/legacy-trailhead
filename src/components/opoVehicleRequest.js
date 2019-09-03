@@ -831,7 +831,7 @@ class OPOVehicleRequest extends Component {
             {this.getVehicles()}
 
             <div className="ovr-bottom-button-and-link">
-              <Link to="/vehicle-calendar" className="calendar-link">View Vehicle Calendar</Link>
+              <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
 
               {this.getAppropriateLink()}
 
