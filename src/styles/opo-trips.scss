@@ -64,14 +64,14 @@
 td{
   text-align: center;
 }
-td.pending{
-  color: #ffc107;
+.pending{
+  color: #ffc107 !important;
 }
-td.approved{
-  color: #28a745;
+.approved{
+  color: #28a745 !important;
 }
-td.denied{
-  color: #dc3545;
+.denied{
+  color: #dc3545 !important;
 }
 .calendar-link-div{
   display: flex;

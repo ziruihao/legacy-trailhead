@@ -24,6 +24,12 @@ class WeekView extends Component {
     });
   }
 
+  hasReturnTimePassed = (eventEnd) => {
+    const now = new Date();
+    const returnTime = new Date(eventEnd);
+    return returnTime < now;
+  };
+
   render() {
     const { date } = this.props;
     const range = WeekView.range(date);
@@ -32,6 +38,14 @@ class WeekView extends Component {
         const calendarFields = {};
         calendarFields.start = new Date(booking.assigned_pickupDateAndTime);
         calendarFields.end = new Date(booking.assigned_returnDateAndTime);
+        const returnTimeHasPassed = this.hasReturnTimePassed(booking.assigned_returnDateAndTime);
+        if (booking.pickedUp && booking.returned) {
+          calendarFields.tooltip = 'Vehicle has been returned';
+        } else if (booking.pickedUp && !booking.returned && returnTimeHasPassed) {
+          calendarFields.tooltip = 'Return time has passed';
+        } else if (booking.pickedUp && !booking.returned && !returnTimeHasPassed) {
+          calendarFields.tooltip = 'Vehicle has been picked up';
+        }
         return Object.assign({}, booking, calendarFields);
       });
       return (
@@ -44,11 +58,10 @@ class WeekView extends Component {
               ref={(timeGridRef) => { this.arrayofRefs[index] = timeGridRef; }}
               {...this.props}
               range={range}
-              step={60}
+              step={30}
               timeslots={12}
               showMultiDayTimes
               events={eventsWithDate}
-              titleAccessor="assigned_key"
               startAccessor="start"
               endAccessor="end"
             />

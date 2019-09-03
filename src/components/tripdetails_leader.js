@@ -92,7 +92,7 @@ const getPending = (props, pendingEmailRef) => {
           <h5>Emails</h5>
           <div className="emails">
             <Form className="col-9">
-              <Form.Control ref={pendingEmailRef} as="textarea" value={props.pendingEmail} name="pendingEmail" onChange={props.onTextChange} />
+              <Form.Control className="emails-input" ref={pendingEmailRef} as="textarea" value={props.pendingEmail} name="pendingEmail" onChange={props.onTextChange} />
             </Form>
             <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyPendingToClip}>Copy</button>
           </div>
@@ -156,7 +156,7 @@ const getOnTrip = (props, onTripEmailRef) => {
           <h5>Emails</h5>
           <div className="emails">
             <Form className="col-9">
-              <Form.Control ref={onTripEmailRef} as="textarea" value={props.onTripEmail} name="onTripEmail" onChange={props.onTextChange} />
+              <Form.Control className="emails-input" ref={onTripEmailRef} as="textarea" value={props.onTripEmail} name="onTripEmail" onChange={props.onTextChange} />
             </Form>
             <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyOnTripToClip}>Copy</button>
           </div>
@@ -246,10 +246,6 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
           {getGearStatus(groupGearStatus)}
         </div>
         <div className="trip-detail">
-          <div className="leader-trip-detail-row">
-            <h4>Gear</h4>
-          </div>
-          <hr className="detail-line" />
           {groupGearArray.map((gear, index, array) => (
             <div key={index}>
               <div className="leader-trip-detail-row">
@@ -265,7 +261,6 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
 };
 
 export default React.forwardRef((props, ref) => {
-  console.log(props.trip.id);
   const { pendingEmailRef, onTripEmailRef } = ref;
   return (
     <div className="leader-details-container">

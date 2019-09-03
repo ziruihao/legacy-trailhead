@@ -31,3 +31,60 @@
   font-size: 1.2em;
   font-weight: 700;
 }
+.rbc-event-label{
+  display: none;
+}
+.booking-container{
+  display: flex;
+  flex-direction: column;
+  background: white;
+  color: black;
+  height: 100%;
+}
+.rbc-event{
+  background: white;
+  border: 2px solid #3AA988 !important;
+}
+.booking-reason{
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-bottom: 0.3em;
+  height: 50%;
+}
+.booking-mini-details{
+  display: flex;
+  white-space: nowrap;
+  font-size: 0.9em;
+  height: 50%;
+  align-items: center;
+}
+.booking-time{
+  font-size: 0.8em;
+}
+.booking-dot{
+  padding-bottom: 0.5em;
+  margin-left: 0.03em;
+  margin-right: 0.03em;
+  font-size: 2.2em;
+}
+.booking-pickedUp, .booking-returned{
+  font-weight: 700;
+}
+.booking-tooltip{
+  display: none;
+  z-index: 1;
+}
+.hoverable-booking:hover .booking-tooltip{
+  display: unset;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+}
+.hoverable-booking:hover .booking-mini-details{
+  display: none;
+}
+.booking-status-container{
+  display: flex;
+  align-items: center;
+}

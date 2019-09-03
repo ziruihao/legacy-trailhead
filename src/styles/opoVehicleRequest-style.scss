@@ -38,8 +38,14 @@
 .ovr-sidebar-req-section{
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 0.5em;
   min-height: 2.5em;
+}
+.assigned-badge{
+  max-height: 1.5em;
+  max-width: 1.5em;
+  margin-left: 0.5em;
 }
 .ovr-req-section-link{
   margin-left: 1.43em;

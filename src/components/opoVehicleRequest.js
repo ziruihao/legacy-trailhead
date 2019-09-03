@@ -327,6 +327,7 @@ class OPOVehicleRequest extends Component {
         this.setState((prevState) => {
           return { isEditing: false };
         });
+        window.scrollTo(0, 0);
       });
     }
   }
@@ -364,10 +365,6 @@ class OPOVehicleRequest extends Component {
           } else {
             const updates = {};
             updates.responseIndex = index;
-            updates.pickupDate = vehicle.pickupDate.substring(0, 10);
-            updates.pickupTime = vehicle.pickupTime;
-            updates.returnDate = vehicle.returnDate.substring(0, 10);
-            updates.returnTime = vehicle.returnTime;
             return Object.assign({}, defaultAssignment, updates);
           }
         });
@@ -389,6 +386,7 @@ class OPOVehicleRequest extends Component {
     this.props.cancelAssignments(deleteInfo)
       .then(() => {
         this.setState({ showModal: false });
+        window.scrollTo(0, 0);
       });
   }
 
@@ -397,6 +395,20 @@ class OPOVehicleRequest extends Component {
       .then(() => {
         this.setState({ isEditing: false });
       });
+  }
+
+  getSideLinks = () => {
+    return this.props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
+      const assignment = this.props.vehicleRequest.assignments.find((element) => {
+        return element.responseIndex === index;
+      });
+      return (
+        <div key={`vehicle_link_${index}`} className="ovr-sidebar-req-section">
+          <a href={`#vehicle_req_${index}`} className="ovr-req-section-link">Vehicle #{index + 1}</a>
+          {assignment ? <img className="assigned-badge" src="/src/img/approved_badge.svg" alt="approved_badge" /> : null}
+        </div>
+      );
+    });
   }
 
   assignmentForm = (index) => {
@@ -682,7 +694,7 @@ class OPOVehicleRequest extends Component {
         return (
           <span className="ovr-display-flex">
             <button type="button" className="vrf-add-button vrf-cancel-button vrf-cancel-update-button" onClick={this.denyVehicleRequest}>Deny request</button>
-            <button type="submit" className="vrf-submit-button signup-button" onClick={this.approve}>Approve request</button>
+            <button type="submit" className="vrf-submit-button signup-button" onClick={this.approve}>Assign vehicles</button>
           </span>
         );
       } else {
@@ -694,7 +706,7 @@ class OPOVehicleRequest extends Component {
         );
       }
     } else {
-      return <button type="submit" className="vrf-submit-button signup-button" onClick={this.startEditing}>Update assignment</button>;
+      return <button type="submit" className="vrf-submit-button signup-button" onClick={this.startEditing}>Update assignments</button>;
     }
   }
 
@@ -762,13 +774,7 @@ class OPOVehicleRequest extends Component {
                 <a href="#req_details" className="ovr-req-section-link">Request Details</a>
               </div>
 
-              {this.props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
-                return (
-                  <div key={`vehicle_link_${index}`} className="ovr-sidebar-req-section">
-                    <a href={`#vehicle_req_${index}`} className="ovr-req-section-link">Vehicle #{index + 1}</a>
-                  </div>
-                );
-              })}
+              {this.getSideLinks()}
             </div>
           </div>
           <div className="ovr-req-content">
