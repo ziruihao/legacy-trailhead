@@ -104,6 +104,7 @@ class OPOVehicleRequest extends Component {
     document.execCommand('copy');
     event.target.focus();
     this.props.appError('Email copied to clipboard!');
+    this.setState({ showModal: false });
   }
 
   onVehicleTypeChange = (eventkey, index) => {

@@ -384,10 +384,10 @@ export function fetchOpoTrips() {
 
 export function reviewGearRequest(review) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/gearrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${ROOT_URL}/gearrequest/${review.id}`, review, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         dispatch({
-          type: ActionTypes.FETCH_GEAR_REQUESTS,
+          type: ActionTypes.FETCH_TRIP,
           payload: response.data,
         });
       }).catch((error) => {
@@ -413,10 +413,10 @@ export function fetchTrippeeGearRequests() {
 
 export function reviewTrippeeGearRequest(review) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/trippeegearrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${ROOT_URL}/trippeegearrequest/${review.id}`, review, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         dispatch({
-          type: ActionTypes.FETCH_TRIPPEE_GEAR_REQUESTS,
+          type: ActionTypes.FETCH_TRIP,
           payload: response.data,
         });
       }).catch((error) => {
@@ -427,12 +427,19 @@ export function reviewTrippeeGearRequest(review) {
 
 export function reviewPCardRequests(review) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/pcardrequests`, review, { headers: { authorization: localStorage.getItem('token') } })
-      .then(
-        // dispatch(fetchTrip(review.id)),
-      ).catch((error) => {
-        dispatch(appError(`Error responding to pcard  request: ${error}`));
-      });
+    return new Promise((resolve, reject) => {
+      axios.put(`${ROOT_URL}/pcardrequest/:id`, review, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({
+            type: ActionTypes.FETCH_TRIP,
+            payload: response.data,
+          });
+          resolve();
+        })
+        .catch((error) => {
+          dispatch(appError(`Error responding to pcard  request: ${error}`));
+        });
+    });
   };
 }
 

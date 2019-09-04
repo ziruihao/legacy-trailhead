@@ -1,14 +1,7 @@
 /* eslint-disable */
 import React from 'react';
-import Modal from 'react-bootstrap/Modal';
-
-import '../styles/createtrip-style.scss';
-import '../styles/tripdetails_leader.scss';
-import '../styles/tripdetails_trippee-style.scss';
+import Table from 'react-bootstrap/Table';
 import '../styles/tripdetails_opo.scss';
-
-
-
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -23,154 +16,284 @@ const getCoLeaders = (leaders) => {
 };
 
 const formatDate = (startDate, endDate, startTime, endTime) => {
-  let timeString = '';
-  const rawStartDate = new Date(startDate);
-  const startDateString = rawStartDate.toString();
+  const startAsDate = new Date(startDate);
+  const startDateString = startAsDate.toUTCString();
+  const displayStartDate = startDateString.substring(0, 11);
 
-  const startSplitTime = startTime.split(':');
-  const endSplitTime = endTime.split(':');
-  startSplitTime.push('am');
-  endSplitTime.push('pm');
-  if (startSplitTime[0] > 12) {
-    startSplitTime[0] -= 12;
-    startSplitTime[2] = 'pm';
+  const splitStartTime = startTime.split(':');
+  splitStartTime.push(' AM');
+  const originalStartHour = splitStartTime[0];
+  splitStartTime[0] = originalStartHour % 12;
+  if (originalStartHour >= 12) {
+    splitStartTime[2] = ' PM';
   }
-  if (endSplitTime[0] > 12) {
-    endSplitTime[0] -= 12;
-    endSplitTime[2] = 'am';
+  if (splitStartTime[0] === 0) {
+    splitStartTime[0] = 12;
   }
-  if (endDate === startDate) {
-    timeString = `${startDateString.slice(0, 3)},${startDateString.slice(3, 10)}`;
-    timeString = `${timeString} || ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]} - ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}`;
-  }
-  else if (endDate !== ''){
-    const rawEndDate = new Date(endDate);
-    const endDateString = rawEndDate.toString();
-    timeString = `${startDateString.slice(0, 3)},${startDateString.slice(3, 10)} - ${endDateString.slice(0, 3)},${endDateString.slice(3, 10)}`;
+  const displayStartTime = `${splitStartTime[0]}:${splitStartTime[1]}${splitStartTime[2]}`;
 
-    timeString = `${timeString} || ${startSplitTime[0]}:${startSplitTime[1]}${startSplitTime[2]} - ${endSplitTime[0]}:${endSplitTime[1]}${endSplitTime[2]}`;
-  }
+  const endAsDate = new Date(endDate);
+  const endDateString = endAsDate.toUTCString();
+  const displayEndDate = endDateString.substring(0, 11);
 
-  return timeString;
+  const splitEndTime = endTime.split(':');
+  splitEndTime.push(' AM');
+  const originalEndHour = splitEndTime[0];
+  splitEndTime[0] = originalEndHour % 12;
+  if (originalEndHour >= 12) {
+    splitEndTime[2] = ' PM';
+  }
+  if (splitEndTime[0] === 0) {
+    splitEndTime[0] = 12;
+  }
+  const displayEndTime = `${splitEndTime[0]}:${splitEndTime[1]}${splitEndTime[2]}`;
+
+  return `${displayStartDate}, ${displayStartTime} - ${displayEndDate}, ${displayEndTime}`;
 };
 
-const getIndividualGear = (individualGearArray) => {
-  if (individualGearArray.length === 0) {
-    return (
-      <div className="no-gears">
-        <div className="trip-detail">
-          <div className="no-on-trip">
-            <h4 className="none-f-now">None</h4>
-          </div>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <div className="trip-detail">
-          {individualGearArray.map((gear, index, array) => (
-            <div key={gear._id}>
-              <div className="detail-row gear-content">
-                <span>{gear.gear}</span>
-                <span>{gear.size}</span>
-                <span>{gear.quantity}</span>
-              </div>
-              {index !== array.length - 1 ? <hr className="detail-line" /> : null}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+const isStringEmpty = (string) => {
+  return string.length === 0 || !string.toString().trim();
 };
 
-const getGroupGear = (groupGearArray, groupGearStatus) => {
-  if (groupGearArray.length === 0) {
-    return (
-      <div className="no-gears">
-        <div className="trip-detail">
-          <div className="no-on-trip">
-            <h4 className="none-f-now">None</h4>
-          </div>
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <div className="trip-detail">
-          {groupGearArray.map((gear, index, array) => (
-            <div key={index}>
-              <div className="detail-row gear-content-group">
-                <span>{gear}</span>
-              </div>
-              {index !== array.length - 1 ? <hr className="detail-line" /> : null}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+const getIndividualGear = (trip) => {
+  const gearData = {};
+  const gearSizeType = {};
+  trip.trippeeGear.forEach((gear) => {
+    gearSizeType[gear._id] = gear.size_type;
+    if (gear.size_type !== 'N/A') {
+      gearData[gear._id] = {};
+    }
+  });
+  trip.members.forEach((member) => {
+    member.gear.forEach((gear) => {
+      const { gearId } = gear;
+      const { user } = member;
+      if (gearSizeType[gearId] !== 'N/A') {
+        const sizeType = gearSizeType[gearId];
+        let indexer = '';
+        switch (sizeType) {
+          case 'Height':
+            indexer = 'height';
+            break;
+          case 'Clothe':
+            indexer = 'clothe_size';
+            break;
+          case 'Shoe':
+            indexer = 'shoe_size';
+            break;
+          default:
+            indexer = '';
+        }
+        const update = {};
+        if (Object.prototype.hasOwnProperty.call(gearData[gearId], user[indexer])) {
+          update[user[indexer]] = gearData[gearId][user[indexer]] + 1;
+          gearData[gearId] = Object.assign({}, gearData[gearId], update);
+        } else {
+          update[user[indexer]] = 1;
+          gearData[gearId] = Object.assign({}, gearData[gearId], update);
+        }
+      }
+    });
+  });
+  return trip.trippeeGear.map((gear, index) => {
+    if (Object.prototype.hasOwnProperty.call(gearData, gear._id)) {
+      const entries = Object.entries(gearData[gear._id]);
+      return entries.map(entry => (
+        <tr key={`${gear._id}_${entry[0]}`}>
+          <td>{gear.gear}</td>
+          <td>{entry[0]}</td>
+          <td>{entry[1]}</td>
+        </tr>
+      ));
+    } else {
+      return (
+        <tr key={`${gear._id}_${index}`}>
+          <td>{gear.gear}</td>
+          <td>N/A</td>
+          <td>{gear.quantity}</td>
+        </tr>
+      );
+    }
+  });
 };
 
-const LeftColumn = (props) => {
-  return (
-    <div className="left-column">
-      <span className="trip-title">{props.title}</span>
-      <div className="row column-headers column-adjust">
-        <p>Trip Overview</p>
-      </div>
-      <div className="row column-sub-headers">
-        <div className={props.step === 1 ? 'side-bar-highlight' : ''} />
-        <button className={props.step === 1 ? 'btn side-links text-highlight' : 'btn side-links'} onClick={() => props.setState(1)}>Basic information</button>
-      </div>
-      <div className="row column-headers">
-        <p>OPO Requests</p>
-      </div>
-      <div className="row column-sub-headers">
-        <div className={props.step === 2 ? 'side-bar-highlight' : ''} />
-        <button className={props.step === 2 ? 'btn side-links text-highlight' : 'btn side-links'} onClick={() => props.setState(2)}>Gear Request</button>
-      </div>
-      <div className="row column-sub-headers">
-        <div className={props.step === 3 ? 'side-bar-highlight' : ''} />
-        <button className={props.step === 3 ? 'btn side-links text-highlight' : 'btn side-links'} onClick={() => props.setState(3)}>P-Card Request</button>
-      </div>
-    </div>
-  );
-}
+const getGroupGear = (groupGearArray) => {
+  return groupGearArray.map((groupGear, index) => {
+    return (
+      <tr key={`groupGear_${index}`}>
+        <td>{groupGear}</td>
+      </tr>
+    );
+  });
+};
 
 const BasicInfo = (props) => {
+  const { trip } = props;
   return (
-    <div className="create-trip-form-content">
-      <span className="page-title">Basic Information</span>
-      <div className="row">
-        <span className="sub-titles">Date</span>
-        <span className="sub-fields">{formatDate(props.startDate, props.endDate, props.startTime, props.endTime)}</span>
+    <div className="create-trip-form-content otd-basic-info">
+      <div className="vrf-title-container otd-title-container">
+        <h2 className="p-trip-title otd-title-size">Basic Information</h2>
       </div>
-      <div className="row">
-        <span className="sub-titles">Subclub</span>
-        <span className="sub-fields">{props.clubName}</span>
+      <div className="otd-trip-details">
+        <div className="otd-details-labels">
+          <div className="otd-row">
+            <span className="sub-titles">Date</span>
+          </div>
+          <div className="otd-row">
+            <span className="sub-titles">Subclub</span>
+          </div>
+          <div className="otd-row">
+            <span className="sub-titles">Leader</span>
+          </div>
+          <div className="otd-row">
+            <span className="sub-titles">Co-Leader(s)</span>
+          </div>
+        </div>
+        <div className="otd-details-column">
+          <div className="otd-row">
+            <span className="sub-fields">{formatDate(trip.startDate, trip.endDate, trip.startTime, trip.endTime)}</span>
+          </div>
+          <div className="otd-row">
+            <span className="sub-fields">{trip.club.name}</span>
+          </div>
+          <div className="otd-row">
+            <span className="sub-fields">{trip.leaders[0].name}</span>
+          </div>
+          <div className="otd-row">
+            <span className="sub-fields">{getCoLeaders(trip.leaders)}</span>
+          </div>
+        </div>
       </div>
-      <div className="row">
-        <span className="sub-titles">Leader</span>
-        <span className="sub-fields">{props.leaders}</span>
-      </div>
-      <div className="row">
-        <span className="sub-titles">Co-Leader(s)</span>
-        <span className="sub-fields">{getCoLeaders(props.coLeaders)}</span>
-      </div>
-      <div className="row">
-        <span id="description" className="sub-titles">Description</span>
-      </div>
-      <div className="row">
-        <span id="description-field" className="sub-fields">{props.description}</span>
+      <div className="otd-trip-description">
+        <span className="sub-titles">Description</span>
+        <div className="otd-row">
+          <div className="description-field sub-fields">{trip.description}</div>
+        </div>
       </div>
     </div>
   );
 }
 
+const GearRequest = (props) => {
+  const { trip } = props;
+  return (
+    <div className="create-trip-form-content otd-basic-info">
+      <div className="vrf-title-container otd-title-container">
+        <h2 className="p-trip-title otd-title-size">Gear Request</h2>
+      </div>
+      <div className="otd-both-gear">
+        {trip.gearStatus !== 'N/A'
+          ? (
+            <div className="otd-group-gear">
+              <span className="sub-titles">Group Gear</span>
+              <div className="detail-row gear-status">
+                <span className="detail-left">Status</span>
+                <span className="detail-right otd-req-status">{trip.gearStatus} <img className="status-badge" src={`/src/img/${trip.gearStatus}_badge.svg`} alt={`${trip.gearStatus}_badge`} /> </span>
+              </div>
+              <div className="trip-detail otd-group-gear-table ovr-white-background">
+                <Table responsive="lg">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getGroupGear(trip.OPOGearRequests)}
+                  </tbody>
+                </Table>
+              </div>
+              <div className="otd-response-buttons">
+                {(props.trip.gearStatus !== 'approved')
+                  ? < button type="submit" className="vrf-submit-button signup-button otd-approve-gear-button" onClick={() => props.reviewGroupGearRequest('approved')}>Approve Group Gear Request</button>
+                  : <button type="submit" className="disabled vrf-submit-button otd-approve-gear-button otd-disabled-button">Approve Group Gear Request</button>}
+                {(props.trip.gearStatus !== 'denied')
+                  ? (
+                    <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => props.reviewGroupGearRequest('denied')} role="button" tabIndex={0}>
+                      Deny Group Gear Request
+                    </span>
+                  )
+                  : (
+                    <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button otd-disabled-link">
+                      Deny Group Gear Request
+                    </span>
+                  )
+                }
+              </div>
+            </div>
+          )
+          : null}
 
+        {trip.trippeeGearStatus !== 'N/A'
+          ? (
+            <div className="otd-individual-gear">
+              <span className="sub-titles">Individual Gear</span>
+              <div className="detail-row gear-status">
+                <span className="detail-left">Status</span>
+                <span className="detail-right otd-req-status">{trip.trippeeGearStatus} <img className="status-badge" src={`/src/img/${trip.trippeeGearStatus}_badge.svg`} alt={`${trip.trippeeGearStatus}_badge`} /> </span>
+              </div>
+              <div className="trip-detail otd-group-gear-table ovr-white-background">
+                <Table responsive="lg">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                      <th>Size</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getIndividualGear(trip)}
+                  </tbody>
+                </Table>
+              </div>
+              <div className="otd-response-buttons">
+                {(props.trip.trippeeGearStatus !== 'approved')
+                  ? < button type="submit" className="vrf-submit-button signup-button otd-approve-gear-button" onClick={() => props.reviewTrippeeGearRequest('approved')}>Approve Individual Gear Request</button>
+                  : <button type="submit" className="disabled vrf-submit-button otd-approve-gear-button otd-disabled-button">Approve Individual Gear Request</button>}
+                {(props.trip.trippeeGearStatus !== 'denied')
+                  ? (
+                    <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => props.reviewTrippeeGearRequest('denied')} role="button" tabIndex={0}>
+                      Deny Individual Gear Request
+                    </span>
+                  )
+                  : (
+                    <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button otd-disabled-link">
+                      Deny Individual Gear Request
+                    </span>
+                  )
+                }
+              </div>
+            </div>
+          )
+          : null}
+      </div>
+    </div>
+  );
+}
+
+const getAppropriateLink = (props) => {
+  const { pcardStatus } = props.trip;
+  if (props.isEditingPcard) {
+    return (
+      <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={props.cancelPcardUpdate} role="button" tabIndex={0}>
+        Cancel update
+      </span>
+    )
+  } else {
+    if (pcardStatus !== 'denied') {
+      return (
+        <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => props.reviewPcardRequest('denied')} role="button" tabIndex={0}>
+          Deny P-Card Request
+        </span>
+      )
+    } else {
+      return (
+        <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button otd-disabled-link">
+          Deny P-Card Request
+        </span>
+      )
+    }
+  }
+}
 const PCardRequest = (props) => {
   const pcardRequest = props.trip.pcard[0];
   const snacks_unit = 3;
@@ -185,48 +308,69 @@ const PCardRequest = (props) => {
   pcardRequest.otherCosts.forEach((otherCost) => {
     total += otherCost.cost;
   });
-  return(
-    <div className= "create-trip-form-content">
-      <Modal
-    centered
-    show = {props.showModal}
-  >
-    <div className="trip-details-close-button">
-      <i className="material-icons close-button" onClick={props.closeModal} role="button" tabIndex={0}>close</i>
-    </div>
-    <div className="cancel-content">
-      <p className="cancel-question">Contact Leader</p>
-      <p className="cancel-message">To contact the trip leader, please copy their email address and send them an email</p>
-      <p className="cancel-question" id = "leader-email">{props.trip.leaders[0].email}</p>
-    </div>
-    <button type="button" className="btn email-copy-button" onClick={props.copy}>copy email</button>
-
-  </Modal>
-      <span className="page-title">P-Card Request</span>
-      <div>
-          <table className = "pcard-overview-table">
+  const pcardStatus = props.trip.pcardStatus;
+  return (
+    <div className="create-trip-form-content otd-basic-info">
+      <div className="vrf-title-container otd-title-container">
+        <h2 className="p-trip-title otd-title-size">P-Card Request</h2>
+        <span className="vrf-status-display">
+          <span className="vrf-label">
+            Status:
+                </span>
+          <span className="vrf-req-status-display">
+            {pcardStatus}
+          </span>
+          <span className="vrf-req-status-badge">
+            <img className="status-badge" src={`/src/img/${pcardStatus}_badge.svg`} alt={`${pcardStatus}_badge`} />
+          </span>
+        </span>
+      </div>
+      <div className="otd-pcard-top-part">
+        <div className="trip-detail otd-group-gear-table ovr-white-background otd-pcard-numPeople">
+          <Table responsive="lg">
             <thead>
               <tr>
-              <th>Subclub</th>
-              <th># of Participants</th>
-              <th>Total Cost</th>
+                <th>Approx. # of participants</th>
+                <th># on trip (including leaders)</th>
               </tr>
             </thead>
             <tbody>
-                <tr>
-                <td>{props.trip.club.name}</td>
+              <tr>
                 <td>{pcardRequest.numPeople}</td>
-                <td>${total}</td>
-                </tr>
+                <td>{props.trip.members.length + props.trip.leaders.length}</td>
+              </tr>
             </tbody>
-          </table>
-          <table>
+          </Table>
+        </div>
+
+        <div className="pcard-assign">
+          <span className="otd-pcard-assign-label">{props.isEditingPcard ? 'Assign P-Card' : 'Assigned P-Card'}</span>
+          {props.isEditingPcard
+            ? (
+              <input
+                className="pcard-assign-input"
+                onChange={props.onFieldChange}
+                name="pcardAssigned"
+                placeholder="e.g. 1234"
+                value={props.pcardAssigned}
+              />
+            )
+            : (
+              <span className={`otd-pcard-assign-label trip-detail ovr-white-background ${pcardStatus === 'denied' ? 'ovr-skipped-detail' : ''}`}>
+                {pcardStatus === 'denied' ? 'Denied' : props.trip.pcardAssigned}
+              </span>
+            )
+          }
+        </div>
+      </div>
+      <div className="trip-detail otd-group-gear-table ovr-white-background">
+        <Table responsive="lg">
           <thead>
             <tr>
-            <th>Expense Details</th>
-            <th>Unit Cost</th>
-            <th># per participant</th>
-            <th>Total Cost</th>
+              <th>Expense Details</th>
+              <th>Unit Cost</th>
+              <th># per participant</th>
+              <th>Total Cost</th>
             </tr>
           </thead>
           <tbody>
@@ -254,7 +398,7 @@ const PCardRequest = (props) => {
               <td>{pcardRequest.dinner}</td>
               <td>${dinner_total}</td>
             </tr>
-            
+
             {pcardRequest.otherCosts.map((otherCost, index) => {
               return (
                 <tr key={`othercosts_${index}`}>
@@ -266,55 +410,40 @@ const PCardRequest = (props) => {
               )
             })}
           </tbody>
-        </table>
-        <div className = "pcard-assign">
-            <p style= {{display: "block", fontWeight: "bold", fontSize: "12pt"}}>P-Card Assigned</p>
-            <input
-                    className = "pcard-assign-input"
-                    onChange={props.onFieldChange}
-                    name="pcardAssigned"
-                    placeholder="e.g. 1234"
-                    value={props.pcardAssigned}
-                    />
-          </div>
+        </Table>
+        <span className="otd-pcard-total">
+          Total Cost: ${total}
+        </span>
       </div>
-      <div className="pcard-bottom-buttons">
-        <span className="create-trip-pcard-add-other" onClick={props.deny} role="button" tabIndex={0}>Contact Leader</span>
-        <button type="button" className="btn approve-button" onClick={props.approve}>Approve and Notify Leader</button>
+      <div className="otd-pcard-response-buttons">
+        {getAppropriateLink(props)}
+        {(props.isEditingPcard)
+          ? (
+            <button
+              type="submit"
+              className="vrf-submit-button signup-button otd-approve-pcard-button"
+              onClick={() => props.reviewPcardRequest('approved')}
+            >
+              {pcardStatus === 'pending' ? 'Approve P-Card Request' : 'Save'}
+            </button>
+          )
+          : (
+            <button
+              type="submit"
+              className="vrf-submit-button signup-button otd-approve-pcard-button"
+              onClick={props.startEditingPcard}
+            >
+              Update Assignment
+            </button>
+          )}
       </div>
     </div>
 
-  );
-}
-const GearRequest = (props) => {
-  return (
-    <div className="create-trip-form-content">
-      <span className="page-title">Gear Request</span>
-      <div className="row">
-        <div className="gear-requests individual">
-          <h3 className="trip-title page-headings">Individual gear</h3>
-          <div className="detail-row gear-header">
-            <span className="sub-titles gear-titles">Item</span>
-            <span className="sub-titles gear-titles">Size</span>
-            <span className="sub-titles gear-titles">Quantity</span>
-          </div>
-          {getIndividualGear(props.trippeeGear)}
-        </div>
-        <div className="gear-requests group">
-          <h3 className="trip-title page-headings">Group gear</h3>
-          <div className="detail-row gear-header">
-            <span className="sub-titles gear-titles">Item</span>
-          </div>
-          {getGroupGear(props.groupGear, props.gearStatus)}
-        </div>
-      </div>
-    </div>
   );
 }
 
 export {
   GearRequest,
   BasicInfo,
-  LeftColumn,
   PCardRequest,
 }

@@ -279,9 +279,7 @@ class TripDetails extends Component {
         );
       } else if (this.props.user.role === 'OPO') {
         appropriateComponent = (
-          <OPOTripForm
-            trip={this.props.trip}
-          />
+          <OPOTripForm />
         );
       } else {
         appropriateComponent = (

@@ -168,24 +168,7 @@ const getOnTrip = (props, onTripEmailRef) => {
 };
 
 const getGearStatus = (gearStatus) => {
-  switch (gearStatus) {
-    case 'pending':
-      return (
-        <span className="detail-right">Pending <img className="status-badge" src="/src/img/pending_badge.svg" alt="pending_badge" /> </span>
-      );
-    case 'approved':
-      return (
-        <span className="detail-right">Approved <img className="status-badge" src="/src/img/approved_badge.svg" alt="approved_badge" /> </span>
-      );
-    case 'denied':
-      return (
-        <span className="leader-detail-right">Denied <img className="status-badge" src="/src/img/warning_badge.svg" alt="denied_badge" /> </span>
-      );
-    default:
-      return (
-        <span className="detail-right">Pending <img className="status-badge" src="/src/img/pending_badge.svg" alt="pending_badge" /> </span>
-      );
-  }
+  return <span className="ltd-detail-right">{gearStatus}<img className="status-badge" src={`/src/img/${gearStatus}_badge.svg`} alt={`${gearStatus}_badge`} /> </span>;
 };
 
 const getIndividualGear = (individualGearArray, individualGearStatus) => {
@@ -353,7 +336,7 @@ export default React.forwardRef((props, ref) => {
         </div>
       </div>
 
-      <div className="pending">
+      <div className="ltd-pending">
         <div className="leader-table-title">
           <h2>Pending ({props.trip.pending.length})</h2>
           {props.trip.pending.length === 0

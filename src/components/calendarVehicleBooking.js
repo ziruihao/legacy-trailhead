@@ -27,13 +27,13 @@ const VehicleBooking = ({ event }) => {
   const returnTimeHasPassed = hasReturnTimePassed(event.assigned_returnDateAndTime);
   if (event.pickedUp && event.returned) {
     pickedUpStatus = 'approved';
-    statusMessage = 'Returned';
+    statusMessage = 'Vehicle returned';
   } else if (event.pickedUp && !event.returned && returnTimeHasPassed) {
     pickedUpStatus = 'denied';
-    statusMessage = 'Past due';
+    statusMessage = 'Return is past due';
   } else if (event.pickedUp && !event.returned && !returnTimeHasPassed) {
     pickedUpStatus = 'pending';
-    statusMessage = 'Picked up';
+    statusMessage = 'Vehicle has been picked up';
   }
 
   let bookingTitle = '';
