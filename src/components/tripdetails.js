@@ -5,6 +5,7 @@ import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserG
 import TripeeTripDetails from './tripdetails_trippee';
 import LeaderTripDetails from './tripdetails_leader';
 import OPOTripForm from './tripdetails_opo';
+import loadingGif from '../img/loading-gif.gif';
 
 class TripDetails extends Component {
   constructor(props) {
@@ -309,7 +310,7 @@ class TripDetails extends Component {
       return (
         <div>
           <h1>Loading</h1>
-          <img src="/src/img/loading-gif.gif" alt="loading-gif" />
+          <img src={loadingGif} alt="loading-gif" />
         </div>
       );
     }

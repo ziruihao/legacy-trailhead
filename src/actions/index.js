@@ -223,12 +223,15 @@ export function editTrip(trip, history) {
 
 export function getMyTrips() {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/myTrips`, { headers: { authorization: localStorage.getItem('token') } })
-      .then((response) => {
-        dispatch({ type: ActionTypes.MY_TRIPS, payload: response.data });
-      }).catch((error) => {
-        console.log(error);
-      });
+    return new Promise((resolve, reject) => {
+      axios.get(`${ROOT_URL}/myTrips`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.MY_TRIPS, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+        });
+    });
   };
 }
 
@@ -471,12 +474,15 @@ export function fetchVehicleRequest(id) {
 
 export function fetchVehicleRequests() {
   return (dispatch) => {
-    axios.get(`${ROOT_URL}/vehicleRequests`, { headers: { authorization: localStorage.getItem('token') } })
-      .then((response) => {
-        dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUESTS, payload: response.data });
-      }).catch((error) => {
-        dispatch(appError(`Error fetching vehicle requests: ${error}`));
-      });
+    return new Promise((resolve, reject) => {
+      axios.get(`${ROOT_URL}/vehicleRequests`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUESTS, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          dispatch(appError(`Error fetching vehicle requests: ${error}`));
+        });
+    });
   };
 }
 

@@ -1,6 +1,16 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import '../styles/tripdetails_trippee-style.scss';
+import pendingBadge from '../img/pending_badge.svg';
+import approvedBadge from '../img/approved_badge.svg';
+import deniedBadge from '../img/denied_badge.svg';
+import confirmCancelImage from '../img/confirmCancel.svg';
+
+const badges = {
+  pending: pendingBadge,
+  approved: approvedBadge,
+  denied: deniedBadge,
+};
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -83,7 +93,7 @@ const getStatusBanner = (userTripStatus) => {
       return (
         <div className="status-banner">
           <span className="status-icon">
-            <img src="/src/img/pending_badge.svg" alt="pending_badge" />
+            <img src={badges.pending} alt="pending_badge" />
           </span>
           <span className="status-message">
             <h4>
@@ -96,7 +106,7 @@ const getStatusBanner = (userTripStatus) => {
       return (
         <div className="status-banner">
           <span className="status-icon">
-            <img src="/src/img/approved_badge.svg" alt="approved_badge" />
+            <img src={badges.approved} alt="approved_badge" />
           </span>
           <span className="status-message">
             <h4>
@@ -255,7 +265,7 @@ const TripeeTripDetails = (props) => {
           <div className="trip-details-close-button">
             <i className="material-icons close-button" onClick={props.closeModal} role="button" tabIndex={0}>close</i>
           </div>
-          <img src="/src/img/confirmCancel.svg" alt="confirm-cancel" className="cancel-image" />
+          <img src={confirmCancelImage} alt="confirm-cancel" className="cancel-image" />
           <div className="cancel-content">
             <p className="cancel-question">Are you sure you want to cancel?</p>
             <p className="cancel-message">This cute tree will die if you do and you’ll have to register for this trip again if you change your mind</p>

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar'
 import { signOut, clearError } from '../actions';
+import docLogo from '../img/DOC-log.svg';
 import '../styles/navbar-style.scss';
 
 
@@ -34,7 +35,7 @@ class NavBar extends Component {
           <Navbar.Brand href="#home">
             <img
               alt=""
-              src="../img/DOC-log.svg"
+              src={docLogo}
               width="30"
               height="30"
               className="d-inline-block align-top"
@@ -64,7 +65,7 @@ class NavBar extends Component {
           <Navbar.Brand href="#home">
             <img
               alt=""
-              src="../img/DOC-log.svg"
+              src={docLogo}
               width="30"
               height="30"
               className="d-inline-block align-top"
@@ -87,7 +88,7 @@ class NavBar extends Component {
           <Navbar.Brand href="#home">
             <img
               alt=""
-              src="../img/DOC-log.svg"
+              src={docLogo}
               width="30"
               height="30"
               className="d-inline-block align-top"

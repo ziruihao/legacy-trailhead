@@ -5,6 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Approvals from './cert_approvals';
 import LeaderApprovals from './leader_approvals';
 import requireAuth from '../containers/requireAuth';
+import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/approvals-style.scss';
 import '../styles/tripdetails_leader.scss';
 import '../styles/opo-trips.scss';
@@ -17,7 +18,7 @@ const OpoDropdown = ({ match }) => {
       <Dropdown>
         <Dropdown.Toggle id="filter-dropdown">
           <p className="current-filter">Leadership Status Requests</p>
-          <img className="dropdown-icon right-margin" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+          <img className="dropdown-icon right-margin" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
         <Dropdown.Menu className="filter-options">
           <Dropdown.Item to="/opo/leader_approvals" on>Leader Status Requests</Dropdown.Item>

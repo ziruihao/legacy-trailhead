@@ -4,8 +4,10 @@ import { withRouter, Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Table from 'react-bootstrap/Table';
 import { fetchOpoTrips } from '../actions';
+import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/tripdetails_leader.scss';
 import '../styles/opo-trips.scss';
+import loadingGif from '../img/loading-gif.gif';
 
 class OpoTrips extends Component {
   ALL_KEY = 'ALL';
@@ -31,12 +33,16 @@ class OpoTrips extends Component {
     this.state = {
       selectedFilter: this.ALL_KEY,
       searchTerm: '',
+      ready: false,
     };
     this.onDropdownChange = this.onDropdownChange.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchOpoTrips();
+    this.props.fetchOpoTrips()
+      .then(() => {
+        this.setState({ ready: true });
+      });
   }
 
   onDropdownChange(eventKey, event) {
@@ -243,49 +249,58 @@ class OpoTrips extends Component {
   }
 
   render() {
-    return (
-      <div className="leader-details-container dashboard-container">
-        <div className="pending-and-dropdown">
-          <h4 className="trip-status">Pending Trips</h4>
-          <div className="dropdown-and-label">
-            <span className="dropdown-label">Filter by:</span>
-            <Dropdown onSelect={this.onDropdownChange}>
-              <Dropdown.Toggle id="filter-dropdown" onChange={this.onDropdownChange}>
-                <p className="current-filter">{this.getCurrentFilter()}</p>
-                <img className="dropdown-icon right-margin" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
-              </Dropdown.Toggle>
-              <Dropdown.Menu className="filter-options">
-                <Dropdown.Item eventKey={this.ALL_KEY} active={this.ALL_KEY === this.state.selectedFilter}>{this.ALL_VALUE}</Dropdown.Item>
-                <Dropdown.Item eventKey={this.GEAR_KEY} active={this.GEAR_KEY === this.state.selectedFilter}>{this.GEAR_VALUE}</Dropdown.Item>
-                <Dropdown.Item eventKey={this.PCARD_KEY} active={this.PCARD_KEY === this.state.selectedFilter}>{this.PCARD_VALUE}</Dropdown.Item>
-                <Dropdown.Item eventKey={this.VEHICLE_KEY} active={this.VEHICLE_KEY === this.state.selectedFilter}>{this.VEHICLE_VALUE}</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+    if (this.state.ready) {
+      return (
+        <div className="leader-details-container dashboard-container">
+          <div className="pending-and-dropdown">
+            <h4 className="trip-status">Pending Trips</h4>
+            <div className="dropdown-and-label">
+              <span className="dropdown-label">Filter by:</span>
+              <Dropdown onSelect={this.onDropdownChange}>
+                <Dropdown.Toggle id="filter-dropdown" onChange={this.onDropdownChange}>
+                  <p className="current-filter">{this.getCurrentFilter()}</p>
+                  <img className="dropdown-icon right-margin" src={dropdownIcon} alt="dropdown-toggle" />
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="filter-options">
+                  <Dropdown.Item eventKey={this.ALL_KEY} active={this.ALL_KEY === this.state.selectedFilter}>{this.ALL_VALUE}</Dropdown.Item>
+                  <Dropdown.Item eventKey={this.GEAR_KEY} active={this.GEAR_KEY === this.state.selectedFilter}>{this.GEAR_VALUE}</Dropdown.Item>
+                  <Dropdown.Item eventKey={this.PCARD_KEY} active={this.PCARD_KEY === this.state.selectedFilter}>{this.PCARD_VALUE}</Dropdown.Item>
+                  <Dropdown.Item eventKey={this.VEHICLE_KEY} active={this.VEHICLE_KEY === this.state.selectedFilter}>{this.VEHICLE_VALUE}</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          </div>
+          <div className="trip-detail pending-table">
+            {this.getPendingTable()}
+          </div>
+
+          <div className="calendar-link-div">
+            <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
+          </div>
+
+          <div className="pending-and-dropdown">
+            <h4 className="trip-status">Reviewed & Past Trips</h4>
+            <input
+              name="search"
+              placeholder="Search reviewed & past trips"
+              value={this.state.searchTerm}
+              onChange={this.onSearchTermChange}
+              className="searchbox"
+            />
+          </div>
+          <div className="trip-detail pending-table">
+            {this.getApprovedTable()}
           </div>
         </div>
-        <div className="trip-detail pending-table">
-          {this.getPendingTable()}
+      );
+    } else {
+      return (
+        <div>
+          <h1>Loading</h1>
+          <img src={loadingGif} alt="loading-gif" />
         </div>
-
-        <div className="calendar-link-div">
-          <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
-        </div>
-
-        <div className="pending-and-dropdown">
-          <h4 className="trip-status">Reviewed & Past Trips</h4>
-          <input
-            name="search"
-            placeholder="Search reviewed & past trips"
-            value={this.state.searchTerm}
-            onChange={this.onSearchTermChange}
-            className="searchbox"
-          />
-        </div>
-        <div className="trip-detail pending-table">
-          {this.getApprovedTable()}
-        </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

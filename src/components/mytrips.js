@@ -5,12 +5,31 @@ import { Link, NavLink, withRouter } from 'react-router-dom';
 import { getMyTrips } from '../actions';
 import '../styles/card-style.scss';
 import '../styles/mytrips-style.scss';
-
-import createtrip from "../img/createtrip.svg"
+import createtrip from "../img/createtrip.svg";
+import pendingBadge from '../img/pending_badge.svg';
+import approvedBadge from '../img/approved_badge.svg';
+import deniedBadge from '../img/denied_badge.svg';
+import loadingGif from '../img/loading-gif.gif';
 
 class MyTrips extends Component {
+  badges = {
+    pending: pendingBadge,
+    approved: approvedBadge,
+    denied: deniedBadge,
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      ready: false,
+    }
+  }
+
   componentDidMount(props) {
-    this.props.getMyTrips();
+    this.props.getMyTrips()
+      .then(() => {
+        this.setState({ ready: true });
+      })
   }
 
   formatDate = (date) => {
@@ -113,7 +132,7 @@ class MyTrips extends Component {
         return (
           <div key={vehicleReq.id} className="mytrips-vehicle-req">
             <div className="mytrips-status-badge">
-              <img className="status-badge" src={`/src/img/${status}_badge.svg`} alt={`${status}_badge`} />
+              <img className="status-badge" src={this.badges[status]} alt={`${status}_badge`} />
             </div>
             <div className="mytrips-req-header-and-status">
               <Link to={reqLink} className="mytrips-req-header">{reqTitle}</Link>
@@ -126,38 +145,47 @@ class MyTrips extends Component {
   }
 
   render() {
-    return (
-      <div className="mytrips-container">
-        <div className="mytrips-flex-start">
-          <h1 className="mytrips-header">Your Dashboard</h1>
-        </div>
-        <div className="mytrips-trips-container">
+    if (this.state.ready) {
+      return (
+        <div className="mytrips-container">
           <div className="mytrips-flex-start">
-            <h2 className="mytrips-sub-header">Your upcoming trips</h2>
+            <h1 className="mytrips-header">Your Dashboard</h1>
           </div>
-          <div className="mytrips-trips">
-            {this.renderMyTrips()}
-            {this.renderCreateTrip()}
+          <div className="mytrips-trips-container">
+            <div className="mytrips-flex-start">
+              <h2 className="mytrips-sub-header">Your upcoming trips</h2>
+            </div>
+            <div className="mytrips-trips">
+              {this.renderMyTrips()}
+              {this.renderCreateTrip()}
+            </div>
           </div>
+          <div className="mytrips-vehicle-reqs-container">
+            <div className="mytrips-flex-start">
+              <h2 className="mytrips-sub-header">Your upcoming vehicle requests</h2>
+            </div>
+            <div className="mytrips-vehicle-reqs">
+              {this.renderMyVehicleRequests()}
+            </div>
+            <div className="mytrips-request-and-calendar-links">
+              {this.props.user.trailer_cert || this.props.user.driver_cert !== null
+                ? < Link to="/vehiclerequest" className="mytrips-request-button">Request vehicle</Link>
+                : null}
+              {(this.props.user.trailer_cert || this.props.user.driver_cert !== null) || this.props.user.role !== 'Trippee'
+                ? <Link to="/vehicle-calendar" className="mytrips-calendar-link" target="_blank">View vehicle calendar</Link>
+                : null}
+            </div>
+          </div>
+        </div >
+      );
+    } else {
+      return (
+        <div>
+          <h1>Loading</h1>
+          <img src={loadingGif} alt="loading-gif" />
         </div>
-        <div className="mytrips-vehicle-reqs-container">
-          <div className="mytrips-flex-start">
-            <h2 className="mytrips-sub-header">Your upcoming vehicle requests</h2>
-          </div>
-          <div className="mytrips-vehicle-reqs">
-            {this.renderMyVehicleRequests()}
-          </div>
-          <div className="mytrips-request-and-calendar-links">
-            {this.props.user.trailer_cert || this.props.user.driver_cert !== null
-              ? < Link to="/vehiclerequest" className="mytrips-request-button">Request vehicle</Link>
-              : null}
-            {(this.props.user.trailer_cert || this.props.user.driver_cert !== null) || this.props.user.role !== 'Trippee'
-              ? <Link to="/vehicle-calendar" className="mytrips-calendar-link" target="_blank">View vehicle calendar</Link>
-              : null}
-          </div>
-        </div>
-      </div >
-    );
+      );
+    }
   }
 }
 

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
 import VehicleCalendarComponent from './vehicleCalendarComponent';
+import loadingGif from '../img/loading-gif.gif';
 import '../styles/vehicle-calendar-style.scss';
 
 class VehicleCalendar extends Component {
@@ -38,7 +39,7 @@ class VehicleCalendar extends Component {
       return (
         <div>
           <h1>Loading</h1>
-          <img src="/src/img/loading-gif.gif" alt="loading-gif" />
+          <img src={loadingGif} alt="loading-gif" />
         </div>
       );
     }

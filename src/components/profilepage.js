@@ -4,6 +4,7 @@ import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { updateUser, getClubs, signOut } from '../actions';
 import ProfileCard from './profilecard';
+import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/profilepage-style.scss';
 
 class ProfilePage extends Component {
@@ -151,7 +152,7 @@ class ProfilePage extends Component {
       <Dropdown>
         <Dropdown.Toggle id="leader-dropdown">
           <p className="current-filter">{this.displaySelectedClubs()}</p>
-          <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
         <Dropdown.Menu className="filter-options">
           {clubForm}
@@ -202,7 +203,7 @@ class ProfilePage extends Component {
       <Dropdown>
         <Dropdown.Toggle id="driver-cert-dropdown">
           <p className="current-filter">{this.displaySelectedCertifications()}</p>
-          <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
         <Dropdown.Menu className="filter-options">
           {certificationForm}
@@ -219,7 +220,7 @@ class ProfilePage extends Component {
         <Dropdown.Toggle id="clothe-size-dropdown">
           <span>
             <span className="selected-size">{this.state.clothe_size}</span>
-            <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
           </span>
         </Dropdown.Toggle>
         <Dropdown.Menu className="filter-options clothe-options">

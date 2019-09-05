@@ -5,7 +5,16 @@ import Form from 'react-bootstrap/Form';
 import Collapse from 'react-bootstrap/Collapse';
 import ProfileCard from './profilecard';
 import '../styles/tripdetails_leader.scss';
-import '../styles/tripdetails_trippee-style.scss';
+import pendingBadge from '../img/pending_badge.svg';
+import approvedBadge from '../img/approved_badge.svg';
+import deniedBadge from '../img/denied_badge.svg';
+import confirmDeleteImage from '../img/confirmDelete.jpg';
+
+const badges = {
+  pending: pendingBadge,
+  approved: approvedBadge,
+  denied: deniedBadge,
+};
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -168,7 +177,7 @@ const getOnTrip = (props, onTripEmailRef) => {
 };
 
 const getGearStatus = (gearStatus) => {
-  return <span className="ltd-detail-right">{gearStatus}<img className="status-badge" src={`/src/img/${gearStatus}_badge.svg`} alt={`${gearStatus}_badge`} /> </span>;
+  return <span className="ltd-detail-right">{gearStatus}<img className="status-badge" src={badges[gearStatus]} alt={`${gearStatus}_badge`} /> </span>;
 };
 
 const getIndividualGear = (individualGearArray, individualGearStatus) => {
@@ -375,7 +384,7 @@ export default React.forwardRef((props, ref) => {
         <div className="trip-details-close-button">
           <i className="material-icons close-button" onClick={props.closeModal} role="button" tabIndex={0}>close</i>
         </div>
-        <img src="/src/img/confirmDelete.jpg" alt="confirm-delete" className="cancel-image" />
+        <img src={confirmDeleteImage} alt="confirm-delete" className="cancel-image" />
         <div className="cancel-content">
           <p className="cancel-question">Are you sure you want to delete this trip?</p>
           <p className="cancel-message">You&apos;ll be letting down a lot of trees if you do</p>

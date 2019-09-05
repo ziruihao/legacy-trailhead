@@ -6,9 +6,20 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import ProfileCard from './profilecard';
 import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../actions';
+import pendingBadge from '../img/pending_badge.svg';
+import approvedBadge from '../img/approved_badge.svg';
+import deniedBadge from '../img/denied_badge.svg';
+import loadingGif from '../img/loading-gif.gif';
+import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/opoVehicleRequest-style.scss';
 
 class OPOVehicleRequest extends Component {
+  badges = {
+    pending: pendingBadge,
+    approved: approvedBadge,
+    denied: deniedBadge,
+  }
+
   vehicleForm = [];
 
   errorFields = {
@@ -406,7 +417,7 @@ class OPOVehicleRequest extends Component {
       return (
         <div key={`vehicle_link_${index}`} className="ovr-sidebar-req-section">
           <a href={`#vehicle_req_${index}`} className="ovr-req-section-link">Vehicle #{index + 1}</a>
-          {assignment ? <img className="assigned-badge" src="/src/img/approved_badge.svg" alt="approved_badge" /> : null}
+          {assignment ? <img className="assigned-badge" src={this.badges.approved} alt="approved_badge" /> : null}
         </div>
       );
     });
@@ -422,7 +433,7 @@ class OPOVehicleRequest extends Component {
             <Dropdown onSelect={eventKey => this.onVehicleTypeChange(eventKey, index)}>
               <Dropdown.Toggle id="ovr-vehicle-dropdown" className={assignment.errorFields.assignedVehicle ? 'vrf-error' : ''}>
                 <p className={`ovr-current-vehicle ${assignment.assignedVehicle === '' ? 'no-date' : ''}`}>{assignment.assignedVehicle === '' ? 'Assign a vehicle' : assignment.assignedVehicle}</p>
-                <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+                <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="filter-options ovr-vehicle-options">
                 {this.vehicleForm}
@@ -761,7 +772,7 @@ class OPOVehicleRequest extends Component {
       return (
         <div>
           <h1>Loading</h1>
-          <img src="/src/img/loading-gif.gif" alt="loading-gif" />
+          <img src={loadingGif} alt="loading-gif" />
         </div>
       );
     } else {
@@ -789,7 +800,7 @@ class OPOVehicleRequest extends Component {
                   {this.props.vehicleRequest.status}
                 </span>
                 <span className="vrf-req-status-badge">
-                  <img className="status-badge" src={`/src/img/${this.props.vehicleRequest.status}_badge.svg`} alt={`${this.props.vehicleRequest.status}_badge`} />
+                  <img className="status-badge" src={this.badges[this.props.vehicleRequest.status]} alt={`${this.props.vehicleRequest.status}_badge`} />
                 </span>
               </span>
             </div>
@@ -853,7 +864,7 @@ class OPOVehicleRequest extends Component {
             <div className="trip-details-close-button">
               <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
             </div>
-            <img className="status-badge ovr-status-badge" src="/src/img/warning_badge.svg" alt="approved_badge" />
+            <img className="status-badge ovr-status-badge" src={this.badges.denied} alt="denied_badge" />
             {this.getModalContent()}
           </Modal>
         </div>

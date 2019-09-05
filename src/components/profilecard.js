@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/profilepage-style.scss';
+import editIcon from '../img/editButton.svg';
 
 const TRAILER_CONSTANT = 'TRAILER';
 
@@ -61,7 +62,7 @@ const ProfileCard = (props) => {
             {props.asProfilePage
               ? (
                 <div className="button-place">
-                  <input className="edit-button" type="image" src="/src/img/editButton.svg" alt="edit button" onClick={props.startEditing} />
+                  <input className="edit-button" type="image" src={editIcon} alt="edit button" onClick={props.startEditing} />
                 </div>
               )
               : null}

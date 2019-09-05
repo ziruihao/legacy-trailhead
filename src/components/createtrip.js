@@ -7,6 +7,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { fetchTrip, createTrip, appError } from '../actions';
 import PCardRequest from './pcard_request';
 import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } from './create_trip_pages';
+import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -343,7 +344,7 @@ class CreateTrip extends Component {
                   <Dropdown.Toggle id="size-type-dropdown">
                     <span>
                       <span className="selected-size">{gearRequest.size_type}</span>
-                      <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+                      <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
                     </span>
                   </Dropdown.Toggle>
                   <Dropdown.Menu className="filter-options clothe-options">

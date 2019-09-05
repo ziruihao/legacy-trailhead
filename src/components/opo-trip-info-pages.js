@@ -2,6 +2,15 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import '../styles/tripdetails_opo.scss';
+import pendingBadge from '../img/pending_badge.svg';
+import approvedBadge from '../img/approved_badge.svg';
+import deniedBadge from '../img/denied_badge.svg';
+
+const badges = {
+  pending: pendingBadge,
+  approved: approvedBadge,
+  denied: deniedBadge,
+};
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -188,7 +197,7 @@ const GearRequest = (props) => {
               <span className="sub-titles">Group Gear</span>
               <div className="detail-row gear-status">
                 <span className="detail-left">Status</span>
-                <span className="detail-right otd-req-status">{trip.gearStatus} <img className="status-badge" src={`/src/img/${trip.gearStatus}_badge.svg`} alt={`${trip.gearStatus}_badge`} /> </span>
+                <span className="detail-right otd-req-status">{trip.gearStatus} <img className="status-badge" src={badges[trip.gearStatus]} alt={`${trip.gearStatus}_badge`} /> </span>
               </div>
               <div className="trip-detail otd-group-gear-table ovr-white-background">
                 <Table responsive="lg">
@@ -229,7 +238,7 @@ const GearRequest = (props) => {
               <span className="sub-titles">Individual Gear</span>
               <div className="detail-row gear-status">
                 <span className="detail-left">Status</span>
-                <span className="detail-right otd-req-status">{trip.trippeeGearStatus} <img className="status-badge" src={`/src/img/${trip.trippeeGearStatus}_badge.svg`} alt={`${trip.trippeeGearStatus}_badge`} /> </span>
+                <span className="detail-right otd-req-status">{trip.trippeeGearStatus} <img className="status-badge" src={badges[trip.trippeeGearStatus]} alt={`${trip.trippeeGearStatus}_badge`} /> </span>
               </div>
               <div className="trip-detail otd-group-gear-table ovr-white-background">
                 <Table responsive="lg">
@@ -321,7 +330,7 @@ const PCardRequest = (props) => {
             {pcardStatus}
           </span>
           <span className="vrf-req-status-badge">
-            <img className="status-badge" src={`/src/img/${pcardStatus}_badge.svg`} alt={`${pcardStatus}_badge`} />
+            <img className="status-badge" src={badges[pcardStatus]} alt={`${pcardStatus}_badge`} />
           </span>
         </span>
       </div>

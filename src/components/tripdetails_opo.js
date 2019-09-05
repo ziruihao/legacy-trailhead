@@ -7,8 +7,17 @@ import { reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appEr
 import { GearRequest, BasicInfo, PCardRequest } from './opo-trip-info-pages';
 import '../styles/tripdetails_opo.scss';
 import '../styles/createtrip-style.scss';
+import pendingBadge from '../img/pending_badge.svg';
+import approvedBadge from '../img/approved_badge.svg';
+import deniedBadge from '../img/denied_badge.svg';
 
 class OPOTripDetails extends Component {
+  badges = {
+    pending: pendingBadge,
+    approved: approvedBadge,
+    denied: deniedBadge,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -56,7 +65,7 @@ class OPOTripDetails extends Component {
           >
             Gear Request
         </button>
-          {hasBeenReviewed ? <img className="assigned-badge" src={`/src/img/${status}_badge.svg`} alt={`${status}_badge`} /> : null}
+          {hasBeenReviewed ? <img className="assigned-badge" src={this.badges[status]} alt={`${status}_badge`} /> : null}
         </div>
       );
     }
@@ -73,7 +82,7 @@ class OPOTripDetails extends Component {
           >
             P-Card Request
           </button>
-          {pcardStatus !== 'pending' ? <img className="assigned-badge" src={`/src/img/${pcardStatus}_badge.svg`} alt={`${pcardStatus}_badge`} /> : null}
+          {pcardStatus !== 'pending' ? <img className="assigned-badge" src={this.badges[pcardStatus]} alt={`${pcardStatus}_badge`} /> : null}
         </div>
       )
     }
@@ -90,7 +99,7 @@ class OPOTripDetails extends Component {
           >
             P-Card Request
           </button>
-          {vehicleStatus !== 'pending' ? <img className="assigned-badge" src={`/src/img/${vehicleStatus}_badge.svg`} alt={`${vehicleStatus}_badge`} /> : null}
+          {vehicleStatus !== 'pending' ? <img className="assigned-badge" src={this.badges[vehicleStatus]} alt={`${vehicleStatus}_badge`} /> : null}
         </div>
       )
     }
@@ -280,7 +289,7 @@ class OPOTripDetails extends Component {
           <div className="trip-details-close-button">
             <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
           </div>
-          <img className="status-badge ovr-status-badge" src="/src/img/warning_badge.svg" alt="approved_badge" />
+          <img className="status-badge ovr-status-badge" src={this.badges.denied} alt="warning_badge" />
 
           <div className="cancel-content">
             <p className="cancel-question">{`Contact ${this.props.trip.leaders[0].name}`}</p>
