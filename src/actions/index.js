@@ -29,7 +29,7 @@ export const ActionTypes = {
   FETCH_ASSIGNMENTS: 'FETCH_ASSIGNMENTS',
 };
 
-const ROOT_URL = 'https://doc-planner-api.herokuapp.com/api';
+const ROOT_URL = 'https://doc-planner.herokuapp.com/api';
 // const ROOT_URL = 'http://localhost:9090/api';
 
 export function appError(message) {
