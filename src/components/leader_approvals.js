@@ -1,123 +1,84 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-// import { Switch } from 'react-router';
-// import Dropdown from 'react-bootstrap/Dropdown';
-import Table from 'react-bootstrap/Table';
-// import requireAuth from '../containers/requireAuth';
 import { fetchLeaderApprovals, reviewRoleRequest } from '../actions';
-// import CertApprovals from './cert_approvals';
-// import OpoApprovals from './opoStuff';
+import loadingGif from '../img/loading-gif.gif';
 import '../styles/approvals-style.scss';
 import '../styles/tripdetails_leader.scss';
 import '../styles/opo-trips.scss';
 
 
 class LeaderApprovals extends Component {
-  componentDidMount(props) {
-    this.props.fetchApprovals();
+  constructor(props) {
+    super(props);
+    this.state = {
+      ready: false,
+    };
+  }
+
+  componentDidMount() {
+    this.props.fetchApprovals()
+      .then(() => {
+        this.setState({ ready: true });
+      });
   }
 
   getPendingRequests = () => {
-    const pendingApprovals = this.props.approvals.filter(approval => approval.status === 'pending');
+    const pendingApprovals = this.props.approvals;
     if (pendingApprovals.length === 0) {
-      return <strong>None</strong>;
+      return (
+        <div className="no-on-trip trip-detail">
+          <h4 className="none-f-now">None</h4>
+        </div>
+      );
     }
     return pendingApprovals.map((approval) => {
-      if (approval.status === 'pending') {
-        return (
-          <div key={approval.id} className="container">
-            <Table responsive="lg" hover>
-              <thead>
-                <tr>
-                  <th>Leader</th>
-                  <th>Subclub(s)</th>
-                  <th>Approve/Deny</th>
-                </tr>
-              </thead>
-              <tbody>
-                {approval.clubs.map(club => (
-                  <tr key={club.id}>
-                    <td>{approval.user.name}</td>
-                    <td>{club.name}</td>
-                    <td>
-                      <button data-id={approval.id} data-action="approve" type="button" className="btn btn-success approve-button" onClick={this.reviewRequest}>Approve</button>
-                      <button data-id={approval.id} data-action="deny" type="button" className="btn btn-danger deny-button" onClick={this.reviewRequest}>Deny</button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+      return (
+        <div key={approval.id} className="trip-detail ola-approval">
+          <div className="ola-requester-name">
+            {approval.name} ({approval.email}) is requesting leader access to the following club(s):
           </div>
-        );
-      } else {
-        return null;
-      }
+          <div className="ola-requested-clubs">
+            <ul>
+              {approval.requested_clubs.map(club => (
+                <li key={club.id}>{club.name}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="ola-action-buttons">
+            <button type="submit" className="ola-approve-button signup-button" onClick={() => this.reviewRequest(approval.id, 'approved')}>Approve</button>
+            <span className="cancel-link ovr-bottom-link" onClick={() => this.reviewRequest(approval.id, 'denied')} role="button" tabIndex={0}>
+              Deny
+            </span>
+          </div>
+        </div>
+      );
     });
   }
 
-  getReviewedRequests = () => {
-    const reviewedApprovals = this.props.approvals.filter(approval => approval.status === 'approved');
-    if (reviewedApprovals.length === 0) {
-      return <strong>None</strong>;
-    }
-    return reviewedApprovals.map((approval) => {
-      if (approval.status !== 'pending') {
-        const status = approval.status === 'approved' ? 'Approved' : 'Denied';
-        return (
-          <div key={approval.id} className="container">
-            <Table responsive="lg" hover>
-              <thead>
-                <tr>
-                  <th>Leader</th>
-                  <th>Subclub(s)</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {approval.clubs.map(club => (
-                  <tr key={club.id}>
-                    <td>{approval.user.name}</td>
-                    <td>{club.name}</td>
-                    <td>
-                      {status}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
-        );
-      } else {
-        return null;
-      }
-    });
-  }
-
-  reviewRequest = (event) => {
-    event.persist();
-    const status = event.target.dataset.action === 'approve' ? 'Approved' : 'Denied';
+  reviewRequest = (userId, status) => {
     const review = {
-      id: event.target.dataset.id,
+      userId,
       status,
     };
     this.props.reviewRoleRequest(review);
   }
 
   render() {
-    return (
-      <div className="leader-details-container dashboard-container">
-        <div className="trip-detail pending-table">
+    if (this.state.ready) {
+      return (
+        <div className="leader-details-container dashboard-container">
           {this.getPendingRequests()}
         </div>
-        <div className="pending-and-dropdown">
-          <h4 className="trip-status">Approved Requests</h4>
+      );
+    } else {
+      return (
+        <div>
+          <h1>Loading</h1>
+          <img src={loadingGif} alt="loading-gif" />
         </div>
-        <div className="trip-detail pending-table">
-          {this.getReviewedRequests()}
-        </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

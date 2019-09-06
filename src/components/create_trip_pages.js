@@ -94,7 +94,7 @@ const BasicTripInfo = (props) => {
         </div>
       </div>
       <div className="row page-sub-headers">
-        <p>Beginner trip</p>
+        <p>Tag as non-beginner trip</p>
         <div className="checkbox-beginner">
           <input
             type="checkbox"
@@ -104,7 +104,7 @@ const BasicTripInfo = (props) => {
             checked={props.experienceValue}
           />
           <label htmlFor="beginner">
-            Do Trippees need prior experience to go on this trip?
+            Select if trippees need prior experience to go on this trip
           </label>
         </div>
       </div>

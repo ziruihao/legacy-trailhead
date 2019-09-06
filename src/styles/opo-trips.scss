@@ -11,6 +11,9 @@
 #filter-dropdown{
   background: #FAFAFA;
   border: 2px solid #C4C4C4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #filter-dropdown:focus{
   box-shadow: 0 0 0 0.15rem #0CA074;
@@ -40,7 +43,8 @@
   display: inline-block;
   color: #474747;
   margin-right: 4em;
-  min-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .filter-options{
   width: 90%;

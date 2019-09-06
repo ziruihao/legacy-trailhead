@@ -15,3 +15,22 @@
   width: 120px;
   height: 40px;
 }
+
+.ola-approval{
+  font-size: 1.4em
+}
+
+.ola-requested-clubs, .ola-action-buttons{
+  margin-top: 1em;
+}
+
+.ola-action-buttons{
+  display: flex;
+  align-items: center;
+}
+
+.ola-approve-button{
+  width: 9em;
+  min-height: 2.5em;
+  margin-right: 1.5em;
+}

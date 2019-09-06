@@ -469,6 +469,8 @@ class CreateTrip extends Component {
       this.props.appError('Please complete all highlighted fields');
       window.scrollTo(0, 0);
       return true;
+    } else {
+      return false;
     }
   }
 

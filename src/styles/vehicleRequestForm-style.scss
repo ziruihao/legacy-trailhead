@@ -63,7 +63,10 @@ textarea.vrf-req-details-input{
 }
 .vehicle-type-dropdown{
   background-color: #FFFFFF !important;
-  border: 2px solid #C4C4C4 !important; // I tried
+  border: 2px solid #C4C4C4 !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 input.vrf-vehicle-detail{
   width: 60%;

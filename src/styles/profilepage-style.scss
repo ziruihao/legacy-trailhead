@@ -215,6 +215,10 @@ input.my-form-control{
   background: #FFFFFF;
   border: 2px solid #C4C4C4;
   min-width: 14em;
+  max-width: 25em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #leader-dropdown:focus{
   box-shadow: 0 0 0 0.15rem #0CA074;
@@ -223,10 +227,18 @@ input.my-form-control{
   background: #FFFFFF;
   border: 2px solid #C4C4C4;
   min-width: 14em;
+  max-width: 25em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #clothe-size-dropdown{
   background: #FFFFFF;
   border: 2px solid #C4C4C4;
+  max-width: 25em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .selected-size{
   color: #474747;
