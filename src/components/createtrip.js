@@ -3,11 +3,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Dropdown from 'react-bootstrap/Dropdown';
-import { fetchTrip, createTrip, appError } from '../actions';
+import { fetchTrip, createTrip, editTrip, appError } from '../actions';
 import PCardRequest from './pcard_request';
 import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } from './create_trip_pages';
-import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -34,14 +32,22 @@ class CreateTrip extends Component {
     hasError: false,
   }
 
+  pcardErrorFields = {
+    numPeople: false,
+    snacks: false,
+    breakfast: false,
+    lunch: false,
+    dinner: false,
+  }
+
   defaultPcardReq = {
     numPeople: '',
-    snacks: '0',
-    breakfast: '0',
-    lunch: '0',
-    dinner: '0',
+    snacks: '',
+    breakfast: '',
+    lunch: '',
+    dinner: '',
     otherCosts: [],
-    numPeopleError: false,
+    errorFields: { ...this.pcardErrorFields }
   }
 
   errorFields = {
@@ -92,30 +98,51 @@ class CreateTrip extends Component {
   }
 
   componentDidMount() {
-    if (this.props.match.params.tripID !== undefined) {
+    if (this.props.switchMode) {
       this.props.fetchTrip(this.props.match.params.tripID)
         .then(() => {
-          const gear = this.props.trip.OPOGearRequests;
-          const tripGear = this.props.trip.trippeeGear;
-          const coLeaders = this.getCoLeaders(this.props.trip.leaders);
+          const { trip } = this.props;
+          const gearRequests = trip.OPOGearRequests.map((groupGear) => {
+            return { groupGear, hasError: false };
+          });
+          const trippeeGear = trip.trippeeGear.map((individualGear) => {
+            return Object.assign({}, individualGear, { hasError: false });
+          });
+          const pcardRequest = trip.pcard.map((pcard) => {
+            const { otherCosts } = pcard;
+            const withErrorFields = otherCosts.map((otherCost) => {
+              return Object.assign({}, otherCost, { errorFields: { ...this.otherCostErrorFields } });
+            });
+            const updates = {};
+            updates.otherCosts = withErrorFields;
+            updates.errorFields = { ...this.pcardErrorFields };
+            return Object.assign({}, pcard, updates);
+          });
+          const coLeaders = this.getCoLeaders(trip.leaders);
+          const startDate = new Date(trip.startDate);
+          const endDate = new Date(trip.endDate);
+          const length = startDate.getTime() === endDate.getTime() ? 'single' : 'multi';
           this.setState({
             currentStep: 1,
-            title: this.props.trip.title,
+            title: trip.title,
             leaders: coLeaders,
-            club: this.props.trip.club,
-            experienceNeeded: this.props.trip.experienceNeeded,
-            description: this.props.trip.description,
-            startDate: this.props.trip.startDate,
-            endDate: this.props.trip.endDate,
-            startTime: this.props.trip.startTime,
-            endTime: this.props.trip.endTime,
-            mileage: this.props.trip.mileage,
-            pickup: this.props.trip.pickup,
-            dropoff: this.props.trip.dropoff,
-            location: this.props.trip.location,
-            cost: this.props.trip.cost,
-            gearRequests: gear,
-            trippeeGear: tripGear,
+            club: trip.club,
+            experienceNeeded: trip.experienceNeeded,
+            access: trip.co_leader_access,
+            description: trip.description,
+            startDate: trip.startDate.substring(0, 10),
+            endDate: trip.endDate.substring(0, 10),
+            startTime: trip.startTime,
+            endTime: trip.endTime,
+            mileage: trip.mileage,
+            pickup: trip.pickup,
+            dropoff: trip.dropoff,
+            location: trip.location,
+            cost: trip.cost,
+            length,
+            trippeeGear,
+            pcardRequest,
+            gearRequests,
           });
         });
     }
@@ -147,9 +174,7 @@ class CreateTrip extends Component {
       const pcardRequest = prevState.pcardRequest[index];
       const updates = {};
       updates[event.target.name] = event.target.value;
-      if (event.target.name === 'numPeople') {
-        updates.numPeopleError = this.isStringEmpty(event.target.value)
-      }
+      updates.errorFields = Object.assign({}, prevState.errorFields, { [event.target.name]: this.isStringEmpty(event.target.value) });
       const updatedReq = Object.assign({}, pcardRequest, updates);
       const updatedRequests = Object.assign([], prevState.pcardRequest, { [index]: updatedReq });
       return { pcardRequest: updatedRequests };
@@ -213,13 +238,10 @@ class CreateTrip extends Component {
 
   getClubOptions = () => {
     let options = null;
-    if (this.props.user.leader_for) {
+    if (this.props.user.role === 'Leader' && this.props.user.leader_for.length > 0) {
       options = this.props.user.leader_for.map((club) => {
         return <option key={club.id} data-id={club.id} value={club.name}>{club.name}</option>;
       });
-      if (options.length === 0) {
-        options = <option key={club.id} data-id={club.id} value={club.name}>Request leader access in profile page</option>;
-      }
     }
     return options;
   }
@@ -307,64 +329,6 @@ class CreateTrip extends Component {
     });
   }
 
-  getGearInputs = (props) => {
-    const gearRequests = props.isEditMode ? props.trip.gearRequests : this.state.gearRequests;
-    return gearRequests.map((gearRequest, index) => {
-      return (
-        <div className="gear-container" key={index}>
-          <input type="text" className={`gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`} name="opogearRequest" placeholder="Add Item" onChange={event => this.onGearChange(event, index)} value={gearRequest.groupGear} autoFocus />
-          <button type="button" className="delete-gear-button" onClick={() => this.removeGear(index)}>X</button>
-        </div>
-      );
-    });
-  }
-
-  getTrippeeGear = (props) => {
-    const trippeeGearRequests = props.isEditMode ? props.trippeeGear : this.state.trippeeGear;
-    return trippeeGearRequests.map((gearRequest, index) => {
-      return (
-        <div key={index}>
-          <div className="gear-container">
-            <div className="gear-and-size">
-              <div className="gear-field-and-form">
-                <span className="gear-field">Gear:</span>
-                <input
-                  type="text"
-                  className={`my-form-control gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`}
-                  name="trippeeGear"
-                  placeholder="Add Item"
-                  onChange={event => this.onTrippeeGearChange(event, index)}
-                  value={gearRequest.gear}
-                  autoFocus
-                />
-              </div>
-              <div className="gear-field-and-form">
-                <span className="gear-field">Size Type:</span>
-                <Dropdown onSelect={eventKey => this.onSizeTypeChange(eventKey, index)}>
-                  <Dropdown.Toggle id="size-type-dropdown">
-                    <span>
-                      <span className="selected-size">{gearRequest.size_type}</span>
-                      <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
-                    </span>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="filter-options clothe-options">
-                    <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
-                    <Dropdown.Item eventKey="Clothe">Clothes</Dropdown.Item>
-                    <Dropdown.Item eventKey="Shoe">Shoe</Dropdown.Item>
-                    <Dropdown.Item eventKey="Height">Height</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            </div>
-            <button type="button" className="delete-gear-button" onClick={() => this.removeTrippeeGear(index)}>X</button>
-          </div>
-          <hr className="line" />
-        </div>
-      );
-    });
-  }
-
-
   onGearChange = (event, idx) => {
     event.persist();
     this.setState((prevState) => {
@@ -415,7 +379,7 @@ class CreateTrip extends Component {
       }
     });
     coleaders = coleaders.substring(0, coleaders.length - 2);
-    coleaders = coleaders.length === 0 ? 'None' : coleaders;
+    coleaders = coleaders.length === 0 ? '' : coleaders;
     return coleaders;
   };
 
@@ -424,27 +388,33 @@ class CreateTrip extends Component {
     this._prev();
   }
 
-  nextButton = (e) => {
+  _next = () => {
     if (this.pageIsValid()) {
-      e.preventDefault();
-      if (this.state.currentStep !== 5) {
-        this._next();
-      } else {
-        this.createTrip();
-      }
+      this.setState((prevState) => {
+        return { currentStep: prevState.currentStep + 1 };
+      });
     }
   }
 
-  _next = () => {
-    this.setState((prevState) => {
-      return { currentStep: prevState.currentStep + 1 };
-    });
+  getAppropriateButton = () => {
+    if (this.state.currentStep !== 5) {
+      return (
+        <button type="button" className="btn next-button" onClick={this._next}>
+          Next
+        </button>
+      );
+    } else {
+      return (
+        <button type="button" className="btn next-button" onClick={this.createTrip}>
+          {this.props.switchMode ? 'Update Trip' : 'Create Trip!'}
+        </button>
+      );
+    }
   }
 
   _prev = () => {
-    const { currentStep } = this.state;
-    this.setState({
-      currentStep: currentStep - 1,
+    this.setState((prevState) => {
+      return { currentStep: prevState.currentStep - 1 };
     });
   }
 
@@ -542,9 +512,15 @@ class CreateTrip extends Component {
       const pcards = this.state.pcardRequest;
       let hasEmptyField = false;
       const markedEmptyFields = pcards.map((pcard) => {
-        // const pcard = this.state.pcardRequest[0];
+        const updatedPcardErrorFields = { ...this.pcardErrorFields };
+        const soloErrorFields = Object.keys(updatedPcardErrorFields);
+        soloErrorFields.forEach((errorField) => {
+          if (this.isStringEmpty(pcard[errorField])) {
+            hasEmptyField = true;
+            updatedPcardErrorFields[errorField] = true;
+          }
+        });
         const { otherCosts } = pcard;
-        // let hasEmptyOtherCost = false;
         const markedEmptyOtherCosts = otherCosts.map((otherCost) => {
           const updatedErrorFields = {};
           const isTitleEmpty = this.isStringEmpty(otherCost.title);
@@ -558,16 +534,12 @@ class CreateTrip extends Component {
         });
         const updates = {};
         updates.otherCosts = markedEmptyOtherCosts;
-        const numPeopleError = this.isStringEmpty(pcard.numPeople);
-        updates.numPeopleError = numPeopleError;
-        if (numPeopleError) {
-          hasEmptyField = true;
-        }
+        updates.errorFields = updatedPcardErrorFields;
         return Object.assign({}, pcard, updates);
       });
       if (hasEmptyField) {
         this.setState({ pcardRequest: markedEmptyFields });
-        this.props.appError('Please complete or clear the highlighted fields');
+        this.props.appError('Please complete the highlighted fields. Enter 0 if not applicable');
         window.scrollTo(0, 0);
         return false;
       }
@@ -618,9 +590,12 @@ class CreateTrip extends Component {
       trippeeGear,
       pcard,
     };
-    this.props.createTrip(trip, this.props.history);
+    if (this.props.switchMode) {
+      this.props.editTrip(trip, this.props.history, this.props.match.params.tripID);
+    } else {
+      this.props.createTrip(trip, this.props.history);
+    }
   }
-
 
   render() {
     let page;
@@ -673,9 +648,13 @@ class CreateTrip extends Component {
           <Equipment
             addTrippeeGear={this.addTrippeeGear}
             addGear={this.addGear}
-            getGearInputs={this.getGearInputs(this.props)}
-            getTrippeeGear={this.getTrippeeGear(this.props)}
-            errorFields={this.state.errorFields}
+            trippeeGear={this.state.trippeeGear}
+            gearRequests={this.state.gearRequests}
+            onTrippeeGearChange={this.onTrippeeGearChange}
+            onGearChange={this.onGearChange}
+            onSizeTypeChange={this.onSizeTypeChange}
+            removeTrippeeGear={this.removeTrippeeGear}
+            removeGear={this.removeGear}
           />
         );
         break;
@@ -711,19 +690,17 @@ class CreateTrip extends Component {
         break;
     }
     return (
-      <div className="row my-row">
+      <div className="ovr-container">
         <LeftColumn
           currentStep={this.state.currentStep}
         />
-        <div className="right-column">
+        <div className="ovr-req-content">
           <div className="create-trip-form-page">
             {page}
           </div>
           <div className="create-trip-bottom-buttons create-trips-top-margin">
             <button disabled={this.state.currentStep === 1} type="button" className="btn next-button" onClick={this.previousButton}>Previous</button>
-            <button type="button" className="btn next-button" onClick={this.nextButton}>
-              {this.state.currentStep === 5 ? 'Create Trip!' : 'Next'}
-            </button>
+            {this.getAppropriateButton()}
           </div>
         </div>
       </div>
@@ -736,4 +713,4 @@ const mapStateToProps = (state) => {
     trip: state.trips.trip,
   };
 };
-export default withRouter(connect(mapStateToProps, { fetchTrip, createTrip, appError })(CreateTrip));
+export default withRouter(connect(mapStateToProps, { fetchTrip, createTrip, editTrip, appError })(CreateTrip));

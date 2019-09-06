@@ -378,7 +378,7 @@ const PCardRequest = (props) => {
             <tr>
               <th>Expense Details</th>
               <th>Unit Cost</th>
-              <th># per participant</th>
+              <th>Qty per participant</th>
               <th>Total Cost</th>
             </tr>
           </thead>

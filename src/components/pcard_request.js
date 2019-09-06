@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { Component } from 'react';
+import React from 'react';
 import '../styles/createtrip-style.scss';
 
 const PCardRequest = (props) => {
@@ -26,7 +26,7 @@ const getPcardForm = (props) => {
 				</div>
 				<div className="row pcard-header">
 					<input
-						className={`field top-create-trip leaders pcard ${request.numPeopleError ? 'create-trip-error' : ''}`}
+						className={`field top-create-trip leaders pcard ${request.errorFields.numPeople ? 'create-trip-error' : ''}`}
 						onChange={(event) => props.onPcardFieldChange(event, index)}
 						name="numPeople"
 						placeholder="e.g. 8"
@@ -42,18 +42,18 @@ const getPcardForm = (props) => {
 					<div className="row page-sub-headers pcard">
 						<p>Snacks</p>
 						<input
-							className="field top-create-trip leaders pcard"
+							className={`field top-create-trip leaders pcard ${request.errorFields.snacks ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="snacks"
 							placeholder="e.g. 1"
-							value={request.snack}
+							value={request.snacks}
 							type="number"
 						/>
 					</div>
 					<div className="row page-sub-headers pcard">
 						<p>Breakfast</p>
 						<input
-							className="field top-create-trip leaders pcard"
+							className={`field top-create-trip leaders pcard ${request.errorFields.breakfast ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="breakfast"
 							placeholder="e.g. 1"
@@ -63,7 +63,7 @@ const getPcardForm = (props) => {
 					<div className="row page-sub-headers pcard">
 						<p>Lunch</p>
 						<input
-							className="field top-create-trip leaders pcard"
+							className={`field top-create-trip leaders pcard ${request.errorFields.lunch ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="lunch"
 							placeholder="e.g. 1"
@@ -74,7 +74,7 @@ const getPcardForm = (props) => {
 					<div className="row page-sub-headers pcard">
 						<p>Dinner</p>
 						<input
-							className="field top-create-trip leaders pcard"
+							className={`field top-create-trip leaders pcard ${request.errorFields.dinner ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="dinner"
 							placeholder="e.g. 1"

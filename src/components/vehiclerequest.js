@@ -47,7 +47,7 @@ class VehicleRequest extends Component {
   }
 
   componentDidMount() {
-    if (this.props.viewMode) {
+    if (this.props.switchMode) {
       this.props.fetchVehicleRequest(this.props.match.params.vehicleReqId)
         .then(() => {
           this.setState({ isEditing: false });

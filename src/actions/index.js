@@ -212,11 +212,11 @@ export function deleteTrip(id, history) {
   };
 }
 
-export function editTrip(trip, history) {
+export function editTrip(trip, history, id) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/trip/${trip.id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${ROOT_URL}/trip/${id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        history.push(`/trip/${trip.id}`);
+        history.push(`/trip/${id}`);
       })
       .catch((error) => {
         console.log(error);

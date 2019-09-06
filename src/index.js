@@ -60,9 +60,9 @@ const App = (props) => {
           <Route path="/vehiclerequest/:vehicleReqId" component={requireAuth(VehicleRequest, 'viewMode')} />
           <Route path="/vehiclerequest" component={requireAuth(VehicleRequest)} />
           <Route path="/trip/:tripID" component={requireAuth(TripDetails)} />
-          <Route path="/createtrip" component={requireAuth(CreateTrip)} isEditMode={false} />
+          <Route path="/createtrip" component={requireAuth(CreateTrip)} />
           <Route path="/mytrips" component={requireAuth(MyTrips)} />
-          <Route path="/edittrip/:tripID" component={requireAuth(CreateTrip)} isEditMode />
+          <Route path="/edittrip/:tripID" component={requireAuth(CreateTrip, 'editMode')} />
           <Route path="/opo-trips" component={requireAuth(OpoTrips)} />
           <Route path="/vehicle-requests" component={requireAuth(OpoVehicleRequests)} />
           <Route path="/opo-vehicle-request/:vehicleReqId" component={requireAuth(OpoVehicleRequest)} />

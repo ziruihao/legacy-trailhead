@@ -253,7 +253,7 @@ class OPOTripDetails extends Component {
     return (
       <div className="ovr-container">
         <div className="ovr-sidebar">
-          <span className="ovr-sidebar-header">Mount Cardigan Hike</span>
+          <span className="ovr-sidebar-header">{this.props.trip.title}</span>
           <span className="vrf-label ovr-sidebar-subheader">Trip Overview</span>
           <div className="ovr-sidebar-req-sections">
             <div className="ovr-sidebar-req-section otd-sb-req-section">

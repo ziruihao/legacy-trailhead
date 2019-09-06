@@ -11,6 +11,8 @@
   line-height: 33px;
   letter-spacing: 0.05em;
   color: #2c2f33;
+  width: 70%;
+  padding: 0.5em;
 
   &.top-create-trip{
     margin: 0rem 0rem 3rem 0rem;
@@ -261,7 +263,7 @@ ul li .radio-button{
 
 .left-column{
   background: white;
-  width: 30%;
+  width: 20%;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -275,9 +277,9 @@ ul li .radio-button{
 
 .side-bar-highlight{
   position: absolute;
-  width: 7px;
+  width: 0.5em;
   height: 2.5rem;
-  left: .96rem;
+  left: 0.1rem;
   background: #0CA074;
   border-radius: 0px 5px 5px 0px
 }
@@ -288,7 +290,7 @@ ul li .radio-button{
   padding-bottom: 1em;
   padding-left: 2.5em;
   padding-right: 2.5em;
-  width: 70%;
+  width: 80%;
   min-height: 100%;
 }
 

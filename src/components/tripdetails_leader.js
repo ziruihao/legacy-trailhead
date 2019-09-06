@@ -251,6 +251,78 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
     );
   }
 };
+const getPcard = (pcard, pcardStatus, assignedPCard) => {
+  if (pcard.length === 0) {
+    return (
+      <div className="no-gear">
+        <div className="trip-detail">
+          <div className="no-on-trip">
+            <h4 className="none-f-now">None</h4>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    const pcardReq = pcard[0];
+    return (
+      <div>
+        <div className="detail-row gear-status">
+          <span className="detail-left">Status</span>
+          {getGearStatus(pcardStatus)}
+        </div>
+        {pcardStatus === 'approved'
+          ? (
+            <div className="detail-row gear-status">
+              <span className="detail-left">Assigned P-Card</span>
+              <span className="ltd-detail-right">{assignedPCard}</span>
+            </div>
+          )
+          : null
+        }
+        <div className="detail-row gear-status">
+          <span className="detail-left">Number of People (including leaders)</span>
+          <span className="ltd-detail-right">{pcardReq.numPeople}</span>
+        </div>
+        <div className="trip-detail">
+          <div className="detail-row gear-header">
+            <h4 className="leader-detail-left">Expense Detail</h4>
+            <h4 className="leader-detail-right">Qty per participant</h4>
+          </div>
+          <hr className="detail-line" />
+          <div className="detail-row">
+            <span>Snacks</span>
+            <span>{pcardReq.snacks}</span>
+          </div>
+          <hr className="detail-line" />
+          <div className="detail-row">
+            <span>Breakfast</span>
+            <span>{pcardReq.breakfast}</span>
+          </div>
+          <hr className="detail-line" />
+          <div className="detail-row">
+            <span>Lunch</span>
+            <span>{pcardReq.lunch}</span>
+          </div>
+          <hr className="detail-line" />
+          <div className="detail-row">
+            <span>Dinner</span>
+            <span>{pcardReq.dinner}</span>
+          </div>
+          <hr className="detail-line" />
+          {pcardReq.otherCosts.map((cost, index, array) => (
+            <div key={cost._id}>
+              <div className="detail-row">
+                <span>{cost.title}</span>
+                <span>{cost.cost}</span>
+              </div>
+              {index !== array.length - 1 ? <hr className="detail-line" /> : null}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+};
 
 export default React.forwardRef((props, ref) => {
   const { pendingEmailRef, onTripEmailRef } = ref;
@@ -365,6 +437,13 @@ export default React.forwardRef((props, ref) => {
         <div className="group-gear leader-trip-detail right-detail">
           <h3>Group gear</h3>
           {getGroupGear(props.trip.OPOGearRequests, props.trip.gearStatus)}
+        </div>
+      </div>
+
+      <div className="tripdetail-gear-requests leader-trip-info">
+        <div className="individual-gear leader-trip-detail left-detail">
+          <h3>P-Card</h3>
+          {getPcard(props.trip.pcard, props.trip.pcardStatus, props.trip.pcardAssigned)}
         </div>
       </div>
 

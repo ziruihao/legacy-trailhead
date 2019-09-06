@@ -1,10 +1,12 @@
 import React from 'react';
+import Dropdown from 'react-bootstrap/Dropdown';
+import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/createtrip-style.scss';
 
 
 const LeftColumn = (props) => {
   return (
-    <div className="left-column">
+    <div className="ovr-sidebar">
       <div className="row column-headers column-adjust">
         <p>Create a trip</p>
       </div>
@@ -243,6 +245,73 @@ const AboutTheTrip = (props) => {
   );
 };
 
+const getTrippeeGear = (props) => {
+  return props.trippeeGear.map((gearRequest, index) => {
+    return (
+      <div key={`trippeeGear_${index}`}>
+        <div className="gear-container">
+          <div className="gear-and-size">
+            <div className="gear-field-and-form">
+              <span className="gear-field">Gear:</span>
+              <input
+                type="text"
+                className={`my-form-control gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`}
+                name="trippeeGear"
+                placeholder="Add Item"
+                onChange={event => props.onTrippeeGearChange(event, index)}
+                value={gearRequest.gear}
+              />
+            </div>
+            <div className="gear-field-and-form">
+              <span className="gear-field">Size Type:</span>
+              <Dropdown onSelect={eventKey => props.onSizeTypeChange(eventKey, index)}>
+                <Dropdown.Toggle id="size-type-dropdown">
+                  <span>
+                    <span className="selected-size">{gearRequest.size_type}</span>
+                    <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                  </span>
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="filter-options clothe-options">
+                  <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
+                  <Dropdown.Item eventKey="Clothe">Clothes</Dropdown.Item>
+                  <Dropdown.Item eventKey="Shoe">Shoe</Dropdown.Item>
+                  <Dropdown.Item eventKey="Height">Height</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+          </div>
+          <button type="button" className="delete-gear-button" onClick={() => props.removeTrippeeGear(index)}>X</button>
+        </div>
+        <hr className="line" />
+      </div>
+    );
+  });
+};
+
+const getGearInputs = (props) => {
+  return props.gearRequests.map((gearRequest, index) => {
+    return (
+      <div className="gear-container" key={`opogearRequest_${index}`}>
+        <input
+          type="text"
+          className={`gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`}
+          name="opogearRequest"
+          placeholder="Add Item"
+          onChange={event => props.onGearChange(event, index)}
+          value={gearRequest.groupGear}
+        />
+        <button
+          type="button"
+          className="delete-gear-button"
+          onClick={() => props.removeGear(index)}
+        >
+          X
+        </button>
+      </div>
+    );
+  });
+};
+
 const Equipment = (props) => {
   return (
     <div className="create-trip-form-content">
@@ -253,13 +322,13 @@ const Equipment = (props) => {
         <div className="page-sub-headers gear-content">
           <p>Individual gear</p>
           <span id="equipment-description">Gear trippees should bring/rent</span>
-          {props.getTrippeeGear}
+          {getTrippeeGear(props)}
           <button className="add-gear-button" type="button" onClick={props.addTrippeeGear}>Add item</button>
         </div>
         <div className="page-sub-headers gear-content">
           <p>Group Gear</p>
           <span id="equipment-description">Gear for the entire group that needs to be rented</span>
-          {props.getGearInputs}
+          {getGearInputs(props)}
           <button className="add-gear-button" type="button" onClick={props.addGear}>Add item</button>
         </div>
       </div>
