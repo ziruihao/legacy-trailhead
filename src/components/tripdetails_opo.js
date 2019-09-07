@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../actions';
 import { GearRequest, BasicInfo, PCardRequest } from './opo-trip-info-pages';
+import OPOVehicleRequest from './opoVehicleRequest';
 import '../styles/tripdetails_opo.scss';
 import '../styles/createtrip-style.scss';
 import pendingBadge from '../img/pending_badge.svg';
@@ -21,7 +22,7 @@ class OPOTripDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      step: 3,
+      step: 1,
       pcardAssigned: '',
       showModal: false,
       numOfPages: 1,
@@ -97,7 +98,7 @@ class OPOTripDetails extends Component {
             className={`side-links ovr-req-section-link ${this.state.step === 4 ? 'otd-text-highlight' : ''}`}
             onClick={() => this.setStep(4)}
           >
-            P-Card Request
+            Vehicle Request
           </button>
           {vehicleStatus !== 'pending' ? <img className="assigned-badge" src={this.badges[vehicleStatus]} alt={`${vehicleStatus}_badge`} /> : null}
         </div>
@@ -240,7 +241,12 @@ class OPOTripDetails extends Component {
         );
         break;
       case 4:
-        page = null;
+        page = (
+          <OPOVehicleRequest
+            partOfTrip
+            vehicleReqId={this.props.trip.vehicleRequest.id}
+          />
+        );
         break;
       default:
         page = (
@@ -293,7 +299,9 @@ class OPOTripDetails extends Component {
 
           <div className="cancel-content">
             <p className="cancel-question">{`Contact ${this.props.trip.leaders[0].name}`}</p>
-            <p className="cancel-message">Please email the requester if you need them to update a request.</p>
+            <p className="cancel-message">
+              Please email the requester if you need them to update a request. They can't update a request after it has been reviewed.
+            </p>
             <div className="ovr-modal-button-container">
               <input
                 ref={this.emailRef}

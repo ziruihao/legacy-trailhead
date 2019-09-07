@@ -57,7 +57,8 @@ class OPOVehicleRequest extends Component {
   }
 
   componentDidMount() {
-    Promise.all([this.props.fetchVehicleRequest(this.props.match.params.vehicleReqId), this.props.getVehicles()])
+    const vehicleReqId = this.props.partOfTrip ? this.props.vehicleReqId : this.props.match.params.vehicleReqId;
+    Promise.all([this.props.fetchVehicleRequest(vehicleReqId), this.props.getVehicles()])
       .then(() => {
         this.vehicleForm = this.props.vehicles.map((vehicle) => {
           return (
@@ -159,10 +160,10 @@ class OPOVehicleRequest extends Component {
   }
 
   createDateObject = (date, time) => {
-    const dateObject = new Date(date);
+    // adapted from https://stackoverflow.com/questions/2488313/javascripts-getdate-returns-wrong-date
+    const parts = date.match(/(\d+)/g);
     const splitTime = time.split(':');
-    dateObject.setHours(splitTime[0], splitTime[1]);
-    return dateObject;
+    return new Date(parts[0], parts[1] - 1, parts[2], splitTime[0], splitTime[1]);
   }
 
   isStringEmpty = (string) => {
@@ -265,25 +266,42 @@ class OPOVehicleRequest extends Component {
         } else { // is new response
           selectedVehicleBookings = selectedVehicle.bookings;
         }
-        const conflictingEvents = selectedVehicleBookings.filter((booking) => {
-          const existingPickupDateAndTime = this.createDateObject(booking.assigned_pickupDate, booking.assigned_pickupTime);
-
-          const existingReturnDateAndTime = this.createDateObject(booking.assigned_returnDate, booking.assigned_returnTime);
-
-          const proposedPickupDateAndTime = this.createDateObject(assignment.pickupDate, assignment.pickupTime);
-
-          const proposedReturnDateAndTime = this.createDateObject(assignment.returnDate, assignment.returnTime);
-
-          return (proposedReturnDateAndTime >= existingPickupDateAndTime) || (proposedPickupDateAndTime <= existingReturnDateAndTime);
+        const bookingsWithDateAndTime = selectedVehicleBookings.map((booking) => {
+          const updates = {};
+          updates.pickupDateAndTime = this.createDateObject(booking.assigned_pickupDate, booking.assigned_pickupTime);
+          updates.returnDateAndTime = this.createDateObject(booking.assigned_returnDate, booking.assigned_returnTime);
+          return Object.assign({}, booking, updates);
         });
 
-        if (conflictingEvents.length > 0) {
+        const assignmentUpdates = {};
+        assignmentUpdates.pickupDateAndTime = this.createDateObject(assignment.pickupDate, assignment.pickupTime);
+        assignmentUpdates.returnDateAndTime = this.createDateObject(assignment.returnDate, assignment.returnTime);
+        const assignmentWithDateAndTime = Object.assign({}, assignment, assignmentUpdates);
+
+        bookingsWithDateAndTime.push(assignmentWithDateAndTime);
+
+        bookingsWithDateAndTime.sort((booking1, booking2) => {
+          if (booking1.pickupDateAndTime < booking2.pickupDateAndTime) {
+            return -1;
+          }
+          if (booking1.pickupDateAndTime > booking2.pickupDateAndTime) {
+            return 1;
+          }
+          return 0;
+        });
+        const conflictsWithEvent = bookingsWithDateAndTime.some((booking, index, array) => {
+          let isConflicting = false;
+          if (index < array.length - 1) {
+            isConflicting = booking.returnDateAndTime >= array[index + 1].pickupDateAndTime;
+          }
+          return isConflicting;
+        });
+        if (conflictsWithEvent) {
           const updatedErrorFields = { ...this.errorFields };
           updatedErrorFields.pickupDate = true;
           updatedErrorFields.pickupTime = true;
           updatedErrorFields.returnDate = true;
           updatedErrorFields.returnTime = true;
-          updatedErrorFields.conflictingEvents = conflictingEvents;
           assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
           hasConflictingEvent = true;
         }
@@ -688,7 +706,17 @@ class OPOVehicleRequest extends Component {
       return assignment.id;
     });
     if (this.state.isEditing) {
-      return <span className="cancel-link ovr-bottom-link ovr-contact-link" onClick={() => this.activateModal({ trigger: 'CONTACT' })} role="button" tabIndex={0}>Contact requester</span>;
+      return this.props.partOfTrip ? null
+        : (
+          <span
+            className="cancel-link ovr-bottom-link ovr-contact-link"
+            onClick={() => this.activateModal({ trigger: 'CONTACT' })}
+            role="button"
+            tabIndex={0}
+          >
+            Contact requester
+          </span>
+        );
     } else if (!this.state.isEditing && this.props.vehicleRequest.status === 'approved') {
       return (
         <span className="cancel-link ovr-bottom-link" onClick={() => this.activateModal({ trigger: 'CANCEL ALL', ids: allAssignmentIds })} role="button" tabIndex={0}>
@@ -778,18 +806,23 @@ class OPOVehicleRequest extends Component {
     } else {
       return (
         <div className="ovr-container">
-          <div className="ovr-sidebar">
-            <span className="ovr-sidebar-header">External Vehicle Request</span>
-            <span className="vrf-label ovr-sidebar-subheader">Vehicle Request</span>
-            <div className="ovr-sidebar-req-sections">
-              <div className="ovr-sidebar-req-section">
-                <a href="#req_details" className="ovr-req-section-link">Request Details</a>
-              </div>
+          {this.props.partOfTrip
+            ? null
+            : (
+              <div className="ovr-sidebar">
+                <span className="ovr-sidebar-header">External Vehicle Request</span>
+                <span className="vrf-label ovr-sidebar-subheader">Vehicle Request</span>
+                <div className="ovr-sidebar-req-sections">
+                  <div className="ovr-sidebar-req-section">
+                    <a href="#req_details" className="ovr-req-section-link">Request Details</a>
+                  </div>
 
-              {this.getSideLinks()}
-            </div>
-          </div>
-          <div className="ovr-req-content">
+                  {this.getSideLinks()}
+                </div>
+              </div>
+            )
+          }
+          <div className={`ovr-req-content ${this.props.partOfTrip ? 'otd-ovr-margin' : ''}`}>
             <div className="vrf-title-container">
               <h2 className="p-trip-title vrf-title-size">Vehicle Request</h2>
               <span className="vrf-status-display">

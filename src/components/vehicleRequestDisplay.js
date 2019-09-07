@@ -34,6 +34,8 @@ const getAssignment = (props, index) => {
     const assignment = props.vehicleRequest.assignments.find((element) => {
       return element.responseIndex === index;
     });
+    console.log(props.vehicleRequest);
+    console.log(index);
     if (assignment) {
       return (
         <div className="vrf-requested-vehicles">

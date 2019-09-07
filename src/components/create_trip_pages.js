@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/createtrip-style.scss';
@@ -146,7 +147,7 @@ const DatesLocation = (props) => {
         </label>
       </div>
       {props.dateOptions}
-      <p className="see-vehic-cal">See Vehicle Calendar</p>
+      <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
       <div className="row page-sub-headers trip-date-header create-trip-bottom-buttons">
         <div className="createtrips-one-of-two">
           <p>Start time</p>
