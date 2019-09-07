@@ -9,6 +9,7 @@ import pendingBadge from '../img/pending_badge.svg';
 import approvedBadge from '../img/approved_badge.svg';
 import deniedBadge from '../img/denied_badge.svg';
 import confirmDeleteImage from '../img/confirmDelete.jpg';
+import VehicleRequestDisplay from './vehicleRequestDisplay';
 
 const badges = {
   pending: pendingBadge,
@@ -446,7 +447,16 @@ export default React.forwardRef((props, ref) => {
           {getPcard(props.trip.pcard, props.trip.pcardStatus, props.trip.pcardAssigned)}
         </div>
       </div>
-
+      {props.trip.vehicleStatus !== 'N/A'
+        ? (
+          <div className="tripdetail-gear-requests leader-trip-info">
+            <VehicleRequestDisplay
+              requestType="TRIP"
+              vehicleRequest={props.trip.vehicleRequest}
+            />
+          </div>
+        )
+        : null}
       <div className="center">
         <Link to={`/edittrip/${props.trip.id}`} className="signup-button leader-edit-link"><button type="submit" className="signup-button">Edit Trip</button></Link>
       </div>

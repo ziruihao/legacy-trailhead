@@ -8,10 +8,30 @@ const PCardRequest = (props) => {
 			<div className="row page-header">
 				<p>P-Card Request</p>
 			</div>
-			{getPcardForm(props)}
-			<div className="toggle-pcard-button">
-				<button className={`add-gear-button ${props.pcardRequest.length !== 0 ? 'create-trip-cancel-button' : ''}`} type="button" onClick={props.togglePcard}>{props.pcardRequest.length === 0 ? 'Request P-card' : 'Cancel Request'}</button>
-			</div>
+			{(!props.pcardStatus || props.pcardStatus === 'pending' || props.pcardStatus === 'N/A')
+				? (
+					<div>
+						{getPcardForm(props)}
+						<div className="toggle-pcard-button">
+							<button
+								className={`add-gear-button ${props.pcardRequest.length !== 0 ? 'create-trip-cancel-button' : ''}`}
+								type="button" onClick={props.togglePcard}
+							>
+								{props.pcardRequest.length === 0 ? 'Request P-card' : 'Cancel Request'}
+							</button>
+						</div>
+					</div>
+				)
+				: (
+					<div className="no-gear">
+						<div className="trip-detail">
+							<div className="no-on-trip">
+								<h4 className="none-f-now">You can&apos;t edit requests after they&apos;ve been reviewed</h4>
+							</div>
+						</div>
+					</div>
+				)
+			}
 		</div>
 	)
 };

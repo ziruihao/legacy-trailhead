@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchTrip, createTrip, editTrip, appError } from '../actions';
 import PCardRequest from './pcard_request';
 import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } from './create_trip_pages';
+import VehicleRequest from './vehiclerequest';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -87,6 +88,7 @@ class CreateTrip extends Component {
       gearRequests: [],
       trippeeGear: [],
       pcardRequest: [],
+      vehicles: [],
       errorFields: this.errorFields,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
@@ -118,6 +120,16 @@ class CreateTrip extends Component {
             updates.errorFields = { ...this.pcardErrorFields };
             return Object.assign({}, pcard, updates);
           });
+          const vehicles = trip.vehicleRequest.requestedVehicles.map((vehicle) => {
+            const forEdititing = {};
+            forEdititing.errorFields = { ...this.errorFields };
+            forEdititing.pickupDate = vehicle.pickupDate.substring(0, 10);
+            forEdititing.returnDate = vehicle.returnDate.substring(0, 10);
+            const pickupAsDate = new Date(vehicle.pickupDate);
+            const returnAsDate = new Date(vehicle.returnDate);
+            forEdititing.tripLength = pickupAsDate.getTime() === returnAsDate.getTime() ? 'single-day-trip' : 'multi-day-trip';
+            return Object.assign({}, vehicle, forEdititing);
+          });
           const coLeaders = this.getCoLeaders(trip.leaders);
           const startDate = new Date(trip.startDate);
           const endDate = new Date(trip.endDate);
@@ -143,6 +155,7 @@ class CreateTrip extends Component {
             trippeeGear,
             pcardRequest,
             gearRequests,
+            vehicles,
           });
         });
     }
@@ -265,16 +278,6 @@ class CreateTrip extends Component {
     );
   }
 
-  getVehicleRequest = () => {
-    let certifications = '';
-    if (this.props.user.driver_cert === null && !this.props.user.trailer_cert) {
-      certifications = this.NONE_CONSTANT;
-    } else {
-      certifications = this.props.user.trailer_cert ? `${this.props.user.driver_cert}, ${this.TRAILER_CONSTANT}` : this.props.driver_cert;
-    }
-    return certifications;
-  }
-
   handleDateChange = (changeEvent) => {
     if (changeEvent.target.value === 'single') {
       this.setState(prevState => ({
@@ -371,6 +374,12 @@ class CreateTrip extends Component {
     });
   }
 
+  passVehicles = (vehicles) => {
+    this.setState((prevState) => {
+      return { vehicles, currentStep: prevState.currentStep + 1 };
+    });
+  }
+
   getCoLeaders = (leaders) => {
     let coleaders = '';
     leaders.forEach((leader, index) => {
@@ -390,14 +399,20 @@ class CreateTrip extends Component {
 
   _next = () => {
     if (this.pageIsValid()) {
-      this.setState((prevState) => {
-        return { currentStep: prevState.currentStep + 1 };
-      });
+      if (this.state.currentStep !== 6) {
+        this.setState((prevState) => {
+          return { currentStep: prevState.currentStep + 1 };
+        });
+      } else {
+        this.createTrip();
+      }
     }
   }
 
   getAppropriateButton = () => {
-    if (this.state.currentStep !== 5) {
+    if (this.state.currentStep === 5 && (!this.props.switchMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')) {
+      return null;
+    } else if (this.state.currentStep !== 6) {
       return (
         <button type="button" className="btn next-button" onClick={this._next}>
           Next
@@ -405,7 +420,7 @@ class CreateTrip extends Component {
       );
     } else {
       return (
-        <button type="button" className="btn next-button" onClick={this.createTrip}>
+        <button type="button" className="btn next-button" onClick={this._next}>
           {this.props.switchMode ? 'Update Trip' : 'Create Trip!'}
         </button>
       );
@@ -509,6 +524,10 @@ class CreateTrip extends Component {
     }
 
     if (this.state.currentStep === 5) {
+      return true;
+    }
+
+    if (this.state.currentStep === 6) {
       const pcards = this.state.pcardRequest;
       let hasEmptyField = false;
       const markedEmptyFields = pcards.map((pcard) => {
@@ -569,7 +588,12 @@ class CreateTrip extends Component {
       const updatedRequest = Object.assign({}, pcardRequest, { otherCosts: deletedErrorFields });
       delete updatedRequest.numPeopleError;
       return updatedRequest;
-    })
+    });
+    const vehicles = this.state.vehicles.map((vehicle) => {
+      delete vehicle.errorFields;
+      return vehicle;
+    });
+    const vehicleReqId = (this.props.switchMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest.id : null; 
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders.trim().split(','),
@@ -589,6 +613,8 @@ class CreateTrip extends Component {
       gearRequests,
       trippeeGear,
       pcard,
+      vehicles,
+      vehicleReqId,
     };
     if (this.props.switchMode) {
       this.props.editTrip(trip, this.props.history, this.props.match.params.tripID);
@@ -655,10 +681,34 @@ class CreateTrip extends Component {
             onSizeTypeChange={this.onSizeTypeChange}
             removeTrippeeGear={this.removeTrippeeGear}
             removeGear={this.removeGear}
+            trippeeGearStatus={this.props.switchMode ? this.props.trip.trippeeGearStatus : undefined}
+            gearStatus={this.props.switchMode ? this.props.trip.gearStatus : undefined}
           />
         );
         break;
       case 5:
+        page = (!this.props.switchMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')
+          ? (
+            <VehicleRequest
+              requestType='TRIP'
+              passVehicles={this.passVehicles}
+              vehicles={this.state.vehicles}
+            />
+          )
+          : (
+            <div className="no-gear">
+              <div className="vrf-title-container">
+                <h2 className="p-trip-title vrf-title-size">Vehicle Request</h2>
+              </div>
+              <div className="trip-detail">
+                <div className="no-on-trip">
+                  <h4 className="none-f-now">You can&apos;t edit requests after they&apos;ve been reviewed</h4>
+                </div>
+              </div>
+            </div>
+          );
+        break;
+      case 6:
         page = (
           <PCardRequest
             pcardRequest={this.state.pcardRequest}
@@ -668,6 +718,7 @@ class CreateTrip extends Component {
             deleteOtherCost={this.deleteOtherCost}
             addOtherCost={this.addOtherCost}
             errorFields={this.state.errorFields}
+            pcardStatus={this.props.switchMode ? this.props.trip.pcardStatus : undefined}
           />
         );
         break;

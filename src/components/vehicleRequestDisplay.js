@@ -181,7 +181,7 @@ const getVehicles = (props) => {
 
 const VehicleRequestDisplay = (props) => {
   return (
-    <div className="vrf-container">
+    <div className="vrf-container vrf-full-width">
       <div className="vrf-title-container">
         <h2 className="p-trip-title vrf-title-size">Vehicle Request</h2>
         <span className="vrf-status-display">
@@ -217,15 +217,18 @@ const VehicleRequestDisplay = (props) => {
         : null}
 
       {getVehicles(props)}
-
-      <div className="vrf-add-and-submit">
-        {props.vehicleRequest.status !== 'approved'
-          ? <button type="button" className="vrf-add-button vrf-cancel-button vrf-small-cancel" onClick={props.addVehicle}>Cancel request</button>
-          : <button type="button" className="vrf-add-button vrf-small-cancel disabled-cancel-button" onClick={props.showError}>Cancel request</button>}
-        {props.vehicleRequest.status !== 'approved'
-          ? <button type="submit" className="vrf-submit-button signup-button" onClick={props.startEditing}>Update request</button>
-          : <button type="submit" className="disabled vrf-submit-button" onClick={props.showError}>Update request</button>}
-      </div>
+      {props.requestType === 'SOLO'
+        ? (
+          <div className="vrf-add-and-submit">
+            {props.vehicleRequest.status !== 'approved'
+              ? <button type="button" className="vrf-add-button vrf-cancel-button vrf-small-cancel" onClick={props.addVehicle}>Cancel request</button>
+              : <button type="button" className="vrf-add-button vrf-small-cancel disabled-cancel-button" onClick={props.showError}>Cancel request</button>}
+            {props.vehicleRequest.status !== 'approved'
+              ? <button type="submit" className="vrf-submit-button signup-button" onClick={props.startEditing}>Update request</button>
+              : <button type="submit" className="disabled vrf-submit-button" onClick={props.showError}>Update request</button>}
+          </div>
+        )
+        : null}
     </div>
   );
 };

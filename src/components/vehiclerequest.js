@@ -50,8 +50,15 @@ class VehicleRequest extends Component {
     if (this.props.switchMode) {
       this.props.fetchVehicleRequest(this.props.match.params.vehicleReqId)
         .then(() => {
-          this.setState({ isEditing: false });
+          const updates = {};
+          updates.isEditing = false;
+          if (this.props.requestType === 'TRIP') {
+            updates.requestType = 'TRIP';
+          }
+          this.setState(updates);
         });
+    } else if (this.props.requestType === 'TRIP') {
+      this.setState({ requestType: 'TRIP', vehicles: this.props.vehicles });
     }
   }
 
@@ -126,13 +133,15 @@ class VehicleRequest extends Component {
   isFormValid = () => {
     let hasEmptyField = false;
     const updatedSoloErrorFields = { ...this.soloErrorFields };
-    const soloErrorFields = Object.keys(updatedSoloErrorFields);
-    soloErrorFields.forEach((errorField) => {
-      if (this.isStringEmpty(this.state[errorField])) {
-        hasEmptyField = true;
-        updatedSoloErrorFields[errorField] = true;
-      }
-    });
+    if (this.state.requestType === 'SOLO') {
+      const soloErrorFields = Object.keys(updatedSoloErrorFields);
+      soloErrorFields.forEach((errorField) => {
+        if (this.isStringEmpty(this.state[errorField])) {
+          hasEmptyField = true;
+          updatedSoloErrorFields[errorField] = true;
+        }
+      });
+    }
 
     const { vehicles } = this.state;
 
@@ -157,16 +166,18 @@ class VehicleRequest extends Component {
       return false;
     }
 
-    // check if entered invalid zero
-    const enteredBadNoOfPeople = Number(this.state.noOfPeople) <= 0;
-    const enteredBadMileage = Number(this.state.mileage) <= 0;
-    if (enteredBadNoOfPeople || enteredBadMileage) {
-      this.setState((prevState) => {
-        return { soloErrorFields: Object.assign({}, prevState.soloErrorFields, { noOfPeople: enteredBadNoOfPeople, mileage: enteredBadMileage }) };
-      });
-      this.props.appError('Value must be greater than zero for the higlighted fields');
-      window.scrollTo(0, 0);
-      return false;
+    if (this.state.requestType === 'SOLO') {
+      // check if entered invalid zero
+      const enteredBadNoOfPeople = Number(this.state.noOfPeople) <= 0;
+      const enteredBadMileage = Number(this.state.mileage) <= 0;
+      if (enteredBadNoOfPeople || enteredBadMileage) {
+        this.setState((prevState) => {
+          return { soloErrorFields: Object.assign({}, prevState.soloErrorFields, { noOfPeople: enteredBadNoOfPeople, mileage: enteredBadMileage }) };
+        });
+        this.props.appError('Value must be greater than zero for the higlighted fields');
+        window.scrollTo(0, 0);
+        return false;
+      }
     }
 
     let dateHasPassed = false;
@@ -287,6 +298,12 @@ class VehicleRequest extends Component {
     }
   }
 
+  nextTripPage = () => {
+    if (this.isFormValid()) {
+      this.props.passVehicles(this.state.vehicles);
+    }
+  }
+
   render() {
     const userCertifications = {
       driverCert: this.props.user.driver_cert,
@@ -311,6 +328,7 @@ class VehicleRequest extends Component {
           asUpdate={this.props.viewMode}
           cancelUpdate={this.cancelUpdate}
           update={this.update}
+          nextTripPage={this.nextTripPage}
         />
       );
     } else {
