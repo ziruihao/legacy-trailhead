@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
@@ -125,6 +126,13 @@ class OPOVehicleRequest extends Component {
       const oldVehicle = oldVehicles[index];
       const updates = {};
       updates.assignedVehicle = eventkey;
+      if (eventkey === 'Enterprise') {
+        updates.pickupDate = 'Enterprise';
+        updates.pickupTime = 'Enterprise';
+        updates.returnDate = 'Enterprise';
+        updates.returnTime = 'Enterprise';
+        updates.assignedKey = 'Enterprise';
+      }
       // updates.errorFields = Object.assign({}, oldVehicle.errorFields, { vehicleType: this.isStringEmpty(eventkey) });
       const updatedVehicle = Object.assign({}, oldVehicle, updates);
       const updatedVehicles = Object.assign([], oldVehicles, { [index]: updatedVehicle });
@@ -174,7 +182,7 @@ class OPOVehicleRequest extends Component {
     const { assignments } = this.state;
 
     let hasIncompleteAssignment = false;
-    const hasFilledOutField = {};
+    const hasFilledOutField = {}; // keep track of which assignments have a filled out field
     const markedEmptyFields = assignments.map((assignment, index) => {
       const updatedErrorFields = { ...this.errorFields };
       const errorFields = Object.keys(updatedErrorFields);
@@ -213,7 +221,11 @@ class OPOVehicleRequest extends Component {
 
     let returnBeforePickup = false;
     const markedReturnBeforePickup = assignments.map((assignment) => {
-      if (!this.isStringEmpty(assignment.pickupDate) && !this.isStringEmpty(assignment.pickupTime) && !this.isStringEmpty(assignment.returnDate) && !this.isStringEmpty(assignment.returnTime)) {
+      if (!this.isStringEmpty(assignment.pickupDate)
+        && !this.isStringEmpty(assignment.pickupTime)
+        && !this.isStringEmpty(assignment.returnDate)
+        && !this.isStringEmpty(assignment.returnTime)
+        && assignment.assignedVehicle !== 'Enterprise') {
         const updatedErrorFields = { ...this.errorFields };
         const pickupDate = new Date(assignment.pickupDate);
         const pickupTime = assignment.pickupTime.split(':');
@@ -246,8 +258,12 @@ class OPOVehicleRequest extends Component {
     let hasConflictingEvent = false;
     const { vehicles } = this.props;
     const markedConflictingAssignments = assignments.map((assignment) => {
-      if (!this.isStringEmpty(assignment.assignedVehicle) && !this.isStringEmpty(assignment.pickupDate)
-        && !this.isStringEmpty(assignment.pickupTime) && !this.isStringEmpty(assignment.returnDate) && !this.isStringEmpty(assignment.returnTime)) {
+      if (!this.isStringEmpty(assignment.assignedVehicle)
+        && !this.isStringEmpty(assignment.pickupDate)
+        && !this.isStringEmpty(assignment.pickupTime)
+        && !this.isStringEmpty(assignment.returnDate)
+        && !this.isStringEmpty(assignment.returnTime)
+        && assignment.assignedVehicle !== 'Enterprise') {
         const selectedVehicle = vehicles.find((vehicle) => { // consider selected vehicle
           return vehicle.name === assignment.assignedVehicle;
         });
@@ -384,13 +400,21 @@ class OPOVehicleRequest extends Component {
             updates.id = assignment.id;
             updates.responseIndex = index;
             updates.assignedVehicle = assignment.assigned_vehicle.name;
-            updates.pickupDate = assignment.assigned_pickupDate.substring(0, 10);
-            updates.pickupTime = assignment.assigned_pickupTime;
-            updates.returnDate = assignment.assigned_returnDate.substring(0, 10);
-            updates.returnTime = assignment.assigned_returnTime;
-            updates.pickedUp = assignment.pickedUp;
-            updates.returned = assignment.returned;
-            updates.assignedKey = assignment.assigned_key;
+            if (assignment.assigned_vehicle.name !== 'Enterprise') {
+              updates.pickupDate = assignment.assigned_pickupDate.substring(0, 10);
+              updates.pickupTime = assignment.assigned_pickupTime;
+              updates.returnDate = assignment.assigned_returnDate.substring(0, 10);
+              updates.returnTime = assignment.assigned_returnTime;
+              updates.pickedUp = assignment.pickedUp;
+              updates.returned = assignment.returned;
+              updates.assignedKey = assignment.assigned_key;
+            } else if (assignment.assigned_vehicle.name === 'Enterprise') {
+              updates.pickupDate = 'Enterprise';
+              updates.pickupTime = 'Enterprise';
+              updates.returnDate = 'Enterprise';
+              updates.returnTime = 'Enterprise';
+              updates.assignedKey = 'Enterprise';
+            }
             return Object.assign({}, defaultAssignment, updates);
           } else {
             const updates = {};
@@ -464,89 +488,117 @@ class OPOVehicleRequest extends Component {
           <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
           <hr className="detail-line" />
           <span className="ovr-req-row ovr-req-vehicle-detail">
-            <input
-              type="date"
-              id={`pickup_date_${index}`}
-              className={`ovr-date-input ${assignment.pickupDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupDate ? 'vrf-error' : ''}`}
-              name="pickupDate"
-              value={assignment.pickupDate}
-              onChange={event => this.onAssignmentDetailChange(event, index)}
-            />
+            {assignment.assignedVehicle === 'Enterprise'
+              ? '-'
+              : (
+                <input
+                  type="date"
+                  id={`pickup_date_${index}`}
+                  className={`ovr-date-input ${assignment.pickupDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupDate ? 'vrf-error' : ''}`}
+                  name="pickupDate"
+                  value={assignment.pickupDate}
+                  onChange={event => this.onAssignmentDetailChange(event, index)}
+                />
+              )}
           </span>
           <hr className="detail-line" />
           <span className="ovr-req-row ovr-req-vehicle-detail">
-            <input
-              type="time"
-              id={`pickup_time_${index}`}
-              className={`ovr-date-input ${assignment.pickupTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupTime ? 'vrf-error' : ''}`}
-              name="pickupTime"
-              value={assignment.pickupTime}
-              onChange={event => this.onAssignmentDetailChange(event, index)}
-            />
+            {assignment.assignedVehicle === 'Enterprise'
+              ? '-'
+              : (
+                <input
+                  type="time"
+                  id={`pickup_time_${index}`}
+                  className={`ovr-date-input ${assignment.pickupTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupTime ? 'vrf-error' : ''}`}
+                  name="pickupTime"
+                  value={assignment.pickupTime}
+                  onChange={event => this.onAssignmentDetailChange(event, index)}
+                />
+              )}
           </span>
           <hr className="detail-line" />
           <span className="ovr-req-row ovr-req-vehicle-detail">
-            <input
-              type="date"
-              id={`return_date_${index}`}
-              className={`ovr-date-input ${assignment.returnDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnDate ? 'vrf-error' : ''}`}
-              name="returnDate"
-              value={assignment.returnDate}
-              onChange={event => this.onAssignmentDetailChange(event, index)}
-            />
+            {assignment.assignedVehicle === 'Enterprise'
+              ? '-'
+              : (
+                <input
+                  type="date"
+                  id={`return_date_${index}`}
+                  className={`ovr-date-input ${assignment.returnDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnDate ? 'vrf-error' : ''}`}
+                  name="returnDate"
+                  value={assignment.returnDate}
+                  onChange={event => this.onAssignmentDetailChange(event, index)}
+                />
+              )}
           </span>
           <hr className="detail-line" />
           <span className="ovr-req-row ovr-req-vehicle-detail">
-            <input
-              type="time"
-              id={`return_time_${index}`}
-              className={`ovr-date-input ${assignment.returnTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnTime ? 'vrf-error' : ''}`}
-              name="returnTime"
-              value={assignment.returnTime}
-              onChange={event => this.onAssignmentDetailChange(event, index)}
-            />
+            {assignment.assignedVehicle === 'Enterprise'
+              ? '-'
+              : (
+                <input
+                  type="time"
+                  id={`return_time_${index}`}
+                  className={`ovr-date-input ${assignment.returnTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnTime ? 'vrf-error' : ''}`}
+                  name="returnTime"
+                  value={assignment.returnTime}
+                  onChange={event => this.onAssignmentDetailChange(event, index)}
+                />
+              )}
           </span>
           <hr className="detail-line" />
           <span className="ovr-req-row ovr-req-vehicle-detail">
-            <input
-              type="text"
-              id={`assigned_key_${index}`}
-              className={`ovr-date-input ${assignment.errorFields.assignedKey ? 'vrf-error' : ''}`}
-              maxLength="50"
-              name="assignedKey"
-              value={assignment.assignedKey}
-              placeholder="33A"
-              onChange={event => this.onAssignmentDetailChange(event, index)}
-            />
+            {assignment.assignedVehicle === 'Enterprise'
+              ? '-'
+              : (
+                <input
+                  type="text"
+                  id={`assigned_key_${index}`}
+                  className={`ovr-date-input ${assignment.errorFields.assignedKey ? 'vrf-error' : ''}`}
+                  maxLength="50"
+                  name="assignedKey"
+                  value={assignment.assignedKey}
+                  placeholder="33A"
+                  onChange={event => this.onAssignmentDetailChange(event, index)}
+                />
+              )}
           </span>
           <hr className="detail-line" />
           {assignment.existingAssignment
             ? (
               <div>
                 <span className="ovr-req-row ovr-req-vehicle-detail">
-                  <label className="checkbox-container club-checkbox" htmlFor={`pickedUp_${index}`}>
-                    <input
-                      type="checkbox"
-                      name="pickedUp"
-                      id={`pickedUp_${index}`}
-                      checked={assignment.pickedUp}
-                      onChange={event => this.onAssignmentDetailChange(event, index)}
-                    />
-                    <span className="checkmark" />
-                  </label>
+                  {assignment.assignedVehicle === 'Enterprise'
+                    ? '-'
+                    : (
+                      <label className="checkbox-container club-checkbox" htmlFor={`pickedUp_${index}`}>
+                        <input
+                          type="checkbox"
+                          name="pickedUp"
+                          id={`pickedUp_${index}`}
+                          checked={assignment.pickedUp}
+                          onChange={event => this.onAssignmentDetailChange(event, index)}
+                        />
+                        <span className="checkmark" />
+                      </label>
+                    )}
                 </span>
                 <hr className="detail-line" />
                 <span className="ovr-req-row ovr-req-vehicle-detail">
-                  <label className="checkbox-container club-checkbox" htmlFor={`returned_${index}`}>
-                    <input
-                      type="checkbox"
-                      name="returned"
-                      id={`returned_${index}`}
-                      checked={assignment.returned}
-                      onChange={event => this.onAssignmentDetailChange(event, index)}
-                    />
-                    <span className="checkmark" />
-                  </label>
+                  {assignment.assignedVehicle === 'Enterprise'
+                    ? '-'
+                    : (
+                      <label className="checkbox-container club-checkbox" htmlFor={`returned_${index}`}>
+                        <input
+                          type="checkbox"
+                          name="returned"
+                          id={`returned_${index}`}
+                          checked={assignment.returned}
+                          onChange={event => this.onAssignmentDetailChange(event, index)}
+                        />
+                        <span className="checkmark" />
+                      </label>
+                    )}
                 </span>
               </div>
             )
@@ -575,19 +627,47 @@ class OPOVehicleRequest extends Component {
             <hr className="detail-line" />
             <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatDate(assignment.assigned_pickupDate.substring(0, 10))}</span>
+            <span className="ovr-req-row ovr-req-vehicle-detail">
+              {assignment.assigned_vehicle.name === 'Enterprise'
+                ? '-'
+                : this.formatDate(assignment.assigned_pickupDate.substring(0, 10))}
+            </span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatTime(assignment.assigned_pickupTime)}</span>
+            <span className="ovr-req-row ovr-req-vehicle-detail">
+              {assignment.assigned_vehicle.name === 'Enterprise'
+                ? '-'
+                : this.formatTime(assignment.assigned_pickupTime)}
+            </span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatDate(assignment.assigned_returnDate.substring(0, 10))}</span>
+            <span className="ovr-req-row ovr-req-vehicle-detail">
+              {assignment.assigned_vehicle.name === 'Enterprise'
+                ? '-'
+                : this.formatDate(assignment.assigned_returnDate.substring(0, 10))}
+            </span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatTime(assignment.assigned_returnTime)}</span>
+            <span className="ovr-req-row ovr-req-vehicle-detail">
+              {assignment.assigned_vehicle.name === 'Enterprise'
+                ? '-'
+                : this.formatTime(assignment.assigned_returnTime)}
+            </span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">{assignment.assigned_key}</span>
+            <span className="ovr-req-row ovr-req-vehicle-detail">
+              {assignment.assigned_vehicle.name === 'Enterprise'
+                ? '-'
+                : assignment.assigned_key}
+            </span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">{assignment.pickedUp ? 'Yes' : 'No'}</span>
+            <span className="ovr-req-row ovr-req-vehicle-detail">
+              {assignment.assigned_vehicle.name === 'Enterprise'
+                ? '-'
+                : assignment.pickedUp ? 'Yes' : 'No' }
+            </span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">{assignment.returned ? 'Yes' : 'No'}</span>
+            <span className="ovr-req-row ovr-req-vehicle-detail">
+              {assignment.assigned_vehicle.name === 'Enterprise'
+                ? '-'
+                : assignment.returned ? 'Yes' : 'No'}
+            </span>
           </div>
           <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.activateModal({ trigger: 'CANCEL', ids: [assignment.id] })} role="button" tabIndex={0}>
             Cancel assignment

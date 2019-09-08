@@ -34,9 +34,8 @@ const getAssignment = (props, index) => {
     const assignment = props.vehicleRequest.assignments.find((element) => {
       return element.responseIndex === index;
     });
-    console.log(props.vehicleRequest);
-    console.log(index);
     if (assignment) {
+      console.log(assignment);
       return (
         <div className="vrf-requested-vehicles">
           <div className="vrf-req-header">
@@ -50,53 +49,71 @@ const getAssignment = (props, index) => {
 
           <div className="vrf-form-row">
             <span className="vrf-label">Key #</span>
-            <span className="vrf-req-details-display">{assignment.assigned_key}</span>
+            <span className="vrf-req-details-display">
+              {assignment.assigned_vehicle.name === 'Enterprise'
+                ? '-'
+                : assignment.assigned_key}
+            </span>
           </div>
 
           <div className="vrf-form-row vrf-req-dates">
             <span className="vrf-req-date">
               <span className="vrf-label">Pickup Date & Time</span>
-              <span className="vrf-req-details-display vrf-single-day-date">{formatDate(assignment.assigned_pickupDate, assignment.assigned_pickupTime)}</span>
+              <span className="vrf-req-details-display vrf-single-day-date">
+                {assignment.assigned_vehicle.name === 'Enterprise'
+                  ? '-'
+                  : formatDate(assignment.assigned_pickupDate, assignment.assigned_pickupTime)}
+              </span>
             </span>
           </div>
 
           <div className="vrf-form-row vrf-req-dates">
             <span className="vrf-req-date">
               <span className="vrf-label">Return Date & Time</span>
-              <span className="vrf-req-details-display vrf-single-day-date">{formatDate(assignment.assigned_returnDate, assignment.assigned_returnTime)}</span>
+              <span className="vrf-req-details-display vrf-single-day-date">
+                {assignment.assigned_vehicle.name === 'Enterprise'
+                  ? '-'
+                  : formatDate(assignment.assigned_returnDate, assignment.assigned_returnTime)}
+              </span>
             </span>
           </div>
 
-          <div className="vrf-form-row vrf-req-dates">
-            <div className="club-option">
-              <label className="checkbox-container club-checkbox" htmlFor={`passNeeded_${index}`}>
-                <input
-                  type="checkbox"
-                  name="passNeeded"
-                  id={`passNeeded_${index}`}
-                  checked={assignment.pickedUp}
-                  disabled
-                />
-                <span className="checkmark" />
-              </label>
-              <span className="vrf-label">Picked up?</span>
-            </div>
-          </div>
-          <div className="vrf-form-row vrf-req-dates">
-            <div className="club-option">
-              <label className="checkbox-container club-checkbox" htmlFor={`trailerNeeded_${index}`}>
-                <input
-                  type="checkbox"
-                  name="trailerNeeded"
-                  id={`trailerNeeded_${index}`}
-                  checked={assignment.returned}
-                  disabled
-                />
-                <span className="checkmark" />
-              </label>
-              <span className="vrf-label">Returned?</span>
-            </div>
-          </div>
+          {assignment.assigned_vehicle.name === 'Enterprise'
+            ? null
+            : (
+              <div>
+                <div className="vrf-form-row vrf-req-dates">
+                  <div className="club-option">
+                    <label className="checkbox-container club-checkbox" htmlFor={`pickedUp_${index}`}>
+                      <input
+                        type="checkbox"
+                        name="pickedUp"
+                        id={`pickedUp_${index}`}
+                        checked={assignment.pickedUp}
+                        disabled
+                      />
+                      <span className="checkmark" />
+                    </label>
+                    <span className="vrf-label">Picked up?</span>
+                  </div>
+                </div>
+                <div className="vrf-form-row vrf-req-dates">
+                  <div className="club-option">
+                    <label className="checkbox-container club-checkbox" htmlFor={`returned_${index}`}>
+                      <input
+                        type="checkbox"
+                        name="returned"
+                        id={`returned_${index}`}
+                        checked={assignment.returned}
+                        disabled
+                      />
+                      <span className="checkmark" />
+                    </label>
+                    <span className="vrf-label">Returned?</span>
+                  </div>
+                </div>
+              </div>
+            )}
         </div>
       );
     } else {
