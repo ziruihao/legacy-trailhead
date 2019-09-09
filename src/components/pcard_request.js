@@ -78,6 +78,7 @@ const getPcardForm = (props) => {
 							name="breakfast"
 							placeholder="e.g. 1"
 							value={request.breakfast}
+							type="number"
 						/>
 					</div>
 					<div className="row page-sub-headers pcard">

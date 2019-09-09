@@ -79,12 +79,8 @@ class MyTrips extends Component {
         if (card_id === "Mountain Biking") card_id = "dmbc";
         if (card_id === "Winter Sports") card_id = "wsc";
 
-        //TODO: try to get bait and bullet logo 
-        //TODO: try to get bait and bullet logo 
-        //TODO: try to get bait and bullet logo 
-        //TODO: try to get bait and bullet logo 
-        //TODO: try to get bait and bullet logo 
-        if (trip.club.name === 'Bait and Bullet' || trip.club.name === 'Other') card_id = "doc";
+  
+        if(trip.club.name !== ('Ledyard' || 'Mountaineering' || 'cnt'|| 'wiw' || 'Woodsmen' || 'surf' || 'dmbc' || 'wsc')) card_id = "doc";
         let isLeading = false;
         trip.leaders.some((leaderId) => {
           if (leaderId === this.props.user.id) {

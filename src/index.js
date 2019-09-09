@@ -69,6 +69,8 @@ const App = (props) => {
           <Route path="/opo-dashboard" component={requireAuth(OpoDashboard)} />
           <Route path="/leader_approvals" component={requireAuth(OpoApprovals)} />
           <Route path="/vehicle-calendar" component={requireAuth(VehicleCalendar)} />
+          <Route path="/driver_cert_approvals" component={requireAuth()} />
+          <Route path = "/authed" component = {Homepage}/>
           <Route component={FallBack} />
         </Switch>
       </div>
