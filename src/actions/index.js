@@ -260,7 +260,6 @@ export function signIn(history) {
 export function authed(token, id, history) {
   return (dispatch, getState) => {
     localStorage.setItem('token', token);
-    // dispatch({ type: ActionTypes.UPDATE_USER_ID, payload: id });
     axios.get(`${ROOT_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         dispatch({ type: ActionTypes.AUTH_USER });
