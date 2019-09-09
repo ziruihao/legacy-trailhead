@@ -5,7 +5,17 @@ import Form from 'react-bootstrap/Form';
 import Collapse from 'react-bootstrap/Collapse';
 import ProfileCard from './profilecard';
 import '../styles/tripdetails_leader.scss';
-import '../styles/tripdetails_trippee-style.scss';
+import pendingBadge from '../img/pending_badge.svg';
+import approvedBadge from '../img/approved_badge.svg';
+import deniedBadge from '../img/denied_badge.svg';
+import confirmDeleteImage from '../img/confirmDelete.jpg';
+import VehicleRequestDisplay from './vehicleRequestDisplay';
+
+const badges = {
+  pending: pendingBadge,
+  approved: approvedBadge,
+  denied: deniedBadge,
+};
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -92,7 +102,7 @@ const getPending = (props, pendingEmailRef) => {
           <h5>Emails</h5>
           <div className="emails">
             <Form className="col-9">
-              <Form.Control ref={pendingEmailRef} as="textarea" value={props.pendingEmail} name="pendingEmail" onChange={props.onTextChange} />
+              <Form.Control className="emails-input" ref={pendingEmailRef} as="textarea" value={props.pendingEmail} name="pendingEmail" onChange={props.onTextChange} />
             </Form>
             <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyPendingToClip}>Copy</button>
           </div>
@@ -156,7 +166,7 @@ const getOnTrip = (props, onTripEmailRef) => {
           <h5>Emails</h5>
           <div className="emails">
             <Form className="col-9">
-              <Form.Control ref={onTripEmailRef} as="textarea" value={props.onTripEmail} name="onTripEmail" onChange={props.onTextChange} />
+              <Form.Control className="emails-input" ref={onTripEmailRef} as="textarea" value={props.onTripEmail} name="onTripEmail" onChange={props.onTextChange} />
             </Form>
             <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyOnTripToClip}>Copy</button>
           </div>
@@ -168,24 +178,7 @@ const getOnTrip = (props, onTripEmailRef) => {
 };
 
 const getGearStatus = (gearStatus) => {
-  switch (gearStatus) {
-    case 'pending':
-      return (
-        <span className="detail-right">Pending <img className="status-badge" src="/src/img/pending_badge.svg" alt="pending_badge" /> </span>
-      );
-    case 'approved':
-      return (
-        <span className="detail-right">Approved <img className="status-badge" src="/src/img/approved_badge.svg" alt="approved_badge" /> </span>
-      );
-    case 'denied':
-      return (
-        <span className="leader-detail-right">Denied <img className="status-badge" src="/src/img/warning_badge.svg" alt="denied_badge" /> </span>
-      );
-    default:
-      return (
-        <span className="detail-right">Pending <img className="status-badge" src="/src/img/pending_badge.svg" alt="pending_badge" /> </span>
-      );
-  }
+  return <span className="ltd-detail-right">{gearStatus}<img className="status-badge" src={badges[gearStatus]} alt={`${gearStatus}_badge`} /> </span>;
 };
 
 const getIndividualGear = (individualGearArray, individualGearStatus) => {
@@ -246,10 +239,6 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
           {getGearStatus(groupGearStatus)}
         </div>
         <div className="trip-detail">
-          <div className="leader-trip-detail-row">
-            <h4>Gear</h4>
-          </div>
-          <hr className="detail-line" />
           {groupGearArray.map((gear, index, array) => (
             <div key={index}>
               <div className="leader-trip-detail-row">
@@ -263,9 +252,80 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
     );
   }
 };
+const getPcard = (pcard, pcardStatus, assignedPCard) => {
+  if (pcard.length === 0) {
+    return (
+      <div className="no-gear">
+        <div className="trip-detail">
+          <div className="no-on-trip">
+            <h4 className="none-f-now">None</h4>
+          </div>
+        </div>
+      </div>
+    );
+  } else {
+    const pcardReq = pcard[0];
+    return (
+      <div>
+        <div className="detail-row gear-status">
+          <span className="detail-left">Status</span>
+          {getGearStatus(pcardStatus)}
+        </div>
+        {pcardStatus === 'approved'
+          ? (
+            <div className="detail-row gear-status">
+              <span className="detail-left">Assigned P-Card</span>
+              <span className="ltd-detail-right">{assignedPCard}</span>
+            </div>
+          )
+          : null
+        }
+        <div className="detail-row gear-status">
+          <span className="detail-left">Number of People (including leaders)</span>
+          <span className="ltd-detail-right">{pcardReq.numPeople}</span>
+        </div>
+        <div className="trip-detail">
+          <div className="detail-row gear-header">
+            <h4 className="leader-detail-left">Expense Detail</h4>
+            <h4 className="leader-detail-right">Qty per participant</h4>
+          </div>
+          <hr className="detail-line" />
+          <div className="detail-row">
+            <span>Snacks</span>
+            <span>{pcardReq.snacks}</span>
+          </div>
+          <hr className="detail-line" />
+          <div className="detail-row">
+            <span>Breakfast</span>
+            <span>{pcardReq.breakfast}</span>
+          </div>
+          <hr className="detail-line" />
+          <div className="detail-row">
+            <span>Lunch</span>
+            <span>{pcardReq.lunch}</span>
+          </div>
+          <hr className="detail-line" />
+          <div className="detail-row">
+            <span>Dinner</span>
+            <span>{pcardReq.dinner}</span>
+          </div>
+          <hr className="detail-line" />
+          {pcardReq.otherCosts.map((cost, index, array) => (
+            <div key={cost._id}>
+              <div className="detail-row">
+                <span>{cost.title}</span>
+                <span>{cost.cost}</span>
+              </div>
+              {index !== array.length - 1 ? <hr className="detail-line" /> : null}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+};
 
 export default React.forwardRef((props, ref) => {
-  console.log(props.trip.id);
   const { pendingEmailRef, onTripEmailRef } = ref;
   return (
     <div className="leader-details-container">
@@ -358,7 +418,7 @@ export default React.forwardRef((props, ref) => {
         </div>
       </div>
 
-      <div className="pending">
+      <div className="ltd-pending">
         <div className="leader-table-title">
           <h2>Pending ({props.trip.pending.length})</h2>
           {props.trip.pending.length === 0
@@ -381,6 +441,22 @@ export default React.forwardRef((props, ref) => {
         </div>
       </div>
 
+      <div className="tripdetail-gear-requests leader-trip-info">
+        <div className="individual-gear leader-trip-detail left-detail">
+          <h3>P-Card</h3>
+          {getPcard(props.trip.pcard, props.trip.pcardStatus, props.trip.pcardAssigned)}
+        </div>
+      </div>
+      {props.trip.vehicleStatus !== 'N/A'
+        ? (
+          <div className="tripdetail-gear-requests leader-trip-info">
+            <VehicleRequestDisplay
+              requestType="TRIP"
+              vehicleRequest={props.trip.vehicleRequest}
+            />
+          </div>
+        )
+        : null}
       <div className="center">
         <Link to={`/edittrip/${props.trip.id}`} className="signup-button leader-edit-link"><button type="submit" className="signup-button">Edit Trip</button></Link>
       </div>
@@ -397,7 +473,7 @@ export default React.forwardRef((props, ref) => {
         <div className="trip-details-close-button">
           <i className="material-icons close-button" onClick={props.closeModal} role="button" tabIndex={0}>close</i>
         </div>
-        <img src="/src/img/confirmDelete.jpg" alt="confirm-delete" className="cancel-image" />
+        <img src={confirmDeleteImage} alt="confirm-delete" className="cancel-image" />
         <div className="cancel-content">
           <p className="cancel-question">Are you sure you want to delete this trip?</p>
           <p className="cancel-message">You&apos;ll be letting down a lot of trees if you do</p>

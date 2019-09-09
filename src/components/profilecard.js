@@ -1,5 +1,6 @@
 import React from 'react';
 import '../styles/profilepage-style.scss';
+import editIcon from '../img/editButton.svg';
 
 const TRAILER_CONSTANT = 'TRAILER';
 
@@ -61,7 +62,7 @@ const ProfileCard = (props) => {
             {props.asProfilePage
               ? (
                 <div className="button-place">
-                  <input className="edit-button" type="image" src="/src/img/editButton.svg" alt="edit button" onClick={props.startEditing} />
+                  <input className="edit-button" type="image" src={editIcon} alt="edit button" onClick={props.startEditing} />
                 </div>
               )
               : null}
@@ -78,7 +79,7 @@ const ProfileCard = (props) => {
             <hr className="line" />
             <div className="profile-card-row">
               <span className="card-headings">
-                Clothe Size
+                Clothing Size
               </span>
               <span className="card-info">
                 {props.user.clothe_size ? props.user.clothe_size : 'Please fill out'}
@@ -156,10 +157,25 @@ const ProfileCard = (props) => {
           <div className="profile-card-header">
             <div className="name-and-email">
               <div className="card-name">
-                <input type="text" name="name" onChange={props.onFieldChange} className="my-form-control name-input" value={props.name} />
+                <input
+                  type="text"
+                  name="name"
+                  onChange={props.onFieldChange}
+                  className={`my-form-control name-input ${props.errorFields.name ? 'vrf-error' : ''}`}
+                  value={props.name}
+                  placeholder="Name"
+                />
               </div>
               <div className="card-email">
-                <input type="text" name="email" maxLength="50" onChange={props.onFieldChange} className="my-form-control" value={props.email} />
+                <input
+                  type="text"
+                  name="email"
+                  maxLength="50"
+                  onChange={props.onFieldChange}
+                  className={`my-form-control ${props.errorFields.email ? 'vrf-error' : ''}`}
+                  value={props.email}
+                  placeholder="Dartmouth email"
+                />
               </div>
             </div>
             <div className="button-place">
@@ -172,13 +188,20 @@ const ProfileCard = (props) => {
                 DASH
               </span>
               <span className="card-info">
-                <input type="number" name="dash_number" maxLength="50" onChange={props.onFieldChange} className="my-form-control" value={props.dash_number} />
+                <input
+                  type="number"
+                  name="dash_number"
+                  maxLength="50"
+                  onChange={props.onFieldChange}
+                  className={`my-form-control ${props.errorFields.dash_number ? 'vrf-error' : ''}`}
+                  value={props.dash_number}
+                />
               </span>
             </div>
             <hr className="line" />
             <div className="profile-card-row">
               <span className="card-headings">
-                Clothe Size
+                Clothing Size
               </span>
               <span className="card-info">
                 {props.getClotheForm()}
@@ -190,7 +213,15 @@ const ProfileCard = (props) => {
                 Shoe Size
               </span>
               <span className="card-info">
-                <input type="number" name="shoe_size" step="0.5" maxLength="3" onChange={props.onFieldChange} className="my-form-control" value={props.shoe_size} />
+                <input
+                  type="number"
+                  name="shoe_size"
+                  step="0.5"
+                  onChange={props.onFieldChange}
+                  className={`my-form-control ${props.errorFields.shoe_size ? 'vrf-error' : ''}`}
+                  value={props.shoe_size}
+                  placeholder="e.g. 9.5"
+                />
               </span>
             </div>
             <hr className="line" />
@@ -199,7 +230,14 @@ const ProfileCard = (props) => {
                 Height
               </span>
               <span className="card-info">
-                <input type="number" name="height" maxLength="4" onChange={props.onFieldChange} className="my-form-control" value={props.height} />
+                <input
+                  type="text"
+                  name="height"
+                  onChange={props.onFieldChange}
+                  className={`my-form-control ${props.errorFields.height ? 'vrf-error' : ''}`}
+                  value={props.height}
+                  placeholder={'e.g. 5\'2"'}
+                />
               </span>
             </div>
             <hr className="line" />
@@ -209,7 +247,7 @@ const ProfileCard = (props) => {
               </span>
               <span className="card-info">
                 <input
-                  className="my-form-control"
+                  className={`my-form-control ${props.errorFields.allergies_dietary_restrictions ? 'vrf-error' : ''}`}
                   type="text"
                   name="allergies_dietary_restrictions"
                   maxLength="50"
@@ -224,7 +262,14 @@ const ProfileCard = (props) => {
                 Relevant Medical Conditions
               </span>
               <span className="card-info extra-info">
-                <input type="text" name="medical" maxLength="50" onChange={props.onFieldChange} className="my-form-control" value={props.medical} />
+                <input
+                  type="text"
+                  name="medical"
+                  maxLength="50"
+                  onChange={props.onFieldChange}
+                  className={`my-form-control ${props.errorFields.medical ? 'vrf-error' : ''}`}
+                  value={props.medical}
+                />
                 <span className="extra-info-message">This will only be visible to your trip leaders and OPO staff</span>
               </span>
             </div>

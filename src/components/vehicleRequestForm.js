@@ -1,5 +1,6 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
+import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/vehicleRequestForm-style.scss';
 
 const getApprpriateVehicleMenu = (userCertifications) => {
@@ -55,7 +56,7 @@ const getVehicles = (props) => {
             <Dropdown.Toggle className={`vehicle-type-dropdown ${vehicle.errorFields.vehicleType ? 'vrf-error' : ''}`}>
               <span>
                 <span className="selected-size">{vehicleType.length === 0 ? 'Select a vehicle' : vehicleType}</span>
-                <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+                <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
               </span>
             </Dropdown.Toggle>
 
@@ -203,6 +204,25 @@ const getVehicles = (props) => {
   });
 };
 
+const getAppropriateButton = (props) => {
+  if (props.requestType === 'TRIP') {
+    return <button type="submit" className="vrf-submit-button signup-button" onClick={props.nextTripPage}>Next</button>;
+  } else if (props.requestType === 'SOLO') {
+    if (props.asUpdate) {
+      return (
+        <div className="vrf-cancel-and-update-buttons">
+          <button type="button" className="vrf-add-button vrf-cancel-button vrf-cancel-update-button" onClick={props.cancelUpdate}>Cancel update</button>
+          <button type="submit" className="vrf-submit-button signup-button" onClick={props.update}>Update</button>
+        </div>
+      );
+    } else {
+      return <button type="submit" className="vrf-submit-button signup-button" onClick={props.submit}>Submit</button>;
+    }
+  } else {
+    return null;
+  }
+};
+
 const VehicleRequestForm = (props) => {
   return (
     <div className="vrf-container">
@@ -256,14 +276,7 @@ const VehicleRequestForm = (props) => {
 
       <div className="vrf-add-and-submit">
         <button type="button" className="vrf-add-button vrf-small-add" onClick={props.addVehicle}>Add Vehicle</button>
-        {props.asUpdate
-          ? (
-            <div className="vrf-cancel-and-update-buttons">
-              <button type="button" className="vrf-add-button vrf-cancel-button vrf-cancel-update-button" onClick={props.cancelUpdate}>Cancel update</button>
-              <button type="submit" className="vrf-submit-button signup-button" onClick={props.update}>Update</button>
-            </div>
-          )
-          : <button type="submit" className="vrf-submit-button signup-button" onClick={props.submit}>Submit</button>}
+        {getAppropriateButton(props)}
       </div>
     </div>
   );

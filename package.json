@@ -10,7 +10,7 @@
     "start": "webpack-dev-server",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
     "clean": "rimraf dist",
-    "deploy": "yarn build; surge -p dist -d doc-planner.surge.sh; yarn clean"
+    "deploy": "yarn build; surge -p dist -d dartmouthoutingclub.surge.sh; yarn clean"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
@@ -52,9 +52,9 @@
     "moment": "^2.24.0",
     "popper.js": "^1.14.7",
     "prop-types": "^15.7.2",
+    "query-string": "^6.8.3",
     "react": "^16.9.0",
     "react-big-calendar": "^0.20.4",
-    "react-big-scheduler": "^0.2.7",
     "react-bootstrap": "^1.0.0-beta.11",
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",

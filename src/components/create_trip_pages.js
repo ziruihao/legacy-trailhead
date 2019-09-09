@@ -1,10 +1,13 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import Dropdown from 'react-bootstrap/Dropdown';
+import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/createtrip-style.scss';
 
 
 const LeftColumn = (props) => {
   return (
-    <div className="left-column">
+    <div className="ovr-sidebar">
       <div className="row column-headers column-adjust">
         <p>Create a trip</p>
       </div>
@@ -31,10 +34,10 @@ const LeftColumn = (props) => {
         <p>Additional details</p>
       </div>
       <div className="row column-sub-headers">
-        <p className={props.currentStep === 5 ? 'text-highlight' : ''}>P-Card Request</p>
+        <p className={props.currentStep === 5 ? 'text-highlight' : ''}>Vehicle Request</p>
       </div>
       <div className="row column-sub-headers">
-        <p className={props.currentStep === 6 ? 'text-highlight' : ''}>Vehicle Request</p>
+        <p className={props.currentStep === 6 ? 'text-highlight' : ''}>P-Card Request</p>
       </div>
     </div>
   );
@@ -94,7 +97,7 @@ const BasicTripInfo = (props) => {
         </div>
       </div>
       <div className="row page-sub-headers">
-        <p>Beginner trip</p>
+        <p>Tag as non-beginner trip</p>
         <div className="checkbox-beginner">
           <input
             type="checkbox"
@@ -104,7 +107,7 @@ const BasicTripInfo = (props) => {
             checked={props.experienceValue}
           />
           <label htmlFor="beginner">
-            Do Trippees need prior experience to go on this trip?
+            Select if trippees need prior experience to go on this trip
           </label>
         </div>
       </div>
@@ -144,7 +147,7 @@ const DatesLocation = (props) => {
         </label>
       </div>
       {props.dateOptions}
-      <p className="see-vehic-cal">See Vehicle Calendar</p>
+      <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
       <div className="row page-sub-headers trip-date-header create-trip-bottom-buttons">
         <div className="createtrips-one-of-two">
           <p>Start time</p>
@@ -243,6 +246,97 @@ const AboutTheTrip = (props) => {
   );
 };
 
+const getTrippeeGear = (props) => {
+  if (!props.trippeeGearStatus || props.trippeeGearStatus === 'pending' || props.trippeeGearStatus === 'N/A') {
+    return props.trippeeGear.map((gearRequest, index) => {
+      return (
+        <div key={`trippeeGear_${index}`}>
+          <div className="gear-container">
+            <div className="gear-and-size">
+              <div className="gear-field-and-form">
+                <span className="gear-field">Gear:</span>
+                <input
+                  type="text"
+                  className={`my-form-control gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`}
+                  name="trippeeGear"
+                  placeholder="Add Item"
+                  onChange={event => props.onTrippeeGearChange(event, index)}
+                  value={gearRequest.gear}
+                />
+              </div>
+              <div className="gear-field-and-form">
+                <span className="gear-field">Size Type:</span>
+                <Dropdown onSelect={eventKey => props.onSizeTypeChange(eventKey, index)}>
+                  <Dropdown.Toggle id="size-type-dropdown">
+                    <span>
+                      <span className="selected-size">{gearRequest.size_type}</span>
+                      <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                    </span>
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className="filter-options clothe-options">
+                    <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
+                    <Dropdown.Item eventKey="Clothe">Clothes</Dropdown.Item>
+                    <Dropdown.Item eventKey="Shoe">Shoe</Dropdown.Item>
+                    <Dropdown.Item eventKey="Height">Height</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div>
+            </div>
+            <button type="button" className="delete-gear-button" onClick={() => props.removeTrippeeGear(index)}>X</button>
+          </div>
+          <hr className="line" />
+        </div>
+      );
+    });
+  } else {
+    return (
+      <div className="no-gear">
+        <div className="trip-detail">
+          <div className="no-on-trip">
+            <h4 className="none-f-now">You can&apos;t edit requests after they&apos;ve been reviewed</h4>
+          </div>
+        </div>
+      </div>
+    );
+  }
+};
+
+const getGearInputs = (props) => {
+  if (!props.gearStatus || props.gearStatus === 'pending' || props.gearStatus === 'N/A') {
+    return props.gearRequests.map((gearRequest, index) => {
+      return (
+        <div className="gear-container" key={`opogearRequest_${index}`}>
+          <input
+            type="text"
+            className={`gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`}
+            name="opogearRequest"
+            placeholder="Add Item"
+            onChange={event => props.onGearChange(event, index)}
+            value={gearRequest.groupGear}
+          />
+          <button
+            type="button"
+            className="delete-gear-button"
+            onClick={() => props.removeGear(index)}
+          >
+            X
+          </button>
+        </div>
+      );
+    });
+  } else {
+    return (
+      <div className="no-gear">
+        <div className="trip-detail">
+          <div className="no-on-trip">
+            <h4 className="none-f-now">You can&apos;t edit requests after they&apos;ve been reviewed</h4>
+          </div>
+        </div>
+      </div>
+    );
+  }
+};
+
 const Equipment = (props) => {
   return (
     <div className="create-trip-form-content">
@@ -253,14 +347,18 @@ const Equipment = (props) => {
         <div className="page-sub-headers gear-content">
           <p>Individual gear</p>
           <span id="equipment-description">Gear trippees should bring/rent</span>
-          {props.getTrippeeGear}
-          <button className="add-gear-button" type="button" onClick={props.addTrippeeGear}>Add item</button>
+          {getTrippeeGear(props)}
+          {(!props.trippeeGearStatus || props.trippeeGearStatus === 'pending' || props.trippeeGearStatus === 'N/A')
+            ? <button className="add-gear-button" type="button" onClick={props.addTrippeeGear}>Add item</button>
+            : null}
         </div>
         <div className="page-sub-headers gear-content">
           <p>Group Gear</p>
           <span id="equipment-description">Gear for the entire group that needs to be rented</span>
-          {props.getGearInputs}
-          <button className="add-gear-button" type="button" onClick={props.addGear}>Add item</button>
+          {getGearInputs(props)}
+          {(!props.gearStatus || props.gearStatus === 'pending' || props.gearStatus === 'N/A')
+            ? <button className="add-gear-button" type="button" onClick={props.addGear}>Add item</button>
+            : null}
         </div>
       </div>
     </div>

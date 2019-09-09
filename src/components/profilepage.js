@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { updateUser, getClubs, signOut } from '../actions';
+import { updateUser, getClubs, signOut, getUser } from '../actions';
 import ProfileCard from './profilecard';
+import dropdownIcon from '../img/dropdown-toggle.svg';
+import loadingGif from '../img/loading-gif.gif';
 import '../styles/profilepage-style.scss';
 
 class ProfilePage extends Component {
@@ -14,6 +16,17 @@ class ProfilePage extends Component {
   NONE_CONSTANT = 'NONE';
 
   CERTIFICATIONS = [null, 'MICROBUS', 'VAN'];
+
+  errorFields = {
+    email: false,
+    name: false,
+    dash_number: false,
+    allergies_dietary_restrictions: false,
+    medical: false,
+    height: false,
+    shoe_size: false,
+    clothe_size: false,
+  }
 
   constructor(props) {
     super(props);
@@ -30,13 +43,18 @@ class ProfilePage extends Component {
       driver_cert: null,
       trailer_cert: false,
       isEditing: false,
+      ready: false,
+      errorFields: this.errorFields,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.updateUserInfo = this.updateUserInfo.bind(this);
   }
 
   componentDidMount() {
-    this.props.getClubs();
+    Promise.all([this.props.getUser(), this.props.getClubs()])
+      .then(() => {
+        this.setState({ ready: true, isEditing: !this.props.user.hasCompleteProfile });
+      });
   }
 
   onFieldChange(event) {
@@ -56,8 +74,11 @@ class ProfilePage extends Component {
         });
       }
     } else {
-      this.setState({
-        [event.target.name]: event.target.value,
+      this.setState((prevState) => {
+        const updates = {};
+        updates[event.target.name] = event.target.value;
+        updates.errorFields = Object.assign({}, prevState.errorFields, { [event.target.name]: this.isStringEmpty(event.target.value) });
+        return updates;
       });
     }
   }
@@ -65,6 +86,10 @@ class ProfilePage extends Component {
   isObjectEmpty = (object) => {
     return Object.entries(object).length === 0 && object.constructor === Object;
   }
+
+  isStringEmpty = (string) => {
+    return string.length === 0 || !string.toString().trim();
+  };
 
   onDriverCertChange = (event) => {
     event.persist();
@@ -78,22 +103,28 @@ class ProfilePage extends Component {
   }
 
   onClotheSizeChange = (eventKey) => {
-    this.setState({ clothe_size: eventKey });
+    this.setState((prevState) => {
+      const updates = {};
+      updates.clothe_size = eventKey;
+      updates.errorFields = Object.assign({}, prevState.errorFields, { clothe_size: this.isStringEmpty(eventKey) });
+      return updates;
+    });
   }
 
   startEditing = () => {
+    const { user } = this.props;
     this.setState({
-      name: this.props.user.name,
-      email: this.props.user.email,
-      dash_number: this.props.user.dash_number ? this.props.user.dash_number : '',
-      allergies_dietary_restrictions: this.props.user.allergies_dietary_restrictions ? this.props.user.allergies_dietary_restrictions : '',
-      medical: this.props.user.medical_conditions ? this.props.user.medical_conditions : '',
-      height: this.props.user.height ? this.props.user.height : '',
-      clothe_size: this.props.user.clothe_size ? this.props.user.clothe_size : '',
-      shoe_size: this.props.user.shoe_size ? this.props.user.shoe_size : '',
-      clubsList: this.props.user.leader_for,
-      driver_cert: this.props.user.driver_cert,
-      trailer_cert: this.props.user.trailer_cert,
+      name: user.name,
+      email: user.email,
+      dash_number: user.dash_number ? user.dash_number : '',
+      allergies_dietary_restrictions: user.allergies_dietary_restrictions ? user.allergies_dietary_restrictions : '',
+      medical: user.medical_conditions ? user.medical_conditions : '',
+      height: user.height ? user.height : '',
+      clothe_size: user.clothe_size ? user.clothe_size : '',
+      shoe_size: user.shoe_size ? user.shoe_size : '',
+      clubsList: user.has_pending_leader_change ? user.requested_clubs : user.leader_for,
+      driver_cert: user.has_pending_cert_change ? user.requested_certs.driver_cert : user.driver_cert,
+      trailer_cert: user.has_pending_cert_change ? user.requested_certs.trailer_cert : user.trailer_cert,
       isEditing: true,
     });
   }
@@ -151,7 +182,7 @@ class ProfilePage extends Component {
       <Dropdown>
         <Dropdown.Toggle id="leader-dropdown">
           <p className="current-filter">{this.displaySelectedClubs()}</p>
-          <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
         <Dropdown.Menu className="filter-options">
           {clubForm}
@@ -202,7 +233,7 @@ class ProfilePage extends Component {
       <Dropdown>
         <Dropdown.Toggle id="driver-cert-dropdown">
           <p className="current-filter">{this.displaySelectedCertifications()}</p>
-          <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
         <Dropdown.Menu className="filter-options">
           {certificationForm}
@@ -216,10 +247,12 @@ class ProfilePage extends Component {
   getClotheForm = () => {
     return (
       <Dropdown onSelect={this.onClotheSizeChange}>
-        <Dropdown.Toggle id="clothe-size-dropdown">
+        <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.clothe_size ? 'vrf-error' : ''}`}>
           <span>
-            <span className="selected-size">{this.state.clothe_size}</span>
-            <img className="dropdown-icon" src="/src/img/dropdown-toggle.svg" alt="dropdown-toggle" />
+            <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
+              {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
+            </span>
+            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
           </span>
         </Dropdown.Toggle>
         <Dropdown.Menu className="filter-options clothe-options">
@@ -269,26 +302,60 @@ class ProfilePage extends Component {
     );
   }
 
-  updateUserInfo(event) {
-    const updatedUser = {
-      email: this.state.email,
-      name: this.state.name,
-      leader_for: this.state.clubsList,
-      dash_number: this.state.dash_number,
-      allergies_dietary_restrictions: this.state.allergies_dietary_restrictions,
-      medical_conditions: this.state.medical,
-      clothe_size: this.state.clothe_size,
-      shoe_size: this.state.shoe_size,
-      height: this.state.height,
-      driver_cert: this.state.driver_cert,
-      trailer_cert: this.state.trailer_cert,
-    };
-    this.props.updateUser(updatedUser);
-    this.setState({ isEditing: false });
+  isValid = () => {
+    const updates = {};
+    let hasEmptyField = false;
+    const errorFields = Object.keys(this.errorFields);
+    errorFields.forEach((field) => {
+      const isFieldEmpty = this.isStringEmpty(this.state[field]);
+      updates[field] = isFieldEmpty;
+      if (isFieldEmpty) {
+        hasEmptyField = true;
+      }
+    });
+    if (hasEmptyField) {
+      this.setState((prevState) => {
+        return { errorFields: Object.assign({}, prevState.errorFields, updates) };
+      });
+      this.props.appError('Please complete all highlighted fields');
+      window.scrollTo(0, 0);
+      return false;
+    }
+    if (!this.state.email.endsWith('@dartmouth.edu')) {
+      this.setState((prevState) => {
+        return { errorFields: Object.assign({}, prevState.errorFields, { email: true }) };
+      });
+      this.props.appError('Email must be a Dartmouth email address');
+      window.scrollTo(0, 0);
+      return false;
+    }
+    return true;
+  }
+
+  updateUserInfo() {
+    if (this.isValid()) {
+      const updatedUser = {
+        email: this.state.email,
+        name: this.state.name,
+        leader_for: this.state.clubsList,
+        dash_number: this.state.dash_number,
+        allergies_dietary_restrictions: this.state.allergies_dietary_restrictions,
+        medical_conditions: this.state.medical,
+        clothe_size: this.state.clothe_size,
+        shoe_size: this.state.shoe_size,
+        height: this.state.height,
+        driver_cert: this.state.driver_cert,
+        trailer_cert: this.state.trailer_cert,
+      };
+      this.props.updateUser(updatedUser)
+        .then(() => {
+          this.setState({ isEditing: false });
+        });
+    }
   }
 
   render() {
-    if (!this.isObjectEmpty(this.props.user)) {
+    if (this.state.ready) {
       if (!this.state.isEditing) {
         return (
           <div className="background">
@@ -311,8 +378,10 @@ class ProfilePage extends Component {
           <div className="background">
             <div className="my-container">
               <div className="profile-page-header">
-                <h1 className="header">My Profile</h1>
-                <span className="cancel-changes" onClick={this.cancelChanges} role="button" tabIndex={0}>Cancel changes</span>
+                <h1 className="header">{this.props.user.hasCompleteProfile ? 'My Profile' : 'Welcome! Please complete your profile'}</h1>
+                {this.props.user.hasCompleteProfile
+                  ? <span className="cancel-changes" onClick={this.cancelChanges} role="button" tabIndex={0}>Cancel changes</span>
+                  : null}
               </div>
               <ProfileCard
                 asProfilePage
@@ -332,6 +401,7 @@ class ProfilePage extends Component {
                 displayLeaderFeedback={this.displayLeaderFeedback}
                 getClubForm={this.getClubForm}
                 getClotheForm={this.getClotheForm}
+                errorFields={this.state.errorFields}
               />
             </div>
           </div>
@@ -339,16 +409,9 @@ class ProfilePage extends Component {
       }
     } else {
       return (
-        <div className="background">
-          <div className="my-container">
-            <div className="profile-page-header">
-              <h1 className="header">My Profile</h1>
-              <span className="logout-button" onClick={this.logout} role="button" tabIndex={0}>Logout</span>
-            </div>
-            <div className="profile">
-              <h1>Loading...</h1>
-            </div>
-          </div>
+        <div>
+          <h1>Loading</h1>
+          <img src={loadingGif} alt="loading-gif" />
         </div>
       );
     }
@@ -359,7 +422,8 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     clubs: state.clubs,
+    // hasCompleteProfile: state.auth.hasCompleteProfile,
   };
 };
 
-export default withRouter(connect(mapStateToProps, { updateUser, getClubs, signOut })(ProfilePage));
+export default withRouter(connect(mapStateToProps, { updateUser, getClubs, signOut, getUser })(ProfilePage));

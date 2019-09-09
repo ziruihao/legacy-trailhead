@@ -127,6 +127,14 @@
 .leader-edit-link:hover{
   text-decoration: none;
 }
+.emails-input{
+  min-height: 8em;
+}
+.ltd-detail-right{
+  margin-right: 0.5em;
+  color: #939393;
+  text-transform: capitalize;
+}
 
 @media only screen and (max-width: 640px) {
   .leader-trip-info{

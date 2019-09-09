@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { Component } from 'react';
+import React from 'react';
 import '../styles/createtrip-style.scss';
 
 const PCardRequest = (props) => {
@@ -8,10 +8,30 @@ const PCardRequest = (props) => {
 			<div className="row page-header">
 				<p>P-Card Request</p>
 			</div>
-			{getPcardForm(props)}
-			<div className="toggle-pcard-button">
-				<button className={`add-gear-button ${props.pcardRequest.length !== 0 ? 'create-trip-cancel-button' : ''}`} type="button" onClick={props.togglePcard}>{props.pcardRequest.length === 0 ? 'Request P-card' : 'Cancel Request'}</button>
-			</div>
+			{(!props.pcardStatus || props.pcardStatus === 'pending' || props.pcardStatus === 'N/A')
+				? (
+					<div>
+						{getPcardForm(props)}
+						<div className="toggle-pcard-button">
+							<button
+								className={`add-gear-button ${props.pcardRequest.length !== 0 ? 'create-trip-cancel-button' : ''}`}
+								type="button" onClick={props.togglePcard}
+							>
+								{props.pcardRequest.length === 0 ? 'Request P-card' : 'Cancel Request'}
+							</button>
+						</div>
+					</div>
+				)
+				: (
+					<div className="no-gear">
+						<div className="trip-detail">
+							<div className="no-on-trip">
+								<h4 className="none-f-now">You can&apos;t edit requests after they&apos;ve been reviewed</h4>
+							</div>
+						</div>
+					</div>
+				)
+			}
 		</div>
 	)
 };
@@ -26,7 +46,7 @@ const getPcardForm = (props) => {
 				</div>
 				<div className="row pcard-header">
 					<input
-						className={`field top-create-trip leaders pcard ${request.numPeopleError ? 'create-trip-error' : ''}`}
+						className={`field top-create-trip leaders pcard ${request.errorFields.numPeople ? 'create-trip-error' : ''}`}
 						onChange={(event) => props.onPcardFieldChange(event, index)}
 						name="numPeople"
 						placeholder="e.g. 8"
@@ -42,7 +62,7 @@ const getPcardForm = (props) => {
 					<div className="row page-sub-headers pcard">
 						<p>Snacks</p>
 						<input
-							className="field top-create-trip leaders pcard"
+							className={`field top-create-trip leaders pcard ${request.errorFields.snacks ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="snacks"
 							placeholder="e.g. 1"
@@ -53,7 +73,7 @@ const getPcardForm = (props) => {
 					<div className="row page-sub-headers pcard">
 						<p>Breakfast</p>
 						<input
-							className="field top-create-trip leaders pcard"
+							className={`field top-create-trip leaders pcard ${request.errorFields.breakfast ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="breakfast"
 							placeholder="e.g. 1"
@@ -64,7 +84,7 @@ const getPcardForm = (props) => {
 					<div className="row page-sub-headers pcard">
 						<p>Lunch</p>
 						<input
-							className="field top-create-trip leaders pcard"
+							className={`field top-create-trip leaders pcard ${request.errorFields.lunch ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="lunch"
 							placeholder="e.g. 1"
@@ -75,7 +95,7 @@ const getPcardForm = (props) => {
 					<div className="row page-sub-headers pcard">
 						<p>Dinner</p>
 						<input
-							className="field top-create-trip leaders pcard"
+							className={`field top-create-trip leaders pcard ${request.errorFields.dinner ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="dinner"
 							placeholder="e.g. 1"

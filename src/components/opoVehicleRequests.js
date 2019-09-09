@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import { fetchVehicleRequests } from '../actions';
+import loadingGif from '../img/loading-gif.gif';
 import '../styles/tripdetails_leader.scss';
 import '../styles/opo-trips.scss';
 
@@ -14,11 +15,15 @@ class OpoVehicleRequests extends Component {
     this.state = {
       searchPendingTerm: '',
       searchReviewedTerm: '',
+      ready: false,
     };
   }
 
   componentDidMount() {
-    this.props.fetchVehicleRequests();
+    this.props.fetchVehicleRequests()
+      .then(() => {
+        this.setState({ ready: true });
+      });
   }
 
   onSearchPendingTermChange = (event) => {
@@ -122,9 +127,7 @@ class OpoVehicleRequests extends Component {
             <tr>
               <th>Requester</th>
               <th>Reason</th>
-              <th>Assigned Vehicle</th>
-              <th>Picked up</th>
-              <th>Returned</th>
+              <th>Status</th>
             </tr>
           </thead>
           <tbody>
@@ -135,59 +138,82 @@ class OpoVehicleRequests extends Component {
     }
   }
 
+  getReqStatus = (status) => {
+    if (status === 'N/A') {
+      return <td>N/A</td>;
+    } else if (status === 'pending') {
+      return <td className="pending">Pending</td>;
+    } else if (status === 'approved') {
+      return <td className="approved">Approved</td>;
+    } else {
+      return <td className="denied">Denied</td>;
+    }
+  }
+
   getPendingRequestRows = (pendingRequests) => {
     return pendingRequests.map(request => (
       <tr key={request.id} onClick={() => this.onRowClick(request.id)}>
         <td>{request.requester.name}</td>
-        {request.requestType === 'SOLO'
-          ? <td>{request.requestDetails}</td>
-          : <td>{request.associatedTrip.title}</td>}
+        <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
       </tr>
     ));
   }
 
   getApprovedRequestsRows = (approvedRequests) => {
     return approvedRequests.map(request => (
-      <div />
+      <tr key={request.id} onClick={() => this.onRowClick(request.id)}>
+        <td>{request.requester.name}</td>
+        <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
+        {this.getReqStatus(request.status)}
+      </tr>
     ));
   }
 
   render() {
-    return (
-      <div className="leader-details-container dashboard-container">
-        <div className="pending-and-dropdown">
-          <h4 className="trip-status">Pending Requests</h4>
-          <input
-            name="searchPending"
-            placeholder="Search pending requests"
-            value={this.state.searchPendingTerm}
-            onChange={this.onSearchPendingTermChange}
-            className="searchbox"
-          />
-        </div>
-        <div className="trip-detail pending-table">
-          {this.getPendingTable()}
-        </div>
+    if (this.state.ready) {
+      return (
+        <div className="leader-details-container dashboard-container">
+          <div className="pending-and-dropdown">
+            <h4 className="trip-status">Pending Requests</h4>
+            <input
+              name="searchPending"
+              placeholder="Search pending requests"
+              value={this.state.searchPendingTerm}
+              onChange={this.onSearchPendingTermChange}
+              className="searchbox"
+            />
+          </div>
+          <div className="trip-detail pending-table">
+            {this.getPendingTable()}
+          </div>
 
-        <div className="calendar-link-div">
-          <Link to="/vehiclescheduler" className="calendar-link">View Vehicle Calendar</Link>
-        </div>
+          <div className="calendar-link-div">
+            <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
+          </div>
 
-        <div className="pending-and-dropdown">
-          <h4 className="trip-status">Reviewed & Past Requests</h4>
-          <input
-            name="searchReviewed"
-            placeholder="Search reviewed & past requests"
-            value={this.state.searchReviewedTerm}
-            onChange={this.onSearchReviewedTermChange}
-            className="searchbox"
-          />
+          <div className="pending-and-dropdown">
+            <h4 className="trip-status">Reviewed Requests</h4>
+            <input
+              name="searchReviewed"
+              placeholder="Search reviewed requests"
+              value={this.state.searchReviewedTerm}
+              onChange={this.onSearchReviewedTermChange}
+              className="searchbox"
+            />
+          </div>
+          <div className="trip-detail pending-table">
+            {this.getApprovedTable()}
+          </div>
         </div>
-        <div className="trip-detail pending-table">
-          {this.getApprovedTable()}
+      );
+    } else {
+      return (
+        <div>
+          <h1>Loading</h1>
+          <img src={loadingGif} alt="loading-gif" />
         </div>
-      </div>
-    );
+      );
+    }
   }
 }
 

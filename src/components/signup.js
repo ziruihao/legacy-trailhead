@@ -11,7 +11,7 @@ class SignUp extends Component {
     this.state = {
       name: '',
       email: '',
-      password: '',
+      // password: '',
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.signUp = this.signUp.bind(this);
@@ -30,8 +30,6 @@ class SignUp extends Component {
   }
 
   validateInput = () => {
-
-
     if (this.state.name === '' || this.state.email === '') {
       this.props.appError('Error: all fields must be filled');
       return false;
@@ -48,16 +46,16 @@ class SignUp extends Component {
 
   signUp() {
     // if (this.validateInput()) {
-      this.props.signUp(
-        {
+    this.props.signUp(
+      {
         id: this.props.user.id,
         name: this.state.name,
         email: this.state.email,
-      }, 
-      this.props.history);
+      },
+      this.props.history,
+    );
     // }
   }
-
 
   render() {
     return (
