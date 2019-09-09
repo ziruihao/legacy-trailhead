@@ -21,10 +21,6 @@ class AllTrips extends Component {
   }
 
   componentDidMount(props) {
-    if (!this.props.authenticated) {
-      alert('Please sign in/sign up to view this page');
-      this.props.history.push('/');
-    }
     this.props.fetchTrips();
     this.props.getClubs();
   }

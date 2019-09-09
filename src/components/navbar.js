@@ -41,7 +41,7 @@ class NavBar extends Component {
           <NavDropdown.Item className="dropdown-hover" href="/opo-trips">Trip Approvals</NavDropdown.Item>
           <NavDropdown.Item className="dropdown-hover" href="/vehicle-requests">Vehicle Requests</NavDropdown.Item>
           <NavDropdown.Item className="dropdown-hover" href="/leader_approvals">Profile Approvals</NavDropdown.Item>
-          <NavDropdown.Item className="dropdown-hover" href="#action/3.3">OPO Officer Assignments</NavDropdown.Item>
+          {/* <NavDropdown.Item className="dropdown-hover" href="#action/3.3">OPO Officer Assignments</NavDropdown.Item> */}
           <NavDropdown.Divider className="dropdown-hover" />
           <NavDropdown.Item className="dropdown-hover" href="/opo-dashboard">Back to Dashboard</NavDropdown.Item>
         </NavDropdown>

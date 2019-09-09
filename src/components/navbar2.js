@@ -49,7 +49,7 @@ class NavBar extends Component {
                 <NavDropdown.Item to="/opo-trips">Trip Approvals</NavDropdown.Item>
                 <NavDropdown.Item href="#action/3.2">Vehicle Requests</NavDropdown.Item>
                 <NavDropdown.Item to="/leader_approvals">Profile Approvals</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">OPO Officer Assignments</NavDropdown.Item>
+                {/* <NavDropdown.Item href="#action/3.3">OPO Officer Assignments</NavDropdown.Item> */}
                 <NavDropdown.Divider />
                 <NavDropdown.Item to="/opo-dashboard">Back to Dashboard</NavDropdown.Item>
               </NavDropdown>

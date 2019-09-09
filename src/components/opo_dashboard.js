@@ -38,7 +38,7 @@ const opoDashboard = () => {
           </div>
         </NavLink>
       </div>
-      <div className="section">
+      {/* <div className="section">
         <NavLink to="/leader_approvals">
           <div>
             <img src={OPOAssignments} alt="Opo Icon" />
@@ -46,7 +46,7 @@ const opoDashboard = () => {
             <p className="titles"> Assignments</p>
           </div>
         </NavLink>
-      </div>
+      </div> */}
       <Switch>
         <Route path="/opo-dashboard/trip_approvals" component={requireAuth(OpoTrips)} />
         <Route path="/opo-dashboard/approvals" component={requireAuth(OpoApprovals)} />
