@@ -53,7 +53,7 @@ class ProfilePage extends Component {
   componentDidMount() {
     Promise.all([this.props.getUser(), this.props.getClubs()])
       .then(() => {
-        this.setState({ ready: true });
+        this.setState({ ready: true, isEditing: !this.props.user.hasCompleteProfile });
       });
   }
 
@@ -378,8 +378,10 @@ class ProfilePage extends Component {
           <div className="background">
             <div className="my-container">
               <div className="profile-page-header">
-                <h1 className="header">My Profile</h1>
-                <span className="cancel-changes" onClick={this.cancelChanges} role="button" tabIndex={0}>Cancel changes</span>
+                <h1 className="header">{this.props.user.hasCompleteProfile ? 'My Profile' : 'Welcome! Please complete your profile'}</h1>
+                {this.props.user.hasCompleteProfile
+                  ? <span className="cancel-changes" onClick={this.cancelChanges} role="button" tabIndex={0}>Cancel changes</span>
+                  : null}
               </div>
               <ProfileCard
                 asProfilePage
@@ -420,6 +422,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.user,
     clubs: state.clubs,
+    // hasCompleteProfile: state.auth.hasCompleteProfile,
   };
 };
 

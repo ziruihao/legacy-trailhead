@@ -7,12 +7,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 import reducers from './reducers';
 import Homepage from './components/homepage';
-import SignIn from './components/signin';
-import SignUp from './components/signup';
 import AllTrips from './components/alltrips';
 import CreateTrip from './components/createtrip';
 import MyTrips from './components/mytrips';
-import TripsCal from './components/tripscalendar';
 import VehicleRequest from './components/vehiclerequest';
 import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
@@ -53,10 +50,7 @@ const App = (props) => {
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route path="/user" component={requireAuth(ProfilePage)} />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/alltrips" component={AllTrips} />
-          <Route path="/tripscalendar" component={TripsCal} />
+          <Route path="/alltrips" component={requireAuth(AllTrips)} />
           <Route path="/vehiclerequest/:vehicleReqId" component={requireAuth(VehicleRequest, 'viewMode')} />
           <Route path="/vehiclerequest" component={requireAuth(VehicleRequest)} />
           <Route path="/trip/:tripID" component={requireAuth(TripDetails)} />
@@ -70,7 +64,7 @@ const App = (props) => {
           <Route path="/leader_approvals" component={requireAuth(OpoApprovals)} />
           <Route path="/vehicle-calendar" component={requireAuth(VehicleCalendar)} />
           <Route path="/driver_cert_approvals" component={requireAuth()} />
-          <Route path = "/authed" component = {Homepage}/>
+          <Route path="/authed" component={Homepage} />
           <Route component={FallBack} />
         </Switch>
       </div>

@@ -28,6 +28,7 @@ export const ActionTypes = {
   FETCH_PCARD_REQUESTS: 'FETCH_PCARD_REQUESTS',
   OPO_RESPOND_TO_VEHICLE_REQUEST: 'OPO_RESPOND_TO_VEHICLE_REQUEST',
   FETCH_ASSIGNMENTS: 'FETCH_ASSIGNMENTS',
+  HAS_COMPLETE_PROFILE: 'HAS_COMPLETE_PROFILE',
 };
 
 // const ROOT_URL = 'https://doc-planner.herokuapp.com/api';
@@ -62,7 +63,7 @@ export function getUser() {
           resolve();
         })
         .catch((error) => {
-          dispatch(appError(`Update user failed: ${error.response.data}`));
+          dispatch(appError(`Get user failed: ${error.response.data}`));
         });
     });
   };
@@ -252,21 +253,27 @@ export function isOnTrip(tripID) {
 
 export function signIn(history) {
   return (dispatch, getState) => {
-    window.location=(`${ROOT_URL}/signin`);
+    window.location = (`${ROOT_URL}/signin`);
   };
 }
-export function authed(token, id, history){
-  return(dispatch, getState)=>{
+
+export function authed(token, id, history) {
+  return (dispatch, getState) => {
     localStorage.setItem('token', token);
-    dispatch({ type: ActionTypes.AUTH_USER });
-    dispatch({ type: ActionTypes.UPDATE_USER_ID, payload: id });
-    history.push(getState().restrictedPath.restrictedPath);
-  }
- 
+    // dispatch({ type: ActionTypes.UPDATE_USER_ID, payload: id });
+    axios.get(`${ROOT_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
+      .then((response) => {
+        dispatch({ type: ActionTypes.AUTH_USER });
+        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
+        history.push(getState().restrictedPath.restrictedPath);
+      })
+      .catch((error) => {
+        dispatch(appError(`Update user failed: ${error.response.data}`));
+      });
+  };
 }
 
-export function signUp( { email, id, name }, history) {
-  console.log(id);
+export function signUp({ email, id, name }, history) {
   return (dispatch) => {
     axios
       .post(`${ROOT_URL}/signup`, { email, id, name })
@@ -588,4 +595,3 @@ export function fetchVehicleAssignments() {
     });
   };
 }
-

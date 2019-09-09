@@ -1,24 +1,30 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { appError, updateRestrictedPath } from '../actions';
+import { signIn, appError, updateRestrictedPath, getUser } from '../actions';
 
 export default function (ComposedComponent, switchMode) {
   class RequireAuth extends Component {
     componentWillMount() {
       if (!this.props.authenticated) {
         this.props.updateRestrictedPath(`${this.props.location.pathname}`);
-        this.props.appError('Please sign in or sign up to view that page');
-        this.props.history.push('/');
+        // this.props.appError('Please sign in or sign up to view that page');
+        // this.props.history.push('/');
+        this.props.signIn();
       }
+      this.props.getUser()
+        .then(() => {
+          // const { user } = this.props;
+          // console.log(user);
+          if (!this.props.user.hasCompleteProfile) {
+            console.log('here');
+            this.props.history.push('/user');
+          }
+        });
     }
 
-    componentWillUpdate(nextProps) {
-      if (!nextProps.authenticated) {
-        this.props.updateRestrictedPath(`${this.props.location.pathname}`);
-        this.props.appError('Please sign in or sign up to view that page');
-        nextProps.history.push('/');
-      }
+    isInfoEmpty = (string) => {
+      return !string || string.length === 0 || !string.toString().trim();
     }
 
     render() {
@@ -36,8 +42,9 @@ export default function (ComposedComponent, switchMode) {
   const mapStateToProps = state => (
     {
       authenticated: state.auth.authenticated,
+      user: state.user,
     }
   );
 
-  return withRouter(connect(mapStateToProps, { appError, updateRestrictedPath })(RequireAuth));
+  return withRouter(connect(mapStateToProps, { signIn, appError, updateRestrictedPath, getUser })(RequireAuth));
 }

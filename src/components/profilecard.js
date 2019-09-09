@@ -163,6 +163,7 @@ const ProfileCard = (props) => {
                   onChange={props.onFieldChange}
                   className={`my-form-control name-input ${props.errorFields.name ? 'vrf-error' : ''}`}
                   value={props.name}
+                  placeholder="Name"
                 />
               </div>
               <div className="card-email">
@@ -173,6 +174,7 @@ const ProfileCard = (props) => {
                   onChange={props.onFieldChange}
                   className={`my-form-control ${props.errorFields.email ? 'vrf-error' : ''}`}
                   value={props.email}
+                  placeholder="Dartmouth email"
                 />
               </div>
             </div>
@@ -218,6 +220,7 @@ const ProfileCard = (props) => {
                   onChange={props.onFieldChange}
                   className={`my-form-control ${props.errorFields.shoe_size ? 'vrf-error' : ''}`}
                   value={props.shoe_size}
+                  placeholder="e.g. 9.5"
                 />
               </span>
             </div>
@@ -233,6 +236,7 @@ const ProfileCard = (props) => {
                   onChange={props.onFieldChange}
                   className={`my-form-control ${props.errorFields.height ? 'vrf-error' : ''}`}
                   value={props.height}
+                  placeholder={'e.g. 5\'2"'}
                 />
               </span>
             </div>
