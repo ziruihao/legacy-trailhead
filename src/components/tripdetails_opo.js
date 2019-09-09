@@ -65,7 +65,7 @@ class OPOTripDetails extends Component {
             onClick={() => this.setStep(2)}
           >
             Gear Request
-        </button>
+          </button>
           {hasBeenReviewed ? <img className="assigned-badge" src={this.badges[status]} alt={`${status}_badge`} /> : null}
         </div>
       );
@@ -137,6 +137,7 @@ class OPOTripDetails extends Component {
       showModal: true,
     });
   }
+
   closeModal = () => {
     this.setState({
       showModal: false,

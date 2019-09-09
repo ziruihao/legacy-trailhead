@@ -33,7 +33,10 @@ class WeekView extends Component {
   render() {
     const { date } = this.props;
     const range = WeekView.range(date);
-    return this.props.vehicles.map((vehicle, index) => {
+    const vehiclesWithoutEnterprise = this.props.vehicles.filter((vehicle) => {
+      return vehicle.name !== 'Enterprise';
+    });
+    return vehiclesWithoutEnterprise.map((vehicle, index) => {
       const eventsWithDate = vehicle.bookings.map((booking) => {
         const calendarFields = {};
         calendarFields.start = new Date(booking.assigned_pickupDateAndTime);
@@ -46,6 +49,7 @@ class WeekView extends Component {
         } else if (booking.pickedUp && !booking.returned && !returnTimeHasPassed) {
           calendarFields.tooltip = 'Vehicle has been picked up';
         }
+        calendarFields.assignedVehicle = vehicle.name;
         return Object.assign({}, booking, calendarFields);
       });
       return (

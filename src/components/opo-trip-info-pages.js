@@ -176,7 +176,9 @@ const BasicInfo = (props) => {
       <div className="otd-trip-description">
         <span className="sub-titles">Description</span>
         <div className="otd-row">
-          <div className="description-field sub-fields">{trip.description}</div>
+          <div className="description-field sub-fields">
+            {trip.description}
+          </div>
         </div>
       </div>
     </div>

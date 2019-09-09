@@ -19,10 +19,12 @@ const VehicleCalendarComponent = (props) => {
       }}
       events={props.vehicles}
       showMultiDayTimes
+      popup
       step={60}
       timeslots={12}
       vehicles={props.vehicles}
       components={{ event: VehicleBooking }}
+      onSelectEvent={props.userRole === 'OPO' ? (selectedEvent, e) => props.showEventModal(selectedEvent, e) : undefined}
     />
   );
 };

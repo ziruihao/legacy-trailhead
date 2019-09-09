@@ -35,7 +35,6 @@ const getAssignment = (props, index) => {
       return element.responseIndex === index;
     });
     if (assignment) {
-      console.log(assignment);
       return (
         <div className="vrf-requested-vehicles">
           <div className="vrf-req-header">

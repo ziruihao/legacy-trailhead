@@ -88,3 +88,38 @@
   display: flex;
   align-items: center;
 }
+.vcm-container{
+  padding: 1em;
+}
+.vcm-row{
+  margin-bottom: 1em;
+}
+.vcm-detail-left{
+  font-weight: 600;
+}
+.vcm-description-label{
+  font-size: 1.4em;
+}
+.vcm-title{
+  font-size: 2em;
+}
+.vcm-trip-details{
+  display: flex;
+  margin-top: 1em;
+}
+.vcm-trip-description{
+  display: flex;
+  flex-direction: column;
+  margin-top: 1em;
+}
+.vcm-assignment-info{
+  display: flex;
+  justify-content: space-between;
+}
+.vcm-assignment-detail{
+  display:flex;
+  flex-direction: column;
+}
+.vcm-line{
+  border-top: 4px;
+}
