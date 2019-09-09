@@ -10,7 +10,7 @@
     "start": "webpack-dev-server",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
     "clean": "rimraf dist",
-    "deploy": "yarn build; surge -p dist -d dalidocplanner.surge.sh; yarn clean"
+    "deploy": "yarn build; surge -p dist -d dartmouthoutingclub.surge.sh; yarn clean"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
