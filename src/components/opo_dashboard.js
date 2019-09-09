@@ -8,7 +8,7 @@ import OpoApprovals from './opoStuff';
 import TripApprovals from '../img/mountain.svg';
 import VehicleRequests from '../img/vehicle.svg';
 import LeaderApproval from '../img/leader.svg';
-import OPOAssignments from '../img/opoicon.svg';
+// import OPOAssignments from '../img/opoicon.svg';
 import '../styles/opo-dashboard-style.scss';
 
 const opoDashboard = () => {
