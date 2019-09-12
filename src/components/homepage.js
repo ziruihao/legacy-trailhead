@@ -36,9 +36,11 @@ class Homepage extends Component {
               }
             </p>
           </div>
-          {this.props.authenticated
-            ? <button className="log-in" onClick={() => this.props.history.push('/alltrips')}>Let's Go</button>
-            : <button className="log-in" onClick={() => this.props.signIn(this.props.history)}>Login</button>}
+          <div className="homepage-button">
+            {this.props.authenticated
+              ? <button className="signup-button" onClick={() => this.props.history.push('/alltrips')}>Let's Go!</button>
+              : <button className="signup-button" onClick={() => this.props.signIn(this.props.history)}>Login</button>}
+          </div>
         </div>
       </div>
     )
