@@ -184,7 +184,7 @@ class ProfilePage extends Component {
           <p className="current-filter">{this.displaySelectedClubs()}</p>
           <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
-        <Dropdown.Menu className="filter-options">
+        <Dropdown.Menu className="filter-options profile-club-options">
           {clubForm}
         </Dropdown.Menu>
       </Dropdown>

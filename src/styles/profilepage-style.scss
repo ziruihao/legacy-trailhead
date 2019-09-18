@@ -300,6 +300,10 @@ input.my-form-control{
   border-radius: 50%;
   background: #0CA074;
 }
+.profile-club-options{
+  max-height: 50vh;
+  overflow-y: scroll;
+}
 @media only screen and (max-width: 980px) {
   .profile{
     flex-direction: column;
