@@ -227,12 +227,8 @@ class OPOVehicleRequest extends Component {
         && !this.isStringEmpty(assignment.returnTime)
         && assignment.assignedVehicle !== 'Enterprise') {
         const updatedErrorFields = { ...this.errorFields };
-        const pickupDate = new Date(assignment.pickupDate);
-        const pickupTime = assignment.pickupTime.split(':');
-        pickupDate.setHours(pickupTime[0], pickupTime[1]);
-        const returnDate = new Date(assignment.returnDate);
-        const returnTime = assignment.returnTime.split(':');
-        returnDate.setHours(returnTime[0], returnTime[1]);
+        const pickupDate = this.createDateObject(assignment.pickupDate, assignment.pickupTime);
+        const returnDate = this.createDateObject(assignment.returnDate, assignment.returnTime);
         if (returnDate < pickupDate) {
           updatedErrorFields.pickupDate = true;
           updatedErrorFields.pickupTime = true;

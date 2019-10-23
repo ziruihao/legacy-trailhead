@@ -130,6 +130,13 @@ class VehicleRequest extends Component {
     return string.length === 0 || !string.toString().trim();
   }
 
+  createDateObject = (date, time) => {
+    // adapted from https://stackoverflow.com/questions/2488313/javascripts-getdate-returns-wrong-date
+    const parts = date.toString().match(/(\d+)/g);
+    const splitTime = time.split(':');
+    return new Date(parts[0], parts[1] - 1, parts[2], splitTime[0], splitTime[1]);
+  }
+
   isFormValid = () => {
     let hasEmptyField = false;
     const updatedSoloErrorFields = { ...this.soloErrorFields };
@@ -184,9 +191,7 @@ class VehicleRequest extends Component {
     const now = new Date();
     const markedPastDate = vehicles.map((vehicle) => {
       const updatedErrorFields = { ...this.errorFields };
-      const pickupDate = new Date(vehicle.pickupDate);
-      const pickupTime = vehicle.pickupTime.split(':');
-      pickupDate.setHours(pickupTime[0], pickupTime[1]);
+      const pickupDate = this.createDateObject(vehicle.pickupDate, vehicle.pickupTime);
       if (pickupDate < now) {
         updatedErrorFields.pickupDate = true;
         updatedErrorFields.pickupTime = true;
@@ -206,12 +211,8 @@ class VehicleRequest extends Component {
     let returnBeforePickup = false;
     const markedReturnBeforePickup = vehicles.map((vehicle) => {
       const updatedErrorFields = { ...this.errorFields };
-      const pickupDate = new Date(vehicle.pickupDate);
-      const pickupTime = vehicle.pickupTime.split(':');
-      pickupDate.setHours(pickupTime[0], pickupTime[1]);
-      const returnDate = new Date(vehicle.returnDate);
-      const returnTime = vehicle.returnTime.split(':');
-      returnDate.setHours(returnTime[0], returnTime[1]);
+      const pickupDate = this.createDateObject(vehicle.pickupDate, vehicle.pickupTime);
+      const returnDate = this.createDateObject(vehicle.returnDate, vehicle.returnTime);
       if (returnDate < pickupDate) {
         updatedErrorFields.pickupDate = true;
         updatedErrorFields.pickupTime = true;

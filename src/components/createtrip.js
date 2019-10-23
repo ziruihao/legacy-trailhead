@@ -459,6 +459,13 @@ class CreateTrip extends Component {
     }
   }
 
+  createDateObject = (date, time) => {
+    // adapted from https://stackoverflow.com/questions/2488313/javascripts-getdate-returns-wrong-date
+    const parts = date.toString().match(/(\d+)/g);
+    const splitTime = time.split(':');
+    return new Date(parts[0], parts[1] - 1, parts[2], splitTime[0], splitTime[1]);
+  }
+
   pageIsValid = () => {
     if (this.state.currentStep === 1) {
       return !this.pageHasEmptyFields(['title', 'cost']);
@@ -467,9 +474,7 @@ class CreateTrip extends Component {
       if (!this.pageHasEmptyFields(['startDate', 'startTime', 'endTime', 'endDate', 'location', 'mileage'])) {
         const { startDate, startTime, endDate, endTime } = this.state;
         const now = new Date();
-        const startAsDate = new Date(startDate);
-        const startAsTime = startTime.split(':');
-        startAsDate.setHours(startAsTime[0], startAsTime[1]);
+        const startAsDate = this.createDateObject(startDate, startTime);
         if (startAsDate < now) {
           this.setState((prevState) => {
             return { errorFields: Object.assign({}, prevState.errorFields, { startDate: true, startTime: true }) };
@@ -478,9 +483,7 @@ class CreateTrip extends Component {
           window.scrollTo(0, 0);
           return false;
         }
-        const endAsDate = new Date(endAsDate);
-        const endAsTime = endTime.split(':');
-        endAsDate.setHours(endAsTime[0], endAsTime[1]);
+        const endAsDate = this.createDateObject(endDate, endTime);
         if (endAsDate < startAsDate) {
           this.setState((prevState) => {
             return { errorFields: Object.assign({}, prevState.errorFields, { startDate: true, startTime: true, endDate: true, endTime: true }) };
@@ -593,7 +596,7 @@ class CreateTrip extends Component {
       delete vehicle.errorFields;
       return vehicle;
     });
-    const vehicleReqId = (this.props.switchMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest.id : null; 
+    const vehicleReqId = (this.props.switchMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest.id : null;
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders.trim().split(','),
