@@ -33,8 +33,6 @@ class VehicleCalendar extends Component {
   }
 
   formatDate = (startDate, endDate, startTime, endTime) => {
-    // console.log(startDate);
-    // console.log(endDate);
     const startAsDate = new Date(startDate);
     const startDateString = startAsDate.toUTCString();
     const displayStartDate = startDateString.substring(0, 11);
@@ -84,11 +82,12 @@ class VehicleCalendar extends Component {
 
   getModalContent = () => {
     const { selectedEvent } = this.state;
-    console.log(selectedEvent);
     const trip = selectedEvent.request.associatedTrip;
     return (
       <div className="vcm-container">
-        <h1 className="p-trip-title vcm-title">Mount Cardigan Hike</h1>
+        <h1 className="p-trip-title vcm-title">
+          {selectedEvent.request.requestType === 'TRIP' ? trip.title : selectedEvent.requestDetails}
+        </h1>
         <div>
           <div className="vcm-trip-details">
             <div className="otd-details-labels">

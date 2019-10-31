@@ -130,15 +130,18 @@ const ProfileCard = (props) => {
                 {displayCertifications(props.user.driver_cert, props.user.trailer_cert)}
               </span>
             </div>
-            <hr className="line" />
-            <div className="profile-card-row">
-              <span className="card-headings">
-                {props.asProfilePage && props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
-              </span>
-              <span className="card-info">
-                {displayClubs(props.user.leader_for)}
-              </span>
-            </div>
+            {props.user.role !== 'OPO' ? <hr className="line" /> : null}
+            {props.user.role !== 'OPO'
+              ? (
+                <div className="profile-card-row">
+                  <span className="card-headings">
+                    {props.asProfilePage && props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
+                  </span>
+                  <span className="card-info">
+                    {displayClubs(props.user.leader_for)}
+                  </span>
+                </div>
+              ) : null}
             <div className="pending-changes">
               {props.asProfilePage ? pendingChanges(props.user.has_pending_leader_change, props.user.has_pending_cert_change) : null}
             </div>
@@ -190,6 +193,7 @@ const ProfileCard = (props) => {
               <span className="card-info">
                 <input
                   type="number"
+                  id="dash_number"
                   name="dash_number"
                   maxLength="50"
                   onChange={props.onFieldChange}
@@ -284,16 +288,19 @@ const ProfileCard = (props) => {
                 <span className="extra-info-message">Please select your highest level of driver certification</span>
               </span>
             </div>
-            <hr className="line" />
-            <div className="profile-card-row">
-              <span className="card-headings extra-info">
-                DOC Leadership
-                {props.displayLeaderFeedback()}
-              </span>
-              <span className="card-info">
-                {props.getClubForm()}
-              </span>
-            </div>
+            {props.user.role !== 'OPO' ? <hr className="line" /> : null}
+            {props.user.role !== 'OPO'
+              ? (
+                <div className="profile-card-row">
+                  <span className="card-headings extra-info">
+                    DOC Leadership
+                    {props.displayLeaderFeedback()}
+                  </span>
+                  <span className="card-info">
+                    {props.getClubForm()}
+                  </span>
+                </div>
+              ) : null}
           </div>
         </div>
       </div>

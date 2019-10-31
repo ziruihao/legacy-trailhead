@@ -304,6 +304,11 @@ input.my-form-control{
   max-height: 50vh;
   overflow-y: scroll;
 }
+input#dash_number[type=number]::-webkit-inner-spin-button, 
+input#dash_number[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
 @media only screen and (max-width: 980px) {
   .profile{
     flex-direction: column;

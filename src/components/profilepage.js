@@ -402,6 +402,7 @@ class ProfilePage extends Component {
                 getClubForm={this.getClubForm}
                 getClotheForm={this.getClotheForm}
                 errorFields={this.state.errorFields}
+                user={this.props.user}
               />
             </div>
           </div>

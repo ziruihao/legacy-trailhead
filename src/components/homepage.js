@@ -27,7 +27,6 @@ class Homepage extends Component {
       <div id="landing-page">
         <div className="main1">
           <div className="home-text">
-            <h1> Stay Crunchy. </h1>
             <p>
               {
                 this.props.authenticated
