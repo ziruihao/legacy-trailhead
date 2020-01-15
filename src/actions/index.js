@@ -31,8 +31,8 @@ export const ActionTypes = {
   HAS_COMPLETE_PROFILE: 'HAS_COMPLETE_PROFILE',
 };
 
-const ROOT_URL = 'https://doc-planner.herokuapp.com/api';
-// const ROOT_URL = 'http://localhost:9090/api';
+// const ROOT_URL = 'https://doc-planner.herokuapp.com/api';
+const ROOT_URL = 'http://localhost:9090/api';
 
 export function appError(message) {
   return {

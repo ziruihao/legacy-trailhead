@@ -288,7 +288,17 @@ const ProfileCard = (props) => {
                 <span className="extra-info-message">Please select your highest level of driver certification</span>
               </span>
             </div>
-            {props.user.role !== 'OPO' ? <hr className="line" /> : null}
+            <hr className="line" />
+            <div className="profile-card-row">
+              <span className="card-headings extra-info">
+                DOC Leadership
+                {props.displayLeaderFeedback()}
+              </span>
+              <span className="card-info">
+                {props.getClubForm()}
+              </span>
+            </div>
+            {/* {props.user.role !== 'OPO' ? <hr className="line" /> : null}
             {props.user.role !== 'OPO'
               ? (
                 <div className="profile-card-row">
@@ -300,7 +310,7 @@ const ProfileCard = (props) => {
                     {props.getClubForm()}
                   </span>
                 </div>
-              ) : null}
+              ) : null} */}
           </div>
         </div>
       </div>
