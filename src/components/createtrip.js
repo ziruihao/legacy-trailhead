@@ -251,7 +251,7 @@ class CreateTrip extends Component {
 
   getClubOptions = () => {
     let options = null;
-    if (this.props.user.role === 'Leader' && this.props.user.leader_for.length > 0) {
+    if (this.props.user.role !== 'Trippee' && this.props.user.leader_for.length > 0) {
       options = this.props.user.leader_for.map((club) => {
         return <option key={club.id} data-id={club.id} value={club.name}>{club.name}</option>;
       });

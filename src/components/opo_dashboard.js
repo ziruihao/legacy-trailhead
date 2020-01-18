@@ -8,6 +8,7 @@ import OpoApprovals from './opoStuff';
 import TripApprovals from '../img/mountain.svg';
 import VehicleRequests from '../img/vehicle.svg';
 import LeaderApproval from '../img/leader.svg';
+import MyTrips from '../img/mytrips_icon.png';
 // import OPOAssignments from '../img/opoicon.svg';
 import '../styles/opo-dashboard-style.scss';
 
@@ -35,6 +36,14 @@ const opoDashboard = () => {
           <div>
             <img src={LeaderApproval} alt="Leader Icon" />
             <p className="titles">Profile Approvals</p>
+          </div>
+        </NavLink>
+      </div>
+      <div className="section">
+        <NavLink to="/mytrips">
+          <div>
+            <img src={MyTrips} alt="My Trips Icon" />
+            <p className="titles">My Trips</p>
           </div>
         </NavLink>
       </div>

@@ -277,7 +277,6 @@ class OpoTrips extends Component {
           <div className="calendar-link-div">
             <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
           </div>
-
           <div className="pending-and-dropdown">
             <h4 className="trip-status">Reviewed & Past Trips</h4>
             <input

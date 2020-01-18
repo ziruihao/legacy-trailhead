@@ -101,3 +101,21 @@ input.searchbox:focus{
   outline: none;
   box-shadow: 0 0 0 0.15rem #0CA074;
 }
+
+.mytrips-request-button{
+  width: 13em;
+  height: 3em;
+  margin-right: 1em;
+  background: #0CA074;
+  border-radius: 5px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+}
+.mytrips-request-button:hover{
+  text-decoration: none;
+  color: #ffffff;
+  background: rgb(26, 179, 133);
+}

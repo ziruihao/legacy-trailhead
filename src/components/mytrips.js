@@ -46,7 +46,7 @@ class MyTrips extends Component {
     return t1.getTime() - t2.getTime();
   }
   renderCreateTrip = () => {
-    if (this.props.user.role === 'Leader') {
+    if (this.props.user.role !== 'Trippee') {
       return (
         <NavLink className="create-trip-link" to="/createtrip">
           <div className="card text-center card-trip margins" >
