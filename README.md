@@ -47,7 +47,6 @@ yarn deploy
 
 ## Authors
 
-Samuel Schiff, Katie Bernardez, Ben Hannam, Brian Keare, Shashwat Chaturvedi, Isabel Hurley
 
 ## Acknowledgments
 
