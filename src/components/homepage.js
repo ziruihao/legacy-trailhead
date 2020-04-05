@@ -54,7 +54,7 @@ class Homepage extends Component {
   }
 
   render() {
-    if (this.props.user) {
+    if (true) {
       return (
         <div id="landing-page">
           <div className="main1">
@@ -62,7 +62,7 @@ class Homepage extends Component {
               <p>
                 {
                   this.props.authenticated
-                    ? `You're logged in as a test ${this.props.user.role}.`
+                    ? `You're logged in as a test ${!this.props.user ? 'loading' : this.props.user.role}.`
                     : 'Hello there! Click the options below to login as test users of the following kind.'
                 }
               </p>
@@ -74,9 +74,8 @@ class Homepage extends Component {
         </div>
       )
     } else {
-      return <div>loading</div>
+      return <div>loading2</div>
     }
-
   }
 }
 
