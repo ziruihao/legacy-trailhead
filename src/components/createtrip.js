@@ -763,7 +763,7 @@ class CreateTrip extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.user.user,
     trip: state.trips.trip,
   };
 };

@@ -421,7 +421,7 @@ class ProfilePage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.user.user,
     clubs: state.clubs,
     // hasCompleteProfile: state.auth.hasCompleteProfile,
   };

@@ -42,7 +42,7 @@ export default function (ComposedComponent, switchMode) {
   const mapStateToProps = state => (
     {
       authenticated: state.auth.authenticated,
-      user: state.user,
+      user: state.user.user,
     }
   );
 

@@ -323,7 +323,7 @@ const mapStateToProps = state => (
     trip: state.trips.trip,
     userTripStatus: state.trips.userTripStatus,
     isLeaderOnTrip: state.trips.isLeaderOnTrip,
-    user: state.user,
+    user: state.user.user,
   }
 );
 export default withRouter(connect(mapStateToProps, {
