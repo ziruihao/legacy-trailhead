@@ -141,7 +141,7 @@ const mapStateToProps = state => (
     {
       isUserOnTrip: state.trips.isUserOnTrip,
       authenticated: state.auth.authenticated,
-      user: state.user,
+      user: state.user.user,
     }
   );
 export default withRouter(connect(mapStateToProps, { fetchTrip, isOnTrip })(TripDetailsModal)); // connected component

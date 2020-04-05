@@ -223,7 +223,7 @@ class VehicleCalendar extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.user.user,
     vehicles: state.vehicleRequests.vehicles,
     assignments: state.vehicleRequests.allAssignments,
   };

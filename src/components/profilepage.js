@@ -52,13 +52,6 @@ class ProfilePage extends Component {
     this.updateUserInfo = this.updateUserInfo.bind(this);
   }
 
-  componentDidMount() {
-    Promise.all([this.props.getUser(), this.props.getClubs()])
-      .then(() => {
-        this.setState({ ready: true, isEditing: !this.props.user.hasCompleteProfile });
-      });
-  }
-
   onFieldChange(event) {
     event.persist();
     if (event.target.type === 'checkbox') {
@@ -359,7 +352,7 @@ class ProfilePage extends Component {
   }
 
   render() {
-    if (this.state.ready) {
+    if (this.props.user) {
       if (!this.state.isEditing) {
         return (
           <div className="background">
@@ -426,7 +419,7 @@ class ProfilePage extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
+    user: state.user.user,
     clubs: state.clubs,
     // hasCompleteProfile: state.auth.hasCompleteProfile,
   };

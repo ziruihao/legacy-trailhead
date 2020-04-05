@@ -31,8 +31,7 @@ export const ActionTypes = {
   HAS_COMPLETE_PROFILE: 'HAS_COMPLETE_PROFILE',
 };
 
-const ROOT_URL = 'https://doc-planner.herokuapp.com/api';
-// const ROOT_URL = 'http://localhost:9090/api';
+const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 
 export function appError(message) {
   return {
@@ -59,7 +58,7 @@ export function getUser() {
     return new Promise((resolve, reject) => {
       axios.get(`${ROOT_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
-          dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
+          dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
           resolve();
         })
         .catch((error) => {
@@ -74,7 +73,7 @@ export function updateUser(updatedUser) {
     return new Promise((resolve, reject) => {
       axios.put(`${ROOT_URL}/user`, updatedUser, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
-          dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
+          dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
           resolve();
         })
         .catch((error) => {
@@ -251,7 +250,23 @@ export function isOnTrip(tripID) {
   };
 }
 
-export function signIn(history) {
+export function signIn(email, password) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.post(`${ROOT_URL}/signin`, { email, password }).then((response) => {
+        localStorage.setItem('token', response.data.token);
+        console.log(response.data.user);
+        dispatch({ type: ActionTypes.AUTH_USER });
+        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
+        resolve();
+      }).catch((error) => {
+        reject(error);
+      });
+    });
+  };
+}
+
+export function signInCAS(history) {
   return (dispatch, getState) => {
     window.location = (`${ROOT_URL}/signin`);
   };
@@ -263,7 +278,7 @@ export function authed(token, id, history) {
     axios.get(`${ROOT_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         dispatch({ type: ActionTypes.AUTH_USER });
-        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data });
+        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
         history.push(getState().restrictedPath.restrictedPath);
       })
       .catch((error) => {
