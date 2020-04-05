@@ -9,20 +9,52 @@ import { signIn, signOut, authed, getUser } from '../actions';
 import '../styles/homepage-style.scss';
 
 class Homepage extends Component {
-  componentDidMount() {
-    const values = queryString.parse(this.props.location.search);
-    if (!this.props.authenticated) {
-      if (values.token) {
-        this.props.authed(values.token, values.userId, this.props.history);
-      } else {
-        this.props.signIn();
-      }
-    } else {
-      this.props.history.push('/alltrips');
+  // componentDidMount() {
+  //   const values = queryString.parse(this.props.location.search);
+  //   if (!this.props.authenticated) {
+  //     if (values.token) {
+  //       this.props.authed(values.token, values.userId, this.props.history);
+  //     } else {
+  //       this.props.signIn();
+  //     }
+  //   } else {
+  //     this.props.history.push('/alltrips');
+  //   }
+  // }
+
+  fakeSignIn = (type) => {
+    switch(type) {
+      case 'opo':
+        this.props.signIn('opo', 'opo');
+        break;
+      case 'leader':
+        this.props.signIn('leader', 'leader');
+        break;
+      case 'trippee':
+        this.props.signIn('trippee', 'trippee');
+        break;
+      default:
+        this.props.signIn('opo', 'opo');
+    }
+  }
+
+  renderAuthOptions = () => {
+    if (this.props.authenticated) {
+      return(<button className="signup-button" onClick={() => this.props.history.push('/alltrips')}>Let's Go!</button>);
+    }
+    else {
+      return(
+        <div style={{display: 'flex'}}>
+          <button className="signup-button" onClick={() => this.fakeSignIn('opo')}>OPO</button>
+          <button className="signup-button" onClick={() => this.fakeSignIn('leader')}>Leader</button>
+          <button className="signup-button" onClick={() => this.fakeSignIn('trippee')}>Trippee</button>
+        </div>
+      )
     }
   }
 
   render() {
+    console.log(this.props.user);
     return (
       <div id="landing-page">
         <div className="main1">
@@ -30,15 +62,13 @@ class Homepage extends Component {
             <p>
               {
                 this.props.authenticated
-                  ? 'Join or create a trip of your own!'
-                  : 'Hello there! This is the Dartmouth Outing Club (DOC) Website. Here, you can view, sign up for, or form trips.'
+                  ? `You're logged in as a test ${this.props.user.role}.`
+                  : 'Hello there! Click the options below to login as test users of the following kind.'
               }
             </p>
           </div>
           <div className="homepage-button">
-            {this.props.authenticated
-              ? <button className="signup-button" onClick={() => this.props.history.push('/alltrips')}>Let's Go!</button>
-              : <button className="signup-button" onClick={() => this.props.signIn(this.props.history)}>Login</button>}
+            {this.renderAuthOptions()}
           </div>
         </div>
       </div>
@@ -49,9 +79,7 @@ class Homepage extends Component {
 const mapStateToProps = (state) => {
   return {
     authenticated: state.auth.authenticated,
-    role: state.user.role,
-    user: state.user,
-
+    user: state.user.user,
   };
 };
 
