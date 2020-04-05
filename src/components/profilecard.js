@@ -70,6 +70,15 @@ const ProfileCard = (props) => {
           <div className="profile-card-info">
             <div className="profile-card-row">
               <span className="card-headings">
+                Pronouns
+              </span>
+              <span className="card-info">
+                {props.user.pronoun ? props.pronoun : 'Please fill out'}
+              </span>
+            </div>
+            <hr className="line" />
+            <div className="profile-card-row">
+              <span className="card-headings">
                 DASH
               </span>
               <span className="card-info">
@@ -186,6 +195,22 @@ const ProfileCard = (props) => {
             </div>
           </div>
           <div className="profile-card-info">
+            <div className="profile-card-row">
+              <span className="card-headings">
+                Pronouns
+              </span>
+              <span className="card-info">
+                <input
+                  className={`my-form-control ${props.errorFields.pronoun ? 'vrf-error' : ''}`}
+                  type="text"
+                  name="pronouns"
+                  maxLength="50"
+                  onChange={props.onFieldChange}
+                  value={props.pronoun}
+                />
+              </span>
+            </div>
+            <hr className="line" />
             <div className="profile-card-row">
               <span className="card-headings">
                 DASH
