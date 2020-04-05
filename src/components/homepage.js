@@ -54,25 +54,29 @@ class Homepage extends Component {
   }
 
   render() {
-    console.log(this.props.user);
-    return (
-      <div id="landing-page">
-        <div className="main1">
-          <div className="home-text">
-            <p>
-              {
-                this.props.authenticated
-                  ? `You're logged in as a test ${this.props.user.role}.`
-                  : 'Hello there! Click the options below to login as test users of the following kind.'
-              }
-            </p>
-          </div>
-          <div className="homepage-button">
-            {this.renderAuthOptions()}
+    if (this.props.user) {
+      return (
+        <div id="landing-page">
+          <div className="main1">
+            <div className="home-text">
+              <p>
+                {
+                  this.props.authenticated
+                    ? `You're logged in as a test ${this.props.user.role}.`
+                    : 'Hello there! Click the options below to login as test users of the following kind.'
+                }
+              </p>
+            </div>
+            <div className="homepage-button">
+              {this.renderAuthOptions()}
+            </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    } else {
+      return <div>loading</div>
+    }
+
   }
 }
 
