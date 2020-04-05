@@ -16,7 +16,6 @@
         "new-cap": ["error", {"capIsNewExceptions": ["Router"]}],
         "no-console": 0,
         "import/no-unresolved": [2, { "caseSensitive": false } ],
-        "no-unused-vars": ["error", { "vars": "all", "args": "none" }],
         "no-underscore-dangle": 0,
         "arrow-body-style": 0,
         "indent": "warn",
@@ -44,7 +43,8 @@
         "react/jsx-one-expression-per-line":0,
         "react/no-array-index-key":"warn",
         "capIsNew": 0,
-        "react/prefer-stateless-function": [1, { "ignorePureComponents": true }]
+        "react/prefer-stateless-function": 0,
+        "no-unused-vars": 0
     },
     "plugins": [
         "react"

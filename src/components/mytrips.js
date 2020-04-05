@@ -189,7 +189,7 @@ const mapStateToProps = state => (
   {
     myTrips: state.trips.myTrips,
     myVehicleReqs: state.trips.myVehicleReqs,
-    user: state.user,
+    user: state.user.user,
   }
 );
 

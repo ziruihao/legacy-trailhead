@@ -21,7 +21,7 @@ import OpoVehicleRequest from './components/opoVehicleRequest';
 import OpoDashboard from './components/opo_dashboard';
 import requireAuth from './containers/requireAuth';
 import VehicleCalendar from './components/vehiclecalendar';
-import { ActionTypes, getUser } from './actions';
+import { ActionTypes, getUser, getClubs } from './actions';
 import './styles/homepage-style.scss';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
@@ -35,6 +35,7 @@ const token = localStorage.getItem('token');
 if (token) {
   store.dispatch({ type: ActionTypes.AUTH_USER });
   store.dispatch(getUser());
+  store.dispatch(getClubs());
 }
 
 const FallBack = (props) => {
