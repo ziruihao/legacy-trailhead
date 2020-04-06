@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
+import axios from 'axios';
 import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
@@ -21,7 +22,7 @@ import OpoVehicleRequest from './components/opoVehicleRequest';
 import OpoDashboard from './components/opo_dashboard';
 import requireAuth from './containers/requireAuth';
 import VehicleCalendar from './components/vehiclecalendar';
-import { ActionTypes, getUser, getClubs } from './actions';
+import { ActionTypes, getUser, getClubs, getVehicles } from './actions';
 import './styles/homepage-style.scss';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
@@ -32,10 +33,19 @@ const store = createStore(reducers, {}, compose(
 ));
 
 const token = localStorage.getItem('token');
+const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 if (token) {
-  store.dispatch({ type: ActionTypes.AUTH_USER });
-  store.dispatch(getUser());
-  store.dispatch(getClubs());
+  axios.get(`${ROOT_URL}/user`, { headers: { authorization: token } })
+    .then((response) => {
+      store.dispatch({ type: ActionTypes.AUTH_USER });
+      store.dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
+      store.dispatch(getClubs());
+      store.dispatch(getVehicles());
+    })
+    .catch(() => {
+      localStorage.clear();
+      store.dispatch({ type: ActionTypes.DEAUTH_USER });
+    });
 }
 
 const FallBack = (props) => {
