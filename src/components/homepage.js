@@ -30,8 +30,14 @@ class Homepage extends Component {
       case 'leader':
         this.props.signIn('leader', 'leader');
         break;
-      case 'trippee':
-        this.props.signIn('trippee', 'trippee');
+      case 'trippee1':
+        this.props.signIn('trippee1', 'trippee1');
+        break;
+      case 'trippee2':
+        this.props.signIn('trippee2', 'trippee2');
+        break;
+      case 'trippee3':
+        this.props.signIn('trippee3', 'trippee3');
         break;
       default:
         this.props.signIn('opo', 'opo');
@@ -47,7 +53,9 @@ class Homepage extends Component {
         <div style={{display: 'flex'}}>
           <button className="signup-button" onClick={() => this.fakeSignIn('opo')}>OPO</button>
           <button className="signup-button" onClick={() => this.fakeSignIn('leader')}>Leader</button>
-          <button className="signup-button" onClick={() => this.fakeSignIn('trippee')}>Trippee</button>
+          <button className="signup-button" onClick={() => this.fakeSignIn('trippee1')}>Trippee 1</button>
+          <button className="signup-button" onClick={() => this.fakeSignIn('trippee2')}>Trippee 2</button>
+          <button className="signup-button" onClick={() => this.fakeSignIn('trippee3')}>Trippee 3</button>
         </div>
       )
     }
