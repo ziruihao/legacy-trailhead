@@ -20,6 +20,7 @@ class ProfilePage extends Component {
   errorFields = {
     email: false,
     name: false,
+    pronoun: false,
     dash_number: false,
     allergies_dietary_restrictions: false,
     medical: false,
@@ -33,6 +34,7 @@ class ProfilePage extends Component {
     this.state = {
       email: '',
       name: '',
+      pronoun: '',
       dash_number: '',
       allergies_dietary_restrictions: '',
       medical: '',
@@ -109,6 +111,7 @@ class ProfilePage extends Component {
     this.setState({
       name: user.name,
       email: user.email,
+      pronoun: user.pronoun ? user.pronoun : '',
       dash_number: user.dash_number ? user.dash_number : '',
       allergies_dietary_restrictions: user.allergies_dietary_restrictions ? user.allergies_dietary_restrictions : '',
       medical: user.medical_conditions ? user.medical_conditions : '',
@@ -331,6 +334,7 @@ class ProfilePage extends Component {
         email: this.state.email,
         name: this.state.name,
         leader_for: this.state.clubsList,
+        pronoun: this.state.pronoun,
         dash_number: this.state.dash_number,
         allergies_dietary_restrictions: this.state.allergies_dietary_restrictions,
         medical_conditions: this.state.medical,
@@ -383,6 +387,7 @@ class ProfilePage extends Component {
                 name={this.state.name}
                 email={this.state.email}
                 updateUserInfo={this.updateUserInfo}
+                pronoun={this.state.pronoun}
                 dash_number={this.state.dash_number}
                 allergies_dietary_restrictions={this.state.allergies_dietary_restrictions}
                 medical={this.state.medical}
