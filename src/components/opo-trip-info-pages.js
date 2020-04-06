@@ -24,6 +24,19 @@ const getCoLeaders = (leaders) => {
   return coleaders;
 };
 
+const getApprovedTrippees = (members, leaders) => {
+  let trippees = '';
+  leaders = leaders.map(leader => leader._id);
+  members.forEach((member) => {
+    if (!leaders.includes(member.user._id)) {
+      trippees += `${member.user.name}, `;
+    }
+  });
+  trippees = trippees.substring(0, trippees.length - 2);
+  trippees = trippees.length === 0 ? 'None' : trippees;
+  return trippees;
+}
+
 const formatDate = (startDate, endDate, startTime, endTime) => {
   const startAsDate = new Date(startDate);
   const startDateString = startAsDate.toUTCString();
@@ -67,6 +80,7 @@ const isStringEmpty = (string) => {
 const getIndividualGear = (trip) => {
   const gearData = {};
   const gearSizeType = {};
+  console.log(trip.trippeeGear);
   trip.trippeeGear.forEach((gear) => {
     gearSizeType[gear._id] = gear.size_type;
     if (gear.size_type !== 'N/A') {
@@ -104,9 +118,11 @@ const getIndividualGear = (trip) => {
       }
     });
   });
+  console.log(gearData)
   return trip.trippeeGear.map((gear, index) => {
-    if (Object.prototype.hasOwnProperty.call(gearData, gear._id)) {
+    if (false && Object.prototype.hasOwnProperty.call(gearData, gear._id)) {
       const entries = Object.entries(gearData[gear._id]);
+      console.log(entries);
       return entries.map(entry => (
         <tr key={`${gear._id}_${entry[0]}`}>
           <td>{gear.gear}</td>
@@ -118,7 +134,7 @@ const getIndividualGear = (trip) => {
       return (
         <tr key={`${gear._id}_${index}`}>
           <td>{gear.gear}</td>
-          <td>N/A</td>
+          <td>{gear.size_type}</td>
           <td>{gear.quantity}</td>
         </tr>
       );
@@ -157,6 +173,9 @@ const BasicInfo = (props) => {
           <div className="otd-row">
             <span className="sub-titles">Co-Leader(s)</span>
           </div>
+          <div className="otd-row">
+            <span className="sub-titles">Approved Trippees</span>
+          </div>
         </div>
         <div className="otd-details-column">
           <div className="otd-row">
@@ -170,6 +189,9 @@ const BasicInfo = (props) => {
           </div>
           <div className="otd-row">
             <span className="sub-fields">{getCoLeaders(trip.leaders)}</span>
+          </div>
+          <div className="otd-row">
+            <span className="sub-fields">{getApprovedTrippees(trip.members, trip.leaders)}</span>
           </div>
         </div>
       </div>
