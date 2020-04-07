@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signIn, appError, updateRestrictedPath, getUser } from '../actions';
-import Homepage from '../components/homepage';
+import Auth from '../components/auth';
 
 export default function (ComposedComponent, switchMode) {
   class RequireAuth extends Component {
@@ -38,7 +38,7 @@ export default function (ComposedComponent, switchMode) {
                 {...this.props}
               />
             )
-            : <Homepage />}
+            : <Auth />}
         </div>
       );
     }
