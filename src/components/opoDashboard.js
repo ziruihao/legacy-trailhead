@@ -40,12 +40,12 @@ const OPODashboard = () => {
         </NavLink>
       </div>
       <div className="section">
-        <NavLink to="/mytrips">
+        {/* <NavLink to="/mytrips">
           <div>
             <img src={MyTrips} alt="My Trips Icon" />
             <p className="titles">My Trips</p>
           </div>
-        </NavLink>
+        </NavLink> */}
       </div>
       {/* <div className="section">
         <NavLink to="/leader_approvals">
