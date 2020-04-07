@@ -63,12 +63,12 @@ const App = (props) => {
         <Switch>
           <Route exact path="/" component={requireAuth(Dashboard)} />
           <Route path="/user" component={requireAuth(ProfilePage)} />
-          <Route path="/alltrips" component={requireAuth(AllTrips)} />
+          <Route path="/all-trips" component={requireAuth(AllTrips)} />
           <Route path="/vehiclerequest/:vehicleReqId" component={requireAuth(VehicleRequest, 'viewMode')} />
           <Route path="/vehiclerequest" component={requireAuth(VehicleRequest)} />
           <Route path="/trip/:tripID" component={requireAuth(TripDetails)} />
           <Route path="/createtrip" component={requireAuth(CreateTrip)} />
-          <Route path="/mytrips" component={requireAuth(MyTrips)} />
+          <Route path="/my-trips" component={requireAuth(MyTrips)} />
           <Route path="/edittrip/:tripID" component={requireAuth(CreateTrip, 'editMode')} />
           <Route path="/opo-trips" component={requireAuth(OpoTrips)} />
           <Route path="/vehicle-requests" component={requireAuth(OpoVehicleRequests)} />
