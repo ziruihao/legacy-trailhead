@@ -7,10 +7,12 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 import reducers from './reducers';
-import Homepage from './components/homepage';
-import AllTrips from './components/alltrips';
+
+import Dashboard from './containers/dashboard';
+import Auth from './components/auth';
+import AllTrips from './components/allTrips';
 import CreateTrip from './components/createtrip';
-import MyTrips from './components/mytrips';
+import MyTrips from './components/myTrips';
 import VehicleRequest from './components/vehiclerequest';
 import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
@@ -19,7 +21,7 @@ import NavBar from './components/navbar';
 import OpoTrips from './components/opotrips';
 import OpoVehicleRequests from './components/opoVehicleRequests';
 import OpoVehicleRequest from './components/opoVehicleRequest';
-import OpoDashboard from './components/opo_dashboard';
+import OpoDashboard from './components/opoDashboard';
 import requireAuth from './containers/requireAuth';
 import VehicleCalendar from './components/vehiclecalendar';
 import { ActionTypes, getUser, getClubs, getVehicles } from './actions';
@@ -59,7 +61,7 @@ const App = (props) => {
       <NavBar />
       <div id="theBody">
         <Switch>
-          <Route exact path="/" component={Homepage} />
+          <Route exact path="/" component={requireAuth(Dashboard)} />
           <Route path="/user" component={requireAuth(ProfilePage)} />
           <Route path="/alltrips" component={requireAuth(AllTrips)} />
           <Route path="/vehiclerequest/:vehicleReqId" component={requireAuth(VehicleRequest, 'viewMode')} />
@@ -74,7 +76,6 @@ const App = (props) => {
           <Route path="/opo-dashboard" component={requireAuth(OpoDashboard)} />
           <Route path="/leader_approvals" component={requireAuth(OpoApprovals)} />
           <Route path="/vehicle-calendar" component={requireAuth(VehicleCalendar)} />
-          <Route path="/authed" component={Homepage} />
           <Route component={FallBack} />
         </Switch>
       </div>
