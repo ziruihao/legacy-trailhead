@@ -12,7 +12,7 @@ import MyTrips from '../img/mytrips_icon.png';
 // import OPOAssignments from '../img/opoicon.svg';
 import '../styles/opo-dashboard-style.scss';
 
-const opoDashboard = () => {
+const OPODashboard = () => {
   return (
     <div className="dashboard">
       <div className="section">
@@ -65,4 +65,4 @@ const opoDashboard = () => {
 };
 
 
-export default withRouter(opoDashboard);
+export default withRouter(OPODashboard);
