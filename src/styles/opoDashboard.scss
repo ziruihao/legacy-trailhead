@@ -3,7 +3,7 @@
   justify-content: space-evenly;
   grid-template-columns: auto auto auto;
 
-  .section{
+  .section {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,7 +12,7 @@
       filter: brightness(1.2);
     }
   
-    .titles{
+    .titles {
       font-family: Nunito Sans;
       font-weight: 800;
       font-size: 20px;
@@ -20,6 +20,9 @@
       letter-spacing: 0.05em;
       color:black;
       margin-bottom: -.5rem;
+      :hover {
+        text-decoration: none;
+      }
     }
   }
 }
