@@ -242,23 +242,39 @@ class ProfilePage extends Component {
 
   getClotheForm = () => {
     return (
-      <Dropdown onSelect={this.onClotheSizeChange}>
-        <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.clothe_size ? 'vrf-error' : ''}`}>
-          <span>
-            <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
-              {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
+      <div>
+        <Dropdown onSelect={this.onClotheSizeChange}>
+          <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.clothe_size ? 'vrf-error' : ''}`}>
+            <span>
+              <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
+                {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
+              </span>
+              <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
             </span>
-            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
-          </span>
-        </Dropdown.Toggle>
-        <Dropdown.Menu className="filter-options clothe-options">
-          <Dropdown.Item eventKey="XS">XS</Dropdown.Item>
-          <Dropdown.Item eventKey="S">S</Dropdown.Item>
-          <Dropdown.Item eventKey="M">M</Dropdown.Item>
-          <Dropdown.Item eventKey="L">L</Dropdown.Item>
-          <Dropdown.Item eventKey="XL">XL</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="filter-options clothe-options">
+            <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
+            <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        <Dropdown onSelect={this.onClotheSizeChange}>
+          <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.clothe_size ? 'vrf-error' : ''}`}>
+            <span>
+              <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
+                {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
+              </span>
+              <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+            </span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="filter-options clothe-options">
+            <Dropdown.Item eventKey="XS">XS</Dropdown.Item>
+            <Dropdown.Item eventKey="S">S</Dropdown.Item>
+            <Dropdown.Item eventKey="M">M</Dropdown.Item>
+            <Dropdown.Item eventKey="L">L</Dropdown.Item>
+            <Dropdown.Item eventKey="XL">XL</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
     );
   }
 
