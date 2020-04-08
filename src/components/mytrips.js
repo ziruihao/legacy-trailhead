@@ -123,7 +123,7 @@ class MyTrips extends Component {
           reqLink = `/trip/${vehicleReq.associatedTrip.id}`;
         } else if (vehicleReq.requestType === 'SOLO') {
           reqTitle = vehicleReq.requestDetails;
-          reqLink = `/vehiclerequest/${vehicleReq.id}`;
+          reqLink = `/vehicle-request/${vehicleReq.id}`;
         }
         return (
           <div key={vehicleReq.id} className="mytrips-vehicle-req">
@@ -165,7 +165,7 @@ class MyTrips extends Component {
             </div>
             <div className="mytrips-request-and-calendar-links">
               {this.props.user.driver_cert !== null
-                ? < Link to="/vehiclerequest" className="mytrips-request-button">Request vehicle</Link>
+                ? < Link to="/vehicle-request" className="mytrips-request-button">Request vehicle</Link>
                 : null}
               {this.props.user.driver_cert !== null || this.props.user.role !== 'Trippee'
                 ? <Link to="/vehicle-calendar" className="mytrips-calendar-link" target="_blank">View vehicle calendar</Link>

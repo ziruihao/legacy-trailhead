@@ -25,6 +25,7 @@ import OpoDashboard from './components/opoDashboard';
 import requireAuth from './containers/requireAuth';
 import VehicleCalendar from './components/vehiclecalendar';
 import { ActionTypes, getUser, getClubs, getVehicles } from './actions';
+import './styles/style.scss';
 import './styles/homepage-style.scss';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
@@ -64,8 +65,8 @@ const App = (props) => {
           <Route exact path="/" component={requireAuth(Dashboard)} />
           <Route path="/user" component={requireAuth(ProfilePage)} />
           <Route path="/all-trips" component={requireAuth(AllTrips)} />
-          <Route path="/vehiclerequest/:vehicleReqId" component={requireAuth(VehicleRequest, 'viewMode')} />
-          <Route path="/vehiclerequest" component={requireAuth(VehicleRequest)} />
+          <Route path="/vehicle-request/:vehicleReqId" component={requireAuth(VehicleRequest, 'viewMode')} />
+          <Route path="/vehicle-request" component={requireAuth(VehicleRequest)} />
           <Route path="/trip/:tripID" component={requireAuth(TripDetails)} />
           <Route path="/createtrip" component={requireAuth(CreateTrip)} />
           <Route path="/my-trips" component={requireAuth(MyTrips)} />
@@ -74,7 +75,7 @@ const App = (props) => {
           <Route path="/vehicle-requests" component={requireAuth(OpoVehicleRequests)} />
           <Route path="/opo-vehicle-request/:vehicleReqId" component={requireAuth(OpoVehicleRequest)} />
           <Route path="/opo-dashboard" component={requireAuth(OpoDashboard)} />
-          <Route path="/leader_approvals" component={requireAuth(OpoApprovals)} />
+          <Route path="/leader-approvals" component={requireAuth(OpoApprovals)} />
           <Route path="/vehicle-calendar" component={requireAuth(VehicleCalendar)} />
           <Route component={FallBack} />
         </Switch>
