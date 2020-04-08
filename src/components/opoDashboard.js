@@ -36,10 +36,6 @@ const OPODashboard = () => {
             <div className="titles">OPO Officer</div>
             <div className="titles"> Assignments</div>
         </NavLink> */}
-      <Switch>
-        <Route path="/opo-dashboard/trip_approvals" component={requireAuth(OpoTrips)} />
-        <Route path="/opo-dashboard/approvals" component={requireAuth(OpoApprovals)} />
-      </Switch>
     </div>
   );
 };
