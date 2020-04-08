@@ -9,7 +9,6 @@ import { Switch } from 'react-router';
 import reducers from './reducers';
 
 import Dashboard from './containers/dashboard';
-import Auth from './components/auth';
 import AllTrips from './components/allTrips';
 import CreateTrip from './components/createtrip';
 import MyTrips from './components/myTrips';
@@ -25,7 +24,7 @@ import OpoDashboard from './components/opoDashboard';
 import requireAuth from './containers/requireAuth';
 import VehicleCalendar from './components/vehiclecalendar';
 import { ActionTypes, getUser, getClubs, getVehicles } from './actions';
-import './styles/style.scss';
+import './styles/base.scss';
 import './styles/homepage-style.scss';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
