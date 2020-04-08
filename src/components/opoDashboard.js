@@ -10,52 +10,32 @@ import VehicleRequests from '../img/vehicle.svg';
 import LeaderApproval from '../img/leader.svg';
 import MyTrips from '../img/mytrips_icon.png';
 // import OPOAssignments from '../img/opoicon.svg';
-import '../styles/opo-dashboard-style.scss';
+import '../styles/opoDashboard.scss';
 
 const OPODashboard = () => {
   return (
     <div className="dashboard">
-      <div className="section">
-        <NavLink to="/opo-trips">
-          <div>
-            <img src={TripApprovals} alt="Trip Approval Icon" />
-            <p className="titles">Trip Approvals</p>
-          </div>
-        </NavLink>
-      </div>
-      <div className="section">
-        <NavLink to="/vehicle-requests">
-          <div>
-            <img src={VehicleRequests} alt="Vehicle Requests Icon" />
-            <p className="titles">Vehicle Requests</p>
-          </div>
-        </NavLink>
-      </div>
-      <div className="section">
-        <NavLink to="/leader-approvals">
-          <div>
-            <img src={LeaderApproval} alt="Leader Icon" />
-            <p className="titles">Profile Approvals</p>
-          </div>
-        </NavLink>
-      </div>
-      <div className="section">
-        {/* <NavLink to="/mytrips">
-          <div>
+      <NavLink className="section" to="/opo-trips">
+        <img src={TripApprovals} alt="Trip Approval Icon" />
+        <div className="titles">Trip Approvals</div>
+      </NavLink>
+      <NavLink className="section" to="/vehicle-requests">
+        <img src={VehicleRequests} alt="Vehicle Requests Icon" />
+        <div className="titles">Vehicle Requests</div>
+      </NavLink>
+      <NavLink className="section" to="/leader-approvals">
+        <img src={LeaderApproval} alt="Leader Icon" />
+        <div className="titles">Profile Approvals</div>
+      </NavLink>
+      {/* <NavLink className="section" to="/mytrips">
             <img src={MyTrips} alt="My Trips Icon" />
-            <p className="titles">My Trips</p>
-          </div>
+            <div className="titles">My Trips</div>
         </NavLink> */}
-      </div>
-      {/* <div className="section">
-        <NavLink to="/leader_approvals">
-          <div>
+      {/* <NavLink className="section" to="/leader_approvals">
             <img src={OPOAssignments} alt="Opo Icon" />
-            <p className="titles">OPO Officer</p>
-            <p className="titles"> Assignments</p>
-          </div>
-        </NavLink>
-      </div> */}
+            <div className="titles">OPO Officer</div>
+            <div className="titles"> Assignments</div>
+        </NavLink> */}
       <Switch>
         <Route path="/opo-dashboard/trip_approvals" component={requireAuth(OpoTrips)} />
         <Route path="/opo-dashboard/approvals" component={requireAuth(OpoApprovals)} />
