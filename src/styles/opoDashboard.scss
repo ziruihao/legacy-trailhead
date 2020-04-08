@@ -1,0 +1,28 @@
+.dashboard {
+  display: grid;
+  justify-content: space-evenly;
+  grid-template-columns: auto auto auto;
+
+  .section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    &:hover {
+      filter: brightness(1.2);
+    }
+  
+    .titles{
+      font-family: Nunito Sans;
+      font-weight: 800;
+      font-size: 20px;
+      line-height: 41px;
+      letter-spacing: 0.05em;
+      color:black;
+      margin-bottom: -.5rem;
+    }
+  }
+}
+
+
+
