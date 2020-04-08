@@ -20,7 +20,7 @@ import NavBar from './components/navbar';
 import OpoTrips from './components/opotrips';
 import OpoVehicleRequests from './components/opoVehicleRequests';
 import OpoVehicleRequest from './components/opoVehicleRequest';
-import OpoDashboard from './components/opoDashboard';
+import OPODashboard from './components/opoDashboard';
 import requireAuth from './containers/requireAuth';
 import VehicleCalendar from './components/vehiclecalendar';
 import { ActionTypes, getUser, getClubs, getVehicles } from './actions';
@@ -73,7 +73,7 @@ const App = (props) => {
           <Route path="/opo-trips" component={requireAuth(OpoTrips)} />
           <Route path="/vehicle-requests" component={requireAuth(OpoVehicleRequests)} />
           <Route path="/opo-vehicle-request/:vehicleReqId" component={requireAuth(OpoVehicleRequest)} />
-          <Route path="/opo-dashboard" component={requireAuth(OpoDashboard)} />
+          <Route path="/opo-dashboard" component={requireAuth(OPODashboard)} />
           <Route path="/leader-approvals" component={requireAuth(OpoApprovals)} />
           <Route path="/vehicle-calendar" component={requireAuth(VehicleCalendar)} />
           <Route component={FallBack} />
