@@ -33,7 +33,7 @@ class NavBar extends Component {
       if (this.props.user && this.props.user.role === 'OPO') {
         dashboard = (
           <NavLink
-            className={`nav-link ${this.props.history.location.pathname === '/opo-dashboard' || this.props.history.location.pathname === '/all-trips' ? 'active' : ''}`}
+            className={`nav-link ${this.props.history.location.pathname === '/opo-dashboard' || this.props.history.location.pathname === '/my-trips' ? 'current' : ''}`}
             to="/opo-dashboard"
           >
             Dashboard
@@ -41,14 +41,14 @@ class NavBar extends Component {
         );
       } else {
         dashboard = (
-          <NavLink className={`nav-link ${this.props.history.location.pathname === '/opo-dashboard' ? 'active' : ''}`} to="/my-trips">Dashboard</NavLink>
+          <NavLink className={`nav-link ${this.props.history.location.pathname === '/opo-dashboard' ? 'current' : ''}`} to="/my-trips">Dashboard</NavLink>
         );
       }
       return (
         <div className="nav-bar">
           {dashboard}
-          <NavLink className={`nav-link ${this.props.history.location.pathname === '/all-trips' ? 'active' : ''}`} to="/all-trips">All Trips</NavLink>
-          <NavLink className={`nav-link ${this.props.history.location.pathname === '/user' ? 'active' : ''}`} to="/user">Profile</NavLink>
+          <NavLink className={`nav-link ${this.props.history.location.pathname === '/all-trips' ? 'current' : ''}`} to="/all-trips">All Trips</NavLink>
+          <NavLink className={`nav-link ${this.props.history.location.pathname === '/user' ? 'current' : ''}`} to="/user">Profile</NavLink>
           {/* <Navbar collapseOnSelect fixed="top" expand="md" className="navbar-style">
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">

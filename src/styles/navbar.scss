@@ -24,7 +24,7 @@
       border-bottom: 3px solid white;
     }
 
-    &.active {
+    &.current {
       border-bottom: 3px solid white;
     }
   }
@@ -43,12 +43,10 @@
   .navbar-style{
     background-color: #1F8365;
     background-image: none;
-    // background-repeat: no-repeat;
     background-origin: border-box;
     background-clip: border-box;
     background-position: center;
     background-attachment: local;
-    // background-size: cover;ß
   }
 
 }
