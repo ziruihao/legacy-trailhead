@@ -255,7 +255,6 @@ export function signIn(email, password) {
     return new Promise((resolve, reject) => {
       axios.post(`${ROOT_URL}/signin`, { email, password }).then((response) => {
         localStorage.setItem('token', response.data.token);
-        console.log(response.data.user);
         dispatch({ type: ActionTypes.AUTH_USER });
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
         resolve();

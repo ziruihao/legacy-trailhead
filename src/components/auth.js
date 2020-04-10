@@ -8,7 +8,7 @@ import queryString from 'query-string'
 import { signIn, signOut, authed, getUser } from '../actions';
 import '../styles/homepage-style.scss';
 
-class Homepage extends Component {
+class Auth extends Component {
   // componentDidMount() {
   //   const values = queryString.parse(this.props.location.search);
   //   if (!this.props.authenticated) {
@@ -46,7 +46,7 @@ class Homepage extends Component {
 
   renderAuthOptions = () => {
     if (this.props.authenticated) {
-      return(<button className="signup-button" onClick={() => this.props.history.push('/alltrips')}>Let's Go!</button>);
+      return(<button className="signup-button" onClick={() => this.props.history.push('/')}>Let's Go!</button>);
     }
     else {
       return(
@@ -94,4 +94,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { signIn, signOut, authed, getUser })(Homepage));
+export default withRouter(connect(mapStateToProps, { signIn, signOut, authed, getUser })(Auth));

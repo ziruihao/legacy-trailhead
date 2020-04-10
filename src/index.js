@@ -7,10 +7,11 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 import reducers from './reducers';
-import Homepage from './components/homepage';
-import AllTrips from './components/alltrips';
+
+import Dashboard from './containers/dashboard';
+import AllTrips from './components/allTrips';
 import CreateTrip from './components/createtrip';
-import MyTrips from './components/mytrips';
+import MyTrips from './components/myTrips';
 import VehicleRequest from './components/vehiclerequest';
 import ProfilePage from './components/profilepage';
 import TripDetails from './components/tripdetails';
@@ -19,10 +20,11 @@ import NavBar from './components/navbar';
 import OpoTrips from './components/opotrips';
 import OpoVehicleRequests from './components/opoVehicleRequests';
 import OpoVehicleRequest from './components/opoVehicleRequest';
-import OpoDashboard from './components/opo_dashboard';
+import OPODashboard from './components/opoDashboard';
 import requireAuth from './containers/requireAuth';
 import VehicleCalendar from './components/vehiclecalendar';
 import { ActionTypes, getUser, getClubs, getVehicles } from './actions';
+import './styles/base.scss';
 import './styles/homepage-style.scss';
 
 // this creates the store with the reducers, and does some other stuff to initialize devtools
@@ -59,22 +61,21 @@ const App = (props) => {
       <NavBar />
       <div id="theBody">
         <Switch>
-          <Route exact path="/" component={Homepage} />
+          <Route exact path="/" component={requireAuth(Dashboard)} />
           <Route path="/user" component={requireAuth(ProfilePage)} />
-          <Route path="/alltrips" component={requireAuth(AllTrips)} />
-          <Route path="/vehiclerequest/:vehicleReqId" component={requireAuth(VehicleRequest, 'viewMode')} />
-          <Route path="/vehiclerequest" component={requireAuth(VehicleRequest)} />
+          <Route path="/all-trips" component={requireAuth(AllTrips)} />
+          <Route path="/vehicle-request/:vehicleReqId" component={requireAuth(VehicleRequest, 'viewMode')} />
+          <Route path="/vehicle-request" component={requireAuth(VehicleRequest)} />
           <Route path="/trip/:tripID" component={requireAuth(TripDetails)} />
           <Route path="/createtrip" component={requireAuth(CreateTrip)} />
-          <Route path="/mytrips" component={requireAuth(MyTrips)} />
+          <Route path="/my-trips" component={requireAuth(MyTrips)} />
           <Route path="/edittrip/:tripID" component={requireAuth(CreateTrip, 'editMode')} />
           <Route path="/opo-trips" component={requireAuth(OpoTrips)} />
           <Route path="/vehicle-requests" component={requireAuth(OpoVehicleRequests)} />
           <Route path="/opo-vehicle-request/:vehicleReqId" component={requireAuth(OpoVehicleRequest)} />
-          <Route path="/opo-dashboard" component={requireAuth(OpoDashboard)} />
-          <Route path="/leader_approvals" component={requireAuth(OpoApprovals)} />
+          <Route path="/opo-dashboard" component={requireAuth(OPODashboard)} />
+          <Route path="/leader-approvals" component={requireAuth(OpoApprovals)} />
           <Route path="/vehicle-calendar" component={requireAuth(VehicleCalendar)} />
-          <Route path="/authed" component={Homepage} />
           <Route component={FallBack} />
         </Switch>
       </div>
