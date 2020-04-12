@@ -9,7 +9,7 @@ import { Switch } from 'react-router';
 import reducers from './reducers';
 
 import Dashboard from './containers/dashboard';
-import AllTrips from './components/allTrips';
+import AllTrips from './containers/allTrips';
 import CreateTrip from './components/createtrip';
 import MyTrips from './components/myTrips';
 import VehicleRequest from './components/vehiclerequest';
