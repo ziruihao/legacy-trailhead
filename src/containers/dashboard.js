@@ -4,7 +4,7 @@ import { withRouter } from 'react-router';
 
 import OPODashboard from '../components/opoDashboard';
 import MyTrips from '../components/myTrips';
-import AllTrips from '../components/allTrips';
+import AllTrips from './allTrips';
 
 class Dashboard extends React.Component {
   render() {
