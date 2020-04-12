@@ -240,7 +240,7 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
         </div>
         <div className="trip-detail">
           {groupGearArray.map((gear, index, array) => (
-            <div key={index}>
+            <div key={gear.id}>
               <div className="leader-trip-detail-row">
                 <span>{gear}</span>
               </div>
