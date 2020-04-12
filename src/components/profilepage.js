@@ -25,7 +25,9 @@ class ProfilePage extends Component {
     allergies_dietary_restrictions: false,
     medical: false,
     height: false,
+    gender_shoe: false,
     shoe_size: false,
+    gender_clothes: false,
     clothe_size: false,
   }
 
@@ -39,7 +41,9 @@ class ProfilePage extends Component {
       allergies_dietary_restrictions: '',
       medical: '',
       height: '',
+      gender_shoe: '',
       shoe_size: '',
+      gender_clothes: '',
       clothe_size: '',
       clubsList: [],
       driver_cert: null,
@@ -84,7 +88,7 @@ class ProfilePage extends Component {
 
   isStringEmpty = (string) => {
     return string.length === 0 || !string.toString().trim();
-  };
+  }
 
   onDriverCertChange = (event) => {
     event.persist();
@@ -106,6 +110,24 @@ class ProfilePage extends Component {
     });
   }
 
+  onClotheGenderChange = (eventKey) => {
+    this.setState((prevState) => {
+      const updates = {};
+      updates.gender_clothes = eventKey;
+      updates.errorFields = Object.assign({}, prevState.errorFields, { gender_clothes: this.isStringEmpty(eventKey) });
+      return updates;
+    });
+  }
+
+  onShoeGenderChange = (eventKey) => {
+    this.setState((prevState) => {
+      const updates = {};
+      updates.gender_shoe = eventKey;
+      updates.errorFields = Object.assign({}, prevState.errorFields, { gender_shoe: this.isStringEmpty(eventKey) });
+      return updates;
+    });
+  }
+
   startEditing = () => {
     const { user } = this.props;
     this.setState({
@@ -116,8 +138,10 @@ class ProfilePage extends Component {
       allergies_dietary_restrictions: user.allergies_dietary_restrictions ? user.allergies_dietary_restrictions : '',
       medical: user.medical_conditions ? user.medical_conditions : '',
       height: user.height ? user.height : '',
-      clothe_size: user.clothe_size ? user.clothe_size : '',
-      shoe_size: user.shoe_size ? user.shoe_size : '',
+      gender_clothes: user.clothe_size ? user.clothe_size.split('-')[0] : '',
+      clothe_size: user.clothe_size ? user.clothe_size.split('-').pop() : '',
+      gender_shoe: user.shoe_size ? user.shoe_size.split('-')[0] : '',
+      shoe_size: user.shoe_size ? user.shoe_size.split('-').pop() : '',
       clubsList: user.has_pending_leader_change ? user.requested_clubs : user.leader_for,
       driver_cert: user.has_pending_cert_change ? user.requested_certs.driver_cert : user.driver_cert,
       trailer_cert: user.has_pending_cert_change ? user.requested_certs.trailer_cert : user.trailer_cert,
@@ -242,21 +266,56 @@ class ProfilePage extends Component {
 
   getClotheForm = () => {
     return (
-      <Dropdown onSelect={this.onClotheSizeChange}>
-        <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.clothe_size ? 'vrf-error' : ''}`}>
+      <div>
+        <Dropdown onSelect={this.onClotheGenderChange}>
+          <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.gender_clothes ? 'vrf-error' : ''}`}>
+            <span>
+              <span className={`selected-size ${this.isStringEmpty(this.state.gender_clothes) ? 'no-date' : ''}`}>
+                {this.isStringEmpty(this.state.gender_clothes) ? 'Select' : this.state.gender_clothes}
+              </span>
+              <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+            </span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="filter-options clothe-options">
+            <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
+            <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        <Dropdown onSelect={this.onClotheSizeChange}>
+          <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.clothe_size ? 'vrf-error' : ''}`}>
+            <span>
+              <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
+                {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
+              </span>
+              <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+            </span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="filter-options clothe-options">
+            <Dropdown.Item eventKey="XS">XS</Dropdown.Item>
+            <Dropdown.Item eventKey="S">S</Dropdown.Item>
+            <Dropdown.Item eventKey="M">M</Dropdown.Item>
+            <Dropdown.Item eventKey="L">L</Dropdown.Item>
+            <Dropdown.Item eventKey="XL">XL</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+      </div>
+    );
+  }
+
+  getShoeGender = () => {
+    return (
+      <Dropdown onSelect={this.onShoeGenderChange}>
+        <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.gender_shoe ? 'vrf-error' : ''}`}>
           <span>
-            <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
-              {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
+            <span className={`selected-size ${this.isStringEmpty(this.state.gender_shoe) ? 'no-date' : ''}`}>
+              {this.isStringEmpty(this.state.gender_shoe) ? 'Select' : this.state.gender_shoe}
             </span>
             <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
           </span>
         </Dropdown.Toggle>
         <Dropdown.Menu className="filter-options clothe-options">
-          <Dropdown.Item eventKey="XS">XS</Dropdown.Item>
-          <Dropdown.Item eventKey="S">S</Dropdown.Item>
-          <Dropdown.Item eventKey="M">M</Dropdown.Item>
-          <Dropdown.Item eventKey="L">L</Dropdown.Item>
-          <Dropdown.Item eventKey="XL">XL</Dropdown.Item>
+          <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
+          <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
@@ -338,8 +397,8 @@ class ProfilePage extends Component {
         dash_number: this.state.dash_number,
         allergies_dietary_restrictions: this.state.allergies_dietary_restrictions,
         medical_conditions: this.state.medical,
-        clothe_size: this.state.clothe_size,
-        shoe_size: this.state.shoe_size,
+        clothe_size: `${this.state.gender_clothes}-${this.state.clothe_size}`,
+        shoe_size: `${this.state.gender_shoe}-${this.state.shoe_size}`,
         height: this.state.height,
         driver_cert: this.state.driver_cert,
         trailer_cert: this.state.trailer_cert,
@@ -399,6 +458,7 @@ class ProfilePage extends Component {
                 displayLeaderFeedback={this.displayLeaderFeedback}
                 getClubForm={this.getClubForm}
                 getClotheForm={this.getClotheForm}
+                getShoeGender={this.getShoeGender}
                 errorFields={this.state.errorFields}
                 user={this.props.user}
               />
