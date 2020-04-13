@@ -242,7 +242,7 @@ const ProfileCard = (props) => {
                 Shoe Size
               </span>
               <span className="card-info">
-              {props.getShoeGender()}
+                {props.getShoeGender()}
                 <input
                   type="number"
                   name="shoe_size"
