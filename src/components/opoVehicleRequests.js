@@ -67,8 +67,8 @@ class OpoVehicleRequests extends Component {
       return request.status === 'pending';
     });
 
-    if (!this.state.seePastReviewedRequests) {
-    }
+    // if (!this.state.seePastReviewedRequests) {
+    // }
 
     if (pendingRequests.length === 0) {
       return (
