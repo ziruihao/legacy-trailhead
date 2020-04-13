@@ -2,8 +2,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import { isOnTrip, fetchTrip } from '../actions';
+import { isOnTrip } from '../actions';
 import '../styles/card-style.scss';
+
+
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -38,11 +40,32 @@ class TripDetailsModal extends Component {
     constructor(props) {
         super(props);
     }
-    async componentDidMount() {
+    componentDidMount() {
         if (!this.props.authenticated) {
           alert('Please sign in/sign up to view this page');
           this.props.history.push('/');
         }
+        this.props.isOnTrip(this.props.trip.id); // this could take 3 ms or 10 years
+      }
+
+      renderTripActionButton = () => {
+        if (this.props.user.role === 'Trippee') {
+          console.log(this.props.isUserOnTrip);
+          switch(this.props.isUserOnTrip) {
+            case 'APPROVED':
+              return 'You are on this trip.'
+            case 'PENDING':
+              return 'Waiting leader approval'
+            case 'NONE':
+              return 'Sign up for trip!'
+            default:
+              return 'Sign up for trip!'
+          }
+        }
+          else 
+          {
+            return 'Manage this trip'
+          }
       }
 
     render() {
@@ -127,21 +150,21 @@ class TripDetailsModal extends Component {
           </div>
           <div className="button-container">
             <NavLink className="btn btn-primary" id="signup-button" to={`/trip/${this.props.trip.id}`}>
-                Sign up for Trip!
+              {this.renderTripActionButton()}
             </NavLink>
           </div>
         </div>
-
-
       );
     }
 }
+
 // connects particular parts of redux state to this components props
 const mapStateToProps = state => (
     {
+      //userTripStatus: state.trips.userTripStatus,
       isUserOnTrip: state.trips.isUserOnTrip,
       authenticated: state.auth.authenticated,
       user: state.user.user,
     }
   );
-export default withRouter(connect(mapStateToProps, { fetchTrip, isOnTrip })(TripDetailsModal)); // connected component
+export default withRouter(connect(mapStateToProps, { isOnTrip })(TripDetailsModal)); // connected component

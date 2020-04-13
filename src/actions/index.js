@@ -243,6 +243,7 @@ export function getMyTrips() {
 export function isOnTrip(tripID) {
   return (dispatch) => {
     axios.get(`${ROOT_URL}/isOnTrip/${tripID}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+      console.log(response);
       dispatch({ type: ActionTypes.IS_ON_TRIP, payload: response.data.isOnTrip });
     }).catch((error) => {
       console.log(error);
