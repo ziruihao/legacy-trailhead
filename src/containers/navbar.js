@@ -15,11 +15,6 @@ class NavBar extends Component {
     });
   }
 
-  goToDashboard = () => {
-    this.props.history.push('/opo-dashboard');
-  };
-
-
   render() {
     if (!this.props.authenticated) {
       return (
