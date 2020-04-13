@@ -85,8 +85,8 @@ const getGear = (props) => {
   }
 };
 
-const getStatusBanner = (userTripStatus) => {
-  switch (userTripStatus) {
+const getStatusBanner = (isUserOnTrip) => {
+  switch (isUserOnTrip) {
     case 'NONE':
       return null;
     case 'PENDING':
@@ -121,7 +121,8 @@ const getStatusBanner = (userTripStatus) => {
 };
 
 const getAppropriateButton = (props) => {
-  switch (props.userTripStatus) {
+  console.log(props.isUserOnTrip);
+  switch (props.isUserOnTrip) {
     case 'NONE':
       return <button type="submit" className="signup-button" onClick={props.signUp}>Sign up for Trip!</button>;
     case 'PENDING':
@@ -142,7 +143,7 @@ const getAppropriateButton = (props) => {
 };
 
 const getAppropriateLink = (props) => {
-  switch (props.userTripStatus) {
+  switch (props.isUserOnTrip) {
     case 'NONE':
       return <span className="cancel-link" onClick={props.goBack} role="button" tabIndex={0}>Go Back</span>;
     case 'PENDING':
@@ -166,7 +167,7 @@ const TripeeTripDetails = (props) => {
       </div>
       <div className="trip-details-content">
 
-        {getStatusBanner(props.userTripStatus)}
+        {getStatusBanner(props.isUserOnTrip)}
 
         <h1 className="p-trip-title">{props.trip.title}</h1>
         <div className="trip-club-container">
