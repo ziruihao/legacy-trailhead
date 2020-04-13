@@ -25,22 +25,22 @@ class Auth extends Component {
   fakeSignIn = (type) => {
     switch(type) {
       case 'opo':
-        this.props.signIn('opo', 'opo');
+        this.props.signIn('opo@dartmouth.edu', 'opo');
         break;
       case 'leader':
-        this.props.signIn('leader', 'leader');
+        this.props.signIn('leader@dartmouth.edu', 'leader');
         break;
       case 'trippee1':
-        this.props.signIn('trippee1', 'trippee1');
+        this.props.signIn('trippee1@dartmouth.edu', 'trippee1');
         break;
       case 'trippee2':
-        this.props.signIn('trippee2', 'trippee2');
+        this.props.signIn('trippee2@dartmouth.edu', 'trippee2');
         break;
       case 'trippee3':
-        this.props.signIn('trippee3', 'trippee3');
+        this.props.signIn('trippee3@dartmouth.edu', 'trippee3');
         break;
       default:
-        this.props.signIn('opo', 'opo');
+        this.props.signIn('opo@dartmouth.edu', 'opo');
     }
   }
 

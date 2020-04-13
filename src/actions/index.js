@@ -63,6 +63,8 @@ export function getUser() {
         })
         .catch((error) => {
           dispatch(appError(`Get user failed: ${error.response.data}`));
+          console.log(error);
+          reject(error);
         });
     });
   };
@@ -312,11 +314,17 @@ export function signOut(history) {
 
 export function getClubs() {
   return (dispatch) => {
-    axios
-      .get(`${ROOT_URL}/club`)
-      .then((response) => {
-        dispatch({ type: ActionTypes.ALL_CLUBS, payload: response.data });
-      });
+    return new Promise((resolve, reject) => {
+      axios.get(`${ROOT_URL}/club`)
+        .then((response) => {
+          dispatch({ type: ActionTypes.ALL_CLUBS, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          dispatch(appError(`Error fetching clubs: ${error}`));
+          console.log(error);
+          reject(error);
+        });
+    });
   };
 }
 
@@ -333,6 +341,7 @@ export function fetchLeaderApprovals() {
         }).catch((error) => {
           dispatch(appError(`Error fetching leader requests: ${error}`));
           console.log(error);
+          reject(error);
         });
     });
   };
@@ -539,10 +548,14 @@ export function getVehicles() {
       axios.get(`${ROOT_URL}/vehicles`, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_VEHICLES, payload: response.data });
-          resolve();
+          setTimeout(() => {
+            resolve();
+          }, 1000);
+          // resolve();
         }).catch((error) => {
-          console.log(error);
           dispatch(appError(`Error fetching vehicles : ${error}`));
+          console.log(error);
+          reject(error);
         });
     });
   };

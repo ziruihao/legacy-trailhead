@@ -29,36 +29,22 @@ class NavBar extends Component {
         </div>
       );
     } else {
-      let dashboard;
-      if (this.props.user && this.props.user.role === 'OPO') {
-        dashboard = (
-          <NavLink
-            className={`nav-link ${this.props.history.location.pathname === '/opo-dashboard' || this.props.history.location.pathname === '/my-trips' ? 'current' : ''}`}
-            to="/opo-dashboard"
-          >
-            Dashboard
-          </NavLink>
-        );
-      } else {
-        dashboard = (
-          <NavLink className={`nav-link ${this.props.history.location.pathname === '/opo-dashboard' ? 'current' : ''}`} to="/my-trips">Dashboard</NavLink>
-        );
-      }
       return (
         <div className="nav-bar">
-          {dashboard}
+          {this.props.user && this.props.user.role === 'OPO'
+            ? (
+              <NavLink
+                className={`nav-link ${this.props.history.location.pathname === '/opo-dashboard' ? 'current' : ''}`}
+                to="/opo-dashboard"
+              >
+              Dashboard
+              </NavLink>
+            )
+            : null
+          }
+          <NavLink className={`nav-link ${this.props.history.location.pathname === '/my-trips' ? 'current' : ''}`} to="/my-trips">My Trips</NavLink>
           <NavLink className={`nav-link ${this.props.history.location.pathname === '/all-trips' ? 'current' : ''}`} to="/all-trips">All Trips</NavLink>
           <NavLink className={`nav-link ${this.props.history.location.pathname === '/user' ? 'current' : ''}`} to="/user">Profile</NavLink>
-          {/* <Navbar collapseOnSelect fixed="top" expand="md" className="navbar-style">
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <Nav>
-                {dashboard}
-                <NavLink to="/all-trips">All Trips</NavLink>
-                <NavLink to="/user">Profile</NavLink>
-              </Nav>
-            </Navbar.Collapse>
-          </Navbar> */}
           {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
         </div>
       );

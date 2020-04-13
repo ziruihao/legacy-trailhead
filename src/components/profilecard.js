@@ -11,8 +11,7 @@ const displayClubs = (userClubs) => {
   userClubs.forEach((club) => {
     clubString = clubString.concat(`${club.name}, `);
   });
-  const clubs = clubString.length - 2 <= 0
-    ? NONE_CONSTANT : clubString.substring(0, clubString.length - 2);
+  const clubs = clubString.length - 2 <= 0 ? NONE_CONSTANT : clubString.substring(0, clubString.length - 2);
   return clubs;
 };
 
