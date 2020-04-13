@@ -251,85 +251,85 @@ class OPOVehicleRequest extends Component {
       return false;
     }
 
-    let hasConflictingEvent = false;
-    const { vehicles } = this.props;
-    const markedConflictingAssignments = assignments.map((assignment) => {
-      if (!this.isStringEmpty(assignment.assignedVehicle)
-        && !this.isStringEmpty(assignment.pickupDate)
-        && !this.isStringEmpty(assignment.pickupTime)
-        && !this.isStringEmpty(assignment.returnDate)
-        && !this.isStringEmpty(assignment.returnTime)
-        && assignment.assignedVehicle !== 'Enterprise') {
-        const selectedVehicle = vehicles.find((vehicle) => { // consider selected vehicle
-          return vehicle.name === assignment.assignedVehicle;
-        });
-        let selectedVehicleBookings;
-        if (assignment.existingAssignment) { // is update to response
-          const oldAssignment = this.props.vehicleRequest.assignments.find((element) => { // find old assignment
-            return element.id === assignment.id;
-          });
-          if (assignment.assignVehicle === oldAssignment.assignVehicle) { // if vehicle was not changed,
-            selectedVehicleBookings = selectedVehicle.bookings.filter((booking) => { // remove modified assignment to avoid conflicting with self when checking for validity
-              return booking.id !== assignment.id;
-            });
-          } else { // vehicle was changed
-            selectedVehicleBookings = selectedVehicle.bookings; // no need to remove because assignment does not exist in new assigned vehicle
-          }
-        } else { // is new response
-          selectedVehicleBookings = selectedVehicle.bookings;
-        }
-        const bookingsWithDateAndTime = selectedVehicleBookings.map((booking) => {
-          const updates = {};
-          updates.pickupDateAndTime = this.createDateObject(booking.assigned_pickupDate, booking.assigned_pickupTime);
-          updates.returnDateAndTime = this.createDateObject(booking.assigned_returnDate, booking.assigned_returnTime);
-          return Object.assign({}, booking, updates);
-        });
+    // let hasConflictingEvent = false;
+    // const { vehicles } = this.props;
+    // const markedConflictingAssignments = assignments.map((assignment) => {
+    //   if (!this.isStringEmpty(assignment.assignedVehicle)
+    //     && !this.isStringEmpty(assignment.pickupDate)
+    //     && !this.isStringEmpty(assignment.pickupTime)
+    //     && !this.isStringEmpty(assignment.returnDate)
+    //     && !this.isStringEmpty(assignment.returnTime)
+    //     && assignment.assignedVehicle !== 'Enterprise') {
+    //     const selectedVehicle = vehicles.find((vehicle) => { // consider selected vehicle
+    //       return vehicle.name === assignment.assignedVehicle;
+    //     });
+    //     let selectedVehicleBookings;
+    //     if (assignment.existingAssignment) { // is update to response
+    //       const oldAssignment = this.props.vehicleRequest.assignments.find((element) => { // find old assignment
+    //         return element.id === assignment.id;
+    //       });
+    //       if (assignment.assignVehicle === oldAssignment.assignVehicle) { // if vehicle was not changed,
+    //         selectedVehicleBookings = selectedVehicle.bookings.filter((booking) => { // remove modified assignment to avoid conflicting with self when checking for validity
+    //           return booking.id !== assignment.id;
+    //         });
+    //       } else { // vehicle was changed
+    //         selectedVehicleBookings = selectedVehicle.bookings; // no need to remove because assignment does not exist in new assigned vehicle
+    //       }
+    //     } else { // is new response
+    //       selectedVehicleBookings = selectedVehicle.bookings;
+    //     }
+    //     const bookingsWithDateAndTime = selectedVehicleBookings.map((booking) => {
+    //       const updates = {};
+    //       updates.pickupDateAndTime = this.createDateObject(booking.assigned_pickupDate, booking.assigned_pickupTime);
+    //       updates.returnDateAndTime = this.createDateObject(booking.assigned_returnDate, booking.assigned_returnTime);
+    //       return Object.assign({}, booking, updates);
+    //     });
 
-        const assignmentUpdates = {};
-        assignmentUpdates.pickupDateAndTime = this.createDateObject(assignment.pickupDate, assignment.pickupTime);
-        assignmentUpdates.returnDateAndTime = this.createDateObject(assignment.returnDate, assignment.returnTime);
-        const assignmentWithDateAndTime = Object.assign({}, assignment, assignmentUpdates);
+    //     const assignmentUpdates = {};
+    //     assignmentUpdates.pickupDateAndTime = this.createDateObject(assignment.pickupDate, assignment.pickupTime);
+    //     assignmentUpdates.returnDateAndTime = this.createDateObject(assignment.returnDate, assignment.returnTime);
+    //     const assignmentWithDateAndTime = Object.assign({}, assignment, assignmentUpdates);
 
-        bookingsWithDateAndTime.push(assignmentWithDateAndTime);
+    //     bookingsWithDateAndTime.push(assignmentWithDateAndTime);
 
-        bookingsWithDateAndTime.sort((booking1, booking2) => {
-          if (booking1.pickupDateAndTime < booking2.pickupDateAndTime) {
-            return -1;
-          }
-          if (booking1.pickupDateAndTime > booking2.pickupDateAndTime) {
-            return 1;
-          }
-          return 0;
-        });
-        const conflictsWithEvent = bookingsWithDateAndTime.some((booking, index, array) => {
-          let isConflicting = false;
-          if (index < array.length - 1) {
-            isConflicting = booking.returnDateAndTime >= array[index + 1].pickupDateAndTime;
-          }
-          return isConflicting;
-        });
-        if (conflictsWithEvent) {
-          const updatedErrorFields = { ...this.errorFields };
-          updatedErrorFields.pickupDate = true;
-          updatedErrorFields.pickupTime = true;
-          updatedErrorFields.returnDate = true;
-          updatedErrorFields.returnTime = true;
-          assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
-          hasConflictingEvent = true;
-        }
+    //     bookingsWithDateAndTime.sort((booking1, booking2) => {
+    //       if (booking1.pickupDateAndTime < booking2.pickupDateAndTime) {
+    //         return -1;
+    //       }
+    //       if (booking1.pickupDateAndTime > booking2.pickupDateAndTime) {
+    //         return 1;
+    //       }
+    //       return 0;
+    //     });
+    //     const conflictsWithEvent = bookingsWithDateAndTime.some((booking, index, array) => {
+    //       let isConflicting = false;
+    //       if (index < array.length - 1) {
+    //         isConflicting = booking.returnDateAndTime >= array[index + 1].pickupDateAndTime;
+    //       }
+    //       return isConflicting;
+    //     });
+    //     if (conflictsWithEvent) {
+    //       const updatedErrorFields = { ...this.errorFields };
+    //       updatedErrorFields.pickupDate = true;
+    //       updatedErrorFields.pickupTime = true;
+    //       updatedErrorFields.returnDate = true;
+    //       updatedErrorFields.returnTime = true;
+    //       assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
+    //       hasConflictingEvent = true;
+    //     }
 
-        return assignment;
-      } else {
-        return assignment;
-      }
-    });
+    //     return assignment;
+    //   } else {
+    //     return assignment;
+    //   }
+    // });
 
-    if (hasConflictingEvent) {
-      this.setState({ assignments: markedConflictingAssignments });
-      this.props.appError('The highlighted assignment conflicts with an already existing one');
-      window.scrollTo(0, 0);
-      return false;
-    }
+    // if (hasConflictingEvent) {
+    //   this.setState({ assignments: markedConflictingAssignments });
+    //   this.props.appError('The highlighted assignment conflicts with an already existing one');
+    //   window.scrollTo(0, 0);
+    //   return false;
+    // }
 
     return true;
   }

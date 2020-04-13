@@ -559,6 +559,7 @@ export function assignVehicles(vehicleResponse, finishEditing) {
         }).catch((error) => {
           console.log(error);
           dispatch(appError(`Error responding to vehicle request: ${error}`));
+          reject(error);
         });
     });
   };
