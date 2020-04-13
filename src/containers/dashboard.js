@@ -2,19 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import OPODashboard from '../components/opoDashboard';
-import MyTrips from '../components/myTrips';
-import AllTrips from '../components/allTrips';
-
 class Dashboard extends React.Component {
   render() {
     if (this.props.user) {
       if (this.props.user.role === 'OPO') {
-        return (<OPODashboard />);
+        this.props.history.push('/opo-dashboard');
+        return null;
       } else if (this.props.user.role === 'Leader') {
-        return (<MyTrips />);
+        this.props.history.push('/my-trips');
+        return null;
       } else {
-        return (<AllTrips />);
+        this.props.history.push('/all-trips');
+        return null;
       }
     } else {
       return <div>Loading</div>;
