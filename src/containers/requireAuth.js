@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { signIn, appError, updateRestrictedPath, getUser } from '../actions';
 import Auth from '../components/auth';
 
-export default function (ComposedComponent, switchMode) {
+export default function (ComposedComponent, dataLoader, switchMode) {
   class RequireAuth extends Component {
     // componentWillMount() {
     //   if (!this.props.authenticated) {
@@ -29,6 +29,7 @@ export default function (ComposedComponent, switchMode) {
     // }
 
     render() {
+      console.log('redux says authenticated?', this.props.authenticated);
       return (
         <div>
           {this.props.authenticated
@@ -38,7 +39,7 @@ export default function (ComposedComponent, switchMode) {
                 {...this.props}
               />
             )
-            : <Auth />}
+            : <Auth dataLoader={dataLoader} />}
         </div>
       );
     }

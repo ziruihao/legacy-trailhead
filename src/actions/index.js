@@ -253,14 +253,16 @@ export function isOnTrip(tripID) {
   };
 }
 
-export function signIn(email, password) {
+export function signIn(email, password, dataLoader) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios.post(`${ROOT_URL}/signin`, { email, password }).then((response) => {
         localStorage.setItem('token', response.data.token);
         dispatch({ type: ActionTypes.AUTH_USER });
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        resolve();
+        dataLoader().then(() => {
+          resolve();
+        });
       }).catch((error) => {
         reject(error);
       });
