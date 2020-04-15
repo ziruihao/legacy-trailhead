@@ -75,6 +75,7 @@ class OpoVehicleRequests extends Component {
     const searchedRequests = pendingRequests.filter((request) => {
       const reason = request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title;
       return request.requestDetails.concat([request.requester.name, reason]).toLowerCase().includes(this.state.searchPendingTerm.toLowerCase());
+      // return true;
     });
     if (searchedRequests.length === 0) {
       return (
@@ -112,6 +113,7 @@ class OpoVehicleRequests extends Component {
     }
     const searchedRequests = approvedRequests.filter((request) => {
       const reason = request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title;
+      // return true;
       return request.requestDetails.concat([request.requester.name, reason]).toLowerCase().includes(this.state.searchReviewedTerm.toLowerCase());
     });
     if (searchedRequests.length === 0) {
