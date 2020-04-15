@@ -23,11 +23,13 @@ const store = createStore(reducers, {}, compose(
 const token = localStorage.getItem('token');
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 if (token) {
+  console.log('there is a token');
   axios.get(`${ROOT_URL}/user`, { headers: { authorization: token } })
     .then(() => {
       store.dispatch({ type: ActionTypes.AUTH_USER });
     })
     .catch(() => {
+      console.log('token doesnt work');
       localStorage.clear();
       store.dispatch({ type: ActionTypes.DEAUTH_USER });
     });

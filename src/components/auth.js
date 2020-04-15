@@ -22,25 +22,29 @@ class Auth extends Component {
   //   }
   // }
 
+  signInAndThenLoadData = (email, password) => {
+    this.props.signIn(email, password, this.props.dataLoader);
+  }
+
   fakeSignIn = (type) => {
     switch(type) {
       case 'opo':
-        this.props.signIn('opo@dartmouth.edu', 'opo');
+        this.signInAndThenLoadData('opo@dartmouth.edu', 'opo');
         break;
       case 'leader':
-        this.props.signIn('leader@dartmouth.edu', 'leader');
+        this.signInAndThenLoadData('leader@dartmouth.edu', 'leader');
         break;
       case 'trippee1':
-        this.props.signIn('trippee1@dartmouth.edu', 'trippee1');
+        this.signInAndThenLoadData('trippee1@dartmouth.edu', 'trippee1');
         break;
       case 'trippee2':
-        this.props.signIn('trippee2@dartmouth.edu', 'trippee2');
+        this.signInAndThenLoadData('trippee2@dartmouth.edu', 'trippee2');
         break;
       case 'trippee3':
-        this.props.signIn('trippee3@dartmouth.edu', 'trippee3');
+        this.signInAndThenLoadData('trippee3@dartmouth.edu', 'trippee3');
         break;
       default:
-        this.props.signIn('opo@dartmouth.edu', 'opo');
+        this.signInAndThenLoadData('opo@dartmouth.edu', 'opo');
     }
   }
 
