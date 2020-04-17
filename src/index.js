@@ -25,8 +25,9 @@ const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090
 if (token) {
   console.log('there is a token');
   axios.get(`${ROOT_URL}/user`, { headers: { authorization: token } })
-    .then(() => {
-      store.dispatch({ type: ActionTypes.AUTH_USER });
+    .then((r) => {
+      console.log(r);
+      // store.dispatch({ type: ActionTypes.AUTH_USER });
     })
     .catch(() => {
       console.log('token doesnt work');
