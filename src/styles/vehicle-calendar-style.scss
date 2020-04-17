@@ -1,3 +1,5 @@
+@import './base.scss';
+
 .vehicle-calendar-container{
   width: 95%;
   margin: 0 auto;
@@ -22,7 +24,7 @@
   word-break: break-word;
   font-size: 1em;
   font-weight: 700;
-  color: #3AA988;
+  color: $green;
 }
 .timegrid-latch{
   width: 95%;
@@ -38,56 +40,69 @@
   display: flex;
   flex-direction: column;
   background: white;
+  border: 2px solid $green !important;
   color: black;
   height: 100%;
+  &.conflict {
+    background: $error-red-light;
+    border: 2px solid $error-red-deep !important;
+  }
+
+  &.hoverable-booking:hover .booking-tooltip{
+    display: unset;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+  }
+  &.hoverable-booking:hover .booking-mini-details{
+    display: none;
+  }
+
+  .booking-time{
+    font-size: 0.8em;
+  }
+
+  .booking-reason{
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-bottom: 0.3em;
+    height: 50%;
+  }
+
+  .booking-mini-details{
+    display: flex;
+    white-space: nowrap;
+    font-size: 0.9em;
+    height: 50%;
+    align-items: center;
+
+    .booking-status-container{
+      display: flex;
+      align-items: center;
+    
+      .booking-dot{
+        padding-bottom: 0.5em;
+        margin-left: 0.03em;
+        margin-right: 0.03em;
+        font-size: 2.2em;
+      }
+      .booking-pickedUp, .booking-returned{
+        font-weight: 700;
+      }
+    }
+  }
+  .booking-tooltip{
+    display: none;
+    z-index: 1;
+  }
 }
 .rbc-event{
-  background: white;
-  border: 2px solid #3AA988 !important;
+  padding: 0;
+  // background: white;
+  // border: 2px solid $green !important;
 }
-.booking-reason{
-  font-weight: 700;
-  white-space: nowrap;
-  overflow: hidden;
-  margin-bottom: 0.3em;
-  height: 50%;
-}
-.booking-mini-details{
-  display: flex;
-  white-space: nowrap;
-  font-size: 0.9em;
-  height: 50%;
-  align-items: center;
-}
-.booking-time{
-  font-size: 0.8em;
-}
-.booking-dot{
-  padding-bottom: 0.5em;
-  margin-left: 0.03em;
-  margin-right: 0.03em;
-  font-size: 2.2em;
-}
-.booking-pickedUp, .booking-returned{
-  font-weight: 700;
-}
-.booking-tooltip{
-  display: none;
-  z-index: 1;
-}
-.hoverable-booking:hover .booking-tooltip{
-  display: unset;
-  z-index: 1;
-  position: absolute;
-  top: 50%;
-}
-.hoverable-booking:hover .booking-mini-details{
-  display: none;
-}
-.booking-status-container{
-  display: flex;
-  align-items: center;
-}
+
 .vcm-container{
   padding: 1em;
 }
