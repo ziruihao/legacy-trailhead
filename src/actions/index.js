@@ -191,7 +191,7 @@ export function emailTrip(id, subject, body, history) {
 
 export function createTrip(trip, history) {
   return (dispatch) => {
-    axios.post(`${ROOT_URL}/alltrips`, trip, { headers: { authorization: localStorage.getItem('token') } })
+    axios.post(`${ROOT_URL}/all-trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         history.push('/alltrips');
       })

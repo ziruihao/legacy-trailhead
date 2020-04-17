@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips, getClubs } from '../actions';
 import '../styles/card-style.scss';
-import TripDetailsModal from './tripDetailsModal';
-
-
+import TripDetailsModal from '../components/tripDetailsModal';
 
 class AllTrips extends Component {
   constructor(props) {
@@ -17,6 +15,7 @@ class AllTrips extends Component {
       grid: true,
       showTrip: null,
       startDate: "",
+      seePastTrips: false,
     };
   }
 
@@ -74,6 +73,7 @@ class AllTrips extends Component {
         </select>
     );
   }
+
   renderBeginnerDropdown = () => {
     return (
         <select
@@ -88,33 +88,47 @@ class AllTrips extends Component {
         </select>
     );
   }
-renderStartDropdown = () => {
-  return(
-    <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value}); }} className="custom-select all-trips-date-select" value={this.state.startDate} />
-  );
 
-}
-setCurrTrip = (trip) => {
-  this.setState({
-    showTrip: trip
-  });
-}
-renderTripDetailsModal=()=>{
-  if(this.state.showTrip === null || this.state.showTrip === undefined ){
-    return null;
-  }else{
+  renderStartDropdown = () => {
     return(
-      <TripDetailsModal className = "modal" trip = {this.state.showTrip}  closeModal = {() => this.closeTripModal()}/>
+      <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value}); }} className="custom-select all-trips-date-select" value={this.state.startDate} />
     );
+
   }
-}
+
+  setCurrTrip = (trip) => {
+    this.setState({
+      showTrip: trip
+    });
+  }
+
+  renderTripDetailsModal=()=>{
+    if(this.state.showTrip === null || this.state.showTrip === undefined ){
+      return null;
+    }else{
+      return(
+        <TripDetailsModal className = "modal" trip = {this.state.showTrip}  closeModal = {() => this.closeTripModal()}/>
+      );
+    }
+  }
+
   renderTrips = () => {
-    const sortedTrips = this.props.trips.sort(this.compareStartDates);
-    if(this.state.startDate!==""){
+    let sortedTrips = this.props.trips.sort(this.compareStartDates);
+    if (this.state.startDate!==""){
       sortedTrips.sort(this.compareStartDateWithInput);
     }
-    let tripsGrid = sortedTrips;
-    if(this.state.beginner === "all") {
+
+    if (!this.state.seePastTrips) {
+      sortedTrips = sortedTrips.filter(trip => {
+        const startDate = new Date(trip.startDate)
+        const today = new Date();
+        return today < startDate;
+      })
+    }
+
+    let tripsGrid = [];
+
+    if (this.state.beginner === "all") {
        tripsGrid = sortedTrips.filter(trip => (this.state.club === '' || trip.club.name === this.state.club )).map((trip) => {
         let card_id = trip.club.name;
         if(card_id==="Cabin and Trail") card_id = "cnt";
@@ -139,7 +153,7 @@ renderTripDetailsModal=()=>{
 
 
       });
-    }else{
+    } else{
       let experienceNeeded = "";
       if(this.state.beginner === "yes"){
         experienceNeeded= false;
@@ -163,7 +177,6 @@ renderTripDetailsModal=()=>{
                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                  <p className="card-text">{this.formatDescription(trip.description)}</p>
                  <p className="card-club">{trip.club ? trip.club.name : ''}</p>
-
                </div>
            </div>
          );
@@ -171,7 +184,6 @@ renderTripDetailsModal=()=>{
 
      });
     }
-
 
     if (tripsGrid.length === 0) {
       return <div>No upcoming trips for this club</div>;
@@ -196,6 +208,15 @@ renderTripDetailsModal=()=>{
             <div className = "all-trips-dropdown-header"> Experience Needed? </div>  {this.renderBeginnerDropdown()}
             <div className = "all-trips-dropdown-header"> Subclub: </div>  {this.renderClubDropdown()}
             <div className = "all-trips-dropdown-header"> Start: </div>  {this.renderStartDropdown()}
+            <div className="form-check all-trips-dropdown-header">
+              <input className="form-check-input" type="checkbox" value={this.state.seePastTrips} id="defaultCheck1" onChange={(e) => {
+                this.setState(prevState => {
+                  return {seePastTrips: !prevState.seePastTrips}
+                })}} />
+              <label className="form-check-label" htmlFor="defaultCheck1">
+                See past trips
+              </label>
+            </div>
           </div>
           <div className="box">
 
