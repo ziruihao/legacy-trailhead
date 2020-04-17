@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
-import VehicleCalendarComponent from './vehicleCalendarComponent';
+import VehicleCalendarComponent from '../components/vehicleCalendarComponent';
 import loadingGif from '../img/loading-gif.gif';
 import '../styles/vehicle-calendar-style.scss';
 
@@ -185,11 +185,10 @@ class VehicleCalendar extends Component {
   }
 
   eventStyleGetter = (event, start, end, isSelected) => {
-    console.log(event);
-    // const backgroundColor = `#${event.hexColor}`;
     if (event.conflicts.length > 0) {
       const style = {
-        backgroundColor: '#ff0000',
+        backgroundColor: '#FFD8D8',
+        borderColor: '#A93A3A',
         borderRadius: '0px',
         opacity: 0.8,
         color: 'black',
@@ -202,6 +201,7 @@ class VehicleCalendar extends Component {
     } else {
       const style = {
         backgroundColor: '#ffffff',
+        borderColor: '#3AA988',
         borderRadius: '0px',
         opacity: 0.8,
         color: 'black',
