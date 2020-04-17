@@ -363,8 +363,8 @@ const PCardRequest = (props) => {
           <Table responsive="lg">
             <thead>
               <tr>
-                <th>Approx. # of participants</th>
-                <th># on trip (including leaders)</th>
+                <th>Estimated # of participants that usually signs up</th>
+                <th>Current # on trip (including leaders)</th>
               </tr>
             </thead>
             <tbody>

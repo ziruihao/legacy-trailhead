@@ -193,7 +193,7 @@ renderTripDetailsModal=()=>{
       return (
         <div className="tile-box">
           <div className = "all-trips-dropdown-bar">
-            <div className = "all-trips-dropdown-header"> Beginner: </div>  {this.renderBeginnerDropdown()}
+            <div className = "all-trips-dropdown-header"> Experience Needed? </div>  {this.renderBeginnerDropdown()}
             <div className = "all-trips-dropdown-header"> Subclub: </div>  {this.renderClubDropdown()}
             <div className = "all-trips-dropdown-header"> Start: </div>  {this.renderStartDropdown()}
           </div>
