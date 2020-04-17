@@ -17,7 +17,7 @@ import OpoVehicleRequests from '../components/opoVehicleRequests';
 import OpoVehicleRequest from '../components/opoVehicleRequest';
 import OPODashboard from '../components/opoDashboard';
 import requireAuth from './requireAuth';
-import VehicleCalendar from '../components/vehiclecalendar';
+import VehicleCalendar from './vehicleCalendar';
 
 import { getUser, getClubs, getVehicles } from '../actions';
 
