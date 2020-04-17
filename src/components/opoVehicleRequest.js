@@ -453,7 +453,7 @@ class OPOVehicleRequest extends Component {
         return element.responseIndex === index;
       });
       return (
-        <div key={`vehicle_link_${index}`} className="ovr-sidebar-req-section">
+        <div key={vehicle.id} className="ovr-sidebar-req-section">
           <a href={`#vehicle_req_${index}`} className="ovr-req-section-link">Vehicle #{index + 1}</a>
           {assignment ? <img className="assigned-badge" src={this.badges.approved} alt="approved_badge" /> : null}
         </div>
@@ -702,7 +702,7 @@ class OPOVehicleRequest extends Component {
         return element.responseIndex === index;
       });
       return (
-        <div key={`vehicle_#${index}`} id={`vehicle_req_${index}`} className="vrf-req-group">
+        <div key={vehicle.id} id={`vehicle_req_${index}`} className="vrf-req-group">
           <div className="vrf-req-header">
             <h3 className="vrf-label vrf-req-no">Vehicle #{index + 1}</h3>
           </div>

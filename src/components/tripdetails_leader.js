@@ -75,7 +75,7 @@ const getPending = (props, pendingEmailRef) => {
               <span className="detail-cell">{pender.user.allergies_dietary_restrictions}</span>
               <span className="detail-cell detail-gear">
                 {pender.gear.length !== 0 ? pender.gear.map(gear => (
-                  <li key={gear._id}>{gear.gear}</li>
+                  <li key={gear.id}>{gear.gear}</li>
                 )) : <span>None</span>}
               </span>
               <span className="detail-cell">
@@ -139,7 +139,7 @@ const getOnTrip = (props, onTripEmailRef) => {
               <span className="detail-cell">{member.user.allergies_dietary_restrictions}</span>
               <span className="detail-cell detail-gear">
                 {member.gear.length !== 0 ? member.gear.map(gear => (
-                  <li key={gear._id}>{gear.gear}</li>
+                  <li key={gear.id}>{gear.gear}</li>
                 )) : <span>None</span>}
               </span>
               <span className="detail-cell">
@@ -206,7 +206,7 @@ const getIndividualGear = (individualGearArray, individualGearStatus) => {
           </div>
           <hr className="detail-line" />
           {individualGearArray.map((gear, index, array) => (
-            <div key={gear._id}>
+            <div key={gear.id}>
               <div className="detail-row">
                 <span>{gear.gear}</span>
                 <span>{gear.quantity}</span>
@@ -240,7 +240,7 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
         </div>
         <div className="trip-detail">
           {groupGearArray.map((gear, index, array) => (
-            <div key={index}>
+            <div key={gear.id}>
               <div className="leader-trip-detail-row">
                 <span>{gear}</span>
               </div>

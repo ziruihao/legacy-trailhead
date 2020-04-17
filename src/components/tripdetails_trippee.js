@@ -58,7 +58,7 @@ const getGear = (props) => {
         return userGear.gearId === gear._id;
       });
       rows.push(
-        <div key={gear._id}>
+        <div key={gear.id}>
           <div className="detail-row">
             <span className="detail-left">{gear.gear}</span>
             <span>
