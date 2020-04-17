@@ -184,6 +184,34 @@ class VehicleCalendar extends Component {
     );
   }
 
+  eventStyleGetter = (event, start, end, isSelected) => {
+    console.log(event);
+    // const backgroundColor = `#${event.hexColor}`;
+    if (event.conflicts.length > 0) {
+      const style = {
+        backgroundColor: '#ff0000',
+        borderRadius: '0px',
+        opacity: 0.8,
+        color: 'black',
+        border: '0px',
+        display: 'block',
+      };
+      return {
+        style,
+      };
+    } else {
+      const style = {
+        backgroundColor: '#ffffff',
+        borderRadius: '0px',
+        opacity: 0.8,
+        color: 'black',
+        border: '0px',
+        display: 'block',
+      };
+      return style;
+    }
+  }
+
   render() {
     if (this.state.ready) {
       return (
@@ -196,6 +224,7 @@ class VehicleCalendar extends Component {
               vehicles={this.props.vehicles}
               showEventModal={this.showEventModal}
               userRole={this.props.user.role}
+              eventPropGetter={this.eventStyleGetter}
             />
           </div>
           <Modal
