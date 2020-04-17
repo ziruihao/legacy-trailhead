@@ -4,14 +4,14 @@ import { Switch } from 'react-router';
 
 import { connect } from 'react-redux';
 import Dashboard from './dashboard';
-import AllTrips from '../components/allTrips';
+import AllTrips from './allTrips';
 import CreateTrip from '../components/createtrip';
 import MyTrips from '../components/myTrips';
 import VehicleRequest from '../components/vehiclerequest';
 import ProfilePage from '../components/profilepage';
 import TripDetails from '../components/tripdetails';
 import OpoApprovals from '../components/opoStuff';
-import NavBar from './navbar';
+import NavBar from './navbar/navbar';
 import OpoTrips from '../components/opotrips';
 import OpoVehicleRequests from '../components/opoVehicleRequests';
 import OpoVehicleRequest from '../components/opoVehicleRequest';
