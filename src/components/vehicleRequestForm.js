@@ -70,7 +70,7 @@ const getVehicles = (props) => {
             type="text"
             id={`vehicle_details_${index}`}
             className="trip-detail vrf-vehicle-detail"
-            placeholder="e.g. I need Steakie!"
+            placeholder="e.g. I need Stakey!"
             maxLength="50"
             name="vehicleDetails"
             value={vehicle.vehicleDetails}

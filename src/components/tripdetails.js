@@ -299,7 +299,7 @@ class TripDetails extends Component {
             editGear={this.editGear}
             goBack={this.goBack}
             showError={this.showError}
-            userTripStatus={this.props.userTripStatus}
+            isUserOnTrip={this.props.isUserOnTrip}
           />
         );
       }
@@ -321,7 +321,7 @@ class TripDetails extends Component {
 const mapStateToProps = state => (
   {
     trip: state.trips.trip,
-    userTripStatus: state.trips.userTripStatus,
+    isUserOnTrip: state.trips.isUserOnTrip,
     isLeaderOnTrip: state.trips.isLeaderOnTrip,
     user: state.user.user,
   }
