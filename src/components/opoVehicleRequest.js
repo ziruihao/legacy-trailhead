@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import axios from 'axios';
-import * as constants from 'constants';
 import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
+import * as constants from '../constants';
 import ProfileCard from './profilecard';
 import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../actions';
 import pendingBadge from '../img/pending_badge.svg';
@@ -42,7 +42,7 @@ class OPOVehicleRequest extends Component {
     returnTime: '',
     assignedKey: '',
     errorFields: { ...this.errorFields },
-    conflictingEvents: [],
+    conflicts: [],
     responseIndex: 0,
   }
 
@@ -75,6 +75,7 @@ class OPOVehicleRequest extends Component {
           const { defaultAssignment } = this;
           const updates = {};
           updates.responseIndex = index;
+          updates.conflicts = [];
           updates.pickupDate = vehicle.pickupDate.substring(0, 10);
           updates.pickupTime = vehicle.pickupTime;
           updates.returnDate = vehicle.returnDate.substring(0, 10);
@@ -136,16 +137,20 @@ class OPOVehicleRequest extends Component {
 
   onVehicleTypeChange = (eventkey, index) => {
     this.setState(async (prevState) => {
-      const updates = {};
+      const updates = prevState.assignments[index];
       updates.assignedVehicle = eventkey;
-      updates.conflicts = await this.checkForAssignmentConflicts(updates);
+      const conflicts = await this.checkForAssignmentConflicts(updates);
+      updates.conflicts = conflicts.map(conflict => conflict.message);
       if (eventkey === 'Enterprise') {
         updates.assignedKey = 'Enterprise';
       }
       const updatedVehicle = Object.assign({}, prevState.assignments[index], updates);
       const updatedVehicles = Object.assign([], prevState.assignments, { [index]: updatedVehicle });
+      console.log(updatedVehicles);
 
       return { assignments: updatedVehicles };
+    }, () => {
+      console.log(this.state.assignments);
     });
   }
 
@@ -258,7 +263,7 @@ class OPOVehicleRequest extends Component {
       this.props.appError('Return time must be before pickup time');
       window.scrollTo(0, 0);
       return false;
-    }å;
+    }
     return true;
   }
 
@@ -285,7 +290,7 @@ class OPOVehicleRequest extends Component {
 
       const deletedErrorFields = nonEmptyAssignemnts.map((assignment) => {
         delete assignment.errorFields;
-        delete assignment.conflictingEvents;
+        delete assignment.conflicts;
         return assignment;
       });
 
@@ -394,6 +399,8 @@ class OPOVehicleRequest extends Component {
    */
   assignmentForm = (index) => {
     const assignment = this.state.assignments[index];
+    console.log(assignment);
+    console.log(assignment.conflicts);
     return (
       <div className="ovr-req-assignment">
         <span className="vrf-label ovr-column-header">Assign</span>
@@ -408,7 +415,7 @@ class OPOVehicleRequest extends Component {
                 {this.vehicleForm}
               </Dropdown.Menu>
             </Dropdown>
-            {this.assignment.conflicts}
+            {assignment.conflicts !== null ? assignment.conflicts : null}
           </span>
           <hr className="detail-line" />
           <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
