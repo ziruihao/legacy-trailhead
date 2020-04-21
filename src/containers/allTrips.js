@@ -156,9 +156,9 @@ class AllTrips extends Component {
     } else{
       let experienceNeeded = "";
       if(this.state.beginner === "yes"){
-        experienceNeeded= false;
+        experienceNeeded= true;
       }else{
-        experienceNeeded = true;
+        experienceNeeded = false;
       }
       tripsGrid = sortedTrips.filter(trip => (this.state.club === '' || trip.club.name === this.state.club )&& trip.experienceNeeded===experienceNeeded).map((trip) => {
        let card_id = trip.club.name;
