@@ -596,7 +596,7 @@ class CreateTrip extends Component {
       delete vehicle.errorFields;
       return vehicle;
     });
-    const vehicleReqId = (this.props.switchMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest.id : null;
+    const vehicleReqId = (this.props.switchMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest._id : null;
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders.trim().split(','),

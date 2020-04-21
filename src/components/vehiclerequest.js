@@ -288,7 +288,7 @@ class VehicleRequest extends Component {
         return vehicle;
       });
       const updatedVehicleRequest = {
-        id: this.props.vehicleRequest.id,
+        id: this.props.vehicleRequest._id,
         requester: this.props.user,
         requestDetails: this.state.requestDetails,
         requestType: this.state.requestType,

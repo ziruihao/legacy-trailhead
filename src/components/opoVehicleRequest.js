@@ -362,7 +362,7 @@ class OPOVehicleRequest extends Component {
       });
 
       const response = {
-        reqId: this.props.vehicleRequest.id,
+        reqId: this.props.vehicleRequest._id,
         assignments: deletedErrorFields,
       };
       this.props.assignVehicles(response, () => {
@@ -430,7 +430,7 @@ class OPOVehicleRequest extends Component {
 
   cancelAssignments = () => {
     const deleteInfo = {
-      reqId: this.props.vehicleRequest.id,
+      reqId: this.props.vehicleRequest._id,
       toBeDeleted: this.state.modalInfo.ids,
     };
     this.props.cancelAssignments(deleteInfo)
@@ -441,7 +441,7 @@ class OPOVehicleRequest extends Component {
   }
 
   denyVehicleRequest = () => {
-    this.props.denyVehicleRequest(this.props.vehicleRequest.id)
+    this.props.denyVehicleRequest(this.props.vehicleRequest._id)
       .then(() => {
         this.setState({ isEditing: false });
       });

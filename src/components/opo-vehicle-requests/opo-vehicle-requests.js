@@ -154,7 +154,7 @@ class OPOVehicleRequests extends Component {
 
   getPendingRequestRows = (pendingRequests) => {
     return pendingRequests.map(request => (
-      <tr key={request._id} onClick={() => this.onRowClick(request.id)}>
+      <tr key={request._id} onClick={() => this.onRowClick(request._id)}>
         <td>{request.requester.name}</td>
         <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
       </tr>
@@ -163,7 +163,7 @@ class OPOVehicleRequests extends Component {
 
   getApprovedRequestsRows = (approvedRequests) => {
     return approvedRequests.map(request => (
-      <tr key={request._id} onClick={() => this.onRowClick(request.id)}>
+      <tr key={request._id} onClick={() => this.onRowClick(request._id)}>
         <td>{request.requester.name}</td>
         <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
         {this.getReqStatus(request.status)}
