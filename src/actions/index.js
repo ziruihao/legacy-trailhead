@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as constants from '../constants';
 
 export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
@@ -558,21 +559,6 @@ export function getVehicles() {
         }).catch((error) => {
           dispatch(appError(`Error fetching vehicles : ${error}`));
           console.log(error);
-          reject(error);
-        });
-    });
-  };
-}
-
-export function checkForAssignmentConflicts(vehicleResponse) {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      axios.post(`${ROOT_URL}/check`, vehicleResponse, { headers: { authorization: localStorage.getItem('token') } })
-        .then((response) => {
-          resolve(response.data);
-        }).catch((error) => {
-          console.log(error);
-          dispatch(appError(`Error responding to vehicle request: ${error}`));
           reject(error);
         });
     });
