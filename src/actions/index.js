@@ -116,7 +116,7 @@ export function fetchTrip(id) {
 
 export function addToPending(signUpInfo) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/addpending/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${ROOT_URL}/addpending/${signUpInfo._id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
       }).catch((error) => {
@@ -128,7 +128,7 @@ export function addToPending(signUpInfo) {
 
 export function editUserGear(signUpInfo) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/editusergear/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    axios.put(`${ROOT_URL}/editusergear/${signUpInfo._id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
       console.log('addpending error');
@@ -434,7 +434,7 @@ export function fetchOpoTrips() {
 
 export function reviewGearRequest(review) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/gearrequest/${review.id}`, review, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${ROOT_URL}/gearrequest/${review._id}`, review, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         dispatch({
           type: ActionTypes.FETCH_TRIP,
@@ -463,7 +463,7 @@ export function fetchTrippeeGearRequests() {
 
 export function reviewTrippeeGearRequest(review) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/trippeegearrequest/${review.id}`, review, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${ROOT_URL}/trippeegearrequest/${review._id}`, review, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         dispatch({
           type: ActionTypes.FETCH_TRIP,
@@ -535,7 +535,7 @@ export function fetchVehicleRequests() {
 
 export function updateVehicleRequest(vehicleRequest) {
   return (dispatch) => {
-    axios.put(`${ROOT_URL}/vehicleRequest/${vehicleRequest.id}`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${ROOT_URL}/vehicleRequest/${vehicleRequest._id}`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
       }).catch((error) => {

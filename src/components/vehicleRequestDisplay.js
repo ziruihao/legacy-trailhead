@@ -130,7 +130,7 @@ const getAssignment = (props, index) => {
 const getVehicles = (props) => {
   return props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
     return (
-      <div key={vehicle.id} className="vrf-req-group vrf-req-and-assignment">
+      <div key={vehicle._id} className="vrf-req-group vrf-req-and-assignment">
         <div className="vrf-requested-vehicles">
           <div className="vrf-req-header">
             <h3 className="vrf-label vrf-req-no">Vehicle #{index + 1}</h3>

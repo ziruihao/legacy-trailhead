@@ -245,7 +245,7 @@ class OPOTripDetails extends Component {
         page = (
           <OPOVehicleRequest
             partOfTrip
-            vehicleReqId={this.props.trip.vehicleRequest.id}
+            vehicleReqId={this.props.trip.vehicleRequest._id}
           />
         );
         break;

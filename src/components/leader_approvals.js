@@ -34,14 +34,14 @@ class LeaderApprovals extends Component {
     }
     return pendingApprovals.map((approval) => {
       return (
-        <div key={approval.id} className="trip-detail ola-approval">
+        <div key={approval._id} className="trip-detail ola-approval">
           <div className="ola-requester-name">
             {approval.name} ({approval.email}) is requesting leader access to the following club(s):
           </div>
           <div className="ola-requested-clubs">
             <ul>
               {approval.requested_clubs.map(club => (
-                <li key={club.id}>{club.name}</li>
+                <li key={club._id}>{club.name}</li>
               ))}
             </ul>
           </div>

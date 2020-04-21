@@ -89,8 +89,8 @@ class MyTrips extends Component {
           return leaderId === this.props.user.id;
         });
         return (
-          <div key={trip.id} className="card text-center card-trip margins">
-            <NavLink to={`/trip/${trip.id}`}>
+          <div key={trip._id} className="card text-center card-trip margins">
+            <NavLink to={`/trip/${trip._id}`}>
               <div className="card-body" id={card_id} >
                 <h2 className="card-title">{isLeading ? '(L)' : null} {trip.title}</h2>
                 <p className="card-text">{trip.club ? trip.club.name : ''}</p>
@@ -120,13 +120,13 @@ class MyTrips extends Component {
         let reqLink = '';
         if (vehicleReq.requestType === 'TRIP') {
           reqTitle = vehicleReq.associatedTrip.title;
-          reqLink = `/trip/${vehicleReq.associatedTrip.id}`;
+          reqLink = `/trip/${vehicleReq.associatedTrip._id}`;
         } else if (vehicleReq.requestType === 'SOLO') {
           reqTitle = vehicleReq.requestDetails;
-          reqLink = `/vehicle-request/${vehicleReq.id}`;
+          reqLink = `/vehicle-request/${vehicleReq._id}`;
         }
         return (
-          <div key={vehicleReq.id} className="mytrips-vehicle-req">
+          <div key={vehicleReq._id} className="mytrips-vehicle-req">
             <div className="mytrips-status-badge">
               <img className="status-badge" src={this.badges[status]} alt={`${status}_badge`} />
             </div>

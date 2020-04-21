@@ -182,12 +182,12 @@ class ProfilePage extends Component {
     const clubForm = this.props.clubs.map((club) => {
       const checked = currentClubIds.includes(club.id);
       return (
-        <div className="club-option" key={club.id}>
-          <label className="checkbox-container club-checkbox" htmlFor={club.id}>
+        <div className="club-option" key={club._id}>
+          <label className="checkbox-container club-checkbox" htmlFor={club._id}>
             <input
               type="checkbox"
               name="club"
-              id={club.id}
+              id={club._id}
               value={club.name}
               onChange={this.onFieldChange}
               checked={checked}

@@ -147,7 +147,7 @@ class TripDetailsModal extends Component {
             </div>
           </div>
           <div className="button-container">
-            <NavLink className="btn btn-primary" id="signup-button" to={`/trip/${this.props.trip.id}`}>
+            <NavLink className="btn btn-primary" id="signup-button" to={`/trip/${this.props.trip._id}`}>
               {this.renderTripActionButton()}
             </NavLink>
           </div>

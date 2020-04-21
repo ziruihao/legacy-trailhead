@@ -63,7 +63,7 @@ class OPOVehicleRequest extends Component {
       .then(() => {
         this.vehicleForm = this.props.vehicles.map((vehicle) => {
           return (
-            <Dropdown.Item key={vehicle.id} className="ovr-vehicle-option" eventKey={vehicle.name}>
+            <Dropdown.Item key={vehicle._id} className="ovr-vehicle-option" eventKey={vehicle.name}>
               <span>{vehicle.name}</span>
               <span className="ovr-vehicle-option-type">{vehicle.type}</span>
             </Dropdown.Item>
@@ -379,7 +379,7 @@ class OPOVehicleRequest extends Component {
       .then(() => {
         this.vehicleForm = this.props.vehicles.map((vehicle) => {
           return (
-            <Dropdown.Item className="ovr-vehicle-option" key={vehicle.id} eventKey={vehicle.name}>
+            <Dropdown.Item className="ovr-vehicle-option" key={vehicle._id} eventKey={vehicle.name}>
               <span>{vehicle.name}</span>
               <span className="ovr-vehicle-option-type">{vehicle.type}</span>
             </Dropdown.Item>

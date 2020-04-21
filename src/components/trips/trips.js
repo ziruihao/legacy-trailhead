@@ -57,7 +57,7 @@ class Trips extends Component {
   }
   renderClubDropdown = () => {
     const options = this.props.clubs.map((club) => {
-      return <option key={club.id} value={club.name}>{club.name}</option>;
+      return <option key={club._id} value={club.name}>{club.name}</option>;
     });
     return (
         <select
@@ -124,7 +124,7 @@ renderTripDetailsModal=()=>{
         //TODO: try to get bait and bullet logo
         if(trip.club.name !== ('Ledyard' || 'Mountaineering' || 'cnt'|| 'wiw' || 'Woodsmen' || 'surf' || 'dmbc' || 'wsc')) card_id = "doc";
         return (
-            <div key={trip.id} className="card text-center card-trip margins">
+            <div key={trip._id} className="card text-center card-trip margins">
                 <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
                   <h2 className="card-title">{trip.title}</h2>
                   <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
@@ -155,7 +155,7 @@ renderTripDetailsModal=()=>{
 
        if(trip.club.name !== ('Ledyard' || 'Mountaineering' || 'cnt'|| 'wiw' || 'Woodsmen' || 'surf' || 'dmbc' || 'wsc')) card_id = "doc";
          return (
-           <div key={trip.id} className="card card text-center card-trip margins">
+           <div key={trip._id} className="card card text-center card-trip margins">
                <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
                  <h2 className="card-title">{trip.title}</h2>
                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>

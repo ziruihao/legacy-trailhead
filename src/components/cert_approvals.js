@@ -37,7 +37,7 @@ class Approvals extends Component {
     }
     return pendingApprovals.map((approval) => {
       return (
-        <div key={approval.id} className="trip-detail ola-approval">
+        <div key={approval._id} className="trip-detail ola-approval">
           <div className="ola-requester-name">
             {approval.name} ({approval.email}) is requesting the following driver certification(s):
           </div>
