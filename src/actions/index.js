@@ -564,6 +564,21 @@ export function getVehicles() {
   };
 }
 
+export function checkForAssignmentConflicts(vehicleResponse) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.post(`${ROOT_URL}/check`, vehicleResponse, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          resolve(response.data);
+        }).catch((error) => {
+          console.log(error);
+          dispatch(appError(`Error responding to vehicle request: ${error}`));
+          reject(error);
+        });
+    });
+  };
+}
+
 export function assignVehicles(vehicleResponse, finishEditing) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
