@@ -266,11 +266,11 @@ class OPOVehicleRequest extends Component {
         let selectedVehicleBookings;
         if (assignment.existingAssignment) { // is update to response
           const oldAssignment = this.props.vehicleRequest.assignments.find((element) => { // find old assignment
-            return element.id === assignment._id;
+            return element._id.equals(assignment._id);
           });
           if (assignment.assignVehicle === oldAssignment.assignVehicle) { // if vehicle was not changed,
             selectedVehicleBookings = selectedVehicle.bookings.filter((booking) => { // remove modified assignment to avoid conflicting with self when checking for validity
-              return booking.id !== assignment._id;
+              return !booking._id.equals(assignment._id);
             });
           } else { // vehicle was changed
             selectedVehicleBookings = selectedVehicle.bookings; // no need to remove because assignment does not exist in new assigned vehicle

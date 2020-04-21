@@ -51,8 +51,8 @@ class Approvals extends Component {
             </ul>
           </div>
           <div className="ola-action-buttons">
-            <button type="submit" className="ola-approve-button signup-button" onClick={() => this.reviewRequest(approval.id, 'approved')}>Approve</button>
-            <span className="cancel-link ovr-bottom-link" onClick={() => this.reviewRequest(approval.id, 'denied')} role="button" tabIndex={0}>
+            <button type="submit" className="ola-approve-button signup-button" onClick={() => this.reviewRequest(approval._id, 'approved')}>Approve</button>
+            <span className="cancel-link ovr-bottom-link" onClick={() => this.reviewRequest(approval._id, 'denied')} role="button" tabIndex={0}>
               Deny
             </span>
           </div>
