@@ -2,13 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import { fetchTrips, getClubs } from '../actions';
-import '../styles/card-style.scss';
-import TripDetailsModal from './tripDetailsModal';
+import { fetchTrips, getClubs } from '../../actions';
+import './trip-card.scss';
+import TripDetailsModal from '../tripDetailsModal';
 
-
-
-class AllTrips extends Component {
+class Trips extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -219,4 +217,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default withRouter(connect(mapStateToProps, { fetchTrips, getClubs })(AllTrips)); // connected component
+export default withRouter(connect(mapStateToProps, { fetchTrips, getClubs })(Trips)); // connected component

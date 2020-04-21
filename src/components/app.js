@@ -3,21 +3,21 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 
 import { connect } from 'react-redux';
-import Dashboard from './dashboard';
-import AllTrips from '../components/allTrips';
-import CreateTrip from '../components/createtrip';
-import MyTrips from '../components/myTrips';
-import VehicleRequest from '../components/vehiclerequest';
-import ProfilePage from '../components/profilepage';
-import TripDetails from '../components/tripdetails';
-import OpoApprovals from '../components/opoStuff';
-import NavBar from './navbar';
-import OpoTrips from '../components/opotrips';
-import OpoVehicleRequests from '../components/opoVehicleRequests';
-import OpoVehicleRequest from '../components/opoVehicleRequest';
-import OPODashboard from '../components/opoDashboard';
-import requireAuth from './requireAuth';
-import VehicleCalendar from '../components/vehiclecalendar';
+import Dashboard from '../containers/dashboard';
+import AllTrips from './trips';
+import CreateTrip from './createtrip';
+import MyTrips from './myTrips';
+import VehicleRequest from './vehiclerequest';
+import ProfilePage from './profilepage';
+import TripDetails from './tripdetails';
+import OpoApprovals from './opoStuff';
+import NavBar from './nav-bar/nav-bar';
+import OpoTrips from './opotrips';
+import OpoVehicleRequests from './opo-vehicle-requests';
+import OpoVehicleRequest from './opoVehicleRequest';
+import OPODashboard from './opo-dashboard';
+import requireAuth from '../containers/requireAuth';
+import VehicleCalendar from './vehiclecalendar';
 
 import { getUser, getClubs, getVehicles } from '../actions';
 

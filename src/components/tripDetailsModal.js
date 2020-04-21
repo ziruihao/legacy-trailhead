@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { isOnTrip } from '../actions';
-import '../styles/card-style.scss';
-
-
+import './trips/trip-card.scss';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';

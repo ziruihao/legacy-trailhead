@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import { getMyTrips } from '../actions';
-import '../styles/card-style.scss';
+import './trips/trip-card.scss';
 import '../styles/mytrips-style.scss';
 import createtrip from "../img/createtrip.svg";
 import pendingBadge from '../img/pending_badge.svg';
