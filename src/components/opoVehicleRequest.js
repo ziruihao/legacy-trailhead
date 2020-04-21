@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
+import axios from 'axios';
+import * as constants from 'constants';
 import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
@@ -120,22 +122,29 @@ class OPOVehicleRequest extends Component {
     this.setState({ showModal: false });
   }
 
+  checkForAssignmentConflicts = (proposedAssignment) => {
+    return new Promise((resolve, reject) => {
+      axios.post(`${constants.BACKEND_URL}/vehicle-requests/check-conflict`, proposedAssignment, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          resolve(response.data);
+        }).catch((error) => {
+          console.log(error);
+          reject(error);
+        });
+    });
+  }
+
   onVehicleTypeChange = (eventkey, index) => {
-    this.setState((prevState) => {
-      const oldVehicles = prevState.assignments;
-      const oldVehicle = oldVehicles[index];
+    this.setState(async (prevState) => {
       const updates = {};
       updates.assignedVehicle = eventkey;
+      updates.conflicts = await this.checkForAssignmentConflicts(updates);
       if (eventkey === 'Enterprise') {
-        updates.pickupDate = 'Enterprise';
-        updates.pickupTime = 'Enterprise';
-        updates.returnDate = 'Enterprise';
-        updates.returnTime = 'Enterprise';
         updates.assignedKey = 'Enterprise';
       }
-      // updates.errorFields = Object.assign({}, oldVehicle.errorFields, { vehicleType: this.isStringEmpty(eventkey) });
-      const updatedVehicle = Object.assign({}, oldVehicle, updates);
-      const updatedVehicles = Object.assign([], oldVehicles, { [index]: updatedVehicle });
+      const updatedVehicle = Object.assign({}, prevState.assignments[index], updates);
+      const updatedVehicles = Object.assign([], prevState.assignments, { [index]: updatedVehicle });
+
       return { assignments: updatedVehicles };
     });
   }
@@ -249,88 +258,7 @@ class OPOVehicleRequest extends Component {
       this.props.appError('Return time must be before pickup time');
       window.scrollTo(0, 0);
       return false;
-    }
-
-    // let hasConflictingEvent = false;
-    // const { vehicles } = this.props;
-    // const markedConflictingAssignments = assignments.map((assignment) => {
-    //   if (!this.isStringEmpty(assignment.assignedVehicle)
-    //     && !this.isStringEmpty(assignment.pickupDate)
-    //     && !this.isStringEmpty(assignment.pickupTime)
-    //     && !this.isStringEmpty(assignment.returnDate)
-    //     && !this.isStringEmpty(assignment.returnTime)
-    //     && assignment.assignedVehicle !== 'Enterprise') {
-    //     const selectedVehicle = vehicles.find((vehicle) => { // consider selected vehicle
-    //       return vehicle.name === assignment.assignedVehicle;
-    //     });
-    //     let selectedVehicleBookings;
-    //     if (assignment.existingAssignment) { // is update to response
-    //       const oldAssignment = this.props.vehicleRequest.assignments.find((element) => { // find old assignment
-    //         return element.id === assignment.id;
-    //       });
-    //       if (assignment.assignVehicle === oldAssignment.assignVehicle) { // if vehicle was not changed,
-    //         selectedVehicleBookings = selectedVehicle.bookings.filter((booking) => { // remove modified assignment to avoid conflicting with self when checking for validity
-    //           return booking.id !== assignment.id;
-    //         });
-    //       } else { // vehicle was changed
-    //         selectedVehicleBookings = selectedVehicle.bookings; // no need to remove because assignment does not exist in new assigned vehicle
-    //       }
-    //     } else { // is new response
-    //       selectedVehicleBookings = selectedVehicle.bookings;
-    //     }
-    //     const bookingsWithDateAndTime = selectedVehicleBookings.map((booking) => {
-    //       const updates = {};
-    //       updates.pickupDateAndTime = this.createDateObject(booking.assigned_pickupDate, booking.assigned_pickupTime);
-    //       updates.returnDateAndTime = this.createDateObject(booking.assigned_returnDate, booking.assigned_returnTime);
-    //       return Object.assign({}, booking, updates);
-    //     });
-
-    //     const assignmentUpdates = {};
-    //     assignmentUpdates.pickupDateAndTime = this.createDateObject(assignment.pickupDate, assignment.pickupTime);
-    //     assignmentUpdates.returnDateAndTime = this.createDateObject(assignment.returnDate, assignment.returnTime);
-    //     const assignmentWithDateAndTime = Object.assign({}, assignment, assignmentUpdates);
-
-    //     bookingsWithDateAndTime.push(assignmentWithDateAndTime);
-
-    //     bookingsWithDateAndTime.sort((booking1, booking2) => {
-    //       if (booking1.pickupDateAndTime < booking2.pickupDateAndTime) {
-    //         return -1;
-    //       }
-    //       if (booking1.pickupDateAndTime > booking2.pickupDateAndTime) {
-    //         return 1;
-    //       }
-    //       return 0;
-    //     });
-    //     const conflictsWithEvent = bookingsWithDateAndTime.some((booking, index, array) => {
-    //       let isConflicting = false;
-    //       if (index < array.length - 1) {
-    //         isConflicting = booking.returnDateAndTime >= array[index + 1].pickupDateAndTime;
-    //       }
-    //       return isConflicting;
-    //     });
-    //     if (conflictsWithEvent) {
-    //       const updatedErrorFields = { ...this.errorFields };
-    //       updatedErrorFields.pickupDate = true;
-    //       updatedErrorFields.pickupTime = true;
-    //       updatedErrorFields.returnDate = true;
-    //       updatedErrorFields.returnTime = true;
-    //       assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
-    //       hasConflictingEvent = true;
-    //     }
-
-    //     return assignment;
-    //   } else {
-    //     return assignment;
-    //   }
-    // });
-
-    // if (hasConflictingEvent) {
-    //   this.setState({ assignments: markedConflictingAssignments });
-    //   this.props.appError('The highlighted assignment conflicts with an already existing one');
-    //   window.scrollTo(0, 0);
-    //   return false;
-    // }
-
+    }å;
     return true;
   }
 
@@ -461,6 +389,9 @@ class OPOVehicleRequest extends Component {
     });
   }
 
+  /**
+   * Editing form component to assign a vehicle.
+   */
   assignmentForm = (index) => {
     const assignment = this.state.assignments[index];
     return (
@@ -477,6 +408,7 @@ class OPOVehicleRequest extends Component {
                 {this.vehicleForm}
               </Dropdown.Menu>
             </Dropdown>
+            {this.assignment.conflicts}
           </span>
           <hr className="detail-line" />
           <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
@@ -608,6 +540,9 @@ class OPOVehicleRequest extends Component {
     );
   }
 
+  /**
+   * Viewing details about a vehicle assigned.
+   */
   assignmentDisplay = (index) => {
     const assignment = this.props.vehicleRequest.assignments.find((element) => {
       return element.responseIndex === index;
