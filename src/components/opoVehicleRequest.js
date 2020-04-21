@@ -266,11 +266,11 @@ class OPOVehicleRequest extends Component {
         let selectedVehicleBookings;
         if (assignment.existingAssignment) { // is update to response
           const oldAssignment = this.props.vehicleRequest.assignments.find((element) => { // find old assignment
-            return element.id === assignment.id;
+            return element.id === assignment._id;
           });
           if (assignment.assignVehicle === oldAssignment.assignVehicle) { // if vehicle was not changed,
             selectedVehicleBookings = selectedVehicle.bookings.filter((booking) => { // remove modified assignment to avoid conflicting with self when checking for validity
-              return booking.id !== assignment.id;
+              return booking.id !== assignment._id;
             });
           } else { // vehicle was changed
             selectedVehicleBookings = selectedVehicle.bookings; // no need to remove because assignment does not exist in new assigned vehicle
@@ -393,7 +393,7 @@ class OPOVehicleRequest extends Component {
           if (assignment) {
             const updates = {};
             updates.existingAssignment = true;
-            updates.id = assignment.id;
+            updates.id = assignment._id;
             updates.responseIndex = index;
             updates.assignedVehicle = assignment.assigned_vehicle.name;
             if (assignment.assigned_vehicle.name !== 'Enterprise') {
@@ -666,7 +666,7 @@ class OPOVehicleRequest extends Component {
                 : assignment.returned ? 'Yes' : 'No'}
             </span>
           </div>
-          <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.activateModal({ trigger: 'CANCEL', ids: [assignment.id] })} role="button" tabIndex={0}>
+          <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.activateModal({ trigger: 'CANCEL', ids: [assignment._id] })} role="button" tabIndex={0}>
             Cancel assignment
           </span>
         </div>
@@ -780,7 +780,7 @@ class OPOVehicleRequest extends Component {
 
   getAppropriateLink = () => {
     const allAssignmentIds = this.props.vehicleRequest.assignments.map((assignment) => {
-      return assignment.id;
+      return assignment._id;
     });
     if (this.state.isEditing) {
       return this.props.partOfTrip ? null
