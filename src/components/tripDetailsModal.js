@@ -43,7 +43,7 @@ class TripDetailsModal extends Component {
           alert('Please sign in/sign up to view this page');
           this.props.history.push('/');
         }
-        this.props.isOnTrip(this.props.trip.id); // this could take 3 ms or 10 years
+        this.props.isOnTrip(this.props.trip._id); // this could take 3 ms or 10 years
       }
 
       renderTripActionButton = () => {

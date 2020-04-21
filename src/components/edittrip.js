@@ -128,7 +128,7 @@ class EditTrip extends Component {
       cost: this.state.cost ? this.state.cost : this.props.trip.cost,
       gearRequests,
       newRequest: this.state.newRequest,
-      id: this.props.trip.id,
+      id: this.props.trip._id,
     };
 
     const start = new Date(trip.startDate);

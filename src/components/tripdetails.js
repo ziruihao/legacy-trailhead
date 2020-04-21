@@ -185,7 +185,7 @@ class TripDetails extends Component {
   }
 
   deleteTrip = () => {
-    this.props.deleteTrip(this.props.trip.id, this.props.history);
+    this.props.deleteTrip(this.props.trip._id, this.props.history);
   }
 
   closeLeaderModal = () => {
