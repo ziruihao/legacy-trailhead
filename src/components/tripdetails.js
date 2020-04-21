@@ -36,17 +36,17 @@ class TripDetails extends Component {
           this.getProfiles();
         } else if (this.props.userTripStatus === 'PENDING') { // populate previously selected gear
           this.props.trip.pending.some((pender) => {
-            if (pender.user._id === this.props.user.id) {
+            if (pender.user._id === this.props.user._id) {
               this.setState({ trippeeGear: pender.gear, isEditing: false });
             }
-            return pender.user._id === this.props.user.id;
+            return pender.user._id === this.props.user._id;
           });
         } else if (this.props.userTripStatus === 'APPROVED') {
           this.props.trip.members.some((member) => {
-            if (member.user._id === this.props.user.id) {
+            if (member.user._id === this.props.user._id) {
               this.setState({ trippeeGear: member.gear, isEditing: false });
             }
-            return member.user._id === this.props.user.id;
+            return member.user._id === this.props.user._id;
           });
         }
       });
@@ -75,10 +75,10 @@ class TripDetails extends Component {
 
   cancelChanges = () => {
     this.props.trip.pending.some((pender) => {
-      if (pender.user._id === this.props.user.id) {
+      if (pender.user._id === this.props.user._id) {
         this.setState({ trippeeGear: pender.gear, isEditing: false });
       }
-      return pender.user._id === this.props.user.id;
+      return pender.user._id === this.props.user._id;
     });
   }
 

@@ -83,10 +83,10 @@ class MyTrips extends Component {
         if(trip.club.name !== ('Ledyard' || 'Mountaineering' || 'cnt'|| 'wiw' || 'Woodsmen' || 'surf' || 'dmbc' || 'wsc')) card_id = "doc";
         let isLeading = false;
         trip.leaders.some((leaderId) => {
-          if (leaderId === this.props.user.id) {
+          if (leaderId === this.props.user._id) {
             isLeading = true;
           }
-          return leaderId === this.props.user.id;
+          return leaderId === this.props.user._id;
         });
         return (
           <div key={trip._id} className="card text-center card-trip margins">
