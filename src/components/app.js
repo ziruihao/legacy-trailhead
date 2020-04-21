@@ -1,9 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
-
 import { connect } from 'react-redux';
-import Dashboard from '../containers/dashboard';
+import Dashboard from './dashboard';
 import AllTrips from './trips';
 import CreateTrip from './createtrip';
 import MyTrips from './myTrips';
@@ -16,7 +15,7 @@ import OpoTrips from './opotrips';
 import OpoVehicleRequests from './opo-vehicle-requests';
 import OpoVehicleRequest from './opoVehicleRequest';
 import OPODashboard from './opo-dashboard';
-import requireAuth from '../containers/requireAuth';
+import requireAuth from './require-auth';
 import VehicleCalendar from './vehiclecalendar';
 
 import { getUser, getClubs, getVehicles } from '../actions';
