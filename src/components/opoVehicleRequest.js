@@ -83,7 +83,7 @@ class OPOVehicleRequest extends Component {
           return Object.assign({}, defaultAssignment, updates);
         });
         const unreviewed = this.props.vehicleRequest.status === 'pending';
-        this.setState((prevState) => {
+        this.setState(() => {
           return { isEditing: unreviewed, assignments, ready: true };
         });
       });
@@ -136,21 +136,20 @@ class OPOVehicleRequest extends Component {
   }
 
   onVehicleTypeChange = (eventkey, index) => {
-    this.setState(async (prevState) => {
-      const updates = prevState.assignments[index];
-      updates.assignedVehicle = eventkey;
-      const conflicts = await this.checkForAssignmentConflicts(updates);
-      updates.conflicts = conflicts.map(conflict => conflict.message);
-      if (eventkey === 'Enterprise') {
-        updates.assignedKey = 'Enterprise';
-      }
-      const updatedVehicle = Object.assign({}, prevState.assignments[index], updates);
-      const updatedVehicles = Object.assign([], prevState.assignments, { [index]: updatedVehicle });
-      console.log(updatedVehicles);
-
-      return { assignments: updatedVehicles };
-    }, () => {
-      console.log(this.state.assignments);
+    const proposedAssignment = this.state.assignments[index];
+    proposedAssignment.assignedVehicle = eventkey;
+    this.checkForAssignmentConflicts(proposedAssignment).then((conflicts) => {
+      this.setState((prevState) => {
+        const updates = prevState.assignments[index];
+        updates.assignedVehicle = eventkey;
+        updates.conflicts = conflicts.map(conflict => conflict.message);
+        if (eventkey === 'Enterprise') {
+          updates.assignedKey = 'Enterprise';
+        }
+        const updatedVehicle = Object.assign({}, prevState.assignments[index], updates);
+        const updatedVehicles = Object.assign([], prevState.assignments, { [index]: updatedVehicle });
+        return { assignments: updatedVehicles };
+      });
     });
   }
 
