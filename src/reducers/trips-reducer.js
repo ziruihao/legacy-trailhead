@@ -5,7 +5,7 @@ const initialState = ({
   trip: {},
   myTrips: [],
   myVehicleReqs: [],
-  isUserOnTrip: 'NO', // other options: 'PENDING', 'YES'
+  isUserOnTrip: 'NONE', // other options: 'PENDING', 'YES'
 });
 
 // Trips reducer
@@ -20,7 +20,7 @@ const TripsReducer = (state = initialState, action) => {
     case ActionTypes.JOIN_TRIP:
       return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip });
     case ActionTypes.LEAVE_TRIP:
-      return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip }); // isontrip?
+      return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip });
     case ActionTypes.MY_TRIPS:
       return Object.assign({}, state, { myTrips: action.payload.trips, myVehicleReqs: action.payload.vehicleRequests });
     case ActionTypes.EDIT_TRIP:

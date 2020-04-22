@@ -190,7 +190,7 @@ export function emailTrip(id, subject, body, history) {
 
 export function createTrip(trip, history) {
   return (dispatch) => {
-    axios.post(`${constants.BACKEND_URL}/all-trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
+    axios.post(`${constants.BACKEND_URL}/allTrips`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         history.push('/alltrips');
       })
@@ -237,17 +237,6 @@ export function getMyTrips() {
         }).catch((error) => {
           console.log(error);
         });
-    });
-  };
-}
-
-export function isOnTrip(tripID) {
-  return (dispatch) => {
-    axios.get(`${constants.BACKEND_URL}/isOnTrip/${tripID}`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      console.log(response);
-      dispatch({ type: ActionTypes.IS_ON_TRIP, payload: response.data.isOnTrip });
-    }).catch((error) => {
-      console.log(error);
     });
   };
 }

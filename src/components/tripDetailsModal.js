@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import { isOnTrip } from '../actions';
 import '../styles/card-style.scss';
 
 
@@ -45,7 +44,6 @@ class TripDetailsModal extends Component {
           alert('Please sign in/sign up to view this page');
           this.props.history.push('/');
         }
-        this.props.isOnTrip(this.props.trip.id); // this could take 3 ms or 10 years
       }
 
       renderTripActionButton = () => {
@@ -167,4 +165,4 @@ const mapStateToProps = state => (
       user: state.user.user,
     }
   );
-export default withRouter(connect(mapStateToProps, { isOnTrip })(TripDetailsModal)); // connected component
+export default withRouter(connect(mapStateToProps, null)(TripDetailsModal)); // connected component
