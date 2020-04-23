@@ -9,14 +9,14 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-class coLeadersAutoComplete extends Component {
+class CoLeadersAutoComplete extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       tags: [
-        { id: 'Thailand', text: 'Thailand' },
-        { id: 'India', text: 'India' },
+        { id: 'Thailand', text: 'my.buddy.21@dartmouth.edu' },
+        { id: 'India', text: 'my.driver.21@dartmouth.edu' },
       ],
       suggestions: [
         { id: 'USA', text: 'USA' },
@@ -29,7 +29,7 @@ class coLeadersAutoComplete extends Component {
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
-    this.handleDrag = this.handleDrag.bind(this);
+    // this.handleDrag = this.handleDrag.bind(this);
   }
 
   handleDelete(i) {
@@ -43,31 +43,34 @@ class coLeadersAutoComplete extends Component {
     this.setState(state => ({ tags: [...state.tags, tag] }));
   }
 
-  handleDrag(tag, currPos, newPos) {
-    const tags = [...this.state.tags];
-    const newTags = tags.slice();
+  // handleDrag(tag, currPos, newPos) {
+  //   const tags = [...this.state.tags];
+  //   const newTags = tags.slice();
 
-    newTags.splice(currPos, 1);
-    newTags.splice(newPos, 0, tag);
+  //   newTags.splice(currPos, 1);
+  //   newTags.splice(newPos, 0, tag);
 
-    // re-render
-    this.setState({ tags: newTags });
-  }
+  //   // re-render
+  //   this.setState({ tags: newTags });
+  // }
 
   render() {
     const { tags, suggestions } = this.state;
     return (
       <div>
-        <ReactTags tags={tags}
+        <ReactTags
+          placeholder="Enter email(s)"
+          tags={tags}
           suggestions={suggestions}
           handleDelete={this.handleDelete}
           handleAddition={this.handleAddition}
-          handleDrag={this.handleDrag}
+          // handleDrag={this.handleDrag}
           delimiters={delimiters}
+          allowDragDrop={false}
         />
       </div>
     );
   }
 }
 
-export default coLeadersAutoComplete;
+export default CoLeadersAutoComplete;
