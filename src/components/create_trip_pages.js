@@ -250,7 +250,7 @@ const getTrippeeGear = (props) => {
   if (!props.trippeeGearStatus || props.trippeeGearStatus === 'pending' || props.trippeeGearStatus === 'N/A') {
     return props.trippeeGear.map((gearRequest, index) => {
       return (
-        <div key={`trippeeGear_${index}`}>
+        <div key={gearRequest._id}>
           <div className="gear-container">
             <div className="gear-and-size">
               <div className="gear-field-and-form">
@@ -305,7 +305,7 @@ const getGearInputs = (props) => {
   if (!props.gearStatus || props.gearStatus === 'pending' || props.gearStatus === 'N/A') {
     return props.gearRequests.map((gearRequest, index) => {
       return (
-        <div className="gear-container" key={`opogearRequest_${index}`}>
+        <div className="gear-container" key={gearRequest._id}>
           <input
             type="text"
             className={`gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`}

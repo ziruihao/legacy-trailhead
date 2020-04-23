@@ -3,9 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { isOnTrip } from '../actions';
-import '../styles/card-style.scss';
-
-
+import './trips/trip-card.scss';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -45,7 +43,7 @@ class TripDetailsModal extends Component {
           alert('Please sign in/sign up to view this page');
           this.props.history.push('/');
         }
-        this.props.isOnTrip(this.props.trip.id); // this could take 3 ms or 10 years
+        this.props.isOnTrip(this.props.trip._id); // this could take 3 ms or 10 years
       }
 
       renderTripActionButton = () => {
@@ -149,7 +147,7 @@ class TripDetailsModal extends Component {
             </div>
           </div>
           <div className="button-container">
-            <NavLink className="btn btn-primary" id="signup-button" to={`/trip/${this.props.trip.id}`}>
+            <NavLink className="btn btn-primary" id="signup-button" to={`/trip/${this.props.trip._id}`}>
               {this.renderTripActionButton()}
             </NavLink>
           </div>

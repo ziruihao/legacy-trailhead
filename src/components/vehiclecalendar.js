@@ -173,8 +173,8 @@ class VehicleCalendar extends Component {
               className="cancel-link ovr-bottom-link ovr-contact-link"
               target="_blank"
               to={selectedEvent.request.requestType === 'TRIP'
-                ? `/trip/${trip.id}`
-                : `/opo-vehicle-request/${selectedEvent.request.id}#vehicle_req_${selectedEvent.responseIndex}`}
+                ? `/trip/${trip._id}`
+                : `/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
             >
               Edit Assignment
             </Link>

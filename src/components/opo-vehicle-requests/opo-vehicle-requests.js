@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
-import { fetchVehicleRequests } from '../actions';
-import loadingGif from '../img/loading-gif.gif';
-import '../styles/tripdetails_leader.scss';
-import '../styles/opo-trips.scss';
+import { fetchVehicleRequests } from '../../actions';
+import loadingGif from '../../img/loading-gif.gif';
+import '../../styles/tripdetails_leader.scss';
+import '../../styles/opo-trips.scss';
 
-class OpoVehicleRequests extends Component {
+class OPOVehicleRequests extends Component {
   now = new Date();
 
   constructor(props) {
@@ -154,7 +154,7 @@ class OpoVehicleRequests extends Component {
 
   getPendingRequestRows = (pendingRequests) => {
     return pendingRequests.map(request => (
-      <tr key={request.id} onClick={() => this.onRowClick(request.id)}>
+      <tr key={request._id} onClick={() => this.onRowClick(request._id)}>
         <td>{request.requester.name}</td>
         <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
       </tr>
@@ -163,7 +163,7 @@ class OpoVehicleRequests extends Component {
 
   getApprovedRequestsRows = (approvedRequests) => {
     return approvedRequests.map(request => (
-      <tr key={request.id} onClick={() => this.onRowClick(request.id)}>
+      <tr key={request._id} onClick={() => this.onRowClick(request._id)}>
         <td>{request.requester.name}</td>
         <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
         {this.getReqStatus(request.status)}
@@ -225,4 +225,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { fetchVehicleRequests })(OpoVehicleRequests));
+export default withRouter(connect(mapStateToProps, { fetchVehicleRequests })(OPOVehicleRequests));

@@ -146,7 +146,7 @@ class OPOTripDetails extends Component {
 
   reviewGroupGearRequest = (status) => {
     const review = {
-      id: this.props.trip.id,
+      id: this.props.trip._id,
       status,
     };
     this.props.reviewGearRequest(review);
@@ -154,7 +154,7 @@ class OPOTripDetails extends Component {
 
   reviewTrippeeGearRequest = (status) => {
     const review = {
-      id: this.props.trip.id,
+      id: this.props.trip._id,
       status,
     };
     this.props.reviewTrippeeGearRequest(review);
@@ -177,7 +177,7 @@ class OPOTripDetails extends Component {
     } else {
       const pcardAssigned = pcardStatus === 'denied' ? '' : this.state.pcardAssigned;
       const review = {
-        id: this.props.trip.id,
+        id: this.props.trip._id,
         pcardStatus,
         pcardAssigned,
       };
@@ -245,7 +245,7 @@ class OPOTripDetails extends Component {
         page = (
           <OPOVehicleRequest
             partOfTrip
-            vehicleReqId={this.props.trip.vehicleRequest.id}
+            vehicleReqId={this.props.trip.vehicleRequest._id}
           />
         );
         break;

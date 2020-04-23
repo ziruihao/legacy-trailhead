@@ -1,16 +1,9 @@
 import React from 'react';
-import { Route, withRouter, NavLink } from 'react-router-dom';
-import { Switch } from 'react-router';
-import requireAuth from '../containers/requireAuth';
-import OpoTrips from './opotrips';
-import OpoApprovals from './opoStuff';
-// import LeaderApprovals from './leader_approvals';
-import TripApprovals from '../img/mountain.svg';
-import VehicleRequests from '../img/vehicle.svg';
-import LeaderApproval from '../img/leader.svg';
-import MyTrips from '../img/mytrips_icon.png';
-// import OPOAssignments from '../img/opoicon.svg';
-import '../styles/opoDashboard.scss';
+import { withRouter, NavLink } from 'react-router-dom';
+import TripApprovals from '../../img/mountain.svg';
+import VehicleRequests from '../../img/vehicle.svg';
+import LeaderApproval from '../../img/leader.svg';
+import './opo-dashboard.scss';
 
 const OPODashboard = () => {
   return (

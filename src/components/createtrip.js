@@ -253,7 +253,7 @@ class CreateTrip extends Component {
     let options = null;
     if (this.props.user.role !== 'Trippee' && this.props.user.leader_for.length > 0) {
       options = this.props.user.leader_for.map((club) => {
-        return <option key={club.id} data-id={club.id} value={club.name}>{club.name}</option>;
+        return <option key={club._id} data-id={club._id} value={club.name}>{club.name}</option>;
       });
     }
     return options;
@@ -596,7 +596,7 @@ class CreateTrip extends Component {
       delete vehicle.errorFields;
       return vehicle;
     });
-    const vehicleReqId = (this.props.switchMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest.id : null;
+    const vehicleReqId = (this.props.switchMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest._id : null;
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders.trim().split(','),
