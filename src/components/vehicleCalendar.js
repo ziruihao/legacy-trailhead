@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
-import VehicleCalendarComponent from '../components/vehicleCalendarComponent';
+import VehicleCalendarComponent from './vehicleCalendarComponent';
 import loadingGif from '../img/loading-gif.gif';
 import '../styles/vehicle-calendar-style.scss';
 
