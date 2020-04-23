@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { fetchTrips } from '../actions';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import '../styles/card-style.scss';
+import './trips/trip-card.scss';
 
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.
@@ -82,12 +82,12 @@ class TripsCal extends Component {
             <Modal.Header closeButton>
               <Modal.Title>{this.state.currEvent.title}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>{this.state.currEvent.id} and {this.state.currEvent._id}</Modal.Body>
+            <Modal.Body>{this.state.currEvent._id} and {this.state.currEvent._id}</Modal.Body>
             <Modal.Footer>
               <button type="button" variant="secondary" onClick={this.handleClose}>
             Close
               </button>
-              <NavLink type="button" to={`/trip/${this.state.currEvent.id}`} key={this.state.currEvent._id}>
+              <NavLink type="button" to={`/trip/${this.state.currEvent._id}`} key={this.state.currEvent._id}>
                 <div>
                   <h2>See Trip Details</h2>
                 </div>

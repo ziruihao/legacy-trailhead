@@ -240,7 +240,7 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
         </div>
         <div className="trip-detail">
           {groupGearArray.map((gear, index, array) => (
-            <div key={gear.id}>
+            <div key={gear._id}>
               <div className="leader-trip-detail-row">
                 <span>{gear}</span>
               </div>
@@ -458,7 +458,7 @@ export default React.forwardRef((props, ref) => {
         )
         : null}
       <div className="center">
-        <Link to={`/edittrip/${props.trip.id}`} className="signup-button leader-edit-link"><button type="submit" className="signup-button">Edit Trip</button></Link>
+        <Link to={`/edittrip/${props.trip._id}`} className="signup-button leader-edit-link"><button type="submit" className="signup-button">Edit Trip</button></Link>
       </div>
 
       <div className="center">

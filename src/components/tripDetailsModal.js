@@ -2,9 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import '../styles/card-style.scss';
-
-
+import './trips/trip-card.scss';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -147,7 +145,7 @@ class TripDetailsModal extends Component {
             </div>
           </div>
           <div className="button-container">
-            <NavLink className="btn btn-primary" id="signup-button" to={`/trip/${this.props.trip.id}`}>
+            <NavLink className="btn btn-primary" id="signup-button" to={`/trip/${this.props.trip._id}`}>
               {this.renderTripActionButton()}
             </NavLink>
           </div>

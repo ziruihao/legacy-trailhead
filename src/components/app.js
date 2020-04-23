@@ -1,25 +1,27 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
-
+import axios from 'axios';
 import { connect } from 'react-redux';
 import Dashboard from './dashboard';
-import AllTrips from './allTrips';
-import CreateTrip from '../components/createtrip';
-import MyTrips from '../components/myTrips';
-import VehicleRequest from '../components/vehiclerequest';
-import ProfilePage from '../components/profilepage';
-import TripDetails from '../components/tripdetails';
-import OpoApprovals from '../components/opoStuff';
-import NavBar from './navbar/navbar';
-import OpoTrips from '../components/opotrips';
-import OpoVehicleRequests from '../components/opoVehicleRequests';
-import OpoVehicleRequest from '../components/opoVehicleRequest';
-import OPODashboard from '../components/opoDashboard';
-import requireAuth from './requireAuth';
-import VehicleCalendar from './vehicleCalendar';
+import AllTrips from './trips';
+import CreateTrip from './createtrip';
+import MyTrips from './myTrips';
+import VehicleRequest from './vehiclerequest';
+import ProfilePage from './profilepage';
+import TripDetails from './tripdetails';
+import OpoApprovals from './opoStuff';
+import NavBar from './nav-bar/nav-bar';
+import OpoTrips from './opotrips';
+import OpoVehicleRequests from './opo-vehicle-requests';
+import OpoVehicleRequest from './opoVehicleRequest';
+import OPODashboard from './opo-dashboard';
+import requireAuth from './require-auth';
+import VehicleCalendar from './vehiclecalendar';
 
 import { getUser, getClubs, getVehicles } from '../actions';
+
+const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 
 class App extends React.Component {
   constructor(props) {
@@ -30,9 +32,11 @@ class App extends React.Component {
   }
 
   componentWillMount() {
-    if (this.props.authenaticated) {
+    this.verifyToken().then(() => {
       this.loadData();
-    } else { this.setState({ loaded: true }); }
+    }).catch(() => {
+      this.setState({ loaded: true });
+    });
   }
 
   loadData = () => {
@@ -45,6 +49,26 @@ class App extends React.Component {
           });
         });
       }).catch(error => reject(error));
+    });
+  }
+
+  verifyToken = () => {
+    return new Promise((resolve, reject) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        console.log('there is a token');
+        axios.get(`${ROOT_URL}/user`, { headers: { authorization: token } })
+          .then(() => {
+            console.log('token works');
+            resolve();
+          })
+          .catch(() => {
+            console.log('token doesnt work');
+            localStorage.clear();
+            reject();
+            // store.dispatch({ type: ActionTypes.DEAUTH_USER });
+          });
+      } else { reject(); }
     });
   }
 

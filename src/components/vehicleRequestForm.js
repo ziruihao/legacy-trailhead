@@ -42,7 +42,7 @@ const getVehicles = (props) => {
     const { vehicleType } = vehicle;
     const singleDayClass = vehicle.tripLength === 'single-day-trip' ? 'vrf-single-day-date' : '';
     return (
-      <div key={vehicle.id} className="vrf-req-group">
+      <div key={vehicle._id} className="vrf-req-group">
         <div className="vrf-req-header">
           <h3 className="vrf-label vrf-req-no">Vehicle #{index + 1}</h3>
           <div className="trip-details-close-button">

@@ -58,6 +58,7 @@ export function getUser() {
       axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
           dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
+          dispatch({ type: ActionTypes.AUTH_USER, payload: true });
           resolve();
         })
         .catch((error) => {

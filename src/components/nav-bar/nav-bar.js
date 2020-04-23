@@ -5,7 +5,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { signOut, clearError } from '../../actions';
-import './navbar.scss';
+import './nav-bar.scss';
 
 
 class NavBar extends Component {
