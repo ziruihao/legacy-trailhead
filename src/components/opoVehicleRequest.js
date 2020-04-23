@@ -2,9 +2,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
+import axios from 'axios';
 import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
+import * as constants from '../constants';
 import ProfileCard from './profilecard';
 import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../actions';
 import pendingBadge from '../img/pending_badge.svg';
@@ -40,7 +42,7 @@ class OPOVehicleRequest extends Component {
     returnTime: '',
     assignedKey: '',
     errorFields: { ...this.errorFields },
-    conflictingEvents: [],
+    conflicts: [],
     responseIndex: 0,
   }
 
@@ -73,6 +75,7 @@ class OPOVehicleRequest extends Component {
           const { defaultAssignment } = this;
           const updates = {};
           updates.responseIndex = index;
+          updates.conflicts = [];
           updates.pickupDate = vehicle.pickupDate.substring(0, 10);
           updates.pickupTime = vehicle.pickupTime;
           updates.returnDate = vehicle.returnDate.substring(0, 10);
@@ -80,7 +83,7 @@ class OPOVehicleRequest extends Component {
           return Object.assign({}, defaultAssignment, updates);
         });
         const unreviewed = this.props.vehicleRequest.status === 'pending';
-        this.setState((prevState) => {
+        this.setState(() => {
           return { isEditing: unreviewed, assignments, ready: true };
         });
       });
@@ -120,23 +123,33 @@ class OPOVehicleRequest extends Component {
     this.setState({ showModal: false });
   }
 
+  checkForAssignmentConflicts = (proposedAssignment) => {
+    return new Promise((resolve, reject) => {
+      axios.post(`${constants.BACKEND_URL}/vehicle-requests/check-conflict`, proposedAssignment, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          resolve(response.data);
+        }).catch((error) => {
+          console.log(error);
+          reject(error);
+        });
+    });
+  }
+
   onVehicleTypeChange = (eventkey, index) => {
-    this.setState((prevState) => {
-      const oldVehicles = prevState.assignments;
-      const oldVehicle = oldVehicles[index];
-      const updates = {};
-      updates.assignedVehicle = eventkey;
-      if (eventkey === 'Enterprise') {
-        updates.pickupDate = 'Enterprise';
-        updates.pickupTime = 'Enterprise';
-        updates.returnDate = 'Enterprise';
-        updates.returnTime = 'Enterprise';
-        updates.assignedKey = 'Enterprise';
-      }
-      // updates.errorFields = Object.assign({}, oldVehicle.errorFields, { vehicleType: this.isStringEmpty(eventkey) });
-      const updatedVehicle = Object.assign({}, oldVehicle, updates);
-      const updatedVehicles = Object.assign([], oldVehicles, { [index]: updatedVehicle });
-      return { assignments: updatedVehicles };
+    const proposedAssignment = this.state.assignments[index];
+    proposedAssignment.assignedVehicle = eventkey;
+    this.checkForAssignmentConflicts(proposedAssignment).then((conflicts) => {
+      this.setState((prevState) => {
+        const updates = prevState.assignments[index];
+        updates.assignedVehicle = eventkey;
+        updates.conflicts = conflicts;
+        if (eventkey === 'Enterprise') {
+          updates.assignedKey = 'Enterprise';
+        }
+        const updatedVehicle = Object.assign({}, prevState.assignments[index], updates);
+        const updatedVehicles = Object.assign([], prevState.assignments, { [index]: updatedVehicle });
+        return { assignments: updatedVehicles };
+      });
     });
   }
 
@@ -250,87 +263,6 @@ class OPOVehicleRequest extends Component {
       window.scrollTo(0, 0);
       return false;
     }
-
-    let hasConflictingEvent = false;
-    const { vehicles } = this.props;
-    const markedConflictingAssignments = assignments.map((assignment) => {
-      if (!this.isStringEmpty(assignment.assignedVehicle)
-        && !this.isStringEmpty(assignment.pickupDate)
-        && !this.isStringEmpty(assignment.pickupTime)
-        && !this.isStringEmpty(assignment.returnDate)
-        && !this.isStringEmpty(assignment.returnTime)
-        && assignment.assignedVehicle !== 'Enterprise') {
-        const selectedVehicle = vehicles.find((vehicle) => { // consider selected vehicle
-          return vehicle.name === assignment.assignedVehicle;
-        });
-        let selectedVehicleBookings;
-        if (assignment.existingAssignment) { // is update to response
-          const oldAssignment = this.props.vehicleRequest.assignments.find((element) => { // find old assignment
-            return element._id.equals(assignment._id);
-          });
-          if (assignment.assignVehicle === oldAssignment.assignVehicle) { // if vehicle was not changed,
-            selectedVehicleBookings = selectedVehicle.bookings.filter((booking) => { // remove modified assignment to avoid conflicting with self when checking for validity
-              return !booking._id.equals(assignment._id);
-            });
-          } else { // vehicle was changed
-            selectedVehicleBookings = selectedVehicle.bookings; // no need to remove because assignment does not exist in new assigned vehicle
-          }
-        } else { // is new response
-          selectedVehicleBookings = selectedVehicle.bookings;
-        }
-        const bookingsWithDateAndTime = selectedVehicleBookings.map((booking) => {
-          const updates = {};
-          updates.pickupDateAndTime = this.createDateObject(booking.assigned_pickupDate, booking.assigned_pickupTime);
-          updates.returnDateAndTime = this.createDateObject(booking.assigned_returnDate, booking.assigned_returnTime);
-          return Object.assign({}, booking, updates);
-        });
-
-        const assignmentUpdates = {};
-        assignmentUpdates.pickupDateAndTime = this.createDateObject(assignment.pickupDate, assignment.pickupTime);
-        assignmentUpdates.returnDateAndTime = this.createDateObject(assignment.returnDate, assignment.returnTime);
-        const assignmentWithDateAndTime = Object.assign({}, assignment, assignmentUpdates);
-
-        bookingsWithDateAndTime.push(assignmentWithDateAndTime);
-
-        bookingsWithDateAndTime.sort((booking1, booking2) => {
-          if (booking1.pickupDateAndTime < booking2.pickupDateAndTime) {
-            return -1;
-          }
-          if (booking1.pickupDateAndTime > booking2.pickupDateAndTime) {
-            return 1;
-          }
-          return 0;
-        });
-        const conflictsWithEvent = bookingsWithDateAndTime.some((booking, index, array) => {
-          let isConflicting = false;
-          if (index < array.length - 1) {
-            isConflicting = booking.returnDateAndTime >= array[index + 1].pickupDateAndTime;
-          }
-          return isConflicting;
-        });
-        if (conflictsWithEvent) {
-          const updatedErrorFields = { ...this.errorFields };
-          updatedErrorFields.pickupDate = true;
-          updatedErrorFields.pickupTime = true;
-          updatedErrorFields.returnDate = true;
-          updatedErrorFields.returnTime = true;
-          assignment.errorFields = Object.assign({}, assignment.errorFields, updatedErrorFields);
-          hasConflictingEvent = true;
-        }
-
-        return assignment;
-      } else {
-        return assignment;
-      }
-    });
-
-    if (hasConflictingEvent) {
-      this.setState({ assignments: markedConflictingAssignments });
-      this.props.appError('The highlighted assignment conflicts with an already existing one');
-      window.scrollTo(0, 0);
-      return false;
-    }
-
     return true;
   }
 
@@ -357,7 +289,7 @@ class OPOVehicleRequest extends Component {
 
       const deletedErrorFields = nonEmptyAssignemnts.map((assignment) => {
         delete assignment.errorFields;
-        delete assignment.conflictingEvents;
+        delete assignment.conflicts;
         return assignment;
       });
 
@@ -462,13 +394,31 @@ class OPOVehicleRequest extends Component {
     });
   }
 
-  assignmentForm = (index) => {
+  renderPotentialConflicts = (conflicts) => {
+    return (
+      <div className="ovr-req-assignment-conflicts">
+        {conflicts.map((conflict) => {
+          console.log(conflict);
+          return (
+            <div className="ovr-req-assignment-conflict" key={conflict.objectID}>
+              {conflict.message}
+            </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  /**
+   * Editing form component to assign a vehicle.
+   */
+  renderAssignmentForm = (index) => {
     const assignment = this.state.assignments[index];
     return (
       <div className="ovr-req-assignment">
         <span className="vrf-label ovr-column-header">Assign</span>
         <div className="trip-detail ovr-white-background">
-          <span className="ovr-req-row ovr-req-vehicle-detail">
+          <div className="ovr-req-row">
             <Dropdown onSelect={eventKey => this.onVehicleTypeChange(eventKey, index)}>
               <Dropdown.Toggle id="ovr-vehicle-dropdown" className={assignment.errorFields.assignedVehicle ? 'vrf-error' : ''}>
                 <p className={`ovr-current-vehicle ${assignment.assignedVehicle === '' ? 'no-date' : ''}`}>{assignment.assignedVehicle === '' ? 'Assign a vehicle' : assignment.assignedVehicle}</p>
@@ -478,13 +428,14 @@ class OPOVehicleRequest extends Component {
                 {this.vehicleForm}
               </Dropdown.Menu>
             </Dropdown>
-          </span>
+            {assignment.conflicts !== null ? this.renderPotentialConflicts(assignment.conflicts) : null}
+          </div>
           <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+          <div className="ovr-req-row"> - </div>
           <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+          <div className="ovr-req-row"> - </div>
           <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">
+          <div className="ovr-req-row">
             {assignment.assignedVehicle === 'Enterprise'
               ? '-'
               : (
@@ -497,9 +448,9 @@ class OPOVehicleRequest extends Component {
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
-          </span>
+          </div>
           <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">
+          <div className="ovr-req-row">
             {assignment.assignedVehicle === 'Enterprise'
               ? '-'
               : (
@@ -512,9 +463,9 @@ class OPOVehicleRequest extends Component {
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
-          </span>
+          </div>
           <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">
+          <div className="ovr-req-row">
             {assignment.assignedVehicle === 'Enterprise'
               ? '-'
               : (
@@ -527,9 +478,9 @@ class OPOVehicleRequest extends Component {
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
-          </span>
+          </div>
           <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">
+          <div className="ovr-req-row">
             {assignment.assignedVehicle === 'Enterprise'
               ? '-'
               : (
@@ -542,9 +493,9 @@ class OPOVehicleRequest extends Component {
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
-          </span>
+          </div>
           <hr className="detail-line" />
-          <span className="ovr-req-row ovr-req-vehicle-detail">
+          <div className="ovr-req-row">
             {assignment.assignedVehicle === 'Enterprise'
               ? '-'
               : (
@@ -559,12 +510,12 @@ class OPOVehicleRequest extends Component {
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
-          </span>
+          </div>
           <hr className="detail-line" />
           {assignment.existingAssignment
             ? (
               <div>
-                <span className="ovr-req-row ovr-req-vehicle-detail">
+                <div className="ovr-req-row">
                   {assignment.assignedVehicle === 'Enterprise'
                     ? '-'
                     : (
@@ -579,9 +530,9 @@ class OPOVehicleRequest extends Component {
                         <span className="checkmark" />
                       </label>
                     )}
-                </span>
+                </div>
                 <hr className="detail-line" />
-                <span className="ovr-req-row ovr-req-vehicle-detail">
+                <div className="ovr-req-row">
                   {assignment.assignedVehicle === 'Enterprise'
                     ? '-'
                     : (
@@ -596,7 +547,7 @@ class OPOVehicleRequest extends Component {
                         <span className="checkmark" />
                       </label>
                     )}
-                </span>
+                </div>
               </div>
             )
             : null
@@ -609,6 +560,9 @@ class OPOVehicleRequest extends Component {
     );
   }
 
+  /**
+   * Viewing details about a vehicle assigned.
+   */
   assignmentDisplay = (index) => {
     const assignment = this.props.vehicleRequest.assignments.find((element) => {
       return element.responseIndex === index;
@@ -618,53 +572,53 @@ class OPOVehicleRequest extends Component {
         <div className="ovr-req-assignment">
           <span className="vrf-label ovr-column-header">Assigned</span>
           <div className="trip-detail ovr-white-background">
-            <span className="ovr-req-row ovr-req-vehicle-detail">{assignment.assigned_vehicle.name}</span>
+            <div className="ovr-req-row">{assignment.assigned_vehicle.name}</div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+            <div className="ovr-req-row"> - </div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+            <div className="ovr-req-row"> - </div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">
+            <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : this.formatDate(assignment.assigned_pickupDate.substring(0, 10))}
-            </span>
+            </div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">
+            <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : this.formatTime(assignment.assigned_pickupTime)}
-            </span>
+            </div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">
+            <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : this.formatDate(assignment.assigned_returnDate.substring(0, 10))}
-            </span>
+            </div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">
+            <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : this.formatTime(assignment.assigned_returnTime)}
-            </span>
+            </div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">
+            <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : assignment.assigned_key}
-            </span>
+            </div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">
+            <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : assignment.pickedUp ? 'Yes' : 'No' }
-            </span>
+            </div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail">
+            <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : assignment.returned ? 'Yes' : 'No'}
-            </span>
+            </div>
           </div>
           <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => this.activateModal({ trigger: 'CANCEL', ids: [assignment._id] })} role="button" tabIndex={0}>
             Cancel assignment
@@ -676,21 +630,21 @@ class OPOVehicleRequest extends Component {
         <div className="ovr-req-assignment">
           <span className="vrf-label ovr-column-header">Skipped Assignment</span>
           <div className="trip-detail ovr-white-background">
-            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <span className="ovr-req-row ovr-skipped-detail">skipped</span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+            <div className="ovr-req-row"> - </div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+            <div className="ovr-req-row"> - </div>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <span className="ovr-req-row ovr-skipped-detail">skipped</span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <span className="ovr-req-row ovr-skipped-detail">skipped</span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <span className="ovr-req-row ovr-skipped-detail">skipped</span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <span className="ovr-req-row ovr-skipped-detail">skipped</span>
             <hr className="detail-line" />
-            <span className="ovr-req-row ovr-req-vehicle-detail ovr-skipped-detail">skipped</span>
+            <span className="ovr-req-row ovr-skipped-detail">skipped</span>
           </div>
         </div>
       );
@@ -741,28 +695,28 @@ class OPOVehicleRequest extends Component {
             <div className="ovr-req-vehicle-details">
               <span className="vrf-label ovr-column-header">Requested</span>
               <div className="trip-detail ovr-white-background">
-                <span className="ovr-req-row ovr-req-vehicle-detail">{vehicle.vehicleType}</span>
+                <div className="ovr-req-row">{vehicle.vehicleType}</div>
                 <hr className="detail-line" />
-                <span className="ovr-req-row ovr-req-vehicle-detail">{vehicle.trailerNeeded ? 'Yes' : 'No'}</span>
+                <div className="ovr-req-row">{vehicle.trailerNeeded ? 'Yes' : 'No'}</div>
                 <hr className="detail-line" />
-                <span className="ovr-req-row ovr-req-vehicle-detail">{vehicle.passNeeded ? 'Yes' : 'No'} </span>
+                <div className="ovr-req-row">{vehicle.passNeeded ? 'Yes' : 'No'} </div>
                 <hr className="detail-line" />
-                <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatDate(vehicle.pickupDate.substring(0, 10))}</span>
+                <div className="ovr-req-row">{this.formatDate(vehicle.pickupDate.substring(0, 10))}</div>
                 <hr className="detail-line" />
-                <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatTime(vehicle.pickupTime)}</span>
+                <div className="ovr-req-row">{this.formatTime(vehicle.pickupTime)}</div>
                 <hr className="detail-line" />
-                <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatDate(vehicle.returnDate.substring(0, 10))}</span>
+                <div className="ovr-req-row">{this.formatDate(vehicle.returnDate.substring(0, 10))}</div>
                 <hr className="detail-line" />
-                <span className="ovr-req-row ovr-req-vehicle-detail">{this.formatTime(vehicle.returnTime)}</span>
+                <div className="ovr-req-row">{this.formatTime(vehicle.returnTime)}</div>
                 <hr className="detail-line" />
-                <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+                <div className="ovr-req-row"> - </div>
                 {assignment
                   ? (
                     <div>
                       <hr className="detail-line" />
-                      <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+                      <div className="ovr-req-row"> - </div>
                       <hr className="detail-line" />
-                      <span className="ovr-req-row ovr-req-vehicle-detail"> - </span>
+                      <div className="ovr-req-row"> - </div>
                     </div>
                   )
                   : null
@@ -770,7 +724,7 @@ class OPOVehicleRequest extends Component {
               </div>
             </div>
 
-            {this.state.isEditing ? this.assignmentForm(index) : this.assignmentDisplay(index)}
+            {this.state.isEditing ? this.renderAssignmentForm(index) : this.assignmentDisplay(index)}
 
           </div>
         </div>

@@ -97,6 +97,22 @@
   flex-direction: column;
   min-width: 25%;
   margin-right: 1em;
+  .ovr-req-row {
+    height: 4em;
+    margin-bottom: 1em;
+    padding-left: 1em;
+    display: flex;
+    align-items: center;
+    .ovr-req-assignment-conflicts {
+      display: flex;
+      flex-direction: column;
+      .ovr-req-assignment-conflict {
+        font-size: 1em;
+        margin-top: 1em;
+      }
+    }
+  }
+
 }
 .ovr-request-and-assignment{
   display: flex;
@@ -104,22 +120,12 @@
   margin: 0 auto;
   width: 90%;
 }
-.ovr-req-row{
-  height: 2.5em;
-  margin-bottom: 1em;
-  display: flex;
-  align-items: center;
-  line-height: normal;
-}
+
 .ovr-req-label{
   justify-content: flex-end;
   text-align: end;
 }
-.ovr-req-vehicle-detail{
-  height: 3.3em;
-  justify-content: flex-start;
-  padding-left: 1em;
-}
+
 .ovr-column-header{
   height: 2.5em;
   margin-bottom: 1em;
