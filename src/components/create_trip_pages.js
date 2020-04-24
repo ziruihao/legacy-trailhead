@@ -44,6 +44,7 @@ const LeftColumn = (props) => {
 };
 
 const BasicTripInfo = (props) => {
+  console.log(props.clubOptions);
   return (
     <div className="create-trip-form-content">
       <div className="row page-header">
