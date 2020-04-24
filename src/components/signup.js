@@ -48,7 +48,7 @@ class SignUp extends Component {
     // if (this.validateInput()) {
     this.props.signUp(
       {
-        id: this.props.user.id,
+        id: this.props.user._id,
         name: this.state.name,
         email: this.state.email,
       },

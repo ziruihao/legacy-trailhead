@@ -173,8 +173,8 @@ class VehicleCalendar extends Component {
               className="cancel-link ovr-bottom-link ovr-contact-link"
               target="_blank"
               to={selectedEvent.request.requestType === 'TRIP'
-                ? `/trip/${trip.id}`
-                : `/opo-vehicle-request/${selectedEvent.request.id}#vehicle_req_${selectedEvent.responseIndex}`}
+                ? `/trip/${trip._id}`
+                : `/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
             >
               Edit Assignment
             </Link>
@@ -182,6 +182,34 @@ class VehicleCalendar extends Component {
         </div>
       </div>
     );
+  }
+
+  eventStyleGetter = (event, start, end, isSelected) => {
+    if (event.conflicts.length > 0) {
+      const style = {
+        backgroundColor: '#FFD8D8',
+        borderColor: '#A93A3A',
+        borderRadius: '0px',
+        opacity: 0.8,
+        color: 'black',
+        border: '0px',
+        display: 'block',
+      };
+      return {
+        style,
+      };
+    } else {
+      const style = {
+        backgroundColor: '#ffffff',
+        borderColor: '#3AA988',
+        borderRadius: '0px',
+        opacity: 0.8,
+        color: 'black',
+        border: '0px',
+        display: 'block',
+      };
+      return style;
+    }
   }
 
   render() {
@@ -196,6 +224,7 @@ class VehicleCalendar extends Component {
               vehicles={this.props.vehicles}
               showEventModal={this.showEventModal}
               userRole={this.props.user.role}
+              eventPropGetter={this.eventStyleGetter}
             />
           </div>
           <Modal

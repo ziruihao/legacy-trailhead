@@ -34,20 +34,20 @@ class LeaderApprovals extends Component {
     }
     return pendingApprovals.map((approval) => {
       return (
-        <div key={approval.id} className="trip-detail ola-approval">
+        <div key={approval._id} className="trip-detail ola-approval">
           <div className="ola-requester-name">
             {approval.name} ({approval.email}) is requesting leader access to the following club(s):
           </div>
           <div className="ola-requested-clubs">
             <ul>
               {approval.requested_clubs.map(club => (
-                <li key={club.id}>{club.name}</li>
+                <li key={club._id}>{club.name}</li>
               ))}
             </ul>
           </div>
           <div className="ola-action-buttons">
-            <button type="submit" className="ola-approve-button signup-button" onClick={() => this.reviewRequest(approval.id, 'approved')}>Approve</button>
-            <span className="cancel-link ovr-bottom-link" onClick={() => this.reviewRequest(approval.id, 'denied')} role="button" tabIndex={0}>
+            <button type="submit" className="ola-approve-button signup-button" onClick={() => this.reviewRequest(approval._id, 'approved')}>Approve</button>
+            <span className="cancel-link ovr-bottom-link" onClick={() => this.reviewRequest(approval._id, 'denied')} role="button" tabIndex={0}>
               Deny
             </span>
           </div>

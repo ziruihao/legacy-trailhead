@@ -53,7 +53,7 @@ class WeekView extends Component {
         return Object.assign({}, booking, calendarFields);
       });
       return (
-        <div key={vehicle.id} className="weekview-container">
+        <div key={vehicle._id} className="weekview-container">
           <span className={`vehicle-name ${index === 0 && 'weekView-top-padding'}`}>
             {vehicle.name}
           </span>

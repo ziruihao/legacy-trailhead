@@ -1,0 +1,17 @@
+@import '../../styles/base.scss';
+
+.toggle {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 5px;
+
+
+    .toggle-label{
+        font-size: 14px;
+        color: $green;
+        margin-bottom: 0 !important; // CSS-Removing-Bootstrap
+        margin-left: 10px;
+    }
+    
+}
