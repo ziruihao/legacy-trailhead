@@ -193,7 +193,7 @@ export function createTrip(trip, history) {
   return (dispatch) => {
     axios.post(`${constants.BACKEND_URL}/allTrips`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        history.push('/alltrips');
+        history.push('/all-trips');
       })
       .catch((error) => {
         console.log(error);
