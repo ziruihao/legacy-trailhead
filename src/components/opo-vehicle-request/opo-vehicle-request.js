@@ -16,7 +16,7 @@ import deniedBadge from '../../img/denied_badge.svg';
 import loadingGif from '../../img/loading-gif.gif';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import conflictMarker from './conflict-marker.svg';
-import '../../styles/opoVehicleRequest-style.scss';
+import './opo-vehicle-request.scss';
 
 class OPOVehicleRequest extends Component {
   badges = {
@@ -430,7 +430,7 @@ class OPOVehicleRequest extends Component {
     return (
       <div className="ovr-req-assignment">
         <span className="vrf-label ovr-column-header">Assign</span>
-        <div className="assignment-details-table ovr-white-background">
+        <div className="table">
           <div className="ovr-req-row">
             <Dropdown onSelect={eventKey => this.onVehicleTypeChange(eventKey, index)}>
               <Dropdown.Toggle id="ovr-vehicle-dropdown-button" className={assignment.errorFields.assignedVehicle ? 'vrf-error' : ''}>
@@ -584,7 +584,7 @@ class OPOVehicleRequest extends Component {
       return (
         <div className="ovr-req-assignment">
           <span className="vrf-label ovr-column-header">Assigned</span>
-          <div className="trip-detail ovr-white-background">
+          <div className="table">
             <div className="ovr-req-row">{assignment.assigned_vehicle.name}</div>
             <hr className="detail-line" />
             <div className="ovr-req-row"> - </div>
@@ -642,7 +642,7 @@ class OPOVehicleRequest extends Component {
       return (
         <div className="ovr-req-assignment">
           <span className="vrf-label ovr-column-header">Skipped Assignment</span>
-          <div className="trip-detail ovr-white-background">
+          <div className="table">
             <span className="ovr-req-row ovr-skipped-detail">skipped</span>
             <hr className="detail-line" />
             <div className="ovr-req-row"> - </div>
@@ -674,7 +674,7 @@ class OPOVehicleRequest extends Component {
           <div className="vrf-req-header">
             <h3 className="vrf-label vrf-req-no">Vehicle #{index + 1}</h3>
           </div>
-          <div className="trip-detail pending-table ovr-white-background">
+          <div className="trip-detail pending-table white-background">
             <div className="vrf-label leader-detail-row">
               Vehicle Details
             </div>
@@ -684,21 +684,21 @@ class OPOVehicleRequest extends Component {
             </div>
           </div>
           <div className="ovr-request-and-assignment">
-            <div className="ovr-req-labels">
-              <span className="ovr-req-row vrf-label ovr-req-label ovr-header-filler">#TheLodgeInfiltrated</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Vehicle</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Trailer Compatible?</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">WMNF Pass Needed?</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Pickup Date</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Pickup Time</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Return Date</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Return Time</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Key Assignment</span>
+            <div id="ovr-req-assignment-label" className="ovr-req-assignment">
+              <span className="ovr-req-row ovr-header-filler">#TheLodgeInfiltrated</span>
+              <span className="ovr-req-row">Vehicle</span>
+              <span className="ovr-req-row">Trailer Compatible?</span>
+              <span className="ovr-req-row">WMNF Pass Needed?</span>
+              <span className="ovr-req-row">Pickup Date</span>
+              <span className="ovr-req-row">Pickup Time</span>
+              <span className="ovr-req-row">Return Date</span>
+              <span className="ovr-req-row">Return Time</span>
+              <span className="ovr-req-row">Key Assignment</span>
               {assignment
                 ? (
                   <div>
-                    <span className="ovr-req-row vrf-label ovr-req-label">Picked up?</span>
-                    <span className="ovr-req-row vrf-label ovr-req-label">Returned?</span>
+                    <span className="ovr-req-row">Picked up?</span>
+                    <span className="ovr-req-row">Returned?</span>
                   </div>
                 )
                 : null
@@ -707,7 +707,7 @@ class OPOVehicleRequest extends Component {
 
             <div className="ovr-req-vehicle-details">
               <span className="vrf-label ovr-column-header">Requested</span>
-              <div className="trip-detail ovr-white-background">
+              <div className="table">
                 <div className="ovr-req-row">{vehicle.vehicleType}</div>
                 <hr className="detail-line" />
                 <div className="ovr-req-row">{vehicle.trailerNeeded ? 'Yes' : 'No'}</div>
@@ -881,7 +881,7 @@ class OPOVehicleRequest extends Component {
                 </span>
               </span>
             </div>
-            <div id="req_details" className="trip-detail pending-table ovr-white-background">
+            <div id="req_details" className="trip-detail pending-table white-background">
               <div className="leader-detail-row">
                 <span className="detail-cell vrf-label">Requester</span>
                 <span className="detail-cell vrf-label"># of people</span>
@@ -911,7 +911,7 @@ class OPOVehicleRequest extends Component {
             </div>
             {this.props.vehicleRequest.requestType === 'SOLO'
               ? (
-                <div className="trip-detail pending-table ovr-white-background">
+                <div className="trip-detail pending-table white-background">
                   <div className="vrf-label leader-detail-row">
                     Request Details
                   </div>
