@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
+import axios from 'axios';
 import { WithContext as ReactTags } from 'react-tag-input';
+import * as constants from '../constants';
 
 const KeyCodes = {
   comma: 188,
@@ -30,6 +31,15 @@ class CoLeadersAutoComplete extends Component {
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
     // this.handleDrag = this.handleDrag.bind(this);
+  }
+
+  componentWillMount() {
+    axios.get(`${constants.BACKEND_URL}/users`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+      const parsedData = response.data.map((user) => {
+        return { id: user._id, text: user.email };
+      });
+      this.setState({ suggestions: parsedData });
+    });
   }
 
   handleDelete(i) {
