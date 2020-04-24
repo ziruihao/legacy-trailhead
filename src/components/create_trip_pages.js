@@ -84,7 +84,7 @@ const BasicTripInfo = (props) => {
           placeholder="my.buddy.21@dartmouth.edu, my.driver.21@dartmouth.edu"
           value={props.leaderValue}
         /> */}
-        <CoLeadersAutoComplete />
+        <CoLeadersAutoComplete updateLeaderValue={props.updateLeaderValue} name="leaders" />
 
         <div className="checkbox-beginner">
           <input

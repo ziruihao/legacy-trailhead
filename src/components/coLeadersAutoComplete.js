@@ -17,10 +17,10 @@ class CoLeadersAutoComplete extends Component {
     this.state = {
       tags: [],
       suggestions: [],
+      error: null,
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
-    // this.handleDrag = this.handleDrag.bind(this);
   }
 
   componentWillMount() {
@@ -37,27 +37,21 @@ class CoLeadersAutoComplete extends Component {
     this.setState({
       tags: tags.filter((tag, index) => index !== i),
     });
+    this.props.updateLeaderValue(this.state.tags);
   }
 
   handleAddition(tag) {
-    console.log(tag);
-    if (this.state.suggestions.find((sugg) => { return sugg.text === tag.text; }) !== -1) {
+    // console.log(this.state.suggestions.find((sugg) => { return sugg.text === tag.text; }));
+    if (typeof (this.state.suggestions.find((sugg) => { return sugg.text === tag.text; })) !== 'undefined') {
       this.setState(state => ({ tags: [...state.tags, tag] }));
+      this.props.updateLeaderValue(this.state.tags);
+    } else {
+      this.setState({ error: 'plz use list' });
     }
   }
 
-  // handleDrag(tag, currPos, newPos) {
-  //   const tags = [...this.state.tags];
-  //   const newTags = tags.slice();
-
-  //   newTags.splice(currPos, 1);
-  //   newTags.splice(newPos, 0, tag);
-
-  //   // re-render
-  //   this.setState({ tags: newTags });
-  // }
-
   render() {
+    console.log(this.state.error);
     const { tags, suggestions } = this.state;
     return (
       <div>
@@ -67,7 +61,6 @@ class CoLeadersAutoComplete extends Component {
           suggestions={suggestions}
           handleDelete={this.handleDelete}
           handleAddition={this.handleAddition}
-          // handleDrag={this.handleDrag}
           delimiters={delimiters}
           allowDragDrop={false}
           minQueryLength={3}
