@@ -61,9 +61,19 @@ const BasicTripInfo = (props) => {
       </div>
       <div className="row page-sub-headers">
         <p>Subclub</p>
-        <select name="club" className="custom-select field top-create-trip" defaultValue="Select Club" onChange={props.onClubChange}>
-          {props.clubOptions}
-        </select>
+        {props.clubOptions.length > 0
+          ? (
+            <select name="club" className="custom-select field top-create-trip" defaultValue="Select Club" onChange={props.onClubChange}>
+              {props.clubOptions}
+            </select>
+          )
+          : (
+            <select name="club" className="custom-select field top-create-trip" defaultValue="You are not a leader in any club." onChange={props.onClubChange}>
+              {props.clubOptions}
+            </select>
+          )
+      }
+
       </div>
       <div className="row page-sub-headers">
         <p>Cost</p>
