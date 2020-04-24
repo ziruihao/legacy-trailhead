@@ -40,7 +40,10 @@ class CoLeadersAutoComplete extends Component {
   }
 
   handleAddition(tag) {
-    this.setState(state => ({ tags: [...state.tags, tag] }));
+    console.log(tag);
+    if (this.state.suggestions.find((sugg) => { return sugg.text === tag.text; }) !== -1) {
+      this.setState(state => ({ tags: [...state.tags, tag] }));
+    }
   }
 
   // handleDrag(tag, currPos, newPos) {
@@ -68,6 +71,7 @@ class CoLeadersAutoComplete extends Component {
           delimiters={delimiters}
           allowDragDrop={false}
           minQueryLength={3}
+          allowUnique
         />
       </div>
     );
