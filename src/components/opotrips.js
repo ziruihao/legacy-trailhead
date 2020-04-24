@@ -207,7 +207,7 @@ class OpoTrips extends Component {
 
   getPendingTripRows = (pendingTrips) => {
     return pendingTrips.map(trip => (
-      <tr key={trip.id} onClick={() => this.onRowClick(trip.id)}>
+      <tr key={trip._id} onClick={() => this.onRowClick(trip._id)}>
         <td>{trip.title}</td>
         <td>{this.formatDate(trip.startDate, trip.startTime)}</td>
         <td>{trip.club.name}</td>
@@ -221,7 +221,7 @@ class OpoTrips extends Component {
 
   getApprovedTripRows = (approvedTrips) => {
     return approvedTrips.map(trip => (
-      <tr key={trip.id} onClick={() => this.onRowClick(trip.id)}>
+      <tr key={trip._id} onClick={() => this.onRowClick(trip._id)}>
         <td>{trip.title}</td>
         <td>{this.formatDate(trip.startDate, trip.startTime)}</td>
         <td>{trip.club.name}</td>

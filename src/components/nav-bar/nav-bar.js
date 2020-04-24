@@ -4,8 +4,8 @@ import { withRouter, NavLink } from 'react-router-dom';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
-import { signOut, clearError } from '../actions';
-import '../styles/navbar.scss';
+import { signOut, clearError } from '../../actions';
+import './nav-bar.scss';
 
 
 class NavBar extends Component {

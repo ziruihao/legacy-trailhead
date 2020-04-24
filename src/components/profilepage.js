@@ -180,14 +180,14 @@ class ProfilePage extends Component {
   getClubForm = () => {
     const currentClubIds = this.state.clubsList.map(club => club._id);
     const clubForm = this.props.clubs.map((club) => {
-      const checked = currentClubIds.includes(club.id);
+      const checked = currentClubIds.includes(club._id);
       return (
-        <div className="club-option" key={club.id}>
-          <label className="checkbox-container club-checkbox" htmlFor={club.id}>
+        <div className="club-option" key={club._id}>
+          <label className="checkbox-container club-checkbox" htmlFor={club._id}>
             <input
               type="checkbox"
               name="club"
-              id={club.id}
+              id={club._id}
               value={club.name}
               onChange={this.onFieldChange}
               checked={checked}

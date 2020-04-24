@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { signIn, appError, updateRestrictedPath, getUser } from '../actions';
-import Auth from '../components/auth';
+import Auth from './auth';
 
 export default function (ComposedComponent, dataLoader, switchMode) {
   class RequireAuth extends Component {

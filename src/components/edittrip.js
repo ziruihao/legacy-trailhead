@@ -128,7 +128,7 @@ class EditTrip extends Component {
       cost: this.state.cost ? this.state.cost : this.props.trip.cost,
       gearRequests,
       newRequest: this.state.newRequest,
-      id: this.props.trip.id,
+      id: this.props.trip._id,
     };
 
     const start = new Date(trip.startDate);
@@ -174,7 +174,7 @@ class EditTrip extends Component {
             </div>
             {this.getGearForm()}
             <button className="btn btn-success" onClick={this.editTrip}>Update Trip</button>
-            <button className="btn btn-danger" onClick={() => this.props.history.push(`/trip/${this.props.trip.id}`)}>Cancel changes</button>
+            <button className="btn btn-danger" onClick={() => this.props.history.push(`/trip/${this.props.trip._id}`)}>Cancel changes</button>
           </div>
         </div>
       </div>

@@ -2,19 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
-import { fetchVehicleRequests } from '../actions';
-import loadingGif from '../img/loading-gif.gif';
-import '../styles/tripdetails_leader.scss';
-import '../styles/opo-trips.scss';
+import { fetchVehicleRequests } from '../../actions';
+import Toggle from '../toggle/toggle';
+import loadingGif from '../../img/loading-gif.gif';
+import '../../styles/tripdetails_leader.scss';
+import '../../styles/opo-trips.scss';
 
-class OpoVehicleRequests extends Component {
+class OPOVehicleRequests extends Component {
   now = new Date();
 
   constructor(props) {
     super(props);
     this.state = {
       searchPendingTerm: '',
+      seePastPendingRequests: false,
       searchReviewedTerm: '',
+      seePastReviewedRequests: false,
       ready: false,
     };
   }
@@ -63,6 +66,9 @@ class OpoVehicleRequests extends Component {
     const pendingRequests = this.props.vehicleRequests.filter((request) => {
       return request.status === 'pending';
     });
+
+    // if (!this.state.seePastReviewedRequests) {
+    // }
 
     if (pendingRequests.length === 0) {
       return (
@@ -154,7 +160,7 @@ class OpoVehicleRequests extends Component {
 
   getPendingRequestRows = (pendingRequests) => {
     return pendingRequests.map(request => (
-      <tr key={request.id} onClick={() => this.onRowClick(request.id)}>
+      <tr key={request._id} onClick={() => this.onRowClick(request._id)}>
         <td>{request.requester.name}</td>
         <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
       </tr>
@@ -163,7 +169,7 @@ class OpoVehicleRequests extends Component {
 
   getApprovedRequestsRows = (approvedRequests) => {
     return approvedRequests.map(request => (
-      <tr key={request.id} onClick={() => this.onRowClick(request.id)}>
+      <tr key={request._id} onClick={() => this.onRowClick(request._id)}>
         <td>{request.requester.name}</td>
         <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
         {this.getReqStatus(request.status)}
@@ -177,6 +183,12 @@ class OpoVehicleRequests extends Component {
         <div className="leader-details-container dashboard-container">
           <div className="pending-and-dropdown">
             <h4 className="trip-status">Pending Requests</h4>
+            <Toggle
+              id="pending-requests-past-toggle"
+              label="See past requests"
+              value={this.state.seePastPendingRequests}
+              onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+            />
             <input
               name="searchPending"
               placeholder="Search pending requests"
@@ -190,11 +202,17 @@ class OpoVehicleRequests extends Component {
           </div>
 
           <div className="calendar-link-div">
-            <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
+            <Link to="/vehicle-calendar" className="calendar-link">View Vehicle Calendar</Link>
           </div>
 
           <div className="pending-and-dropdown">
             <h4 className="trip-status">Reviewed Requests</h4>
+            <Toggle
+              id="reviewed-requests-past-toggle"
+              label="See past requests"
+              value={this.state.seePastReviewedRequests}
+              onChange={() => this.setState((prevState) => { return { seePastReviewedRequests: !prevState.seePastReviewedRequests }; })}
+            />
             <input
               name="searchReviewed"
               placeholder="Search reviewed requests"
@@ -225,4 +243,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { fetchVehicleRequests })(OpoVehicleRequests));
+export default withRouter(connect(mapStateToProps, { fetchVehicleRequests })(OPOVehicleRequests));
