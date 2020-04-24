@@ -1,4 +1,4 @@
-@import '../styles/base.scss';
+@import '../../styles/base.scss';
 
 .ovr-container{
   width: 100%;
@@ -79,9 +79,6 @@
   margin-bottom: 3em;
   padding-left: 1em;
 }
-.ovr-white-background{
-  background: white;
-}
 .ovr-req-detail{
   padding-top: 1em;
   padding-bottom: 1em;
@@ -94,69 +91,72 @@
   flex-direction: column;
   margin-right: 1.5em;
 }
+
 .ovr-req-vehicle-details, .ovr-req-assignment{
   display: flex;
   flex-direction: column;
   min-width: 25%;
   margin-right: 1em;
 
-  .assignment-details-table {
-    border: 2px solid #C4C4C4;
-    border-radius: 5px;
-    margin-bottom: 2em;
-    padding: 0 1em;
+  .ovr-req-row {
+    height: 4em;
+    display: flex;
+    align-items: center;
 
-    .ovr-req-row {
-      height: 4em;
-      display: flex;
-      align-items: center;
+    .dropdown {
+      flex-grow: 1;
 
-      .dropdown {
-        flex-grow: 1;
+      #ovr-vehicle-dropdown-button {
+        background: #FFFFFF;
+        border: 0px solid #C4C4C4;
+        width: 100%;
+        padding: 0.5em;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-        #ovr-vehicle-dropdown-button {
-          background: #FFFFFF;
-          border: 0px solid #C4C4C4;
-          width: 100%;
-          padding: 0.5em;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
+        .ovr-current-vehicle {
+          margin-top: 0;
+          margin-bottom: 0;
+          text-align: left;
+          color: black;
+          margin-right: 1em;
+          min-width: 60%;
 
-          .ovr-current-vehicle {
-            margin-top: 0;
-            margin-bottom: 0;
-            text-align: left;
-            // display: inline-block;
-            color: black;
-            margin-right: 1em;
-            min-width: 60%;
-
-            &.inactive{
-              color: $inactive-text !important; // if no vehicles are selected, then color it lighter
-            }
+          &.inactive{
+            color: $inactive-text !important; // if no vehicles are selected, then color it lighter
           }
-        }
-
-        .ovr-vehicle-options {
-          box-shadow: $menu-shadow;
         }
       }
 
-      #ovr-vehicle-conflict-marker {
-        flex-grow: 0;
-        margin-left: 1em;
-        size: 14px;
-
-        &:hover {
-          cursor: pointer;
-          filter: brightness(120%);
-        }
+      .ovr-vehicle-options {
+        box-shadow: $menu-shadow;
       }
     }
 
-    .detail-line{
-      margin: 0;
+    #ovr-vehicle-conflict-marker {
+      flex-grow: 0;
+      margin-left: 1em;
+      size: 14px;
+
+      &:hover {
+        cursor: pointer;
+        filter: brightness(120%);
+      }
+    }
+  }
+
+  .detail-line{
+    margin: 0;
+  }
+
+  &#ovr-req-assignment-label {
+    & .ovr-header-filler {
+      visibility: hidden;
+    }
+    & .ovr-req-row {
+      justify-content: flex-end;
+      text-align: end;
     }
   }
 }
@@ -167,11 +167,6 @@
   width: 90%;
 }
 
-.ovr-req-label{
-  justify-content: flex-end;
-  text-align: end;
-}
-
 .ovr-column-header{
   height: 2.5em;
   margin-bottom: 1em;
@@ -180,9 +175,6 @@
   align-items: flex-end;
   word-break: break-word;
   text-align: center;
-}
-.ovr-header-filler{
-  visibility: hidden;
 }
 .ovr-bottom-button-and-link{
   display: flex;
