@@ -15,18 +15,8 @@ class CoLeadersAutoComplete extends Component {
     super(props);
 
     this.state = {
-      tags: [
-        { id: 'Thailand', text: 'my.buddy.21@dartmouth.edu' },
-        { id: 'India', text: 'my.driver.21@dartmouth.edu' },
-      ],
-      suggestions: [
-        { id: 'USA', text: 'USA' },
-        { id: 'Germany', text: 'Germany' },
-        { id: 'Austria', text: 'Austria' },
-        { id: 'Costa Rica', text: 'Costa Rica' },
-        { id: 'Sri Lanka', text: 'Sri Lanka' },
-        { id: 'Thailand', text: 'Thailand' },
-      ],
+      tags: [],
+      suggestions: [],
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
@@ -77,6 +67,7 @@ class CoLeadersAutoComplete extends Component {
           // handleDrag={this.handleDrag}
           delimiters={delimiters}
           allowDragDrop={false}
+          minQueryLength={3}
         />
       </div>
     );
