@@ -5,7 +5,7 @@ import { withRouter } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../actions';
 import { GearRequest, BasicInfo, PCardRequest } from './opo-trip-info-pages';
-import OPOVehicleRequest from './opoVehicleRequest';
+import OPOVehicleRequest from './opo-vehicle-request';
 import '../styles/tripdetails_opo.scss';
 import '../styles/createtrip-style.scss';
 import pendingBadge from '../img/pending_badge.svg';

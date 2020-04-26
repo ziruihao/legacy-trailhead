@@ -6,15 +6,17 @@ import axios from 'axios';
 import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
-import * as constants from '../constants';
-import ProfileCard from './profilecard';
-import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../actions';
-import pendingBadge from '../img/pending_badge.svg';
-import approvedBadge from '../img/approved_badge.svg';
-import deniedBadge from '../img/denied_badge.svg';
-import loadingGif from '../img/loading-gif.gif';
-import dropdownIcon from '../img/dropdown-toggle.svg';
-import '../styles/opoVehicleRequest-style.scss';
+import * as constants from '../../constants';
+import ProfileCard from '../profilecard';
+import ConflictModal from './conflict-modal';
+import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../actions';
+import pendingBadge from '../../img/pending_badge.svg';
+import approvedBadge from '../../img/approved_badge.svg';
+import deniedBadge from '../../img/denied_badge.svg';
+import loadingGif from '../../img/loading-gif.gif';
+import dropdownIcon from '../../img/dropdown-toggle.svg';
+import conflictMarker from './conflict-marker.svg';
+import './opo-vehicle-request.scss';
 
 class OPOVehicleRequest extends Component {
   badges = {
@@ -56,6 +58,9 @@ class OPOVehicleRequest extends Component {
       showModal: false,
       modalInfo: { trigger: 'CONTACT', ids: [] },
       ready: false,
+      conflictWith: null,
+      conflicts: null,
+      showConflictsModal: false,
     };
   }
 
@@ -384,7 +389,6 @@ class OPOVehicleRequest extends Component {
       const assignment = this.props.vehicleRequest.assignments.find((element) => {
         return element.responseIndex === index;
       });
-      console.log(vehicle._id);
       return (
         <div key={vehicle._id} className="ovr-sidebar-req-section">
           <a href={`#vehicle_req_${index}`} className="ovr-req-section-link">Vehicle #{index + 1}</a>
@@ -392,6 +396,15 @@ class OPOVehicleRequest extends Component {
         </div>
       );
     });
+  }
+
+  openConflictsModal = (vehicleName, conflicts) => {
+    this.setState({
+      conflictWith: vehicleName,
+      conflicts,
+      showConflictsModal: true,
+    });
+    console.log(conflicts);
   }
 
   renderPotentialConflicts = (conflicts) => {
@@ -417,18 +430,18 @@ class OPOVehicleRequest extends Component {
     return (
       <div className="ovr-req-assignment">
         <span className="vrf-label ovr-column-header">Assign</span>
-        <div className="trip-detail ovr-white-background">
+        <div className="table">
           <div className="ovr-req-row">
             <Dropdown onSelect={eventKey => this.onVehicleTypeChange(eventKey, index)}>
-              <Dropdown.Toggle id="ovr-vehicle-dropdown" className={assignment.errorFields.assignedVehicle ? 'vrf-error' : ''}>
-                <p className={`ovr-current-vehicle ${assignment.assignedVehicle === '' ? 'no-date' : ''}`}>{assignment.assignedVehicle === '' ? 'Assign a vehicle' : assignment.assignedVehicle}</p>
+              <Dropdown.Toggle id="ovr-vehicle-dropdown-button" className={assignment.errorFields.assignedVehicle ? 'vrf-error' : ''}>
+                <div className={`ovr-current-vehicle ${assignment.assignedVehicle === '' ? 'inactive' : ''}`}>{assignment.assignedVehicle === '' ? 'Assign a vehicle' : assignment.assignedVehicle}</div>
                 <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
               </Dropdown.Toggle>
-              <Dropdown.Menu className="filter-options ovr-vehicle-options">
+              <Dropdown.Menu className="ovr-vehicle-options">
                 {this.vehicleForm}
               </Dropdown.Menu>
             </Dropdown>
-            {assignment.conflicts !== null ? this.renderPotentialConflicts(assignment.conflicts) : null}
+            {assignment.conflicts.length > 0 ? <img id="ovr-vehicle-conflict-marker" src={conflictMarker} alt="conflict" onClick={() => this.openConflictsModal(assignment.assignedVehicle, assignment.conflicts)} /> : null}
           </div>
           <hr className="detail-line" />
           <div className="ovr-req-row"> - </div>
@@ -571,7 +584,7 @@ class OPOVehicleRequest extends Component {
       return (
         <div className="ovr-req-assignment">
           <span className="vrf-label ovr-column-header">Assigned</span>
-          <div className="trip-detail ovr-white-background">
+          <div className="table">
             <div className="ovr-req-row">{assignment.assigned_vehicle.name}</div>
             <hr className="detail-line" />
             <div className="ovr-req-row"> - </div>
@@ -629,7 +642,7 @@ class OPOVehicleRequest extends Component {
       return (
         <div className="ovr-req-assignment">
           <span className="vrf-label ovr-column-header">Skipped Assignment</span>
-          <div className="trip-detail ovr-white-background">
+          <div className="table">
             <span className="ovr-req-row ovr-skipped-detail">skipped</span>
             <hr className="detail-line" />
             <div className="ovr-req-row"> - </div>
@@ -661,7 +674,7 @@ class OPOVehicleRequest extends Component {
           <div className="vrf-req-header">
             <h3 className="vrf-label vrf-req-no">Vehicle #{index + 1}</h3>
           </div>
-          <div className="trip-detail pending-table ovr-white-background">
+          <div className="trip-detail pending-table white-background">
             <div className="vrf-label leader-detail-row">
               Vehicle Details
             </div>
@@ -671,21 +684,21 @@ class OPOVehicleRequest extends Component {
             </div>
           </div>
           <div className="ovr-request-and-assignment">
-            <div className="ovr-req-labels">
-              <span className="ovr-req-row vrf-label ovr-req-label ovr-header-filler">#TheLodgeInfiltrated</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Vehicle</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Trailer Compatible?</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">WMNF Pass Needed?</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Pickup Date</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Pickup Time</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Return Date</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Return Time</span>
-              <span className="ovr-req-row vrf-label ovr-req-label">Key Assignment</span>
+            <div id="ovr-req-assignment-label" className="ovr-req-assignment">
+              <span className="ovr-req-row ovr-header-filler">#TheLodgeInfiltrated</span>
+              <span className="ovr-req-row">Vehicle</span>
+              <span className="ovr-req-row">Trailer Compatible?</span>
+              <span className="ovr-req-row">WMNF Pass Needed?</span>
+              <span className="ovr-req-row">Pickup Date</span>
+              <span className="ovr-req-row">Pickup Time</span>
+              <span className="ovr-req-row">Return Date</span>
+              <span className="ovr-req-row">Return Time</span>
+              <span className="ovr-req-row">Key Assignment</span>
               {assignment
                 ? (
                   <div>
-                    <span className="ovr-req-row vrf-label ovr-req-label">Picked up?</span>
-                    <span className="ovr-req-row vrf-label ovr-req-label">Returned?</span>
+                    <span className="ovr-req-row">Picked up?</span>
+                    <span className="ovr-req-row">Returned?</span>
                   </div>
                 )
                 : null
@@ -694,7 +707,7 @@ class OPOVehicleRequest extends Component {
 
             <div className="ovr-req-vehicle-details">
               <span className="vrf-label ovr-column-header">Requested</span>
-              <div className="trip-detail ovr-white-background">
+              <div className="table">
                 <div className="ovr-req-row">{vehicle.vehicleType}</div>
                 <hr className="detail-line" />
                 <div className="ovr-req-row">{vehicle.trailerNeeded ? 'Yes' : 'No'}</div>
@@ -868,7 +881,7 @@ class OPOVehicleRequest extends Component {
                 </span>
               </span>
             </div>
-            <div id="req_details" className="trip-detail pending-table ovr-white-background">
+            <div id="req_details" className="trip-detail pending-table white-background">
               <div className="leader-detail-row">
                 <span className="detail-cell vrf-label">Requester</span>
                 <span className="detail-cell vrf-label"># of people</span>
@@ -898,7 +911,7 @@ class OPOVehicleRequest extends Component {
             </div>
             {this.props.vehicleRequest.requestType === 'SOLO'
               ? (
-                <div className="trip-detail pending-table ovr-white-background">
+                <div className="trip-detail pending-table white-background">
                   <div className="vrf-label leader-detail-row">
                     Request Details
                   </div>
@@ -930,6 +943,9 @@ class OPOVehicleRequest extends Component {
             </div>
             <img className="status-badge ovr-status-badge" src={this.badges.denied} alt="denied_badge" />
             {this.getModalContent()}
+          </Modal>
+          <Modal centered show={this.state.showConflictsModal} onHide={() => this.setState({ showConflictsModal: false })}>
+            <ConflictModal closeModal={() => this.setState({ showConflictsModal: false })} vehicleName={this.state.conflictWith} conflicts={this.state.conflicts} />
           </Modal>
         </div>
       );
