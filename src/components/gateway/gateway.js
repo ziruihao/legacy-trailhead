@@ -1,26 +1,20 @@
 /* eslint-disable */
 /* eslint-disable react/button-has-type */
 import React, { Component } from 'react';
-import { Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string'
-import { signIn, signOut, authed, getUser } from '../../actions';
+import { signIn, signOut, casAuthed, getUser } from '../../actions';
+import * as constants from '../../constants';
 import './gateway.scss';
-
 class Gateway extends Component {
-  // componentDidMount() {
-  //   const values = queryString.parse(this.props.location.search);
-  //   if (!this.props.authenticated) {
-  //     if (values.token) {
-  //       this.props.authed(values.token, values.userId, this.props.history);
-  //     } else {
-  //       this.props.signIn();
-  //     }
-  //   } else {
-  //     this.props.history.push('/alltrips');
-  //   }
-  // }
+  componentWillMount() {
+    const casValues = queryString.parse(this.props.location.search);
+    console.log(casValues);
+    if (casValues.token) {
+      this.props.casAuthed(casValues.token, this.props.history);
+    }
+  }
 
   signInAndThenLoadData = (email, password) => {
     this.props.signIn(email, password, this.props.dataLoader);
@@ -28,6 +22,8 @@ class Gateway extends Component {
 
   fakeSignIn = (type) => {
     switch(type) {
+      case 'cas':
+        window.location = (`${constants.BACKEND_URL}/signin-cas`);
       case 'opo':
         this.signInAndThenLoadData('opo@dartmouth.edu', 'opo');
         break;
@@ -55,7 +51,7 @@ class Gateway extends Component {
     else {
       return(
         <div style={{display: 'flex'}}>
-          <button className="signup-button" onClick={() => this.fakeSignIn('opo')}>Login via CAS</button>
+          <button className="signup-button" onClick={() => this.fakeSignIn('cas')}>Login via CAS</button>
           <button className="signup-button" onClick={() => this.fakeSignIn('opo')}>OPO</button>
           <button className="signup-button" onClick={() => this.fakeSignIn('leader')}>Leader</button>
           <button className="signup-button" onClick={() => this.fakeSignIn('trippee1')}>Trippee 1</button>
@@ -99,4 +95,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { signIn, signOut, authed, getUser })(Gateway));
+export default withRouter(connect(mapStateToProps, { signIn, signOut, casAuthed, getUser })(Gateway));
