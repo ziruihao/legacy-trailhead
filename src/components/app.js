@@ -16,8 +16,8 @@ import OpoTrips from './opotrips';
 import OpoVehicleRequests from './opo-vehicle-requests';
 import OpoVehicleRequest from './opoVehicleRequest';
 import OPODashboard from './opo-dashboard';
-import requireAuth from './require-auth';
 import VehicleCalendar from './vehiclecalendar';
+import Gateway from './gateway';
 
 import { getUser, getClubs, getVehicles } from '../actions';
 
@@ -72,6 +72,11 @@ class App extends React.Component {
     });
   }
 
+  requireAuth = (RequestedComponent, switchMode) => {
+    if (this.props.authenaticated) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
+    else return <Gateway dataLoader={this.loadData} />;
+  }
+
   render() {
     if (this.state.loaded) {
       return (
@@ -79,21 +84,21 @@ class App extends React.Component {
           <NavBar />
           <div id="theBody">
             <Switch>
-              <Route exact path="/" component={requireAuth(Dashboard, this.loadData)} />
-              <Route path="/user" component={requireAuth(ProfilePage, this.loadData)} />
-              <Route path="/all-trips" component={requireAuth(AllTrips, this.loadData)} />
-              <Route path="/vehicle-request/:vehicleReqId" component={requireAuth(VehicleRequest, this.loadData, 'viewMode')} />
-              <Route path="/vehicle-request" component={requireAuth(VehicleRequest, this.loadData)} />
-              <Route path="/trip/:tripID" component={requireAuth(TripDetails, this.loadData)} />
-              <Route path="/createtrip" component={requireAuth(CreateTrip, this.loadData)} />
-              <Route path="/my-trips" component={requireAuth(MyTrips, this.loadData)} />
-              <Route path="/edittrip/:tripID" component={requireAuth(CreateTrip, this.loadData, 'editMode')} />
-              <Route path="/opo-trips" component={requireAuth(OpoTrips, this.loadData)} />
-              <Route path="/vehicle-requests" component={requireAuth(OpoVehicleRequests, this.loadData)} />
-              <Route path="/opo-vehicle-request/:vehicleReqId" component={requireAuth(OpoVehicleRequest, this.loadData)} />
-              <Route path="/opo-dashboard" component={requireAuth(OPODashboard, this.loadData)} />
-              <Route path="/leader-approvals" component={requireAuth(OpoApprovals, this.loadData)} />
-              <Route path="/vehicle-calendar" component={requireAuth(VehicleCalendar, this.loadData)} />
+              <Route exact path="/" component={this.requireAuth(Dashboard)} />
+              <Route path="/user" component={this.requireAuth(ProfilePage)} />
+              <Route path="/all-trips" component={this.requireAuth(AllTrips)} />
+              <Route path="/vehicle-request/:vehicleReqId" component={this.requireAuth(VehicleRequest, 'viewMode')} />
+              <Route path="/vehicle-request" component={this.requireAuth(VehicleRequest)} />
+              <Route path="/trip/:tripID" component={this.requireAuth(TripDetails)} />
+              <Route path="/createtrip" component={this.requireAuth(CreateTrip)} />
+              <Route path="/my-trips" component={this.requireAuth(MyTrips)} />
+              <Route path="/edittrip/:tripID" component={this.requireAuth(CreateTrip, 'editMode')} />
+              <Route path="/opo-trips" component={this.requireAuth(OpoTrips)} />
+              <Route path="/vehicle-requests" component={this.requireAuth(OpoVehicleRequests)} />
+              <Route path="/opo-vehicle-request/:vehicleReqId" component={this.requireAuth(OpoVehicleRequest)} />
+              <Route path="/opo-dashboard" component={this.requireAuth(OPODashboard)} />
+              <Route path="/leader-approvals" component={this.requireAuth(OpoApprovals)} />
+              <Route path="/vehicle-calendar" component={this.requireAuth(VehicleCalendar)} />
             </Switch>
           </div>
         </Router>
