@@ -21,7 +21,6 @@
         "indent": "warn",
         "one-var": ["error", { "uninitialized": "always", "initialized": "never" }],
         "one-var-declaration-per-line": ["error", "initializations"],
-        "max-len": ["error", 200],
         "no-extra-parens": 0,
         "no-restricted-syntax": [
           0,
@@ -44,7 +43,8 @@
         "react/no-array-index-key":"warn",
         "capIsNew": 0,
         "react/prefer-stateless-function": 0,
-        "no-unused-vars": 0
+        "no-unused-vars": 0,
+        "max-len": 0
     },
     "plugins": [
         "react"

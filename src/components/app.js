@@ -14,7 +14,7 @@ import OpoApprovals from './opoStuff';
 import NavBar from './nav-bar/nav-bar';
 import OpoTrips from './opotrips';
 import OpoVehicleRequests from './opo-vehicle-requests';
-import OpoVehicleRequest from './opoVehicleRequest';
+import OpoVehicleRequest from './opo-vehicle-request';
 import OPODashboard from './opo-dashboard';
 import VehicleCalendar from './vehiclecalendar';
 import Gateway from './gateway';
