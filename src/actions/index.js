@@ -259,13 +259,7 @@ export function signIn(email, password, dataLoader) {
   };
 }
 
-export function signInCAS(history) {
-  return (dispatch, getState) => {
-    window.location = (`${constants.BACKEND_URL}/signin`);
-  };
-}
-
-export function authed(token, id, history) {
+export function casAuthed(token, history) {
   return (dispatch, getState) => {
     localStorage.setItem('token', token);
     axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
