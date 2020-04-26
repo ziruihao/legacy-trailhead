@@ -11,7 +11,8 @@ class Gateway extends Component {
   componentWillMount() {
     const casValues = queryString.parse(this.props.location.search);
     if (casValues.token) {
-      this.props.casAuthed(casValues.token, this.props.history);
+      console.log(casValues.token);
+      this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader);
     }
   }
 
@@ -23,6 +24,7 @@ class Gateway extends Component {
     switch(type) {
       case 'cas':
         window.location = (`${constants.BACKEND_URL}/signin-cas`);
+        break;
       case 'opo':
         this.signInAndThenLoadData('opo@dartmouth.edu', 'opo');
         break;
@@ -39,7 +41,7 @@ class Gateway extends Component {
         this.signInAndThenLoadData('trippee3@dartmouth.edu', 'trippee3');
         break;
       default:
-        this.signInAndThenLoadData('opo@dartmouth.edu', 'opo');
+        break;
     }
   }
 
