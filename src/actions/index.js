@@ -249,9 +249,7 @@ export function signIn(email, password, dataLoader) {
         localStorage.setItem('token', response.data.token);
         dispatch({ type: ActionTypes.AUTH_USER });
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        dataLoader().then(() => {
-          resolve();
-        });
+        dataLoader().then(() => resolve());
       }).catch((error) => {
         reject(error);
       });
@@ -259,18 +257,22 @@ export function signIn(email, password, dataLoader) {
   };
 }
 
-export function casAuthed(token, history) {
+export function casAuthed(token, history, dataLoader) {
   return (dispatch, getState) => {
-    localStorage.setItem('token', token);
-    axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
-      .then((response) => {
-        dispatch({ type: ActionTypes.AUTH_USER });
-        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        history.push(getState().restrictedPath.restrictedPath);
-      })
-      .catch((error) => {
-        dispatch(appError(`Update user failed: ${error.response.data}`));
-      });
+    return new Promise((resolve, reject) => {
+      localStorage.setItem('token', token);
+      axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.AUTH_USER });
+          dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
+          dataLoader().then(() => resolve());
+          // history.push(getState().restrictedPath.restrictedPath);
+        })
+        .catch((error) => {
+          dispatch(appError(`Update user failed: ${error.response.data}`));
+          reject(error);
+        });
+    });
   };
 }
 
