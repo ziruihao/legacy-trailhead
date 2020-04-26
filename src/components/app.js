@@ -23,6 +23,7 @@ import { getUser, getClubs, getVehicles } from '../actions';
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -31,6 +32,9 @@ class App extends React.Component {
     };
   }
 
+  /**
+   * Conditional data load if the browser's token is valid.
+   */
   componentWillMount() {
     this.verifyToken().then(() => {
       this.loadData();
@@ -39,6 +43,9 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * Upon mounting of App component, critical user and platform data is loaded from the backend.
+   */
   loadData = () => {
     return new Promise((resolve, reject) => {
       this.props.getUser().then(() => {
@@ -52,53 +59,63 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * Checks the validity of the token stored in browser. Invalid tokens will cause a cache clear and put the user through the re-authentication process.
+   */
   verifyToken = () => {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('token');
       if (token) {
-        console.log('there is a token');
         axios.get(`${ROOT_URL}/user`, { headers: { authorization: token } })
           .then(() => {
-            console.log('token works');
             resolve();
           })
           .catch(() => {
-            console.log('token doesnt work');
             localStorage.clear();
             reject();
-            // store.dispatch({ type: ActionTypes.DEAUTH_USER });
           });
       } else { reject(); }
     });
   }
 
   requireAuth = (RequestedComponent, switchMode) => {
-    if (this.props.authenaticated) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
+    if (this.props.authenticated) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
     else return <Gateway dataLoader={this.loadData} />;
   }
 
   render() {
-    if (this.state.loaded) {
+    if (!this.props.authenticated) {
       return (
         <Router>
           <NavBar />
           <div id="theBody">
             <Switch>
-              <Route exact path="/" component={this.requireAuth(Dashboard)} />
-              <Route path="/user" component={this.requireAuth(ProfilePage)} />
-              <Route path="/all-trips" component={this.requireAuth(AllTrips)} />
-              <Route path="/vehicle-request/:vehicleReqId" component={this.requireAuth(VehicleRequest, 'viewMode')} />
-              <Route path="/vehicle-request" component={this.requireAuth(VehicleRequest)} />
-              <Route path="/trip/:tripID" component={this.requireAuth(TripDetails)} />
-              <Route path="/createtrip" component={this.requireAuth(CreateTrip)} />
-              <Route path="/my-trips" component={this.requireAuth(MyTrips)} />
-              <Route path="/edittrip/:tripID" component={this.requireAuth(CreateTrip, 'editMode')} />
-              <Route path="/opo-trips" component={this.requireAuth(OpoTrips)} />
-              <Route path="/vehicle-requests" component={this.requireAuth(OpoVehicleRequests)} />
-              <Route path="/opo-vehicle-request/:vehicleReqId" component={this.requireAuth(OpoVehicleRequest)} />
-              <Route path="/opo-dashboard" component={this.requireAuth(OPODashboard)} />
-              <Route path="/leader-approvals" component={this.requireAuth(OpoApprovals)} />
-              <Route path="/vehicle-calendar" component={this.requireAuth(VehicleCalendar)} />
+              <Route path="/" component={Gateway} />
+            </Switch>
+          </div>
+        </Router>
+      );
+    } else if (this.state.loaded) {
+      return (
+        <Router>
+          <NavBar />
+          <div id="theBody">
+            <Switch>
+              <Route exact path="/" component={Dashboard} />
+              <Route path="/user" component={ProfilePage} />
+              <Route path="/all-trips" component={AllTrips} />
+              <Route path="/vehicle-request/:vehicleReqId" component={VehicleRequest} />
+              <Route path="/vehicle-request" component={VehicleRequest} />
+              <Route path="/trip/:tripID" component={TripDetails} />
+              <Route path="/createtrip" component={CreateTrip} />
+              <Route path="/my-trips" component={MyTrips} />
+              <Route path="/edittrip/:tripID" component={CreateTrip} />
+              <Route path="/opo-trips" component={OpoTrips} />
+              <Route path="/vehicle-requests" component={OpoVehicleRequests} />
+              <Route path="/opo-vehicle-request/:vehicleReqId" component={OpoVehicleRequest} />
+              <Route path="/opo-dashboard" component={OPODashboard} />
+              <Route path="/leader-approvals" component={OpoApprovals} />
+              <Route path="/vehicle-calendar" component={VehicleCalendar} />
             </Switch>
           </div>
         </Router>
@@ -110,7 +127,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  authenaticated: state.auth.authenaticated,
+  authenticated: state.auth.authenticated,
 });
 
 export default connect(mapStateToProps, { getUser, getClubs, getVehicles })(App);
