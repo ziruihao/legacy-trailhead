@@ -87,7 +87,6 @@ class App extends React.Component {
     if (!this.props.authenticated) {
       return (
         <Router>
-          <NavBar />
           <div id="theBody">
             <Switch>
               <Route path="/" component={Gateway} />
