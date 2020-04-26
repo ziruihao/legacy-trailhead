@@ -10,7 +10,6 @@ import './gateway.scss';
 class Gateway extends Component {
   componentWillMount() {
     const casValues = queryString.parse(this.props.location.search);
-    console.log(casValues);
     if (casValues.token) {
       this.props.casAuthed(casValues.token, this.props.history);
     }
@@ -44,55 +43,47 @@ class Gateway extends Component {
     }
   }
 
+  renderDevAuthOptions = () => {
+    return(
+      <div id="landing-card-actions">
+        <button className="doc-button" onClick={() => this.fakeSignIn('opo')}>OPO</button>
+        <button className="doc-button" onClick={() => this.fakeSignIn('leader')}>Leader</button>
+        <button className="doc-button" onClick={() => this.fakeSignIn('trippee1')}>Trippee 1</button>
+        <button className="doc-button" onClick={() => this.fakeSignIn('trippee2')}>Trippee 2</button>
+        <button className="doc-button" onClick={() => this.fakeSignIn('trippee3')}>Trippee 3</button>
+      </div>
+    )
+  }
+
   renderAuthOptions = () => {
-    if (this.props.authenticated) {
-      return(<button className="signup-button" onClick={() => this.props.history.push('/')}>Let's Go!</button>);
-    }
-    else {
-      return(
-        <div style={{display: 'flex'}}>
-          <button className="signup-button" onClick={() => this.fakeSignIn('cas')}>Login via CAS</button>
-          <button className="signup-button" onClick={() => this.fakeSignIn('opo')}>OPO</button>
-          <button className="signup-button" onClick={() => this.fakeSignIn('leader')}>Leader</button>
-          <button className="signup-button" onClick={() => this.fakeSignIn('trippee1')}>Trippee 1</button>
-          <button className="signup-button" onClick={() => this.fakeSignIn('trippee2')}>Trippee 2</button>
-          <button className="signup-button" onClick={() => this.fakeSignIn('trippee3')}>Trippee 3</button>
-        </div>
-      )
-    }
+    return(
+      <div id="landing-card-actions">
+        <button className="doc-button" onClick={() => this.fakeSignIn('cas')}>Login via CAS</button>
+      </div>
+    )
   }
 
   render() {
-    if (true) {
       return (
         <div id="landing-page">
-          <div className="main1">
-            <div className="home-text">
-              <p>
-                {
-                  this.props.authenticated
-                    ? `You're logged in as a test ${!this.props.user ? 'loading' : this.props.user.role}.`
-                    : 'Hello there! Click the options below to login as test users of the following kind.'
-                }
-              </p>
-            </div>
-            <div className="homepage-button">
+          <div id="landing-card">
+              <div id="landing-card-message">
+                <div className="h1">Welcome there!</div>
+                <div className="p1">
+                  {
+                    this.props.authenticated
+                      ? `You're logged in as a test ${!this.props.user ? 'loading' : this.props.user.role}.`
+                      : 'Hello there! Click the options below to login as test users of the following kind.'
+                  }
+                </div>
+              </div>
+              {this.renderDevAuthOptions()}
               {this.renderAuthOptions()}
-            </div>
           </div>
         </div>
       )
-    } else {
-      return <div>loading2</div>
-    }
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    authenticated: state.auth.authenticated,
-    user: state.user.user,
-  };
-};
 
-export default withRouter(connect(mapStateToProps, { signIn, signOut, casAuthed, getUser })(Gateway));
+export default withRouter(connect(null, { signIn, signOut, casAuthed, getUser })(Gateway));
