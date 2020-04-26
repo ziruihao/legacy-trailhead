@@ -5,10 +5,10 @@ import { Modal } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string'
-import { signIn, signOut, authed, getUser } from '../actions';
-import '../styles/homepage-style.scss';
+import { signIn, signOut, authed, getUser } from '../../actions';
+import './gateway.scss';
 
-class Auth extends Component {
+class Gateway extends Component {
   // componentDidMount() {
   //   const values = queryString.parse(this.props.location.search);
   //   if (!this.props.authenticated) {
@@ -55,6 +55,7 @@ class Auth extends Component {
     else {
       return(
         <div style={{display: 'flex'}}>
+          <button className="signup-button" onClick={() => this.fakeSignIn('opo')}>Login via CAS</button>
           <button className="signup-button" onClick={() => this.fakeSignIn('opo')}>OPO</button>
           <button className="signup-button" onClick={() => this.fakeSignIn('leader')}>Leader</button>
           <button className="signup-button" onClick={() => this.fakeSignIn('trippee1')}>Trippee 1</button>
@@ -98,4 +99,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { signIn, signOut, authed, getUser })(Auth));
+export default withRouter(connect(mapStateToProps, { signIn, signOut, authed, getUser })(Gateway));
