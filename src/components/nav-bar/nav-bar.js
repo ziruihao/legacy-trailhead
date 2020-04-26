@@ -32,7 +32,7 @@ class NavBar extends Component {
                 className={`nav-link ${this.props.history.location.pathname === '/opo-dashboard' ? 'current' : ''}`}
                 to="/opo-dashboard"
               >
-              Dashboard
+                Dashboard
               </NavLink>
             )
             : null
