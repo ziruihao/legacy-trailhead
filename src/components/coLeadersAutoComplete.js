@@ -18,6 +18,7 @@ class CoLeadersAutoComplete extends Component {
       tags: [],
       suggestions: [],
       error: null,
+      invalid: false, // invalid ID warning will appear if true
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
@@ -46,7 +47,10 @@ class CoLeadersAutoComplete extends Component {
       this.setState(state => ({ tags: [...state.tags, tag] }));
       this.props.updateLeaderValue(this.state.tags);
     } else {
-      this.setState({ error: 'plz use list' });
+      this.setState({ invalid: true });
+      setTimeout(() => { // Animation lasts 1.5 secs
+        this.setState({ invalid: false });
+      }, 15900);
     }
   }
 
@@ -55,6 +59,9 @@ class CoLeadersAutoComplete extends Component {
     const { tags, suggestions } = this.state;
     return (
       <div>
+        <h1 className="invalid-email">
+          {this.state.invalid ? '* Invalid email *' : null}
+        </h1>
         <ReactTags
           placeholder="Enter email(s)"
           tags={tags}
@@ -66,6 +73,7 @@ class CoLeadersAutoComplete extends Component {
           minQueryLength={3}
           allowUnique
         />
+
       </div>
     );
   }
