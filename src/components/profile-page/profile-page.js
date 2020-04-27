@@ -415,10 +415,6 @@ class ProfilePage extends Component {
       if (!this.state.isEditing) {
         return (
           <div id="profile-page">
-            <div id="profile-page-header">
-              <h1 className="header">My Profile</h1>
-              <span className="logout-button" onClick={() => this.props.signOut(this.props.history)} role="button" tabIndex={0}>Logout</span>
-            </div>
             <ProfileCard
               asProfilePage
               isEditing={this.state.isEditing}
@@ -430,12 +426,6 @@ class ProfilePage extends Component {
       } else {
         return (
           <div id="profile-page">
-            <div id="profile-page-header">
-              <h1 className="header">{this.props.user.hasCompleteProfile ? 'My Profile' : 'Welcome! Please complete your profile'}</h1>
-              {this.props.user.hasCompleteProfile
-                ? <span className="cancel-changes" onClick={this.cancelChanges} role="button" tabIndex={0}>Cancel changes</span>
-                : null}
-            </div>
             <ProfileCard
               asProfilePage
               isEditing={this.state.isEditing}

@@ -1,16 +1,5 @@
 @import '../../styles/base.scss';
 
-
-.logout-button{
-  color: #0CA074;
-  font-weight: 400;
-  font-size: 1.5em;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-}
-.logout-button:hover{
-  color: rgb(24, 211, 108);
-}
 .cancel-changes{
   color: #EE6E52;
   font-weight: 400;
@@ -44,19 +33,12 @@
 }
 
 #profile-page {
+  flex: 1;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
   margin: 0 calc(50vw - 450px);
-
-  #profile-page-header{
-    margin-top: 2.25em;
-    margin-bottom: 1em;
-    display: flex;
-    align-items: stretch;
-    justify-content: space-between;
-    width: 100%;
-  }
 
   #profile-card {
     display: flex;
