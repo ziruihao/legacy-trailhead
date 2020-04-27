@@ -8,7 +8,7 @@ import AllTrips from './trips';
 import CreateTrip from './createtrip';
 import MyTrips from './myTrips';
 import VehicleRequest from './vehiclerequest';
-import ProfilePage from './profilepage';
+import ProfilePage from './profile-page';
 import TripDetails from './tripdetails';
 import OpoApprovals from './opoStuff';
 import NavBar from './nav-bar/nav-bar';
