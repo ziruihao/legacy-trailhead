@@ -2,19 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, NavLink } from 'react-router-dom';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
 import { signOut, clearError } from '../../actions';
 import './nav-bar.scss';
 
 
 class NavBar extends Component {
-  componentDidMount() {
-    this.props.history.listen((location, action) => {
-      this.props.clearError();
-    });
-  }
-
   render() {
     if (!this.props.authenticated) {
       return (
@@ -39,7 +31,10 @@ class NavBar extends Component {
           }
           <NavLink className={`nav-link ${this.props.history.location.pathname === '/my-trips' ? 'current' : ''}`} to="/my-trips">My Trips</NavLink>
           <NavLink className={`nav-link ${this.props.history.location.pathname === '/all-trips' ? 'current' : ''}`} to="/all-trips">All Trips</NavLink>
-          <NavLink className={`nav-link ${this.props.history.location.pathname === '/user' ? 'current' : ''}`} to="/user">Profile</NavLink>
+          <NavDropdown title="Profile" className={`${this.props.history.location.pathname === '/user' ? 'current' : ''}`}>
+            <NavDropdown.Item onClick={() => this.props.history.push('/user')}>View Profile</NavDropdown.Item>
+            <NavDropdown.Item onClick={() => this.props.signOut(this.props.history)}>Logout</NavDropdown.Item>
+          </NavDropdown>
           {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
         </div>
       );
