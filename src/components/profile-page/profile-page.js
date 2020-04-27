@@ -414,55 +414,51 @@ class ProfilePage extends Component {
     if (this.props.user) {
       if (!this.state.isEditing) {
         return (
-          <div className="background">
-            <div className="my-container">
-              <div className="profile-page-header">
-                <h1 className="header">My Profile</h1>
-                <span className="logout-button" onClick={() => this.props.signOut(this.props.history)} role="button" tabIndex={0}>Logout</span>
-              </div>
-              <ProfileCard
-                asProfilePage
-                isEditing={this.state.isEditing}
-                startEditing={this.startEditing}
-                user={this.props.user}
-              />
+          <div id="profile-page">
+            <div id="profile-page-header">
+              <h1 className="header">My Profile</h1>
+              <span className="logout-button" onClick={() => this.props.signOut(this.props.history)} role="button" tabIndex={0}>Logout</span>
             </div>
+            <ProfileCard
+              asProfilePage
+              isEditing={this.state.isEditing}
+              startEditing={this.startEditing}
+              user={this.props.user}
+            />
           </div>
         );
       } else {
         return (
-          <div className="background">
-            <div className="my-container">
-              <div className="profile-page-header">
-                <h1 className="header">{this.props.user.hasCompleteProfile ? 'My Profile' : 'Welcome! Please complete your profile'}</h1>
-                {this.props.user.hasCompleteProfile
-                  ? <span className="cancel-changes" onClick={this.cancelChanges} role="button" tabIndex={0}>Cancel changes</span>
-                  : null}
-              </div>
-              <ProfileCard
-                asProfilePage
-                isEditing={this.state.isEditing}
-                onFieldChange={this.onFieldChange}
-                name={this.state.name}
-                email={this.state.email}
-                updateUserInfo={this.updateUserInfo}
-                pronoun={this.state.pronoun}
-                dash_number={this.state.dash_number}
-                allergies_dietary_restrictions={this.state.allergies_dietary_restrictions}
-                medical={this.state.medical}
-                height={this.state.height}
-                shoe_size={this.state.shoe_size}
-                clothe_size={this.state.clothe_size}
-                displayCertificationFeedback={this.displayCertificationFeedback}
-                getCertificationsForm={this.getCertificationsForm}
-                displayLeaderFeedback={this.displayLeaderFeedback}
-                getClubForm={this.getClubForm}
-                getClotheForm={this.getClotheForm}
-                getShoeGender={this.getShoeGender}
-                errorFields={this.state.errorFields}
-                user={this.props.user}
-              />
+          <div id="profile-page">
+            <div id="profile-page-header">
+              <h1 className="header">{this.props.user.hasCompleteProfile ? 'My Profile' : 'Welcome! Please complete your profile'}</h1>
+              {this.props.user.hasCompleteProfile
+                ? <span className="cancel-changes" onClick={this.cancelChanges} role="button" tabIndex={0}>Cancel changes</span>
+                : null}
             </div>
+            <ProfileCard
+              asProfilePage
+              isEditing={this.state.isEditing}
+              onFieldChange={this.onFieldChange}
+              name={this.state.name}
+              email={this.state.email}
+              updateUserInfo={this.updateUserInfo}
+              pronoun={this.state.pronoun}
+              dash_number={this.state.dash_number}
+              allergies_dietary_restrictions={this.state.allergies_dietary_restrictions}
+              medical={this.state.medical}
+              height={this.state.height}
+              shoe_size={this.state.shoe_size}
+              clothe_size={this.state.clothe_size}
+              displayCertificationFeedback={this.displayCertificationFeedback}
+              getCertificationsForm={this.getCertificationsForm}
+              displayLeaderFeedback={this.displayLeaderFeedback}
+              getClubForm={this.getClubForm}
+              getClotheForm={this.getClotheForm}
+              getShoeGender={this.getShoeGender}
+              errorFields={this.state.errorFields}
+              user={this.props.user}
+            />
           </div>
         );
       }

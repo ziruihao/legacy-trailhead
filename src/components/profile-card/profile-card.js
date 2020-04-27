@@ -45,19 +45,32 @@ const getUserInitials = (userName) => {
 const ProfileCard = (props) => {
   if (!props.isEditing) {
     return (
-      <div className="profile">
-        <div className="profile-pic-container">
-          <div className="profile-pic">
-            <span className="user-initials">{getUserInitials(props.user.name)}</span>
-          </div>
-        </div>
-
+      <div id="profile-card">
+        {props.user.name
+          ? (
+            <div className="profile-pic-container">
+              <div className="profile-pic">
+                <span className="user-initials">{getUserInitials(props.user.name)}</span>
+              </div>
+            </div>
+          )
+          : null
+        }
         <div className="profile-card-body">
           <div className="profile-card-header">
-            <div className="name-and-email">
-              <div className="card-name">{props.user.name}</div>
-              <div className="card-email">{props.user.email}</div>
-            </div>
+            {props.user.completedProfile
+              ? (
+                <div className="name-and-email">
+                  <div className="card-name">{props.user.name}</div>
+                  <div className="card-email">{props.user.email}</div>
+                </div>
+              )
+              : (
+                <div id="profile-card-incomplete-notice" className="h1">
+                  Incomplete profile
+                </div>
+              )
+          }
             {props.asProfilePage
               ? (
                 <div className="button-place">
@@ -159,11 +172,17 @@ const ProfileCard = (props) => {
     );
   } else {
     return (
-      <div className="profile">
-        <div className="profile-pic-container">
-          <div className="profile-pic" />
-        </div>
-
+      <div id="profile-card">
+        {props.user.name
+          ? (
+            <div className="profile-pic-container">
+              <div className="profile-pic">
+                <span className="user-initials">{getUserInitials(props.user.name)}</span>
+              </div>
+            </div>
+          )
+          : null
+        }
         <div className="profile-card-body">
           <div className="profile-card-header">
             <div className="name-and-email">
