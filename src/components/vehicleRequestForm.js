@@ -112,6 +112,7 @@ const getVehicles = (props) => {
           <span className="vrf-req-date">
             <label className="vrf-label" htmlFor={`pickup_date_${index}`}>Pickup Date</label>
             <input
+              defaultValue="1/1/2200"
               type="date"
               id={`pickup_date_${index}`}
               className={`trip-detail vrf-vehicle-detail  ${singleDayClass} ${vehicle.pickupDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupDate ? 'vrf-error' : ''}`}
