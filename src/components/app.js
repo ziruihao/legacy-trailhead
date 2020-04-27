@@ -98,25 +98,23 @@ class App extends React.Component {
       return (
         <Router>
           <NavBar />
-          <div id="theBody">
-            <Switch>
-              <Route exact path="/" component={Dashboard} />
-              <Route path="/user" component={ProfilePage} />
-              <Route path="/all-trips" component={AllTrips} />
-              <Route path="/vehicle-request/:vehicleReqId" component={VehicleRequest} />
-              <Route path="/vehicle-request" component={VehicleRequest} />
-              <Route path="/trip/:tripID" component={TripDetails} />
-              <Route path="/createtrip" component={CreateTrip} />
-              <Route path="/my-trips" component={MyTrips} />
-              <Route path="/edittrip/:tripID" component={CreateTrip} />
-              <Route path="/opo-trips" component={OpoTrips} />
-              <Route path="/vehicle-requests" component={OpoVehicleRequests} />
-              <Route path="/opo-vehicle-request/:vehicleReqId" component={OpoVehicleRequest} />
-              <Route path="/opo-dashboard" component={OPODashboard} />
-              <Route path="/leader-approvals" component={OpoApprovals} />
-              <Route path="/vehicle-calendar" component={VehicleCalendar} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/" component={Dashboard} />
+            <Route path="/user" component={ProfilePage} />
+            <Route path="/all-trips" component={AllTrips} />
+            <Route path="/vehicle-request/:vehicleReqId" component={VehicleRequest} />
+            <Route path="/vehicle-request" component={VehicleRequest} />
+            <Route path="/trip/:tripID" component={TripDetails} />
+            <Route path="/createtrip" component={CreateTrip} />
+            <Route path="/my-trips" component={MyTrips} />
+            <Route path="/edittrip/:tripID" component={CreateTrip} />
+            <Route path="/opo-trips" component={OpoTrips} />
+            <Route path="/vehicle-requests" component={OpoVehicleRequests} />
+            <Route path="/opo-vehicle-request/:vehicleReqId" component={OpoVehicleRequest} />
+            <Route path="/opo-dashboard" component={OPODashboard} />
+            <Route path="/leader-approvals" component={OpoApprovals} />
+            <Route path="/vehicle-calendar" component={VehicleCalendar} />
+          </Switch>
         </Router>
       );
     } else {
