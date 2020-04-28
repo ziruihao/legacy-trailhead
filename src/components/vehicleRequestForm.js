@@ -38,6 +38,7 @@ const getApprpriateVehicleMenu = (userCertifications) => {
 };
 
 const getVehicles = (props) => {
+  const datee = new Date();
   return props.vehicles.map((vehicle, index) => {
     const { vehicleType } = vehicle;
     const singleDayClass = vehicle.tripLength === 'single-day-trip' ? 'vrf-single-day-date' : '';
@@ -112,13 +113,15 @@ const getVehicles = (props) => {
           <span className="vrf-req-date">
             <label className="vrf-label" htmlFor={`pickup_date_${index}`}>Pickup Date</label>
             <input
-              defaultValue="1/1/2200"
+              {...console.log(props.startDate)}
               type="date"
               id={`pickup_date_${index}`}
               className={`trip-detail vrf-vehicle-detail  ${singleDayClass} ${vehicle.pickupDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupDate ? 'vrf-error' : ''}`}
               name="pickupDate"
-              value={vehicle.pickupDate}
+              // value={vehicle.pickupDate}
               onChange={event => props.onVehicleDetailChange(event, index)}
+              defaultValue={new Date(props.startDate)}
+
             />
           </span>
           {vehicle.tripLength === 'single-day-trip' ? null

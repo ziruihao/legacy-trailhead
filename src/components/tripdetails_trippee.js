@@ -24,7 +24,16 @@ const getCoLeaders = (leaders) => {
   return coleaders;
 };
 
+const fourtyEightHoursAgo = (currentDate, Tripdate) => {
+  const currentDateSecs = currentDate.getTime() + 2 * 24 * 60 * 60 * 1000;
+
+  const tripdateSecs = Tripdate.getTime() + 24 * 60 * 60 * 1000;
+
+  return currentDateSecs < tripdateSecs;
+};
+
 const formatDate = (date, time) => {
+  const now = new Date();
   let timeString = '';
   const rawDate = new Date(date);
   const dateString = rawDate.toUTCString();
@@ -38,6 +47,13 @@ const formatDate = (date, time) => {
   }
   if (splitTime[0] === 0) {
     splitTime[0] = 12;
+  }
+  if (fourtyEightHoursAgo(now, rawDate)) {
+    // this.setState({ fourtyEight: true });
+    console.log('yes');
+  } else {
+    // this.setState({ fourtyEight: false });
+    console.log('no');
   }
   timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
   return timeString;

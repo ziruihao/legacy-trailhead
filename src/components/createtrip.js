@@ -697,6 +697,7 @@ class CreateTrip extends Component {
               requestType='TRIP'
               passVehicles={this.passVehicles}
               vehicles={this.state.vehicles}
+              startDate={this.state.startDate}
             />
           )
           : (
