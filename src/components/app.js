@@ -18,11 +18,10 @@ import OpoVehicleRequest from './opo-vehicle-request';
 import OPODashboard from './opo-dashboard';
 import VehicleCalendar from './vehiclecalendar';
 import Gateway from './gateway';
-
+import FleetManagement from './fleet-management';
 import { getUser, getClubs, getVehicles } from '../actions';
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
-
 
 class App extends React.Component {
   constructor(props) {
@@ -112,6 +111,7 @@ class App extends React.Component {
             <Route path="/vehicle-requests" component={OpoVehicleRequests} />
             <Route path="/opo-vehicle-request/:vehicleReqId" component={OpoVehicleRequest} />
             <Route path="/opo-dashboard" component={OPODashboard} />
+            <Route path="/opo-fleet-management" component={FleetManagement} />
             <Route path="/leader-approvals" component={OpoApprovals} />
             <Route path="/vehicle-calendar" component={VehicleCalendar} />
           </Switch>
