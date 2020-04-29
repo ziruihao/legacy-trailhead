@@ -196,7 +196,7 @@ const getVehicles = (props) => {
                   />
                   <span className="checkmark" />
                 </label>
-                <span className="vrf-label">Trailer Compatible?</span>
+                <span className="vrf-label">Trailer Hitch Required?</span>
               </div>
             </div>
           )
