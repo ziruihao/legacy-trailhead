@@ -61,7 +61,7 @@ class EditTrip extends Component {
           requestStatus = null;
         } else {
           gearRequests = this.props.trip.OPOGearRequests.map(gearrequest => (
-            <li key={gearrequest}>{gearrequest}</li>
+            <li key={gearrequest._id}>{gearrequest}</li>
           ));
           requestStatus = <h3>Request Status: {this.props.trip.gearStatus}</h3>;
         }
@@ -99,7 +99,7 @@ class EditTrip extends Component {
   getGearInputs = () => {
     return this.state.gearRequests.map((gearRequest, index) => {
       return (
-        <div key={index}>
+        <div key={gearRequest._id}>
           <input type="text" name="gearRequest" onChange={event => this.onGearChange(event, index)} value={gearRequest} />
           <button className="btn btn-danger btn-xs delete-gear-button" onClick={() => this.removeGear(index)}>Delete</button>
         </div>
