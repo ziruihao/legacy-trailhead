@@ -197,7 +197,7 @@ const DatesLocation = (props) => {
       <div className="row page-sub-headers trip-date-header">
         <p>Estimated mileage (round trip)</p>
         <input
-          type="number"
+          // type="number"
           onChange={props.onFieldChange}
           name="mileage"
           placeholder="Estimated mileage"

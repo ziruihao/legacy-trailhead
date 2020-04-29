@@ -51,7 +51,7 @@ const getPcardForm = (props) => {
 						name="numPeople"
 						placeholder="e.g. 8"
 						value={request.numPeople}
-						type="number"
+						// type="number"
 					/>
 				</div>
 				<div className="page-sub-headers">
@@ -67,7 +67,7 @@ const getPcardForm = (props) => {
 							name="snacks"
 							placeholder="e.g. 1"
 							value={request.snacks}
-							type="number"
+							// type="number"
 						/>
 					</div>
 					<div className="row page-sub-headers pcard">
@@ -78,7 +78,7 @@ const getPcardForm = (props) => {
 							name="breakfast"
 							placeholder="e.g. 1"
 							value={request.breakfast}
-							type="number"
+							// type="number"
 						/>
 					</div>
 					<div className="row page-sub-headers pcard">
@@ -89,7 +89,7 @@ const getPcardForm = (props) => {
 							name="lunch"
 							placeholder="e.g. 1"
 							value={request.lunch}
-							type="number"
+							// type="number"
 						/>
 					</div>
 					<div className="row page-sub-headers pcard">
@@ -100,7 +100,7 @@ const getPcardForm = (props) => {
 							name="dinner"
 							placeholder="e.g. 1"
 							value={request.dinner}
-							type="number"
+							// type="number"
 						/>
 					</div>
 				</div>
@@ -134,10 +134,9 @@ const otherCosts = (otherCosts, onOtherCostsChange, pcardIndex, deleteOtherCost)
 					className={`field top-create-trip leaders other_costs other_costs_num ${otherCost.errorFields.cost ? 'create-trip-error' : ''}`}
 					onChange={() => onOtherCostsChange(event, pcardIndex, costIndex)}
 					name="cost"
-					type="number"
+					// type="number"
 					placeholder="e.g. 10"
 					value={otherCost.cost}
-					type="number"
 				/>
 				<button type="button" className="delete-gear-button" onClick={() => deleteOtherCost(event, pcardIndex, costIndex)}>X</button>
 			</div>

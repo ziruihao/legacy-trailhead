@@ -251,7 +251,7 @@ const VehicleRequestForm = (props) => {
             <span className="vrf-form-row">
               <label className="vrf-label" htmlFor="noOfPeople">Number of people</label>
               <input
-                type="number"
+                // type="number"
                 id="noOfPeople"
                 className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.noOfPeople) === 0 ? 'no-date' : ''} ${props.soloErrorFields.noOfPeople ? 'vrf-error' : ''}`}
                 name="noOfPeople"
@@ -263,7 +263,7 @@ const VehicleRequestForm = (props) => {
             <span className="vrf-form-row">
               <label className="vrf-label" htmlFor="mileage">Estimated mileage</label>
               <input
-                type="number"
+                // type="number"
                 id="mileage"
                 className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'vrf-error' : ''}`}
                 name="mileage"
