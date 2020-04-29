@@ -10,6 +10,10 @@ body {
     padding: 0;
 }
 
+* {
+    font-family: 'Nunito Sans', 'Open Sans', sans-serif;
+}
+
 a {
     text-decoration: none;
     
@@ -18,9 +22,35 @@ a {
     }
 }
 
+.h1 {
+    font-size: 36px;
+    font-weight: 800;
+}
+
 .p1 {
-    font-size: 24px;
-    font-family: 'Nunito Sans', 'Open Sans', sans-serif;
+    font-size: 18px;
+}
+
+.doc-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    background: $green;
+    font-size: 18px;
+    letter-spacing: 5%;
+    font-weight: 800;
+    color: white;
+    cursor: pointer;
+
+    &.alarm {
+        background: #EE6E52;
+    }
+
+    &:hover{
+        filter: brightness(110%)l
+    }
 }
 
 .modal {
