@@ -1,0 +1,29 @@
+@import '../../styles/base.scss';
+
+#fleet-management {
+  display: flex;
+
+  & .h1 {
+    margin: 50px 0;
+  }
+
+  #fleet {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60%;
+
+    .fleet-delete-button-area {
+      display: flex;
+      justify-content: center;
+    }
+  }
+  #management {
+    flex: 1;
+
+    .doc-button {
+      width: 80px;
+    }
+  }
+}
