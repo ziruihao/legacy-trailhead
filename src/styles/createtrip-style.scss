@@ -368,6 +368,57 @@ ul li .radio-button{
   }
 }
 
+.tag-wrapper {
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: 800;
+  font-size: 25px;
+  margin-bottom: 0.4em;
+  //background-color: lightgrey;
+}
+
+.ReactTags__selected{
+  display: flex;
+  flex-direction: column;
+}
+.react-tags-wrapper{
+  margin-bottom: 2em;
+
+}
+
+.invalid-email {
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  color: red;
+}
+
+.ReactTags__Suggestions{
+  background-color: grey;  
+}
+
+.ReactTags__tagInputField{
+  height: 3em;
+  border: 2px solid #C4C4C4;
+  box-sizing: border-box;
+  border-radius: 5px;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 33px;
+  letter-spacing: 0.05em;
+  color: #2c2f33;
+  width: 70%;
+  padding: 0.5em;
+  margin-bottom: 1em;
+}
+
+.ReactTags__remove{
+  font-size: 35px;
+  margin-left: 10px;
+}
 
 .button-placement{
   display: flex;
