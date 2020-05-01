@@ -37,8 +37,28 @@ const getApprpriateVehicleMenu = (userCertifications) => {
   );
 };
 
+const formatDate = (date) => {
+  // date fix adapted from https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off/31732581
+  if (!date) {
+    return '';
+  }
+  return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
+};
+const formatTime = (time) => {
+  const splitTime = time.split(':');
+  splitTime.push('am');
+  const originalHour = splitTime[0];
+  splitTime[0] = originalHour % 12;
+  if (originalHour >= 12) {
+    splitTime[2] = 'pm';
+  }
+  if (splitTime[0] === 0) {
+    splitTime[0] = 12;
+  }
+  return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
+};
+
 const getVehicles = (props) => {
-  const datee = new Date();
   return props.vehicles.map((vehicle, index) => {
     const { vehicleType } = vehicle;
     const singleDayClass = vehicle.tripLength === 'single-day-trip' ? 'vrf-single-day-date' : '';
@@ -60,7 +80,6 @@ const getVehicles = (props) => {
                 <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
               </span>
             </Dropdown.Toggle>
-
             {getApprpriateVehicleMenu(props.userCertifications)}
           </Dropdown>
         </div>
@@ -118,11 +137,11 @@ const getVehicles = (props) => {
               id={`pickup_date_${index}`}
               className={`trip-detail vrf-vehicle-detail  ${singleDayClass} ${vehicle.pickupDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupDate ? 'vrf-error' : ''}`}
               name="pickupDate"
-              // value={vehicle.pickupDate}
+              value={vehicle.pickupDate}
               onChange={event => props.onVehicleDetailChange(event, index)}
-              defaultValue={new Date(props.startDate)}
-
             />
+            <div className="vrf-label"> Trip Start Date is {formatDate(props.startDate)}</div>
+
           </span>
           {vehicle.tripLength === 'single-day-trip' ? null
             : (
@@ -136,6 +155,7 @@ const getVehicles = (props) => {
                   value={vehicle.returnDate}
                   onChange={event => props.onVehicleDetailChange(event, index)}
                 />
+                <div className="vrf-label"> Trip End Date is {formatDate(props.endDate)}</div>
               </span>
             )
           }
@@ -152,7 +172,10 @@ const getVehicles = (props) => {
               value={vehicle.pickupTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
+            <div className="vrf-label"> Trip Start Time is {formatTime(props.startTime)}</div>
+
           </span>
+
           <span className="vrf-req-date">
             <label className="vrf-label" htmlFor={`return_time_${index}`}>Return Time</label>
             <input
@@ -163,6 +186,7 @@ const getVehicles = (props) => {
               value={vehicle.returnTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
+            <div className="vrf-label"> Trip End Time is {formatTime(props.endTime)}</div>
           </span>
         </div>
 

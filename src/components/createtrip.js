@@ -698,6 +698,9 @@ class CreateTrip extends Component {
               passVehicles={this.passVehicles}
               vehicles={this.state.vehicles}
               startDate={this.state.startDate}
+              endDate={this.state.endDate}
+              startTime={this.state.startTime}
+              endTime={this.state.endTime}
             />
           )
           : (
