@@ -69,7 +69,7 @@ class trippeeGearRequests extends Component {
                   <li key={`${gear._id}_${entry[0]}`}>{gear.gear} - {entry[0]} - {entry[1]}</li>
                 ));
               } else {
-                return <li key={`${gear._id}_${index}`}>{gear.gear} - N/A - {gear.quantity}</li>;
+                return <li key={gear._id}>{gear.gear} - N/A - {gear.quantity}</li>;
               }
             })}
             <div>
@@ -144,7 +144,7 @@ class trippeeGearRequests extends Component {
                   <li key={`${gear._id}_${entry[0]}`}>{gear.gear} - {entry[0]} - {entry[1]}</li>
                 ));
               } else {
-                return <li key={`${gear._id}_${index}`}>{gear.gear} - N/A - {gear.quantity}</li>;
+                return <li key={gear._id}>{gear.gear} - N/A - {gear.quantity}</li>;
               }
             })}
           </div>

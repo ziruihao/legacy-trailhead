@@ -245,13 +245,11 @@ export function getMyTrips() {
 export function signIn(email, password, dataLoader) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.post(`${constants.BACKEND_URL}/signin`, { email, password }).then((response) => {
+      axios.post(`${constants.BACKEND_URL}/signin-simple`, { email, password }).then((response) => {
         localStorage.setItem('token', response.data.token);
         dispatch({ type: ActionTypes.AUTH_USER });
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        dataLoader().then(() => {
-          resolve();
-        });
+        dataLoader().then(() => resolve());
       }).catch((error) => {
         reject(error);
       });
@@ -259,24 +257,22 @@ export function signIn(email, password, dataLoader) {
   };
 }
 
-export function signInCAS(history) {
+export function casAuthed(token, history, dataLoader) {
   return (dispatch, getState) => {
-    window.location = (`${constants.BACKEND_URL}/signin`);
-  };
-}
-
-export function authed(token, id, history) {
-  return (dispatch, getState) => {
-    localStorage.setItem('token', token);
-    axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
-      .then((response) => {
-        dispatch({ type: ActionTypes.AUTH_USER });
-        dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        history.push(getState().restrictedPath.restrictedPath);
-      })
-      .catch((error) => {
-        dispatch(appError(`Update user failed: ${error.response.data}`));
-      });
+    return new Promise((resolve, reject) => {
+      localStorage.setItem('token', token);
+      axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.AUTH_USER });
+          dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
+          dataLoader().then(() => resolve());
+          // history.push(getState().restrictedPath.restrictedPath);
+        })
+        .catch((error) => {
+          dispatch(appError(`Update user failed: ${error.response.data}`));
+          reject(error);
+        });
+    });
   };
 }
 

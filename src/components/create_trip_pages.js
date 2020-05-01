@@ -96,7 +96,6 @@ const BasicTripInfo = (props) => {
           value={props.leaderValue}
         /> */}
         <CoLeadersAutoComplete updateLeaderValue={props.updateLeaderValue} name="leaders" />
-
         <div className="checkbox-beginner">
           <input
             type="checkbox"
