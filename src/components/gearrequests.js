@@ -22,7 +22,7 @@ class gearRequests extends Component {
               <button data-id={gearRequest._id} data-action="deny" type="button" className="btn btn-danger" onClick={this.reviewRequest}>Deny</button>
             </div>
             {gearRequest.OPOGearRequests.map((gear, index) => (
-              <li key={`${gear}_${index}`}>{gear}</li>
+              <li key={gear._id}>{gear}</li>
             ))}
             <div>
               <p>for the following trip:</p>
@@ -50,7 +50,7 @@ class gearRequests extends Component {
               <span>You {status} {gearRequest.leaders[0].name}&apos;s request for the following gear:</span>
             </div>
             {gearRequest.OPOGearRequests.map(gear => (
-              <li key={gear}>{gear}</li>
+              <li key={gear._id}>{gear}</li>
             ))}
           </div>
         );

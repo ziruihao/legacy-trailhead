@@ -85,7 +85,7 @@ class TripsCal extends Component {
             <Modal.Body>{this.state.currEvent._id} and {this.state.currEvent._id}</Modal.Body>
             <Modal.Footer>
               <button type="button" variant="secondary" onClick={this.handleClose}>
-            Close
+                Close
               </button>
               <NavLink type="button" to={`/trip/${this.state.currEvent._id}`} key={this.state.currEvent._id}>
                 <div>
