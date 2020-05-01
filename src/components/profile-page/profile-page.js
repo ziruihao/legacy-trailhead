@@ -414,7 +414,7 @@ class ProfilePage extends Component {
     if (this.props.user) {
       if (!this.state.isEditing) {
         return (
-          <div id="profile-page">
+          <div id="profile-page" className="center-view">
             <ProfileCard
               asProfilePage
               isEditing={this.state.isEditing}
@@ -425,7 +425,7 @@ class ProfilePage extends Component {
         );
       } else {
         return (
-          <div id="profile-page">
+          <div id="profile-page" className="center-view">
             <ProfileCard
               asProfilePage
               isEditing={this.state.isEditing}
