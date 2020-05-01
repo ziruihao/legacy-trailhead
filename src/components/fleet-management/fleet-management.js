@@ -1,20 +1,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { Table, Form, Dropdown, DropdownButton, DropdownToggle } from 'react-bootstrap';
-import { fetchVehicleRequests } from '../../actions';
+import { Table, Dropdown } from 'react-bootstrap';
+import dropdownIcon from '../../img/dropdown-toggle.svg';
+import { fetchVehicleRequests, createVehicle } from '../../actions';
 import './fleet-management.scss';
 
 class FleetManagement extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      newVehicleNameField: null,
+      newVehicleName: '',
+      newVehicleNameError: false,
+      newVehicleType: null,
+      newVehicleTypeError: false,
     };
   }
 
-  changeNewVehicleNameField = (event) => {
-    this.setState({ newVehicleNameField: event.target.value });
+  changeNewVehicleFields = (value, field) => {
+    const update = {};
+    update[field] = value;
+    this.setState(update);
+  }
+
+  submitForm = () => {
+    if (!this.state.newVehicleName || this.state.newVehicleName === '') {
+      this.setState({ newVehicleNameError: true });
+    }
+    if (!this.state.newVehicleType) {
+      this.setState({ newVehicleTypeError: true });
+    } else {
+      this.setState({ newVehicleNameError: false, newVehicleTypeError: false });
+      console.log({ name: this.state.newVehicleName, type: this.state.newVehicleType });
+      this.props.createVehicle({ name: this.state.newVehicleName, type: this.state.newVehicleType }).then(() => {
+        this.setState({ newVehicleName: '', newVehicleType: null });
+      });
+    }
   }
 
   render() {
@@ -49,18 +70,28 @@ class FleetManagement extends Component {
               <div className="doc-form">
                 <div className="h2">Add New Vehicle</div>
                 <div className="field-label">Vehicle name</div>
-                <input className={`field ${this.state.newVehicleNameField && this.state.newVehicleNameField !== '' ? 'create-trip-error' : ''}`}
-                  onChange={this.changeNewVehicleNameField}
+                <input className={`field ${this.state.newVehicleNameError ? 'field-error' : ''}`}
+                  onChange={event => this.changeNewVehicleFields(event.target.value, 'newVehicleName')}
                   name="title"
                   placeholder="Example van"
-                  value={this.state.newVehicleNameField}
+                  value={this.state.newVehicleName}
                 />
                 <div className="field-label">Vehicle type</div>
-                <select className={`field ${this.state.newVehicleNameField && this.state.newVehicleNameField !== '' ? 'create-trip-error' : ''}`} />
-                <div className="doc-button">Add</div>
+                <Dropdown onSelect={eventKey => this.changeNewVehicleFields(eventKey, 'newVehicleType')}>
+                  <Dropdown.Toggle className={`field ${this.state.newVehicleTypeError ? 'field-error' : ''}`}>
+                    <span className="field-dropdown-bootstrap">{this.state.newVehicleType ? this.state.newVehicleType : 'Select vehicle type'}</span>
+                    <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className="field-dropdown">
+                    <Dropdown.Item eventKey="Microbus">Microbus</Dropdown.Item>
+                    <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
+                    <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+                {/* <select className={`field ${this.state.newVehicleNameField && this.state.newVehicleNameField !== '' ? 'create-trip-error' : ''}`} /> */}
+                <div className="doc-button" onClick={this.submitForm} role="button" tabIndex={0}>Add</div>
               </div>
             </div>
-
           </div>
         </div>
 
@@ -75,4 +106,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { fetchVehicleRequests })(FleetManagement));
+export default withRouter(connect(mapStateToProps, { fetchVehicleRequests, createVehicle })(FleetManagement));
