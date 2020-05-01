@@ -1,25 +1,33 @@
 @import '../../styles/base.scss';
 
-#fleet-management {
+#fleet-management-page {
   display: flex;
+  flex-direction: column;
 
-  & .h1 {
+  .h1 {
     margin: 50px 0;
   }
 
-  #fleet {
+  #fleet-management {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 60%;
-  }
-  
-  #management {
-    flex: 1;
 
-    .doc-button {
-      width: 80px;
+    #fleet {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: stretch;
+      margin-right: 100px;
+  
+      #fleet-management-book-col {
+        min-width: 400px;
+      }
+    }
+    
+    #management {
+      .doc-button {
+        width: 80px;
+      }
     }
   }
 }
