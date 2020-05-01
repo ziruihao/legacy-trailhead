@@ -1,6 +1,7 @@
 $green: #0CA074;
 $error-red-deep: #A93A3A;
 $error-red-light: #FFD8D8;
+$background: #FAFAFA;
 $inactive-text: #C4C4C4;
 $gray-text: #2c2f33;
 
@@ -14,9 +15,10 @@ body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    background-color: $background;
 
     .center-view {
-        margin: 0 calc(50vw - 450px);
+        margin: 0 calc(50vw - 600px);
     }
 }
 
@@ -106,12 +108,40 @@ a {
 
 }
 
-.table {
+.doc-card {
+    background: white;
+    box-shadow: $menu-shadow;
+    border-radius: 10px;
+    padding: 25px;
+}
+
+.doc-table {
     border: 2px solid #C4C4C4;
     border-radius: 5px;
     margin-bottom: 2em;
     padding: 0 1em;
     background: white;
+    width: 100%;
+
+    td {
+        vertical-align: middle;
+    }
+}
+
+.doc-form {
+    & * {
+        margin-bottom: 1em;
+    }
+
+    :last-child {
+        margin-bottom: 0 !important;
+    }
+
+    .field-label {
+        font-size: 18px;
+        font-weight: 800;
+        color: $gray-text;
+    }
 }
 
 .field {
@@ -123,19 +153,6 @@ a {
     font-size: 18px;
     color: $gray-text;
     height: 3em;
-    // height: 3em;
-    // border: 2px solid #C4C4C4;
-    // box-sizing: border-box;
-    // border-radius: 5px;
-    // font-family: Nunito Sans;
-    // font-style: normal;
-    // font-weight: 600;
-    // font-size: 24px;
-    // line-height: 33px;
-    // letter-spacing: 0.05em;
-    // color: #2c2f33;
-    // width: 70%;
-    // padding: 0.5em;
 
     &.select {
         width: auto;
@@ -169,4 +186,4 @@ a {
       border-radius: 5px;
       margin-bottom: 2rem;
     }
-  }
+}
