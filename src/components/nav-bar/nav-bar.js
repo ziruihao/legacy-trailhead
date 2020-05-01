@@ -8,7 +8,6 @@ import './nav-bar.scss';
 
 class NavBar extends Component {
   render() {
-    console.log(['/opo-dashboard', '/opo-trips', '/vehicle-requests', '/leader-approvals'].includes(this.props.history.location.pathname));
     if (!this.props.authenticated) {
       return (
         <div>
