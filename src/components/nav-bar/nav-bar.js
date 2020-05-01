@@ -8,6 +8,7 @@ import './nav-bar.scss';
 
 class NavBar extends Component {
   render() {
+    console.log(['/opo-dashboard', '/opo-trips', '/vehicle-requests', '/leader-approvals'].includes(this.props.history.location.pathname));
     if (!this.props.authenticated) {
       return (
         <div>
@@ -20,18 +21,19 @@ class NavBar extends Component {
         <div className="nav-bar">
           {this.props.user && this.props.user.role === 'OPO'
             ? (
-              <NavLink
-                className={`nav-link ${this.props.history.location.pathname === '/opo-dashboard' ? 'current' : ''}`}
-                to="/opo-dashboard"
-              >
-                Dashboard
-              </NavLink>
+              <NavDropdown title="Dashboard" className={`${['/opo-dashboard', '/opo-trips', '/vehicle-requests', '/leader-approvals'].includes(this.props.history.location.pathname) ? 'current-bootstrap-wrapper' : ''}`}>
+                <NavDropdown.Item onClick={() => this.props.history.push('/opo-trips')}>Trip Approvals</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => this.props.history.push('/vehicle-requests')}>Vehicle Requests</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => this.props.history.push('/leader-approvals')}>Profile Approvals</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard')}>Dashboard</NavDropdown.Item>
+              </NavDropdown>
             )
             : null
           }
           <NavLink className={`nav-link ${this.props.history.location.pathname === '/my-trips' ? 'current' : ''}`} to="/my-trips">My Trips</NavLink>
           <NavLink className={`nav-link ${this.props.history.location.pathname === '/all-trips' ? 'current' : ''}`} to="/all-trips">All Trips</NavLink>
-          <NavDropdown title="Profile" className={`${this.props.history.location.pathname === '/user' ? 'current' : ''}`}>
+          <NavDropdown title="Profile" className={`${this.props.history.location.pathname === '/user' ? 'current-bootstrap-wrapper' : ''}`}>
             <NavDropdown.Item onClick={() => this.props.history.push('/user')}>View Profile</NavDropdown.Item>
             <NavDropdown.Item onClick={() => this.props.signOut(this.props.history)}>Logout</NavDropdown.Item>
           </NavDropdown>
