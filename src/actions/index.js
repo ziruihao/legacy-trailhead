@@ -566,6 +566,23 @@ export function createVehicle(vehicle) {
   };
 }
 
+export function deleteVehicle(vehicleID) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.delete(`${constants.BACKEND_URL}/vehicles/${vehicleID}`, { headers: { authorization: localStorage.getItem('token') } })
+        .then(() => {
+          getVehicles()(dispatch).then(() => {
+            resolve();
+          });
+        }).catch((error) => {
+          dispatch(appError(`Error fetching vehicles : ${error}`));
+          console.log(error);
+          reject(error);
+        });
+    });
+  };
+}
+
 export function assignVehicles(vehicleResponse, finishEditing) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {

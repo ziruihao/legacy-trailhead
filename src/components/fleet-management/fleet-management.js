@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Table, Dropdown } from 'react-bootstrap';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
-import { fetchVehicleRequests, createVehicle } from '../../actions';
+import { fetchVehicleRequests, createVehicle, deleteVehicle } from '../../actions';
 import './fleet-management.scss';
 
 class FleetManagement extends Component {
@@ -38,32 +38,39 @@ class FleetManagement extends Component {
     }
   }
 
+  handleDeleteVehicleButton = (vehicleID) => {
+    this.props.deleteVehicle(vehicleID);
+  }
+
   render() {
     return (
       <div id="fleet-management-page" className="center-view">
-        <div className="h1">DOC Vehicles</div>
+        <div className="h1">Vehicle Fleet Management</div>
         <div id="fleet-management">
           <div id="fleet">
-            <Table className="doc-table" responsive="lg" hover>
-              <thead>
-                <tr>
-                  <th>Vehicle Name</th>
-                  <th>Type</th>
-                  <th id="fleet-management-book-col">Booked by</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.props.vehicles.map(vehicle => (
-                  <tr key={vehicle._id} onClick={() => this.onRowClick(vehicle._id)}>
-                    <td>{vehicle.name}</td>
-                    <td>{vehicle.type}</td>
-                    <td id="fleet-management-book-col">To implement</td>
-                    <td className="fleet-delete-button-area"><div id="fleet-delete-button" className="doc-button">Delete</div></td>
+            <div className="doc-card">
+              <Table className="doc-table" responsive="lg" hover>
+                <thead>
+                  <tr>
+                    <th>Vehicle Name</th>
+                    <th>Type</th>
+                    <th id="fleet-management-book-col">Booked by</th>
+                    <th>Action</th>
                   </tr>
-                ))}
-              </tbody>
-            </Table>
+                </thead>
+                <tbody>
+                  {this.props.vehicles.map(vehicle => (
+                    <tr key={vehicle._id} onClick={() => this.onRowClick(vehicle._id)}>
+                      <td>{vehicle.name}</td>
+                      <td>{vehicle.type}</td>
+                      <td id="fleet-management-book-col">To implement</td>
+                      <td className="fleet-delete-button-area"><div id="fleet-delete-button" className="doc-button" onClick={() => this.handleDeleteVehicleButton(vehicle._id)} role="button" tabIndex={0}>Delete</div></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            </div>
+
           </div>
           <div id="management">
             <div className="doc-card">
@@ -106,4 +113,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { fetchVehicleRequests, createVehicle })(FleetManagement));
+export default withRouter(connect(mapStateToProps, { fetchVehicleRequests, createVehicle, deleteVehicle })(FleetManagement));
