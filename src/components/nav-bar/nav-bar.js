@@ -20,10 +20,11 @@ class NavBar extends Component {
         <div className="nav-bar">
           {this.props.user && this.props.user.role === 'OPO'
             ? (
-              <NavDropdown title="Dashboard" className={`${['/opo-dashboard', '/opo-trips', '/vehicle-requests', '/leader-approvals'].includes(this.props.history.location.pathname) ? 'current-bootstrap-wrapper' : ''}`}>
+              <NavDropdown title="Dashboard" className={`${['/opo-dashboard', '/opo-trips', '/vehicle-requests', '/leader-approvals, /opo-fleet-management'].includes(this.props.history.location.pathname) ? 'current-bootstrap-wrapper' : ''}`}>
                 <NavDropdown.Item onClick={() => this.props.history.push('/opo-trips')}>Trip Approvals</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.props.history.push('/vehicle-requests')}>Vehicle Requests</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.props.history.push('/leader-approvals')}>Profile Approvals</NavDropdown.Item>
+                <NavDropdown.Item onClick={() => this.props.history.push('/opo-fleet-management')}>Manage Fleet</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard')}>Dashboard</NavDropdown.Item>
               </NavDropdown>

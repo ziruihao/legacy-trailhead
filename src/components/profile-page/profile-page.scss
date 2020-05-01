@@ -45,6 +45,32 @@
     box-shadow: $menu-shadow;
     border-radius: 10px;
     padding: 25px;
+    
+    // &:first-child {
+    //   margin-right: 25px;
+    // }
+
+    .profile-pic-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 25px;
+    
+      .profile-pic {
+        height: 13rem;
+        width: 13rem;
+        border-radius: 50%;
+        background: #D6D6D6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .user-initials{
+          font-size: 7em;
+          color: gray;
+        }
+      }
+    }
   
     .profile-card-header {
       display: flex;
@@ -58,6 +84,7 @@
     .profile-card-body {
       display: flex;
       flex-direction: column;
+      width: 650px;
     }
   }
 }
@@ -66,26 +93,9 @@
   width: 1135.72;
   height: 348.05;
 }
-.profile-pic-container{
-  width: 25%;
-  display: flex;
-}
-.profile-pic{
-  height: 13rem;
-  width: 13rem;
-  border-radius: 50%;
-  margin-top: 2.5em;
-  margin-left: 2.5em;
-  margin-right: 2.5em;
-  background: #D6D6D6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.user-initials{
-  font-size: 7em;
-  color: gray;
-}
+
+
+
 
 .profile-card-info{
   margin-top: 1em;
