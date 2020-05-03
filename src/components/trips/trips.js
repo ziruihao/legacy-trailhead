@@ -126,6 +126,13 @@ class Trips extends Component {
       })
     }
 
+    let isLeading = true;
+    //     this.props.trip.leaders.some((leaderId) => {
+    //       if (leaderId === this.props.user._id) {
+    //         isLeading = true;
+    //       }
+    //     });
+
     let tripsGrid = [];
 
     if (this.state.beginner === "all") {
@@ -142,6 +149,7 @@ class Trips extends Component {
         return (
             <div key={trip._id} className="card text-center card-trip margins">
                 <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
+                  <h1 className= "leading-trip">{isLeading ? console.log("yes") : console.log("no")}</h1>
                   <h2 className="card-title">{trip.title}</h2>
                   <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                   <p className="card-text">{this.formatDescription(trip.description)}</p>
@@ -150,8 +158,6 @@ class Trips extends Component {
                 </div>
             </div>
           );
-
-
       });
     } else{
       let experienceNeeded = "";
