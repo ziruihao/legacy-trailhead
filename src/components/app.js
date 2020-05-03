@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Dashboard from './dashboard';
 import AllTrips from './trips';
 import CreateTrip from './createtrip';
-import MyTrips from './myTrips';
+import MyTrips from './mytrips';
 import VehicleRequest from './vehiclerequest';
 import ProfilePage from './profilepage';
 import TripDetails from './tripdetails';
@@ -16,12 +16,13 @@ import OpoTrips from './opotrips';
 import OpoVehicleRequests from './opo-vehicle-requests';
 import OpoVehicleRequest from './opo-vehicle-request';
 import OPODashboard from './opo-dashboard';
-import requireAuth from './require-auth';
-import VehicleCalendar from './vehiclecalendar';
+import VehicleCalendar from './vehicleCalendar';
+import Gateway from './gateway';
 
 import { getUser, getClubs, getVehicles } from '../actions';
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
+
 
 class App extends React.Component {
   constructor(props) {
@@ -31,6 +32,9 @@ class App extends React.Component {
     };
   }
 
+  /**
+   * Conditional data load if the browser's token is valid.
+   */
   componentWillMount() {
     this.verifyToken().then(() => {
       this.loadData();
@@ -39,6 +43,9 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * Upon mounting of App component, critical user and platform data is loaded from the backend.
+   */
   loadData = () => {
     return new Promise((resolve, reject) => {
       this.props.getUser().then(() => {
@@ -52,48 +59,62 @@ class App extends React.Component {
     });
   }
 
+  /**
+   * Checks the validity of the token stored in browser. Invalid tokens will cause a cache clear and put the user through the re-authentication process.
+   */
   verifyToken = () => {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('token');
       if (token) {
-        console.log('there is a token');
         axios.get(`${ROOT_URL}/user`, { headers: { authorization: token } })
           .then(() => {
-            console.log('token works');
             resolve();
           })
           .catch(() => {
-            console.log('token doesnt work');
             localStorage.clear();
             reject();
-            // store.dispatch({ type: ActionTypes.DEAUTH_USER });
           });
       } else { reject(); }
     });
   }
 
+  requireAuth = (RequestedComponent, switchMode) => {
+    if (this.props.authenticated) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
+    else return <Gateway dataLoader={this.loadData} />;
+  }
+
   render() {
-    if (this.state.loaded) {
+    if (!this.props.authenticated) {
+      return (
+        <Router>
+          <div id="theBody">
+            <Switch>
+              <Route path="/" component={Gateway} />
+            </Switch>
+          </div>
+        </Router>
+      );
+    } else if (this.state.loaded) {
       return (
         <Router>
           <NavBar />
           <div id="theBody">
             <Switch>
-              <Route exact path="/" component={requireAuth(Dashboard, this.loadData)} />
-              <Route path="/user" component={requireAuth(ProfilePage, this.loadData)} />
-              <Route path="/all-trips" component={requireAuth(AllTrips, this.loadData)} />
-              <Route path="/vehicle-request/:vehicleReqId" component={requireAuth(VehicleRequest, this.loadData, 'viewMode')} />
-              <Route path="/vehicle-request" component={requireAuth(VehicleRequest, this.loadData)} />
-              <Route path="/trip/:tripID" component={requireAuth(TripDetails, this.loadData)} />
-              <Route path="/createtrip" component={requireAuth(CreateTrip, this.loadData)} />
-              <Route path="/my-trips" component={requireAuth(MyTrips, this.loadData)} />
-              <Route path="/edittrip/:tripID" component={requireAuth(CreateTrip, this.loadData, 'editMode')} />
-              <Route path="/opo-trips" component={requireAuth(OpoTrips, this.loadData)} />
-              <Route path="/vehicle-requests" component={requireAuth(OpoVehicleRequests, this.loadData)} />
-              <Route path="/opo-vehicle-request/:vehicleReqId" component={requireAuth(OpoVehicleRequest, this.loadData)} />
-              <Route path="/opo-dashboard" component={requireAuth(OPODashboard, this.loadData)} />
-              <Route path="/leader-approvals" component={requireAuth(OpoApprovals, this.loadData)} />
-              <Route path="/vehicle-calendar" component={requireAuth(VehicleCalendar, this.loadData)} />
+              <Route exact path="/" component={Dashboard} />
+              <Route path="/user" component={ProfilePage} />
+              <Route path="/all-trips" component={AllTrips} />
+              <Route path="/vehicle-request/:vehicleReqId" component={VehicleRequest} />
+              <Route path="/vehicle-request" component={VehicleRequest} />
+              <Route path="/trip/:tripID" component={TripDetails} />
+              <Route path="/createtrip" component={CreateTrip} />
+              <Route path="/my-trips" component={MyTrips} />
+              <Route path="/edittrip/:tripID" component={CreateTrip} />
+              <Route path="/opo-trips" component={OpoTrips} />
+              <Route path="/vehicle-requests" component={OpoVehicleRequests} />
+              <Route path="/opo-vehicle-request/:vehicleReqId" component={OpoVehicleRequest} />
+              <Route path="/opo-dashboard" component={OPODashboard} />
+              <Route path="/leader-approvals" component={OpoApprovals} />
+              <Route path="/vehicle-calendar" component={VehicleCalendar} />
             </Switch>
           </div>
         </Router>
@@ -105,7 +126,7 @@ class App extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  authenaticated: state.auth.authenaticated,
+  authenticated: state.auth.authenticated,
 });
 
 export default connect(mapStateToProps, { getUser, getClubs, getVehicles })(App);

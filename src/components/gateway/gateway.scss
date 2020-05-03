@@ -1,0 +1,42 @@
+@import '../../styles/base.scss';
+
+#landing-page{
+  height: 100vh;
+  width: 100vw;
+  background-image: url(./background.svg) !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #landing-card {
+    width: 752px;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    background-color: white;
+    box-shadow: $menu-shadow;
+    border-radius: 10px;
+
+    #landing-card-message {
+      font-size: 24px;
+      margin-bottom: 25px;
+    }
+    
+    #landing-card-actions {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 25px;
+    }
+  }
+}
+
+#doc-icon{
+  position: absolute;
+  left: 2.64%;
+  right: 92.5%;
+  top: 3%;
+  bottom: 91.33%;
+}
