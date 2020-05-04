@@ -235,7 +235,7 @@ const ProfileCard = (props) => {
               </span>
               <span className="card-info">
                 <input
-                  type="number"
+                  // type="number"
                   id="dash_number"
                   name="dash_number"
                   maxLength="50"
@@ -262,7 +262,7 @@ const ProfileCard = (props) => {
               <span className="card-info">
                 {props.getShoeGender()}
                 <input
-                  type="number"
+                  // type="number"
                   name="shoe_size"
                   step="0.5"
                   onChange={props.onFieldChange}

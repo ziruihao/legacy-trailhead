@@ -70,7 +70,7 @@ class CreateTrip extends Component {
     this.state = {
       currentStep: 1,
       title: '',
-      leaders: '',
+      leaders: [],
       club: {},
       experienceNeeded: false,
       access: false,
@@ -600,7 +600,7 @@ class CreateTrip extends Component {
     const vehicleReqId = (this.props.switchMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest._id : null;
     const trip = {
       title: this.state.title,
-      leaders: this.state.leaders.trim().split(','),
+      leaders: this.state.leaders,
       club,
       experienceNeeded: this.state.experienceNeeded,
       description: this.state.description,
@@ -639,6 +639,7 @@ class CreateTrip extends Component {
             titleValue={this.state.title}
             costValue={this.state.cost}
             leaderValue={this.state.leaders}
+            updateLeaderValue={(update) => this.setState({leaders: update})}
             experienceValue={this.state.experienceNeeded}
             accessValue={this.state.access}
             experienceOption={this.handleOptionChange}
@@ -697,6 +698,10 @@ class CreateTrip extends Component {
               requestType='TRIP'
               passVehicles={this.passVehicles}
               vehicles={this.state.vehicles}
+              startDate={this.state.startDate}
+              endDate={this.state.endDate}
+              startTime={this.state.startTime}
+              endTime={this.state.endTime}
             />
           )
           : (
