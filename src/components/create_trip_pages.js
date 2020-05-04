@@ -78,11 +78,12 @@ const BasicTripInfo = (props) => {
       </div>
       <div className="row page-sub-headers">
         <p>Cost</p>
-        <input className={`form-control field top-create-trip ${props.errorFields.cost ? 'create-trip-error' : ''}`}
+        <input
+          className={`form-control field top-create-trip ${props.errorFields.cost ? 'create-trip-error' : ''}`}
           onChange={props.onFieldChange}
           name="cost"
           placeholder="0"
-          type="number"
+          // type="number"
           value={props.costValue}
         />
       </div>
@@ -196,7 +197,7 @@ const DatesLocation = (props) => {
       <div className="row page-sub-headers trip-date-header">
         <p>Estimated mileage (round trip)</p>
         <input
-          type="number"
+          // type="number"
           onChange={props.onFieldChange}
           name="mileage"
           placeholder="Estimated mileage"

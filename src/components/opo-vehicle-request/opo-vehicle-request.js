@@ -687,7 +687,7 @@ class OPOVehicleRequest extends Component {
             <div id="ovr-req-assignment-label" className="ovr-req-assignment">
               <span className="ovr-req-row ovr-header-filler">#TheLodgeInfiltrated</span>
               <span className="ovr-req-row">Vehicle</span>
-              <span className="ovr-req-row">Trailer Compatible?</span>
+              <span className="ovr-req-row">Trailer Hitch Required?</span>
               <span className="ovr-req-row">WMNF Pass Needed?</span>
               <span className="ovr-req-row">Pickup Date</span>
               <span className="ovr-req-row">Pickup Time</span>

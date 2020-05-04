@@ -193,14 +193,14 @@ input[type=date]::-webkit-outer-spin-button {
 
 #doc::after{
   background-image: url("../../img/doc.gif");
-  background-size: cover;
+  background-size: 100%;
   content: ' ';
   display: block;
   position: absolute;
-  left: 40%;
+  left: 25%;
   top: 0;
   width: 60%;
-  height: 60%;
+  height: 50%;
   z-index: 1;
   opacity: 0.2;
 }
