@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/createtrip-style.scss';
+import CoLeadersAutoComplete from './coLeadersAutoComplete';
 
 
 const LeftColumn = (props) => {
@@ -86,14 +87,15 @@ const BasicTripInfo = (props) => {
         />
       </div>
       <div className="row page-sub-headers">
-        <p>Co-leader email addresses, seperated by commas</p>
-        <input
-          className="field top-create-trip leaders"
+        <p>Co-leader email addresses</p>
+        {/* <input
+          className="form-control field top-create-trip leaders"
           onChange={props.onFieldChange}
           name="leaders"
           placeholder="my.buddy.21@dartmouth.edu, my.driver.21@dartmouth.edu"
           value={props.leaderValue}
-        />
+        /> */}
+        <CoLeadersAutoComplete updateLeaderValue={props.updateLeaderValue} name="leaders" />
         <div className="checkbox-beginner">
           <input
             type="checkbox"
