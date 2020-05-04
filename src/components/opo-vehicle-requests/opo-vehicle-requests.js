@@ -63,12 +63,23 @@ class OPOVehicleRequests extends Component {
   };
 
   getPendingTable = () => {
-    const pendingRequests = this.props.vehicleRequests.filter((request) => {
+    let pendingRequests = this.props.vehicleRequests.filter((request) => {
       return request.status === 'pending';
     });
 
-    // if (!this.state.seePastReviewedRequests) {
-    // }
+    if (!this.state.seePastReviewedRequests) {
+      const today = new Date();
+      pendingRequests = pendingRequests.filter((request) => {
+        const assignmentDates = request.assignments.map(assignment => new Date(assignment.assigned_returnDateAndTime));
+        assignmentDates.sort((d1, d2) => {
+          if (d1 < d2) return -1;
+          else if (d1 > d2) return 1;
+          else return 0;
+        });
+        if (assignmentDates.pop() < today) return false;
+        else return true;
+      });
+    }
 
     if (pendingRequests.length === 0) {
       return (
@@ -107,9 +118,24 @@ class OPOVehicleRequests extends Component {
   }
 
   getApprovedTable = () => {
-    const approvedRequests = this.props.vehicleRequests.filter((request) => {
+    let approvedRequests = this.props.vehicleRequests.filter((request) => {
       return request.status !== 'pending';
     });
+
+    if (!this.state.seePastReviewedRequests) {
+      const today = new Date();
+      approvedRequests = approvedRequests.filter((request) => {
+        const assignmentDates = request.assignments.map(assignment => new Date(assignment.assigned_returnDateAndTime));
+        assignmentDates.sort((d1, d2) => {
+          if (d1 < d2) return -1;
+          else if (d1 > d2) return 1;
+          else return 0;
+        });
+        if (assignmentDates.pop() < today) return false;
+        else return true;
+      });
+    }
+
     if (approvedRequests.length === 0) {
       return (
         <div className="no-on-trip">
