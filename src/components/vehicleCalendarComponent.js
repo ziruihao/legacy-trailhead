@@ -25,7 +25,7 @@ const VehicleCalendarComponent = (props) => {
       vehicles={props.vehicles}
       assignments={props.assignments}
       components={{ event: VehicleBooking }}
-      eventPropGetter={(props.eventPropGetter)}
+      // eventPropGetter={(props.eventPropGetter)}
       onSelectEvent={props.userRole === 'OPO' ? (selectedEvent, e) => props.showEventModal(selectedEvent, e) : undefined}
     />
   );
