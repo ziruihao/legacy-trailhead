@@ -3,6 +3,7 @@ import TimeGrid from 'react-big-calendar/lib/TimeGrid';
 import { navigate } from 'react-big-calendar/lib/utils/constants';
 import * as dates from '../../utils/dates';
 import '../../styles/vehicle-calendar-style.scss';
+import './calendar-all-view.scss';
 
 class AllView extends Component {
   constructor(props) {
@@ -11,17 +12,17 @@ class AllView extends Component {
   }
 
   componentDidMount() {
-    this.arrayofRefs.forEach((ref, index) => {
-      if (index !== 0) {
-        ref.scrollRef.current.style.display = 'none';
-      } else {
-        ref.scrollRef.current.children[0].style.display = 'none';
-      }
-      const gutterRef = ref.gutter;
-      while (gutterRef.firstChild) {
-        gutterRef.removeChild(gutterRef.firstChild);
-      }
-    });
+    // this.arrayofRefs.forEach((ref, index) => {
+    //   if (index !== 0) {
+    //     ref.scrollRef.current.style.display = 'none';
+    //   } else {
+    //     ref.scrollRef.current.children[0].style.display = 'none';
+    //   }
+    //   const gutterRef = ref.gutter;
+    //   while (gutterRef.firstChild) {
+    //     gutterRef.removeChild(gutterRef.firstChild);
+    //   }
+    // });
   }
 
   hasReturnTimePassed = (eventEnd) => {
@@ -33,17 +34,8 @@ class AllView extends Component {
   render() {
     const { date } = this.props;
     const range = AllView.range(date);
-    const vehiclesWithoutEnterprise = this.props.vehicles.filter((vehicle) => {
-      return vehicle.name !== 'Enterprise';
-    });
 
-    let allBookings = [];
-
-    vehiclesWithoutEnterprise.forEach((vehicle) => {
-      allBookings = allBookings.concat(vehicle.bookings);
-    });
-
-    const eventsWithDate = allBookings.map((booking) => {
+    const eventsWithDate = this.props.assignments.map((booking) => {
       const calendarFields = {};
       calendarFields.start = new Date(booking.assigned_pickupDateAndTime);
       calendarFields.end = new Date(booking.assigned_returnDateAndTime);
@@ -55,21 +47,19 @@ class AllView extends Component {
       } else if (booking.pickedUp && !booking.returned && !returnTimeHasPassed) {
         calendarFields.tooltip = 'Vehicle has been picked up';
       }
-      calendarFields.assignedVehicle = vehicle.name;
+      calendarFields.assignedVehicle = booking.assigned_vehicle.name;
       return Object.assign({}, booking, calendarFields);
     });
     return (
-      <div key={vehicle._id} className="weekview-container">
-        <span className={`vehicle-name ${index === 0 && 'weekView-top-padding'}`}>
-          {vehicle.name}
-        </span>
+      <div className="all-view-container">
         <span className="timegrid-latch">
           <TimeGrid
-            ref={(timeGridRef) => { this.arrayofRefs[index] = timeGridRef; }}
+            // ref={(timeGridRef) => { this.arrayofRefs[index] = timeGridRef; }}
             {...this.props}
             range={range}
+            min={new Date(0, 0, 0, 5)}
             step={30}
-            timeslots={12}
+            timeslots={6}
             showMultiDayTimes
             events={eventsWithDate}
             startAccessor="start"
@@ -88,13 +78,13 @@ AllView.title = (date) => {
 };
 
 AllView.range = (date) => {
-  const start = dates.startOf(date, 'week');
-  const end = dates.add(start, 6, 'day');
+  const start = date;
+  const end = dates.add(start, 4, 'day');
 
   let current = start;
   const range = [];
 
-  while (dates.lte(current, end, 'day')) {
+  while (dates.lt(current, end, 'day')) {
     range.push(current);
     current = dates.add(current, 1, 'day');
   }
@@ -106,10 +96,10 @@ AllView.range = (date) => {
 AllView.navigate = (date, action) => {
   switch (action) {
     case navigate.PREVIOUS:
-      return dates.add(date, -7, 'day');
+      return dates.add(date, -4, 'day');
 
     case navigate.NEXT:
-      return dates.add(date, 7, 'day');
+      return dates.add(date, 4, 'day');
 
     default:
       return date;
