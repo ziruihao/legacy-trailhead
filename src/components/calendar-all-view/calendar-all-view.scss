@@ -7,7 +7,7 @@
 
   .rbc-btn-group {
     display: flex;
-    
+
     button {
       display: flex;
       justify-content: center;
@@ -75,6 +75,10 @@
           background-color: rgba(0,0,0,0);
           border: none;
           box-shadow: $menu-shadow;
+
+          .rbc-event-label {
+            display: none;
+          }
         }
       }
   
