@@ -15,7 +15,7 @@ const VehicleCalendarComponent = (props) => {
   return (
     <BigCalendar
       localizer={localizer}
-      defaultView="week"
+      defaultView="all"
       views={{
         week: WeekView,
         all: AllView,
@@ -23,9 +23,8 @@ const VehicleCalendarComponent = (props) => {
       events={props.vehicles}
       showMultiDayTimes
       popup
-      step={1}
-      timeslots={1}
       vehicles={props.vehicles}
+      assignments={props.assignments}
       components={{ event: VehicleBooking }}
       eventPropGetter={(props.eventPropGetter)}
       onSelectEvent={props.userRole === 'OPO' ? (selectedEvent, e) => props.showEventModal(selectedEvent, e) : undefined}
