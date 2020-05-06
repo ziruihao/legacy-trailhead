@@ -3,6 +3,7 @@ import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../styles/vehicle-calendar-style.scss';
+import AllView from './calendar-all-view';
 import WeekView from './calendar-weekView';
 import VehicleBooking from './calendarVehicleBooking';
 
@@ -17,12 +18,13 @@ const VehicleCalendarComponent = (props) => {
       defaultView="week"
       views={{
         week: WeekView,
+        all: AllView,
       }}
       events={props.vehicles}
       showMultiDayTimes
       popup
-      step={60}
-      timeslots={12}
+      step={1}
+      timeslots={1}
       vehicles={props.vehicles}
       components={{ event: VehicleBooking }}
       eventPropGetter={(props.eventPropGetter)}
