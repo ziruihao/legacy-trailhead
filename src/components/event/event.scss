@@ -12,7 +12,7 @@
 
   &.conflict {
     background: $error-red-light;
-    border: 2px solid $error-red-deep !important;
+    border-top: 5px solid $error-red-deep !important;
   }
 
   &.hoverable-booking:hover .booking-tooltip{
@@ -21,6 +21,7 @@
     position: absolute;
     top: 50%;
   }
+  
   &.hoverable-booking:hover .booking-mini-details{
     display: none;
   }
