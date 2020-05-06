@@ -184,33 +184,33 @@ class VehicleCalendar extends Component {
     );
   }
 
-  eventStyleGetter = (event, start, end, isSelected) => {
-    if (event.conflicts.length > 0) {
-      const style = {
-        backgroundColor: '#FFD8D8',
-        borderColor: '#A93A3A',
-        borderRadius: '0px',
-        opacity: 0.8,
-        color: 'black',
-        border: '0px',
-        display: 'block',
-      };
-      return {
-        style,
-      };
-    } else {
-      const style = {
-        backgroundColor: '#ffffff',
-        borderColor: '#3AA988',
-        borderRadius: '0px',
-        opacity: 0.8,
-        color: 'black',
-        border: '0px',
-        display: 'block',
-      };
-      return style;
-    }
-  }
+  // eventStyleGetter = (event, start, end, isSelected) => {
+  //   if (event.conflicts.length > 0) {
+  //     const style = {
+  //       backgroundColor: '#FFD8D8',
+  //       borderColor: '#A93A3A',
+  //       borderRadius: '0px',
+  //       opacity: 0.8,
+  //       color: 'black',
+  //       border: '0px',
+  //       display: 'block',
+  //     };
+  //     return {
+  //       style,
+  //     };
+  //   } else {
+  //     const style = {
+  //       backgroundColor: '#ffffff',
+  //       borderColor: '#3AA988',
+  //       borderRadius: '0px',
+  //       opacity: 0.8,
+  //       color: 'black',
+  //       border: '0px',
+  //       display: 'block',
+  //     };
+  //     return style;
+  //   }
+  // }
 
   render() {
     if (this.state.ready) {
@@ -225,7 +225,7 @@ class VehicleCalendar extends Component {
               vehicles={this.props.vehicles}
               showEventModal={this.showEventModal}
               userRole={this.props.user.role}
-              eventPropGetter={this.eventStyleGetter}
+              // eventPropGetter={this.eventStyleGetter}
             />
           </div>
           <Modal
