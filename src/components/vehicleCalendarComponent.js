@@ -5,7 +5,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../styles/vehicle-calendar-style.scss';
 import AllView from './calendar-all-view';
 import WeekView from './calendar-weekView';
-import VehicleBooking from './calendarVehicleBooking';
+import VehicleBooking from './event';
 
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.
@@ -17,7 +17,6 @@ const VehicleCalendarComponent = (props) => {
       localizer={localizer}
       defaultView="all"
       views={{
-        week: WeekView,
         all: AllView,
       }}
       events={props.vehicles}
