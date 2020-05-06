@@ -68,7 +68,14 @@
           border-width: 0 !important;
         }
       }
-  
+
+      .rbc-events-container {
+        .rbc-event {
+          background-color: rgba(0,0,0,0);
+          border: none;
+          box-shadow: $menu-shadow;
+        }
+      }
   
     }
   
