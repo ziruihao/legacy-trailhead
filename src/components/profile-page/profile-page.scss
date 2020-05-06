@@ -1,33 +1,5 @@
-.background{
-  width: 100%;
-  min-height: 100vh;
-  // background: #E5E5E5;
-}
-.my-container {
-  display: flex;
-  flex-direction: column;
-  width: 95%;
-  margin: 0 auto;
-}
+@import '../../styles/base.scss';
 
-.profile-page-header{
-  margin-top: 2.25em;
-  margin-bottom: 1em;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-.logout-button{
-  color: #0CA074;
-  font-weight: 400;
-  font-size: 1.5em;
-  letter-spacing: 0.05em;
-  cursor: pointer;
-}
-.logout-button:hover{
-  color: rgb(24, 211, 108);
-}
 .cancel-changes{
   color: #EE6E52;
   font-weight: 400;
@@ -60,54 +32,71 @@
   margin-bottom: .7rem;
 }
 
-.profile{
-  flex: 0 1 auto;
+#profile-page {
+  flex: 1;
   display: flex;
-  background: #FFFFFF;
-  box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
-  border-radius: 10px;
-  width: 100%;
-  margin-bottom: 1em;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  #profile-card {
+    display: flex;
+    background: white;
+    box-shadow: $menu-shadow;
+    border-radius: 10px;
+    padding: 25px;
+    
+    // &:first-child {
+    //   margin-right: 25px;
+    // }
+
+    .profile-pic-container{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-right: 25px;
+    
+      .profile-pic {
+        height: 13rem;
+        width: 13rem;
+        border-radius: 50%;
+        background: #D6D6D6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .user-initials{
+          font-size: 7em;
+          color: gray;
+        }
+      }
+    }
+  
+    .profile-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  
+      #profile-card-incomplete-notice {
+        color: $error-red-deep;
+      }
+    }
+    .profile-card-body {
+      display: flex;
+      flex-direction: column;
+      width: 650px;
+    }
+  }
 }
 
 .size{
   width: 1135.72;
   height: 348.05;
 }
-.profile-pic-container{
-  width: 25%;
-  display: flex;
-}
-.profile-pic{
-  height: 13rem;
-  width: 13rem;
-  border-radius: 50%;
-  margin-top: 2.5em;
-  margin-left: 2.5em;
-  margin-right: 2.5em;
-  background: #D6D6D6;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.user-initials{
-  font-size: 7em;
-  color: gray;
-}
-.profile-card-body{
-  display: flex;
-  flex-direction: column;
-  width: 75%;
-  margin-left: 1em;
-  margin-right: 2em;
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
-}
-.profile-card-header{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+
+
+
+
 .profile-card-info{
   margin-top: 1em;
 }

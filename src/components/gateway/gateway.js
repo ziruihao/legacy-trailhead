@@ -11,7 +11,6 @@ class Gateway extends Component {
   componentWillMount() {
     const casValues = queryString.parse(this.props.location.search);
     if (casValues.token) {
-      console.log(casValues.token);
       this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader);
     }
   }
@@ -68,7 +67,7 @@ class Gateway extends Component {
   render() {
       return (
         <div id="landing-page">
-          <div id="landing-card">
+          <div id="landing-card" className="doc-card">
               <div id="landing-card-message">
                 <div className="h1">Welcome there!</div>
                 <div className="p1">

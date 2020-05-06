@@ -236,6 +236,7 @@ class CreateTrip extends Component {
     this.setState({
       club: { _id: event.target[event.target.selectedIndex].dataset.id, name: event.target.value },
     });
+    console.log(this.state.club);
   }
 
   onDateChange(event) {
