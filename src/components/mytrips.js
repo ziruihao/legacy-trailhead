@@ -81,6 +81,7 @@ class MyTrips extends Component {
 
   
         if(trip.club.name !== ('Ledyard' || 'Mountaineering' || 'cnt'|| 'wiw' || 'Woodsmen' || 'surf' || 'dmbc' || 'wsc')) card_id = "doc";
+        
         let isLeading = false;
         trip.leaders.some((leaderId) => {
           if (leaderId === this.props.user._id) {
@@ -88,33 +89,18 @@ class MyTrips extends Component {
           }
           return leaderId === this.props.user._id;
         });
-        if (this.props.user.role !== 'Trippee') {
-          return (
-            <div key={trip._id} className="card text-center card-trip margins">
-              <NavLink to={`/trip/${trip._id}`}>
-                <div className="card-body" id={card_id} >
-                  <h2 className="card-title">{isLeading ? '(L)' : null} {trip.title}</h2>
-                  <p className="card-text">{trip.club ? trip.club.name : ''}</p>
-                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-                  <p className="card-club">{trip.club ? trip.club.name : ''}</p>
-                </div>
-              </NavLink>
-            </div>
-          );
-        }else {
-          return (
-            <div key={trip._id} className="card text-center card-trip margins">
-              <NavLink to={`/trip/${trip._id}`}>
-                <div className="card-body" id={card_id} >
-                  <h2 className="card-title">{isLeading ? '(L)' : null} {trip.title}</h2>
-                  <p className="card-text">{trip.club ? trip.club.name : ''}</p>
-                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-                  <p className="card-club">{trip.club ? trip.club.name : ''}</p>
-                </div>
-              </NavLink>
-            </div>
-          );
-        }
+        return (
+          <div key={trip._id} className="card text-center card-trip margins">
+            <NavLink to={`/trip/${trip._id}`}>
+              <div className="card-body" id={card_id} >
+                <h2 className="card-title">{isLeading ? '(L)' : null} {trip.title}</h2>
+                <p className="card-text">{trip.club ? trip.club.name : ''}</p>
+                <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
+                <p className="card-club">{trip.club ? trip.club.name : ''}</p>
+              </div>
+            </NavLink>
+          </div>
+        );
       });
     }
     return myTrips;

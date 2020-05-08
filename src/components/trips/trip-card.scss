@@ -170,12 +170,12 @@ input[type=date]::-webkit-outer-spin-button {
   content: ' ';
   display: block;
   position: absolute;
-  left: 40%;
-  top: 0;
-  width: 60%;
-  height: 60%;
+  left: 41%;
+  width: 58%;
+  height: 50%;
   z-index: 1;
   opacity: 0.2;
+  bottom: 0;
 }
 #Mountaineering::after{
   background-image: url("../../img/dmc.png");
@@ -183,12 +183,12 @@ input[type=date]::-webkit-outer-spin-button {
   content: ' ';
   display: block;
   position: absolute;
-  left: 40%;
-  top: 0;
+  left: 46%;
   width: 60%;
-  height: 60%;
+  height: 50%;
   z-index: 1;
-  opacity: 0.3;
+  opacity: 0.4;
+  bottom: -3%;
 }
 
 #doc::after{
@@ -211,12 +211,12 @@ input[type=date]::-webkit-outer-spin-button {
   content: ' ';
   display: block;
   position: absolute;
-  left: 40%;
-  top: 0;
+  left: 41%;
   width: 60%;
-  height: 60%;
+  height: 50%;
   z-index: 1;
   opacity: 0.2;
+  bottom: 0;
 }
 #wiw::after{
   background-image: url("../../img/wiw.png");
@@ -225,11 +225,11 @@ input[type=date]::-webkit-outer-spin-button {
   display: block;
   position: absolute;
   left: 40%;
-  top: 0;
   width: 60%;
-  height: 60%;
+  height: 50%;
   z-index: 1;
-  opacity: 0.3;
+  opacity: 0.5;
+  bottom: 0;
 }
 #Woodsmen::after{
   background-image: url("../../img/woodsmen.gif");
@@ -237,12 +237,12 @@ input[type=date]::-webkit-outer-spin-button {
   content: ' ';
   display: block;
   position: absolute;
-  left: 40%;
-  top: 0;
+  left: 42%;
   width: 60%;
-  height: 100%;
+  height: 90%;
   z-index: 1;
   opacity: 0.2;
+  bottom: 0;
 }
 #surf::after{
   background-image: url("../../img/surf.png");
@@ -250,12 +250,12 @@ input[type=date]::-webkit-outer-spin-button {
   content: ' ';
   display: block;
   position: absolute;
-  left: 40%;
-  top: 0;
+  left: 43%;
   width: 60%;
-  height: 60%;
+  height: 50%;
   z-index: 1;
   opacity: 0.2;
+  bottom: -1%;
 }
 #dmbc::after{
   background-image: url("../../img/dmbc.jpg");
@@ -263,12 +263,12 @@ input[type=date]::-webkit-outer-spin-button {
   content: ' ';
   display: block;
   position: absolute;
-  left: 40%;
-  top: 0;
+  left: 41%;
   width: 70%;
-  height: 70%;
+  height: 50%;
   z-index: 1;
   opacity: 0.2;
+  bottom: 0;
 }
 #wsc::after{
   background-image: url("../../img/wsc.gif");
@@ -276,12 +276,12 @@ input[type=date]::-webkit-outer-spin-button {
   content: ' ';
   display: block;
   position: absolute;
-  left: 40%;
-  top: 0;
+  left: 41%;
   width: 60%;
-  height: 60%;
+  height: 50%;
   z-index: 1;
   opacity: 0.2;
+  bottom: 0;
 }
 #create-trip{
   height:18.5rem;
