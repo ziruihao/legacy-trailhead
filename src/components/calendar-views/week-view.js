@@ -63,7 +63,7 @@ class WeekView extends Component {
               {...this.props}
               range={range}
               step={30}
-              timeslots={12}
+              timeslots={6}
               showMultiDayTimes
               events={eventsWithDate}
               startAccessor="start"
