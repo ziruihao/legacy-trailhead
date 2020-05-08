@@ -1,23 +1,15 @@
 @import './base.scss';
 
-.weekView-top-padding {
-  padding-top: 4em;
-}
 .weekview-container{
   display: flex;
 }
-.vehicle-name{
-  width: 5%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-left: 0.5em;
-  margin-right: 0.5em;
-  word-break: break-word;
-  font-size: 1em;
-  font-weight: 700;
-  color: $green;
-}
+// .vehicle-name{
+//   // width: 5%;
+//   // margin-left: 0.5em;
+//   // margin-right: 0.5em;
+//   // word-break: break-word;
+
+// }
 .timegrid-latch{
   width: 95%;
 }
