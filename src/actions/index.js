@@ -169,7 +169,7 @@ export function moveToPending(id, member) {
 
 export function leaveTrip(id, userTripStatus) {
   return (dispatch) => {
-    axios.delete(`${constants.BACKEND_URL}/leaveTrip/${id}`, { headers: { authorization: localStorage.getItem('token') }, data: { userTripStatus } }).then((response) => {
+    axios.post(`${constants.BACKEND_URL}/leaveTrip/${id}`, { userTripStatus }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
       console.log(error);
