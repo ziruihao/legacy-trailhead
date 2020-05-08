@@ -55,6 +55,7 @@
       display: flex;
       align-items: center;
       height: 50px;
+
       a {
         width: 100%;
       }
@@ -79,12 +80,14 @@
     .rbc-time-column {
       .rbc-timeslot-group {
         height: 100px !important;
+
         .rbc-time-slot {
           border-width: 0 !important;
         }
       }
 
       .rbc-events-container {
+
         .rbc-event {
           background-color: rgba(0,0,0,0);
           border: none;
