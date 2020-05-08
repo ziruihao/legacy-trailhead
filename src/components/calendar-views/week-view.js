@@ -62,8 +62,9 @@ class WeekView extends Component {
               ref={(timeGridRef) => { this.arrayofRefs[index] = timeGridRef; }}
               {...this.props}
               range={range}
+              min={new Date(0, 0, 0, 5)}
               step={30}
-              timeslots={6}
+              timeslots={9}
               showMultiDayTimes
               events={eventsWithDate}
               startAccessor="start"
