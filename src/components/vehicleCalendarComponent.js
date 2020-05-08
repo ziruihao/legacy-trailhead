@@ -3,8 +3,7 @@ import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../styles/vehicle-calendar-style.scss';
-import AllView from './calendar-all-view';
-import WeekView from './calendar-weekView';
+import { AllView, WeekView } from './calendar-views';
 import VehicleBooking from './event';
 
 // Setup the localizer by providing the moment (or globalize) Object
@@ -15,9 +14,9 @@ const VehicleCalendarComponent = (props) => {
   return (
     <BigCalendar
       localizer={localizer}
-      defaultView="all"
+      defaultView="week"
       views={{
-        all: AllView,
+        week: WeekView,
       }}
       events={props.vehicles}
       showMultiDayTimes
