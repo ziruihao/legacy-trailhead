@@ -96,6 +96,9 @@ class VehicleCalendar extends Component {
               {selectedEvent.request.requestType === 'TRIP' ? 'Leader' : 'Requester'}
             </div>
             <div id="event-key-detail-row">
+              {selectedEvent.request.requestType === 'TRIP' ? 'Leader Contact' : 'Requester Contact'}
+            </div>
+            <div id="event-key-detail-row">
               Assigned Vehicle Date
             </div>
             {selectedEvent.request.requestType === 'TRIP'
@@ -117,6 +120,9 @@ class VehicleCalendar extends Component {
           <div id="event-key-details-values">
             <div id="event-key-detail-row">
               {selectedEvent.requester.name}
+            </div>
+            <div id="event-key-detail-row">
+              {`Email: ${selectedEvent.requester.email} | Phone: ${selectedEvent.requester.phone ? selectedEvent.requester.phone : 'N/A'}`}
             </div>
             <div id="event-key-detail-row">
 
@@ -148,15 +154,14 @@ class VehicleCalendar extends Component {
               : null}
           </div>
         </div>
+        <hr />
         <div id="event-description">
-          <span className="vcm-detail-left vcm-description-label">Description</span>
+          <span id="event-description-label">Description</span>
           <div id="event-key-detail-row">
-            <div className="vcm-description">
-              {selectedEvent.request.requestType === 'TRIP' ? trip.description : selectedEvent.request.requestDetails}
-            </div>
+            {selectedEvent.request.requestType === 'TRIP' ? trip.description : selectedEvent.request.requestDetails}
           </div>
         </div>
-        <hr className="vcm-line" />
+        <hr />
         <div className="vcm-assignment-info">
           <span className="vcm-assignment-detail">
             Vehicle
@@ -174,12 +179,17 @@ class VehicleCalendar extends Component {
             Returned?
             <span>{selectedEvent.returned ? 'Yes' : 'No'}</span>
           </span>
-          <Link
+          {/* <Link
             className="doc-button"
             target="_blank"
             to={selectedEvent.request.requestType === 'TRIP'
               ? `/trip/${trip._id}`
               : `/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
+          > */}
+          <Link
+            className="doc-button"
+            target="_blank"
+            to={`/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
           >
             Edit Assignment
           </Link>
