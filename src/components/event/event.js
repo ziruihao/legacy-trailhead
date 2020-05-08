@@ -43,7 +43,7 @@ const VehicleBooking = ({ event }) => {
     bookingTitle = event.request.associatedTrip.title;
   }
 
-  const bookingTime = `${formatTime(event.assigned_pickupTime)}-${formatTime(event.assigned_returnTime)}`;
+  const bookingTime = `${formatTime(event.assigned_pickupTime)} - ${formatTime(event.assigned_returnTime)}`;
   console.log(event);
   const assignmentLabel = event.request.associatedTrip ? `Trip #${event.request.associatedTrip.number}` : `Req #${event.request.number}`;
   return (
