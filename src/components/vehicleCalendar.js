@@ -6,6 +6,7 @@ import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
 import VehicleCalendarComponent from './vehicleCalendarComponent';
 import loadingGif from '../img/loading-gif.gif';
 import '../styles/vehicle-calendar-style.scss';
+import './vehicle-calendar/event-modal.scss';
 
 class VehicleCalendar extends Component {
   constructor(props) {
@@ -84,7 +85,7 @@ class VehicleCalendar extends Component {
     const { selectedEvent } = this.state;
     const trip = selectedEvent.request.associatedTrip;
     return (
-      <div className="vcm-container">
+      <div id="event-modal">
         <h1 className="p-trip-title vcm-title">
           {selectedEvent.request.requestType === 'TRIP' ? trip.title : selectedEvent.requestDetails}
         </h1>
@@ -184,34 +185,6 @@ class VehicleCalendar extends Component {
     );
   }
 
-  // eventStyleGetter = (event, start, end, isSelected) => {
-  //   if (event.conflicts.length > 0) {
-  //     const style = {
-  //       backgroundColor: '#FFD8D8',
-  //       borderColor: '#A93A3A',
-  //       borderRadius: '0px',
-  //       opacity: 0.8,
-  //       color: 'black',
-  //       border: '0px',
-  //       display: 'block',
-  //     };
-  //     return {
-  //       style,
-  //     };
-  //   } else {
-  //     const style = {
-  //       backgroundColor: '#ffffff',
-  //       borderColor: '#3AA988',
-  //       borderRadius: '0px',
-  //       opacity: 0.8,
-  //       color: 'black',
-  //       border: '0px',
-  //       display: 'block',
-  //     };
-  //     return style;
-  //   }
-  // }
-
   render() {
     if (this.state.ready) {
       return (
@@ -230,10 +203,11 @@ class VehicleCalendar extends Component {
           </div>
           <Modal
             centered
+            size="lg"
             show={this.state.showModal}
             onHide={this.closeModal}
           >
-            <div className="trip-details-close-button">
+            <div id="event-modal-close">
               <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
             </div>
             {this.state.showModal ? this.getModalContent() : null}
