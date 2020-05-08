@@ -30,8 +30,9 @@
     font-size: 0.8em;
   }
 
-  .booking-reason{
-    font-weight: 700;
+  .booking-reason {
+    font-size: 14px;
+    font-weight: 800;
     display: flex;
     justify-content: space-between;
     overflow: hidden;
@@ -42,7 +43,7 @@
   .booking-mini-details{
     display: flex;
     white-space: nowrap;
-    font-size: 0.9em;
+    font-size: 12px;
     height: 50%;
     align-items: center;
 
