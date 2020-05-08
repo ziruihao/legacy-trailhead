@@ -236,6 +236,7 @@ class CreateTrip extends Component {
     this.setState({
       club: { _id: event.target[event.target.selectedIndex].dataset.id, name: event.target.value },
     });
+    console.log(this.state.club);
   }
 
   onDateChange(event) {
@@ -698,6 +699,9 @@ class CreateTrip extends Component {
               passVehicles={this.passVehicles}
               vehicles={this.state.vehicles}
               startDate={this.state.startDate}
+              endDate={this.state.endDate}
+              startTime={this.state.startTime}
+              endTime={this.state.endTime}
             />
           )
           : (

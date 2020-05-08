@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Collapse from 'react-bootstrap/Collapse';
-import ProfileCard from './profilecard';
+import ProfileCard from './profile-card';
 import '../styles/tripdetails_leader.scss';
 import pendingBadge from '../img/pending_badge.svg';
 import approvedBadge from '../img/approved_badge.svg';

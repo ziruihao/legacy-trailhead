@@ -12,13 +12,9 @@
 
   #landing-card {
     width: 752px;
-    padding: 50px;
     display: flex;
     flex-direction: column;
     justify-content: stretch;
-    background-color: white;
-    box-shadow: $menu-shadow;
-    border-radius: 10px;
 
     #landing-card-message {
       font-size: 24px;

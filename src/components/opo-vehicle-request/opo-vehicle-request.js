@@ -7,7 +7,7 @@ import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import * as constants from '../../constants';
-import ProfileCard from '../profilecard';
+import ProfileCard from '../profile-card';
 import ConflictModal from './conflict-modal';
 import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../actions';
 import pendingBadge from '../../img/pending_badge.svg';
