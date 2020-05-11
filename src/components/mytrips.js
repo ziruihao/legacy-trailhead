@@ -69,6 +69,9 @@ class MyTrips extends Component {
         Club leaders should update the 'DOC Leadership' field on their profiles to gain leader access.
         </span>
       : null;
+
+    const specialClubs = ['Ledyard','Mountaineering','cnt','wiw','Woodsmen','surf','dmbc','wsc'];
+
     if (this.props.myTrips.length !== 0) {
       const sortedTrips = this.props.myTrips.sort(this.compareStartDates);
       myTrips = sortedTrips.map((trip, id) => {
@@ -78,9 +81,6 @@ class MyTrips extends Component {
         if (card_id === "Surf Club") card_id = "surf";
         if (card_id === "Mountain Biking") card_id = "dmbc";
         if (card_id === "Winter Sports") card_id = "wsc";
-
-  
-        if(trip.club.name !== ('Ledyard' || 'Mountaineering' || 'cnt'|| 'wiw' || 'Woodsmen' || 'surf' || 'dmbc' || 'wsc')) card_id = "doc";
         
         let isLeading = false;
         trip.leaders.some((leaderId) => {
@@ -89,6 +89,8 @@ class MyTrips extends Component {
           }
           return leaderId === this.props.user._id;
         });
+        if(!specialClubs.includes(card_id)) card_id = "doc";
+
         return (
           <div key={trip._id} className="card text-center card-trip margins">
             <NavLink to={`/trip/${trip._id}`}>
