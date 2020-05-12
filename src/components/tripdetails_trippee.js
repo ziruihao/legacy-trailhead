@@ -87,8 +87,8 @@ const getGear = (props) => {
                   type="checkbox"
                   name="gear"
                   id={gear._id}
-                  data-id={gear._id}
-                  data-gear={gear.name}
+                  data-_id={gear._id}
+                  data-name={gear.name}
                   onChange={props.onGearChange}
                   checked={checked}
                   disabled={!props.isEditing}
