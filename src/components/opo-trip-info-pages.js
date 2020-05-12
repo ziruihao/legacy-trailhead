@@ -125,7 +125,7 @@ const getIndividualGear = (trip) => {
       console.log(entries);
       return entries.map(entry => (
         <tr key={`${gear._id}_${entry[0]}`}>
-          <td>{gear.gear}</td>
+          <td>{gear.name}</td>
           <td>{entry[0]}</td>
           <td>{entry[1]}</td>
         </tr>
@@ -133,7 +133,7 @@ const getIndividualGear = (trip) => {
     } else {
       return (
         <tr key={`${gear._id}_${index}`}>
-          <td>{gear.gear}</td>
+          <td>{gear.name}</td>
           <td>{gear.size_type}</td>
           <td>{gear.quantity}</td>
         </tr>
