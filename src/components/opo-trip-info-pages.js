@@ -80,7 +80,6 @@ const isStringEmpty = (string) => {
 const getIndividualGear = (trip) => {
   const gearData = {};
   const gearSizeType = {};
-  console.log(trip.trippeeGear);
   trip.trippeeGear.forEach((gear) => {
     gearSizeType[gear._id] = gear.size_type;
     if (gear.size_type !== 'N/A') {
@@ -118,9 +117,8 @@ const getIndividualGear = (trip) => {
       }
     });
   });
-  console.log(gearData)
   return trip.trippeeGear.map((gear, index) => {
-    if (false && Object.prototype.hasOwnProperty.call(gearData, gear._id)) {
+    if (Object.prototype.hasOwnProperty.call(gearData, gear._id)) {
       const entries = Object.entries(gearData[gear._id]);
       console.log(entries);
       return entries.map(entry => (
