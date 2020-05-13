@@ -3,6 +3,7 @@ import { withRouter, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { fetchTrip } from '../../actions';
+import './mobile-check.scss';
 
 class MobileCheckIn extends PureComponent {
   constructor(props) {
@@ -52,23 +53,23 @@ class MobileCheckIn extends PureComponent {
           <div className="h3">{this.props.trip.startDate}</div>
           <div className="h2">Check in your trippees before leaving:</div>
           <div className="p1">You MUST accurately mark which trippees are present on the day of the trip.</div>
-          <div id="mobile-check-in-list">
+          <div id="mobile-check-in-list" className="doc-card">
             <Table className="doc-table" responsive="">
               <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Present?</th>
+                  <th id="mobile-check-in-list-name-field">Name</th>
+                  <th>Present</th>
                 </tr>
               </thead>
               <tbody>
                 {this.props.trip.members.map((member) => {
                   return (
                     <tr key={member.user._id}>
-                      <td>{member.user.name}</td>
+                      <td id="mobile-check-in-list-name-field">{member.user.name}</td>
                       <td>
                         {member.attendedTrip
                           ? <button type="button" className="doc-button alarm">Undo</button>
-                          : <button type="button" className="doc-button">Mark as here</button>
+                          : <button type="button" className="doc-button">Here</button>
                        }
                       </td>
                     </tr>

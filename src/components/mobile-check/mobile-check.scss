@@ -3,7 +3,11 @@
 #mobile-check-screen {
   display: flex;
   flex-direction: column;
-  #mobile-check-in-list {
+  padding: 10vw;
 
+  #mobile-check-in-list {
+    #mobile-check-in-list-name-field {
+      flex: 1;
+    }
   }
 }
