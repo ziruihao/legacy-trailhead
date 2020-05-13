@@ -89,7 +89,7 @@ class App extends React.Component {
         <Router>
           <div id="theBody">
             <Switch>
-              <Route path="/" component={Gateway} />
+              <Route exact path="/" component={Gateway} />
               <Route path="/trip-check-in/:tripKey" component={MobileCheckIn} />
               <Route path="/trip-check-out/:tripKey" component={MobileCheckOut} />
             </Switch>
@@ -117,6 +117,8 @@ class App extends React.Component {
             <Route path="/opo-fleet-management" component={FleetManagement} />
             <Route path="/leader-approvals" component={OpoApprovals} />
             <Route path="/vehicle-calendar" component={VehicleCalendar} />
+            <Route path="/trip-check-in/:tripKey" component={MobileCheckIn} />
+            <Route path="/trip-check-out/:tripKey" component={MobileCheckOut} />
           </Switch>
         </Router>
       );
