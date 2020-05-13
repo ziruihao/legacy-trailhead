@@ -20,6 +20,7 @@ import VehicleCalendar from './vehicleCalendar';
 import Gateway from './gateway';
 import FleetManagement from './fleet-management';
 import { getUser, getClubs, getVehicles } from '../actions';
+import { MobileCheckIn, MobileCheckOut } from './mobile-check';
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 
@@ -89,6 +90,8 @@ class App extends React.Component {
           <div id="theBody">
             <Switch>
               <Route path="/" component={Gateway} />
+              <Route path="/trip-check-in/:tripKey" component={MobileCheckIn} />
+              <Route path="/trip-check-out/:tripKey" component={MobileCheckOut} />
             </Switch>
           </div>
         </Router>
