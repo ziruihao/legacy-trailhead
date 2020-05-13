@@ -513,7 +513,7 @@ class CreateTrip extends Component {
         return Object.assign({}, gear, { hasError: isFieldEmpty });
       });
       const markedEmptyTrippeFields = trippeeGear.map((gear) => {
-        const isFieldEmpty = this.isStringEmpty(gear.gear);
+        const isFieldEmpty = this.isStringEmpty(gear.name);
         if (isFieldEmpty) {
           hasEmptyField = true;
         }
@@ -698,6 +698,10 @@ class CreateTrip extends Component {
               requestType='TRIP'
               passVehicles={this.passVehicles}
               vehicles={this.state.vehicles}
+              startDate={this.state.startDate}
+              endDate={this.state.endDate}
+              startTime={this.state.startTime}
+              endTime={this.state.endTime}
             />
           )
           : (

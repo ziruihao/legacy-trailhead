@@ -24,6 +24,25 @@ const getCoLeaders = (leaders) => {
   return coleaders;
 };
 
+
+const fourtyEightHoursAgo = (currentDate, Tripdate) => {
+  const currentDateSecs = currentDate.getTime() + 2 * 24 * 60 * 60 * 1000;
+
+  const tripdateSecs = Tripdate.getTime() + 24 * 60 * 60 * 1000;
+
+  return currentDateSecs > tripdateSecs;
+};
+
+const fourtyEightHoursAgoWarning = (date) => {
+  const now = new Date();
+  const rawDate = new Date(date);
+  if (fourtyEightHoursAgo(now, rawDate) && now < rawDate) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
 const formatDate = (date, time) => {
   let timeString = '';
   const rawDate = new Date(date);
@@ -39,6 +58,7 @@ const formatDate = (date, time) => {
   if (splitTime[0] === 0) {
     splitTime[0] = 12;
   }
+
   timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
   return timeString;
 };
@@ -58,17 +78,17 @@ const getGear = (props) => {
         return userGear.gearId === gear._id;
       });
       rows.push(
-        <div key={gear.id}>
+        <div key={gear._id}>
           <div className="detail-row">
-            <span className="detail-left">{gear.gear}</span>
+            <span className="detail-left">{gear.name}</span>
             <span>
               <label className="checkbox-container" htmlFor={gear._id}>
                 <input
                   type="checkbox"
                   name="gear"
                   id={gear._id}
-                  data-id={gear._id}
-                  data-gear={gear.gear}
+                  data-_id={gear._id}
+                  data-name={gear.name}
                   onChange={props.onGearChange}
                   checked={checked}
                   disabled={!props.isEditing}
@@ -179,7 +199,9 @@ const TripeeTripDetails = (props) => {
             {props.trip.description}
           </p>
         </div>
-
+        <div className="invalid-email">
+          {fourtyEightHoursAgoWarning(props.trip.startDate) ? '* This trip is starting less than 48 hours from now. \n Contact the trip leader for more info *' : ''}
+        </div>
         <div className="trip-detail">
           <div className="detail-row">
             <span className="detail-left">Start</span>

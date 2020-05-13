@@ -82,7 +82,7 @@ const BasicTripInfo = (props) => {
           onChange={props.onFieldChange}
           name="cost"
           placeholder="0"
-          type="number"
+          // type="number"
           value={props.costValue}
         />
       </div>
@@ -196,7 +196,7 @@ const DatesLocation = (props) => {
       <div className="row page-sub-headers trip-date-header">
         <p>Estimated mileage (round trip)</p>
         <input
-          type="number"
+          // type="number"
           onChange={props.onFieldChange}
           name="mileage"
           placeholder="Estimated mileage"
@@ -274,7 +274,7 @@ const getTrippeeGear = (props) => {
                   name="trippeeGear"
                   placeholder="Add Item"
                   onChange={event => props.onTrippeeGearChange(event, index)}
-                  value={gearRequest.gear}
+                  value={gearRequest.name}
                 />
               </div>
               <div className="gear-field-and-form">
