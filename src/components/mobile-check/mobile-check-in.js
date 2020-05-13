@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { withRouter } from 'react-router';
 import { connect } from 'react-redux';
+import { Table } from 'react-bootstrap';
 
 class MobileCheckIn extends PureComponent {
   constructor(props) {
@@ -35,14 +36,43 @@ class MobileCheckIn extends PureComponent {
   }
 
   render() {
-    if (this.state.hasError) {
-      return <h1>Something went wrong.</h1>;
+    if (!this.state.loaded) {
+      return <h1>Loading...</h1>;
+    } else {
+      return (
+        <div id="mobile-check-screen">
+          <div className="h1">{`Trip #${this.props.trip.number}: ${this.props.trip.title}`}</div>
+          <div className="h3">{this.props.trip.startDate}</div>
+          <div className="h2">Check in your trippees before leaving:</div>
+          <div className="p1">You MUST accurately mark which trippees are present on the day of the trip.</div>
+          <div id="mobile-check-in-list">
+            <Table className="doc-table" responsive="">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Present?</th>
+                </tr>
+              </thead>
+              <tbody>
+                {this.props.trip.members.map((member) => {
+                  return (
+                    <tr key={member.user._id}>
+                      <td>{member.user.name}</td>
+                      <td>
+                        {member.attendedTrip
+                          ? <button type="button" className="doc-button alarm">Undo</button>
+                          : <button type="button" className="doc-button">Mark as here</button>
+                       }
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </Table>
+          </div>
+        </div>
+      );
     }
-    return (
-      <div className="MobileCheckInWrapper">
-        Test content
-      </div>
-    );
   }
 }
 
