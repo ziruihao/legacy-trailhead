@@ -63,7 +63,7 @@ class MobileCheckIn extends PureComponent {
                 <thead>
                   <tr>
                     <th id="mobile-check-in-list-name-field">Name</th>
-                    <th>Present</th>
+                    <th id="mobile-check-in-list-button">Present</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -71,7 +71,7 @@ class MobileCheckIn extends PureComponent {
                     return (
                       <tr key={member.user._id}>
                         <td id="mobile-check-in-list-name-field">{member.user.name}</td>
-                        <td>
+                        <td id="mobile-check-in-list-button">
                           {member.attendedTrip
                             ? <button type="button" className="doc-button alarm">Undo</button>
                             : <button type="button" className="doc-button">Here</button>
@@ -83,6 +83,7 @@ class MobileCheckIn extends PureComponent {
                 </tbody>
               </Table>
             </div>
+            <div>Please close this tab after you have checked in for security purposes.</div>
           </div>
         </div>
       );

@@ -3,9 +3,13 @@
 #mobile-check-screen {
   display: flex;
   flex-direction: column;
+  align-items: stretch;
   padding: 10vw;
 
   #mobile-check-header {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
 
   hr {
@@ -17,11 +21,25 @@
   }
 
   #mobile-check-body {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
     #mobile-check-in-list {
-      margin-top: 5vw;
+      margin: 5vw 0;
       #mobile-check-in-list-name-field {
         flex: 1;
       }
+      #mobile-check-in-list-button {
+        button {
+          align-self: center;
+        }
+      }
+    }
+    > :last-child {
+      text-align: center;
+      font-style: italic;
+      font-size: 14px;
     }
   }
 }
