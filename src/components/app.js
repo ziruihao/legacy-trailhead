@@ -117,8 +117,8 @@ class App extends React.Component {
             <Route path="/opo-fleet-management" component={FleetManagement} />
             <Route path="/leader-approvals" component={OpoApprovals} />
             <Route path="/vehicle-calendar" component={VehicleCalendar} />
-            <Route path="/trip-check-in/:tripKey" component={MobileCheckIn} />
-            <Route path="/trip-check-out/:tripKey" component={MobileCheckOut} />
+            <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
+            <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
           </Switch>
         </Router>
       );
