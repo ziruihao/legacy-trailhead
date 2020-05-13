@@ -99,10 +99,11 @@ export function fetchTrips() {
   };
 }
 
-export function fetchTrip(id) {
+export function fetchTrip(id, temporaryToken) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/trip/${id}`, { headers: { authorization: localStorage.getItem('token') } })
+      const token = temporaryToken || localStorage.getItem('token');
+      axios.get(`${constants.BACKEND_URL}/trip/${id}`, { headers: { authorization: token } })
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve();
