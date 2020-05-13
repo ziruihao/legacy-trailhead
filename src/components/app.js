@@ -90,8 +90,8 @@ class App extends React.Component {
           <div id="theBody">
             <Switch>
               <Route exact path="/" component={Gateway} />
-              <Route path="/trip-check-in/:tripKey" component={MobileCheckIn} />
-              <Route path="/trip-check-out/:tripKey" component={MobileCheckOut} />
+              <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
+              <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
             </Switch>
           </div>
         </Router>
