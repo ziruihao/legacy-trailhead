@@ -4,7 +4,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import '../styles/vehicle-calendar-style.scss';
 import { AllView, WeekView } from './calendar-views';
-import VehicleBooking from './event';
+import VehicleBooking from './calendar-event';
 
 // Setup the localizer by providing the moment (or globalize) Object
 // to the correct localizer.

@@ -1,5 +1,5 @@
 import React from 'react';
-import './event.scss';
+import './calendar-event.scss';
 
 const hasReturnTimePassed = (eventEnd) => {
   const now = new Date();
