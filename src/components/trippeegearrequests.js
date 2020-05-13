@@ -66,10 +66,10 @@ class trippeeGearRequests extends Component {
               if (Object.prototype.hasOwnProperty.call(gearData, gear._id)) {
                 const entries = Object.entries(gearData[gear._id]);
                 return entries.map(entry => (
-                  <li key={`${gear._id}_${entry[0]}`}>{gear.gear} - {entry[0]} - {entry[1]}</li>
+                  <li key={`${gear._id}_${entry[0]}`}>{gear.name} - {entry[0]} - {entry[1]}</li>
                 ));
               } else {
-                return <li key={gear._id}>{gear.gear} - N/A - {gear.quantity}</li>;
+                return <li key={gear._id}>{gear.name} - N/A - {gear.quantity}</li>;
               }
             })}
             <div>
@@ -141,10 +141,10 @@ class trippeeGearRequests extends Component {
               if (Object.prototype.hasOwnProperty.call(gearData, gear._id)) {
                 const entries = Object.entries(gearData[gear._id]);
                 return entries.map(entry => (
-                  <li key={`${gear._id}_${entry[0]}`}>{gear.gear} - {entry[0]} - {entry[1]}</li>
+                  <li key={`${gear._id}_${entry[0]}`}>{gear.name} - {entry[0]} - {entry[1]}</li>
                 ));
               } else {
-                return <li key={gear._id}>{gear.gear} - N/A - {gear.quantity}</li>;
+                return <li key={gear._id}>{gear.name} - N/A - {gear.quantity}</li>;
               }
             })}
           </div>

@@ -320,6 +320,9 @@ class VehicleRequest extends Component {
           mileage={this.state.mileage}
           vehicles={this.state.vehicles}
           startDate={this.props.startDate}
+          endDate={this.props.endDate}
+          startTime={this.props.startTime}
+          endTime={this.props.endTime}
           onSoloReqDetailsChange={this.onSoloReqDetailsChange}
           onVehicleTypeChange={this.onVehicleTypeChange}
           onVehicleDetailChange={this.onVehicleDetailChange}

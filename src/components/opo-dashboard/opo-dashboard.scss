@@ -1,31 +1,38 @@
-.dashboard {
-  display: grid;
-  justify-content: space-evenly;
-  grid-template-columns: auto auto auto;
+@import '../../styles/base.scss';
 
-  .section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    
-    &:hover {
-      filter: brightness(1.2);
-    }
+#dashboard {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  #dashboard-tiles {
+    width: 100%;
+    display: grid;
+    justify-content: space-evenly;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    grid-row-gap: 50px;
   
-    .titles {
-      font-family: Nunito Sans;
-      font-weight: 800;
-      font-size: 20px;
-      line-height: 41px;
-      letter-spacing: 0.05em;
-      color:black;
-      margin-bottom: -.5rem;
-      :hover {
-        text-decoration: none;
+    .section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      
+      &:hover {
+        filter: brightness(1.2);
+      }
+    
+      .titles {
+        color: black;
+        :hover {
+          text-decoration: none;
+        }
       }
     }
   }
 }
+
 
 
 
