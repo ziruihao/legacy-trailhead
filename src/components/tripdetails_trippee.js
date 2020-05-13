@@ -78,17 +78,17 @@ const getGear = (props) => {
         return userGear.gearId === gear._id;
       });
       rows.push(
-        <div key={gear.id}>
+        <div key={gear._id}>
           <div className="detail-row">
-            <span className="detail-left">{gear.gear}</span>
+            <span className="detail-left">{gear.name}</span>
             <span>
               <label className="checkbox-container" htmlFor={gear._id}>
                 <input
                   type="checkbox"
                   name="gear"
                   id={gear._id}
-                  data-id={gear._id}
-                  data-gear={gear.gear}
+                  data-_id={gear._id}
+                  data-name={gear.name}
                   onChange={props.onGearChange}
                   checked={checked}
                   disabled={!props.isEditing}
