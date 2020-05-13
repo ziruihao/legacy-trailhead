@@ -100,7 +100,7 @@ class TripDetails extends Component {
 
   cancelSignup = () => {
     const cancelPromise = new Promise((resolve, reject) => {
-      this.props.leaveTrip(this.props.trip._id, this.props.userTripStatus);
+      this.props.leaveTrip(this.props.trip._id, this.props.isUserOnTrip);
       resolve();
     });
     cancelPromise.then(() => {
