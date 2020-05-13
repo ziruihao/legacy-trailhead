@@ -6,6 +6,7 @@ import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
 import VehicleCalendarComponent from './vehicleCalendarComponent';
 import loadingGif from '../img/loading-gif.gif';
 import '../styles/vehicle-calendar-style.scss';
+import './vehicle-calendar/event-modal.scss';
 
 class VehicleCalendar extends Component {
   constructor(props) {
@@ -84,155 +85,142 @@ class VehicleCalendar extends Component {
     const { selectedEvent } = this.state;
     const trip = selectedEvent.request.associatedTrip;
     return (
-      <div className="vcm-container">
-        <h1 className="p-trip-title vcm-title">
-          {selectedEvent.request.requestType === 'TRIP' ? trip.title : selectedEvent.requestDetails}
+      <div id="event-modal">
+        <h1 id="event-modal-title">
+          {selectedEvent.request.associatedTrip ? `Trip #${selectedEvent.request.associatedTrip.number}: ${trip.title}` : `Vehicle Request #${selectedEvent.request.number}`}
+          {/* {selectedEvent.request.requestType === 'TRIP' ? trip.title : selectedEvent.requestDetails} */}
         </h1>
-        <div>
-          <div className="vcm-trip-details">
-            <div className="otd-details-labels">
-              <div className="vcm-row">
-                <span className="vcm-detail-left">{selectedEvent.request.requestType === 'TRIP' ? 'Leader' : 'Requester'}</span>
-              </div>
-              <div className="vcm-row">
-                <span className="vcm-detail-left">Assigned Vehicle Date</span>
-              </div>
-              {selectedEvent.request.requestType === 'TRIP'
-                ? (
-                  <div>
-                    <div className="vcm-row">
-                      <span className="vcm-detail-left">Trip Date</span>
-                    </div>
-                    <div className="vcm-row">
-                      <span className="vcm-detail-left">Co-Leader(s)</span>
-                    </div>
+        <div id="event-key-details">
+          <div id="event-key-details-labels">
+            <div id="event-key-detail-row">
+              {selectedEvent.request.requestType === 'TRIP' ? 'Leader' : 'Requester'}
+            </div>
+            <div id="event-key-detail-row">
+              {selectedEvent.request.requestType === 'TRIP' ? 'Leader Contact' : 'Requester Contact'}
+            </div>
+            <div id="event-key-detail-row">
+              Assigned Vehicle Date
+            </div>
+            {selectedEvent.request.requestType === 'TRIP'
+              ? (
+                <div>
+                  <div id="event-key-detail-row">
+                    Trip Name
                   </div>
-                )
-                : null}
-            </div>
-            <div className="otd-details-column">
-              <div className="vcm-row">
-                <span className="vcm-detail-right">{selectedEvent.requester.name}</span>
-              </div>
-              <div className="vcm-row">
-                <span className="vcm-detail-right">
-                  {this.formatDate(selectedEvent.assigned_pickupDate,
-                    selectedEvent.assigned_returnDate,
-                    selectedEvent.assigned_pickupTime,
-                    selectedEvent.assigned_returnTime)}
-                </span>
-              </div>
-              {selectedEvent.request.requestType === 'TRIP'
-                ? (
-                  <div>
-                    <div className="vcm-row">
-                      <span className="vcm-detail-right">
-                        {this.formatDate(trip.startDate,
-                          trip.endDate,
-                          trip.startTime,
-                          trip.endTime)}
-                      </span>
-                    </div>
-                    <div className="vcm-row">
-                      <span className="vcm-detail-right">
-                        {this.getCoLeaders(trip.leaders)}
-                      </span>
-                    </div>
+                  <div id="event-key-detail-row">
+                    Trip Date
                   </div>
-                )
-                : null}
+                  <div id="event-key-detail-row">
+                    Co-Leader(s)
+                  </div>
+                </div>
+              )
+              : null}
+          </div>
+          <div id="event-key-details-values">
+            <div id="event-key-detail-row">
+              {selectedEvent.requester.name}
             </div>
-          </div>
-          <div className="vcm-trip-description">
-            <span className="vcm-detail-left vcm-description-label">Description</span>
-            <div className="vcm-row">
-              <div className="vcm-description">
-                {selectedEvent.request.requestType === 'TRIP' ? trip.description : selectedEvent.request.requestDetails}
-              </div>
+            <div id="event-key-detail-row">
+              {`Email: ${selectedEvent.requester.email} | Phone: ${selectedEvent.requester.phone ? selectedEvent.requester.phone : 'N/A'}`}
             </div>
+            <div id="event-key-detail-row">
+
+              {this.formatDate(selectedEvent.assigned_pickupDate,
+                selectedEvent.assigned_returnDate,
+                selectedEvent.assigned_pickupTime,
+                selectedEvent.assigned_returnTime)}
+            </div>
+            {selectedEvent.request.requestType === 'TRIP'
+              ? (
+                <div>
+                  <div id="event-key-detail-row">
+                    {trip.title}
+                  </div>
+                  <div id="event-key-detail-row">
+
+                    {this.formatDate(trip.startDate,
+                      trip.endDate,
+                      trip.startTime,
+                      trip.endTime)}
+
+                  </div>
+                  <div id="event-key-detail-row">
+
+                    {this.getCoLeaders(trip.leaders)}
+                  </div>
+                </div>
+              )
+              : null}
           </div>
-          <hr className="vcm-line" />
-          <div className="vcm-assignment-info">
-            <span className="vcm-assignment-detail">
-              <span className="vcm-detail-left">Vehicle</span>
-              <span>{selectedEvent.assignedVehicle}</span>
-            </span>
-            <span className="vcm-assignment-detail">
-              <span className="vcm-detail-left">Key #</span>
-              <span>{selectedEvent.assigned_key}</span>
-            </span>
-            <span className="vcm-assignment-detail">
-              <span className="vcm-detail-left">Picked Up?</span>
-              <span>{selectedEvent.pickedUp ? 'Yes' : 'No'}</span>
-            </span>
-            <span className="vcm-assignment-detail">
-              <span className="vcm-detail-left">Returned?</span>
-              <span>{selectedEvent.returned ? 'Yes' : 'No'}</span>
-            </span>
-            <Link
-              className="cancel-link ovr-bottom-link ovr-contact-link"
-              target="_blank"
-              to={selectedEvent.request.requestType === 'TRIP'
-                ? `/trip/${trip._id}`
-                : `/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
-            >
-              Edit Assignment
-            </Link>
+        </div>
+        <hr />
+        <div id="event-description">
+          <span id="event-description-label">Description</span>
+          <div id="event-key-detail-row">
+            {selectedEvent.request.requestType === 'TRIP' ? trip.description : selectedEvent.request.requestDetails}
           </div>
+        </div>
+        <hr />
+        <div className="vcm-assignment-info">
+          <span className="vcm-assignment-detail">
+            Vehicle
+            <span>{selectedEvent.assignedVehicle}</span>
+          </span>
+          <span className="vcm-assignment-detail">
+            Key #
+            <span>{selectedEvent.assigned_key}</span>
+          </span>
+          <span className="vcm-assignment-detail">
+            Picked Up?
+            <span>{selectedEvent.pickedUp ? 'Yes' : 'No'}</span>
+          </span>
+          <span className="vcm-assignment-detail">
+            Returned?
+            <span>{selectedEvent.returned ? 'Yes' : 'No'}</span>
+          </span>
+          {/* <Link
+            className="doc-button"
+            target="_blank"
+            to={selectedEvent.request.requestType === 'TRIP'
+              ? `/trip/${trip._id}`
+              : `/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
+          > */}
+          <Link
+            className="doc-button"
+            target="_blank"
+            to={`/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
+          >
+            Edit Assignment
+          </Link>
         </div>
       </div>
     );
   }
 
-  eventStyleGetter = (event, start, end, isSelected) => {
-    if (event.conflicts.length > 0) {
-      const style = {
-        backgroundColor: '#FFD8D8',
-        borderColor: '#A93A3A',
-        borderRadius: '0px',
-        opacity: 0.8,
-        color: 'black',
-        border: '0px',
-        display: 'block',
-      };
-      return {
-        style,
-      };
-    } else {
-      const style = {
-        backgroundColor: '#ffffff',
-        borderColor: '#3AA988',
-        borderRadius: '0px',
-        opacity: 0.8,
-        color: 'black',
-        border: '0px',
-        display: 'block',
-      };
-      return style;
-    }
-  }
-
   render() {
     if (this.state.ready) {
       return (
-        <div className="vehicle-calendar-container">
+        <div className="vehicle-calendar-container center-view">
           <div className="mytrips-flex-start">
             <h1 className="mytrips-header">Vehicle Calendar</h1>
           </div>
-          <div className="vcc-container trip-detail">
+          <div className="doc-card">
             <VehicleCalendarComponent
+              assignments={this.props.assignments}
               vehicles={this.props.vehicles}
               showEventModal={this.showEventModal}
               userRole={this.props.user.role}
-              eventPropGetter={this.eventStyleGetter}
+              // eventPropGetter={this.eventStyleGetter}
             />
           </div>
           <Modal
             centered
+            size="lg"
             show={this.state.showModal}
             onHide={this.closeModal}
           >
-            <div className="trip-details-close-button">
+            <div id="event-modal-close">
               <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
             </div>
             {this.state.showModal ? this.getModalContent() : null}

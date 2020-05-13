@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import TimeGrid from 'react-big-calendar/lib/TimeGrid';
 import { navigate } from 'react-big-calendar/lib/utils/constants';
-import * as dates from '../utils/dates';
-import '../styles/vehicle-calendar-style.scss';
+import * as dates from '../../utils/dates';
+import './calendar-views.scss';
 
 class WeekView extends Component {
   constructor(props) {
@@ -62,8 +62,9 @@ class WeekView extends Component {
               ref={(timeGridRef) => { this.arrayofRefs[index] = timeGridRef; }}
               {...this.props}
               range={range}
+              min={new Date(0, 0, 0, 5)}
               step={30}
-              timeslots={12}
+              timeslots={9}
               showMultiDayTimes
               events={eventsWithDate}
               startAccessor="start"
