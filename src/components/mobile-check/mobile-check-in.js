@@ -1,39 +1,46 @@
 import React, { PureComponent } from 'react';
-import { withRouter } from 'react-router';
+import { withRouter, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
+import { fetchTrip } from '../../actions';
 
 class MobileCheckIn extends PureComponent {
   constructor(props) {
     super(props);
 
     this.state = {
+      loaded: false,
     };
   }
 
+
   componentWillMount = () => {
-    console.log('MobileCheckIn will mount');
+    const query = new URLSearchParams(this.props.location.search);
+    this.props.fetchTrip(this.props.match.params.tripID, query.get('token')).then(() => {
+      this.setState({ loaded: true });
+    });
   }
 
-  componentDidMount = () => {
-    console.log('MobileCheckIn mounted');
-  }
 
-  componentWillReceiveProps = (nextProps) => {
-    console.log('MobileCheckIn will receive props', nextProps);
-  }
+  // componentDidMount = () => {
+  //   console.log('MobileCheckIn mounted');
+  // }
 
-  componentWillUpdate = (nextProps, nextState) => {
-    console.log('MobileCheckIn will update', nextProps, nextState);
-  }
+  // componentWillReceiveProps = (nextProps) => {
+  //   console.log('MobileCheckIn will receive props', nextProps);
+  // }
 
-  componentDidUpdate = () => {
-    console.log('MobileCheckIn did update');
-  }
+  // componentWillUpdate = (nextProps, nextState) => {
+  //   console.log('MobileCheckIn will update', nextProps, nextState);
+  // }
 
-  componentWillUnmount = () => {
-    console.log('MobileCheckIn will unmount');
-  }
+  // componentDidUpdate = () => {
+  //   console.log('MobileCheckIn did update');
+  // }
+
+  // componentWillUnmount = () => {
+  //   console.log('MobileCheckIn will unmount');
+  // }
 
   render() {
     if (!this.state.loaded) {
@@ -80,4 +87,4 @@ const mapStateToProps = state => ({
   trip: state.trips.trip,
 });
 
-export default connect(mapStateToProps, null)(withRouter(MobileCheckIn));
+export default connect(mapStateToProps, { fetchTrip })(withRouter(MobileCheckIn));
