@@ -3,6 +3,7 @@ import { withRouter, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { fetchTrip } from '../../actions';
+import * as constants from '../../constants';
 import './mobile-check.scss';
 
 class MobileCheckIn extends PureComponent {
@@ -21,7 +22,6 @@ class MobileCheckIn extends PureComponent {
       this.setState({ loaded: true });
     });
   }
-
 
   // componentDidMount = () => {
   //   console.log('MobileCheckIn mounted');
@@ -49,34 +49,40 @@ class MobileCheckIn extends PureComponent {
     } else {
       return (
         <div id="mobile-check-screen">
-          <div className="h1">{`Trip #${this.props.trip.number}: ${this.props.trip.title}`}</div>
-          <div className="h3">{this.props.trip.startDate}</div>
-          <div className="h2">Check in your trippees before leaving:</div>
-          <div className="p1">You MUST accurately mark which trippees are present on the day of the trip.</div>
-          <div id="mobile-check-in-list" className="doc-card">
-            <Table className="doc-table" responsive="">
-              <thead>
-                <tr>
-                  <th id="mobile-check-in-list-name-field">Name</th>
-                  <th>Present</th>
-                </tr>
-              </thead>
-              <tbody>
-                {this.props.trip.members.map((member) => {
-                  return (
-                    <tr key={member.user._id}>
-                      <td id="mobile-check-in-list-name-field">{member.user.name}</td>
-                      <td>
-                        {member.attendedTrip
-                          ? <button type="button" className="doc-button alarm">Undo</button>
-                          : <button type="button" className="doc-button">Here</button>
+          <div id="mobile-check-header">
+            <div className="h3">{`Trip #${this.props.trip.number}`}</div>
+            <div className="h1">{`${this.props.trip.title}`}</div>
+            <div className="h3">{`${constants.formatDate(this.props.trip.startDate)} ${constants.formatTime(this.props.trip.startTime)}`}</div>
+          </div>
+          <hr />
+          <div id="mobile-check-body">
+            <div className="h2">Check in your trippees before leaving.</div>
+            <div className="p1">You MUST accurately mark which trippees are present on the day of the trip.</div>
+            <div id="mobile-check-in-list" className="doc-card">
+              <Table className="doc-table" responsive="">
+                <thead>
+                  <tr>
+                    <th id="mobile-check-in-list-name-field">Name</th>
+                    <th>Present</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {this.props.trip.members.map((member) => {
+                    return (
+                      <tr key={member.user._id}>
+                        <td id="mobile-check-in-list-name-field">{member.user.name}</td>
+                        <td>
+                          {member.attendedTrip
+                            ? <button type="button" className="doc-button alarm">Undo</button>
+                            : <button type="button" className="doc-button">Here</button>
                        }
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </Table>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </div>
           </div>
         </div>
       );

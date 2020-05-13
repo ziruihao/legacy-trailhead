@@ -5,9 +5,23 @@
   flex-direction: column;
   padding: 10vw;
 
-  #mobile-check-in-list {
-    #mobile-check-in-list-name-field {
-      flex: 1;
+  #mobile-check-header {
+  }
+
+  hr {
+    background-color: black;
+    width: 100%;
+    height: 0.5px;
+    border-top: none !important;
+    margin: 5vw 0; // override for bootstrap
+  }
+
+  #mobile-check-body {
+    #mobile-check-in-list {
+      margin-top: 5vw;
+      #mobile-check-in-list-name-field {
+        flex: 1;
+      }
     }
   }
 }
