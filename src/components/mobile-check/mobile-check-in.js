@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
-import { fetchTrip } from '../../actions';
+import { fetchTrip, setAttendingStatus } from '../../actions';
 import * as constants from '../../constants';
 import './mobile-check.scss';
 
@@ -13,12 +13,13 @@ class MobileCheckIn extends PureComponent {
     this.state = {
       loaded: false,
     };
+    this.query = new URLSearchParams(this.props.location.search);
   }
 
 
   componentWillMount = () => {
-    const query = new URLSearchParams(this.props.location.search);
-    this.props.fetchTrip(this.props.match.params.tripID, query.get('token')).then(() => {
+    console.log(this.props.match.params.tripID);
+    this.props.fetchTrip(this.props.match.params.tripID, this.query.get('token')).then(() => {
       this.setState({ loaded: true });
     });
   }
@@ -42,6 +43,10 @@ class MobileCheckIn extends PureComponent {
   // componentWillUnmount = () => {
   //   console.log('MobileCheckIn will unmount');
   // }
+
+  toggleAttendence = (memberID, status) => {
+    this.props.setAttendingStatus(this.props.match.params.tripID, memberID, status, this.query.get('token'));
+  }
 
   render() {
     if (!this.state.loaded) {
@@ -68,13 +73,14 @@ class MobileCheckIn extends PureComponent {
                 </thead>
                 <tbody>
                   {this.props.trip.members.map((member) => {
+                    console.log(member.attendedTrip);
                     return (
                       <tr key={member.user._id}>
                         <td id="mobile-check-in-list-name-field">{member.user.name}</td>
                         <td id="mobile-check-in-list-button">
                           {member.attendedTrip
-                            ? <button type="button" className="doc-button alarm">Undo</button>
-                            : <button type="button" className="doc-button">Here</button>
+                            ? <button type="button" className="doc-button alarm" onClick={() => this.toggleAttendence(member.user._id, false)}>Undo</button>
+                            : <button type="button" className="doc-button" onClick={() => this.toggleAttendence(member.user._id, true)}>Here</button>
                        }
                         </td>
                       </tr>
@@ -95,4 +101,4 @@ const mapStateToProps = state => ({
   trip: state.trips.trip,
 });
 
-export default connect(mapStateToProps, { fetchTrip })(withRouter(MobileCheckIn));
+export default connect(mapStateToProps, { fetchTrip, setAttendingStatus })(withRouter(MobileCheckIn));
