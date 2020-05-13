@@ -4,6 +4,7 @@ import * as constants from '../constants';
 export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
   FETCH_TRIP: 'FETCH_TRIP',
+  SET_ATTENDENCE: 'SET_ATTENDENCE',
   ADD_PENDING: 'ADD_PENDING',
   JOIN_TRIP: 'JOIN_TRIP',
   LEAVE_TRIP: 'LEAVE_TRIP',
@@ -110,6 +111,22 @@ export function fetchTrip(id, temporaryToken) {
         }).catch((error) => {
           console.log(error);
           console.log('Fetch trip error');
+        });
+    });
+  };
+}
+
+export function setAttendingStatus(tripID, memberID, status, temporaryToken) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      const token = temporaryToken || localStorage.getItem('token');
+      axios.put(`${constants.BACKEND_URL}/set-attendence/${tripID}`, { memberID, status }, { headers: { authorization: token } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.SET_ATTENDENCE, payload: { memberID, attending: response.data.status } });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          console.log('Attendence set error');
         });
     });
   };

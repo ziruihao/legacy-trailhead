@@ -10,6 +10,7 @@ const initialState = ({
 
 // Trips reducer
 const TripsReducer = (state = initialState, action) => {
+  const updatedState = JSON.parse(JSON.stringify(state));
   switch (action.type) {
     case ActionTypes.FETCH_TRIPS:
       return Object.assign({}, state, { all: action.payload });
@@ -21,6 +22,11 @@ const TripsReducer = (state = initialState, action) => {
       return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip });
     case ActionTypes.LEAVE_TRIP:
       return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip });
+    case ActionTypes.SET_ATTENDENCE:
+      console.log(updatedState.trip.members.find(member => member.user._id.toString() === action.payload.memberID.toString()).attendedTrip);
+      console.log(action.payload.attending);
+      updatedState.trip.members.find(member => member.user._id.toString() === action.payload.memberID.toString()).attendedTrip = action.payload.attending;
+      return updatedState;
     case ActionTypes.MY_TRIPS:
       return Object.assign({}, state, { myTrips: action.payload.trips, myVehicleReqs: action.payload.vehicleRequests });
     case ActionTypes.EDIT_TRIP:
