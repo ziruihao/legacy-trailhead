@@ -100,26 +100,6 @@ class OPOVehicleRequest extends Component {
     });
   }
 
-  formatDate = (date) => {
-    const rawDate = new Date(date);
-    const dateString = rawDate.toUTCString();
-    return dateString.substring(0, 11);
-  };
-
-  formatTime = (time) => {
-    const splitTime = time.split(':');
-    splitTime.push(' AM');
-    const originalHour = splitTime[0];
-    splitTime[0] = originalHour % 12;
-    if (originalHour >= 12) {
-      splitTime[2] = ' PM';
-    }
-    if (splitTime[0] === 0) {
-      splitTime[0] = 12;
-    }
-    return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
-  }
-
   copyEmail = (event) => {
     this.emailRef.current.select();
     document.execCommand('copy');
@@ -594,25 +574,25 @@ class OPOVehicleRequest extends Component {
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : this.formatDate(assignment.assigned_pickupDate.substring(0, 10))}
+                : constants.formatDate(assignment.assigned_pickupDate.substring(0, 10))}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : this.formatTime(assignment.assigned_pickupTime)}
+                : constants.formatTime(assignment.assigned_pickupTime)}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : this.formatDate(assignment.assigned_returnDate.substring(0, 10))}
+                : constants.formatDate(assignment.assigned_returnDate.substring(0, 10))}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : this.formatTime(assignment.assigned_returnTime)}
+                : constants.formatTime(assignment.assigned_returnTime)}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
@@ -714,13 +694,13 @@ class OPOVehicleRequest extends Component {
                 <hr className="detail-line" />
                 <div className="ovr-req-row">{vehicle.passNeeded ? 'Yes' : 'No'} </div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{this.formatDate(vehicle.pickupDate.substring(0, 10))}</div>
+                <div className="ovr-req-row">{constants.formatDate(vehicle.pickupDate.substring(0, 10))}</div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{this.formatTime(vehicle.pickupTime)}</div>
+                <div className="ovr-req-row">{constants.formatTime(vehicle.pickupTime)}</div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{this.formatDate(vehicle.returnDate.substring(0, 10))}</div>
+                <div className="ovr-req-row">{constants.formatDate(vehicle.returnDate.substring(0, 10))}</div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{this.formatTime(vehicle.returnTime)}</div>
+                <div className="ovr-req-row">{constants.formatTime(vehicle.returnTime)}</div>
                 <hr className="detail-line" />
                 <div className="ovr-req-row"> - </div>
                 {assignment
