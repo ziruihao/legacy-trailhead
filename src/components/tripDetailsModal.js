@@ -36,6 +36,9 @@ const formatDate = (date, time) => {
 class TripDetailsModal extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+          leadingTrip: true,
+        }
     }
     componentDidMount() {
         if (!this.props.authenticated) {
@@ -65,13 +68,19 @@ class TripDetailsModal extends Component {
       }
 
     render() {
+      let isLeading = false;
+      this.props.trip.leaders.some((leader) => {
+        if (leader._id === this.props.user._id) {
+          isLeading = true;
+        }
+      });
       return (
         <div className="trip-details-modal">
           <div className="trip-details-close-button">
             <i className="material-icons close-button" onClick={this.props.closeModal} role="button" tabIndex={0}>close</i>
           </div>
           <div className="content">
-
+            <h1 className='trip-leading-modal'>{isLeading? '*You are leading this trip*' : ''}</h1>
             <h1 className="trip-title">{this.props.trip.title}</h1>
             <div className="trip-club-container">
               <span className="trip-club">{this.props.trip.club.name}</span>

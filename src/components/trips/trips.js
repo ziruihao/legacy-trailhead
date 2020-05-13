@@ -107,7 +107,10 @@ class Trips extends Component {
       return null;
     }else{
       return(
-        <TripDetailsModal className = "modal" trip = {this.state.showTrip}  closeModal = {() => this.closeTripModal()}/>
+        <TripDetailsModal 
+          className = "modal" 
+          trip = {this.state.showTrip}  
+          closeModal = {() => this.closeTripModal()}/>
       );
     }
   }
@@ -127,31 +130,40 @@ class Trips extends Component {
     }
 
     let tripsGrid = [];
+    const specialClubs = ['Ledyard','Mountaineering','cnt','wiw','Woodsmen','surf','dmbc','wsc'];
 
     if (this.state.beginner === "all") {
        tripsGrid = sortedTrips.filter(trip => (this.state.club === '' || trip.club.name === this.state.club )).map((trip) => {
+
+        let isLeading = false;
+        trip.leaders.some((leader) => {
+          if (leader._id === this.props.user._id) {
+            isLeading = true;
+          }
+        });
+
         let card_id = trip.club.name;
-        if(card_id==="Cabin and Trail") card_id = "cnt";
-        if(card_id==="Women in the Wilderness") card_id = "wiw";
-        if(card_id==="Surf Club") card_id = "surf";
-        if(card_id==="Mountain Biking") card_id = "dmbc";
-        if(card_id==="Winter Sports") card_id = "wsc";
+        if(card_id==='Cabin and Trail') card_id = 'cnt';
+        if(card_id==='Women in the Wilderness') card_id = 'wiw';
+        if(card_id==='Surf Club') card_id = 'surf';
+        if(card_id==='Mountain Biking') card_id = 'dmbc';
+        if(card_id==='Winter Sports') card_id = 'wsc';
 
         //TODO: try to get bait and bullet logo
-        if(trip.club.name !== ('Ledyard' || 'Mountaineering' || 'cnt'|| 'wiw' || 'Woodsmen' || 'surf' || 'dmbc' || 'wsc')) card_id = "doc";
+        // Make arry of all the string values 
+        if(!specialClubs.includes(card_id)) card_id = "doc";
+        
         return (
             <div key={trip._id} className="card text-center card-trip margins">
                 <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
-                  <h2 className="card-title">{trip.title}</h2>
+                  <h1 className= "leading-trip">{isLeading ? console.log("yes") : console.log("no")}</h1>
+                  <h2 className="card-title">{isLeading ? '(L)' : null} {trip.title}</h2>
                   <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                   <p className="card-text">{this.formatDescription(trip.description)}</p>
                   <p className="card-club">{trip.club ? trip.club.name : ''}</p>
-
                 </div>
             </div>
           );
-
-
       });
     } else{
       let experienceNeeded = "";
@@ -161,19 +173,28 @@ class Trips extends Component {
         experienceNeeded = false;
       }
       tripsGrid = sortedTrips.filter(trip => (this.state.club === '' || trip.club.name === this.state.club )&& trip.experienceNeeded===experienceNeeded).map((trip) => {
-       let card_id = trip.club.name;
-       if(card_id==="Cabin and Trail") card_id = "cnt";
-       if(card_id==="Women in the Wilderness") card_id = "wiw";
-       if(card_id==="Surf Club") card_id = "surf";
-       if(card_id==="Mountain Biking") card_id = "dmbc";
-       if(card_id==="Winter Sports") card_id = "wsc";
 
+        let isLeading = false;
+        trip.leaders.some((leader) => {
+          if (leader._id === this.props.user._id) {
+            isLeading = true;
+          }
+        });
 
-       if(trip.club.name !== ('Ledyard' || 'Mountaineering' || 'cnt'|| 'wiw' || 'Woodsmen' || 'surf' || 'dmbc' || 'wsc')) card_id = "doc";
+        let card_id = trip.club.name;
+        if(card_id==='Cabin and Trail') card_id = 'cnt';
+        if(card_id==='Women in the Wilderness') card_id = 'wiw';
+        if(card_id==='Surf Club') card_id = 'surf';
+        if(card_id==='Mountain Biking') card_id = 'dmbc';
+        if(card_id==='Winter Sports') card_id = 'wsc';
+
+        //TODO: try to get bait and bullet logo
+        // Make arry of all the string values 
+        if(!specialClubs.includes(card_id)) card_id = "doc";
          return (
            <div key={trip._id} className="card card text-center card-trip margins">
                <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
-                 <h2 className="card-title">{trip.title}</h2>
+                 <h2 className="card-title">{isLeading ? '(L)' : null} {trip.title}</h2>
                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
                  <p className="card-text">{this.formatDescription(trip.description)}</p>
                  <p className="card-club">{trip.club ? trip.club.name : ''}</p>
@@ -228,7 +249,6 @@ class Trips extends Component {
         </div>
       );
     }
-
 }
 
 
@@ -237,6 +257,7 @@ const mapStateToProps = state => (
     trips: state.trips.all,
     authenticated: state.auth.authenticated,
     clubs: state.clubs,
+    user: state.user.user,
   }
 );
 
