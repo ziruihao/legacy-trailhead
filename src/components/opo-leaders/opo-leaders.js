@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
-import Approvals from './cert_approvals';
-import LeaderApprovals from './leader_approvals';
-import Loading from './loading';
-import dropdownIcon from '../img/dropdown-toggle.svg';
+import Approvals from '../cert_approvals';
+import LeaderApprovals from '../leader_approvals';
+import Loading from '../loading';
+import dropdownIcon from '../../img/dropdown-toggle.svg';
 // import OpoDropdown from './approval-dropdown';
-import '../styles/approvals-style.scss';
-import '../styles/tripdetails_leader.scss';
-import '../styles/opo-trips.scss';
+import '../../styles/approvals-style.scss';
+import '../../styles/tripdetails_leader.scss';
+import '../opo-trips/opo-trips.scss';
 
-class OpoApprovals extends Component {
+class OPOLeaders extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -88,4 +88,4 @@ class OpoApprovals extends Component {
 }
 
 
-export default withRouter(OpoApprovals);
+export default withRouter(OPOLeaders);
