@@ -1,8 +1,10 @@
+/* eslint-disable no-unreachable */
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import Loading from './loading';
 import Dashboard from './dashboard';
 import AllTrips from './trips';
 import CreateTrip from './createtrip';
@@ -19,8 +21,9 @@ import OPODashboard from './opo-dashboard';
 import VehicleCalendar from './vehicleCalendar';
 import Gateway from './gateway';
 import FleetManagement from './fleet-management';
-import { getUser, getClubs, getVehicles } from '../actions';
 import { MobileCheckIn, MobileCheckOut } from './mobile-check';
+import { green } from '../constants';
+import { getUser, getClubs, getVehicles } from '../actions';
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 
@@ -123,7 +126,7 @@ class App extends React.Component {
         </Router>
       );
     } else {
-      return <div>Loading</div>;
+      return <Loading type="doc" height="150" width="150" />;
     }
   }
 }
