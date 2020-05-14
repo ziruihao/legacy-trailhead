@@ -8,7 +8,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import ProfileCard from '../profile-card';
 import ConflictModal from './conflict-modal';
-import Loading from '../Loading';
+import Loading from '../loading';
 import * as constants from '../../constants';
 import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../actions';
 import pendingBadge from '../../img/pending_badge.svg';
@@ -821,7 +821,7 @@ class OPOVehicleRequest extends Component {
 
   render() {
     if (!this.state.ready) {
-      return (<Loading type="balls" />);
+      return (<Loading type="doc" height="150" width="150" measure="px" />);
     } else {
       return (
         <div className="ovr-container">

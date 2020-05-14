@@ -51,7 +51,7 @@ class MobileCheckIn extends PureComponent {
 
   render() {
     if (!this.state.loaded) {
-      return (<Loading type="doc" height="50" width="50" />);
+      return (<Loading type="doc" height="50px" width="50px" />);
     } else {
       return (
         <div id="mobile-check-screen">

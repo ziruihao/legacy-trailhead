@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-import Loading from './Loading';
+import Loading from './loading';
 import { getMyTrips } from '../actions';
 import './trips/trip-card.scss';
 import '../styles/mytrips-style.scss';
@@ -176,7 +176,7 @@ class MyTrips extends Component {
         </div >
       );
     } else {
-      return (<Loading type="balls" />);
+      return (<Loading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

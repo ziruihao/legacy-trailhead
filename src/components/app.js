@@ -126,7 +126,7 @@ class App extends React.Component {
         </Router>
       );
     } else {
-      return <Loading type="doc" height="150" width="150" />;
+      return <Loading type="doc" height="150" width="150" measure="px" />;
     }
   }
 }

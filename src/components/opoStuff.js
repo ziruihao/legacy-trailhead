@@ -82,7 +82,7 @@ class OpoApprovals extends Component {
 
       );
     } else {
-      return (<Loading type="balls" />);
+      return (<Loading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

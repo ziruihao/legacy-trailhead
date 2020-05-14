@@ -293,7 +293,7 @@ class OpoTrips extends Component {
         </div>
       );
     } else {
-      return (<Loading type="balls" />);
+      return (<Loading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

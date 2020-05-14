@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Loading from './Loading';
+import Loading from './loading';
 import { fetchCertApprovals, reviewCertRequest } from '../actions';
 import '../styles/approvals-style.scss';
 import '../styles/tripdetails_leader.scss';
