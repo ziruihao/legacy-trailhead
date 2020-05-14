@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import Loading from '../Loading';
 
 class Dashboard extends React.Component {
   render() {
@@ -16,7 +17,7 @@ class Dashboard extends React.Component {
         return null;
       }
     } else {
-      return <div>Loading</div>;
+      return (<Loading type="balls" />);
     }
   }
 }

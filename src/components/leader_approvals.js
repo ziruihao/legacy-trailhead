@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import Loading from './loading';
 import { fetchLeaderApprovals, reviewRoleRequest } from '../actions';
-import loadingGif from '../img/loading-gif.gif';
 import '../styles/approvals-style.scss';
 import '../styles/tripdetails_leader.scss';
 import '../styles/opo-trips.scss';
@@ -72,12 +72,7 @@ class LeaderApprovals extends Component {
         </div>
       );
     } else {
-      return (
-        <div>
-          <h1>Loading</h1>
-          <img src={loadingGif} alt="loading-gif" />
-        </div>
-      );
+      return (<Loading type="balls" />);
     }
   }
 }

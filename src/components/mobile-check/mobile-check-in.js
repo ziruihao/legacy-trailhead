@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
+import Loading from '../loading';
 import { fetchTrip, setAttendingStatus } from '../../actions';
 import * as constants from '../../constants';
 import './mobile-check.scss';
@@ -50,7 +51,7 @@ class MobileCheckIn extends PureComponent {
 
   render() {
     if (!this.state.loaded) {
-      return <h1>Loading...</h1>;
+      return (<Loading type="doc" height="50" width="50" />);
     } else {
       return (
         <div id="mobile-check-screen">
