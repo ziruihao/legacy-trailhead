@@ -40,20 +40,30 @@ a {
 .h1 {
     font-size: 36px;
     font-weight: 800;
+    margin: 0 !important;
 }
 
 .h2 {
     font-size: 24px;
     font-weight: 800;
+    margin: 0 !important;
+
 }
 
 .h3 {
     font-size: 18px;
     font-weight: 800;
+    margin: 0 !important;
+
 }
 
 .p1 {
     font-size: 18px;
+}
+
+.inactive {
+    color: $inactive-text;
+    font-weight: 100;
 }
 
 .doc-button {
@@ -119,6 +129,14 @@ a {
     box-shadow: $menu-shadow;
     border-radius: 10px;
     padding: 25px;
+
+    &.small-card {
+        padding: 15px;
+    }
+
+    &.large-card {
+        padding: 45px;
+    }
 }
 
 .doc-table {
@@ -156,6 +174,11 @@ a {
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    &:focus {
+        border: 4px solid $green !important;
+        outline: none; // overrides browser default
+    }
 
     .field-dropdown-bootstrap {
         color: $gray-text;

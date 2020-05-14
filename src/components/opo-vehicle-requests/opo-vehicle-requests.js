@@ -6,7 +6,7 @@ import Toggle from '../toggle/toggle';
 import Loading from '../loading';
 import { fetchVehicleRequests } from '../../actions';
 import '../../styles/tripdetails_leader.scss';
-import '../../styles/opo-trips.scss';
+import '../opo-trips/opo-trips.scss';
 
 class OPOVehicleRequests extends Component {
   now = new Date();

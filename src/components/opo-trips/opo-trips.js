@@ -136,15 +136,12 @@ class OPOTrips extends Component {
     });
     if (pendingTrips.length === 0) {
       return (
-        <div>
-          <h4 className="none-f-now">None</h4>
-        </div>
+        <div className="inactive">All set for now!</div>
       );
     } else {
       return (
-        <Table responsive="lg" hover>
+        <Table className="doc-table" responsive="lg" hover>
           <thead>
-
             <tr>
               <th>Trip</th>
               <th>Start Time</th>
@@ -179,13 +176,11 @@ class OPOTrips extends Component {
     });
     if (filteredTrips.length === 0) {
       return (
-        <div className="no-on-trip">
-          <h4 className="none-f-now">None</h4>
-        </div>
+        <div className="inactive">All set for now!</div>
       );
     } else {
       return (
-        <Table responsive="lg" hover>
+        <Table className="doc-table" responsive="lg" hover>
           <thead>
             <tr>
               <th>Trip</th>
@@ -251,43 +246,46 @@ class OPOTrips extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div className="leader-details-container dashboard-container">
-          <div className="pending-and-dropdown">
-            <h4 className="trip-status">Pending Trips</h4>
-            <div className="dropdown-and-label">
-              <span className="dropdown-label">Filter by:</span>
-              <Dropdown onSelect={this.onDropdownChange}>
-                <Dropdown.Toggle id="filter-dropdown" onChange={this.onDropdownChange}>
-                  <p className="current-filter">{this.getCurrentFilter()}</p>
-                  <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
-                </Dropdown.Toggle>
-                <Dropdown.Menu className="filter-options">
-                  <Dropdown.Item eventKey={this.ALL_KEY} active={this.ALL_KEY === this.state.selectedFilter}>{this.ALL_VALUE}</Dropdown.Item>
-                  <Dropdown.Item eventKey={this.GEAR_KEY} active={this.GEAR_KEY === this.state.selectedFilter}>{this.GEAR_VALUE}</Dropdown.Item>
-                  <Dropdown.Item eventKey={this.PCARD_KEY} active={this.PCARD_KEY === this.state.selectedFilter}>{this.PCARD_VALUE}</Dropdown.Item>
-                  <Dropdown.Item eventKey={this.VEHICLE_KEY} active={this.VEHICLE_KEY === this.state.selectedFilter}>{this.VEHICLE_VALUE}</Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
+        <div id="opo-trips-page" className="center-view">
+          <div id="opo-trips-page-databox" className="doc-card large-card">
+            <div className="databox-heading">
+              <div className="h1">Pending Trips</div>
+              <input
+                name="search"
+                placeholder="Search pending trips"
+                value={this.state.searchTerm}
+                onChange={this.onSearchTermChange}
+                className="databox-heading-search field"
+              />
+              {/* <div className="dropdown-and-label">
+                <span className="dropdown-label">Filter by:</span>
+                <Dropdown onSelect={this.onDropdownChange}>
+                  <Dropdown.Toggle id="filter-dropdown" onChange={this.onDropdownChange}>
+                    <p className="current-filter">{this.getCurrentFilter()}</p>
+                    <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                  </Dropdown.Toggle>
+                  <Dropdown.Menu className="filter-options">
+                    <Dropdown.Item eventKey={this.ALL_KEY} active={this.ALL_KEY === this.state.selectedFilter}>{this.ALL_VALUE}</Dropdown.Item>
+                    <Dropdown.Item eventKey={this.GEAR_KEY} active={this.GEAR_KEY === this.state.selectedFilter}>{this.GEAR_VALUE}</Dropdown.Item>
+                    <Dropdown.Item eventKey={this.PCARD_KEY} active={this.PCARD_KEY === this.state.selectedFilter}>{this.PCARD_VALUE}</Dropdown.Item>
+                    <Dropdown.Item eventKey={this.VEHICLE_KEY} active={this.VEHICLE_KEY === this.state.selectedFilter}>{this.VEHICLE_VALUE}</Dropdown.Item>
+                  </Dropdown.Menu>
+                </Dropdown>
+              </div> */}
             </div>
-          </div>
-          <div className="trip-detail pending-table">
             {this.getPendingTable()}
           </div>
-
-          <div className="calendar-link-div">
-            <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
-          </div>
-          <div className="pending-and-dropdown">
-            <h4 className="trip-status">Reviewed & Past Trips</h4>
-            <input
-              name="search"
-              placeholder="Search reviewed & past trips"
-              value={this.state.searchTerm}
-              onChange={this.onSearchTermChange}
-              className="searchbox"
-            />
-          </div>
-          <div className="trip-detail pending-table">
+          <div id="opo-trips-page-databox" className="doc-card large-card">
+            <div className="databox-heading">
+              <div className="h1">Reviewed & Past Trips</div>
+              <input
+                name="search"
+                placeholder="Search reviewed & past trips"
+                value={this.state.searchTerm}
+                onChange={this.onSearchTermChange}
+                className="databox-heading-search field"
+              />
+            </div>
             {this.getApprovedTable()}
           </div>
         </div>
