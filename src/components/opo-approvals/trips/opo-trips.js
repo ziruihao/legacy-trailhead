@@ -3,11 +3,11 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Table from 'react-bootstrap/Table';
-import Loading from '../loading';
-import { fetchOpoTrips } from '../../actions';
-import dropdownIcon from '../../img/dropdown-toggle.svg';
-import '../../styles/tripdetails_leader.scss';
-import './opo-trips.scss';
+import Loading from '../../loading';
+import { fetchOpoTrips } from '../../../actions';
+import dropdownIcon from '../../../img/dropdown-toggle.svg';
+import '../../../styles/tripdetails_leader.scss';
+import '../opo-approvals.scss';
 
 class OPOTrips extends Component {
   ALL_KEY = 'ALL';

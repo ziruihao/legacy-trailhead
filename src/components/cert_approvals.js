@@ -5,7 +5,7 @@ import Loading from './loading';
 import { fetchCertApprovals, reviewCertRequest } from '../actions';
 import '../styles/approvals-style.scss';
 import '../styles/tripdetails_leader.scss';
-import './opo-trips/opo-trips.scss';
+import './opo-approvals/opo-approvals.scss';
 
 class Approvals extends Component {
   TRAILER_CONSTANT = 'TRAILER';

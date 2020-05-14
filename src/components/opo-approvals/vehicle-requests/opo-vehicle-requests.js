@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
-import Toggle from '../toggle/toggle';
-import Loading from '../loading';
-import { fetchVehicleRequests } from '../../actions';
-import '../../styles/tripdetails_leader.scss';
-import '../opo-trips/opo-trips.scss';
+import Toggle from '../../toggle/toggle';
+import Loading from '../../loading';
+import { fetchVehicleRequests } from '../../../actions';
+import '../../../styles/tripdetails_leader.scss';
+import '../opo-approvals.scss';
 
 class OPOVehicleRequests extends Component {
   now = new Date();
@@ -82,11 +82,7 @@ class OPOVehicleRequests extends Component {
     }
 
     if (pendingRequests.length === 0) {
-      return (
-        <div className="no-on-trip">
-          <h4 className="none-f-now">None</h4>
-        </div>
-      );
+      return (<div className="inactive">All set for now!</div>);
     }
 
     const searchedRequests = pendingRequests.filter((request) => {
@@ -95,11 +91,7 @@ class OPOVehicleRequests extends Component {
       // return true;
     });
     if (searchedRequests.length === 0) {
-      return (
-        <div className="no-on-trip">
-          <h4 className="none-f-now">None</h4>
-        </div>
-      );
+      return (<div className="inactive">None found.</div>);
     } else {
       return (
         <Table responsive="lg" hover>
@@ -137,11 +129,7 @@ class OPOVehicleRequests extends Component {
     }
 
     if (approvedRequests.length === 0) {
-      return (
-        <div className="no-on-trip">
-          <h4 className="none-f-now">None</h4>
-        </div>
-      );
+      return (<div className="inactive">All set for now!</div>);
     }
     const searchedRequests = approvedRequests.filter((request) => {
       const reason = request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title;
@@ -149,14 +137,10 @@ class OPOVehicleRequests extends Component {
       return request.requestDetails.concat([request.requester.name, reason]).toLowerCase().includes(this.state.searchReviewedTerm.toLowerCase());
     });
     if (searchedRequests.length === 0) {
-      return (
-        <div className="no-on-trip">
-          <h4 className="none-f-now">None</h4>
-        </div>
-      );
+      return (<div className="inactive">None found.</div>);
     } else {
       return (
-        <Table responsive="lg" hover>
+        <Table className="doc-table" responsive="lg" hover>
           <thead>
             <tr>
               <th>Requester</th>
@@ -206,50 +190,46 @@ class OPOVehicleRequests extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div className="leader-details-container dashboard-container">
-          <div className="pending-and-dropdown">
-            <h4 className="trip-status">Pending Requests</h4>
-            <Toggle
-              id="pending-requests-past-toggle"
-              label="See past requests"
-              value={this.state.seePastPendingRequests}
-              onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
-            />
-            <input
-              name="searchPending"
-              placeholder="Search pending requests"
-              value={this.state.searchPendingTerm}
-              onChange={this.onSearchPendingTermChange}
-              className="searchbox"
-            />
-          </div>
-          <div className="trip-detail pending-table">
+        <div id="opo-trips-page" className="center-view">
+          <div id="opo-trips-page-databox" className="doc-card large-card">
+            <div className="databox-heading">
+              <div className="h1">Pending V-Requests</div>
+              <Toggle
+                id="pending-requests-past-toggle"
+                label="See past requests"
+                value={this.state.seePastPendingRequests}
+                onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+              />
+              <input
+                name="searchPending"
+                placeholder="Search pending requests"
+                value={this.state.searchPendingTerm}
+                onChange={this.onSearchPendingTermChange}
+                className="databox-heading-search field"
+              />
+            </div>
             {this.getPendingTable()}
           </div>
-
-          <div className="calendar-link-div">
-            <Link to="/vehicle-calendar" className="calendar-link">View Vehicle Calendar</Link>
-          </div>
-
-          <div className="pending-and-dropdown">
-            <h4 className="trip-status">Reviewed Requests</h4>
-            <Toggle
-              id="reviewed-requests-past-toggle"
-              label="See past requests"
-              value={this.state.seePastReviewedRequests}
-              onChange={() => this.setState((prevState) => { return { seePastReviewedRequests: !prevState.seePastReviewedRequests }; })}
-            />
-            <input
-              name="searchReviewed"
-              placeholder="Search reviewed requests"
-              value={this.state.searchReviewedTerm}
-              onChange={this.onSearchReviewedTermChange}
-              className="searchbox"
-            />
-          </div>
-          <div className="trip-detail pending-table">
+          <div id="opo-trips-page-databox" className="doc-card large-card">
+            <div className="databox-heading">
+              <h4 className="h1">Reviewed V-Requests</h4>
+              <Toggle
+                id="reviewed-requests-past-toggle"
+                label="See past requests"
+                value={this.state.seePastReviewedRequests}
+                onChange={() => this.setState((prevState) => { return { seePastReviewedRequests: !prevState.seePastReviewedRequests }; })}
+              />
+              <input
+                name="searchReviewed"
+                placeholder="Search reviewed requests"
+                value={this.state.searchReviewedTerm}
+                onChange={this.onSearchReviewedTermChange}
+                className="databox-heading-search field"
+              />
+            </div>
             {this.getApprovedTable()}
           </div>
+
         </div>
       );
     } else {

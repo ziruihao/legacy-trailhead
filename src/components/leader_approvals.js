@@ -5,8 +5,7 @@ import Loading from './loading';
 import { fetchLeaderApprovals, reviewRoleRequest } from '../actions';
 import '../styles/approvals-style.scss';
 import '../styles/tripdetails_leader.scss';
-import './opo-trips/opo-trips.scss';
-
+import './opo-approvals/opo-approvals.scss';
 
 class LeaderApprovals extends Component {
   constructor(props) {
