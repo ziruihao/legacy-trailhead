@@ -233,16 +233,21 @@ export function deleteTrip(id, history) {
   };
 }
 
-export function editTrip(trip, history, id) {
+export function editTrip(trip, history, id, temporaryToken) {
   return (dispatch) => {
-    axios.put(`${constants.BACKEND_URL}/trip/${id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
-      .then((response) => {
-        history.push(`/trip/${id}`);
-      })
-      .catch((error) => {
-        console.log(error);
-        dispatch(appError(`Error updating trip: ${error}`));
-      });
+    return new Promise((resolve, reject) => {
+      const token = temporaryToken || localStorage.getItem('token');
+      axios.put(`${constants.BACKEND_URL}/trip/${id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+          resolve();
+        })
+        .catch((error) => {
+          console.log(error);
+          dispatch(appError(`Error updating trip: ${error}`));
+          reject(error);
+        });
+    });
   };
 }
 

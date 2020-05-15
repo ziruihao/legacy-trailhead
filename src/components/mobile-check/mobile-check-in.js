@@ -18,31 +18,10 @@ class MobileCheckIn extends PureComponent {
 
 
   componentWillMount = () => {
-    console.log(this.props.match.params.tripID);
     this.props.fetchTrip(this.props.match.params.tripID, this.query.get('token')).then(() => {
       this.setState({ loaded: true });
     });
   }
-
-  // componentDidMount = () => {
-  //   console.log('MobileCheckIn mounted');
-  // }
-
-  // componentWillReceiveProps = (nextProps) => {
-  //   console.log('MobileCheckIn will receive props', nextProps);
-  // }
-
-  // componentWillUpdate = (nextProps, nextState) => {
-  //   console.log('MobileCheckIn will update', nextProps, nextState);
-  // }
-
-  // componentDidUpdate = () => {
-  //   console.log('MobileCheckIn did update');
-  // }
-
-  // componentWillUnmount = () => {
-  //   console.log('MobileCheckIn will unmount');
-  // }
 
   toggleAttendence = (memberID, status) => {
     this.props.setAttendingStatus(this.props.match.params.tripID, memberID, status, this.query.get('token'));
@@ -57,7 +36,8 @@ class MobileCheckIn extends PureComponent {
           <div id="mobile-check-header">
             <div className="h3">{`Trip #${this.props.trip.number}`}</div>
             <div className="h1">{`${this.props.trip.title}`}</div>
-            <div className="h3">{`${constants.formatDate(this.props.trip.startDate)} ${constants.formatTime(this.props.trip.startTime)}`}</div>
+            <div className="h3">{`Start: ${constants.formatDate(this.props.trip.startDate)} ${constants.formatTime(this.props.trip.startTime)}`}</div>
+            <div className="h3">{`Return: ${constants.formatDate(this.props.trip.endDate)} ${constants.formatTime(this.props.trip.endTime)}`}</div>
           </div>
           <hr />
           <div id="mobile-check-body">
