@@ -1,6 +1,7 @@
 @import '../../styles/base.scss';
 
 #trips-page {
+  margin: 0 calc(50vw - 670px);
 
   #trip-safari-configs {
     // width: 100%;
@@ -23,6 +24,15 @@
 
     .trip-tiles {
       float: left;
+
+      > * {
+        margin-right: 45px;
+        margin-bottom: 45px;
+      }
+
+      > :last-child {
+        margin-right: 0px !important;
+      }
     }
   }
 
@@ -30,8 +40,6 @@
 
 
 .card-trip {
-  margin-right: 45px;
-  margin-bottom: 45px;
   text-align: left;
 
   a {

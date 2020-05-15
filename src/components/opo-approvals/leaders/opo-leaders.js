@@ -31,7 +31,14 @@ class OPOLeaders extends Component {
   }
 
   render() {
-    if (this.state.page === 'Leader Status Requests') {
+    if (true) {
+      return (
+        <div className="center-view">
+          <Loading type="doc" />
+          <div>This page is under construction</div>
+        </div>
+      );
+    } else if (this.state.page === 'Leader Status Requests') {
       return (
         <div>
           <div className="opo-trips-page-databox doc-card large-card">
