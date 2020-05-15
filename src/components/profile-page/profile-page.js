@@ -44,6 +44,7 @@ class ProfilePage extends Component {
       gender_shoe: '',
       shoe_size: '',
       gender_clothes: '',
+      photo_url: '',
       clothe_size: '',
       clubsList: [],
       driver_cert: null,
@@ -142,6 +143,7 @@ class ProfilePage extends Component {
       clothe_size: user.clothe_size ? user.clothe_size.split('-').pop() : '',
       gender_shoe: user.shoe_size ? user.shoe_size.split('-')[0] : '',
       shoe_size: user.shoe_size ? user.shoe_size.split('-').pop() : '',
+      photo_url: user.photo_url ? user.photo_url : '',
       clubsList: user.has_pending_leader_change ? user.requested_clubs : user.leader_for,
       driver_cert: user.has_pending_cert_change ? user.requested_certs.driver_cert : user.driver_cert,
       trailer_cert: user.has_pending_cert_change ? user.requested_certs.trailer_cert : user.trailer_cert,
@@ -392,6 +394,7 @@ class ProfilePage extends Component {
       const updatedUser = {
         email: this.state.email,
         name: this.state.name,
+        photo_url: this.state.photo_url,
         leader_for: this.state.clubsList,
         pronoun: this.state.pronoun,
         dash_number: this.state.dash_number,
@@ -428,25 +431,19 @@ class ProfilePage extends Component {
           <div id="profile-page" className="center-view">
             <ProfileCard
               asProfilePage
-              isEditing={this.state.isEditing}
+              {...this.state}
+
+
+              photoUrlChange={(url) => { this.setState({ photo_url: url }); }}
               onFieldChange={this.onFieldChange}
-              name={this.state.name}
-              email={this.state.email}
               updateUserInfo={this.updateUserInfo}
-              pronoun={this.state.pronoun}
-              dash_number={this.state.dash_number}
-              allergies_dietary_restrictions={this.state.allergies_dietary_restrictions}
-              medical={this.state.medical}
-              height={this.state.height}
-              shoe_size={this.state.shoe_size}
-              clothe_size={this.state.clothe_size}
               displayCertificationFeedback={this.displayCertificationFeedback}
               getCertificationsForm={this.getCertificationsForm}
               displayLeaderFeedback={this.displayLeaderFeedback}
               getClubForm={this.getClubForm}
               getClotheForm={this.getClotheForm}
               getShoeGender={this.getShoeGender}
-              errorFields={this.state.errorFields}
+
               user={this.props.user}
             />
           </div>

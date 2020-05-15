@@ -20,8 +20,8 @@ import VehicleCalendar from './vehicleCalendar';
 import Gateway from './gateway';
 import FleetManagement from './fleet-management';
 import { getUser, getClubs, getVehicles } from '../actions';
+import { ROOT_URL } from '../constants';
 
-const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 
 class App extends React.Component {
   constructor(props) {
