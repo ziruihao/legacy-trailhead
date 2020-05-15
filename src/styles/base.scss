@@ -175,6 +175,8 @@ a {
 }
 
 .doc-table {
+    margin: 0 !important; // override for react-bootstrap
+    
     td {
         vertical-align: middle;
     }

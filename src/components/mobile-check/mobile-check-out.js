@@ -25,26 +25,6 @@ class MobileCheckOut extends PureComponent {
     });
   }
 
-  // componentDidMount = () => {
-  //   console.log('MobileCheckIn mounted');
-  // }
-
-  // componentWillReceiveProps = (nextProps) => {
-  //   console.log('MobileCheckIn will receive props', nextProps);
-  // }
-
-  // componentWillUpdate = (nextProps, nextState) => {
-  //   console.log('MobileCheckIn will update', nextProps, nextState);
-  // }
-
-  // componentDidUpdate = () => {
-  //   console.log('MobileCheckIn did update');
-  // }
-
-  // componentWillUnmount = () => {
-  //   console.log('MobileCheckIn will unmount');
-  // }
-
   toggleAttendence = (memberID, status) => {
     this.props.setAttendingStatus(this.props.match.params.tripID, memberID, status, this.query.get('token'));
   }
@@ -56,7 +36,7 @@ class MobileCheckOut extends PureComponent {
 
   render() {
     if (!this.state.loaded) {
-      return (<Loading type="doc" />);
+      return (<Loading type="doc" width="64" height="64" measure="px" />);
     } else {
       return (
         <div id="mobile-check-screen">

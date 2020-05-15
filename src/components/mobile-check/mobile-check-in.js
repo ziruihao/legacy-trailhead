@@ -17,7 +17,6 @@ class MobileCheckIn extends PureComponent {
     this.query = new URLSearchParams(this.props.location.search);
   }
 
-
   componentWillMount = () => {
     this.props.fetchTrip(this.props.match.params.tripID, this.query.get('token')).then(() => {
       this.setState({ loaded: true });
@@ -30,7 +29,7 @@ class MobileCheckIn extends PureComponent {
 
   render() {
     if (!this.state.loaded) {
-      return (<Loading type="doc" height="50px" width="50px" />);
+      return (<Loading type="doc" width="64" height="64" measure="px" />);
     } else {
       return (
         <div id="mobile-check-screen">
@@ -60,8 +59,8 @@ class MobileCheckIn extends PureComponent {
                         <td id="mobile-check-in-list-name-field">{member.user.name}</td>
                         <td id="mobile-check-in-list-button">
                           {member.attendedTrip
-                            ? <button type="button" className="doc-button alarm" onClick={() => this.toggleAttendence(member.user._id, false)}>Undo</button>
-                            : <button type="button" className="doc-button" onClick={() => this.toggleAttendence(member.user._id, true)}>Here</button>
+                            ? <div role="button" tabIndex={0} className="doc-button alarm" onClick={() => this.toggleAttendence(member.user._id, false)}>Undo</div>
+                            : <div role="button" tabIndex={0} className="doc-button" onClick={() => this.toggleAttendence(member.user._id, true)}>Here</div>
                        }
                         </td>
                       </tr>
