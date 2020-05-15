@@ -201,17 +201,13 @@ class VehicleCalendar extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div className="vehicle-calendar-container center-view">
-          <div className="mytrips-flex-start">
-            <h1 className="mytrips-header">Vehicle Calendar</h1>
-          </div>
+        <div className="vehicle-calendar-container center-view spacy">
           <div className="doc-card">
             <VehicleCalendarComponent
               assignments={this.props.assignments}
               vehicles={this.props.vehicles}
               showEventModal={this.showEventModal}
               userRole={this.props.user.role}
-              // eventPropGetter={this.eventStyleGetter}
             />
           </div>
           <Modal
