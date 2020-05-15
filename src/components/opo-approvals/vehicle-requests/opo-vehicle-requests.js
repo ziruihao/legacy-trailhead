@@ -191,7 +191,7 @@ class OPOVehicleRequests extends Component {
     if (this.state.ready) {
       return (
         <div id="opo-trips-page" className="center-view">
-          <div id="opo-trips-page-databox" className="doc-card large-card">
+          <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
               <div className="h1">Pending V-Requests</div>
               <Toggle
@@ -210,7 +210,7 @@ class OPOVehicleRequests extends Component {
             </div>
             {this.getPendingTable()}
           </div>
-          <div id="opo-trips-page-databox" className="doc-card large-card">
+          <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
               <h4 className="h1">Reviewed V-Requests</h4>
               <Toggle

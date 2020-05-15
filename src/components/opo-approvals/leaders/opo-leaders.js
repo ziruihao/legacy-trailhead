@@ -34,9 +34,9 @@ class OPOLeaders extends Component {
     if (this.state.page === 'Leader Status Requests') {
       return (
         <div>
-          <div className="leader-details-container dashboard-container">
-            <div className="pending-and-dropdown">
-              <h4 className="trip-status">Pending Requests</h4>
+          <div className="opo-trips-page-databox doc-card large-card">
+            <div className="databox-heading">
+              <div className="h1">Pending Requests</div>
               <div className="dropdown-and-label">
                 <span className="dropdown-label">View:</span>
                 <Dropdown>
@@ -59,9 +59,9 @@ class OPOLeaders extends Component {
     } else if (this.state.page === 'Driver Certification') {
       return (
         <div>
-          <div className="leader-details-container dashboard-container">
-            <div className="pending-and-dropdown">
-              <h4 className="trip-status">Pending Requests</h4>
+          <div className="opo-trips-page-databox doc-card large-card">
+            <div className="databox-heading">
+              <div className="h1">Pending Requests</div>
               <div className="dropdown-and-label">
                 <span className="dropdown-label">View:</span>
                 <Dropdown>
