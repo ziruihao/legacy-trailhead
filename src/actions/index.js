@@ -4,6 +4,7 @@ import * as constants from '../constants';
 export const ActionTypes = {
   FETCH_TRIPS: 'FETCH_TRIPS',
   FETCH_TRIP: 'FETCH_TRIP',
+  SET_ATTENDENCE: 'SET_ATTENDENCE',
   ADD_PENDING: 'ADD_PENDING',
   JOIN_TRIP: 'JOIN_TRIP',
   LEAVE_TRIP: 'LEAVE_TRIP',
@@ -99,16 +100,33 @@ export function fetchTrips() {
   };
 }
 
-export function fetchTrip(id) {
+export function fetchTrip(id, temporaryToken) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/trip/${id}`, { headers: { authorization: localStorage.getItem('token') } })
+      const token = temporaryToken || localStorage.getItem('token');
+      axios.get(`${constants.BACKEND_URL}/trip/${id}`, { headers: { authorization: token } })
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve();
         }).catch((error) => {
           console.log(error);
           console.log('Fetch trip error');
+        });
+    });
+  };
+}
+
+export function setAttendingStatus(tripID, memberID, status, temporaryToken) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      const token = temporaryToken || localStorage.getItem('token');
+      axios.put(`${constants.BACKEND_URL}/set-attendence/${tripID}`, { memberID, status }, { headers: { authorization: token } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.SET_ATTENDENCE, payload: { memberID, attending: response.data.status } });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          console.log('Attendence set error');
         });
     });
   };
@@ -169,7 +187,7 @@ export function moveToPending(id, member) {
 
 export function leaveTrip(id, userTripStatus) {
   return (dispatch) => {
-    axios.delete(`${constants.BACKEND_URL}/leaveTrip/${id}`, { headers: { authorization: localStorage.getItem('token') }, data: { userTripStatus } }).then((response) => {
+    axios.post(`${constants.BACKEND_URL}/leaveTrip/${id}`, { userTripStatus }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
     }).catch((error) => {
       console.log(error);

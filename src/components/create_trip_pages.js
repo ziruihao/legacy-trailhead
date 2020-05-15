@@ -276,7 +276,7 @@ const getTrippeeGear = (props) => {
                   name="trippeeGear"
                   placeholder="Add Item"
                   onChange={event => props.onTrippeeGearChange(event, index)}
-                  value={gearRequest.gear}
+                  value={gearRequest.name}
                 />
               </div>
               <div className="gear-field-and-form">

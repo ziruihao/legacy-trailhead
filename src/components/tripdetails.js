@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../actions';
 import TripeeTripDetails from './tripdetails_trippee';
 import LeaderTripDetails from './tripdetails_leader';
-import OPOTripForm from './tripdetails_opo';
+import OPOTripDetails from './tripdetails_opo';
 import loadingGif from '../img/loading-gif.gif';
 
 class TripDetails extends Component {
@@ -57,11 +57,11 @@ class TripDetails extends Component {
     event.persist();
     if (event.target.checked) {
       this.setState(prevState => ({
-        trippeeGear: [...prevState.trippeeGear, { gearId: event.target.dataset.id, gear: event.target.dataset.gear }],
+        trippeeGear: [...prevState.trippeeGear, { gearId: event.target.dataset._id, name: event.target.dataset.name }],
       }));
     } else {
       this.setState((prevState) => {
-        const withoutClickedGear = prevState.trippeeGear.filter(gear => gear.gearId !== event.target.dataset.id);
+        const withoutClickedGear = prevState.trippeeGear.filter(gear => gear.gearId !== event.target.dataset._id.toString());
         return {
           trippeeGear: withoutClickedGear,
         };
@@ -100,7 +100,7 @@ class TripDetails extends Component {
 
   cancelSignup = () => {
     const cancelPromise = new Promise((resolve, reject) => {
-      this.props.leaveTrip(this.props.trip._id, this.props.userTripStatus);
+      this.props.leaveTrip(this.props.trip._id, this.props.isUserOnTrip);
       resolve();
     });
     cancelPromise.then(() => {
@@ -280,7 +280,7 @@ class TripDetails extends Component {
         );
       } else if (this.props.user.role === 'OPO') {
         appropriateComponent = (
-          <OPOTripForm />
+          <OPOTripDetails />
         );
       } else {
         appropriateComponent = (
