@@ -97,8 +97,13 @@
         }
       }
 
-      #profile-card-edit-button {
+      .profile-card-edit-toggle {
+        width: 30px;
+        transition: transform .2s;
 
+        &:hover {
+          transform: scale(1.3);
+        }
       }
     }
 
@@ -218,13 +223,7 @@ input.my-form-control{
   height: 1.5em;
   margin-bottom: 0.3em;
 }
-.edit-button{
-  transition: transform .2s;
-}
 
-.edit-button:hover{
-  transform: scale(1.3);
-}
 #leader-dropdown{
   background: #FFFFFF;
   border: 2px solid #C4C4C4;
