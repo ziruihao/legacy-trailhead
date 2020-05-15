@@ -20,6 +20,12 @@ body {
 
     .center-view {
         margin: 0 calc(50vw - 600px);
+
+        &.spacy {
+            > * {
+                margin-top: 85px;
+              }
+        }
     }
 }
 
@@ -132,11 +138,40 @@ a {
 
     &.small-card {
         padding: 15px;
+
+        &.spacy-card {
+            > * {
+                margin-bottom: 15px !important;
+            }
+            :last-child {
+                margin-bottom: 0 !important;
+            }
+        }
+    }
+
+    &.spacy-card {
+        > * {
+            margin-bottom: 25px !important;
+        }
+        :last-child {
+            margin-bottom: 0 !important;
+        }
     }
 
     &.large-card {
         padding: 45px;
+
+        &.spacy-card {
+            > * {
+                margin-bottom: 45px !important;
+            }
+            :last-child {
+                margin-bottom: 0 !important;
+            }
+        }
     }
+
+
 }
 
 .doc-table {
@@ -189,6 +224,10 @@ a {
         box-shadow: $menu-shadow !important;
         border-radius: 10px;
         width: 100% !important;
+    }
+
+    .dropdown-icon {
+        margin-left: 1em;
     }
 
     &.field-error {

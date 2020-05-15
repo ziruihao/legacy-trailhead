@@ -1,5 +1,37 @@
+@import '../../styles/base.scss';
+
+#trips-page {
+
+  #trip-safari-configs {
+    // width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .all-trips-date-select {
+      width: auto !important; // to prevent override from createtrip-style.scss
+      margin: 0 !important; // to prevent override from createtrip-style.scss
+      color: $green;
+      background: none;
+    }
+
+    .field-dropdown-bootstrap {
+      color: $green !important;
+    }
+  }
+  .box {
+    margin-top: 45px;
+
+    .trip-tiles {
+      float: left;
+    }
+  }
+
+}
+
+
 .card-trip {
-  margin-right: 10px;
+  margin-right: 45px;
+  margin-bottom: 45px;
   text-align: left;
 
   a {
@@ -40,14 +72,8 @@
   color:black;
 }
 
-.box {
-  text-align: left;
-  width:100%;
-}
-
 .card {
   width: 18rem;
-  margin: 1rem;
   display:inline-block;
 }
 
@@ -66,13 +92,7 @@
   margin-right: 1rem;
 
 }
-.all-trips-date-select{
-  display: inline-block;
-  width:20%;
-  color:rgb(75, 157, 119);
-  background: none;
 
-}
 .card-body{
   box-sizing: content-box;
   padding:5%;
@@ -86,16 +106,6 @@
   background: white;
   overflow: hidden;
 
-}
-.all-trips-dropdown-bar{
-  width: 100%;
-  text-align: center;
-  margin-top: 6rem;
-}
-.all-trips-dropdown-header{
-  display:inline-block;
-  width:fit-content;
-  margin-right:1.5%;
 }
 
 input[type=date]::-webkit-inner-spin-button,
@@ -147,9 +157,6 @@ input[type=date]::-webkit-outer-spin-button {
   margin-top:1%;
 
 }
-.trip-tiles{
-  float:left;
-  }
 
 #signup-button{
   border-color:  rgb(75, 157, 119);
