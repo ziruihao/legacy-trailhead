@@ -7,11 +7,20 @@ import queryString from 'query-string'
 import { signIn, signOut, casAuthed, getUser } from '../../actions';
 import * as constants from '../../constants';
 import './gateway.scss';
+import CompleteProfile from './complete-profile';
 class Gateway extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      incompleteProfile: false,
+    }
+  }
   componentWillMount() {
     const casValues = queryString.parse(this.props.location.search);
     if (casValues.token) {
-      this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader);
+      this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader).then(completedProfile => {
+        if (!completedProfile) this.setState({incompleteProfile: true})
+      });
     }
   }
 
@@ -67,20 +76,25 @@ class Gateway extends Component {
   render() {
       return (
         <div id="landing-page">
-          <div id="landing-card" className="doc-card">
-              <div id="landing-card-message">
-                <div className="h1">Welcome there!</div>
-                <div className="p1">
-                  {
-                    this.props.authenticated
-                      ? `You're logged in as a test ${!this.props.user ? 'loading' : this.props.user.role}.`
-                      : 'Hello there! Click the options below to login as test users of the following kind.'
-                  }
-                </div>
+          {this.state.incompleteProfile ?
+            <CompleteProfile></CompleteProfile>
+            :
+            <div id="landing-card" className="doc-card">
+            <div id="landing-card-message">
+              <div className="h1">Welcome there!</div>
+              <div className="p1">
+                {
+                  this.props.authenticated
+                    ? `You're logged in as a test ${!this.props.user ? 'loading' : this.props.user.role}.`
+                    : 'Hello there! Click the options below to login as test users of the following kind.'
+                }
               </div>
-              {this.renderDevAuthOptions()}
-              {this.renderAuthOptions()}
-          </div>
+            </div>
+            {this.renderDevAuthOptions()}
+            {this.renderAuthOptions()}
+        </div>
+          }
+
         </div>
       )
   }
