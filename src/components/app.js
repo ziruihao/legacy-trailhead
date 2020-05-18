@@ -19,8 +19,9 @@ import OPODashboard from './opo-dashboard';
 import VehicleCalendar from './vehicleCalendar';
 import Gateway from './gateway';
 import FleetManagement from './fleet-management';
-import { getUser, getClubs, getVehicles } from '../actions';
 import { MobileCheckIn, MobileCheckOut } from './mobile-check';
+import CompleteProfile from './gateway/complete-profile';
+import { getUser, getClubs, getVehicles } from '../actions';
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 
@@ -89,7 +90,7 @@ class App extends React.Component {
         <Router>
           <div id="theBody">
             <Switch>
-              <Route exact path="/" component={Gateway} />
+              <Route exact path="/"><Gateway dataLoader={this.loadData} /></Route>
               <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
               <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
             </Switch>
@@ -103,6 +104,7 @@ class App extends React.Component {
           <Switch>
             <Route exact path="/" component={Dashboard} />
             <Route path="/user" component={ProfilePage} />
+            <Route path="/complete-profile" component={CompleteProfile} />
             <Route path="/all-trips" component={AllTrips} />
             <Route path="/vehicle-request/:vehicleReqId" component={VehicleRequest} />
             <Route path="/vehicle-request" component={VehicleRequest} />

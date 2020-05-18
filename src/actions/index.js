@@ -281,13 +281,17 @@ export function casAuthed(token, history, dataLoader) {
       localStorage.setItem('token', token);
       axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
-          dispatch({ type: ActionTypes.AUTH_USER });
+          console.log(response.data.user.completedProfile);
+          if (response.data.user.completedProfile) {
+            dispatch({ type: ActionTypes.AUTH_USER });
+            dataLoader().then(() => resolve(response.data.user.completedProfile));
+          }
           dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-          dataLoader().then(() => resolve());
+          resolve(response.data.user.completedProfile);
           // history.push(getState().restrictedPath.restrictedPath);
         })
         .catch((error) => {
-          dispatch(appError(`Update user failed: ${error.response.data}`));
+          dispatch(appError(`Update user failed: ${error}`));
           reject(error);
         });
     });
