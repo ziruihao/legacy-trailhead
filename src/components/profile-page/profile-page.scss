@@ -91,17 +91,54 @@
   width: 1135.72;
   height: 348.05;
 }
-
-.profile-photo{
-  height: 13rem;
-  width: 13rem;
+.profile-photo-fit{
+  position: relative;
+  width: 13em;     
+  height: 13em;
+  overflow: hidden;
   border-radius: 50%;
+
 }
 
+.profile-photo{
+  position: absolute;
+  top: 50%;     
+  left: 50%;
+  height: 100%;
+  width: auto;
+  transform: translate( -50%, -50%);
+}
+.profile-photo.landscape {
+  height: 100%;
+  width: auto;
+}
+
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  width: 8em;
+  height: 2em;
+  margin-right: 1em;
+  background: #0CA074;
+  border-radius: 5px;
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 500;
+  margin-top: 1em;
+}
+.custom-file-upload:hover{
+  text-decoration: none;
+  color: #ffffff;
+  background: rgb(26, 179, 133);
+}
 
 .profile-card-info{
   margin-top: 1em;
 }
+
 .profile-card-row{
   display: flex;
   justify-content: space-between;
@@ -316,3 +353,4 @@ input#dash_number[type=number]::-webkit-outer-spin-button {
     margin-right: 0;
   }
 }
+

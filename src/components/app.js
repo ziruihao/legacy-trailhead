@@ -100,7 +100,6 @@ class App extends React.Component {
       return (
         <Router>
           <NavBar />
-<<<<<<< HEAD
           <div id="theBody">
             <Switch>
               <Route exact path="/" component={Dashboard} />
@@ -121,28 +120,6 @@ class App extends React.Component {
               <Route path="/vehicle-calendar" component={VehicleCalendar} />
             </Switch>
           </div>
-=======
-          <Switch>
-            <Route exact path="/" component={Dashboard} />
-            <Route path="/user" component={ProfilePage} />
-            <Route path="/all-trips" component={AllTrips} />
-            <Route path="/vehicle-request/:vehicleReqId" component={VehicleRequest} />
-            <Route path="/vehicle-request" component={VehicleRequest} />
-            <Route path="/trip/:tripID" component={TripDetails} />
-            <Route path="/createtrip" component={CreateTrip} />
-            <Route path="/my-trips" component={MyTrips} />
-            <Route path="/edittrip/:tripID" component={CreateTrip} />
-            <Route path="/opo-trips" component={OpoTrips} />
-            <Route path="/vehicle-requests" component={OpoVehicleRequests} />
-            <Route path="/opo-vehicle-request/:vehicleReqId" component={OpoVehicleRequest} />
-            <Route path="/opo-dashboard" component={OPODashboard} />
-            <Route path="/opo-fleet-management" component={FleetManagement} />
-            <Route path="/leader-approvals" component={OpoApprovals} />
-            <Route path="/vehicle-calendar" component={VehicleCalendar} />
-            <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
-            <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
-          </Switch>
->>>>>>> 444687ce915f1ca2617c9880fcad65a8dde2f483
         </Router>
       );
     } else {

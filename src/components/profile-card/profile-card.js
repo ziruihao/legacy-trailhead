@@ -63,6 +63,24 @@ class ProfileCard extends Component {
     }
   }
 
+  displayImageEditing() {
+    if (this.props.user.photo_url !== '' && this.state.preview == null) {
+      return (
+        <div className="profile-photo-fit">
+          <img className="profile-photo" id="preview" alt="" src={this.props.user.photo_url} />
+        </div>
+      );
+    } else if (this.state.preview != null) {
+      return (
+        <div className="profile-photo-fit">
+          <img className="profile-photo" id="preview" alt="" src={this.state.preview} />;
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
   render() {
     if (!this.props.isEditing) {
       return (
@@ -71,9 +89,8 @@ class ProfileCard extends Component {
             ? (
               <div className="profile-pic-container">
                 <div className="profile-pic">
-                  {console.log(this.props.user.photo_url === '')}
                   <span className="user-initials">{this.props.user.photo_url === '' ? getUserInitials(this.props.user.name) : null}</span>
-                  { this.props.user.photo_url === '' ? null : <img className="profile-photo" id="photo" alt="" src={this.props.user.photo_url} /> }
+                  { this.props.user.photo_url === '' ? null : <div className="profile-photo-fit"><img className="profile-photo" id="photo" alt="" src={this.props.user.photo_url} /> </div>}
                 </div>
               </div>
             )
@@ -200,11 +217,13 @@ class ProfileCard extends Component {
             ? (
               <div className="profile-pic-container">
                 <div className="profile-pic">
-                  <span className="user-initials">{this.state.preview == null ? getUserInitials(this.props.user.name) : null}</span>
-                  { this.state.preview == null ? null : <img className="profile-photo" id="preview" alt="" src={this.state.preview} /> }
+                  <span className="user-initials">{this.state.preview == null && this.props.user.photo_url === '' ? getUserInitials(this.props.user.name) : null}</span>
+                  { this.displayImageEditing()}
                 </div>
-                <input type="file" name="coverImage" onChange={this.onImageUpload} />
-
+                <label className="custom-file-upload">
+                  <input type="file" name="coverImage" onChange={this.onImageUpload} />
+                  Select a File
+                </label>
               </div>
             )
             : null
@@ -383,19 +402,6 @@ class ProfileCard extends Component {
                   {this.props.getClubForm()}
                 </span>
               </div>
-              {/* {this.props.user.role !== 'OPO' ? <hr className="line" /> : null}
-            {this.props.user.role !== 'OPO'
-              ? (
-                <div className="profile-card-row">
-                  <span className="card-headings extra-info">
-                    DOC Leadership
-                    {this.props.displayLeaderFeedback()}
-                  </span>
-                  <span className="card-info">
-                    {this.props.getClubForm()}
-                  </span>
-                </div>
-              ) : null} */}
             </div>
           </div>
         </div>
