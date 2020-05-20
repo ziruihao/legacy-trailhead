@@ -10,13 +10,17 @@ const TRAILER_CONSTANT = 'TRAILER';
 
 const NONE_CONSTANT = 'None';
 
-const displayClubs = (userClubs) => {
-  let clubString = '';
-  userClubs.forEach((club) => {
-    clubString = clubString.concat(`${club.name}, `);
-  });
-  const clubs = clubString.length - 2 <= 0 ? NONE_CONSTANT : clubString.substring(0, clubString.length - 2);
-  return clubs;
+const displayClubs = (userClubs, hasPendingLeaderChange) => {
+  if (hasPendingLeaderChange) return ['Pending OPO approval'];
+  else {
+    let clubString = '';
+    userClubs.forEach((club) => {
+      clubString = clubString.concat(`${club.name}, `);
+    });
+    const clubs = clubString.length - 2 <= 0 ? NONE_CONSTANT : clubString.substring(0, clubString.length - 2);
+    console.log(userClubs);
+    return clubs;
+  }
 };
 
 const displayCertifications = (driverCert, trailerCert, hasPendingCertChange) => {
@@ -157,7 +161,7 @@ const ProfileCard = (props) => {
           <hr />
           <div className="profile-card-row">
             <div className="card-headings h3">
-              {props.asProfilePage && props.user.has_pending_cert_change ? 'Driver Certifications*' : 'Driver Certifications'}
+              {(props.asProfilePage || props.completeProfileMode) && props.user.has_pending_cert_change ? 'Driver Certifications*' : 'Driver Certifications'}
             </div>
             <div className="card-info p1">
               {displayCertifications(props.user.driver_cert, props.user.trailer_cert, props.user.has_pending_cert_change)}
@@ -168,10 +172,10 @@ const ProfileCard = (props) => {
             ? (
               <div className="profile-card-row">
                 <div className="card-headings h3">
-                  {props.asProfilePage && props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
+                  {(props.asProfilePage || props.completeProfileMode) && props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
                 </div>
                 <div className="card-info p1">
-                  {displayClubs(props.user.leader_for)}
+                  {displayClubs(props.user.leader_for, props.user.has_pending_leader_change)}
                 </div>
               </div>
             ) : null}
@@ -213,7 +217,10 @@ const ProfileCard = (props) => {
               />
             </div>
           </div>
-          <input className="profile-card-edit-toggle" type="image" src={saveIcon} alt="save button" onClick={props.updateUserInfo} />
+          {props.asProfilePage
+            ? <input className="profile-card-edit-toggle" type="image" src={saveIcon} alt="save button" onClick={() => props.updateUserInfo(false)} />
+            : null
+          }
         </div>
         <hr />
         <div id="profile-card-info">
@@ -321,7 +328,7 @@ const ProfileCard = (props) => {
           <div className="profile-card-row">
             <div className="card-headings h3 extra-info">
               Driver Certification(s)
-              {props.displayCertificationFeedback()}
+              {/* {props.displayCertificationFeedback()} */}
             </div>
             <div className="card-info p1 extra-info">
               {props.getCertificationsForm()}
@@ -332,7 +339,7 @@ const ProfileCard = (props) => {
           <div className="profile-card-row">
             <div className="card-headings h3 extra-info">
               DOC Leadership
-              {props.displayLeaderFeedback()}
+              {/* {props.displayLeaderFeedback()} */}
             </div>
             <div className="card-info p1">
               {props.getClubForm()}
@@ -352,6 +359,10 @@ const ProfileCard = (props) => {
                 </div>
               ) : null} */}
         </div>
+        {props.completeProfileMode
+          ? <div className="doc-button" role="button" tabIndex={0} src={saveIcon} onClick={() => props.updateUserInfo(true)}>Finish</div>
+          : null
+          }
       </div>
     );
   }

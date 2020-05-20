@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Loading from '../loading';
-import { updateUser, getClubs, signOut, getUser } from '../../actions';
+import { appError, clearError, updateUser, getClubs, signOut, getUser, authUser } from '../../actions';
 import ProfileCard from './profile-card';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import './profile.scss';
@@ -54,6 +54,28 @@ class ProfileCardEdit extends Component {
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.updateUserInfo = this.updateUserInfo.bind(this);
+  }
+
+  componentWillMount() {
+    if (this.props.user) {
+      const { user } = this.props;
+      this.setState({
+        name: user.name,
+        email: user.email,
+        pronoun: user.pronoun ? user.pronoun : '',
+        dash_number: user.dash_number ? user.dash_number : '',
+        allergies_dietary_restrictions: user.allergies_dietary_restrictions ? user.allergies_dietary_restrictions : '',
+        medical: user.medical_conditions ? user.medical_conditions : '',
+        height: user.height ? user.height : '',
+        gender_clothes: user.clothe_size ? user.clothe_size.split('-')[0] : '',
+        clothe_size: user.clothe_size ? user.clothe_size.split('-').pop() : '',
+        gender_shoe: user.shoe_size ? user.shoe_size.split('-')[0] : '',
+        shoe_size: user.shoe_size ? user.shoe_size.split('-').pop() : '',
+        clubsList: user.has_pending_leader_change ? user.requested_clubs : user.leader_for,
+        driver_cert: user.has_pending_cert_change ? user.requested_certs.driver_cert : user.driver_cert,
+        trailer_cert: user.has_pending_cert_change ? user.requested_certs.trailer_cert : user.trailer_cert,
+      });
+    }
   }
 
   onFieldChange(event) {
@@ -129,24 +151,7 @@ class ProfileCardEdit extends Component {
   }
 
   startEditing = () => {
-    const { user } = this.props;
-    this.setState({
-      name: user.name,
-      email: user.email,
-      pronoun: user.pronoun ? user.pronoun : '',
-      dash_number: user.dash_number ? user.dash_number : '',
-      allergies_dietary_restrictions: user.allergies_dietary_restrictions ? user.allergies_dietary_restrictions : '',
-      medical: user.medical_conditions ? user.medical_conditions : '',
-      height: user.height ? user.height : '',
-      gender_clothes: user.clothe_size ? user.clothe_size.split('-')[0] : '',
-      clothe_size: user.clothe_size ? user.clothe_size.split('-').pop() : '',
-      gender_shoe: user.shoe_size ? user.shoe_size.split('-')[0] : '',
-      shoe_size: user.shoe_size ? user.shoe_size.split('-').pop() : '',
-      clubsList: user.has_pending_leader_change ? user.requested_clubs : user.leader_for,
-      driver_cert: user.has_pending_cert_change ? user.requested_certs.driver_cert : user.driver_cert,
-      trailer_cert: user.has_pending_cert_change ? user.requested_certs.trailer_cert : user.trailer_cert,
-      isEditing: true,
-    });
+    this.setState({ isEditing: true });
   }
 
   cancelChanges = () => {
@@ -443,8 +448,9 @@ class ProfileCardEdit extends Component {
     return true;
   }
 
-  updateUserInfo() {
+  updateUserInfo(redirect) {
     if (this.isValid()) {
+      this.props.clearError();
       const updatedUser = {
         email: this.state.email,
         name: this.state.name,
@@ -461,14 +467,44 @@ class ProfileCardEdit extends Component {
       };
       this.props.updateUser(updatedUser)
         .then(() => {
-          this.setState({ isEditing: false });
+          if (redirect) {
+            this.props.authUser();
+          } else this.setState({ isEditing: false });
         });
     }
   }
 
   render() {
+    if (this.props.completeProfileMode) console.log(this.props.completeProfileMode);
+    console.log(this.state.isEditing);
     if (this.props.user) {
-      if (!this.state.isEditing) {
+      if (this.props.completeProfileMode) {
+        return (
+          <ProfileCard
+            completeProfileMode={this.props.completeProfileMode}
+            isEditing
+            onFieldChange={this.onFieldChange}
+            name={this.state.name}
+            email={this.state.email}
+            updateUserInfo={this.updateUserInfo}
+            pronoun={this.state.pronoun}
+            dash_number={this.state.dash_number}
+            allergies_dietary_restrictions={this.state.allergies_dietary_restrictions}
+            medical={this.state.medical}
+            height={this.state.height}
+            shoe_size={this.state.shoe_size}
+            clothe_size={this.state.clothe_size}
+            displayCertificationFeedback={this.displayCertificationFeedback}
+            getCertificationsForm={this.getCertificationsForm}
+            displayLeaderFeedback={this.displayLeaderFeedback}
+            getClubForm={this.getClubForm}
+            renderClothingSizeSelection={this.renderClothingSizeSelection}
+            renderShoeSizeSelection={this.renderShoeSizeSelection}
+            errorFields={this.state.errorFields}
+            user={this.props.user}
+          />
+        );
+      } else if (!this.state.isEditing) {
         return (
           <ProfileCard
             asProfilePage
@@ -517,4 +553,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { updateUser, getClubs, signOut, getUser })(ProfileCardEdit));
+export default withRouter(connect(mapStateToProps, { appError, clearError, updateUser, getClubs, signOut, getUser, authUser })(ProfileCardEdit));
