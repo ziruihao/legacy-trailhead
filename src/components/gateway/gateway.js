@@ -78,6 +78,7 @@ class Gateway extends Component {
   render() {
       return (
         <div id="landing-page">
+          {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
           {this.state.incompleteProfile ?
             <CompleteProfile></CompleteProfile>
             :
@@ -102,5 +103,10 @@ class Gateway extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    errorMessage: state.error.errorMessage,
+  };
+};
 
-export default withRouter(connect(null, { signIn, signOut, casAuthed, getUser })(Gateway));
+export default withRouter(connect(mapStateToProps, { signIn, signOut, casAuthed, getUser })(Gateway));
