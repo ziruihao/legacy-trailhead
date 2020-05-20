@@ -1,7 +1,6 @@
 // import { uploadImage } from '../s3';
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
-import * as s3 from '../s3';
 import './profile.scss';
 import leaderBadge from './leader-badge.svg';
 import leaderPendingBadge from './leader-pending-badge.svg';
@@ -20,7 +19,6 @@ const displayClubs = (userClubs, hasPendingLeaderChange) => {
       clubString = clubString.concat(`${club.name}, `);
     });
     const clubs = clubString.length - 2 <= 0 ? NONE_CONSTANT : clubString.substring(0, clubString.length - 2);
-    console.log(userClubs);
     return clubs;
   }
 };
@@ -47,18 +45,12 @@ const pendingChanges = (hasPendingLeaderChange, hasPendingCertChange) => {
     : null;
 };
 
-const getUserInitials = (userName) => {
-  const names = userName.split(' ');
-  const firstInitial = names[0].split('')[0];
-  const lastInitial = names.length > 1 ? names[names.length - 1].split('')[0] : '';
-  return `${firstInitial}${lastInitial}`;
-};
-
 class ProfileCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       preview: null,
+      file: null,
     };
     this.onImageUpload = this.onImageUpload.bind(this);
   }
@@ -71,6 +63,13 @@ class ProfileCard extends React.Component {
       this.setState({ preview: window.URL.createObjectURL(file), file });
     }
   }
+
+  getUserInitials = (userName) => {
+    const names = userName.split(' ');
+    const firstInitial = names[0].split('')[0];
+    const lastInitial = names.length > 1 ? names[names.length - 1].split('')[0] : '';
+    return `${firstInitial}${lastInitial}`;
+  };
 
   displayImageEditing() {
     if (this.props.user.photo_url !== '' && this.state.preview == null) {
@@ -91,7 +90,7 @@ class ProfileCard extends React.Component {
   }
 
   render() {
-    if (!this.props.isEditing) {
+    if (!this.props.isEditing && !this.props.completeProfileMode) {
       return (
         <div id="profile-card">
           <div id="profile-card-picture-and-name">
@@ -99,13 +98,13 @@ class ProfileCard extends React.Component {
               ? (
                 <div className="profile-pic-container">
                   <div className="profile-pic">
-                    <span className="user-initials">{this.props.user.photo_url === '' ? getUserInitials(this.props.user.name) : null}</span>
+                    <span className="user-initials">{this.props.user.photo_url === '' ? this.getUserInitials(this.props.user.name) : null}</span>
                     { this.props.user.photo_url === '' ? null : <div className="profile-photo-fit"><img className="profile-photo" id="photo" alt="" src={this.props.user.photo_url} /> </div>}
                   </div>
                 </div>
               )
               : null
-        }
+            }
             {this.props.user.completedProfile
               ? (
                 <div id="profile-card-name">
@@ -128,12 +127,13 @@ class ProfileCard extends React.Component {
                   Incomplete profile
                 </div>
               )
-          }
+            }
             {this.props.asProfilePage
               ? (
                 <input className="profile-card-edit-toggle" type="image" src={editIcon} alt="edit button" onClick={this.props.startEditing} />
               )
-              : null}
+              : null
+            }
           </div>
           <hr />
           <div id="profile-card-info">
@@ -224,20 +224,22 @@ class ProfileCard extends React.Component {
         </div>
       );
     } else {
+      const name = this.props.user.name || this.props.user.casID.split(' ')[0];
       return (
         <div id="profile-card">
           <div id="profile-card-picture-and-name">
-            {this.props.user.name
+            {this.props.user.name || this.props.user.casID
               ? (
                 <div className="profile-pic-container">
                   <div className="profile-pic">
-                    <span className="user-initials">{this.state.preview == null && this.props.user.photo_url === '' ? getUserInitials(this.props.user.name) : null}</span>
+                    <label className="user-initials">
+                      {(this.state.preview == null || this.props.user.photo_url == null) ? this.getUserInitials(name) : null}
+                      <input type="file" name="coverImage" onChange={this.onImageUpload} />
+                    </label>
                     { this.displayImageEditing()}
                   </div>
-                  <label className="custom-file-upload">
-                    <input type="file" name="coverImage" onChange={this.onImageUpload} />
-                    Select a File
-                  </label>
+                  {/* <label className="custom-file-upload"> */}
+                  {/* </label> */}
                 </div>
               )
               : null
@@ -266,7 +268,7 @@ class ProfileCard extends React.Component {
               </div>
             </div>
             {this.props.asProfilePage
-              ? <input className="profile-card-edit-toggle" type="image" src={saveIcon} alt="save button" onClick={() => this.props.updateUserInfo(false)} />
+              ? <input className="profile-card-edit-toggle" type="image" src={saveIcon} alt="save button" onClick={() => this.props.updateUserInfo(this.state.file, false)} />
               : null
           }
           </div>
@@ -408,7 +410,7 @@ class ProfileCard extends React.Component {
               ) : null} */}
           </div>
           {this.props.completeProfileMode
-            ? <div className="doc-button" role="button" tabIndex={0} src={saveIcon} onClick={() => this.props.updateUserInfo(true)}>Finish</div>
+            ? <div className="doc-button" role="button" tabIndex={0} src={saveIcon} onClick={() => this.props.updateUserInfo(this.state.file, true)}>Finish</div>
             : null
           }
         </div>

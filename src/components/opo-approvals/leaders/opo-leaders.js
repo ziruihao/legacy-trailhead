@@ -15,6 +15,7 @@ class OPOLeaders extends Component {
     super(props);
     this.state = {
       page: 'Leader Status Requests',
+      a: true,
     };
   }
 
@@ -31,7 +32,7 @@ class OPOLeaders extends Component {
   }
 
   render() {
-    if (true) {
+    if (this.state.a) {
       return (
         <div className="center-view">
           <Loading type="doc" />
