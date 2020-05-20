@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
+import * as s3 from '../s3';
 import Loading from '../loading';
 import { appError, clearError, updateUser, getClubs, signOut, getUser, authUser } from '../../actions';
 import ProfileCard from './profile-card';
@@ -44,11 +45,11 @@ class ProfileCardEdit extends Component {
       gender_shoe: '',
       shoe_size: '',
       gender_clothes: '',
+      photo_url: '',
       clothe_size: '',
       clubsList: [],
       driver_cert: null,
       trailer_cert: false,
-      isEditing: false,
       ready: false,
       errorFields: this.errorFields,
     };
@@ -71,6 +72,7 @@ class ProfileCardEdit extends Component {
         clothe_size: user.clothe_size ? user.clothe_size.split('-').pop() : '',
         gender_shoe: user.shoe_size ? user.shoe_size.split('-')[0] : '',
         shoe_size: user.shoe_size ? user.shoe_size.split('-').pop() : '',
+        photo_url: user.photo_url ? user.photo_url : '',
         clubsList: user.has_pending_leader_change ? user.requested_clubs : user.leader_for,
         driver_cert: user.has_pending_cert_change ? user.requested_certs.driver_cert : user.driver_cert,
         trailer_cert: user.has_pending_cert_change ? user.requested_certs.trailer_cert : user.trailer_cert,
@@ -448,29 +450,54 @@ class ProfileCardEdit extends Component {
     return true;
   }
 
-  updateUserInfo(redirect) {
+  updateUserInfo(file, redirect) {
     if (this.isValid()) {
       this.props.clearError();
-      const updatedUser = {
-        email: this.state.email,
-        name: this.state.name,
-        leader_for: this.state.clubsList,
-        pronoun: this.state.pronoun,
-        dash_number: this.state.dash_number,
-        allergies_dietary_restrictions: this.state.allergies_dietary_restrictions,
-        medical_conditions: this.state.medical,
-        clothe_size: `${this.state.gender_clothes}-${this.state.clothe_size}`,
-        shoe_size: `${this.state.gender_shoe}-${this.state.shoe_size}`,
-        height: this.state.height,
-        driver_cert: this.state.driver_cert,
-        trailer_cert: this.state.trailer_cert,
-      };
-      this.props.updateUser(updatedUser)
-        .then(() => {
+      if (file) {
+        s3.uploadImage(file).then((url) => {
+          alert(url);
+          const updatedUser = {
+            email: this.state.email,
+            name: this.state.name,
+            photo_url: url,
+            leader_for: this.state.clubsList,
+            pronoun: this.state.pronoun,
+            dash_number: this.state.dash_number,
+            allergies_dietary_restrictions: this.state.allergies_dietary_restrictions,
+            medical_conditions: this.state.medical,
+            clothe_size: `${this.state.gender_clothes}-${this.state.clothe_size}`,
+            shoe_size: `${this.state.gender_shoe}-${this.state.shoe_size}`,
+            height: this.state.height,
+            driver_cert: this.state.driver_cert,
+            trailer_cert: this.state.trailer_cert,
+          };
+          this.props.updateUser(updatedUser).then(() => {
+            if (redirect) {
+              this.props.authUser();
+            } else this.setState({ isEditing: false });
+          });
+        });
+      } else {
+        const updatedUser = {
+          email: this.state.email,
+          name: this.state.name,
+          leader_for: this.state.clubsList,
+          pronoun: this.state.pronoun,
+          dash_number: this.state.dash_number,
+          allergies_dietary_restrictions: this.state.allergies_dietary_restrictions,
+          medical_conditions: this.state.medical,
+          clothe_size: `${this.state.gender_clothes}-${this.state.clothe_size}`,
+          shoe_size: `${this.state.gender_shoe}-${this.state.shoe_size}`,
+          height: this.state.height,
+          driver_cert: this.state.driver_cert,
+          trailer_cert: this.state.trailer_cert,
+        };
+        this.props.updateUser(updatedUser).then(() => {
           if (redirect) {
             this.props.authUser();
           } else this.setState({ isEditing: false });
         });
+      }
     }
   }
 
@@ -482,25 +509,16 @@ class ProfileCardEdit extends Component {
         return (
           <ProfileCard
             completeProfileMode={this.props.completeProfileMode}
-            isEditing
+            {...this.state}
+            photoUrlChange={(url) => { this.setState({ photo_url: url }); }}
             onFieldChange={this.onFieldChange}
-            name={this.state.name}
-            email={this.state.email}
             updateUserInfo={this.updateUserInfo}
-            pronoun={this.state.pronoun}
-            dash_number={this.state.dash_number}
-            allergies_dietary_restrictions={this.state.allergies_dietary_restrictions}
-            medical={this.state.medical}
-            height={this.state.height}
-            shoe_size={this.state.shoe_size}
-            clothe_size={this.state.clothe_size}
             displayCertificationFeedback={this.displayCertificationFeedback}
             getCertificationsForm={this.getCertificationsForm}
             displayLeaderFeedback={this.displayLeaderFeedback}
             getClubForm={this.getClubForm}
             renderClothingSizeSelection={this.renderClothingSizeSelection}
             renderShoeSizeSelection={this.renderShoeSizeSelection}
-            errorFields={this.state.errorFields}
             user={this.props.user}
           />
         );
@@ -517,25 +535,16 @@ class ProfileCardEdit extends Component {
         return (
           <ProfileCard
             asProfilePage
-            isEditing={this.state.isEditing}
             onFieldChange={this.onFieldChange}
-            name={this.state.name}
-            email={this.state.email}
+            {...this.state}
+            photoUrlChange={(url) => { this.setState({ photo_url: url }); }}
             updateUserInfo={this.updateUserInfo}
-            pronoun={this.state.pronoun}
-            dash_number={this.state.dash_number}
-            allergies_dietary_restrictions={this.state.allergies_dietary_restrictions}
-            medical={this.state.medical}
-            height={this.state.height}
-            shoe_size={this.state.shoe_size}
-            clothe_size={this.state.clothe_size}
             displayCertificationFeedback={this.displayCertificationFeedback}
             getCertificationsForm={this.getCertificationsForm}
             displayLeaderFeedback={this.displayLeaderFeedback}
             getClubForm={this.getClubForm}
             renderClothingSizeSelection={this.renderClothingSizeSelection}
             renderShoeSizeSelection={this.renderShoeSizeSelection}
-            errorFields={this.state.errorFields}
             user={this.props.user}
           />
         );

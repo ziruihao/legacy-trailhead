@@ -50,19 +50,54 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-  
-    #profile-card-picture {
-      height: 8rem;
-      width: 8rem;
-      border-radius: 50%;
-      background: #D6D6D6;
+
+    .profile-pic-container{
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-direction: column;
+      margin-right: 25px;
+    
+      .profile-pic {
+        height: 7rem;
+        width: 7rem;
+        border-radius: 50%;
+        background: #D6D6D6;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-      .user-initials{
-        font-size: 3em;
-        color: gray;
+        .user-initials {
+          font-size: 3em;
+          color: gray;
+          font-weight: 800;
+        }
+
+        input[type="file"] {
+          display: none;
+        }
+
+        .profile-photo-fit {
+          position: relative;
+          width: 100%;     
+          height: 100%;
+          overflow: hidden;
+          border-radius: 50%;
+        }
+        
+        .profile-photo {
+          position: absolute;
+          top: 50%;     
+          left: 50%;
+          height: 100%;
+          width: auto;
+          transform: translate( -50%, -50%);
+  
+          &.landscape {
+            height: 100%;
+            width: auto;
+          }
+        }
       }
     }
 
@@ -330,6 +365,7 @@ input#dash_number[type=number]::-webkit-outer-spin-button {
   }
   .profile-pic-container{
     width: 100%;
+    flex-direction: column;
     justify-content: center;
   }
   .profile-card-body{
