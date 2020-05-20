@@ -59,8 +59,7 @@ export function getUser() {
       axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
           dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-          dispatch({ type: ActionTypes.AUTH_USER, payload: true });
-          resolve();
+          resolve(response.data.user);
         })
         .catch((error) => {
           dispatch(appError(`Get user failed: ${error.response.data}`));
@@ -286,13 +285,17 @@ export function casAuthed(token, history, dataLoader) {
       localStorage.setItem('token', token);
       axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
-          dispatch({ type: ActionTypes.AUTH_USER });
+          console.log(response.data.user.completedProfile);
+          if (response.data.user.completedProfile) {
+            dispatch({ type: ActionTypes.AUTH_USER });
+            dataLoader().then(() => resolve(response.data.user.completedProfile));
+          }
           dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-          dataLoader().then(() => resolve());
+          resolve(response.data.user.completedProfile);
           // history.push(getState().restrictedPath.restrictedPath);
         })
         .catch((error) => {
-          dispatch(appError(`Update user failed: ${error.response.data}`));
+          dispatch(appError(`Update user failed: ${error}`));
           reject(error);
         });
     });
@@ -312,6 +315,12 @@ export function signUp({ email, id, name }, history) {
         console.log(error);
         dispatch(appError(`Sign up failed: ${error.response.data}`));
       });
+  };
+}
+
+export function authUser() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.AUTH_USER });
   };
 }
 

@@ -2,7 +2,7 @@ import { ActionTypes } from '../actions';
 
 const initialState = ({
   user: null,
-  poop: { role: 'poop' },
+  jstor: { role: 'jstor' },
 });
 
 const UserReducer = (state = initialState, action) => {
