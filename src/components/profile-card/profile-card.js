@@ -220,7 +220,7 @@ class ProfileCard extends React.Component {
                   </div>
                 </div>
               ) : null}
-          </div>);
+          </div>
         </div>
       );
     } else {
