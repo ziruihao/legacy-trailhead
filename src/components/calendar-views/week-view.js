@@ -84,7 +84,8 @@ WeekView.title = (date) => {
 };
 
 WeekView.range = (date) => {
-  const start = dates.startOf(date, 'week');
+  let start = dates.startOf(date, 'week');
+  start = dates.add(start, 1, 'day');
   const end = dates.add(start, 6, 'day');
 
   let current = start;

@@ -10,6 +10,10 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+
+    > * {
+      margin: 5vw 0;
+    }
   }
 
   hr {
@@ -25,8 +29,13 @@
     flex-direction: column;
     align-items: stretch;
 
+    > * {
+      margin: 5vw 0;
+    }
+
     #mobile-check-in-list {
       margin: 5vw 0;
+
       #mobile-check-in-list-name-field {
         flex: 1;
       }
@@ -36,6 +45,7 @@
         }
       }
     }
+
     > :last-child {
       text-align: center;
       font-style: italic;

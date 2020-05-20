@@ -45,14 +45,15 @@ class FleetManagement extends Component {
   render() {
     return (
       <div id="fleet-management-page" className="center-view">
-        <div className="h1">Vehicle Fleet Management</div>
+
         <div id="fleet-management">
           <div id="fleet">
-            <div className="doc-card">
+            <div className="doc-card large-card">
+              <div className="h1">Vehicle Fleet</div>
               <Table className="doc-table" responsive="lg" hover>
                 <thead>
                   <tr>
-                    <th>Vehicle Name</th>
+                    <th>Name</th>
                     <th>Type</th>
                     <th id="fleet-management-book-col">Booked by</th>
                     <th>Action</th>
