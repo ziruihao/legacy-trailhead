@@ -90,9 +90,9 @@ class App extends React.Component {
         <Router>
           <div id="theBody">
             <Switch>
-              <Route exact path="/"><Gateway dataLoader={this.loadData} /></Route>
               <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
               <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
+              <Route path="/"><Gateway dataLoader={this.loadData} /></Route>
             </Switch>
           </div>
         </Router>
