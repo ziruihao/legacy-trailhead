@@ -1,8 +1,10 @@
+/* eslint-disable no-unreachable */
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import Loading from './loading';
 import Dashboard from './dashboard';
 import AllTrips from './trips';
 import CreateTrip from './createtrip';
@@ -10,18 +12,19 @@ import MyTrips from './mytrips';
 import VehicleRequest from './vehiclerequest';
 import ProfilePage from './profile-page';
 import TripDetails from './tripdetails';
-import OpoApprovals from './opoStuff';
+import OPOLeaders from './opo-approvals/leaders';
 import NavBar from './nav-bar/nav-bar';
-import OpoTrips from './opotrips';
-import OpoVehicleRequests from './opo-vehicle-requests';
-import OpoVehicleRequest from './opo-vehicle-request';
+import OPOTrips from './opo-approvals/trips';
+import OPOVehicleRequests from './opo-approvals/vehicle-requests';
+import OPOVehicleRequest from './opo-vehicle-request';
 import OPODashboard from './opo-dashboard';
 import VehicleCalendar from './vehicleCalendar';
 import Gateway from './gateway';
 import FleetManagement from './fleet-management';
-import { getUser, getClubs, getVehicles } from '../actions';
-import { ROOT_URL } from '../constants';
+import { ROOT_URL, green } from '../constants';
 import { MobileCheckIn, MobileCheckOut } from './mobile-check';
+import CompleteProfile from './gateway/complete-profile';
+import { getUser, authUser, getClubs, getVehicles } from '../actions';
 
 
 class App extends React.Component {
@@ -38,7 +41,7 @@ class App extends React.Component {
   componentWillMount() {
     this.verifyToken().then(() => {
       this.loadData();
-    }).catch(() => {
+    }).catch((error) => {
       this.setState({ loaded: true });
     });
   }
@@ -48,12 +51,10 @@ class App extends React.Component {
    */
   loadData = () => {
     return new Promise((resolve, reject) => {
-      this.props.getUser().then(() => {
-        this.props.getClubs().then(() => {
-          this.props.getVehicles().then(() => {
-            this.setState({ loaded: true });
-            resolve();
-          });
+      this.props.getClubs().then(() => {
+        this.props.getVehicles().then(() => {
+          this.setState({ loaded: true });
+          resolve();
         });
       }).catch(error => reject(error));
     });
@@ -66,14 +67,13 @@ class App extends React.Component {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('token');
       if (token) {
-        axios.get(`${ROOT_URL}/user`, { headers: { authorization: token } })
-          .then(() => {
-            resolve();
-          })
-          .catch(() => {
-            localStorage.clear();
-            reject();
-          });
+        this.props.getUser().then((user) => {
+          if (user.completedProfile) this.props.authUser();
+          resolve();
+        }).catch(() => {
+          localStorage.clear();
+          reject();
+        });
       } else { reject(); }
     });
   }
@@ -89,9 +89,9 @@ class App extends React.Component {
         <Router>
           <div id="theBody">
             <Switch>
-              <Route exact path="/" component={Gateway} />
               <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
               <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
+              <Route path="/"><Gateway dataLoader={this.loadData} /></Route>
             </Switch>
           </div>
         </Router>
@@ -100,30 +100,31 @@ class App extends React.Component {
       return (
         <Router>
           <NavBar />
-          <div id="theBody">
-            <Switch>
-              <Route exact path="/" component={Dashboard} />
-              <Route path="/user" component={ProfilePage} />
-              <Route path="/all-trips" component={AllTrips} />
-              <Route path="/vehicle-request/:vehicleReqId" component={VehicleRequest} />
-              <Route path="/vehicle-request" component={VehicleRequest} />
-              <Route path="/trip/:tripID" component={TripDetails} />
-              <Route path="/createtrip" component={CreateTrip} />
-              <Route path="/my-trips" component={MyTrips} />
-              <Route path="/edittrip/:tripID" component={CreateTrip} />
-              <Route path="/opo-trips" component={OpoTrips} />
-              <Route path="/vehicle-requests" component={OpoVehicleRequests} />
-              <Route path="/opo-vehicle-request/:vehicleReqId" component={OpoVehicleRequest} />
-              <Route path="/opo-dashboard" component={OPODashboard} />
-              <Route path="/opo-fleet-management" component={FleetManagement} />
-              <Route path="/leader-approvals" component={OpoApprovals} />
-              <Route path="/vehicle-calendar" component={VehicleCalendar} />
-            </Switch>
-          </div>
+          <Switch>
+            <Route exact path="/" component={Dashboard} />
+            <Route path="/user" component={ProfilePage} />
+            <Route path="/complete-profile" component={CompleteProfile} />
+            <Route path="/all-trips" component={AllTrips} />
+            <Route path="/vehicle-request/:vehicleReqId" component={VehicleRequest} />
+            <Route path="/vehicle-request" component={VehicleRequest} />
+            <Route path="/trip/:tripID" component={TripDetails} />
+            <Route path="/createtrip" component={CreateTrip} />
+            <Route path="/my-trips" component={MyTrips} />
+            <Route path="/edittrip/:tripID" component={CreateTrip} />
+            <Route path="/opo-trips" component={OPOTrips} />
+            <Route path="/vehicle-requests" component={OPOVehicleRequests} />
+            <Route path="/opo-vehicle-request/:vehicleReqId" component={OPOVehicleRequest} />
+            <Route path="/opo-dashboard" component={OPODashboard} />
+            <Route path="/opo-fleet-management" component={FleetManagement} />
+            <Route path="/leader-approvals" component={OPOLeaders} />
+            <Route path="/vehicle-calendar" component={VehicleCalendar} />
+            <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
+            <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
+          </Switch>
         </Router>
       );
     } else {
-      return <div>Loading</div>;
+      return <Loading type="doc" height="150" width="150" measure="px" />;
     }
   }
 }
@@ -132,4 +133,4 @@ const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
 });
 
-export default connect(mapStateToProps, { getUser, getClubs, getVehicles })(App);
+export default connect(mapStateToProps, { getUser, authUser, getClubs, getVehicles })(App);

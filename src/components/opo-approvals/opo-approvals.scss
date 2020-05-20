@@ -1,8 +1,47 @@
-.pending-and-dropdown{
+@import '../../styles/base.scss';
+
+#opo-trips-page {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
+
+  > * {
+    margin-top: 85px;
+  }
+
+  .opo-trips-page-databox {
+    > * {
+      margin-bottom: 45px;
+    }
+
+    :last-child {
+      margin-bottom: 0;
+    }
+
+    .databox-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .databox-heading-search {
+        width: 20em;
+      }
+    }
+
+    .inactive {
+      width: 100%;
+      height: 100%;
+      margin: 1em 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+    }
+  }
 }
+
+
+
+
 .trip-status{
   margin-top: 2rem;
   font-weight: 600;
@@ -58,9 +97,7 @@
 .dropdown-item.active{
   background: #0CA074;
 }
-.pending-table{
-  margin-top: 1em;
-}
+
 .table th{
   border-top: 0;
   text-align: center;
@@ -88,19 +125,7 @@ td{
 .calendar-link:hover{
   color: #28a745;
 }
-.searchbox{
-  background: #FAFAFA;
-  border: 2px solid #C4C4C4;
-  height: 3em;
-  width: 20em;
-  border-radius: 5px;
-  padding: 0.5em;
-  margin-top: 2rem;
-}
-input.searchbox:focus{
-  outline: none;
-  box-shadow: 0 0 0 0.15rem #0CA074;
-}
+
 
 .mytrips-request-button{
   width: 13em;

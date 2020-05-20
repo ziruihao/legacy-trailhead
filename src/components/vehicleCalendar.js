@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
-import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
 import VehicleCalendarComponent from './vehicleCalendarComponent';
-import loadingGif from '../img/loading-gif.gif';
+import Loading from './loading';
+import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
 import '../styles/vehicle-calendar-style.scss';
 import './vehicle-calendar/event-modal.scss';
 
@@ -201,17 +201,13 @@ class VehicleCalendar extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div className="vehicle-calendar-container center-view">
-          <div className="mytrips-flex-start">
-            <h1 className="mytrips-header">Vehicle Calendar</h1>
-          </div>
+        <div className="vehicle-calendar-container center-view spacy">
           <div className="doc-card">
             <VehicleCalendarComponent
               assignments={this.props.assignments}
               vehicles={this.props.vehicles}
               showEventModal={this.showEventModal}
               userRole={this.props.user.role}
-              // eventPropGetter={this.eventStyleGetter}
             />
           </div>
           <Modal
@@ -228,12 +224,7 @@ class VehicleCalendar extends Component {
         </div>
       );
     } else {
-      return (
-        <div>
-          <h1>Loading</h1>
-          <img src={loadingGif} alt="loading-gif" />
-        </div>
-      );
+      return (<Loading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

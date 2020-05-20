@@ -45,7 +45,7 @@ const VehicleBooking = ({ event }) => {
 
   const bookingTime = `${formatTime(event.assigned_pickupTime)} - ${formatTime(event.assigned_returnTime)}`;
   console.log(event);
-  const assignmentLabel = event.request.associatedTrip ? `Trip #${event.request.associatedTrip.number}` : `Req #${event.request.number}`;
+  const assignmentLabel = event.request.associatedTrip ? `Trip #${event.request.associatedTrip.number}: ${event.request.associatedTrip.title}` : `Req #${event.request.number}`;
   return (
     <span className={`booking-container ${event.pickedUp ? 'hoverable-booking' : ''} ${event.conflicts.length > 0 ? 'conflict' : null}`}>
       <div className="booking-reason">

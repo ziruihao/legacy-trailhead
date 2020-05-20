@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
+import Loading from './loading';
 import { getMyTrips } from '../actions';
 import './trips/trip-card.scss';
 import '../styles/mytrips-style.scss';
@@ -9,7 +10,6 @@ import createtrip from "../img/createtrip.svg";
 import pendingBadge from '../img/pending_badge.svg';
 import approvedBadge from '../img/approved_badge.svg';
 import deniedBadge from '../img/denied_badge.svg';
-import loadingGif from '../img/loading-gif.gif';
 
 class MyTrips extends Component {
   badges = {
@@ -178,12 +178,7 @@ class MyTrips extends Component {
         </div >
       );
     } else {
-      return (
-        <div>
-          <h1>Loading</h1>
-          <img src={loadingGif} alt="loading-gif" />
-        </div>
-      );
+      return (<Loading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

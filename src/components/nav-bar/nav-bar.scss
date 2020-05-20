@@ -2,7 +2,7 @@
 
 @media only screen and (max-width: 768px) {
   .nav-bar {
-    height: 30vw !important;
+    height: 64px !important;
     > * {
       display: none !important;
     }
@@ -49,6 +49,7 @@
 
 .error {
   position: fixed;
+  top: 0;
   width: 100%;
   z-index: 999;
 }

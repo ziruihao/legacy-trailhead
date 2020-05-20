@@ -2,20 +2,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import { fetchTrips, getClubs } from '../../actions';
-import './trip-card.scss';
+import { Dropdown } from 'react-bootstrap';
 import TripDetailsModal from '../tripDetailsModal';
+import Toggle from '../toggle';
+import { fetchTrips, getClubs } from '../../actions';
+import dropdownIcon from '../../img/dropdown-toggle.svg';
+import './trip-card.scss';
 
 class Trips extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      club: '',
-      beginner: "all",
+      club: 'All Clubs',
+      beginnerOnly: false,
       grid: true,
       showTrip: null,
       startDate: "",
-      seePastTrips: false,
+      seePastTrips: true,
     };
   }
 
@@ -57,43 +60,25 @@ class Trips extends Component {
     return (Math.abs(d - t1) - Math.abs(d - t2));
   }
   renderClubDropdown = () => {
-    const options = this.props.clubs.map((club) => {
-      return <option key={club._id} value={club.name}>{club.name}</option>;
-    });
     return (
-        <select
-          name="select"
-          className="custom-select all-trips-select"
-          defaultValue=""
-          onChange={(e) => {
-            this.setState({ club: e.target.value }); }}
-        >
-          <option key="none" value="">All Clubs</option>
-          { options }
-        </select>
-    );
-  }
-
-  renderBeginnerDropdown = () => {
-    return (
-        <select
-          name="select"
-          className="custom-select all-trips-select"
-          defaultValue=""
-          onChange={(e) => {this.setState({ beginner: e.target.value }); }}
-        >
-          <option key = "all" value = "all"> All Trips </option>
-          <option key="yes" value="yes">Yes</option>
-          <option key="no" value="no">No</option>
-        </select>
-    );
+      <Dropdown onSelect={eventKey => this.setState({club: eventKey})}>
+      <Dropdown.Toggle className={`field ${this.state.newVehicleTypeError ? 'field-error' : ''}`}>
+        <span className="field-dropdown-bootstrap">{this.state.club}</span>
+        <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+      </Dropdown.Toggle>
+      <Dropdown.Menu className="field-dropdown">
+        {this.props.clubs.map((club => {
+          return (<Dropdown.Item key={club._id} eventKey={club.name}>{club.name}</Dropdown.Item>);
+        }))}
+      </Dropdown.Menu>
+    </Dropdown>
+    )
   }
 
   renderStartDropdown = () => {
     return(
-      <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value}); }} className="custom-select all-trips-date-select" value={this.state.startDate} />
+      <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value}); }} className="field all-trips-date-select" value={this.state.startDate} />
     );
-
   }
 
   setCurrTrip = (trip) => {
@@ -132,8 +117,8 @@ class Trips extends Component {
     let tripsGrid = [];
     const specialClubs = ['Ledyard','Mountaineering','cnt','wiw','Woodsmen','surf','dmbc','wsc'];
 
-    if (this.state.beginner === "all") {
-       tripsGrid = sortedTrips.filter(trip => (this.state.club === '' || trip.club.name === this.state.club )).map((trip) => {
+    if (!this.state.beginnerOnly) {
+       tripsGrid = sortedTrips.filter(trip => (this.state.club === 'All Clubs' || trip.club.name === this.state.club )).map((trip) => {
 
         let isLeading = false;
         trip.leaders.some((leader) => {
@@ -165,14 +150,14 @@ class Trips extends Component {
             </div>
           );
       });
-    } else{
+    } else {
       let experienceNeeded = "";
-      if(this.state.beginner === "yes"){
+      if (this.state.beginnerOnly) {
         experienceNeeded= true;
       }else{
         experienceNeeded = false;
       }
-      tripsGrid = sortedTrips.filter(trip => (this.state.club === '' || trip.club.name === this.state.club )&& trip.experienceNeeded===experienceNeeded).map((trip) => {
+      tripsGrid = sortedTrips.filter(trip => (this.state.club === 'All Clubs' || trip.club.name === this.state.club )&& trip.experienceNeeded===experienceNeeded).map((trip) => {
 
         let isLeading = false;
         trip.leaders.some((leader) => {
@@ -224,23 +209,23 @@ class Trips extends Component {
       tiles_id = "tiles-modal-open";
     }
       return (
-        <div className="tile-box">
-          <div className = "all-trips-dropdown-bar">
-            <div className = "all-trips-dropdown-header"> Experience Needed? </div>  {this.renderBeginnerDropdown()}
-            <div className = "all-trips-dropdown-header"> Subclub: </div>  {this.renderClubDropdown()}
-            <div className = "all-trips-dropdown-header"> Start: </div>  {this.renderStartDropdown()}
-            <div className="form-check all-trips-dropdown-header">
-              <input className="form-check-input" type="checkbox" value={this.state.seePastTrips} id="defaultCheck1" onChange={(e) => {
+        <div id="trips-page" className="center-view spacy">
+          <div className="doc-card spacy-card">
+            <div className="h1">Explore trips</div>
+            <div id="trip-safari-configs">
+              {this.renderStartDropdown()}
+              {this.renderClubDropdown()}
+              <Toggle value={this.state.beginnerOnly} id="defaultCheck2" label="Beginner only" onChange={(e) => {
+                this.setState(prevState => {
+                  return {beginnerOnly: !prevState.beginnerOnly}
+                })}}></Toggle>
+              <Toggle value={this.state.seePastTrips} id="defaultCheck1" label="See past trips" onChange={(e) => {
                 this.setState(prevState => {
                   return {seePastTrips: !prevState.seePastTrips}
-                })}} />
-              <label className="form-check-label" htmlFor="defaultCheck1">
-                See past trips
-              </label>
+                })}}></Toggle>
             </div>
           </div>
           <div className="box">
-
             <div className = "trip-tiles" id = {tiles_id}>
               {this.renderTrips()}
             </div>
