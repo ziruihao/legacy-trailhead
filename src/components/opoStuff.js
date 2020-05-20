@@ -3,9 +3,9 @@ import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Approvals from './cert_approvals';
 import LeaderApprovals from './leader_approvals';
+import Loading from './loading';
 import dropdownIcon from '../img/dropdown-toggle.svg';
 // import OpoDropdown from './approval-dropdown';
-
 import '../styles/approvals-style.scss';
 import '../styles/tripdetails_leader.scss';
 import '../styles/opo-trips.scss';
@@ -82,11 +82,7 @@ class OpoApprovals extends Component {
 
       );
     } else {
-      return (
-        <div>
-          <h1>Loading</h1>
-        </div>
-      );
+      return (<Loading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

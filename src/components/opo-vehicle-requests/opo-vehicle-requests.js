@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
-import { fetchVehicleRequests } from '../../actions';
 import Toggle from '../toggle/toggle';
-import loadingGif from '../../img/loading-gif.gif';
+import Loading from '../loading';
+import { fetchVehicleRequests } from '../../actions';
 import '../../styles/tripdetails_leader.scss';
 import '../../styles/opo-trips.scss';
 
@@ -253,12 +253,7 @@ class OPOVehicleRequests extends Component {
         </div>
       );
     } else {
-      return (
-        <div>
-          <h1>Loading</h1>
-          <img src={loadingGif} alt="loading-gif" />
-        </div>
-      );
+      return (<Loading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }
