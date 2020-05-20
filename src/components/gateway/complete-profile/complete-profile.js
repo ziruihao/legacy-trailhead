@@ -31,21 +31,25 @@ class CompleteProfile extends Component {
             {this.props.user ?
               <>
                 {this.state.stage === '1' ?
-                <div id="landing-card" className="doc-card">
-                  <div id="landing-card-message">
-                    <div className="h1">Hello {this.props.user.casID.split(' ')[0]}</div>
-                    <div className="p1">
-                      Welcome to the DOC platform. As a new user you just need to complete your profile to start signing up for trips.
+                  <div className="landing-card doc-card s">
+                    <div className="landing-card-message">
+                      <div className="h1">Hello {this.props.user.casID.split(' ')[0]}</div>
+                      <div className="p1">
+                        Welcome to the DOC platform. As a new user you just need to complete your profile to start signing up for trips.
+                      </div>
                     </div>
-                    <button className="doc-button" onClick={() => this.setState({stage: '2'})}>Let's Go</button>
-                  </div>
+                    <div className="landing-card-actions">
+                      <div role="button" tabIndex={0} className="doc-button" onClick={() => this.setState({stage: '2'})}>Let's Go</div>
+                    </div>
                   </div>
                   :
                   <ProfileCardEdit completeProfileMode={true}></ProfileCardEdit>
                 }
               </>
               :
-              <Loading type="dots"></Loading>
+              <div id="landing-card" className="doc-card">
+                <Loading type="dots"></Loading>
+              </div>
             }
         </>
       )

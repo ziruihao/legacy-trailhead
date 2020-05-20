@@ -57,7 +57,7 @@ class Gateway extends Component {
 
   renderDevAuthOptions = () => {
     return(
-      <div id="landing-card-actions">
+      <div className="landing-card-actions">
         <button className="doc-button" onClick={() => this.fakeSignIn('opo')}>OPO</button>
         <button className="doc-button" onClick={() => this.fakeSignIn('leader')}>Leader</button>
         <button className="doc-button" onClick={() => this.fakeSignIn('trippee1')}>Trippee 1</button>
@@ -69,7 +69,7 @@ class Gateway extends Component {
 
   renderAuthOptions = () => {
     return(
-      <div id="landing-card-actions">
+      <div className="landing-card-actions">
         <button className="doc-button" onClick={() => this.fakeSignIn('cas')}>Login via CAS</button>
       </div>
     )
@@ -82,8 +82,8 @@ class Gateway extends Component {
           {this.state.incompleteProfile ?
             <CompleteProfile></CompleteProfile>
             :
-            <div id="landing-card" className="doc-card">
-            <div id="landing-card-message">
+            <div className="landing-card doc-card l">
+            <div className="landing-card-message">
               <div className="h1">Welcome there!</div>
               <div className="p1">
                 {
