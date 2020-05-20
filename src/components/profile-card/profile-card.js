@@ -1,5 +1,6 @@
 import React from 'react';
-import '../profile-page/profile-page.scss';
+import ReactTooltip from 'react-tooltip';
+import './profile.scss';
 import leaderBadge from './leader-badge.svg';
 import leaderPendingBadge from './leader-pending-badge.svg';
 import editIcon from './edit-profile.svg';
@@ -92,86 +93,86 @@ const ProfileCard = (props) => {
         <hr />
         <div id="profile-card-info">
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Pronouns
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               {props.user.pronoun ? props.user.pronoun : 'Please fill out'}
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               DASH
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               {props.user.dash_number ? props.user.dash_number : 'Please fill out'}
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Clothing Size
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               {props.user.clothe_size ? props.user.clothe_size : 'Please fill out'}
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Shoe Size
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               {props.user.shoe_size ? props.user.shoe_size : 'Please fill out'}
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Height
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               {props.user.height ? props.user.height : 'Please fill out'}
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Allergies/Dietary Restrictions
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               {props.user.allergies_dietary_restrictions ? props.user.allergies_dietary_restrictions : 'Please fill out'}
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Relevant Medical Conditions
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               {props.user.medical_conditions ? props.user.medical_conditions : 'Please fill out'}
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               {props.asProfilePage && props.user.has_pending_cert_change ? 'Driver Certifications*' : 'Driver Certifications'}
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               {displayCertifications(props.user.driver_cert, props.user.trailer_cert, props.user.has_pending_cert_change)}
-            </span>
+            </div>
           </div>
           {props.user.role !== 'OPO' ? <hr /> : null}
           {props.user.role !== 'OPO'
             ? (
               <div className="profile-card-row">
-                <span className="card-headings h3">
+                <div className="card-headings h3">
                   {props.asProfilePage && props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
-                </span>
-                <span className="card-info p1">
+                </div>
+                <div className="card-info p1">
                   {displayClubs(props.user.leader_for)}
-                </span>
+                </div>
               </div>
             ) : null}
         </div>
@@ -195,7 +196,7 @@ const ProfileCard = (props) => {
                 type="text"
                 name="name"
                 onChange={props.onFieldChange}
-                className={`my-form-control name-input ${props.errorFields.name ? 'vrf-error' : ''}`}
+                className={`field name-input ${props.errorFields.name ? 'vrf-error' : ''}`}
                 value={props.name}
                 placeholder="Name"
               />
@@ -206,7 +207,7 @@ const ProfileCard = (props) => {
                 name="email"
                 maxLength="50"
                 onChange={props.onFieldChange}
-                className={`my-form-control ${props.errorFields.email ? 'vrf-error' : ''}`}
+                className={`field ${props.errorFields.email ? 'vrf-error' : ''}`}
                 value={props.email}
                 placeholder="Dartmouth email"
               />
@@ -217,145 +218,137 @@ const ProfileCard = (props) => {
         <hr />
         <div id="profile-card-info">
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Pronouns
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               <input
-                className={`my-form-control ${props.errorFields.pronoun ? 'vrf-error' : ''}`}
+                className={`field ${props.errorFields.pronoun ? 'vrf-error' : ''}`}
                 type="text"
                 name="pronoun"
                 maxLength="50"
                 onChange={props.onFieldChange}
                 value={props.pronoun}
               />
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               DASH
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               <input
                   // type="number"
                 id="dash_number"
                 name="dash_number"
                 maxLength="50"
                 onChange={props.onFieldChange}
-                className={`my-form-control ${props.errorFields.dash_number ? 'vrf-error' : ''}`}
+                className={`field ${props.errorFields.dash_number ? 'vrf-error' : ''}`}
                 value={props.dash_number}
               />
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Clothing Size
-            </span>
-            <span className="card-info p1">
-              {props.getClotheForm()}
-            </span>
+            </div>
+            <div className="card-info p1">
+              {props.renderClothingSizeSelection()}
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Shoe Size
-            </span>
-            <span className="card-info p1">
-              {props.getShoeGender()}
-              <input
-                  // type="number"
-                name="shoe_size"
-                step="0.5"
-                onChange={props.onFieldChange}
-                className={`my-form-control ${props.errorFields.shoe_size ? 'vrf-error' : ''}`}
-                value={props.shoe_size}
-                placeholder="e.g. 9.5"
-              />
-            </span>
+            </div>
+            <div className="card-info p1">
+              {props.renderShoeSizeSelection()}
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Height
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               <input
                 type="text"
                 name="height"
                 onChange={props.onFieldChange}
-                className={`my-form-control ${props.errorFields.height ? 'vrf-error' : ''}`}
+                className={`field ${props.errorFields.height ? 'vrf-error' : ''}`}
                 value={props.height}
                 placeholder={'e.g. 5\'2"'}
               />
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Allergies/Dietary Restrictions
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               <input
-                className={`my-form-control ${props.errorFields.allergies_dietary_restrictions ? 'vrf-error' : ''}`}
+                className={`field ${props.errorFields.allergies_dietary_restrictions ? 'vrf-error' : ''}`}
                 type="text"
                 name="allergies_dietary_restrictions"
                 maxLength="50"
                 onChange={props.onFieldChange}
                 value={props.allergies_dietary_restrictions}
               />
-            </span>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3">
+            <div className="card-headings h3">
               Relevant Medical Conditions
-            </span>
-            <span className="card-info p1 extra-info">
+            </div>
+            <div className="card-info p1 extra-info">
               <input
                 type="text"
                 name="medical"
                 maxLength="50"
                 onChange={props.onFieldChange}
-                className={`my-form-control ${props.errorFields.medical ? 'vrf-error' : ''}`}
+                className={`field ${props.errorFields.medical ? 'vrf-error' : ''}`}
                 value={props.medical}
+                data-tip="medical-conditions-tooltip"
               />
-              <span className="extra-info-message">This will only be visible to your trip leaders and OPO staff</span>
-            </span>
+              <ReactTooltip data-for="medical-conditions-tooltip">This will only be visible to your trip leaders and OPO staff</ReactTooltip>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3 extra-info">
+            <div className="card-headings h3 extra-info">
               Driver Certification(s)
               {props.displayCertificationFeedback()}
-            </span>
-            <span className="card-info p1 extra-info">
+            </div>
+            <div className="card-info p1 extra-info">
               {props.getCertificationsForm()}
-              <span className="extra-info-message">Please select your highest level of driver certification</span>
-            </span>
+              <ReactTooltip data-for="driver-certification-tooltip">Please select your highest level of driver certification</ReactTooltip>
+            </div>
           </div>
           <hr />
           <div className="profile-card-row">
-            <span className="card-headings h3 extra-info">
+            <div className="card-headings h3 extra-info">
               DOC Leadership
               {props.displayLeaderFeedback()}
-            </span>
-            <span className="card-info p1">
+            </div>
+            <div className="card-info p1">
               {props.getClubForm()}
-            </span>
+            </div>
           </div>
           {/* {props.user.role !== 'OPO' ? <hr /> : null}
             {props.user.role !== 'OPO'
               ? (
                 <div className="profile-card-row">
-                  <span className="card-headings h3 extra-info">
+                  <div className="card-headings h3 extra-info">
                     DOC Leadership
                     {props.displayLeaderFeedback()}
-                  </span>
-                  <span className="card-info p1">
+                  </div>
+                  <div className="card-info p1">
                     {props.getClubForm()}
-                  </span>
+                  </div>
                 </div>
               ) : null} */}
         </div>
