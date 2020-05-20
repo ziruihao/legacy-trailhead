@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Loading from '../loading';
 import { updateUser, getClubs, signOut, getUser } from '../../actions';
 import ProfileCard from '../profile-card/profile-card';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
-import loadingGif from '../../img/loading-gif.gif';
 import './profile-page.scss';
 
 class ProfilePage extends Component {
@@ -453,12 +453,7 @@ class ProfilePage extends Component {
         );
       }
     } else {
-      return (
-        <div>
-          <h1>Loading</h1>
-          <img src={loadingGif} alt="loading-gif" />
-        </div>
-      );
+      return (<Loading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../actions';
 import TripeeTripDetails from './tripdetails_trippee';
 import LeaderTripDetails from './tripdetails_leader';
 import OPOTripDetails from './tripdetails_opo';
-import loadingGif from '../img/loading-gif.gif';
+import Loading from './loading';
+import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../actions';
 
 class TripDetails extends Component {
   constructor(props) {
@@ -307,12 +307,7 @@ class TripDetails extends Component {
         appropriateComponent
       );
     } else {
-      return (
-        <div>
-          <h1>Loading</h1>
-          <img src={loadingGif} alt="loading-gif" />
-        </div>
-      );
+      return (<Loading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }
