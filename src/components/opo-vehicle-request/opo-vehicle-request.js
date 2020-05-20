@@ -6,7 +6,7 @@ import axios from 'axios';
 import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
-import ProfileCard from '../profile-card';
+import { ProfileCard } from '../profile-card';
 import ConflictModal from './conflict-modal';
 import Loading from '../loading';
 import * as constants from '../../constants';
