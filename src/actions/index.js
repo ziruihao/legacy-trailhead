@@ -59,7 +59,6 @@ export function getUser() {
       axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
           dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-          dispatch({ type: ActionTypes.AUTH_USER, payload: true });
           resolve();
         })
         .catch((error) => {
@@ -311,6 +310,12 @@ export function signUp({ email, id, name }, history) {
         console.log(error);
         dispatch(appError(`Sign up failed: ${error.response.data}`));
       });
+  };
+}
+
+export function authUser() {
+  return (dispatch) => {
+    dispatch({ type: ActionTypes.AUTH_USER });
   };
 }
 

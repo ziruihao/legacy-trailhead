@@ -21,6 +21,8 @@ class Gateway extends Component {
       this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader).then(completedProfile => {
         if (!completedProfile) this.setState({incompleteProfile: true})
       });
+    } else if (this.props.user) {
+      this.setState({incompleteProfile: true})
     }
   }
 

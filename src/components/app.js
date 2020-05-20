@@ -21,7 +21,7 @@ import Gateway from './gateway';
 import FleetManagement from './fleet-management';
 import { MobileCheckIn, MobileCheckOut } from './mobile-check';
 import CompleteProfile from './gateway/complete-profile';
-import { getUser, getClubs, getVehicles } from '../actions';
+import { getUser, authUser, getClubs, getVehicles } from '../actions';
 
 const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 
@@ -39,7 +39,7 @@ class App extends React.Component {
   componentWillMount() {
     this.verifyToken().then(() => {
       this.loadData();
-    }).catch(() => {
+    }).catch((error) => {
       this.setState({ loaded: true });
     });
   }
@@ -49,12 +49,10 @@ class App extends React.Component {
    */
   loadData = () => {
     return new Promise((resolve, reject) => {
-      this.props.getUser().then(() => {
-        this.props.getClubs().then(() => {
-          this.props.getVehicles().then(() => {
-            this.setState({ loaded: true });
-            resolve();
-          });
+      this.props.getClubs().then(() => {
+        this.props.getVehicles().then(() => {
+          this.setState({ loaded: true });
+          resolve();
         });
       }).catch(error => reject(error));
     });
@@ -67,14 +65,13 @@ class App extends React.Component {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('token');
       if (token) {
-        axios.get(`${ROOT_URL}/user`, { headers: { authorization: token } })
-          .then(() => {
-            resolve();
-          })
-          .catch(() => {
-            localStorage.clear();
-            reject();
-          });
+        this.props.getUser().then(() => {
+          this.props.authUser();
+          resolve();
+        }).catch(() => {
+          localStorage.clear();
+          reject();
+        });
       } else { reject(); }
     });
   }
@@ -134,4 +131,4 @@ const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
 });
 
-export default connect(mapStateToProps, { getUser, getClubs, getVehicles })(App);
+export default connect(mapStateToProps, { getUser, authUser, getClubs, getVehicles })(App);

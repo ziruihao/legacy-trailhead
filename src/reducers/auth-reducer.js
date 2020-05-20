@@ -2,6 +2,7 @@ import { ActionTypes } from '../actions';
 
 const initialState = {
   authenticated: false,
+  profileCompleted: false,
 };
 
 const AuthReducer = (state = initialState, action) => {
@@ -10,6 +11,8 @@ const AuthReducer = (state = initialState, action) => {
       return Object.assign({}, state, { authenticated: true });
     case ActionTypes.DEAUTH_USER:
       return Object.assign({}, state, { authenticated: false });
+    case ActionTypes.COMPLETED_PROFILE:
+      return Object.assign({}, state, { profileCompleted: true });
     default:
       return state;
   }
