@@ -1,5 +1,7 @@
+// import { uploadImage } from '../s3';
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
+import * as s3 from '../s3';
 import './profile.scss';
 import leaderBadge from './leader-badge.svg';
 import leaderPendingBadge from './leader-pending-badge.svg';
@@ -52,320 +54,367 @@ const getUserInitials = (userName) => {
   return `${firstInitial}${lastInitial}`;
 };
 
-const ProfileCard = (props) => {
-  if (!props.isEditing) {
-    return (
-      <div id="profile-card">
-        <div id="profile-card-picture-and-name">
-          {props.user.name
-            ? (
-              <div id="profile-card-picture">
-                <span className="user-initials">{getUserInitials(props.user.name)}</span>
-              </div>
-            )
-            : null
-          }
-          {props.user.completedProfile
-            ? (
-              <div id="profile-card-name">
-                <div className="h1">
-                  {props.user.name}
-                  {props.user.role === 'Leader'
-                    ? <img src={leaderBadge} alt="leader badge" />
-                    : null
+class ProfileCard extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      preview: null,
+    };
+    this.onImageUpload = this.onImageUpload.bind(this);
+  }
+
+  onImageUpload(event) {
+    const file = event.target.files[0];
+    // Handle null file
+    // Get url of the file and set it to the src of preview
+    if (file) {
+      this.setState({ preview: window.URL.createObjectURL(file), file });
+    }
+  }
+
+  displayImageEditing() {
+    if (this.props.user.photo_url !== '' && this.state.preview == null) {
+      return (
+        <div className="profile-photo-fit">
+          <img className="profile-photo" id="preview" alt="" src={this.props.user.photo_url} />
+        </div>
+      );
+    } else if (this.state.preview != null) {
+      return (
+        <div className="profile-photo-fit">
+          <img className="profile-photo" id="preview" alt="" src={this.state.preview} />;
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
+
+  render() {
+    if (!this.props.isEditing) {
+      return (
+        <div id="profile-card">
+          <div id="profile-card-picture-and-name">
+            {this.props.user.name
+              ? (
+                <div className="profile-pic-container">
+                  <div className="profile-pic">
+                    <span className="user-initials">{this.props.user.photo_url === '' ? getUserInitials(this.props.user.name) : null}</span>
+                    { this.props.user.photo_url === '' ? null : <div className="profile-photo-fit"><img className="profile-photo" id="photo" alt="" src={this.props.user.photo_url} /> </div>}
+                  </div>
+                </div>
+              )
+              : null
+        }
+            {this.props.user.completedProfile
+              ? (
+                <div id="profile-card-name">
+                  <div className="h1">
+                    {this.props.user.name}
+                    {this.props.user.role === 'Leader'
+                      ? <img src={leaderBadge} alt="leader badge" />
+                      : null
                    }
-                  {props.user.has_pending_leader_change
-                    ? <img src={leaderPendingBadge} alt="leader pending badge" />
-                    : null
+                    {this.props.user.has_pending_leader_change
+                      ? <img src={leaderPendingBadge} alt="leader pending badge" />
+                      : null
                    }
+                  </div>
+                  <div className="p1">{`Email: ${this.props.user.email}`}</div>
                 </div>
-                <div className="p1">{`Email: ${props.user.email}`}</div>
-              </div>
-            )
-            : (
-              <div id="profile-card-incomplete-notice" className="h1">
-                Incomplete profile
-              </div>
-            )
-          }
-          {props.asProfilePage
-            ? (
-              <input className="profile-card-edit-toggle" type="image" src={editIcon} alt="edit button" onClick={props.startEditing} />
-            )
-            : null}
-        </div>
-        <hr />
-        <div id="profile-card-info">
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Pronouns
-            </div>
-            <div className="card-info p1">
-              {props.user.pronoun ? props.user.pronoun : 'Please fill out'}
-            </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              DASH
-            </div>
-            <div className="card-info p1">
-              {props.user.dash_number ? props.user.dash_number : 'Please fill out'}
-            </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Clothing Size
-            </div>
-            <div className="card-info p1">
-              {props.user.clothe_size ? props.user.clothe_size : 'Please fill out'}
-            </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Shoe Size
-            </div>
-            <div className="card-info p1">
-              {props.user.shoe_size ? props.user.shoe_size : 'Please fill out'}
-            </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Height
-            </div>
-            <div className="card-info p1">
-              {props.user.height ? props.user.height : 'Please fill out'}
-            </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Allergies/Dietary Restrictions
-            </div>
-            <div className="card-info p1">
-              {props.user.allergies_dietary_restrictions ? props.user.allergies_dietary_restrictions : 'Please fill out'}
-            </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Relevant Medical Conditions
-            </div>
-            <div className="card-info p1">
-              {props.user.medical_conditions ? props.user.medical_conditions : 'Please fill out'}
-            </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              {(props.asProfilePage || props.completeProfileMode) && props.user.has_pending_cert_change ? 'Driver Certifications*' : 'Driver Certifications'}
-            </div>
-            <div className="card-info p1">
-              {displayCertifications(props.user.driver_cert, props.user.trailer_cert, props.user.has_pending_cert_change)}
-            </div>
-          </div>
-          {props.user.role !== 'OPO' ? <hr /> : null}
-          {props.user.role !== 'OPO'
-            ? (
-              <div className="profile-card-row">
-                <div className="card-headings h3">
-                  {(props.asProfilePage || props.completeProfileMode) && props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
+              )
+              : (
+                <div id="profile-card-incomplete-notice" className="h1">
+                  Incomplete profile
                 </div>
-                <div className="card-info p1">
-                  {displayClubs(props.user.leader_for, props.user.has_pending_leader_change)}
-                </div>
-              </div>
-            ) : null}
-        </div>
-      </div>
-    );
-  } else {
-    return (
-      <div id="profile-card">
-        <div id="profile-card-picture-and-name">
-          {props.user.name
-            ? (
-              <div id="profile-card-picture">
-                <span className="user-initials">{getUserInitials(props.user.name)}</span>
-              </div>
-            )
-            : null
+              )
           }
-          <div id="profile-card-name">
-            <div className="h1">
-              <input
-                type="text"
-                name="name"
-                onChange={props.onFieldChange}
-                className={`field name-input ${props.errorFields.name ? 'vrf-error' : ''}`}
-                value={props.name}
-                placeholder="Name"
-              />
-            </div>
-            <div className="p1">
-              <input
-                type="text"
-                name="email"
-                maxLength="50"
-                onChange={props.onFieldChange}
-                className={`field ${props.errorFields.email ? 'vrf-error' : ''}`}
-                value={props.email}
-                placeholder="Dartmouth email"
-              />
-            </div>
-          </div>
-          {props.asProfilePage
-            ? <input className="profile-card-edit-toggle" type="image" src={saveIcon} alt="save button" onClick={() => props.updateUserInfo(false)} />
-            : null
-          }
-        </div>
-        <hr />
-        <div id="profile-card-info">
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Pronouns
-            </div>
-            <div className="card-info p1">
-              <input
-                className={`field ${props.errorFields.pronoun ? 'vrf-error' : ''}`}
-                type="text"
-                name="pronoun"
-                maxLength="50"
-                onChange={props.onFieldChange}
-                value={props.pronoun}
-              />
-            </div>
+            {this.props.asProfilePage
+              ? (
+                <input className="profile-card-edit-toggle" type="image" src={editIcon} alt="edit button" onClick={this.props.startEditing} />
+              )
+              : null}
           </div>
           <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              DASH
+          <div id="profile-card-info">
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Pronouns
+              </div>
+              <div className="card-info p1">
+                {this.props.user.pronoun ? this.props.user.pronoun : 'Please fill out'}
+              </div>
             </div>
-            <div className="card-info p1">
-              <input
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                DASH
+              </div>
+              <div className="card-info p1">
+                {this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}
+              </div>
+            </div>
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Clothing Size
+              </div>
+              <div className="card-info p1">
+                {this.props.user.clothe_size ? this.props.user.clothe_size : 'Please fill out'}
+              </div>
+            </div>
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Shoe Size
+              </div>
+              <div className="card-info p1">
+                {this.props.user.shoe_size ? this.props.user.shoe_size : 'Please fill out'}
+              </div>
+            </div>
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Height
+              </div>
+              <div className="card-info p1">
+                {this.props.user.height ? this.props.user.height : 'Please fill out'}
+              </div>
+            </div>
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Allergies/Dietary Restrictions
+              </div>
+              <div className="card-info p1">
+                {this.props.user.allergies_dietary_restrictions ? this.props.user.allergies_dietary_restrictions : 'Please fill out'}
+              </div>
+            </div>
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Relevant Medical Conditions
+              </div>
+              <div className="card-info p1">
+                {this.props.user.medical_conditions ? this.props.user.medical_conditions : 'Please fill out'}
+              </div>
+            </div>
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_cert_change ? 'Driver Certifications*' : 'Driver Certifications'}
+              </div>
+              <div className="card-info p1">
+                {displayCertifications(this.props.user.driver_cert, this.props.user.trailer_cert, this.props.user.has_pending_cert_change)}
+              </div>
+            </div>
+            {this.props.user.role !== 'OPO' ? <hr /> : null}
+            {this.props.user.role !== 'OPO'
+              ? (
+                <div className="profile-card-row">
+                  <div className="card-headings h3">
+                    {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
+                  </div>
+                  <div className="card-info p1">
+                    {displayClubs(this.props.user.leader_for, this.props.user.has_pending_leader_change)}
+                  </div>
+                </div>
+              ) : null}
+          </div>);
+        </div>
+      );
+    } else {
+      return (
+        <div id="profile-card">
+          <div id="profile-card-picture-and-name">
+            {this.props.user.name
+              ? (
+                <div className="profile-pic-container">
+                  <div className="profile-pic">
+                    <span className="user-initials">{this.state.preview == null && this.props.user.photo_url === '' ? getUserInitials(this.props.user.name) : null}</span>
+                    { this.displayImageEditing()}
+                  </div>
+                  <label className="custom-file-upload">
+                    <input type="file" name="coverImage" onChange={this.onImageUpload} />
+                    Select a File
+                  </label>
+                </div>
+              )
+              : null
+            }
+            <div id="profile-card-name">
+              <div className="h1">
+                <input
+                  type="text"
+                  name="name"
+                  onChange={this.props.onFieldChange}
+                  className={`field name-input ${this.props.errorFields.name ? 'vrf-error' : ''}`}
+                  value={this.props.name}
+                  placeholder="Name"
+                />
+              </div>
+              <div className="p1">
+                <input
+                  type="text"
+                  name="email"
+                  maxLength="50"
+                  onChange={this.props.onFieldChange}
+                  className={`field ${this.props.errorFields.email ? 'vrf-error' : ''}`}
+                  value={this.props.email}
+                  placeholder="Dartmouth email"
+                />
+              </div>
+            </div>
+            {this.props.asProfilePage
+              ? <input className="profile-card-edit-toggle" type="image" src={saveIcon} alt="save button" onClick={() => this.props.updateUserInfo(false)} />
+              : null
+          }
+          </div>
+          <hr />
+          <div id="profile-card-info">
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Pronouns
+              </div>
+              <div className="card-info p1">
+                <input
+                  className={`field ${this.props.errorFields.pronoun ? 'vrf-error' : ''}`}
+                  type="text"
+                  name="pronoun"
+                  maxLength="50"
+                  onChange={this.props.onFieldChange}
+                  value={this.props.pronoun}
+                />
+              </div>
+            </div>
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                DASH
+              </div>
+              <div className="card-info p1">
+                <input
                   // type="number"
-                id="dash_number"
-                name="dash_number"
-                maxLength="50"
-                onChange={props.onFieldChange}
-                className={`field ${props.errorFields.dash_number ? 'vrf-error' : ''}`}
-                value={props.dash_number}
-              />
+                  id="dash_number"
+                  name="dash_number"
+                  maxLength="50"
+                  onChange={this.props.onFieldChange}
+                  className={`field ${this.props.errorFields.dash_number ? 'vrf-error' : ''}`}
+                  value={this.props.dash_number}
+                />
+              </div>
             </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Clothing Size
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Clothing Size
+              </div>
+              <div className="card-info p1">
+                {this.props.renderClothingSizeSelection()}
+              </div>
             </div>
-            <div className="card-info p1">
-              {props.renderClothingSizeSelection()}
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Shoe Size
+              </div>
+              <div className="card-info p1">
+                {this.props.renderShoeSizeSelection()}
+              </div>
             </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Shoe Size
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Height
+              </div>
+              <div className="card-info p1">
+                <input
+                  type="text"
+                  name="height"
+                  onChange={this.props.onFieldChange}
+                  className={`field ${this.props.errorFields.height ? 'vrf-error' : ''}`}
+                  value={this.props.height}
+                  placeholder={'e.g. 5\'2"'}
+                />
+              </div>
             </div>
-            <div className="card-info p1">
-              {props.renderShoeSizeSelection()}
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Allergies/Dietary Restrictions
+              </div>
+              <div className="card-info p1">
+                <input
+                  className={`field ${this.props.errorFields.allergies_dietary_restrictions ? 'vrf-error' : ''}`}
+                  type="text"
+                  name="allergies_dietary_restrictions"
+                  maxLength="50"
+                  onChange={this.props.onFieldChange}
+                  value={this.props.allergies_dietary_restrictions}
+                />
+              </div>
             </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Height
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3">
+                Relevant Medical Conditions
+              </div>
+              <div className="card-info p1 extra-info">
+                <input
+                  type="text"
+                  name="medical"
+                  maxLength="50"
+                  onChange={this.props.onFieldChange}
+                  className={`field ${this.props.errorFields.medical ? 'vrf-error' : ''}`}
+                  value={this.props.medical}
+                  data-tip="medical-conditions-tooltip"
+                />
+                <ReactTooltip data-for="medical-conditions-tooltip">This will only be visible to your trip leaders and OPO staff</ReactTooltip>
+              </div>
             </div>
-            <div className="card-info p1">
-              <input
-                type="text"
-                name="height"
-                onChange={props.onFieldChange}
-                className={`field ${props.errorFields.height ? 'vrf-error' : ''}`}
-                value={props.height}
-                placeholder={'e.g. 5\'2"'}
-              />
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3 extra-info">
+                Driver Certification(s)
+                {/* {this.props.displayCertificationFeedback()} */}
+              </div>
+              <div className="card-info p1 extra-info">
+                {this.props.getCertificationsForm()}
+                <ReactTooltip data-for="driver-certification-tooltip">Please select your highest level of driver certification</ReactTooltip>
+              </div>
             </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Allergies/Dietary Restrictions
+            <hr />
+            <div className="profile-card-row">
+              <div className="card-headings h3 extra-info">
+                DOC Leadership
+                {/* {this.props.displayLeaderFeedback()} */}
+              </div>
+              <div className="card-info p1">
+                {this.props.getClubForm()}
+              </div>
             </div>
-            <div className="card-info p1">
-              <input
-                className={`field ${props.errorFields.allergies_dietary_restrictions ? 'vrf-error' : ''}`}
-                type="text"
-                name="allergies_dietary_restrictions"
-                maxLength="50"
-                onChange={props.onFieldChange}
-                value={props.allergies_dietary_restrictions}
-              />
-            </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3">
-              Relevant Medical Conditions
-            </div>
-            <div className="card-info p1 extra-info">
-              <input
-                type="text"
-                name="medical"
-                maxLength="50"
-                onChange={props.onFieldChange}
-                className={`field ${props.errorFields.medical ? 'vrf-error' : ''}`}
-                value={props.medical}
-                data-tip="medical-conditions-tooltip"
-              />
-              <ReactTooltip data-for="medical-conditions-tooltip">This will only be visible to your trip leaders and OPO staff</ReactTooltip>
-            </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3 extra-info">
-              Driver Certification(s)
-              {/* {props.displayCertificationFeedback()} */}
-            </div>
-            <div className="card-info p1 extra-info">
-              {props.getCertificationsForm()}
-              <ReactTooltip data-for="driver-certification-tooltip">Please select your highest level of driver certification</ReactTooltip>
-            </div>
-          </div>
-          <hr />
-          <div className="profile-card-row">
-            <div className="card-headings h3 extra-info">
-              DOC Leadership
-              {/* {props.displayLeaderFeedback()} */}
-            </div>
-            <div className="card-info p1">
-              {props.getClubForm()}
-            </div>
-          </div>
-          {/* {props.user.role !== 'OPO' ? <hr /> : null}
-            {props.user.role !== 'OPO'
+            {/* {this.props.user.role !== 'OPO' ? <hr /> : null}
+            {this.props.user.role !== 'OPO'
               ? (
                 <div className="profile-card-row">
                   <div className="card-headings h3 extra-info">
                     DOC Leadership
-                    {props.displayLeaderFeedback()}
+                    {this.props.displayLeaderFeedback()}
                   </div>
                   <div className="card-info p1">
-                    {props.getClubForm()}
+                    {this.props.getClubForm()}
                   </div>
                 </div>
               ) : null} */}
-        </div>
-        {props.completeProfileMode
-          ? <div className="doc-button" role="button" tabIndex={0} src={saveIcon} onClick={() => props.updateUserInfo(true)}>Finish</div>
-          : null
+          </div>
+          {this.props.completeProfileMode
+            ? <div className="doc-button" role="button" tabIndex={0} src={saveIcon} onClick={() => this.props.updateUserInfo(true)}>Finish</div>
+            : null
           }
-      </div>
-    );
+        </div>
+      );
+    }
   }
-};
+}
 
 export default ProfileCard;

@@ -9,36 +9,38 @@ import CoLeadersAutoComplete from './coLeadersAutoComplete';
 const LeftColumn = (props) => {
   return (
     <div className="ovr-sidebar">
-      <div className="row column-headers column-adjust">
-        <p>Create a trip</p>
-      </div>
-      <div className="row column-sub-headers">
-        <div className={props.currentStep === 1 ? 'side-bar-highlight' : ''} />
-        <p className={props.currentStep === 1 ? 'text-highlight' : ''}>Basic information</p>
-      </div>
-      <div className="row column-sub-headers">
-        <div className={props.currentStep === 2 ? 'side-bar-highlight' : ''} />
-        <p className={props.currentStep === 2 ? 'text-highlight' : ''}>Dates and location</p>
-      </div>
-      <div className="row column-headers">
-        <p>Trips description</p>
-      </div>
-      <div className="row column-sub-headers">
-        <div className={props.currentStep === 3 ? 'side-bar-highlight' : ''} />
-        <p className={props.currentStep === 3 ? 'text-highlight' : ''}>About the trip</p>
-      </div>
-      <div className="row column-sub-headers">
-        <div className={props.currentStep === 4 ? 'side-bar-highlight' : ''} />
-        <p className={props.currentStep === 4 ? 'text-highlight' : ''}>What you&apos;ll need</p>
-      </div>
-      <div className="row column-headers">
-        <p>Additional details</p>
-      </div>
-      <div className="row column-sub-headers">
-        <p className={props.currentStep === 5 ? 'text-highlight' : ''}>Vehicle Request</p>
-      </div>
-      <div className="row column-sub-headers">
-        <p className={props.currentStep === 6 ? 'text-highlight' : ''}>P-Card Request</p>
+      <div className="ovr-sidebarText">
+        <div className="row column-headers column-adjust">
+          <p>Create a trip</p>
+        </div>
+        <div className="row column-sub-headers">
+          <div className={props.currentStep === 1 ? 'side-bar-highlight' : ''} />
+          <p className={props.currentStep === 1 ? 'text-highlight' : ''}>Basic information</p>
+        </div>
+        <div className="row column-sub-headers">
+          <div className={props.currentStep === 2 ? 'side-bar-highlight' : ''} />
+          <p className={props.currentStep === 2 ? 'text-highlight' : ''}>Dates and location</p>
+        </div>
+        <div className="row column-headers">
+          <p>Trips description</p>
+        </div>
+        <div className="row column-sub-headers">
+          <div className={props.currentStep === 3 ? 'side-bar-highlight' : ''} />
+          <p className={props.currentStep === 3 ? 'text-highlight' : ''}>About the trip</p>
+        </div>
+        <div className="row column-sub-headers">
+          <div className={props.currentStep === 4 ? 'side-bar-highlight' : ''} />
+          <p className={props.currentStep === 4 ? 'text-highlight' : ''}>What you&apos;ll need</p>
+        </div>
+        <div className="row column-headers">
+          <p>Additional details</p>
+        </div>
+        <div className="row column-sub-headers">
+          <p className={props.currentStep === 5 ? 'text-highlight' : ''}>Vehicle Request</p>
+        </div>
+        <div className="row column-sub-headers">
+          <p className={props.currentStep === 6 ? 'text-highlight' : ''}>P-Card Request</p>
+        </div>
       </div>
     </div>
   );

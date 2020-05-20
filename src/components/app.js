@@ -21,12 +21,11 @@ import OPODashboard from './opo-dashboard';
 import VehicleCalendar from './vehicleCalendar';
 import Gateway from './gateway';
 import FleetManagement from './fleet-management';
+import { ROOT_URL, green } from '../constants';
 import { MobileCheckIn, MobileCheckOut } from './mobile-check';
 import CompleteProfile from './gateway/complete-profile';
 import { getUser, authUser, getClubs, getVehicles } from '../actions';
-import { green } from '../constants';
 
-const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
 
 class App extends React.Component {
   constructor(props) {

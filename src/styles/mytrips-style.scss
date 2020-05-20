@@ -105,8 +105,9 @@ a.mytrips-calendar-link:hover{
 }
 .mytrips-trips{
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
   min-height: 10em;
 }
 .mytrips-vehicle-reqs{
