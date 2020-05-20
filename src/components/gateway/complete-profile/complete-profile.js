@@ -41,7 +41,7 @@ class CompleteProfile extends Component {
                   </div>
                   </div>
                   :
-                  <ProfileCardEdit></ProfileCardEdit>
+                  <ProfileCardEdit completeProfileMode={true}></ProfileCardEdit>
                 }
               </>
               :
