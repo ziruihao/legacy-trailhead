@@ -68,8 +68,8 @@ class App extends React.Component {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('token');
       if (token) {
-        this.props.getUser().then(() => {
-          this.props.authUser();
+        this.props.getUser().then((user) => {
+          if (user.completedProfile) this.props.authUser();
           resolve();
         }).catch(() => {
           localStorage.clear();
