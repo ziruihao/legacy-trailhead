@@ -258,7 +258,7 @@ class ProfileCardEdit extends Component {
     });
     return (
       <Dropdown>
-        <Dropdown.Toggle id="driver-cert-dropdown" className="field" data-tip="driver-certification-tooltip">
+        <Dropdown.Toggle id="driver-cert-dropdown" className="field" data-tip data-for="driver-certification-tooltip">
           <span className="field-dropdown-bootstrap">{this.displaySelectedCertifications()}</span>
           <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>

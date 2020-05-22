@@ -84,7 +84,7 @@ class Gateway extends Component {
             :
             <div className="landing-card doc-card l">
             <div className="landing-card-message">
-              <div className="h1">Welcome there!</div>
+              <div className="doc-h1">Welcome there!</div>
               <div className="p1">
                 {
                   this.props.authenticated

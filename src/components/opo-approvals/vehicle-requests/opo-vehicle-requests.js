@@ -193,7 +193,7 @@ class OPOVehicleRequests extends Component {
         <div id="opo-trips-page" className="center-view">
           <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
-              <div className="h1">Pending V-Requests</div>
+              <div className="doc-h1">Pending V-Requests</div>
               <Toggle
                 id="pending-requests-past-toggle"
                 label="See past requests"
@@ -212,7 +212,7 @@ class OPOVehicleRequests extends Component {
           </div>
           <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
-              <h4 className="h1">Reviewed V-Requests</h4>
+              <h4 className="doc-h1">Reviewed V-Requests</h4>
               <Toggle
                 id="reviewed-requests-past-toggle"
                 label="See past requests"

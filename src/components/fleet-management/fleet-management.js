@@ -49,7 +49,7 @@ class FleetManagement extends Component {
         <div id="fleet-management">
           <div id="fleet">
             <div className="doc-card large-card">
-              <div className="h1">Vehicle Fleet</div>
+              <div className="doc-h1">Vehicle Fleet</div>
               <Table className="doc-table" responsive="lg" hover>
                 <thead>
                   <tr>
@@ -76,7 +76,7 @@ class FleetManagement extends Component {
           <div id="management">
             <div className="doc-card">
               <div className="doc-form">
-                <div className="h2">Add New Vehicle</div>
+                <div className="doc-h2">Add New Vehicle</div>
                 <div className="field-label">Vehicle name</div>
                 <input className={`field ${this.state.newVehicleNameError ? 'field-error' : ''}`}
                   onChange={event => this.changeNewVehicleFields(event.target.value, 'newVehicleName')}

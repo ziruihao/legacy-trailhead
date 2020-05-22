@@ -211,7 +211,7 @@ class Trips extends Component {
       return (
         <div id="trips-page" className="center-view spacy">
           <div className="doc-card spacy-card">
-            <div className="h1">Explore trips</div>
+            <div className="doc-h1">Explore trips</div>
             <div id="trip-safari-configs">
               {this.renderStartDropdown()}
               {this.renderClubDropdown()}

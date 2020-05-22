@@ -43,24 +43,19 @@ a {
     }
 }
 
-.h1 {
+.doc-h1 {
     font-size: 36px;
     font-weight: 800;
-    margin: 0 !important;
 }
 
-.h2 {
+.doc-h2 {
     font-size: 24px;
     font-weight: 800;
-    margin: 0 !important;
-
 }
 
-.h3 {
+.doc-h3 {
     font-size: 18px;
     font-weight: 800;
-    margin: 0 !important;
-
 }
 
 .label-text {
@@ -71,6 +66,11 @@ a {
 
 .p1 {
     font-size: 18px;
+}
+
+.p2 {
+    font-size: 14px;
+    font-weight: 300
 }
 
 .inactive {
