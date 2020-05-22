@@ -42,13 +42,13 @@ class Gateway extends Component {
         this.signInAndThenLoadData('leader@dartmouth.edu', 'leader');
         break;
       case 'trippee1':
-        this.signInAndThenLoadData('morgan.sorbaro@dali.dartmouth.edu', 'trippee1');
+        this.signInAndThenLoadData('ziray.hao.22@dartmouth.edu', 'trippee1');
         break;
       case 'trippee2':
-        this.signInAndThenLoadData('benedict.tedjokusumo@dali.dartmouth.edu', 'trippee2');
+        this.signInAndThenLoadData('ziray.hao@dali.dartmouth.edu', 'trippee2');
         break;
       case 'trippee3':
-        this.signInAndThenLoadData('ziray.hao@dali.dartmouth.edu', 'trippee3');
+        this.signInAndThenLoadData('zirui.hao@gmail.com', 'trippee3');
         break;
       default:
         break;
