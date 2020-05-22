@@ -22,3 +22,30 @@ export const formatTime = (time) => {
   }
   return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
 };
+
+/**
+ * Returns the appropriate CSS ID for the club name for trip card decals.
+ * @param {String} clubName
+ */
+export const clubDictionary = (clubName) => {
+  switch (clubName) {
+    case 'Cabin and Trail':
+      return 'cnt';
+    case 'Women in the Wilderness':
+      return 'wiw';
+    case 'Surf Club':
+      return 'surf';
+    case 'Mountain Biking':
+      return 'dmbc';
+    case 'Winter Sports':
+      return 'wsc';
+    case 'Woodsmen':
+      return 'wood';
+    case 'Mountaineering':
+      return 'mountain';
+    case 'Ledyard':
+      return 'ledyard';
+    default:
+      return 'doc';
+  }
+};
