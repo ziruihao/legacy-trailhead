@@ -38,9 +38,11 @@
 
 }
 
+$trip-card-padding: 15px;
 
 .trip-card {
-  text-align: left;
+  width: 286px;
+  position: relative;
 
   a {
     color: black;
@@ -50,16 +52,20 @@
     }
   }
 
-  p {
-    color: black;
+  .trip-card-badge-holder {
+    position: absolute;
+    z-index: 1;
+    top: $trip-card-padding;
+    right: $trip-card-padding;
+    width: 40px;
+    height: 40px;
   }
 
-
-  .card-body{
+  .trip-card-body {
+    padding: $trip-card-padding;
     box-sizing: content-box;
-    padding:5%;
     text-align: left;
-    height:300px;
+    height: 300px;
     box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
     border-style: solid;
     border-color: white;
@@ -68,7 +74,18 @@
     background: white;
     overflow: hidden;
 
-  
+    .trip-card-date {
+      margin-bottom: $trip-card-padding;
+    }
+
+    .trip-card-club {
+      width: fit-content;
+      background-color: rgb(229, 205, 190);
+      border-style: solid;
+      border-color: rgb(229, 205, 190);
+      border-radius: 5px;
+      margin-bottom: $trip-card-padding;
+    }
   }
 }
 .create-trip-link{
@@ -81,22 +98,10 @@
   }
 }
 
-
-.tile-box {
-  text-align: center;
-  padding-left: 5%;
-}
-
 .all-trips-header {
   margin-bottom: 10px;
   color:black;
 }
-
-.card {
-  width: 18rem;
-  display:inline-block;
-}
-
 
 .all-trips-select {
   display: inline-block;
@@ -116,14 +121,7 @@ input[type=date]::-webkit-outer-spin-button {
   display: none;
 }
 
-.card-club{
-  width:fit-content;
-  font-size: 10pt;
-  background-color: rgb(229, 205, 190);
-  border-style: solid;
-  border-color: rgb(229, 205, 190);
-  border-radius: 5px;
-}
+
 .calendar-container {
   margin-top: 2vh;
   height: 90vh;
@@ -191,8 +189,18 @@ input[type=date]::-webkit-outer-spin-button {
 
 // Trip card decals
 
+.trip-card-decal {
+  z-index: 1;
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 60%;
+  height: auto;
+  opacity: 0.4;
+}
+
 #ledyard::after{
-  background-image: url("../../img/ledyard.png");
+  // background-image: url("../../img/ledyard.png");
   background-size: cover;
   content: ' ';
   display: block;
@@ -205,7 +213,7 @@ input[type=date]::-webkit-outer-spin-button {
   bottom: 0;
 }
 #mountain::after{
-  background-image: url("../../img/dmc.png");
+  // background-image: url("../../img/dmc.png");
   background-size: cover;
   content: ' ';
   display: block;
@@ -219,7 +227,7 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 #doc::after{
-  background-image: url("../../img/doc.gif");
+  // background-image: url("../../img/doc.gif");
   background-size: 100%;
   content: ' ';
   display: block;
@@ -233,7 +241,7 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 #cnt::after{
-  background-image: url("../../img/cnt.gif");
+  // background-image: url("../../img/cnt.gif");
   background-size: cover;
   content: ' ';
   display: block;
@@ -246,7 +254,7 @@ input[type=date]::-webkit-outer-spin-button {
   bottom: 0;
 }
 #wiw::after{
-  background-image: url("../../img/wiw.png");
+  // background-image: url("../../img/wiw.png");
   background-size: cover;
   content: ' ';
   display: block;
@@ -259,7 +267,7 @@ input[type=date]::-webkit-outer-spin-button {
   bottom: 0;
 }
 #wood::after{
-  background-image: url("../../img/woodsmen.gif");
+  // background-image: url("../../img/woodsmen.gif");
   background-size: cover;
   content: ' ';
   display: block;
@@ -272,7 +280,7 @@ input[type=date]::-webkit-outer-spin-button {
   bottom: 0;
 }
 #surf::after{
-  background-image: url("../../img/surf.png");
+  // background-image: url("../../img/surf.png");
   background-size: cover;
   content: ' ';
   display: block;
@@ -285,7 +293,7 @@ input[type=date]::-webkit-outer-spin-button {
   bottom: -1%;
 }
 #dmbc::after{
-  background-image: url("../../img/dmbc.jpg");
+  // background-image: url("../../img/dmbc.jpg");
   background-size: cover;
   content: ' ';
   display: block;
@@ -298,7 +306,7 @@ input[type=date]::-webkit-outer-spin-button {
   bottom: 0;
 }
 #wsc::after{
-  background-image: url("../../img/wsc.gif");
+  // background-image: url("../../img/wsc.gif");
   background-size: cover;
   content: ' ';
   display: block;
