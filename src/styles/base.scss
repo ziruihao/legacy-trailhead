@@ -46,16 +46,19 @@ a {
 .doc-h1 {
     font-size: 36px;
     font-weight: 800;
+    line-height: 1.0 !important; // override react-bootstrap
 }
 
 .doc-h2 {
     font-size: 24px;
     font-weight: 800;
+    line-height: 1.0 !important; // override react-bootstrap
 }
 
 .doc-h3 {
     font-size: 18px;
     font-weight: 800;
+    line-height: 1.0 !important; // override react-bootstrap
 }
 
 .label-text {

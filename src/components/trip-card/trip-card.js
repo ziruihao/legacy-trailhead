@@ -75,6 +75,16 @@ class TripCard extends React.Component {
     }
   }
 
+  renderTripTitle = (title) => {
+    if (title.length < 40) return title;
+    else return `${title.substring(0, 36)}...`;
+  }
+
+  renderTripDescription = (description) => {
+    if (description.length < 200) return description;
+    else return `${description.substring(0, 196)}...`;
+  }
+
   render() {
     return (
       <div className="trip-card margins">
@@ -87,10 +97,10 @@ class TripCard extends React.Component {
         {this.renderDecal(this.props.trip.club.name)}
         <div className="trip-card-body">
           <div className="label-text">TRIP #{this.props.trip.number}</div>
-          <div className="doc-h1">{this.state.userIsLeader ? '[L]' : null} {this.props.trip.title}</div>
-          <div className="p1 trip-card-date">{constants.formatDate(this.props.trip.startDate)} - {constants.formatDate(this.props.trip.endDate)}</div>
+          <div className="doc-h2">{this.renderTripTitle(`${this.state.userIsLeader ? '[L]' : ''} ${this.props.trip.title}`)}</div>
+          <div className="p2 trip-card-date">{constants.formatDate(this.props.trip.startDate)} - {constants.formatDate(this.props.trip.endDate)}</div>
           <div className="p2 trip-card-club">{this.props.trip.club ? this.props.trip.club.name : ''}</div>
-          <div className="p2">{this.props.trip.description}</div>
+          <div className="p2">{this.renderTripDescription(this.props.trip.description)}</div>
         </div>
       </div>
     );
