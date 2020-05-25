@@ -46,6 +46,14 @@ export const calculateTripStatus = (trip) => {
   return { status: finalStatus, reasons };
 };
 
+export const determineRoleOnTrip = (user, trip) => {
+  if (user.role === 'OPO') return 'OPO';
+  else if (trip.leaders.some(leader => leader._id.toString() === user._id.toString())) return 'LEADER';
+  else if (trip.members.some(member => member.user._id.toString() === user._id.toString())) return 'MEMBER';
+  else if (trip.pending.some(pender => pender.user._id.toString() === user._id.toString())) return 'PENDING';
+  else return 'NONE';
+};
+
 /**
  * Returns the appropriate CSS ID for the club name for trip card decals.
  * @param {String} clubName
