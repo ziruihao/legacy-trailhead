@@ -108,7 +108,7 @@ class ProfileCard extends React.Component {
             {this.props.user.completedProfile
               ? (
                 <div id="profile-card-name">
-                  <div className="h1">
+                  <div className="doc-h1">
                     {this.props.user.name}
                     {this.props.user.role === 'Leader'
                       ? <img src={leaderBadge} alt="leader badge" />
@@ -245,7 +245,7 @@ class ProfileCard extends React.Component {
               : null
             }
             <div id="profile-card-name">
-              <div className="h1">
+              <div className="doc-h1">
                 <input
                   type="text"
                   name="name"
@@ -369,9 +369,10 @@ class ProfileCard extends React.Component {
                   onChange={this.props.onFieldChange}
                   className={`field ${this.props.errorFields.medical ? 'vrf-error' : ''}`}
                   value={this.props.medical}
-                  data-tip="medical-conditions-tooltip"
+                  data-tip
+                  data-for="medical-conditions-tooltip"
                 />
-                <ReactTooltip data-for="medical-conditions-tooltip">This will only be visible to your trip leaders and OPO staff</ReactTooltip>
+                <ReactTooltip id="medical-conditions-tooltip" place="right">This will only be visible to your trip leaders and OPO staff</ReactTooltip>
               </div>
             </div>
             <hr />
@@ -382,7 +383,7 @@ class ProfileCard extends React.Component {
               </div>
               <div className="card-info p1 extra-info">
                 {this.props.getCertificationsForm()}
-                <ReactTooltip data-for="driver-certification-tooltip">Please select your highest level of driver certification</ReactTooltip>
+                <ReactTooltip id="driver-certification-tooltip" place="right">Please select your highest level of driver certification</ReactTooltip>
               </div>
             </div>
             <hr />

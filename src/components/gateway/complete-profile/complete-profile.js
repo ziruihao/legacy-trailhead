@@ -33,7 +33,7 @@ class CompleteProfile extends Component {
                 {this.state.stage === '1' ?
                   <div className="landing-card doc-card s">
                     <div className="landing-card-message">
-                      <div className="h1">Hello {this.props.user.casID.split(' ')[0]}</div>
+                      <div className="doc-h1">Hello {this.props.user.casID.split(' ')[0]}</div>
                       <div className="p1">
                         Welcome to the DOC platform. As a new user you just need to complete your profile to start signing up for trips.
                       </div>

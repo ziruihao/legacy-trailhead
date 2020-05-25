@@ -44,7 +44,7 @@ class OPOLeaders extends Component {
         <div>
           <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
-              <div className="h1">Pending Requests</div>
+              <div className="doc-h1">Pending Requests</div>
               <div className="dropdown-and-label">
                 <span className="dropdown-label">View:</span>
                 <Dropdown>
@@ -69,7 +69,7 @@ class OPOLeaders extends Component {
         <div>
           <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
-              <div className="h1">Pending Requests</div>
+              <div className="doc-h1">Pending Requests</div>
               <div className="dropdown-and-label">
                 <span className="dropdown-label">View:</span>
                 <Dropdown>
