@@ -87,7 +87,7 @@ class TripCard extends React.Component {
 
   render() {
     return (
-      <div className="trip-card margins">
+      <div className="trip-card margins" onClick={this.props.onClick} role="button" tabIndex={0}>
         <div className="trip-card-badge-holder" data-tip data-for={this.props.trip._id}>
           <Badge type={this.state.status} />
         </div>
