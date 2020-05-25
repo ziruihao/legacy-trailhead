@@ -23,6 +23,29 @@ export const formatTime = (time) => {
   return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
 };
 
+export const calculateTripStatus = (trip) => {
+  const statuses = [{ name: 'Group gear requests', state: trip.gearStatus }, { name: 'Trippee gear requests', state: trip.trippeeGearStatus }, { name: 'P-Card request', state: trip.pcardStatus }, { name: 'Vehicle request', state: trip.vehicleStatus }];
+  let finalStatus = 'approved';
+  const reasons = [];
+
+  statuses.forEach((status) => {
+    switch (status.state) {
+      case 'pending':
+        reasons.push(`${status.name} is still pending`);
+        if (finalStatus === 'approved') finalStatus = 'pending';
+        break;
+      case 'denied':
+        reasons.push(`${status.name} was denied`);
+        finalStatus = 'warning';
+        break;
+      default:
+        break;
+    }
+  });
+
+  return { status: finalStatus, reasons };
+};
+
 /**
  * Returns the appropriate CSS ID for the club name for trip card decals.
  * @param {String} clubName
