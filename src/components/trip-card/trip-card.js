@@ -30,26 +30,8 @@ class TripCard extends React.Component {
       }
     }));
     // calculates the final status of the trip
-    const statuses = [{ name: 'Group gear requests', state: this.props.trip.gearStatus }, { name: 'Trippee gear requests', state: this.props.trip.trippeeGearStatus }, { name: 'P-Card request', state: this.props.trip.pcardStatus }, { name: 'Vehicle request', state: this.props.trip.vehicleStatus }];
-    statuses.forEach((status) => {
-      switch (status.state) {
-        case 'pending':
-          this.setState((prevState) => {
-            prevState.reasons.push(`${status.name} is still pending`);
-            if (prevState.status === 'approved') return { reasons: prevState.reasons, status: 'pending' };
-            else return { reasons: prevState.reasons };
-          });
-          break;
-        case 'denied':
-          this.setState((prevState) => {
-            prevState.reasons.push(`${status.name} was denied`);
-            return { reasons: prevState.reasons, status: 'warning' };
-          });
-          break;
-        default:
-          break;
-      }
-    });
+    const tripStatus = constants.calculateTripStatus(this.props.trip);
+    this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
   }
 
   renderDecal = (clubName) => {
@@ -92,7 +74,7 @@ class TripCard extends React.Component {
           <Badge type={this.state.status} />
         </div>
         <ReactToolTip id={this.props.trip._id} place="bottom">
-          Reasons: {this.state.reasons}
+          Reasons: {this.state.reasons.length > 0 ? this.state.reasons.reduce((all, current) => `${all}, ${current}`) : null}
         </ReactToolTip>
         {this.renderDecal(this.props.trip.club.name)}
         <div className="trip-card-body">
