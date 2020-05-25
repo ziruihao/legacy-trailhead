@@ -4,6 +4,7 @@ $error-red-deep: #A93A3A;
 $error-red-light: #FFD8D8;
 $background: #FAFAFA;
 $inactive-text: #C4C4C4;
+$gray-2: #848588;
 $gray-text: #494c50;
 
 $menu-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
@@ -99,6 +100,11 @@ a {
 
     &.alarm {
         background: #EE6E52;
+    }
+
+    &.disabled {
+        filter: saturate(50%);
+        cursor: default;
     }
 
     &:hover{
