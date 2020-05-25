@@ -90,7 +90,7 @@ class FleetManagement extends Component {
                     <span className="field-dropdown-bootstrap">{this.state.newVehicleType ? this.state.newVehicleType : 'Select vehicle type'}</span>
                     <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
                   </Dropdown.Toggle>
-                  <Dropdown.Menu className="field-dropdown">
+                  <Dropdown.Menu className="field-dropdown-menu">
                     <Dropdown.Item eventKey="Microbus">Microbus</Dropdown.Item>
                     <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
                     <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>

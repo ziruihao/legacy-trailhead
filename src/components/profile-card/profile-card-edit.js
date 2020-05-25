@@ -317,7 +317,7 @@ class ProfileCardEdit extends Component {
             <span className="field-dropdown-bootstrap">{this.state.gender_clothes ? this.state.gender_clothes : 'Type'}</span>
             <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
           </Dropdown.Toggle>
-          <Dropdown.Menu className="field-dropdown">
+          <Dropdown.Menu className="field-dropdown-menu">
             <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
             <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
           </Dropdown.Menu>
@@ -327,7 +327,7 @@ class ProfileCardEdit extends Component {
             <span className="field-dropdown-bootstrap">{this.state.clothe_size ? this.state.clothe_size : 'Size'}</span>
             <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
           </Dropdown.Toggle>
-          <Dropdown.Menu className="field-dropdown">
+          <Dropdown.Menu className="field-dropdown-menu">
             <Dropdown.Item eventKey="XS">XS</Dropdown.Item>
             <Dropdown.Item eventKey="S">S</Dropdown.Item>
             <Dropdown.Item eventKey="M">M</Dropdown.Item>
@@ -347,7 +347,7 @@ class ProfileCardEdit extends Component {
             <span className="field-dropdown-bootstrap">{this.state.gender_shoe ? this.state.gender_shoe : 'Type'}</span>
             <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
           </Dropdown.Toggle>
-          <Dropdown.Menu className="field-dropdown">
+          <Dropdown.Menu className="field-dropdown-menu">
             <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
             <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
           </Dropdown.Menu>
