@@ -513,7 +513,7 @@ class CreateTrip extends Component {
         return Object.assign({}, gear, { hasError: isFieldEmpty });
       });
       const markedEmptyTrippeFields = trippeeGear.map((gear) => {
-        const isFieldEmpty = this.isStringEmpty(gear.name);
+        const isFieldEmpty = this.isStringEmpty(gear.gear);
         if (isFieldEmpty) {
           hasEmptyField = true;
         }
