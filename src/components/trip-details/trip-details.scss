@@ -10,8 +10,14 @@
     margin-bottom: 25px;
   }
 
-  #trip-modal-title {
+  :last-child {
+    margin-bottom: 0;
+  }
 
+  #trip-modal-number {
+    font-size: 24px;
+    color: $gray-text;
+    margin-bottom: 10px;
   }
 
   #trip-modal-tags {

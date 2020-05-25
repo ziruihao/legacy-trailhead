@@ -43,7 +43,7 @@ class TripDetailsModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          leadingTrip: true,
+          role: true,
           status: 'approved',
           reasons: [],
         }
@@ -56,13 +56,14 @@ class TripDetailsModal extends Component {
       // calculates the final status of the trip
       const tripStatus = constants.calculateTripStatus(this.props.trip);
       this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
+      this.setState({role: constants.determineRoleOnTrip(this.props.user, this.props.trip)})
     }
 
     renderTripActionButton = () => {
       const goToTripPage = () => {
         this.props.history.push(`/trip/${this.props.trip._id}`);
       }
-      switch(constants.determineRoleOnTrip(this.props.user, this.props.trip)) {
+      switch(this.state.role) {
         case 'OPO':
           return <div className="doc-button disabled" onClick={goToTripPage}>View trip</div>
         case 'LEADER':
@@ -79,20 +80,14 @@ class TripDetailsModal extends Component {
     }
 
     render() {
-      let isLeading = false;
-      this.props.trip.leaders.some((leader) => {
-        if (leader._id === this.props.user._id) {
-          isLeading = true;
-        }
-      });
-
       return (
         <div id="trip-modal">
+            <div id="trip-modal-number">{`TRIP #${this.props.trip.number}`}</div>
             <div id="trip-modal-title" className="doc-h1">{this.props.trip.title}</div>
             <div id="trip-modal-tags">
               <div id="trip-modal-club">{this.props.trip.club.name}</div>
               <div id="trip-modal-statuses">
-                {isLeading ? <Badge type="leader" data-tip data-for="leader-on-trip-modal"></Badge> : null}
+                {this.state.role === 'LEADER' ? <Badge type="leader" data-tip data-for="leader-on-trip-modal"></Badge> : null}
                 <Badge type={this.state.status} dataTip={true} dataFor="trip-status-modal"/>
                 <ReactToolTip id="leader-on-trip-modal" place="bottom">Your are leading this trip</ReactToolTip>
                 <ReactToolTip id="trip-status-modal" place="bottom">
