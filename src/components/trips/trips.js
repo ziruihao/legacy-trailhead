@@ -8,14 +8,23 @@ import TripCard from '../trip-card';
 import Toggle from '../toggle';
 import { fetchTrips, getClubs } from '../../actions';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
+import notFound from '../../img/confirmCancel.svg';
 import './trip-card.scss';
 
 class Trips extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      club: 'All Clubs',
+      club: 'All clubs',
       beginnerOnly: false,
+      timePeriods: [
+        'Tomorrow',
+        'Next 3 days',
+        'This week',
+        'This month',
+        'This term'
+      ],
+      selectedTimePeriod: 'This week',
       grid: true,
       showTrip: null,
       startDate: "",
@@ -65,11 +74,13 @@ class Trips extends Component {
   renderClubDropdown = () => {
     return (
       <Dropdown onSelect={eventKey => this.setState({club: eventKey})}>
-      <Dropdown.Toggle className={`field ${this.state.newVehicleTypeError ? 'field-error' : ''}`}>
+      <Dropdown.Toggle className="field">
         <span className="field-dropdown-bootstrap">{this.state.club}</span>
         <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
       </Dropdown.Toggle>
-      <Dropdown.Menu className="field-dropdown">
+      <Dropdown.Menu className="field-dropdown-menu">
+      <Dropdown.Item eventKey="All clubs">All clubs</Dropdown.Item>
+      <Dropdown.Divider />
         {this.props.clubs.map((club => {
           return (<Dropdown.Item key={club._id} eventKey={club.name}>{club.name}</Dropdown.Item>);
         }))}
@@ -78,9 +89,30 @@ class Trips extends Component {
     )
   }
 
+  renderTimePeriodDropdown = () => {
+    return (
+      <Dropdown onSelect={eventKey => {
+        if (eventKey !== 'Specific day') this.setState({startDate: ""})
+        this.setState({selectedTimePeriod: eventKey})
+        }}>
+      <Dropdown.Toggle className="field">
+        <span className="field-dropdown-bootstrap">{this.state.selectedTimePeriod}</span>
+        <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+      </Dropdown.Toggle>
+      <Dropdown.Menu className="field-dropdown-menu">
+        {this.state.timePeriods.map((timePeriod => {
+          return (<Dropdown.Item key={timePeriod} eventKey={timePeriod}>{timePeriod}</Dropdown.Item>);
+        }))}
+        <Dropdown.Divider />
+        <Dropdown.Item eventKey="Specific day">Specific day</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+    )
+  }
+
   renderStartDropdown = () => {
     return(
-      <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value}); }} className="field all-trips-date-select" value={this.state.startDate} />
+      <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value }); }} className="field all-trips-date-select" value={this.state.startDate} />
     );
   }
 
@@ -134,7 +166,10 @@ class Trips extends Component {
     }
 
     if (tripsGrid.length === 0) {
-      return <div>No upcoming trips for this club</div>;
+      return <div id="trips-page-not-found">
+        <img src={notFound} ></img>
+        <div className="h2">Sorry, we couldn't find any!</div>
+        </div>;
     }
 
     if (this.state.grid) {
@@ -151,8 +186,9 @@ class Trips extends Component {
           <div className="doc-card spacy-card">
             <div className="doc-h1">Explore trips</div>
             <div id="trip-safari-configs">
-              {this.renderStartDropdown()}
               {this.renderClubDropdown()}
+              {this.renderTimePeriodDropdown()}
+              {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
               <Toggle value={this.state.beginnerOnly} id="defaultCheck2" label="Beginner only" onChange={(e) => {
                 this.setState(prevState => {
                   return {beginnerOnly: !prevState.beginnerOnly}

@@ -20,7 +20,6 @@
     }
   }
     
-
   #trip-tiles {
     display: flex;
     flex-wrap: wrap;
@@ -33,6 +32,20 @@
 
     > :last-child {
       margin-right: 0px !important;
+    }
+
+    #trips-page-not-found {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 100px 0;
+
+      img {
+        margin-bottom: 50px;
+        width: 200px;
+      }
     }
   }
 }
