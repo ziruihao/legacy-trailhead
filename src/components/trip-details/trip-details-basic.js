@@ -2,7 +2,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import './trips/trip-card.scss';
+import ReactToolTip from 'react-tooltip';
+import Badge from '../badge';
+import '../trips/trip-card.scss';
+import './trip-details.scss';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -15,6 +18,7 @@ const getCoLeaders = (leaders) => {
   coleaders = coleaders.length === 0 ? 'None' : coleaders;
   return coleaders;
 };
+
 const formatDate = (date, time) => {
   let timeString = '';
   const rawDate = new Date(date);
@@ -33,6 +37,7 @@ const formatDate = (date, time) => {
   timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
   return timeString;
 };
+
 class TripDetailsModal extends Component {
     constructor(props) {
         super(props);
@@ -74,18 +79,18 @@ class TripDetailsModal extends Component {
           isLeading = true;
         }
       });
+
       return (
-        <div className="trip-details-modal">
-          <div className="trip-details-close-button">
-            <i className="material-icons close-button" onClick={this.props.closeModal} role="button" tabIndex={0}>close</i>
-          </div>
+        <div id="trip-details-modal">
           <div className="content">
-            <h1 className='trip-leading-modal'>{isLeading? '*You are leading this trip*' : ''}</h1>
-            <h1 className="trip-title">{this.props.trip.title}</h1>
+            <div className="trip-details-modal-title doc-h1">{this.props.trip.title}</div>
             <div className="trip-club-container">
               <span className="trip-club">{this.props.trip.club.name}</span>
             </div>
-
+            <div className="trip-details-modal-statuses">
+              {isLeading ? <Badge type="leader" data-tip data-for="leader-on-trip-modal"></Badge> : null}
+              <ReactTooltip id="leader-on-trip-modal" place="bottom">Your are leading this trip</ReactTooltip>
+            </div>
             <div className="trip-description">
               <p>
                 {this.props.trip.description}
@@ -163,10 +168,8 @@ class TripDetailsModal extends Component {
     }
 }
 
-// connects particular parts of redux state to this components props
 const mapStateToProps = state => (
     {
-      //userTripStatus: state.trips.userTripStatus,
       isUserOnTrip: state.trips.isUserOnTrip,
       authenticated: state.auth.authenticated,
       user: state.user.user,
