@@ -69,13 +69,10 @@ class TripCard extends React.Component {
 
   render() {
     return (
-      <div className="trip-card margins" onClick={this.props.onClick} role="button" tabIndex={0}>
-        <div className="trip-card-badge-holder" data-tip data-for={this.props.trip._id}>
-          <Badge type={this.state.status} />
+      <div className="trip-card" onClick={this.props.onClick} role="button" tabIndex={0}>
+        <div className="trip-card-badge-holder">
+          <Badge type={this.state.status} dataTip dataFor={`trip-card-${this.props.trip._id}`} />
         </div>
-        <ReactToolTip id={this.props.trip._id} place="bottom">
-          Reasons: {this.state.reasons.length > 0 ? this.state.reasons.reduce((all, current) => `${all}, ${current}`) : null}
-        </ReactToolTip>
         {this.renderDecal(this.props.trip.club.name)}
         <div className="trip-card-body">
           <div className="label-text">TRIP #{this.props.trip.number}</div>
@@ -84,6 +81,9 @@ class TripCard extends React.Component {
           <div className="p2 trip-card-club">{this.props.trip.club ? this.props.trip.club.name : ''}</div>
           <div className="p2">{this.renderTripDescription(this.props.trip.description)}</div>
         </div>
+        <ReactToolTip id={`trip-card-${this.props.trip._id}`} place="bottom">
+          Reasons: {this.state.reasons.length > 0 ? this.state.reasons.reduce((all, current) => `${all}, ${current}`) : null}
+        </ReactToolTip>
       </div>
     );
   }

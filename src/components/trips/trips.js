@@ -146,10 +146,6 @@ class Trips extends Component {
 
 
   render() {
-    let tiles_id = "tiles-modal-closed";
-    if(this.state.showTrip!==null){
-      tiles_id = "tiles-modal-open";
-    }
       return (
         <div id="trips-page" className="center-view spacy">
           <div className="doc-card spacy-card">
@@ -167,22 +163,20 @@ class Trips extends Component {
                 })}}></Toggle>
             </div>
           </div>
-          <div className="box">
-            <div className = "trip-tiles" id = {tiles_id}>
-              {this.renderTrips()}
-            </div>
-            <Modal
-              centered
-              size="lg"
-              show={this.state.showTrip !== null}
-              onHide={() => this.setState({showTrip: null})}
-            >
-              <div id="event-modal-close">
-                <i className="material-icons close-button" onClick={() => this.setState({showTrip: null})} role="button" tabIndex={0}>close</i>
-              </div>
-              {this.renderTripDetailsModal()}
-            </Modal>
+          <div id="trip-tiles">
+            {this.renderTrips()}
           </div>
+          <Modal
+            centered
+            size="lg"
+            show={this.state.showTrip !== null}
+            onHide={() => this.setState({showTrip: null})}
+          >
+            <div id="event-modal-close">
+              <i className="material-icons close-button" onClick={() => this.setState({showTrip: null})} role="button" tabIndex={0}>close</i>
+            </div>
+            {this.renderTripDetailsModal()}
+          </Modal>
         </div>
       );
     }

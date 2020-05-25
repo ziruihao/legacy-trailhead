@@ -1,7 +1,7 @@
 @import '../../styles/base.scss';
 
 #trips-page {
-  margin: 0 calc(50vw - 670px);
+  margin: 0 calc(50vw - 670px); // a wider version of .center-view
 
   #trip-safari-configs {
     // width: 100%;
@@ -19,23 +19,22 @@
       color: $green !important;
     }
   }
-  .box {
+    
+
+  #trip-tiles {
+    display: flex;
+    flex-wrap: wrap;
     margin-top: 45px;
 
-    .trip-tiles {
-      float: left;
+    > * {
+      margin-right: 45px;
+      margin-bottom: 45px;
+    }
 
-      > * {
-        margin-right: 45px;
-        margin-bottom: 45px;
-      }
-
-      > :last-child {
-        margin-right: 0px !important;
-      }
+    > :last-child {
+      margin-right: 0px !important;
     }
   }
-
 }
 
 $trip-card-padding: 15px;
