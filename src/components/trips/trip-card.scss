@@ -122,8 +122,7 @@ $trip-card-padding: 15px;
   align-items: center;
   background-color: white;
   color: $gray-2;
-  border-style: dashed;
-  border-color: gray;
+  border: 3px dashed $gray-2;
   box-shadow: none;
 
   &:hover{
