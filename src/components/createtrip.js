@@ -6,6 +6,7 @@ import { withRouter } from 'react-router-dom';
 import { fetchTrip, createTrip, editTrip, appError } from '../actions';
 import PCardRequest from './pcard_request';
 import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } from './create_trip_pages';
+import Sidebar from './sidebar';
 import VehicleRequest from './vehiclerequest';
 import '../styles/createtrip-style.scss';
 
@@ -68,10 +69,10 @@ class CreateTrip extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentStep: 1,
+      currentStep: 4,
       title: '',
       leaders: [],
-      club: {},
+      club: null,
       experienceNeeded: false,
       access: false,
       description: '',
@@ -231,12 +232,14 @@ class CreateTrip extends Component {
     })
   }
 
-  onClubChange(event) {
-    event.persist();
-    this.setState({
-      club: { _id: event.target[event.target.selectedIndex].dataset.id, name: event.target.value },
+  onClubChange(eventKey) {
+    let selectedClub = null;
+    this.props.user.leader_for.some(club => {
+      if (club._id === eventKey) selectedClub = club;
     });
-    console.log(this.state.club);
+    this.setState({
+      club: selectedClub,
+    });
   }
 
   onDateChange(event) {
@@ -250,34 +253,15 @@ class CreateTrip extends Component {
     }
   }
 
-  getClubOptions = () => {
-    let options = null;
-    if (this.props.user.role !== 'Trippee' && this.props.user.leader_for.length > 0) {
-      options = this.props.user.leader_for.map((club) => {
-        return <option key={club._id} data-id={club._id} value={club.name}>{club.name}</option>;
-      });
-    }
-    return options;
-  }
-
-  getDateOptions = () => {
-    return (
-      <div id="date-picker" className="row page-sub-headers trip-date-header">
-        <div>
-          <p>{this.state.length === 'multi' ? 'Start' : 'Trip'} date</p>
-          <input type="date" name="startDate" onChange={this.onDateChange} className={`field top-create-trip leaders ${this.state.errorFields.startDate ? 'create-trip-error' : ''}`} value={this.state.startDate} />
-        </div>
-        {this.state.length === 'multi'
-          ? (
-            <div>
-              <p>End date</p>
-              <input type="date" name="endDate" onChange={this.onDateChange} className={`field top-create-trip leaders ${this.state.errorFields.endDate ? 'create-trip-error' : ''}`} value={this.state.endDate} />
-            </div>
-          )
-          : null}
-      </div>
-    );
-  }
+  // getClubOptions = () => {
+  //   let options = null;
+  //   if (this.props.user.role !== 'Trippee' && this.props.user.leader_for.length > 0) {
+  //     options = this.props.user.leader_for.map((club) => {
+  //       return <option key={club._id} data-id={club._id} value={club.name}>{club.name}</option>;
+  //     });
+  //   }
+  //   return options;
+  // }
 
   handleDateChange = (changeEvent) => {
     if (changeEvent.target.value === 'single') {
@@ -643,7 +627,8 @@ class CreateTrip extends Component {
             experienceValue={this.state.experienceNeeded}
             accessValue={this.state.access}
             experienceOption={this.handleOptionChange}
-            clubOptions={this.getClubOptions()}
+            clubOptions={this.props.user.leader_for}
+            selectedClub={this.state.club}
             errorFields={this.state.errorFields}
           />
         );
@@ -654,7 +639,7 @@ class CreateTrip extends Component {
             onFieldChange={this.onFieldChange}
             onDateChange={this.handleDateChange}
             dateLength={this.state.length}
-            dateOptions={this.getDateOptions()}
+            onDateLengthChange={eventKey => this.setState({length: eventKey})}
             theStartTime={this.state.startTime}
             theEndTime={this.state.endTime}
             tripLocation={this.state.location}
@@ -743,18 +728,26 @@ class CreateTrip extends Component {
             experienceValue={this.state.experienceNeeded}
             accessValue={this.state.access}
             experienceOption={this.handleOptionChange}
-            clubOptions={this.getClubOptions()}
+            clubOptions={this.props.user.leader_for}
+            selectedClub={this.state.club}
             errorFields={this.state.errorFields}
           />
         );
         break;
     }
     return (
-      <div className="ovr-container">
-        <LeftColumn
+      <div id="create-trip-page">
+        <Sidebar
+          sections={
+            [
+              {title: 'Where & when?', steps: [{number: 1, text: 'Basic information'}, {number: 2, text:'Dates and location'}]},
+              {title: 'More details', steps: [{number: 3, text:'About the trip'}, {number: 4, text: 'Required gear'}]},
+              {title: 'Requests', steps: [{number: 5, text: 'Vehicles'}, {number: 6, text: 'P-Card'}]},
+            ]
+          }
           currentStep={this.state.currentStep}
         />
-        <div className="ovr-req-content">
+        <div className="create-trip-form">
           <div className="create-trip-form-page">
             {page}
           </div>
