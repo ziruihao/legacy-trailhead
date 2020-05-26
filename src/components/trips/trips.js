@@ -137,6 +137,7 @@ class Trips extends Component {
 
     switch(this.state.selectedTimePeriod) {
       case 'All':
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !utils.dates.inThePast(trip.startDate)));
         break;
       case 'Specific day':
         tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, this.state.startDate)));

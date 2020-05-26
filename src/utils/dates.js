@@ -93,9 +93,6 @@ export function withinTimePeriod(date, timePeriod, specificDay) {
 export function inThePast(date) {
   if (typeof date === 'string') date = new Date(date);
   const today = new Date();
-  console.log('today', today);
-  console.log('date', date);
-  console.log('compare', date >= today);
   if (date >= today) return false;
   else return true;
 }
