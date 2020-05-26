@@ -2,8 +2,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
+import RequestGear from './request-gear'
 import ReactToolTip from 'react-tooltip';
 import Badge from '../badge';
+import {addToPending, editUserGear} from '../../actions';
 import * as constants from '../../constants';
 import '../trips/trip-card.scss';
 import './trip-details.scss';
@@ -43,9 +45,13 @@ class TripDetailsModal extends Component {
     constructor(props) {
         super(props);
         this.state = {
+          viewMode: 'info',
           role: true,
           status: 'approved',
           reasons: [],
+          requestedGear: [],
+          editingGear: false,
+          actionPending: false,
         }
     }
     componentDidMount() {
@@ -56,26 +62,62 @@ class TripDetailsModal extends Component {
       // calculates the final status of the trip
       const tripStatus = constants.calculateTripStatus(this.props.trip);
       this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
-      this.setState({role: constants.determineRoleOnTrip(this.props.user, this.props.trip)})
+      const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
+      this.setState({role: roleOnTrip})
+      if (roleOnTrip === 'NONE') this.setState({editingGear: true})
     }
 
     renderTripActionButton = () => {
       const goToTripPage = () => {
         this.props.history.push(`/trip/${this.props.trip._id}`);
       }
+      const signUpForTrip = () => {
+        this.setState({actionPending: true});
+        this.props.addToPending({
+          id: this.props.trip._id,
+          trippeeGear: this.state.requestedGear,
+        }).then(modifiedTrip => {
+          this.setState({actionPending: false});
+          this.props.trip = modifiedTrip;
+        });
+      }
+      const saveGearRequest = () => {
+        this.setState({actionPending: true});
+        this.props.editUserGear({
+          id: this.props.trip._id,
+          trippeeGear: this.state.requestedGear,
+        }).then(modifiedTrip => {
+          this.setState({actionPending: false});
+          this.props.trip = modifiedTrip;
+        });
+      }
+      const renderGearRequestButton = () => {
+        if (this.state.editingGear) return <div className="doc-button" onClick={saveGearRequest}>Save your gear request</div>
+        else return <div className="doc-button hollow" onClick={() => this.setState({editingGear: true})}>Edit your gear request</div>
+      }
       switch(this.state.role) {
         case 'OPO':
-          return <div className="doc-button disabled" onClick={goToTripPage}>View trip</div>
+          return <div className="doc-button" onClick={goToTripPage}>View trip as OPO stauff</div>
         case 'LEADER':
-          return <div className="doc-button disabled" onClick={goToTripPage}>Manage your trip</div>
+          return (
+            <>
+              <div className="doc-button" onClick={goToTripPage}>Manage your trip</div>
+              {renderGearRequestButton()}
+            </>
+          )
         case 'MEMBER':
-          return <div className="doc-button disabled" onClick={goToTripPage}>Already on trip</div>
+          return (
+            <>
+              <div className="doc-button alarm" onClick={goToTripPage}>I can't go</div>
+              {renderGearRequestButton()}
+            </>
+          )
         case 'PENDING':
           return <div className="doc-button disabled" onClick={goToTripPage}>Awaiting approval</div>
         case 'NONE':
-          return <div className="doc-button" onClick={goToTripPage}>Sign up</div>
+          return <div className="doc-button" onClick={signUpForTrip}>Sign up</div>
         default:
-          return <div className="doc-button" onClick={goToTripPage}>Sign up</div>
+          return <div className="doc-button" onClick={signUpForTrip}>Sign up</div>
       }
     }
 
@@ -94,71 +136,88 @@ class TripDetailsModal extends Component {
                   Reasons: {this.state.reasons.length > 0 ? this.state.reasons.reduce((all, current) => `${all}, ${current}`) : null}
                 </ReactToolTip>
               </div>
-            </div>
-            <div id="trip-modal-description" className="p1">
-                {this.props.trip.description}
-            </div>
-            {this.renderTripActionButton()}
-            <div className="trip-modal-details">
-              <div className="trip-modal-details-row">
-                <span className="trip-modal-details-left p2">Start</span>
-                <span className="trip-modal-details-right p2">{formatDate(this.props.trip.startDate, this.props.trip.startTime)}</span>
-              </div>
-              <hr className="trip-modal-details-line" />
-
-              <div className="trip-modal-details-row">
-                <span className="trip-modal-details-left p2">End</span>
-                <span className="trip-modal-details-right p2">{formatDate(this.props.trip.endDate, this.props.trip.endTime)}</span>
-              </div>
-              <hr className="trip-modal-details-line" />
-
-              <div className="trip-modal-details-row">
-                <span className="trip-modal-details-left p2">Pickup</span>
-                <span className="trip-modal-details-right p2">{this.props.trip.pickup}</span>
-              </div>
-              <hr className="trip-modal-details-line" />
-
-              <div className="trip-modal-details-row">
-                <span className="trip-modal-details-left p2">Dropoff</span>
-                <span className="trip-modal-details-right p2">{this.props.trip.dropoff}</span>
-              </div>
-              <hr className="trip-modal-details-line" />
-
-              <div className="trip-modal-details-row">
-                <span className="trip-modal-details-left p2">Destination</span>
-                <span className="trip-modal-details-right p2">{this.props.trip.location}</span>
+              <div id="trip-modal-switch">
+                <div className={`trip-modal-switch-option p1 ${this.state.viewMode === "info" ? "active" : null}`} onClick={() => this.setState({viewMode: "info"})}>Info view</div>
+                <div className="trip-modal-switch-option p1">|</div>
+                <div className={`trip-modal-switch-option p1 ${this.state.viewMode === "action" ? "active" : null}`} onClick={() => this.setState({viewMode: "action"})}>Sign up view</div>
               </div>
             </div>
-            <div className="trip-modal-details">
-              <div className="trip-modal-details-row">
-                <span className="trip-modal-details-left p2">Leader</span>
-                <span className="trip-modal-details-right p2">{this.props.trip.leaders[0].name}</span>
-              </div>
-              <hr className="trip-modal-details-line" />
+            <hr className="heavy-line"></hr>
+            {this.state.viewMode === 'action' ?
+              <>
+                <div id="trip-modal-description" className="p1">
+                  Sign up for this trip! Below are all the required gear for each trippee - request only what you need!
+                </div>
+                <RequestGear trippeeGear={this.props.trip.trippeeGear} isEditing={this.state.editingGear} updateGear={(update) => this.setState({requestedGear: update})} loading={this.state.actionPending}></RequestGear>
+                {this.renderTripActionButton()}
+              </>
+              :
+              <>
+                <div id="trip-modal-description" className="p1">
+                  {this.props.trip.description}
+                </div>
+                <div className="trip-modal-details">
+                  <div className="trip-modal-details-row">
+                    <span className="trip-modal-details-left p2">Start</span>
+                    <span className="trip-modal-details-right p2">{formatDate(this.props.trip.startDate, this.props.trip.startTime)}</span>
+                  </div>
+                  <hr className="trip-modal-details-line" />
 
-              <div className="trip-modal-details-row">
-                <span className="trip-modal-details-left p2">Co-Leader(s)</span>
-                <span className="trip-modal-details-right p2">{getCoLeaders(this.props.trip.leaders)}</span>
-              </div>
-              <hr className="trip-modal-details-line" />
+                  <div className="trip-modal-details-row">
+                    <span className="trip-modal-details-left p2">End</span>
+                    <span className="trip-modal-details-right p2">{formatDate(this.props.trip.endDate, this.props.trip.endTime)}</span>
+                  </div>
+                  <hr className="trip-modal-details-line" />
 
-              <div className="trip-modal-details-row">
-                <span className="trip-modal-details-left p2">Experience Needed?</span>
-                <span className="trip-modal-details-right p2">{this.props.trip.experienceNeeded ? 'Yes' : 'No'} </span>
-              </div>
-              <hr className="trip-modal-details-line" />
+                  <div className="trip-modal-details-row">
+                    <span className="trip-modal-details-left p2">Pickup</span>
+                    <span className="trip-modal-details-right p2">{this.props.trip.pickup}</span>
+                  </div>
+                  <hr className="trip-modal-details-line" />
 
-              <div className="trip-modal-details-row">
-                <span className="trip-modal-details-left p2">Subclub</span>
-                <span className="trip-modal-details-right p2">{this.props.trip.club.name}</span>
-              </div>
-              <hr className="trip-modal-details-line" />
+                  <div className="trip-modal-details-row">
+                    <span className="trip-modal-details-left p2">Dropoff</span>
+                    <span className="trip-modal-details-right p2">{this.props.trip.dropoff}</span>
+                  </div>
+                  <hr className="trip-modal-details-line" />
 
-              <div className="trip-modal-details-row">
-                <span className="trip-modal-details-left p2">Cost</span>
-                <span className="trip-modal-details-right p2">${this.props.trip.cost}</span>
-              </div>
-            </div>
+                  <div className="trip-modal-details-row">
+                    <span className="trip-modal-details-left p2">Destination</span>
+                    <span className="trip-modal-details-right p2">{this.props.trip.location}</span>
+                  </div>
+                </div>
+                <div className="trip-modal-details">
+                  <div className="trip-modal-details-row">
+                    <span className="trip-modal-details-left p2">Leader</span>
+                    <span className="trip-modal-details-right p2">{this.props.trip.leaders[0].name}</span>
+                  </div>
+                  <hr className="trip-modal-details-line" />
+
+                  <div className="trip-modal-details-row">
+                    <span className="trip-modal-details-left p2">Co-Leader(s)</span>
+                    <span className="trip-modal-details-right p2">{getCoLeaders(this.props.trip.leaders)}</span>
+                  </div>
+                  <hr className="trip-modal-details-line" />
+
+                  <div className="trip-modal-details-row">
+                    <span className="trip-modal-details-left p2">Experience Needed?</span>
+                    <span className="trip-modal-details-right p2">{this.props.trip.experienceNeeded ? 'Yes' : 'No'} </span>
+                  </div>
+                  <hr className="trip-modal-details-line" />
+
+                  <div className="trip-modal-details-row">
+                    <span className="trip-modal-details-left p2">Subclub</span>
+                    <span className="trip-modal-details-right p2">{this.props.trip.club.name}</span>
+                  </div>
+                  <hr className="trip-modal-details-line" />
+
+                  <div className="trip-modal-details-row">
+                    <span className="trip-modal-details-left p2">Cost</span>
+                    <span className="trip-modal-details-right p2">${this.props.trip.cost}</span>
+                  </div>
+                </div>
+              </>
+            }
         </div>
       );
     }
@@ -171,4 +230,4 @@ const mapStateToProps = state => (
       user: state.user.user,
     }
   );
-export default withRouter(connect(mapStateToProps, null)(TripDetailsModal)); // connected component
+export default withRouter(connect(mapStateToProps, {addToPending, editUserGear})(TripDetailsModal)); // connected component
