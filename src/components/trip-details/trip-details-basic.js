@@ -140,11 +140,15 @@ class TripDetailsModal extends Component {
                     Reasons: {this.state.reasons.length > 0 ? this.state.reasons.reduce((all, current) => `${all}, ${current}`) : null}
                   </ReactToolTip>
                 </div>
-                <div id="trip-modal-switch">
-                  <div className={`trip-modal-switch-option p1 ${this.state.viewMode === "info" ? "active" : null}`} onClick={() => this.setState({viewMode: "info"})}>Info view</div>
-                  <div className="trip-modal-switch-option p1">|</div>
-                  <div className={`trip-modal-switch-option p1 ${this.state.viewMode === "action" ? "active" : null}`} onClick={() => this.setState({viewMode: "action"})}>Sign up view</div>
-                </div>
+                {this.state.role !== 'OPO' ?
+                  <div id="trip-modal-switch">
+                    <div className={`trip-modal-switch-option p1 ${this.state.viewMode === "info" ? "active" : null}`} onClick={() => this.setState({viewMode: "info"})}>Info view</div>
+                    <div className="trip-modal-switch-option p1">|</div>
+                    <div className={`trip-modal-switch-option p1 ${this.state.viewMode === "action" ? "active" : null}`} onClick={() => this.setState({viewMode: "action"})}>Sign up view</div>
+                  </div>
+                  :
+                  null
+                }
               </div>
               <hr className="heavy-line"></hr>
               {this.state.viewMode === 'action' ?
