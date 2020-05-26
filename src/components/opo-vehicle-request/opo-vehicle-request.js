@@ -10,6 +10,7 @@ import { ProfileCard } from '../profile-card';
 import ConflictModal from './conflict-modal';
 import Loading from '../loading';
 import * as constants from '../../constants';
+import utils from '../../utils';
 import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../actions';
 import pendingBadge from '../../img/pending_badge.svg';
 import approvedBadge from '../../img/approved_badge.svg';
@@ -574,25 +575,25 @@ class OPOVehicleRequest extends Component {
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : constants.formatDate(assignment.assigned_pickupDate.substring(0, 10))}
+                : utils.dates.formatDate(assignment.assigned_pickupDate.substring(0, 10))}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : constants.formatTime(assignment.assigned_pickupTime)}
+                : utils.dates.formatTime(assignment.assigned_pickupTime)}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : constants.formatDate(assignment.assigned_returnDate.substring(0, 10))}
+                : utils.dates.formatDate(assignment.assigned_returnDate.substring(0, 10))}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : constants.formatTime(assignment.assigned_returnTime)}
+                : utils.dates.formatTime(assignment.assigned_returnTime)}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
@@ -694,13 +695,13 @@ class OPOVehicleRequest extends Component {
                 <hr className="detail-line" />
                 <div className="ovr-req-row">{vehicle.passNeeded ? 'Yes' : 'No'} </div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{constants.formatDate(vehicle.pickupDate.substring(0, 10))}</div>
+                <div className="ovr-req-row">{utils.dates.formatDate(vehicle.pickupDate.substring(0, 10))}</div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{constants.formatTime(vehicle.pickupTime)}</div>
+                <div className="ovr-req-row">{utils.dates.formatTime(vehicle.pickupTime)}</div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{constants.formatDate(vehicle.returnDate.substring(0, 10))}</div>
+                <div className="ovr-req-row">{utils.dates.formatDate(vehicle.returnDate.substring(0, 10))}</div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{constants.formatTime(vehicle.returnTime)}</div>
+                <div className="ovr-req-row">{utils.dates.formatTime(vehicle.returnTime)}</div>
                 <hr className="detail-line" />
                 <div className="ovr-req-row"> - </div>
                 {assignment

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactToolTip from 'react-tooltip';
 import Badge from '../badge';
 import * as constants from '../../constants';
+import utils from '../../utils';
 import ledyard from './decals/ledyard.png';
 import mountain from './decals/dmc.png';
 import doc from './decals/doc.png';
@@ -77,7 +78,7 @@ class TripCard extends React.Component {
         <div className="trip-card-body">
           <div className="label-text">TRIP #{this.props.trip.number}</div>
           <div className="doc-h2">{this.renderTripTitle(`${this.state.userIsLeader ? '[L]' : ''} ${this.props.trip.title}`)}</div>
-          <div className="p2 trip-card-date">{constants.formatDate(this.props.trip.startDate)} - {constants.formatDate(this.props.trip.endDate)}</div>
+          <div className="p2 trip-card-date">{utils.dates.formatDate(this.props.trip.startDate)} - {utils.dates.formatDate(this.props.trip.endDate)}</div>
           <div className="p2 trip-card-club">{this.props.trip.club ? this.props.trip.club.name : ''}</div>
           <div className="p2">{this.renderTripDescription(this.props.trip.description)}</div>
         </div>
