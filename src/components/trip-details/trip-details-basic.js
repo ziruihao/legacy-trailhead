@@ -133,8 +133,8 @@ class TripDetailsModal extends Component {
               <div id="trip-modal-tags">
                 <div id="trip-modal-club">{this.props.trip.club.name}</div>
                 <div id="trip-modal-statuses">
-                  {this.state.role === 'LEADER' ? <Badge type="leader" data-tip data-for="leader-on-trip-modal"></Badge> : null}
-                  <Badge type={this.state.status} dataTip={true} dataFor="trip-status-modal"/>
+                  {this.state.role === 'LEADER' ? <Badge type="leader" dataTip dataFor="leader-on-trip-modal"></Badge> : null}
+                  <Badge type={this.state.status} dataTip dataFor="trip-status-modal"/>
                   <ReactToolTip id="leader-on-trip-modal" place="bottom">Your are leading this trip</ReactToolTip>
                   <ReactToolTip id="trip-status-modal" place="bottom">
                     Reasons: {this.state.reasons.length > 0 ? this.state.reasons.reduce((all, current) => `${all}, ${current}`) : null}
