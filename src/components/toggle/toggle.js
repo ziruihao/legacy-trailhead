@@ -5,15 +5,20 @@ class Toggle extends React.Component {
   render() {
     return (
       <div className="toggle">
-        <input className="toggle-input"
-          type="checkbox"
-          value={this.props.value}
-          id={this.props.id}
-          onChange={this.props.onChange}
-        />
         <label className="toggle-label" htmlFor={this.props.id}>
-          {this.props.label}
+          <input
+            className="toggle-input"
+            type="checkbox"
+            id={this.props.id}
+            onChange={this.props.onChange}
+            value={this.props.value}
+            disabled={this.props.disabled}
+          />
+          <span className={!this.props.disabled ? 'checkmark' : 'disabled-checkmark'} />
         </label>
+        <div className="toggle-text">
+          {this.props.label}
+        </div>
       </div>
     );
   }
