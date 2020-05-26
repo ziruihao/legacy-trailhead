@@ -34,7 +34,6 @@ class Trips extends Component {
   }
 
   componentDidMount(props) {
-    console.log(utils)
     this.props.fetchTrips();
     this.props.getClubs();
   }
