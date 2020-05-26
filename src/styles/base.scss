@@ -40,11 +40,9 @@ body {
 a {
     text-decoration: none;
     
-    &:hover {
-        text-decoration: none;
+    &:link, &:visited, &:hover {
+        text-decoration: none !important;
     }
-    //   &:link, &:visited, &:hover {
-    //   }
 }
 
 .doc-h1 {
