@@ -70,10 +70,10 @@ class CoLeadersAutoComplete extends Component {
           handleAddition={this.handleAddition}
           delimiters={delimiters}
           allowDragDrop={false}
-          minQueryLength={3}
+          minQueryLength={1}
           allowUnique
+          inputFieldPosition="top"
         />
-
       </div>
     );
   }
