@@ -2,8 +2,7 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import './profile.scss';
-import leaderBadge from './leader-badge.svg';
-import leaderPendingBadge from './leader-pending-badge.svg';
+import Badge from '../badge';
 import editIcon from './edit-profile.svg';
 import saveIcon from './save-profile.svg';
 
@@ -111,11 +110,11 @@ class ProfileCard extends React.Component {
                   <div className="doc-h1">
                     {this.props.user.name}
                     {this.props.user.role === 'Leader'
-                      ? <img src={leaderBadge} alt="leader badge" />
+                      ? <Badge type="leader" />
                       : null
                    }
                     {this.props.user.has_pending_leader_change
-                      ? <img src={leaderPendingBadge} alt="leader pending badge" />
+                      ? <Badge type="pending" />
                       : null
                    }
                   </div>

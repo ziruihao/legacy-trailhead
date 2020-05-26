@@ -1,11 +1,11 @@
 import React from 'react';
-import warningBadge from './warning-badge.svg';
+import conflictIndicator from './conflict-indicator.svg';
 import './conflict-modal.scss';
 import '../../../styles/base.scss';
 
 const ConflictModal = props => (
   <div id="conflict-modal">
-    <img src={warningBadge} alt="warning-badge" id="conflict-modal-warning-badge" />
+    <img src={conflictIndicator} alt="warning-badge" id="conflict-modal-warning-badge" />
     <div id="conflict-modal-message" className="p1">{props.vehicleName} is booked by these trips:</div>
     <div id="conflict-modal-conflicts" className="p1">
       {props.conflicts.map((conflict) => {

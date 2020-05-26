@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Approvals from '../../cert_approvals';
 import LeaderApprovals from '../../leader_approvals';
-import Loading from '../../loading';
+import DOCLoading from '../../doc-loading';
 import dropdownIcon from '../../../img/dropdown-toggle.svg';
 // import OpoDropdown from './approval-dropdown';
 import '../../../styles/approvals-style.scss';
@@ -35,7 +35,7 @@ class OPOLeaders extends Component {
     if (this.state.a) {
       return (
         <div className="center-view">
-          <Loading type="doc" />
+          <DOCLoading type="doc" />
           <div>This page is under construction</div>
         </div>
       );
@@ -90,7 +90,7 @@ class OPOLeaders extends Component {
 
       );
     } else {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

@@ -2,23 +2,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-import Loading from './loading';
+import DOCLoading from './doc-loading';
 import TripCard from './trip-card';
 import { getMyTrips } from '../actions';
 import './trips/trip-card.scss';
 import '../styles/mytrips-style.scss';
 import createtrip from "../img/createtrip.svg";
-import pendingBadge from '../img/pending_badge.svg';
-import approvedBadge from '../img/approved_badge.svg';
-import deniedBadge from '../img/denied_badge.svg';
+import Badge from './badge';
 
 class MyTrips extends Component {
-  badges = {
-    pending: pendingBadge,
-    approved: approvedBadge,
-    denied: deniedBadge,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -103,9 +95,10 @@ class MyTrips extends Component {
         }
         return (
           <div key={vehicleReq._id} className="mytrips-vehicle-req">
-            <div className="mytrips-status-badge">
+            {/* <div className="mytrips-status-badge">
               <img className="status-badge" src={this.badges[status]} alt={`${status}_badge`} />
-            </div>
+            </div> */}
+              <Badge type={status}></Badge>
             <div className="mytrips-req-header-and-status">
               <Link to={reqLink} className="mytrips-req-header">{reqTitle}</Link>
               <em className="mytrips-req-status">{status}</em>
@@ -151,7 +144,7 @@ class MyTrips extends Component {
         </div >
       );
     } else {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

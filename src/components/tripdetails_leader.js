@@ -4,18 +4,11 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Collapse from 'react-bootstrap/Collapse';
 import { ProfileCard } from './profile-card';
+import Badge from './badge';
 import '../styles/tripdetails_leader.scss';
-import pendingBadge from '../img/pending_badge.svg';
-import approvedBadge from '../img/approved_badge.svg';
-import deniedBadge from '../img/denied_badge.svg';
+
 import confirmDeleteImage from '../img/confirmDelete.jpg';
 import VehicleRequestDisplay from './vehicleRequestDisplay';
-
-const badges = {
-  pending: pendingBadge,
-  approved: approvedBadge,
-  denied: deniedBadge,
-};
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -178,7 +171,13 @@ const getOnTrip = (props, onTripEmailRef) => {
 };
 
 const getGearStatus = (gearStatus) => {
-  return <span className="ltd-detail-right">{gearStatus}<img className="status-badge" src={badges[gearStatus]} alt={`${gearStatus}_badge`} /> </span>;
+  return (
+    <span className="ltd-detail-right">
+      {gearStatus}
+      <Badge type={gearStatus} />
+      {/* <img className="status-badge" src={badges[gearStatus]} alt={`${gearStatus}_badge`} /> */}
+    </span>
+  );
 };
 
 const getIndividualGear = (individualGearArray, individualGearStatus) => {

@@ -6,9 +6,10 @@ import { Dropdown, Modal } from 'react-bootstrap';
 import TripDetailsModal from '../trip-details/trip-details-basic';
 import TripCard from '../trip-card';
 import Toggle from '../toggle';
-import { fetchTrips, getClubs } from '../../actions';
+import { fetchTrips, fetchTrip, getClubs } from '../../actions';
+import utils from '../../utils';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
-import notFound from '../../img/confirmCancel.svg';
+import notFound from './sad-tree.png';
 import './trip-card.scss';
 
 class Trips extends Component {
@@ -21,24 +22,21 @@ class Trips extends Component {
         'Tomorrow',
         'Next 3 days',
         'This week',
-        'This month',
-        'This term'
+        'This weekend',
+        'In a month'
       ],
       selectedTimePeriod: 'This week',
       grid: true,
-      showTrip: null,
-      startDate: "",
-      seePastTrips: true,
+      showTrip: false,
+      startDate: null,
+      seePastTrips: false,
     };
   }
 
   componentDidMount(props) {
+    console.log(utils)
     this.props.fetchTrips();
     this.props.getClubs();
-  }
-
-  closeTripModal(){
-    this.setState({showTrip: null});
   }
 
   formatDate = (date) => {
@@ -63,14 +61,6 @@ class Trips extends Component {
     return t1.getTime() - t2.getTime();
   }
 
-  //THIS ISNT WORKING-- BECAUSE OF THE FINAL COMPARISON?
-  compareStartDateWithInput = (a, b) => {
-    const t1 = new Date(a.startDate);
-    const t2 = new Date(b.startDate);
-    const d = new Date(this.state.startDate);
-    return (Math.abs(d - t1) - Math.abs(d - t2));
-  }
-
   renderClubDropdown = () => {
     return (
       <Dropdown onSelect={eventKey => this.setState({club: eventKey})}>
@@ -92,7 +82,7 @@ class Trips extends Component {
   renderTimePeriodDropdown = () => {
     return (
       <Dropdown onSelect={eventKey => {
-        if (eventKey !== 'Specific day') this.setState({startDate: ""})
+        if (eventKey !== 'Specific day') this.setState({startDate: null})
         this.setState({selectedTimePeriod: eventKey})
         }}>
       <Dropdown.Toggle className="field">
@@ -105,6 +95,7 @@ class Trips extends Component {
         }))}
         <Dropdown.Divider />
         <Dropdown.Item eventKey="Specific day">Specific day</Dropdown.Item>
+        <Dropdown.Item eventKey="All">All</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     )
@@ -112,73 +103,53 @@ class Trips extends Component {
 
   renderStartDropdown = () => {
     return(
-      <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value }); }} className="field all-trips-date-select" value={this.state.startDate} />
+      <input type="date" name="startDate" onChange={(e) =>{
+        this.setState({ startDate: e.target.value }); 
+      }} className="field all-trips-date-select" value={this.state.startDate} />
     );
   }
 
   setCurrTrip = (trip) => {
-    this.setState({
-      showTrip: trip
+    this.props.fetchTrip(trip._id).then(() => {
+      this.setState({showTrip: true});
     });
   }
 
-  renderTripDetailsModal = () => {
-    if(this.state.showTrip === null || this.state.showTrip === undefined ) {
-      return null;
-    } else{ 
-      return(
-        <TripDetailsModal 
-          trip = {this.state.showTrip}  
-          closeModal = {() => this.closeTripModal()}/>
-      );
-    }
-  }
-
   renderTrips = () => {
-    let sortedTrips = this.props.trips.sort(this.compareStartDates);
-    if (this.state.startDate!==""){
-      sortedTrips.sort(this.compareStartDateWithInput);
+    let tripsFilteringProcess = [this.props.trips];
+
+    switch(this.state.selectedTimePeriod) {
+      case 'All':
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !utils.dates.inThePast(trip.startDate)));
+        break;
+      case 'Specific day':
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, this.state.startDate)));
+        break;
+      default:
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, null)));
     }
 
-    if (!this.state.seePastTrips) {
-      sortedTrips = sortedTrips.filter(trip => {
-        const startDate = new Date(trip.startDate)
-        const today = new Date();
-        return today < startDate;
-      })
+    if (this.state.seePastTrips) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().concat(this.props.trips.filter(trip => utils.dates.inThePast(trip.startDate))));
     }
 
-    let tripsGrid = [];
-    const specialClubs = ['Ledyard','Mountaineering','cnt','wiw','Woodsmen','surf','dmbc','wsc'];
+    tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => (this.state.club === 'All clubs' || trip.club.name === this.state.club)));
 
-    if (!this.state.beginnerOnly) {
-      tripsGrid = sortedTrips.filter(trip => (this.state.club === 'All Clubs' || trip.club.name === this.state.club )).map((trip) => {
-        return (<TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.setCurrTrip(trip)}></TripCard>);
-      });
-    } else {
-      let experienceNeeded = "";
-      if (this.state.beginnerOnly) experienceNeeded= true;
-      else experienceNeeded = false;
-
-      tripsGrid = sortedTrips.filter(trip => (this.state.club === 'All Clubs' || trip.club.name === this.state.club )&& trip.experienceNeeded===experienceNeeded).map((trip) => {
-        return (<TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.setCurrTrip(trip)}></TripCard>);
-     });
+    if (this.state.beginnerOnly) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !trip.experienceNeeded));
     }
 
-    if (tripsGrid.length === 0) {
+    const filteredTrips = tripsFilteringProcess.pop().sort(this.compareStartDates);
+
+    if (filteredTrips.length === 0) {
       return <div id="trips-page-not-found">
         <img src={notFound} ></img>
         <div className="h2">Sorry, we couldn't find any!</div>
         </div>;
-    }
-
-    if (this.state.grid) {
-      return tripsGrid;
     } else {
-      return tripsList;
+      return filteredTrips.map((trip) => <TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.setCurrTrip(trip)}></TripCard>);
     }
   }
-
 
   render() {
       return (
@@ -192,11 +163,12 @@ class Trips extends Component {
               <Toggle value={this.state.beginnerOnly} id="defaultCheck2" label="Beginner only" onChange={(e) => {
                 this.setState(prevState => {
                   return {beginnerOnly: !prevState.beginnerOnly}
-                })}}></Toggle>
+                })}} disabled={false}></Toggle>
               <Toggle value={this.state.seePastTrips} id="defaultCheck1" label="See past trips" onChange={(e) => {
                 this.setState(prevState => {
                   return {seePastTrips: !prevState.seePastTrips}
-                })}}></Toggle>
+                })
+              }} disabled={false}></Toggle>
             </div>
           </div>
           <div id="trip-tiles">
@@ -205,13 +177,14 @@ class Trips extends Component {
           <Modal
             centered
             size="lg"
-            show={this.state.showTrip !== null}
-            onHide={() => this.setState({showTrip: null})}
+            show={this.state.showTrip}
+            onHide={() => this.setState({showTrip: false})}
           >
             <div id="event-modal-close">
-              <i className="material-icons close-button" onClick={() => this.setState({showTrip: null})} role="button" tabIndex={0}>close</i>
+              <i className="material-icons close-button" onClick={() => this.setState({showTrip: false})} role="button" tabIndex={0}>close</i>
             </div>
-            {this.renderTripDetailsModal()}
+            <TripDetailsModal
+              closeModal = {() => this.setState({showTrip: false})}/>
           </Modal>
         </div>
       );
@@ -228,4 +201,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default withRouter(connect(mapStateToProps, { fetchTrips, getClubs })(Trips)); // connected component
+export default withRouter(connect(mapStateToProps, { fetchTrips, fetchTrip, getClubs })(Trips)); // connected component

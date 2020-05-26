@@ -133,23 +133,31 @@ export function setAttendingStatus(tripID, memberID, status, temporaryToken) {
 
 export function addToPending(signUpInfo) {
   return (dispatch) => {
-    axios.put(`${constants.BACKEND_URL}/addpending/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } })
-      .then((response) => {
-        dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
-      }).catch((error) => {
-        console.log('addpending error');
-        console.log(error);
-      });
+    return new Promise((resolve, reject) => {
+      axios.put(`${constants.BACKEND_URL}/addpending/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+          setTimeout(() => resolve(response.data), 1000);
+        }).catch((error) => {
+          console.log('addpending error');
+          console.log(error);
+          reject(error);
+        });
+    });
   };
 }
 
 export function editUserGear(signUpInfo) {
   return (dispatch) => {
-    axios.put(`${constants.BACKEND_URL}/editusergear/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
-    }).catch((error) => {
-      console.log('addpending error');
-      console.log(error);
+    return new Promise((resolve, reject) => {
+      axios.put(`${constants.BACKEND_URL}/editusergear/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+        dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+        setTimeout(() => resolve(response.data), 1000);
+      }).catch((error) => {
+        console.log('addpending error');
+        console.log(error);
+        reject(error);
+      });
     });
   };
 }
@@ -175,7 +183,7 @@ export function moveToPending(id, member) {
       axios.put(`${constants.BACKEND_URL}/movetopending/${id}`, { id, member }, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
-          resolve();
+          resolve(response.data);
         }).catch((error) => {
           console.log('move to pending error');
           console.log(error);

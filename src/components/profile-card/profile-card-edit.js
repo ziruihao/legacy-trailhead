@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import * as s3 from '../s3';
-import Loading from '../loading';
+import DOCLoading from '../doc-loading';
 import { appError, clearError, updateUser, getClubs, signOut, getUser, authUser } from '../../actions';
 import ProfileCard from './profile-card';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
@@ -549,7 +549,7 @@ class ProfileCardEdit extends Component {
         );
       }
     } else {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

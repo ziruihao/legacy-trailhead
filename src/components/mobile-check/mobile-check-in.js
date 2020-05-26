@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react';
 import { withRouter, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
-import Loading from '../loading';
+import DOCLoading from '../doc-loading';
 import { fetchTrip, setAttendingStatus } from '../../actions';
-import * as constants from '../../constants';
+import utils from '../../utils';
 import './mobile-check.scss';
 
 class MobileCheckIn extends PureComponent {
@@ -29,15 +29,15 @@ class MobileCheckIn extends PureComponent {
 
   render() {
     if (!this.state.loaded) {
-      return (<Loading type="doc" width="64" height="64" measure="px" />);
+      return (<DOCLoading type="doc" width="64" height="64" measure="px" />);
     } else {
       return (
         <div id="mobile-check-screen">
           <div id="mobile-check-header">
             <div className="doc-h3">{`Trip #${this.props.trip.number}`}</div>
             <div className="doc-h1">{`${this.props.trip.title}`}</div>
-            <div className="doc-h3">{`Start: ${constants.formatDate(this.props.trip.startDate)} ${constants.formatTime(this.props.trip.startTime)}`}</div>
-            <div className="doc-h3">{`Return: ${constants.formatDate(this.props.trip.endDate)} ${constants.formatTime(this.props.trip.endTime)}`}</div>
+            <div className="doc-h3">{`Start: ${utils.dates.formatDate(this.props.trip.startDate)} ${utils.dates.formatTime(this.props.trip.startTime)}`}</div>
+            <div className="doc-h3">{`Return: ${utils.dates.formatDate(this.props.trip.endDate)} ${utils.dates.formatTime(this.props.trip.endTime)}`}</div>
           </div>
           <hr />
           <div id="mobile-check-body">

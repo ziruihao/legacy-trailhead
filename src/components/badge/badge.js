@@ -1,9 +1,9 @@
 import React from 'react';
-import approved from './approved.svg';
-import denied from './denied.svg';
-import leader from './leader.svg';
-import pending from './pending.svg';
-import warning from './warning.svg';
+import approved from './approved-badge.svg';
+import denied from './denied-badge.svg';
+import leader from './leader-badge.svg';
+import pending from './pending-badge.svg';
+import warning from './warning-badge.svg';
 import './badge.scss';
 
 const Badge = (props) => {

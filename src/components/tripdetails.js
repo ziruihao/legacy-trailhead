@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import TripeeTripDetails from './tripdetails_trippee';
 import LeaderTripDetails from './tripdetails_leader';
 import OPOTripDetails from './tripdetails_opo';
-import Loading from './loading';
+import DOCLoading from './doc-loading';
 import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../actions';
 
 class TripDetails extends Component {
@@ -307,7 +307,7 @@ class TripDetails extends Component {
         appropriateComponent
       );
     } else {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Table from 'react-bootstrap/Table';
-import Loading from '../../loading';
+import DOCLoading from '../../doc-loading';
 import { fetchOpoTrips } from '../../../actions';
 import dropdownIcon from '../../../img/dropdown-toggle.svg';
 import '../../../styles/tripdetails_leader.scss';
@@ -291,7 +291,7 @@ class OPOTrips extends Component {
         </div>
       );
     } else {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

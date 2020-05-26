@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 import axios from 'axios';
 import { connect } from 'react-redux';
-import Loading from './loading';
+import DOCLoading from './doc-loading';
 import Dashboard from './dashboard';
 import AllTrips from './trips';
 import CreateTrip from './createtrip';
@@ -124,7 +124,7 @@ class App extends React.Component {
         </Router>
       );
     } else {
-      return <Loading type="doc" height="150" width="150" measure="px" />;
+      return <DOCLoading type="doc" height="150" width="150" measure="px" />;
     }
   }
 }
