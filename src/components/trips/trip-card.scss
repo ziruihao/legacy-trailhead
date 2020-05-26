@@ -1,7 +1,7 @@
 @import '../../styles/base.scss';
 
 #trips-page {
-  margin: 0 calc(50vw - 670px);
+  margin: 0 calc(50vw - 670px); // a wider version of .center-view
 
   #trip-safari-configs {
     // width: 100%;
@@ -19,44 +19,98 @@
       color: $green !important;
     }
   }
-  .box {
+    
+  #trip-tiles {
+    display: flex;
+    flex-wrap: wrap;
     margin-top: 45px;
 
-    .trip-tiles {
-      float: left;
+    > * {
+      margin-right: 45px;
+      margin-bottom: 45px;
+    }
 
-      > * {
-        margin-right: 45px;
-        margin-bottom: 45px;
-      }
+    > :last-child {
+      margin-right: 0px !important;
+    }
 
-      > :last-child {
-        margin-right: 0px !important;
+    #trips-page-not-found {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 100px 0;
+
+      img {
+        margin-bottom: 50px;
+        width: 200px;
       }
     }
   }
-
 }
 
+$trip-card-padding: 15px;
 
-.card-trip {
-  text-align: left;
+.trip-card {
+  width: 286px;
+  position: relative;
 
-  a {
-    color: black;
+  &:hover {
+    filter: brightness(90%);
+    cursor: pointer;
+  }
 
-    &:link, &:visited, &:hover {
-      text-decoration: none;
+  .trip-card-badge-holder {
+    position: absolute;
+    z-index: 1;
+    top: $trip-card-padding;
+    right: $trip-card-padding;
+    width: 40px;
+    height: 40px;
+  }
+
+  .trip-card-decal {
+    z-index: 1;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 60%;
+    height: auto;
+    opacity: 0.2;
+  }
+
+  .trip-card-body {
+    padding: $trip-card-padding;
+    box-sizing: content-box;
+    height: 300px;
+    box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    position: relative;
+    background: white;
+    overflow: hidden;
+
+    .label-text {
+      margin-bottom: 10px;
     }
-  }
 
-  h1 {
-    color: black;
-  }
+    .doc-h2 {
+      margin-bottom: 10px;
+    }
 
+    .trip-card-date {
+      margin-bottom: $trip-card-padding;
+    }
 
-  p {
-    color: black;
+    .trip-card-club {
+      width: fit-content;
+      padding: 0 0.5em;
+      background-color: rgb(229, 205, 190);
+      border-style: solid;
+      border-color: rgb(229, 205, 190);
+      border-radius: 5px;
+      margin-bottom: $trip-card-padding;
+    }
   }
 }
 .create-trip-link{
@@ -69,26 +123,11 @@
   }
 }
 
-
-.tile-box {
-  text-align: center;
-  padding-left: 5%;
-}
-
 .all-trips-header {
   margin-bottom: 10px;
   color:black;
 }
 
-.card {
-  width: 18rem;
-  display:inline-block;
-}
-
-.card-title{
-  font-size: 14pt;
-  font-weight:bold;
-}
 .all-trips-select {
   display: inline-block;
   width:15%;
@@ -101,34 +140,13 @@
 
 }
 
-.card-body{
-  box-sizing: content-box;
-  padding:5%;
-  text-align: left;
-  height:300px;
-  box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
-  border-style: solid;
-  border-color: white;
-  border-radius: 5px;
-  position: relative;
-  background: white;
-  overflow: hidden;
-
-}
 
 input[type=date]::-webkit-inner-spin-button,
 input[type=date]::-webkit-outer-spin-button {
   display: none;
 }
 
-.card-club{
-  width:fit-content;
-  font-size: 10pt;
-  background-color: rgb(229, 205, 190);
-  border-style: solid;
-  border-color: rgb(229, 205, 190);
-  border-radius: 5px;
-}
+
 .calendar-container {
   margin-top: 2vh;
   height: 90vh;
@@ -141,29 +159,8 @@ input[type=date]::-webkit-outer-spin-button {
   color: gray !important;
 }
 
-
-.content{
-  padding:1%;
-  text-align: center;
-}
 .detail-right{
   text-align:right;
-}
-
-.trip-details-modal{
-  width: 40%;
-  min-width:350px;
-  height:75%;
-  background-color: white;
-  box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
-  border-style: solid;
-  border-color: white;
-  border-radius: 5px;
-  float: right;
-  right:0;
-  margin-right: 2%;
-  margin-top:1%;
-
 }
 
 #signup-button{
@@ -171,16 +168,31 @@ input[type=date]::-webkit-outer-spin-button {
   background-color:  rgb(75, 157, 119);
 
 }
-.button-container{
-  text-align: center;
-  padding:5%;
-}
 .link{
   background-color: rgb(75, 157, 119);
   color:white;
 }
-#Ledyard::after{
-  background-image: url("../../img/ledyard.png");
+
+#create-trip{
+  height:18.5rem;
+  border-style: dashed;
+  border-color: gray;
+  box-shadow: none;
+  text-align: center;
+}
+#tiles-modal-open{
+  width: 50%;
+}
+#tiles-modal-closed{
+  width:100%;
+}
+
+
+// Unused
+
+
+#ledyard::after{
+  // background-image: url("../../img/ledyard.png");
   background-size: cover;
   content: ' ';
   display: block;
@@ -192,8 +204,8 @@ input[type=date]::-webkit-outer-spin-button {
   opacity: 0.2;
   bottom: 0;
 }
-#Mountaineering::after{
-  background-image: url("../../img/dmc.png");
+#mountain::after{
+  // background-image: url("../../img/dmc.png");
   background-size: cover;
   content: ' ';
   display: block;
@@ -207,7 +219,7 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 #doc::after{
-  background-image: url("../../img/doc.gif");
+  // background-image: url("../../img/doc.gif");
   background-size: 100%;
   content: ' ';
   display: block;
@@ -221,7 +233,7 @@ input[type=date]::-webkit-outer-spin-button {
 }
 
 #cnt::after{
-  background-image: url("../../img/cnt.gif");
+  // background-image: url("../../img/cnt.gif");
   background-size: cover;
   content: ' ';
   display: block;
@@ -234,7 +246,7 @@ input[type=date]::-webkit-outer-spin-button {
   bottom: 0;
 }
 #wiw::after{
-  background-image: url("../../img/wiw.png");
+  // background-image: url("../../img/wiw.png");
   background-size: cover;
   content: ' ';
   display: block;
@@ -246,8 +258,8 @@ input[type=date]::-webkit-outer-spin-button {
   opacity: 0.5;
   bottom: 0;
 }
-#Woodsmen::after{
-  background-image: url("../../img/woodsmen.gif");
+#wood::after{
+  // background-image: url("../../img/woodsmen.gif");
   background-size: cover;
   content: ' ';
   display: block;
@@ -260,7 +272,7 @@ input[type=date]::-webkit-outer-spin-button {
   bottom: 0;
 }
 #surf::after{
-  background-image: url("../../img/surf.png");
+  // background-image: url("../../img/surf.png");
   background-size: cover;
   content: ' ';
   display: block;
@@ -273,7 +285,7 @@ input[type=date]::-webkit-outer-spin-button {
   bottom: -1%;
 }
 #dmbc::after{
-  background-image: url("../../img/dmbc.jpg");
+  // background-image: url("../../img/dmbc.jpg");
   background-size: cover;
   content: ' ';
   display: block;
@@ -286,7 +298,7 @@ input[type=date]::-webkit-outer-spin-button {
   bottom: 0;
 }
 #wsc::after{
-  background-image: url("../../img/wsc.gif");
+  // background-image: url("../../img/wsc.gif");
   background-size: cover;
   content: ' ';
   display: block;
@@ -297,17 +309,4 @@ input[type=date]::-webkit-outer-spin-button {
   z-index: 1;
   opacity: 0.2;
   bottom: 0;
-}
-#create-trip{
-  height:18.5rem;
-  border-style: dashed;
-  border-color: gray;
-  box-shadow: none;
-  text-align: center;
-}
-#tiles-modal-open{
-  width: 50%;
-}
-#tiles-modal-closed{
-  width:100%;
 }

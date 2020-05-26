@@ -6,18 +6,12 @@ import Modal from 'react-bootstrap/Modal';
 import { reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../actions';
 import { GearRequest, BasicInfo, PCardRequest } from './opo-trip-info-pages';
 import OPOVehicleRequest from './opo-vehicle-request';
+import Badge from './badge';
 import '../styles/tripdetails_opo.scss';
 import '../styles/createtrip-style.scss';
-import pendingBadge from '../img/pending_badge.svg';
-import approvedBadge from '../img/approved_badge.svg';
-import deniedBadge from '../img/denied_badge.svg';
+
 
 class OPOTripDetails extends Component {
-  badges = {
-    pending: pendingBadge,
-    approved: approvedBadge,
-    denied: deniedBadge,
-  };
 
   constructor(props) {
     super(props);
@@ -66,10 +60,11 @@ class OPOTripDetails extends Component {
           >
             Gear Request
           </button>
-          {hasBeenReviewed ? <img className="assigned-badge" src={this.badges[status]} alt={`${status}_badge`} /> : null}
+          {hasBeenReviewed ? <Badge type={status}></Badge> : null}
         </div>
       );
     }
+    // <img className="assigned-badge" src={this.badges[status]} alt={`${status}_badge`} />
 
     let pcardRequest = null;
     const { pcardStatus } = trip;
@@ -83,10 +78,11 @@ class OPOTripDetails extends Component {
           >
             P-Card Request
           </button>
-          {pcardStatus !== 'pending' ? <img className="assigned-badge" src={this.badges[pcardStatus]} alt={`${pcardStatus}_badge`} /> : null}
+          {pcardStatus !== 'pending' ? <Badge type={status}></Badge> : null}
         </div>
       )
     }
+    // <img className="assigned-badge" src={this.badges[pcardStatus]} alt={`${pcardStatus}_badge`} />
 
     let vehicleRequest = null;
     const { vehicleStatus } = trip;
@@ -100,10 +96,12 @@ class OPOTripDetails extends Component {
           >
             Vehicle Request
           </button>
-          {vehicleStatus !== 'pending' ? <img className="assigned-badge" src={this.badges[vehicleStatus]} alt={`${vehicleStatus}_badge`} /> : null}
+          {vehicleStatus !== 'pending' ? <Badge type={status}></Badge> : null}
         </div>
       )
     }
+
+    // <img className="assigned-badge" src={this.badges[vehicleStatus]} alt={`${vehicleStatus}_badge`} />
 
     return (
       <div>
@@ -296,7 +294,8 @@ class OPOTripDetails extends Component {
           <div className="trip-details-close-button">
             <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
           </div>
-          <img className="status-badge ovr-status-badge" src={this.badges.denied} alt="warning_badge" />
+          <Badge type="denied"></Badge>
+          {/* <img className="status-badge ovr-status-badge" src={this.badges.denied} alt="warning_badge" /> */}
 
           <div className="cancel-content">
             <p className="cancel-question">{`Contact ${this.props.trip.leaders[0].name}`}</p>

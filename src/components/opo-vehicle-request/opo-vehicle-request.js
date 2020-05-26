@@ -8,23 +8,16 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import { ProfileCard } from '../profile-card';
 import ConflictModal from './conflict-modal';
-import Loading from '../loading';
+import DOCLoading from '../doc-loading';
+import Badge from '../badge';
 import * as constants from '../../constants';
+import utils from '../../utils';
 import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../actions';
-import pendingBadge from '../../img/pending_badge.svg';
-import approvedBadge from '../../img/approved_badge.svg';
-import deniedBadge from '../../img/denied_badge.svg';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import conflictMarker from './conflict-marker.svg';
 import './opo-vehicle-request.scss';
 
 class OPOVehicleRequest extends Component {
-  badges = {
-    pending: pendingBadge,
-    approved: approvedBadge,
-    denied: deniedBadge,
-  }
-
   vehicleForm = [];
 
   errorFields = {
@@ -372,11 +365,13 @@ class OPOVehicleRequest extends Component {
       return (
         <div key={vehicle._id} className="ovr-sidebar-req-section">
           <a href={`#vehicle_req_${index}`} className="ovr-req-section-link">Vehicle #{index + 1}</a>
-          {assignment ? <img className="assigned-badge" src={this.badges.approved} alt="approved_badge" /> : null}
+          {assignment ? <Badge type="approved" /> : null}
         </div>
       );
     });
   }
+
+  // <img className="assigned-badge" src={this.badges.approved} alt="approved_badge" />
 
   openConflictsModal = (vehicleName, conflicts) => {
     this.setState({
@@ -574,25 +569,25 @@ class OPOVehicleRequest extends Component {
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : constants.formatDate(assignment.assigned_pickupDate.substring(0, 10))}
+                : utils.dates.formatDate(assignment.assigned_pickupDate.substring(0, 10))}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : constants.formatTime(assignment.assigned_pickupTime)}
+                : utils.dates.formatTime(assignment.assigned_pickupTime)}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : constants.formatDate(assignment.assigned_returnDate.substring(0, 10))}
+                : utils.dates.formatDate(assignment.assigned_returnDate.substring(0, 10))}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : constants.formatTime(assignment.assigned_returnTime)}
+                : utils.dates.formatTime(assignment.assigned_returnTime)}
             </div>
             <hr className="detail-line" />
             <div className="ovr-req-row">
@@ -694,13 +689,13 @@ class OPOVehicleRequest extends Component {
                 <hr className="detail-line" />
                 <div className="ovr-req-row">{vehicle.passNeeded ? 'Yes' : 'No'} </div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{constants.formatDate(vehicle.pickupDate.substring(0, 10))}</div>
+                <div className="ovr-req-row">{utils.dates.formatDate(vehicle.pickupDate.substring(0, 10))}</div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{constants.formatTime(vehicle.pickupTime)}</div>
+                <div className="ovr-req-row">{utils.dates.formatTime(vehicle.pickupTime)}</div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{constants.formatDate(vehicle.returnDate.substring(0, 10))}</div>
+                <div className="ovr-req-row">{utils.dates.formatDate(vehicle.returnDate.substring(0, 10))}</div>
                 <hr className="detail-line" />
-                <div className="ovr-req-row">{constants.formatTime(vehicle.returnTime)}</div>
+                <div className="ovr-req-row">{utils.dates.formatTime(vehicle.returnTime)}</div>
                 <hr className="detail-line" />
                 <div className="ovr-req-row"> - </div>
                 {assignment
@@ -821,7 +816,7 @@ class OPOVehicleRequest extends Component {
 
   render() {
     if (!this.state.ready) {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     } else {
       return (
         <div className="ovr-container">
@@ -852,7 +847,8 @@ class OPOVehicleRequest extends Component {
                   {this.props.vehicleRequest.status}
                 </span>
                 <span className="vrf-req-status-badge">
-                  <img className="status-badge" src={this.badges[this.props.vehicleRequest.status]} alt={`${this.props.vehicleRequest.status}_badge`} />
+                  {/* <img className="status-badge" src={this.badges[this.props.vehicleRequest.status]} alt={`${this.props.vehicleRequest.status}_badge`} /> */}
+                  <Badge type={this.props.vehicleRequest.status} />
                 </span>
               </span>
             </div>
@@ -916,7 +912,8 @@ class OPOVehicleRequest extends Component {
             <div className="trip-details-close-button">
               <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
             </div>
-            <img className="status-badge ovr-status-badge" src={this.badges.denied} alt="denied_badge" />
+            <Badge type="denied" />
+            {/* <img className="status-badge ovr-status-badge" src={this.badges.denied} alt="denied_badge" /> */}
             {this.getModalContent()}
           </Modal>
           <Modal centered show={this.state.showConflictsModal} onHide={() => this.setState({ showConflictsModal: false })}>

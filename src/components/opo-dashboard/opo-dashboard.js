@@ -12,19 +12,19 @@ const OPODashboard = () => {
       <div id="dashboard-tiles">
         <NavLink className="section" to="/opo-trips">
           <img src={TripApprovals} alt="Trip Approval Icon" />
-          <div className="titles h2">Trip Approvals</div>
+          <div className="titles doc-h2">Trip Approvals</div>
         </NavLink>
         <NavLink className="section" to="/vehicle-requests">
           <img src={VehicleRequests} alt="Vehicle Requests Icon" />
-          <div className="titles h2">Vehicle Requests</div>
+          <div className="titles doc-h2">Vehicle Requests</div>
         </NavLink>
         <NavLink className="section" to="/leader-approvals">
           <img src={LeaderApproval} alt="Leader Icon" />
-          <div className="titles h2">Profile Approvals</div>
+          <div className="titles doc-h2">Profile Approvals</div>
         </NavLink>
         <NavLink className="section" to="/opo-fleet-management">
           <img src={OPOAssignments} alt="Fleet Icon" />
-          <div className="titles h2">Manage Fleet</div>
+          <div className="titles doc-h2">Manage Fleet</div>
         </NavLink>
       </div>
     </div>

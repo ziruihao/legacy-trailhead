@@ -49,7 +49,7 @@ class FleetManagement extends Component {
         <div id="fleet-management">
           <div id="fleet">
             <div className="doc-card large-card">
-              <div className="h1">Vehicle Fleet</div>
+              <div className="doc-h1">Vehicle Fleet</div>
               <Table className="doc-table" responsive="lg" hover>
                 <thead>
                   <tr>
@@ -76,7 +76,7 @@ class FleetManagement extends Component {
           <div id="management">
             <div className="doc-card">
               <div className="doc-form">
-                <div className="h2">Add New Vehicle</div>
+                <div className="doc-h2">Add New Vehicle</div>
                 <div className="field-label">Vehicle name</div>
                 <input className={`field ${this.state.newVehicleNameError ? 'field-error' : ''}`}
                   onChange={event => this.changeNewVehicleFields(event.target.value, 'newVehicleName')}
@@ -90,7 +90,7 @@ class FleetManagement extends Component {
                     <span className="field-dropdown-bootstrap">{this.state.newVehicleType ? this.state.newVehicleType : 'Select vehicle type'}</span>
                     <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
                   </Dropdown.Toggle>
-                  <Dropdown.Menu className="field-dropdown">
+                  <Dropdown.Menu className="field-dropdown-menu">
                     <Dropdown.Item eventKey="Microbus">Microbus</Dropdown.Item>
                     <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
                     <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>

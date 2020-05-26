@@ -2,33 +2,41 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import { Dropdown } from 'react-bootstrap';
-import TripDetailsModal from '../tripDetailsModal';
+import { Dropdown, Modal } from 'react-bootstrap';
+import TripDetailsModal from '../trip-details/trip-details-basic';
+import TripCard from '../trip-card';
 import Toggle from '../toggle';
-import { fetchTrips, getClubs } from '../../actions';
+import { fetchTrips, fetchTrip, getClubs } from '../../actions';
+import utils from '../../utils';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
+import notFound from './sad-tree.png';
 import './trip-card.scss';
 
 class Trips extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      club: 'All Clubs',
+      club: 'All clubs',
       beginnerOnly: false,
+      timePeriods: [
+        'Tomorrow',
+        'Next 3 days',
+        'This week',
+        'This weekend',
+        'In a month'
+      ],
+      selectedTimePeriod: 'This week',
       grid: true,
-      showTrip: null,
-      startDate: "",
-      seePastTrips: true,
+      showTrip: false,
+      startDate: null,
+      seePastTrips: false,
     };
   }
 
   componentDidMount(props) {
+    console.log(utils)
     this.props.fetchTrips();
     this.props.getClubs();
-  }
-
-  closeTripModal(){
-    this.setState({showTrip: null});
   }
 
   formatDate = (date) => {
@@ -38,6 +46,7 @@ class Trips extends Component {
     }
     return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
   }
+
   formatDescription = (des) => {
       let description = des;
       if(description.length > 100){
@@ -52,21 +61,16 @@ class Trips extends Component {
     return t1.getTime() - t2.getTime();
   }
 
-  //THIS ISNT WORKING-- BECAUSE OF THE FINAL COMPARISON?
-  compareStartDateWithInput = (a, b) => {
-    const t1 = new Date(a.startDate);
-    const t2 = new Date(b.startDate);
-    const d = new Date(this.state.startDate);
-    return (Math.abs(d - t1) - Math.abs(d - t2));
-  }
   renderClubDropdown = () => {
     return (
       <Dropdown onSelect={eventKey => this.setState({club: eventKey})}>
-      <Dropdown.Toggle className={`field ${this.state.newVehicleTypeError ? 'field-error' : ''}`}>
+      <Dropdown.Toggle className="field">
         <span className="field-dropdown-bootstrap">{this.state.club}</span>
         <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
       </Dropdown.Toggle>
-      <Dropdown.Menu className="field-dropdown">
+      <Dropdown.Menu className="field-dropdown-menu">
+      <Dropdown.Item eventKey="All clubs">All clubs</Dropdown.Item>
+      <Dropdown.Divider />
         {this.props.clubs.map((club => {
           return (<Dropdown.Item key={club._id} eventKey={club.name}>{club.name}</Dropdown.Item>);
         }))}
@@ -75,162 +79,113 @@ class Trips extends Component {
     )
   }
 
+  renderTimePeriodDropdown = () => {
+    return (
+      <Dropdown onSelect={eventKey => {
+        if (eventKey !== 'Specific day') this.setState({startDate: null})
+        this.setState({selectedTimePeriod: eventKey})
+        }}>
+      <Dropdown.Toggle className="field">
+        <span className="field-dropdown-bootstrap">{this.state.selectedTimePeriod}</span>
+        <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+      </Dropdown.Toggle>
+      <Dropdown.Menu className="field-dropdown-menu">
+        {this.state.timePeriods.map((timePeriod => {
+          return (<Dropdown.Item key={timePeriod} eventKey={timePeriod}>{timePeriod}</Dropdown.Item>);
+        }))}
+        <Dropdown.Divider />
+        <Dropdown.Item eventKey="Specific day">Specific day</Dropdown.Item>
+        <Dropdown.Item eventKey="All">All</Dropdown.Item>
+      </Dropdown.Menu>
+    </Dropdown>
+    )
+  }
+
   renderStartDropdown = () => {
     return(
-      <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value}); }} className="field all-trips-date-select" value={this.state.startDate} />
+      <input type="date" name="startDate" onChange={(e) =>{
+        this.setState({ startDate: e.target.value }); 
+      }} className="field all-trips-date-select" value={this.state.startDate} />
     );
   }
 
   setCurrTrip = (trip) => {
-    this.setState({
-      showTrip: trip
+    this.props.fetchTrip(trip._id).then(() => {
+      this.setState({showTrip: true});
     });
   }
 
-  renderTripDetailsModal=()=>{
-    if(this.state.showTrip === null || this.state.showTrip === undefined ){
-      return null;
-    }else{
-      return(
-        <TripDetailsModal 
-          className = "modal" 
-          trip = {this.state.showTrip}  
-          closeModal = {() => this.closeTripModal()}/>
-      );
-    }
-  }
-
   renderTrips = () => {
-    let sortedTrips = this.props.trips.sort(this.compareStartDates);
-    if (this.state.startDate!==""){
-      sortedTrips.sort(this.compareStartDateWithInput);
+    let tripsFilteringProcess = [this.props.trips];
+
+    switch(this.state.selectedTimePeriod) {
+      case 'All':
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !utils.dates.inThePast(trip.startDate)));
+        break;
+      case 'Specific day':
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, this.state.startDate)));
+        break;
+      default:
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, null)));
     }
 
-    if (!this.state.seePastTrips) {
-      sortedTrips = sortedTrips.filter(trip => {
-        const startDate = new Date(trip.startDate)
-        const today = new Date();
-        return today < startDate;
-      })
+    if (this.state.seePastTrips) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().concat(this.props.trips.filter(trip => utils.dates.inThePast(trip.startDate))));
     }
 
-    let tripsGrid = [];
-    const specialClubs = ['Ledyard','Mountaineering','cnt','wiw','Woodsmen','surf','dmbc','wsc'];
+    tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => (this.state.club === 'All clubs' || trip.club.name === this.state.club)));
 
-    if (!this.state.beginnerOnly) {
-       tripsGrid = sortedTrips.filter(trip => (this.state.club === 'All Clubs' || trip.club.name === this.state.club )).map((trip) => {
+    if (this.state.beginnerOnly) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !trip.experienceNeeded));
+    }
 
-        let isLeading = false;
-        trip.leaders.some((leader) => {
-          if (leader._id === this.props.user._id) {
-            isLeading = true;
-          }
-        });
+    const filteredTrips = tripsFilteringProcess.pop().sort(this.compareStartDates);
 
-        let card_id = trip.club.name;
-        if(card_id==='Cabin and Trail') card_id = 'cnt';
-        if(card_id==='Women in the Wilderness') card_id = 'wiw';
-        if(card_id==='Surf Club') card_id = 'surf';
-        if(card_id==='Mountain Biking') card_id = 'dmbc';
-        if(card_id==='Winter Sports') card_id = 'wsc';
-
-        //TODO: try to get bait and bullet logo
-        // Make arry of all the string values 
-        if(!specialClubs.includes(card_id)) card_id = "doc";
-        
-        return (
-            <div key={trip._id} className="card text-center card-trip margins">
-                <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
-                  <h1 className= "leading-trip">{isLeading ? console.log("yes") : console.log("no")}</h1>
-                  <h2 className="card-title">{isLeading ? '(L)' : null} {trip.title}</h2>
-                  <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-                  <p className="card-text">{this.formatDescription(trip.description)}</p>
-                  <p className="card-club">{trip.club ? trip.club.name : ''}</p>
-                </div>
-            </div>
-          );
-      });
+    if (filteredTrips.length === 0) {
+      return <div id="trips-page-not-found">
+        <img src={notFound} ></img>
+        <div className="h2">Sorry, we couldn't find any!</div>
+        </div>;
     } else {
-      let experienceNeeded = "";
-      if (this.state.beginnerOnly) {
-        experienceNeeded= true;
-      }else{
-        experienceNeeded = false;
-      }
-      tripsGrid = sortedTrips.filter(trip => (this.state.club === 'All Clubs' || trip.club.name === this.state.club )&& trip.experienceNeeded===experienceNeeded).map((trip) => {
-
-        let isLeading = false;
-        trip.leaders.some((leader) => {
-          if (leader._id === this.props.user._id) {
-            isLeading = true;
-          }
-        });
-
-        let card_id = trip.club.name;
-        if(card_id==='Cabin and Trail') card_id = 'cnt';
-        if(card_id==='Women in the Wilderness') card_id = 'wiw';
-        if(card_id==='Surf Club') card_id = 'surf';
-        if(card_id==='Mountain Biking') card_id = 'dmbc';
-        if(card_id==='Winter Sports') card_id = 'wsc';
-
-        //TODO: try to get bait and bullet logo
-        // Make arry of all the string values 
-        if(!specialClubs.includes(card_id)) card_id = "doc";
-         return (
-           <div key={trip._id} className="card card text-center card-trip margins">
-               <div className="card-body" id = {card_id} onClick = {() => this.setCurrTrip(trip)}>
-                 <h2 className="card-title">{isLeading ? '(L)' : null} {trip.title}</h2>
-                 <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-                 <p className="card-text">{this.formatDescription(trip.description)}</p>
-                 <p className="card-club">{trip.club ? trip.club.name : ''}</p>
-               </div>
-           </div>
-         );
-
-
-     });
-    }
-
-    if (tripsGrid.length === 0) {
-      return <div>No upcoming trips for this club</div>;
-    }
-
-    if (this.state.grid) {
-      return tripsGrid;
-    } else {
-      return tripsList;
+      return filteredTrips.map((trip) => <TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.setCurrTrip(trip)}></TripCard>);
     }
   }
-
 
   render() {
-    let tiles_id = "tiles-modal-closed";
-    if(this.state.showTrip!==null){
-      tiles_id = "tiles-modal-open";
-    }
       return (
         <div id="trips-page" className="center-view spacy">
           <div className="doc-card spacy-card">
-            <div className="h1">Explore trips</div>
+            <div className="doc-h1">Explore trips</div>
             <div id="trip-safari-configs">
-              {this.renderStartDropdown()}
               {this.renderClubDropdown()}
+              {this.renderTimePeriodDropdown()}
+              {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
               <Toggle value={this.state.beginnerOnly} id="defaultCheck2" label="Beginner only" onChange={(e) => {
                 this.setState(prevState => {
                   return {beginnerOnly: !prevState.beginnerOnly}
-                })}}></Toggle>
+                })}} disabled={false}></Toggle>
               <Toggle value={this.state.seePastTrips} id="defaultCheck1" label="See past trips" onChange={(e) => {
                 this.setState(prevState => {
                   return {seePastTrips: !prevState.seePastTrips}
-                })}}></Toggle>
+                })
+              }} disabled={false}></Toggle>
             </div>
           </div>
-          <div className="box">
-            <div className = "trip-tiles" id = {tiles_id}>
-              {this.renderTrips()}
-            </div>
-            {this.renderTripDetailsModal()}
+          <div id="trip-tiles">
+            {this.renderTrips()}
           </div>
+          <Modal
+            centered
+            size="lg"
+            show={this.state.showTrip}
+            onHide={() => this.setState({showTrip: false})}
+          >
+            <div id="event-modal-close">
+              <i className="material-icons close-button" onClick={() => this.setState({showTrip: false})} role="button" tabIndex={0}>close</i>
+            </div>
+            <TripDetailsModal
+              closeModal = {() => this.setState({showTrip: false})}/>
+          </Modal>
         </div>
       );
     }
@@ -246,4 +201,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default withRouter(connect(mapStateToProps, { fetchTrips, getClubs })(Trips)); // connected component
+export default withRouter(connect(mapStateToProps, { fetchTrips, fetchTrip, getClubs })(Trips)); // connected component

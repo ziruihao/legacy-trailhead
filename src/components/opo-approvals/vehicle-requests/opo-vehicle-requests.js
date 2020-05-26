@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Toggle from '../../toggle/toggle';
-import Loading from '../../loading';
+import DOCLoading from '../../doc-loading';
 import { fetchVehicleRequests } from '../../../actions';
 import '../../../styles/tripdetails_leader.scss';
 import '../opo-approvals.scss';
@@ -193,12 +193,13 @@ class OPOVehicleRequests extends Component {
         <div id="opo-trips-page" className="center-view">
           <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
-              <div className="h1">Pending V-Requests</div>
+              <div className="doc-h1">Pending V-Requests</div>
               <Toggle
                 id="pending-requests-past-toggle"
                 label="See past requests"
                 value={this.state.seePastPendingRequests}
                 onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+                disabled={false}
               />
               <input
                 name="searchPending"
@@ -212,12 +213,13 @@ class OPOVehicleRequests extends Component {
           </div>
           <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
-              <h4 className="h1">Reviewed V-Requests</h4>
+              <h4 className="doc-h1">Reviewed V-Requests</h4>
               <Toggle
                 id="reviewed-requests-past-toggle"
                 label="See past requests"
                 value={this.state.seePastReviewedRequests}
                 onChange={() => this.setState((prevState) => { return { seePastReviewedRequests: !prevState.seePastReviewedRequests }; })}
+                disabled={false}
               />
               <input
                 name="searchReviewed"
@@ -233,7 +235,7 @@ class OPOVehicleRequests extends Component {
         </div>
       );
     } else {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

@@ -2,22 +2,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-import Loading from './loading';
+import DOCLoading from './doc-loading';
+import TripCard from './trip-card';
 import { getMyTrips } from '../actions';
 import './trips/trip-card.scss';
 import '../styles/mytrips-style.scss';
 import createtrip from "../img/createtrip.svg";
-import pendingBadge from '../img/pending_badge.svg';
-import approvedBadge from '../img/approved_badge.svg';
-import deniedBadge from '../img/denied_badge.svg';
+import Badge from './badge';
 
 class MyTrips extends Component {
-  badges = {
-    pending: pendingBadge,
-    approved: approvedBadge,
-    denied: deniedBadge,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
@@ -69,39 +62,11 @@ class MyTrips extends Component {
         Club leaders should update the 'DOC Leadership' field on their profiles to gain leader access.
         </span>
       : null;
-
-    const specialClubs = ['Ledyard','Mountaineering','cnt','wiw','Woodsmen','surf','dmbc','wsc'];
-
     if (this.props.myTrips.length !== 0) {
       const sortedTrips = this.props.myTrips.sort(this.compareStartDates);
-      myTrips = sortedTrips.map((trip, id) => {
-        let card_id = trip.club.name;
-        if (card_id === "Cabin and Trail") card_id = "cnt";
-        if (card_id === "Women in the Wilderness") card_id = "wiw";
-        if (card_id === "Surf Club") card_id = "surf";
-        if (card_id === "Mountain Biking") card_id = "dmbc";
-        if (card_id === "Winter Sports") card_id = "wsc";
-        
-        let isLeading = false;
-        trip.leaders.some((leaderId) => {
-          if (leaderId === this.props.user._id) {
-            isLeading = true;
-          }
-          return leaderId === this.props.user._id;
-        });
-        if(!specialClubs.includes(card_id)) card_id = "doc";
-
+      myTrips = sortedTrips.map((trip) => {
         return (
-          <div key={trip._id} className="card text-center card-trip margins">
-            <NavLink to={`/trip/${trip._id}`}>
-              <div className="card-body" id={card_id} >
-                <h2 className="card-title">{isLeading ? '(L)' : null} {trip.title}</h2>
-                <p className="card-text">{trip.club ? trip.club.name : ''}</p>
-                <p className="card-text">{this.formatDate(trip.startDate)} - {this.formatDate(trip.endDate)}</p>
-                <p className="card-club">{trip.club ? trip.club.name : ''}</p>
-              </div>
-            </NavLink>
-          </div>
+          <TripCard key={trip._id} trip={trip} user={this.props.user}></TripCard>
         );
       });
     }
@@ -130,9 +95,10 @@ class MyTrips extends Component {
         }
         return (
           <div key={vehicleReq._id} className="mytrips-vehicle-req">
-            <div className="mytrips-status-badge">
+            {/* <div className="mytrips-status-badge">
               <img className="status-badge" src={this.badges[status]} alt={`${status}_badge`} />
-            </div>
+            </div> */}
+              <Badge type={status}></Badge>
             <div className="mytrips-req-header-and-status">
               <Link to={reqLink} className="mytrips-req-header">{reqTitle}</Link>
               <em className="mytrips-req-status">{status}</em>
@@ -178,7 +144,7 @@ class MyTrips extends Component {
         </div >
       );
     } else {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }
