@@ -108,7 +108,6 @@ class Trips extends Component {
   renderStartDropdown = () => {
     return(
       <input type="date" name="startDate" onChange={(e) =>{
-        console.log(e);
         this.setState({ startDate: e.target.value }); 
       }} className="field all-trips-date-select" value={this.state.startDate} />
     );
@@ -169,7 +168,6 @@ class Trips extends Component {
   }
 
   render() {
-    console.log('startDate', this.state.startDate)
       return (
         <div id="trips-page" className="center-view spacy">
           <div className="doc-card spacy-card">
@@ -186,7 +184,6 @@ class Trips extends Component {
                 this.setState(prevState => {
                   return {seePastTrips: !prevState.seePastTrips}
                 })
-                console.log(this.state.seePastTrips);
               }}></Toggle>
             </div>
           </div>
