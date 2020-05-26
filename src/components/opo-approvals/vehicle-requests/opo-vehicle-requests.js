@@ -199,6 +199,7 @@ class OPOVehicleRequests extends Component {
                 label="See past requests"
                 value={this.state.seePastPendingRequests}
                 onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+                disabled={false}
               />
               <input
                 name="searchPending"
@@ -218,6 +219,7 @@ class OPOVehicleRequests extends Component {
                 label="See past requests"
                 value={this.state.seePastReviewedRequests}
                 onChange={() => this.setState((prevState) => { return { seePastReviewedRequests: !prevState.seePastReviewedRequests }; })}
+                disabled={false}
               />
               <input
                 name="searchReviewed"
