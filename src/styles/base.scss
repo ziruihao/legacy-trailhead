@@ -111,6 +111,7 @@ a {
     }
 
     &.hollow {
+        color: $green;
         background: white;
         border: 3px solid $green;
     }

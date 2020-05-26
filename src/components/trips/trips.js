@@ -6,7 +6,7 @@ import { Dropdown, Modal } from 'react-bootstrap';
 import TripDetailsModal from '../trip-details/trip-details-basic';
 import TripCard from '../trip-card';
 import Toggle from '../toggle';
-import { fetchTrips, getClubs } from '../../actions';
+import { fetchTrips, fetchTrip, getClubs } from '../../actions';
 import utils from '../../utils';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import notFound from './sad-tree.png';
@@ -27,7 +27,7 @@ class Trips extends Component {
       ],
       selectedTimePeriod: 'This week',
       grid: true,
-      showTrip: null,
+      showTrip: false,
       startDate: null,
       seePastTrips: false,
     };
@@ -37,10 +37,6 @@ class Trips extends Component {
     console.log(utils)
     this.props.fetchTrips();
     this.props.getClubs();
-  }
-
-  closeTripModal(){
-    this.setState({showTrip: null});
   }
 
   formatDate = (date) => {
@@ -114,21 +110,9 @@ class Trips extends Component {
   }
 
   setCurrTrip = (trip) => {
-    this.setState({
-      showTrip: trip
+    this.props.fetchTrip(trip._id).then(() => {
+      this.setState({showTrip: true});
     });
-  }
-
-  renderTripDetailsModal = () => {
-    if(this.state.showTrip === null || this.state.showTrip === undefined ) {
-      return null;
-    } else{ 
-      return(
-        <TripDetailsModal 
-          trip = {this.state.showTrip}  
-          closeModal = {() => this.closeTripModal()}/>
-      );
-    }
   }
 
   renderTrips = () => {
@@ -193,13 +177,14 @@ class Trips extends Component {
           <Modal
             centered
             size="lg"
-            show={this.state.showTrip !== null}
-            onHide={() => this.setState({showTrip: null})}
+            show={this.state.showTrip}
+            onHide={() => this.setState({showTrip: false})}
           >
             <div id="event-modal-close">
-              <i className="material-icons close-button" onClick={() => this.setState({showTrip: null})} role="button" tabIndex={0}>close</i>
+              <i className="material-icons close-button" onClick={() => this.setState({showTrip: false})} role="button" tabIndex={0}>close</i>
             </div>
-            {this.renderTripDetailsModal()}
+            <TripDetailsModal
+              closeModal = {() => this.setState({showTrip: false})}/>
           </Modal>
         </div>
       );
@@ -216,4 +201,4 @@ const mapStateToProps = state => (
   }
 );
 
-export default withRouter(connect(mapStateToProps, { fetchTrips, getClubs })(Trips)); // connected component
+export default withRouter(connect(mapStateToProps, { fetchTrips, fetchTrip, getClubs })(Trips)); // connected component
