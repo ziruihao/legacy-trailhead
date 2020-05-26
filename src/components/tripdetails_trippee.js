@@ -1,16 +1,8 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import '../styles/tripdetails_trippee-style.scss';
-import pendingBadge from '../img/pending_badge.svg';
-import approvedBadge from '../img/approved_badge.svg';
-import deniedBadge from '../img/denied_badge.svg';
+import Badge from './badge';
 import confirmCancelImage from '../img/confirmCancel.svg';
-
-const badges = {
-  pending: pendingBadge,
-  approved: approvedBadge,
-  denied: deniedBadge,
-};
+import '../styles/tripdetails_trippee-style.scss';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -105,40 +97,40 @@ const getGear = (props) => {
   }
 };
 
-const getStatusBanner = (isUserOnTrip) => {
-  switch (isUserOnTrip) {
-    case 'NONE':
-      return null;
-    case 'PENDING':
-      return (
-        <div className="status-banner">
-          <span className="status-icon">
-            <img src={badges.pending} alt="pending_badge" />
-          </span>
-          <span className="status-message">
-            <h4>
-              You’ve signed up for this trip! Now we wait for the leader to confirm your spot.
-            </h4>
-          </span>
-        </div>
-      );
-    case 'APPROVED':
-      return (
-        <div className="status-banner">
-          <span className="status-icon">
-            <img src={badges.approved} alt="approved_badge" />
-          </span>
-          <span className="status-message">
-            <h4>
-              You’re officially on this trip! Please be at your pickup location 5 minutes before your start time. Have fun!
-            </h4>
-          </span>
-        </div>
-      );
-    default:
-      return null;
-  }
-};
+// const getStatusBanner = (isUserOnTrip) => {
+//   switch (isUserOnTrip) {
+//     case 'NONE':
+//       return null;
+//     case 'PENDING':
+//       return (
+//         <div className="status-banner">
+//           <span className="status-icon">
+//             <img src={badges.pending} alt="pending_badge" />
+//           </span>
+//           <span className="status-message">
+//             <h4>
+//               You’ve signed up for this trip! Now we wait for the leader to confirm your spot.
+//             </h4>
+//           </span>
+//         </div>
+//       );
+//     case 'APPROVED':
+//       return (
+//         <div className="status-banner">
+//           <span className="status-icon">
+//             <img src={badges.approved} alt="approved_badge" />
+//           </span>
+//           <span className="status-message">
+//             <h4>
+//               You’re officially on this trip! Please be at your pickup location 5 minutes before your start time. Have fun!
+//             </h4>
+//           </span>
+//         </div>
+//       );
+//     default:
+//       return null;
+//   }
+// };
 
 const getAppropriateButton = (props) => {
   console.log(props.isUserOnTrip);
@@ -187,7 +179,7 @@ const TripeeTripDetails = (props) => {
       </div>
       <div className="trip-details-content">
 
-        {getStatusBanner(props.isUserOnTrip)}
+        {/* {getStatusBanner(props.isUserOnTrip)} */}
 
         <h1 className="p-trip-title">{props.trip.title}</h1>
         <div className="trip-club-container">

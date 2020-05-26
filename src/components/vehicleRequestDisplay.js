@@ -1,14 +1,6 @@
 import React from 'react';
+import Badge from './badge';
 import '../styles/vehicleRequestForm-style.scss';
-import pendingBadge from '../img/pending_badge.svg';
-import approvedBadge from '../img/approved_badge.svg';
-import deniedBadge from '../img/denied_badge.svg';
-
-const badges = {
-  pending: pendingBadge,
-  approved: approvedBadge,
-  denied: deniedBadge,
-};
 
 const formatDate = (date, time) => {
   let timeString = '';
@@ -210,7 +202,8 @@ const VehicleRequestDisplay = (props) => {
             {props.vehicleRequest.status}
           </span>
           <span className="vrf-req-status-badge">
-            <img className="status-badge" src={badges[props.vehicleRequest.status]} alt={`${props.vehicleRequest.status}_badge`} />
+            <Badge type={props.vehicleRequest.status} />
+            {/* <img className="status-badge" src={badges[props.vehicleRequest.status]} alt={`${props.vehicleRequest.status}_badge`} /> */}
           </span>
         </span>
       </div>
