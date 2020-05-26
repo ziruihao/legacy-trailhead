@@ -52,7 +52,7 @@ class OPOLeaders extends Component {
                     <p className="current-filter">{this.state.page}</p>
                     <img className="dropdown-icon right-margin" src={dropdownIcon} alt="dropdown-toggle" />
                   </Dropdown.Toggle>
-                  <Dropdown.Menu className="filter-options">
+                  <Dropdown.Menu className="field-dropdown-menu">
                     <Dropdown.Item onClick={this.onClick}>Leader Status Requests</Dropdown.Item>
                     <Dropdown.Item onClick={this.onClick}>Driver Certification Requests</Dropdown.Item>
                   </Dropdown.Menu>
@@ -77,7 +77,7 @@ class OPOLeaders extends Component {
                     <p className="current-filter">{this.state.page}</p>
                     <img className="dropdown-icon right-margin" src={dropdownIcon} alt="dropdown-toggle" />
                   </Dropdown.Toggle>
-                  <Dropdown.Menu className="filter-options">
+                  <Dropdown.Menu className="field-dropdown-menu">
                     <Dropdown.Item onClick={this.onClick}>Leader Status Requests</Dropdown.Item>
                     <Dropdown.Item onClick={this.onClick}>Driver Certification Requests</Dropdown.Item>
                   </Dropdown.Menu>
