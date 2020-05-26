@@ -10,6 +10,7 @@ export {
   startOf,
   endOf,
   add,
+  subtract,
   eq,
   gte,
   gt,
@@ -28,6 +29,76 @@ const MILLI = {
 }
 
 const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+
+export function formatDate(date) {
+  const rawDate = new Date(date);
+  const dateString = rawDate.toUTCString();
+  return dateString.substring(0, 11);
+};
+
+export function formatTime(time) {
+  const splitTime = time.split(':');
+  splitTime.push(' AM');
+  const originalHour = splitTime[0];
+  splitTime[0] = originalHour % 12;
+  if (originalHour >= 12) {
+    splitTime[2] = ' PM';
+  }
+  if (splitTime[0] === 0) {
+    splitTime[0] = 12;
+  }
+  return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
+};
+
+export function withinTimePeriod(date, timePeriod, specificDay) {
+  const today = new Date();
+  if (typeof date === 'string') date = new Date(date);
+  switch(timePeriod) {
+    case 'Specific day':
+      if (specificDay == null) return true;
+      else {
+        const dayStart = dates.startOf(specificDay, 'day');
+        const dayEnd = dates.endOf(specificDay, 'day');
+        if (date >= dayStart && date < dayEnd) return true;
+        else return false;
+      }
+    case 'Tomorrow':
+      const tomorrow = dates.add(today, 1, 'day');
+      const tomorrowEnd = dates.endOf(tomorrow, 'day');
+      if (date >= today && date < tomorrowEnd) return true;
+      else return false;
+    case 'Next 3 days':
+      const next3Days = dates.add(today, 3, 'day');
+      const next3DaysEnd = dates.endOf(next3Days, 'day');
+      if (date >= today && date < next3DaysEnd) return true;
+      else return false;
+    case 'This week':
+      let weekEnd = dates.endOf(today, 'week');
+      weekEnd = dates.add(weekEnd, 1, 'day');
+      if (date >= today && date < weekEnd) return true;
+      else return false;
+    case 'This weekend':
+      let weekendEnd = dates.endOf(today, 'week');
+      weekendEnd = dates.add(weekendEnd, 1, 'day');
+      const weekendStart = dates.subtract(weekendEnd, 3, 'day');
+      if (date >= weekendStart && date < weekendEnd) return true;
+      else return false;
+    case 'In a month':
+      const next30Days = dates.add(today, 30, 'day');
+      if (date >= today && date < next30Days) return true;
+      else return false;
+  }
+}
+
+export function inThePast(date) {
+  if (typeof date === 'string') date = new Date(date);
+  const today = new Date();
+  console.log('today', today);
+  console.log('date', date);
+  console.log('compare', date >= today);
+  if (date >= today) return false;
+  else return true;
+}
 
 export function monthsInYear(year) {
   let date = new Date(year, 0, 1)
