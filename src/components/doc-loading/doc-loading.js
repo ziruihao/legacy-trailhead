@@ -2,7 +2,7 @@ import React from 'react';
 import ReactLoading from 'react-loading';
 import { green } from '../../constants';
 import logo from './doc-logo.svg';
-import './eslint-has-a-problem-with-a-simple-filename-so-here-it-is.scss';
+import './doc-loading.scss';
 
 const DOCLoading = props => (
   <div id="doc-loading-wrapper">
