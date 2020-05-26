@@ -1,86 +1,43 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
+import CoLeadersAutoComplete from './coLeadersAutoComplete';
+import Toggle from './toggle';
 import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/createtrip-style.scss';
-import CoLeadersAutoComplete from './coLeadersAutoComplete';
-
-
-const LeftColumn = (props) => {
-  return (
-    <div className="ovr-sidebar">
-      <div className="ovr-sidebarText">
-        <div className="row column-headers column-adjust">
-          <p>Create a trip</p>
-        </div>
-        <div className="row column-sub-headers">
-          <div className={props.currentStep === 1 ? 'side-bar-highlight' : ''} />
-          <p className={props.currentStep === 1 ? 'text-highlight' : ''}>Basic information</p>
-        </div>
-        <div className="row column-sub-headers">
-          <div className={props.currentStep === 2 ? 'side-bar-highlight' : ''} />
-          <p className={props.currentStep === 2 ? 'text-highlight' : ''}>Dates and location</p>
-        </div>
-        <div className="row column-headers">
-          <p>Trips description</p>
-        </div>
-        <div className="row column-sub-headers">
-          <div className={props.currentStep === 3 ? 'side-bar-highlight' : ''} />
-          <p className={props.currentStep === 3 ? 'text-highlight' : ''}>About the trip</p>
-        </div>
-        <div className="row column-sub-headers">
-          <div className={props.currentStep === 4 ? 'side-bar-highlight' : ''} />
-          <p className={props.currentStep === 4 ? 'text-highlight' : ''}>What you&apos;ll need</p>
-        </div>
-        <div className="row column-headers">
-          <p>Additional details</p>
-        </div>
-        <div className="row column-sub-headers">
-          <p className={props.currentStep === 5 ? 'text-highlight' : ''}>Vehicle Request</p>
-        </div>
-        <div className="row column-sub-headers">
-          <p className={props.currentStep === 6 ? 'text-highlight' : ''}>P-Card Request</p>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 const BasicTripInfo = (props) => {
-  console.log(props.clubOptions);
   return (
     <div className="create-trip-form-content">
-      <div className="row page-header">
-        <p>Basic trip information</p>
+      <div className="page-header">
+        <div className="doc-h1">Basic trip information</div>
       </div>
-      <div className="row page-sub-headers">
-        <p>Trip name</p>
-        <input className={`field top-create-trip ${props.errorFields.title ? 'create-trip-error' : ''}`}
+      <div className="page-sub-headers">
+        <div className="doc-h2">Trip name</div>
+        <input className={`field field-full-width create-trip-form-bottom-margin ${props.errorFields.title ? 'create-trip-error' : ''}`}
           onChange={props.onFieldChange}
           name="title"
           placeholder="e.g. Weekend Mt. Moosilauke Hike!"
           value={props.titleValue}
         />
       </div>
-      <div className="row page-sub-headers">
-        <p>Subclub</p>
-        {props.clubOptions.length > 0
-          ? (
-            <select name="club" className="field select top-create-trip" defaultValue="Select Club" onChange={props.onClubChange}>
-              {props.clubOptions}
-            </select>
-          )
-          : (
-            <select name="club" className="field select top-create-trip" defaultValue="You are not a leader in any club." onChange={props.onClubChange}>
-              {props.clubOptions}
-            </select>
-          )
-      }
-
+      <div className="page-sub-headers">
+        <div className="doc-h2">Subclub</div>
+        <Dropdown onSelect={props.onClubChange}>
+          <Dropdown.Toggle className="field create-trip-form-bottom-margin">
+            <span className="field-dropdown-bootstrap">{props.selectedClub === null ? 'Select club' : props.selectedClub.name}</span>
+            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="field-dropdown-menu">
+            {props.clubOptions.map(club => (
+              <Dropdown.Item eventKey={club._id}>{club.name}</Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
-      <div className="row page-sub-headers">
-        <p>Cost</p>
-        <input className={`field top-create-trip ${props.errorFields.cost ? 'create-trip-error' : ''}`}
+      <div className="page-sub-headers">
+        <div className="doc-h2">Cost</div>
+        <input className={`field create-trip-form-bottom-margin ${props.errorFields.cost ? 'create-trip-error' : ''}`}
           onChange={props.onFieldChange}
           name="cost"
           placeholder="0"
@@ -88,30 +45,16 @@ const BasicTripInfo = (props) => {
           value={props.costValue}
         />
       </div>
-      <div className="row page-sub-headers">
-        <p>Co-leader email addresses</p>
-        {/* <input
-          className="form-control field top-create-trip leaders"
-          onChange={props.onFieldChange}
-          name="leaders"
-          placeholder="my.buddy.21@dartmouth.edu, my.driver.21@dartmouth.edu"
-          value={props.leaderValue}
-        /> */}
+      <div className="page-sub-headers">
+        <div className="doc-h2">Invite co-leaders</div>
         <CoLeadersAutoComplete updateLeaderValue={props.updateLeaderValue} name="leaders" />
-        <div className="checkbox-beginner">
-          <input
-            type="checkbox"
-            name="access"
-            id="co-leader-access"
-            onChange={props.toggleAccess}
-            checked={props.accessValue}
-          />
-          <label htmlFor="co-leader-access">
-            Give co-leaders edit access to this trip?
-          </label>
-        </div>
       </div>
-      <div className="row page-sub-headers">
+      <div className="page-sub-headers">
+        <div className="doc-h2">Misc.</div>
+        <Toggle id="co-leader-access" value={props.accessValue} onChange={props.toggleAccess} label="Give co-leaders edit access to this trip?" />
+        <Toggle id="beginner" value={props.experienceValue} onChange={props.experienceOption} label="Do trippees need prior experience?" />
+      </div>
+      {/* <div className="page-sub-headers">
         <p>Tag as non-beginner trip</p>
         <div className="checkbox-beginner">
           <input
@@ -125,7 +68,7 @@ const BasicTripInfo = (props) => {
             Select if trippees need prior experience to go on this trip
           </label>
         </div>
-      </div>
+      </div> */}
     </div>
 
   );
@@ -134,75 +77,77 @@ const BasicTripInfo = (props) => {
 const DatesLocation = (props) => {
   return (
     <div className="create-trip-form-content">
-      <div className="row page-header date-loc-header">
-        <p>Dates and Location</p>
+      <div className="page-header date-loc-header">
+        <div className="doc-h1">Dates and Location</div>
       </div>
-      <div className="row checkbox-beginner">
-        <input
-          type="checkbox"
-          value="single"
-          id="single-day"
-          onChange={props.onDateChange}
-          checked={props.dateLength === 'single'}
-        />
-        <label htmlFor="single-day">
-          Single day trip
-        </label>
+      <div className="page-sub-headers checkbox-beginner">
+        <div className="doc-h2">Type</div>
+        <Dropdown onSelect={props.onDateLengthChange}>
+          <Dropdown.Toggle className="field create-trip-form-bottom-margin">
+            <span className="field-dropdown-bootstrap">{props.dateLength}</span>
+            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="field-dropdown-menu">
+            <Dropdown.Item eventKey="single">Single-day trip</Dropdown.Item>
+            <Dropdown.Item eventKey="multi">Multi-day trip</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
       </div>
-      <div className="row checkbox-beginner">
-        <input
-          type="checkbox"
-          value="multi"
-          id="multi-day"
-          onChange={props.onDateChange}
-          checked={props.dateLength === 'multi'}
-        />
-        <label htmlFor="multi-day">
-          Multi-day trip
-        </label>
+      <div className="trip-date-range-inputs">
+        <div className="page-sub-headers">
+          <div className="doc-h2">{props.dateLength === 'multi' ? 'Start' : 'Trip'} date</div>
+          <input type="date" name="startDate" onChange={props.onDateChange} className={`field create-trip-form-bottom-margin leaders ${props.errorFields.startDate ? 'create-trip-error' : ''}`} value={props.startDate} />
+        </div>
+        {props.dateLength === 'multi'
+          ? (
+            <div className="page-sub-headers">
+              <div className="doc-h2">End date</div>
+              <input type="date" name="endDate" onChange={props.onDateChange} className={`field create-trip-form-bottom-margin leaders ${props.errorFields.endDate ? 'create-trip-error' : ''}`} value={props.endDate} />
+            </div>
+          )
+          : null}
       </div>
-      {props.dateOptions}
       <Link to="/vehicle-calendar" className="calendar-link" target="_blank">View Vehicle Calendar</Link>
-      <div className="row page-sub-headers trip-date-header create-trip-bottom-buttons">
-        <div className="createtrips-one-of-two">
-          <p>Start time</p>
+      <div className="trip-date-range-inputs">
+        <div className="page-sub-headers">
+          <div className="doc-h2">Start time</div>
           <input
             type="time"
             name="startTime"
             onChange={props.onFieldChange}
-            className={`field top-create-trip leaders pickupDropoff ${props.errorFields.startTime ? 'create-trip-error' : ''}`}
+            className={`field create-trip-form-bottom-margin leaders pickupDropoff ${props.errorFields.startTime ? 'create-trip-error' : ''}`}
             value={props.theStartTime}
           />
         </div>
-        <div className="createtrips-one-of-two">
-          <p>End time</p>
+        <div className="page-sub-headers">
+          <div className="doc-h2">End time</div>
           <input
             type="time"
             name="endTime"
             onChange={props.onFieldChange}
-            className={`field top-create-trip leaders pickupDropoff ${props.errorFields.endTime ? 'create-trip-error' : ''}`}
+            className={`field create-trip-form-bottom-margin leaders pickupDropoff ${props.errorFields.endTime ? 'create-trip-error' : ''}`}
             value={props.theEndTime}
           />
         </div>
       </div>
-      <div className="row page-sub-headers">
-        <p>Location</p>
+      <div className="page-sub-headers">
+        <div className="doc-h2">Location</div>
         <input
-          className={`field top-create-trip leaders ${props.errorFields.location ? 'create-trip-error' : ''}`}
+          className={`field create-trip-form-bottom-margin leaders ${props.errorFields.location ? 'create-trip-error' : ''}`}
           name="location"
           onChange={props.onFieldChange}
           placeholder="e.g. Mt. Cube"
           value={props.tripLocation}
         />
       </div>
-      <div className="row page-sub-headers trip-date-header">
-        <p>Estimated mileage (round trip)</p>
+      <div className="page-sub-headers trip-date-header">
+        <div className="doc-h2">Estimated mileage (round trip)</div>
         <input
           // type="number"
           onChange={props.onFieldChange}
           name="mileage"
           placeholder="Estimated mileage"
-          className={`field top-create-trip leaders ${props.errorFields.mileage ? 'create-trip-error' : ''}`}
+          className={`field create-trip-form-bottom-margin leaders ${props.errorFields.mileage ? 'create-trip-error' : ''}`}
           value={props.tripMileage}
         />
       </div>
@@ -213,24 +158,24 @@ const DatesLocation = (props) => {
 const AboutTheTrip = (props) => {
   return (
     <div className="create-trip-form-content">
-      <div className="row page-header">
-        <p>About the trip</p>
+      <div className="page-header">
+        <div className="doc-h1">About the trip</div>
       </div>
-      <div id="date-picker" className="row page-sub-headers create-trip-bottom-buttons">
-        <div className="createtrips-one-of-two">
-          <p>Pickup</p>
+      <div className="trip-date-range-inputs">
+        <div className="page-sub-headers">
+          <div className="doc-h3">Pickup</div>
           <input
-            className={`field top-create-trip pickupDropoff ${props.errorFields.pickup ? 'create-trip-error' : ''}`}
+            className={`field create-trip-form-bottom-margin pickupDropoff ${props.errorFields.pickup ? 'create-trip-error' : ''}`}
             onChange={props.onFieldChange}
             name="pickup"
             placeholder="eg. Robo Hall"
             value={props.pickUp}
           />
         </div>
-        <div className="createtrips-one-of-two">
-          <p>Dropoff</p>
+        <div className="page-sub-headers">
+          <div className="doc-h3">Dropoff</div>
           <input
-            className={`field top-create-trip pickupDropoff ${props.errorFields.dropoff ? 'create-trip-error' : ''}`}
+            className={`field create-trip-form-bottom-margin pickupDropoff ${props.errorFields.dropoff ? 'create-trip-error' : ''}`}
             onChange={props.onFieldChange}
             name="dropoff"
             placeholder="eg. McNutt Hall"
@@ -238,18 +183,18 @@ const AboutTheTrip = (props) => {
           />
         </div>
       </div>
-      <div className="row page-sub-headers">
-        <p>Trip decription</p>
+      <div className="page-sub-headers">
+        <div className="doc-h3">Trip decription</div>
         <textarea
-          className={`field trip-descrip-box ${props.errorFields.description ? 'create-trip-error' : ''}`}
+          className={`field field-full-width trip-descrip-box ${props.errorFields.description ? 'create-trip-error' : ''}`}
           onChange={props.onFieldChange}
           name="description"
           placeholder="e.g. Our trip will feature amazing views and fun times..."
           value={props.DescripValue}
         />
       </div>
-      <div className="row page-sub-headers">
-        <p>Things you can include</p>
+      <div className="page-sub-headers">
+        <div className="doc-h3">Things you can include</div>
         <ul className="descrip-list">
           <li>What you&apos;ll be doing on the trip</li>
           <li>Prior experience that would be helpful (if applicable)</li>
@@ -268,36 +213,28 @@ const getTrippeeGear = (props) => {
         <div key={gearRequest._id}>
           <div className="gear-container">
             <div className="gear-and-size">
-              <div className="gear-field-and-form">
-                <span className="gear-field">Gear:</span>
-                <input
-                  type="text"
-                  className={`my-gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`}
-                  name="trippeeGear"
-                  placeholder="Add Item"
-                  onChange={event => props.onTrippeeGearChange(event, index)}
-                  value={gearRequest.name}
-                />
-              </div>
-              <div className="gear-field-and-form">
-                <span className="gear-field">Size Type:</span>
-                <Dropdown onSelect={eventKey => props.onSizeTypeChange(eventKey, index)}>
-                  <Dropdown.Toggle id="size-type-dropdown">
-                    <span>
-                      <span className="selected-size">{gearRequest.size_type}</span>
-                      <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
-                    </span>
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="filter-options clothe-options">
-                    <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
-                    <Dropdown.Item eventKey="Clothe">Clothes</Dropdown.Item>
-                    <Dropdown.Item eventKey="Shoe">Shoe</Dropdown.Item>
-                    <Dropdown.Item eventKey="Height">Height</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
+              <input
+                type="text"
+                className={`field ${gearRequest.hasError ? 'create-trip-error' : ''}`}
+                name="trippeeGear"
+                placeholder="Item name"
+                onChange={event => props.onTrippeeGearChange(event, index)}
+                value={gearRequest.name}
+              />
+              <Dropdown onSelect={eventKey => props.onSizeTypeChange(eventKey, index)}>
+                <Dropdown.Toggle className="field field-full-width">
+                  <span className="field-dropdown-bootstrap">{gearRequest.size_type}</span>
+                  <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="field-dropdown-menu">
+                  <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
+                  <Dropdown.Item eventKey="Clothe">Measured by clothing size</Dropdown.Item>
+                  <Dropdown.Item eventKey="Shoe">Measured by shoe size</Dropdown.Item>
+                  <Dropdown.Item eventKey="Height">Measured by height</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
-            <button type="button" className="delete-gear-button" onClick={() => props.removeTrippeeGear(index)}>X</button>
+            <i className="material-icons close-button remove-gear-button" onClick={() => props.removeTrippeeGear(index)} role="button" tabIndex={0}>close</i>
           </div>
           <hr className="line" />
         </div>
@@ -320,22 +257,19 @@ const getGearInputs = (props) => {
   if (!props.gearStatus || props.gearStatus === 'pending' || props.gearStatus === 'N/A') {
     return props.gearRequests.map((gearRequest, index) => {
       return (
-        <div className="gear-container" key={gearRequest._id}>
-          <input
-            type="text"
-            className={`gear-input ${gearRequest.hasError ? 'create-trip-error' : ''}`}
-            name="opogearRequest"
-            placeholder="Add Item"
-            onChange={event => props.onGearChange(event, index)}
-            value={gearRequest.groupGear}
-          />
-          <button
-            type="button"
-            className="delete-gear-button"
-            onClick={() => props.removeGear(index)}
-          >
-            X
-          </button>
+        <div key={gearRequest._id}>
+          <div className="gear-container">
+            <input
+              type="text"
+              className={`field ${gearRequest.hasError ? 'create-trip-error' : ''}`}
+              name="opogearRequest"
+              placeholder="Item name"
+              onChange={event => props.onGearChange(event, index)}
+              value={gearRequest.groupGear}
+            />
+            <i className="material-icons close-button remove-gear-button" onClick={() => props.removeGear(index)} role="button" tabIndex={0}>close</i>
+          </div>
+          <hr className="line" />
         </div>
       );
     });
@@ -355,24 +289,24 @@ const getGearInputs = (props) => {
 const Equipment = (props) => {
   return (
     <div className="create-trip-form-content">
-      <div className="row page-header">
-        <p>Equipment</p>
+      <div className="page-header">
+        <div className="doc-h1">Equipment</div>
       </div>
-      <div className="row gearForm">
-        <div className="page-sub-headers gear-content">
-          <p>Individual gear</p>
-          <span id="equipment-description">Gear trippees should bring/rent</span>
+      <div className="trip-date-range-inputs">
+        <div className="page-sub-headers">
+          <div className="doc-h2">Individual gear</div>
+          <div className="p1">Gear trippees should bring/rent</div>
           {getTrippeeGear(props)}
           {(!props.trippeeGearStatus || props.trippeeGearStatus === 'pending' || props.trippeeGearStatus === 'N/A')
-            ? <button className="add-gear-button" type="button" onClick={props.addTrippeeGear}>Add item</button>
+            ? <div className="doc-button hollow" onClick={props.addTrippeeGear} role="button" tabIndex={0}>Add item</div>
             : null}
         </div>
-        <div className="page-sub-headers gear-content">
-          <p>Group Gear</p>
-          <span id="equipment-description">Gear for the entire group that needs to be rented</span>
+        <div className="page-sub-headers">
+          <div className="doc-h2">Group Gear</div>
+          <div className="p1">Gear for the entire group that needs to be rented</div>
           {getGearInputs(props)}
           {(!props.gearStatus || props.gearStatus === 'pending' || props.gearStatus === 'N/A')
-            ? <button className="add-gear-button" type="button" onClick={props.addGear}>Add item</button>
+            ? <div className="doc-button hollow" onClick={props.addGear} role="button" tabIndex={0}>Add item</div>
             : null}
         </div>
       </div>
@@ -381,7 +315,6 @@ const Equipment = (props) => {
 };
 
 export {
-  LeftColumn,
   BasicTripInfo,
   Equipment,
   AboutTheTrip,
