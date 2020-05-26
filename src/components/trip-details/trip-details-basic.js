@@ -166,7 +166,9 @@ class TripDetailsModal extends Component {
                   <div id="trip-modal-description" className="p1">
                     {this.props.trip.description}
                   </div>
-                  {this.state.role === 'OPO' ? <div className="doc-button" onClick={() => this.props.history.push(`/trip/${this.props.trip._id}`)} role="button" tabIndex={0}>View trip as OPO staff</div> : null}
+                  <div className="trip-modal-actions">
+                    {this.state.role === 'OPO' ? <div className="doc-button" onClick={() => this.props.history.push(`/trip/${this.props.trip._id}`)} role="button" tabIndex={0}>View trip as OPO staff</div> : null}
+                  </div>
                   <div className="trip-modal-details">
                     <div className="trip-modal-details-row">
                       <span className="trip-modal-details-left p2">Start</span>
