@@ -7,7 +7,7 @@ class RequestGear extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      requestedGear: [],
+      requestedGear: this.props.selfGear,
     };
   }
 
