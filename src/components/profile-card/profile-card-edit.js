@@ -57,7 +57,7 @@ class ProfileCardEdit extends Component {
     this.updateUserInfo = this.updateUserInfo.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.user) {
       const { user } = this.props;
       this.setState({

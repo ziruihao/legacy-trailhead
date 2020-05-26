@@ -18,7 +18,7 @@ class MobileCheckOut extends PureComponent {
   }
 
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     console.log(this.props.match.params.tripID);
     this.props.fetchTrip(this.props.match.params.tripID, this.query.get('token')).then(() => {
       this.setState({ loaded: true });

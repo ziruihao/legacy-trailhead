@@ -38,7 +38,7 @@ class App extends React.Component {
   /**
    * Conditional data load if the browser's token is valid.
    */
-  componentWillMount() {
+  componentDidMount() {
     this.verifyToken().then(() => {
       this.loadData();
     }).catch((error) => {

@@ -15,7 +15,7 @@ class Gateway extends Component {
       incompleteProfile: false,
     }
   }
-  componentWillMount() {
+  componentDidMount() {
     const casValues = queryString.parse(this.props.location.search);
     if (casValues.token) {
       this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader).then(completedProfile => {

@@ -54,7 +54,7 @@ class TripDetailsModal extends Component {
           actionPending: false,
         }
     }
-    componentWillMount() {
+    componentDidMount() {
       // calculates the final status of the trip
       const tripStatus = constants.calculateTripStatus(this.props.trip);
       this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
