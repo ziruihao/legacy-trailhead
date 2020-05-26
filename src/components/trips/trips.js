@@ -7,8 +7,9 @@ import TripDetailsModal from '../trip-details/trip-details-basic';
 import TripCard from '../trip-card';
 import Toggle from '../toggle';
 import { fetchTrips, getClubs } from '../../actions';
+import utils from '../../utils';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
-import notFound from '../../img/confirmCancel.svg';
+import notFound from './sad-tree.png';
 import './trip-card.scss';
 
 class Trips extends Component {
@@ -21,18 +22,19 @@ class Trips extends Component {
         'Tomorrow',
         'Next 3 days',
         'This week',
-        'This month',
-        'This term'
+        'This weekend',
+        'In a month'
       ],
       selectedTimePeriod: 'This week',
       grid: true,
       showTrip: null,
-      startDate: "",
-      seePastTrips: true,
+      startDate: null,
+      seePastTrips: false,
     };
   }
 
   componentDidMount(props) {
+    console.log(utils)
     this.props.fetchTrips();
     this.props.getClubs();
   }
@@ -63,14 +65,6 @@ class Trips extends Component {
     return t1.getTime() - t2.getTime();
   }
 
-  //THIS ISNT WORKING-- BECAUSE OF THE FINAL COMPARISON?
-  compareStartDateWithInput = (a, b) => {
-    const t1 = new Date(a.startDate);
-    const t2 = new Date(b.startDate);
-    const d = new Date(this.state.startDate);
-    return (Math.abs(d - t1) - Math.abs(d - t2));
-  }
-
   renderClubDropdown = () => {
     return (
       <Dropdown onSelect={eventKey => this.setState({club: eventKey})}>
@@ -92,7 +86,7 @@ class Trips extends Component {
   renderTimePeriodDropdown = () => {
     return (
       <Dropdown onSelect={eventKey => {
-        if (eventKey !== 'Specific day') this.setState({startDate: ""})
+        if (eventKey !== 'Specific day') this.setState({startDate: null})
         this.setState({selectedTimePeriod: eventKey})
         }}>
       <Dropdown.Toggle className="field">
@@ -105,6 +99,7 @@ class Trips extends Component {
         }))}
         <Dropdown.Divider />
         <Dropdown.Item eventKey="Specific day">Specific day</Dropdown.Item>
+        <Dropdown.Item eventKey="All">All</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
     )
@@ -112,7 +107,10 @@ class Trips extends Component {
 
   renderStartDropdown = () => {
     return(
-      <input type="date" name="startDate" onChange={(e) =>{this.setState({ startDate: e.target.value }); }} className="field all-trips-date-select" value={this.state.startDate} />
+      <input type="date" name="startDate" onChange={(e) =>{
+        console.log(e);
+        this.setState({ startDate: e.target.value }); 
+      }} className="field all-trips-date-select" value={this.state.startDate} />
     );
   }
 
@@ -135,52 +133,43 @@ class Trips extends Component {
   }
 
   renderTrips = () => {
-    let sortedTrips = this.props.trips.sort(this.compareStartDates);
-    if (this.state.startDate!==""){
-      sortedTrips.sort(this.compareStartDateWithInput);
+    let tripsFilteringProcess = [this.props.trips.sort(this.compareStartDates)];
+
+    switch(this.state.selectedTimePeriod) {
+      case 'All':
+        break;
+      case 'Specific day':
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, this.state.startDate)));
+        break;
+      default:
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, null)));
     }
 
     if (!this.state.seePastTrips) {
-      sortedTrips = sortedTrips.filter(trip => {
-        const startDate = new Date(trip.startDate)
-        const today = new Date();
-        return today < startDate;
-      })
+      console.log('NOT SEEING PAST TRIPS')
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !utils.dates.inThePast(trip.startDate)));
     }
 
-    let tripsGrid = [];
-    const specialClubs = ['Ledyard','Mountaineering','cnt','wiw','Woodsmen','surf','dmbc','wsc'];
+    tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => (this.state.club === 'All clubs' || trip.club.name === this.state.club)));
 
-    if (!this.state.beginnerOnly) {
-      tripsGrid = sortedTrips.filter(trip => (this.state.club === 'All Clubs' || trip.club.name === this.state.club )).map((trip) => {
-        return (<TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.setCurrTrip(trip)}></TripCard>);
-      });
-    } else {
-      let experienceNeeded = "";
-      if (this.state.beginnerOnly) experienceNeeded= true;
-      else experienceNeeded = false;
-
-      tripsGrid = sortedTrips.filter(trip => (this.state.club === 'All Clubs' || trip.club.name === this.state.club )&& trip.experienceNeeded===experienceNeeded).map((trip) => {
-        return (<TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.setCurrTrip(trip)}></TripCard>);
-     });
+    if (this.state.beginnerOnly) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !trip.experienceNeeded));
     }
 
-    if (tripsGrid.length === 0) {
+    const filteredTrips = tripsFilteringProcess.pop();
+
+    if (filteredTrips.length === 0) {
       return <div id="trips-page-not-found">
         <img src={notFound} ></img>
         <div className="h2">Sorry, we couldn't find any!</div>
         </div>;
-    }
-
-    if (this.state.grid) {
-      return tripsGrid;
     } else {
-      return tripsList;
+      return filteredTrips.map((trip) => <TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.setCurrTrip(trip)}></TripCard>);
     }
   }
 
-
   render() {
+    console.log('startDate', this.state.startDate)
       return (
         <div id="trips-page" className="center-view spacy">
           <div className="doc-card spacy-card">
@@ -196,7 +185,9 @@ class Trips extends Component {
               <Toggle value={this.state.seePastTrips} id="defaultCheck1" label="See past trips" onChange={(e) => {
                 this.setState(prevState => {
                   return {seePastTrips: !prevState.seePastTrips}
-                })}}></Toggle>
+                })
+                console.log(this.state.seePastTrips);
+              }}></Toggle>
             </div>
           </div>
           <div id="trip-tiles">
