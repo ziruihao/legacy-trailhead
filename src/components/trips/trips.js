@@ -133,7 +133,7 @@ class Trips extends Component {
   }
 
   renderTrips = () => {
-    let tripsFilteringProcess = [this.props.trips.sort(this.compareStartDates)];
+    let tripsFilteringProcess = [this.props.trips];
 
     switch(this.state.selectedTimePeriod) {
       case 'All':
@@ -145,9 +145,8 @@ class Trips extends Component {
         tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, null)));
     }
 
-    if (!this.state.seePastTrips) {
-      console.log('NOT SEEING PAST TRIPS')
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !utils.dates.inThePast(trip.startDate)));
+    if (this.state.seePastTrips) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().concat(this.props.trips.filter(trip => utils.dates.inThePast(trip.startDate))));
     }
 
     tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => (this.state.club === 'All clubs' || trip.club.name === this.state.club)));
@@ -156,7 +155,7 @@ class Trips extends Component {
       tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !trip.experienceNeeded));
     }
 
-    const filteredTrips = tripsFilteringProcess.pop();
+    const filteredTrips = tripsFilteringProcess.pop().sort(this.compareStartDates);
 
     if (filteredTrips.length === 0) {
       return <div id="trips-page-not-found">
