@@ -179,12 +179,12 @@ class Trips extends Component {
               <Toggle value={this.state.beginnerOnly} id="defaultCheck2" label="Beginner only" onChange={(e) => {
                 this.setState(prevState => {
                   return {beginnerOnly: !prevState.beginnerOnly}
-                })}}></Toggle>
+                })}} disabled={false}></Toggle>
               <Toggle value={this.state.seePastTrips} id="defaultCheck1" label="See past trips" onChange={(e) => {
                 this.setState(prevState => {
                   return {seePastTrips: !prevState.seePastTrips}
                 })
-              }}></Toggle>
+              }} disabled={false}></Toggle>
             </div>
           </div>
           <div id="trip-tiles">
