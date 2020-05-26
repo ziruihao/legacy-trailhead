@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
-import Loading from '../loading';
+import DOCLoading from '../doc-loading';
 import { fetchTrip, editTrip, setAttendingStatus } from '../../actions';
 import utils from '../../utils';
 import './mobile-check.scss';
@@ -36,7 +36,7 @@ class MobileCheckOut extends PureComponent {
 
   render() {
     if (!this.state.loaded) {
-      return (<Loading type="doc" width="64" height="64" measure="px" />);
+      return (<DOCLoading type="doc" width="64" height="64" measure="px" />);
     } else {
       return (
         <div id="mobile-check-screen">

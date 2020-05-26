@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import VehicleCalendarComponent from './vehicleCalendarComponent';
-import Loading from './loading';
+import DOCLoading from './doc-loading';
 import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
 import '../styles/vehicle-calendar-style.scss';
 import './vehicle-calendar/event-modal.scss';
@@ -224,7 +224,7 @@ class VehicleCalendar extends Component {
         </div>
       );
     } else {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

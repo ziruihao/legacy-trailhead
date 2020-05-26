@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import Toggle from '../../toggle/toggle';
-import Loading from '../../loading';
+import DOCLoading from '../../doc-loading';
 import { fetchVehicleRequests } from '../../../actions';
 import '../../../styles/tripdetails_leader.scss';
 import '../opo-approvals.scss';
@@ -235,7 +235,7 @@ class OPOVehicleRequests extends Component {
         </div>
       );
     } else {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

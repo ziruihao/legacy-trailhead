@@ -1,5 +1,5 @@
 import React from 'react';
-import Loading from '../../Loading';
+import DOCLoading from '../../doc-loading';
 import '../trip-details.scss';
 import './request-gear.scss';
 
@@ -43,7 +43,7 @@ class RequestGear extends React.Component {
           {this.props.loading
             ? (
               <div id="trip-request-gear-form-loading">
-                <Loading type="spin" width="35" height="35" measure="px" />
+                <DOCLoading type="spin" width="35" height="35" measure="px" />
               </div>
             )
             : null

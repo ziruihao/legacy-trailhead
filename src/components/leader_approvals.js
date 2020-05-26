@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import Loading from './loading';
+import DOCLoading from './doc-loading';
 import { fetchLeaderApprovals, reviewRoleRequest } from '../actions';
 import '../styles/approvals-style.scss';
 import '../styles/tripdetails_leader.scss';
@@ -71,7 +71,7 @@ class LeaderApprovals extends Component {
         </div>
       );
     } else {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     }
   }
 }

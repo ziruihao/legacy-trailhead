@@ -8,7 +8,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import { ProfileCard } from '../profile-card';
 import ConflictModal from './conflict-modal';
-import Loading from '../loading';
+import DOCLoading from '../doc-loading';
 import Badge from '../badge';
 import * as constants from '../../constants';
 import utils from '../../utils';
@@ -816,7 +816,7 @@ class OPOVehicleRequest extends Component {
 
   render() {
     if (!this.state.ready) {
-      return (<Loading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     } else {
       return (
         <div className="ovr-container">

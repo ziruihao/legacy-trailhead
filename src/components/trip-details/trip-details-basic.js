@@ -124,7 +124,7 @@ class TripDetailsModal extends Component {
 
     render() {
       if (!this.props.trip) {
-        return <Loading type="spin" width="50" height="50" measure="px"></Loading>
+        return <DOCLoading type="spin" width="50" height="50" measure="px" />
       } else {
         return (
           <div id="trip-modal">

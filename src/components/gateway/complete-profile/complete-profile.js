@@ -48,7 +48,7 @@ class CompleteProfile extends Component {
               </>
               :
               <div id="landing-card" className="doc-card">
-                <Loading type="dots"></Loading>
+                <DOCLoading type="dots" />
               </div>
             }
         </>
