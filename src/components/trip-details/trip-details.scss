@@ -81,4 +81,14 @@
       }
     }
   }
+
+  .trip-modal-actions {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .doc-button {
+      margin: 0 10px;
+    }
+  }
 }
