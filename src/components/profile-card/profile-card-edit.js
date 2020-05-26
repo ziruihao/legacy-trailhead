@@ -503,7 +503,6 @@ class ProfileCardEdit extends Component {
 
   render() {
     if (this.props.completeProfileMode) console.log(this.props.completeProfileMode);
-    console.log(this.state.isEditing);
     if (this.props.user) {
       if (this.props.completeProfileMode) {
         return (
