@@ -30,7 +30,7 @@ const BasicTripInfo = (props) => {
           </Dropdown.Toggle>
           <Dropdown.Menu className="field-dropdown-menu">
             {props.clubOptions.map(club => (
-              <Dropdown.Item eventKey={club._id}>{club.name}</Dropdown.Item>
+              <Dropdown.Item eventKey={club._id} key={club._id}>{club.name}</Dropdown.Item>
             ))}
           </Dropdown.Menu>
         </Dropdown>
