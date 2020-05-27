@@ -6,7 +6,6 @@ import { Switch } from 'react-router';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import DOCLoading from './doc-loading';
-import Dashboard from './dashboard';
 import AllTrips from './trips';
 import CreateTrip from './createtrip';
 import MyTrips from './my-trips';
@@ -80,18 +79,16 @@ class App extends React.Component {
     });
   }
 
-  requireRole = (RequestedComponent, switchMode) => {
+  requireRole = (RequestedComponent, allowedRoles, switchMode) => {
     switch (this.props.user.role) {
       case 'OPO':
         if (switchMode) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
         else window.location.replace(`${ROOT_URL}/opo-dashboard`);
         break;
       case 'Leader':
-        // if (switchMode) return <MyTrips switchMode={switchMode ? true : undefined} {...this.props} />;
         window.location.replace(`${ROOT_URL}/my-trips`);
         break;
       default:
-        // if (switchMode) return <AllTrips switchMode={switchMode ? true : undefined} {...this.props} />;
         window.location.replace(`${ROOT_URL}/all-trips`);
     }
   }
@@ -118,18 +115,18 @@ class App extends React.Component {
             <Route path="/user" component={ProfilePage} />
             <Route path="/complete-profile" component={CompleteProfile} />
             <Route path="/all-trips" component={AllTrips} />
-            <Route path="/vehicle-request/:vehicleReqId" component={VehicleRequest} />
-            <Route path="/vehicle-request" component={VehicleRequestPage} />
+            <Route path="/vehicle-request/:vehicleReqId">{() => this.requireRole(VehicleRequest, ['OPO', 'Leader'], true)}</Route>
+            <Route path="/vehicle-request">{() => this.requireRole(VehicleRequestPage, ['OPO', 'Leader'], true)}</Route>
             <Route path="/trip/:tripID" component={TripDetails} />
-            <Route path="/createtrip" component={CreateTrip} />
+            <Route path="/createtrip">{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
             <Route path="/my-trips" component={MyTrips} />
-            <Route path="/edittrip/:tripID" component={CreateTrip} />
-            <Route path="/opo-trips" component={OPOTrips} />
-            <Route path="/vehicle-requests" component={OPOVehicleRequests} />
-            <Route path="/opo-vehicle-request/:vehicleReqId" component={OPOVehicleRequest} />
-            <Route path="/opo-dashboard">{() => this.requireRole(OPODashboard, true)}</Route>
-            <Route path="/opo-fleet-management" component={FleetManagement} />
-            <Route path="/leader-approvals" component={OPOLeaders} />
+            <Route path="/edittrip/:tripID">{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
+            <Route path="/opo-trips">{() => this.requireRole(OPOTrips, ['OPO'], true)}</Route>
+            <Route path="/vehicle-requests">{() => this.requireRole(OPOVehicleRequests, ['OPO'], true)}</Route>
+            <Route path="/opo-vehicle-request/:vehicleReqId">{() => this.requireRole(OPOVehicleRequest, ['OPO'], true)}</Route>
+            <Route path="/opo-dashboard">{() => this.requireRole(OPODashboard, ['OPO'], true)}</Route>
+            <Route path="/opo-fleet-management">{() => this.requireRole(FleetManagement, ['OPO'], true)}</Route>
+            <Route path="/leader-approvals">{() => this.requireRole(OPOLeaders, ['OPO'], true)}</Route>
             <Route path="/vehicle-calendar" component={VehicleCalendar} />
             <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
             <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
