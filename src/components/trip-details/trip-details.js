@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import TripeeTripDetails from './tripdetails_trippee';
-import LeaderTripDetails from './tripdetails_leader';
-import OPOTripDetails from './tripdetails_opo';
-import DOCLoading from './doc-loading';
-import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../actions';
+import TripeeTripDetails from './basic/tripdetails_trippee';
+import LeaderTripDetails from './leader/tripdetails_leader';
+import OPOTripDetails from './opo/tripdetails_opo';
+import DOCLoading from '../doc-loading';
+import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../../actions';
 
 class TripDetails extends Component {
   constructor(props) {

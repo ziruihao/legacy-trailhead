@@ -41,7 +41,7 @@ const BasicTripInfo = (props) => {
           onChange={props.onFieldChange}
           name="cost"
           placeholder="0"
-          // type="number"
+          type="number"
           value={props.costValue}
         />
       </div>
@@ -143,7 +143,7 @@ const DatesLocation = (props) => {
       <div className="page-sub-headers trip-date-header">
         <div className="doc-h2">Estimated mileage (round trip)</div>
         <input
-          // type="number"
+          type="number"
           onChange={props.onFieldChange}
           name="mileage"
           placeholder="Estimated mileage"

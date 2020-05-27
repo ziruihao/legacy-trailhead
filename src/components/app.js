@@ -12,7 +12,7 @@ import MyTrips from './my-trips';
 import VehicleRequestPage from './vehicle-request';
 import VehicleRequest from './vehiclerequest';
 import ProfilePage from './profile-page';
-import TripDetails from './tripdetails';
+import { TripDetails } from './trip-details';
 import OPOLeaders from './opo-approvals/leaders';
 import NavBar from './nav-bar/nav-bar';
 import OPOTrips from './opo-approvals/trips';
@@ -82,13 +82,15 @@ class App extends React.Component {
   requireRole = (RequestedComponent, allowedRoles, switchMode) => {
     switch (this.props.user.role) {
       case 'OPO':
-        if (switchMode) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
+        if (switchMode && allowedRoles.includes('OPO')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
         else window.location.replace(`${ROOT_URL}/opo-dashboard`);
         break;
       case 'Leader':
+        if (switchMode && allowedRoles.includes('Leader')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
         window.location.replace(`${ROOT_URL}/my-trips`);
         break;
       default:
+        if (switchMode && allowedRoles.includes('Trippee')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
         window.location.replace(`${ROOT_URL}/all-trips`);
     }
   }

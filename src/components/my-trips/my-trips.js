@@ -120,10 +120,8 @@ class MyTrips extends Component {
           </div>
           {this.props.user.role !== 'Trippee'
             ? (
-              <div className="mytrips-vehicle-reqs-container">
-                <div className="mytrips-flex-start">
-                  <h2 className="mytrips-sub-header">Your upcoming vehicle requests</h2>
-                </div>
+              <>
+                <div className="doc-h1">Your upcoming trips</div>
                 <div className="mytrips-vehicle-reqs">
                   {this.renderMyVehicleRequests()}
                 </div>
@@ -135,7 +133,7 @@ class MyTrips extends Component {
                     ? <Link to="/vehicle-calendar" className="mytrips-calendar-link" target="_blank">View vehicle calendar</Link>
                     : null}
                 </div>
-              </div>
+              </>
             )
             : null
           }

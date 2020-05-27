@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Collapse from 'react-bootstrap/Collapse';
-import { ProfileCard } from './profile-card';
-import Badge from './badge';
-import '../styles/tripdetails_leader.scss';
+import { ProfileCard } from '../../profile-card';
+import Badge from '../../badge';
+import '../../../styles/tripdetails_leader.scss';
 
-import confirmDeleteImage from '../img/confirmDelete.jpg';
-import VehicleRequestDisplay from './vehicleRequestDisplay';
+import confirmDeleteImage from '../../../img/confirmDelete.jpg';
+import VehicleRequestDisplay from '../../vehicleRequestDisplay';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';

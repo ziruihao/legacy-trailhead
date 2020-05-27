@@ -2,13 +2,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import RequestGear from './request-gear'
+import RequestGear from '../request-gear'
 import ReactToolTip from 'react-tooltip';
-import Badge from '../badge';
-import {addToPending, editUserGear} from '../../actions';
-import * as constants from '../../constants';
-import '../trips/trip-card.scss';
-import './trip-details.scss';
+import Badge from '../../badge';
+import {addToPending, editUserGear} from '../../../actions';
+import * as constants from '../../../constants';
+import '../../trips/trip-card.scss';
+import '../trip-details.scss';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -41,7 +41,7 @@ const formatDate = (date, time) => {
   return timeString;
 };
 
-class TripDetailsModal extends Component {
+class TripDetailsBasic extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -245,4 +245,4 @@ const mapStateToProps = state => (
       user: state.user.user,
     }
   );
-export default withRouter(connect(mapStateToProps, {addToPending, editUserGear})(TripDetailsModal)); // connected component
+export default withRouter(connect(mapStateToProps, {addToPending, editUserGear})(TripDetailsBasic));

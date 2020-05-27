@@ -295,7 +295,7 @@ class ProfileCard extends React.Component {
               </div>
               <div className="card-info p1">
                 <input
-                  // type="number"
+                  type="number"
                   id="dash_number"
                   name="dash_number"
                   maxLength="50"

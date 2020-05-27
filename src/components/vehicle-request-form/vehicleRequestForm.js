@@ -284,7 +284,7 @@ const VehicleRequestForm = (props) => {
             <span className="vrf-form-row">
               <label className="vrf-label" htmlFor="noOfPeople">Number of people</label>
               <input
-                // type="number"
+                type="number"
                 id="noOfPeople"
                 className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.noOfPeople) === 0 ? 'no-date' : ''} ${props.soloErrorFields.noOfPeople ? 'vrf-error' : ''}`}
                 name="noOfPeople"
@@ -293,24 +293,22 @@ const VehicleRequestForm = (props) => {
                 onChange={props.onSoloReqDetailsChange}
               />
             </span>
-            <span className="vrf-form-row">
-              <label className="vrf-label" htmlFor="mileage">Estimated mileage</label>
-              <input
-                // type="number"
-                id="mileage"
-                className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'vrf-error' : ''}`}
-                name="mileage"
-                placeholder="0"
-                value={props.mileage}
-                onChange={props.onSoloReqDetailsChange}
-              />
-            </span>
           </div>
         )
         : null}
-
+      <span className="vrf-form-row">
+        <label className="vrf-label" htmlFor="mileage">Estimated mileage</label>
+        <input
+          type="number"
+          id="mileage"
+          className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'vrf-error' : ''}`}
+          name="mileage"
+          placeholder="0"
+          value={props.mileage}
+          onChange={props.onSoloReqDetailsChange}
+        />
+      </span>
       {getVehicles(props)}
-
       <div className="vrf-add-and-submit">
         <button type="button" className="vrf-add-button vrf-small-add" onClick={props.addVehicle}>Add Vehicle</button>
         {getAppropriateButton(props)}

@@ -91,6 +91,7 @@ class CreateTrip extends Component {
       pcardRequest: [],
       vehicles: [],
       errorFields: this.errorFields,
+      editMode: false,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
@@ -101,7 +102,8 @@ class CreateTrip extends Component {
   }
 
   componentDidMount() {
-    if (this.props.switchMode) {
+    if (this.props.location.pathname === '/edittrip') {
+      this.setState({editMode: true})
       this.props.fetchTrip(this.props.match.params.tripID)
         .then(() => {
           const { trip } = this.props;
@@ -395,7 +397,7 @@ class CreateTrip extends Component {
   }
 
   getAppropriateButton = () => {
-    if (this.state.currentStep === 5 && (!this.props.switchMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')) {
+    if (this.state.currentStep === 5 && (!this.state.editMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')) {
       return null;
     } else if (this.state.currentStep !== 6) {
       return (
@@ -406,7 +408,7 @@ class CreateTrip extends Component {
     } else {
       return (
         <button type="button" className="btn next-button" onClick={this._next}>
-          {this.props.switchMode ? 'Update Trip' : 'Create Trip!'}
+          {this.state.editMode ? 'Update Trip' : 'Create Trip!'}
         </button>
       );
     }
@@ -581,7 +583,7 @@ class CreateTrip extends Component {
       delete vehicle.errorFields;
       return vehicle;
     });
-    const vehicleReqId = (this.props.switchMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest._id : null;
+    const vehicleReqId = (this.state.editMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest._id : null;
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders,
@@ -605,7 +607,7 @@ class CreateTrip extends Component {
       vehicleReqId,
     };
     console.log('\tFinal trip before sending to server', trip);
-    if (this.props.switchMode) {
+    if (this.state.editMode) {
       this.props.editTrip(trip, this.props.history, this.props.match.params.tripID);
     } else {
       this.props.createTrip(trip, this.props.history);
@@ -672,13 +674,13 @@ class CreateTrip extends Component {
             onSizeTypeChange={this.onSizeTypeChange}
             removeTrippeeGear={this.removeTrippeeGear}
             removeGear={this.removeGear}
-            trippeeGearStatus={this.props.switchMode ? this.props.trip.trippeeGearStatus : undefined}
-            gearStatus={this.props.switchMode ? this.props.trip.gearStatus : undefined}
+            trippeeGearStatus={this.state.editMode ? this.props.trip.trippeeGearStatus : undefined}
+            gearStatus={this.state.editMode ? this.props.trip.gearStatus : undefined}
           />
         );
         break;
       case 5:
-        page = (!this.props.switchMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')
+        page = (!this.state.editMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')
           ? (
             <VehicleRequest
               requestType='TRIP'
@@ -713,7 +715,7 @@ class CreateTrip extends Component {
             deleteOtherCost={this.deleteOtherCost}
             addOtherCost={this.addOtherCost}
             errorFields={this.state.errorFields}
-            pcardStatus={this.props.switchMode ? this.props.trip.pcardStatus : undefined}
+            pcardStatus={this.state.editMode ? this.props.trip.pcardStatus : undefined}
           />
         );
         break;

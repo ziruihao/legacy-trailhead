@@ -353,7 +353,7 @@ class ProfileCardEdit extends Component {
           </Dropdown.Menu>
         </Dropdown>
         <input
-          // type="number"
+          type="number"
           name="shoe_size"
           step="0.5"
           onChange={this.onFieldChange}
