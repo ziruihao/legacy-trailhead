@@ -51,7 +51,7 @@ export function formatTime(time) {
 };
 
 export function withinTimePeriod(date, timePeriod, specificDay) {
-  const today = new Date();
+  const today = dates.startOf(new Date(), 'day');
   if (typeof date === 'string') date = new Date(date);
   switch(timePeriod) {
     case 'Specific day':
@@ -92,7 +92,7 @@ export function withinTimePeriod(date, timePeriod, specificDay) {
 
 export function inThePast(date) {
   if (typeof date === 'string') date = new Date(date);
-  const today = new Date();
+  const today = dates.startOf(new Date(), 'day');
   if (date >= today) return false;
   else return true;
 }
