@@ -9,6 +9,7 @@ import Dashboard from './dashboard';
 import AllTrips from './trips';
 import CreateTrip from './createtrip';
 import MyTrips from './mytrips';
+import VehicleRequestPage from './vehicle-request';
 import VehicleRequest from './vehiclerequest';
 import ProfilePage from './profile-page';
 import TripDetails from './tripdetails';
@@ -106,7 +107,7 @@ class App extends React.Component {
             <Route path="/complete-profile" component={CompleteProfile} />
             <Route path="/all-trips" component={AllTrips} />
             <Route path="/vehicle-request/:vehicleReqId" component={VehicleRequest} />
-            <Route path="/vehicle-request" component={VehicleRequest} />
+            <Route path="/vehicle-request" component={VehicleRequestPage} />
             <Route path="/trip/:tripID" component={TripDetails} />
             <Route path="/createtrip" component={CreateTrip} />
             <Route path="/my-trips" component={MyTrips} />

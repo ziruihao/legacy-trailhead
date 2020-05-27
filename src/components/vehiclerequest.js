@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { appError, fetchVehicleRequest, submitVehicleRequest, updateVehicleRequest } from '../actions';
-import VehicleRequestForm from './vehicleRequestForm';
+import VehicleRequestForm from './vehicle-request-form';
 import VehicleRequestDisplay from './vehicleRequestDisplay';
 
 class VehicleRequest extends Component {

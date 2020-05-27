@@ -522,7 +522,7 @@ export function submitVehicleRequest(vehicleRequest, history) {
   return (dispatch) => {
     axios.post(`${constants.BACKEND_URL}/vehicleRequests`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        history.push('/mytrips');
+        history.push('/my-trips');
       }).catch((error) => {
         dispatch(appError(`Error making vehicle request: ${error}`));
       });
