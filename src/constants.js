@@ -1,4 +1,4 @@
-export const BACKEND_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-logistics-app.herokuapp.com/api';
+export const BACKEND_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-dartmouth.herokuapp.com/api';
 export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://doc-dartmouth.surge.sh';
 
 export const green = '#0CA074';
