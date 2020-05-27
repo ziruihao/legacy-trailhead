@@ -54,10 +54,10 @@ class MyTrips extends Component {
   renderMyTrips = () => {
     let myTrips = this.props.user.role === 'Trippee'
       ? (
-        <span className="mytrips-help-text">
+        <div className="my-trips-no-trips-text p1">
           Trips you lead or sign up for will appear here. Only OPO approved club leaders can create trips.
           Club leaders should update the DOC Leadership field on their profiles to gain leader access.
-        </span>
+        </div>
       )
       : null;
     if (this.props.myTrips.length !== 0) {
@@ -74,10 +74,10 @@ class MyTrips extends Component {
   renderMyVehicleRequests = () => {
     if (this.props.myVehicleReqs.length === 0) {
       return (
-        <span className="mytrips-help-text">
+        <div className="my-trips-no-trips-text p1">
           Your vehicle requests will appear here. Only OPO certified drivers can request vehicles.
           Certified drivers should update the Driver Certifications field on their profiles to gain driver access.
-        </span>
+        </div>
       );
     } else {
       return this.props.myVehicleReqs.map((vehicleReq) => {
@@ -118,22 +118,27 @@ class MyTrips extends Component {
             {this.renderCreateTrip()}
             {this.renderMyTrips()}
           </div>
-          <div className="mytrips-vehicle-reqs-container">
-            <div className="mytrips-flex-start">
-              <h2 className="mytrips-sub-header">Your upcoming vehicle requests</h2>
-            </div>
-            <div className="mytrips-vehicle-reqs">
-              {this.renderMyVehicleRequests()}
-            </div>
-            <div className="mytrips-request-and-calendar-links">
-              {this.props.user.driver_cert !== null
-                ? <Link to="/vehicle-request" className="mytrips-request-button">Request vehicle</Link>
-                : null}
-              {this.props.user.driver_cert !== null || this.props.user.role !== 'Trippee'
-                ? <Link to="/vehicle-calendar" className="mytrips-calendar-link" target="_blank">View vehicle calendar</Link>
-                : null}
-            </div>
-          </div>
+          {this.props.user.role !== 'Trippee'
+            ? (
+              <div className="mytrips-vehicle-reqs-container">
+                <div className="mytrips-flex-start">
+                  <h2 className="mytrips-sub-header">Your upcoming vehicle requests</h2>
+                </div>
+                <div className="mytrips-vehicle-reqs">
+                  {this.renderMyVehicleRequests()}
+                </div>
+                <div className="mytrips-request-and-calendar-links">
+                  {this.props.user.driver_cert !== null
+                    ? <Link to="/vehicle-request" className="mytrips-request-button">Request vehicle</Link>
+                    : null}
+                  {this.props.user.driver_cert !== null || this.props.user.role !== 'Trippee'
+                    ? <Link to="/vehicle-calendar" className="mytrips-calendar-link" target="_blank">View vehicle calendar</Link>
+                    : null}
+                </div>
+              </div>
+            )
+            : null
+          }
         </div>
       );
     } else {

@@ -1,7 +1,8 @@
 @import '../../styles/base.scss';
 
 #trips-page {
-  margin: 0 calc(50vw - 670px); // a wider version of .center-view
+  width: calc(4 * 286px + 3 * 30px); // 4 * $trip-card-width + 3 * $trip-card-margin-right
+  align-self: center;
 
   #trip-safari-configs {
     // width: 100%;
@@ -26,11 +27,11 @@
     margin-top: 45px;
 
     > * {
-      margin-right: 45px;
-      margin-bottom: 45px;
+      margin-right: $trip-card-margin-right;
+      margin-bottom: 30px;
     }
 
-    > :last-child {
+    > :nth-child(4n) {
       margin-right: 0px !important;
     }
 
@@ -53,7 +54,7 @@
 $trip-card-padding: 15px;
 
 .trip-card {
-  width: 286px;
+  width: $trip-card-width;
   height: 330px;
   position: relative;
   background: white;
