@@ -69,7 +69,7 @@ class CreateTrip extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentStep: 4,
+      currentStep: 1,
       title: '',
       leaders: [],
       club: null,
@@ -263,8 +263,8 @@ class CreateTrip extends Component {
   //   return options;
   // }
 
-  handleDateChange = (changeEvent) => {
-    if (changeEvent.target.value === 'single') {
+  handleDateChange = (eventKey) => {
+    if (eventKey === 'single') {
       this.setState(prevState => ({
         length: 'single',
         endDate: prevState.startDate,
@@ -339,7 +339,7 @@ class CreateTrip extends Component {
       const trippeeGearArray = prevState.trippeeGear;
       const changedTrippeeGearObject = trippeeGearArray[idx];
       const updates = {};
-      updates.gear = event.target.value;
+      updates.name = event.target.value;
       updates.hasError = this.isStringEmpty(event.target.value);
       const updatedTrippeeGearObject = Object.assign({}, changedTrippeeGearObject, updates);
 
@@ -604,6 +604,7 @@ class CreateTrip extends Component {
       vehicles,
       vehicleReqId,
     };
+    console.log('\tFinal trip before sending to server', trip);
     if (this.props.switchMode) {
       this.props.editTrip(trip, this.props.history, this.props.match.params.tripID);
     } else {
@@ -637,9 +638,9 @@ class CreateTrip extends Component {
         page = (
           <DatesLocation
             onFieldChange={this.onFieldChange}
-            onDateChange={this.handleDateChange}
+            onDateChange={this.onDateChange}
             dateLength={this.state.length}
-            onDateLengthChange={eventKey => this.setState({length: eventKey})}
+            onDateLengthChange={this.handleDateChange}
             theStartTime={this.state.startTime}
             theEndTime={this.state.endTime}
             tripLocation={this.state.location}
