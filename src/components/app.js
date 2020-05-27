@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable no-unreachable */
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
@@ -8,7 +9,7 @@ import DOCLoading from './doc-loading';
 import Dashboard from './dashboard';
 import AllTrips from './trips';
 import CreateTrip from './createtrip';
-import MyTrips from './mytrips';
+import MyTrips from './my-trips';
 import VehicleRequestPage from './vehicle-request';
 import VehicleRequest from './vehiclerequest';
 import ProfilePage from './profile-page';
@@ -79,9 +80,20 @@ class App extends React.Component {
     });
   }
 
-  requireAuth = (RequestedComponent, switchMode) => {
-    if (this.props.authenticated) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
-    else return <Gateway dataLoader={this.loadData} />;
+  requireRole = (RequestedComponent, switchMode) => {
+    switch (this.props.user.role) {
+      case 'OPO':
+        if (switchMode) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
+        else window.location.replace(`${ROOT_URL}/opo-dashboard`);
+        break;
+      case 'Leader':
+        // if (switchMode) return <MyTrips switchMode={switchMode ? true : undefined} {...this.props} />;
+        window.location.replace(`${ROOT_URL}/my-trips`);
+        break;
+      default:
+        // if (switchMode) return <AllTrips switchMode={switchMode ? true : undefined} {...this.props} />;
+        window.location.replace(`${ROOT_URL}/all-trips`);
+    }
   }
 
   render() {
@@ -102,7 +114,7 @@ class App extends React.Component {
         <Router>
           <NavBar />
           <Switch>
-            <Route exact path="/" component={Dashboard} />
+            <Route exact path="/">{() => this.requireRole(null, false)}</Route>
             <Route path="/user" component={ProfilePage} />
             <Route path="/complete-profile" component={CompleteProfile} />
             <Route path="/all-trips" component={AllTrips} />
@@ -115,7 +127,7 @@ class App extends React.Component {
             <Route path="/opo-trips" component={OPOTrips} />
             <Route path="/vehicle-requests" component={OPOVehicleRequests} />
             <Route path="/opo-vehicle-request/:vehicleReqId" component={OPOVehicleRequest} />
-            <Route path="/opo-dashboard" component={OPODashboard} />
+            <Route path="/opo-dashboard">{() => this.requireRole(OPODashboard, true)}</Route>
             <Route path="/opo-fleet-management" component={FleetManagement} />
             <Route path="/leader-approvals" component={OPOLeaders} />
             <Route path="/vehicle-calendar" component={VehicleCalendar} />
@@ -132,6 +144,7 @@ class App extends React.Component {
 
 const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
+  user: state.user.user,
 });
 
 export default connect(mapStateToProps, { getUser, authUser, getClubs, getVehicles })(App);

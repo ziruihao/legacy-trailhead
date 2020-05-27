@@ -1,0 +1,17 @@
+#my-trips-page {
+  margin: 0 calc(50vw - 670px); // a wider version of .center-view
+  
+  #my-trips-tiles {
+    display: flex;
+    flex-wrap: wrap;
+
+    > * {
+      margin-right: 45px;
+      margin-bottom: 45px;
+    }
+
+    > :last-child {
+      margin-right: 0px !important;
+    }
+  }
+}

@@ -1,28 +1,27 @@
-/* eslint-disable */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
-import DOCLoading from './doc-loading';
-import TripCard from './trip-card';
-import { getMyTrips } from '../actions';
-import './trips/trip-card.scss';
-import '../styles/mytrips-style.scss';
-import createtrip from "../img/createtrip.svg";
-import Badge from './badge';
+import DOCLoading from '../doc-loading';
+import TripCard from '../trip-card';
+import { getMyTrips } from '../../actions';
+import './my-trips.scss';
+import './mytrips-style.scss';
+import createtrip from './createtrip.svg';
+import Badge from '../badge';
 
 class MyTrips extends Component {
   constructor(props) {
     super(props);
     this.state = {
       ready: false,
-    }
+    };
   }
 
   componentDidMount(props) {
     this.props.getMyTrips()
       .then(() => {
         this.setState({ ready: true });
-      })
+      });
   }
 
   formatDate = (date) => {
@@ -38,6 +37,7 @@ class MyTrips extends Component {
     const t2 = new Date(b.startDate);
     return t1.getTime() - t2.getTime();
   }
+
   renderCreateTrip = () => {
     if (this.props.user.role !== 'Trippee') {
       return (
@@ -53,16 +53,18 @@ class MyTrips extends Component {
 
   renderMyTrips = () => {
     let myTrips = this.props.user.role === 'Trippee'
-      ? <span className="mytrips-help-text">
-        Trips you lead or sign up for will appear here. Only OPO approved club leaders can create trips.
-        Club leaders should update the 'DOC Leadership' field on their profiles to gain leader access.
+      ? (
+        <span className="mytrips-help-text">
+          Trips you lead or sign up for will appear here. Only OPO approved club leaders can create trips.
+          Club leaders should update the DOC Leadership field on their profiles to gain leader access.
         </span>
+      )
       : null;
     if (this.props.myTrips.length !== 0) {
       const sortedTrips = this.props.myTrips.sort(this.compareStartDates);
       myTrips = sortedTrips.map((trip) => {
         return (
-          <TripCard key={trip._id} trip={trip} user={this.props.user}></TripCard>
+          <TripCard key={trip._id} trip={trip} user={this.props.user} />
         );
       });
     }
@@ -74,12 +76,12 @@ class MyTrips extends Component {
       return (
         <span className="mytrips-help-text">
           Your vehicle requests will appear here. Only OPO certified drivers can request vehicles.
-          Certified drivers should update the 'Driver Certifications' field on their profiles to gain driver access.
+          Certified drivers should update the Driver Certifications field on their profiles to gain driver access.
         </span>
-      )
+      );
     } else {
       return this.props.myVehicleReqs.map((vehicleReq) => {
-        const status = vehicleReq.status;
+        const { status } = vehicleReq;
         let reqTitle = '';
         let reqLink = '';
         if (vehicleReq.requestType === 'TRIP') {
@@ -94,13 +96,13 @@ class MyTrips extends Component {
             {/* <div className="mytrips-status-badge">
               <img className="status-badge" src={this.badges[status]} alt={`${status}_badge`} />
             </div> */}
-              <Badge type={status}></Badge>
+            <Badge type={status} />
             <div className="mytrips-req-header-and-status">
               <Link to={reqLink} className="mytrips-req-header">{reqTitle}</Link>
               <em className="mytrips-req-status">{status}</em>
             </div>
           </div>
-        )
+        );
       });
     }
   }
@@ -108,18 +110,13 @@ class MyTrips extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div className="mytrips-container">
-          <div className="mytrips-flex-start">
-            <h1 className="mytrips-header">Your Dashboard</h1>
+        <div id="my-trips-page" className="center-view spacy">
+          <div className="">
+            <div className="doc-h1">Your upcoming trips</div>
           </div>
-          <div className="mytrips-trips-container">
-            <div className="mytrips-flex-start">
-              <h2 className="mytrips-sub-header">Your upcoming trips</h2>
-            </div>
-            <div className="mytrips-trips">
-              {this.renderMyTrips()}
-              {this.renderCreateTrip()}
-            </div>
+          <div id="my-trips-tiles">
+            {this.renderCreateTrip()}
+            {this.renderMyTrips()}
           </div>
           <div className="mytrips-vehicle-reqs-container">
             <div className="mytrips-flex-start">
@@ -130,14 +127,14 @@ class MyTrips extends Component {
             </div>
             <div className="mytrips-request-and-calendar-links">
               {this.props.user.driver_cert !== null
-                ? < Link to="/vehicle-request" className="mytrips-request-button">Request vehicle</Link>
+                ? <Link to="/vehicle-request" className="mytrips-request-button">Request vehicle</Link>
                 : null}
               {this.props.user.driver_cert !== null || this.props.user.role !== 'Trippee'
                 ? <Link to="/vehicle-calendar" className="mytrips-calendar-link" target="_blank">View vehicle calendar</Link>
                 : null}
             </div>
           </div>
-        </div >
+        </div>
       );
     } else {
       return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
