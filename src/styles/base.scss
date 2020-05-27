@@ -14,7 +14,7 @@ $menu-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
     margin: 0;
     padding: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: stretch;
