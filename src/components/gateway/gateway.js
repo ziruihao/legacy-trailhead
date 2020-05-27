@@ -13,17 +13,19 @@ class Gateway extends Component {
     super(props)
     this.state = {
       incompleteProfile: false,
+      token: '',
     }
   }
   componentDidMount() {
     const casValues = queryString.parse(this.props.location.search);
-    if (casValues.token) {
-      this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader).then(completedProfile => {
-        if (!completedProfile) this.setState({incompleteProfile: true})
-      });
-    } else if (this.props.user) {
-      this.setState({incompleteProfile: true})
-    }
+    this.setState({token: this.props.location.search})
+    // if (casValues.token) {
+    //   this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader).then(completedProfile => {
+    //     if (!completedProfile) this.setState({incompleteProfile: true})
+    //   });
+    // } else if (this.props.user) {
+    //   this.setState({incompleteProfile: true})
+    // }
   }
 
   signInAndThenLoadData = (email, password) => {
@@ -86,11 +88,7 @@ class Gateway extends Component {
             <div className="landing-card-message">
               <div className="doc-h1">Welcome there!</div>
               <div className="p1">
-                {
-                  this.props.authenticated
-                    ? `You're logged in as a test ${!this.props.user ? 'loading' : this.props.user.role}.`
-                    : 'Hello there! Click the options below to login as test users of the following kind.'
-                }
+                Hello there! Click the options below to login as test users of the following kind. {this.state.token}
               </div>
             </div>
             {this.renderDevAuthOptions()}
