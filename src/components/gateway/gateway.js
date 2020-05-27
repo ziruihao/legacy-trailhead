@@ -13,13 +13,11 @@ class Gateway extends Component {
     super(props)
     this.state = {
       incompleteProfile: false,
-      token: 'nope',
     }
   }
   componentDidMount() {
     const casValues = queryString.parse(this.props.location.search);
     if (casValues.token) {
-      this.setState({token: 'token is there'})
       this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader).then(completedProfile => {
         if (!completedProfile) this.setState({incompleteProfile: true})
       });
@@ -88,7 +86,7 @@ class Gateway extends Component {
             <div className="landing-card-message">
               <div className="doc-h1">Welcome there!</div>
               <div className="p1">
-                Hello there! Click the options below to login as test users of the following kind. {this.state.token}
+                Hello there! Click the options below to login as test users of the following kind.
               </div>
             </div>
             {this.renderDevAuthOptions()}

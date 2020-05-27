@@ -291,9 +291,9 @@ export function casAuthed(token, history, dataLoader) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       localStorage.setItem('token', token);
+      alert(localStorage.getItem('token'));
       axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
-          console.log(response.data.user.completedProfile);
           if (response.data.user.completedProfile) {
             dispatch({ type: ActionTypes.AUTH_USER });
             dataLoader().then(() => resolve(response.data.user.completedProfile));
