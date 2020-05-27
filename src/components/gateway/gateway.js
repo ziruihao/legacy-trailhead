@@ -13,19 +13,19 @@ class Gateway extends Component {
     super(props)
     this.state = {
       incompleteProfile: false,
-      token: '',
+      token: 'nope',
     }
   }
   componentDidMount() {
     const casValues = queryString.parse(this.props.location.search);
-    this.setState({token: this.props.location.search})
-    // if (casValues.token) {
-    //   this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader).then(completedProfile => {
-    //     if (!completedProfile) this.setState({incompleteProfile: true})
-    //   });
-    // } else if (this.props.user) {
-    //   this.setState({incompleteProfile: true})
-    // }
+    if (casValues.token) {
+      this.setState({token: 'token is there'})
+      this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader).then(completedProfile => {
+        if (!completedProfile) this.setState({incompleteProfile: true})
+      });
+    } else if (this.props.user) {
+      this.setState({incompleteProfile: true})
+    }
   }
 
   signInAndThenLoadData = (email, password) => {
