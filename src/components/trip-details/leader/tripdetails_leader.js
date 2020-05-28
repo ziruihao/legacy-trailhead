@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Collapse from 'react-bootstrap/Collapse';
+import ReactToolTip from 'react-tooltip';
 import { ProfileCard } from '../../profile-card';
 import Badge from '../../badge';
 import '../../../styles/tripdetails_leader.scss';
@@ -327,106 +328,116 @@ const getPcard = (pcard, pcardStatus, assignedPCard) => {
 export default React.forwardRef((props, ref) => {
   const { pendingEmailRef, onTripEmailRef } = ref;
   return (
-    <div className="leader-details-container">
-      <h1 className="p-trip-title">{props.trip.title}</h1>
-      <div className="trip-club-container">
-        <span className="trip-club">{props.trip.club.name}</span>
+    <div className="doc-card trip-details l">
+      <div className="trip-number">Trip #{props.trip.number}</div>
+      <div className="doc-h1">{props.trip.title}</div>
+
+      <div className="trip-tags">
+        <div className="trip-club-tag">{props.trip.club.name}</div>
+        <div id="trip-modal-statuses">
+          {props.role === 'LEADER' ? <Badge type="leader" dataTip dataFor="leader-on-trip-modal" /> : null}
+          <Badge type={props.status} dataTip dataFor="trip-status-modal" />
+          <ReactToolTip id="leader-on-trip-modal" place="bottom">Your are leading this trip</ReactToolTip>
+          <ReactToolTip id="trip-status-modal" place="bottom">
+            Reasons: {props.reasons.length > 0 ? props.reasons.reduce((all, current) => `${all}, ${current}`) : null}
+          </ReactToolTip>
+        </div>
       </div>
+      <hr className="heavy-line" />
       <div className="leader-trip-info-and-desc">
-        <h3>Trip info</h3>
-        <div className="trip-description">
+        <div className="doc-h2">Description</div>
+        <div className="trip-description p1">
           <p>
             {props.trip.description}
           </p>
         </div>
-
+        <div className="doc-h2">Details</div>
         <div className="leader-trip-info">
-          <div className="trip-detail leader-trip-detail left-detail">
-            <div className="detail-row">
-              <span className="detail-left">Start</span>
-              <span className="detail-right">{formatDate(props.trip.startDate, props.trip.startTime)}</span>
+          <div className="trip-details-table leader-trip-detail left-detail">
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Start</span>
+              <span className="trip-details-table-right">{formatDate(props.trip.startDate, props.trip.startTime)}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">End</span>
-              <span className="detail-right">{formatDate(props.trip.endDate, props.trip.endTime)}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">End</span>
+              <span className="trip-details-table-right">{formatDate(props.trip.endDate, props.trip.endTime)}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Pickup</span>
-              <span className="detail-right">{props.trip.pickup}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Pickup</span>
+              <span className="trip-details-table-right">{props.trip.pickup}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Dropoff</span>
-              <span className="detail-right">{props.trip.dropoff}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Dropoff</span>
+              <span className="trip-details-table-right">{props.trip.dropoff}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Destination</span>
-              <span className="detail-right">{props.trip.location}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Destination</span>
+              <span className="trip-details-table-right">{props.trip.location}</span>
             </div>
           </div>
 
-          <div className="trip-detail leader-trip-detail right-detail">
-            <div className="detail-row">
-              <span className="detail-left">Leader</span>
-              <span className="detail-right">{props.trip.leaders[0].name}</span>
+          <div className="trip-details-table leader-trip-detail right-detail">
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Leader</span>
+              <span className="trip-details-table-right">{props.trip.leaders[0].name}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Co-Leader(s)</span>
-              <span className="detail-right">{getCoLeaders(props.trip.leaders)}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Co-Leader(s)</span>
+              <span className="trip-details-table-right">{getCoLeaders(props.trip.leaders)}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Experience Needed?</span>
-              <span className="detail-right">{props.trip.experienceNeeded ? 'Yes' : 'No'} </span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Experience Needed?</span>
+              <span className="trip-details-table-right">{props.trip.experienceNeeded ? 'Yes' : 'No'} </span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Subclub</span>
-              <span className="detail-right">{props.trip.club.name}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Subclub</span>
+              <span className="trip-details-table-right">{props.trip.club.name}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Cost</span>
-              <span className="detail-right">${props.trip.cost}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Cost</span>
+              <span className="trip-details-table-right">${props.trip.cost}</span>
             </div>
           </div>
         </div>
       </div>
+      <div className="doc-h2">Approved trippees</div>
 
-      <div className="on-trip">
-        <div className="leader-table-title">
-          <h2>On trip ({props.trip.members.length})</h2>
+      {/* <div className="leader-table-title">
+
           {props.trip.members.length === 0
             ? null
             : <span className="toggle-all" onClick={props.toggleAllOnTripProfiles} role="button" tabIndex={0}>{props.showAllOnTripProfiles ? 'Hide' : 'Show'} all profiles</span>}
-        </div>
-        <div className="trip-detail">
-          {getOnTrip(props, onTripEmailRef)}
-        </div>
+        </div> */}
+
+      <div className="trip-details-table">
+        {getOnTrip(props, onTripEmailRef)}
       </div>
 
-      <div className="ltd-pending">
-        <div className="leader-table-title">
+      <div className="doc-h2">Pending trippees</div>
+      {/* <div className="leader-table-title">
           <h2>Pending ({props.trip.pending.length})</h2>
           {props.trip.pending.length === 0
             ? null
             : <span className="toggle-all" onClick={props.toggleAllPendingProfiles} role="button" tabIndex={0}>{props.showAllPendingProfiles ? 'Hide' : 'Show'} all profiles</span>}
-        </div>
-        <div className="trip-detail">
-          {getPending(props, pendingEmailRef)}
-        </div>
+        </div> */}
+      <div className="trip-details-table">
+        {getPending(props, pendingEmailRef)}
       </div>
 
       <div className="tripdetail-gear-requests leader-trip-info">
