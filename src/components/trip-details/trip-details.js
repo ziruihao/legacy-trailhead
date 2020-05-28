@@ -15,6 +15,8 @@ class TripDetails extends Component {
       pendingEmail: '',
       onTripEmail: '',
       showLeaderModal: false,
+      trippeeProfileOpened: false,
+      trippeeProfile: null,
       trippeeGear: [],
       isEditing: true,
       showTrippeeModal: false,
@@ -270,6 +272,10 @@ class TripDetails extends Component {
             onTripEmail={this.state.onTripEmail}
             pendingEmail={this.state.pendingEmail}
             showModal={this.state.showLeaderModal}
+            trippeeProfileOpened={this.state.trippeeProfileOpened}
+            openTrippeeProfile={trippeeProfile => this.setState({ trippeeProfileOpened: true, trippeeProfile })}
+            trippeeProfile={this.state.trippeeProfile}
+            hideTrippeeProfile={() => this.setState({ trippeeProfileOpened: false })}
             profiles={this.state.profiles}
             showAllPendingProfiles={this.state.showAllPendingProfiles}
             showAllOnTripProfiles={this.state.showAllOnTripProfiles}

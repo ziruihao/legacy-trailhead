@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import Collapse from 'react-bootstrap/Collapse';
+import { Modal, Form, Collapse, Table } from 'react-bootstrap';
 import ReactToolTip from 'react-tooltip';
 import { ProfileCard } from '../../profile-card';
 import Badge from '../../badge';
@@ -115,58 +113,81 @@ const getOnTrip = (props, onTripEmailRef) => {
     );
   } else {
     return (
-      <div className="leader-on-trip-details">
-        <div className="leader-detail-row">
-          <span className="detail-cell">Name</span>
-          <span className="detail-cell">Email</span>
-          <span className="detail-cell">Allergies/Diet Restrictions</span>
-          <span className="detail-cell">Gear Requests</span>
-          <span className="detail-cell">Actions</span>
-        </div>
-        <hr className="detail-line" />
+      <Table className="doc-table" responsive="lg" hover>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Allergies/Diet Restrictions</th>
+            <th>Medical conditions</th>
+            <th id="fleet-management-book-col">Gear Requests</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.trip.members.map(member => (
+            <tr key={member.user._id} onClick={() => props.openTrippeeProfile(member.user)}>
+              <td>{member.user.name}</td>
+              <td>{member.user.medical_conditions}</td>
+              <td>{member.user.allergies_dietary_restrictions}</td>
+              <td id="fleet-management-book-col">Gear requests</td>
+              <td className="fleet-delete-button-area">
+                <div id="fleet-delete-button" className="doc-button" onClick={() => props.moveToPending(member)} role="button" tabIndex={0}>Back to pending</div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    // <div className="leader-on-trip-details">
+    //   <div className="leader-detail-row">
+    //     <span className="detail-cell">Name</span>
+    //     <span className="detail-cell">Email</span>
+    //     <span className="detail-cell">Allergies/Diet Restrictions</span>
+    //     <span className="detail-cell">Gear Requests</span>
+    //     <span className="detail-cell">Actions</span>
+    //   </div>
+    //   <hr className="detail-line" />
 
-        {props.trip.members.map(member => (
-          <div key={member._id}>
-            <div className="leader-detail-row">
-              <span className="detail-cell">{member.user.name}</span>
-              <span className="detail-cell">{member.user.email}</span>
-              <span className="detail-cell">{member.user.allergies_dietary_restrictions}</span>
-              <span className="detail-cell detail-gear">
-                {member.gear.length !== 0 ? member.gear.map(gear => (
-                  <li key={gear.gearId}>{gear.name}</li>
-                )) : <span>None</span>}
-              </span>
-              <span className="detail-cell">
-                <button type="button" className="leader-signup-button toggle-profile" onClick={() => props.toggleProfile(member._id)}>{props.profiles[member._id] ? 'Hide' : 'Show'} Profile</button>
-                <button type="button" className="leader-cancel-button" onClick={() => props.moveToPending(member)}>Move to pending</button>
-              </span>
-            </div>
-            <Collapse
-              in={props.profiles[member._id]}
-            >
-              <div className="leader-profile-card">
-                <ProfileCard
-                  asProfilePage={false}
-                  isEditing={false}
-                  user={member.user}
-                />
-              </div>
-            </Collapse>
-            <hr className="line" />
-          </div>
-        ))}
+    //   {props.trip.members.map(member => (
+    //     <div key={member._id}>
+    //       <div className="leader-detail-row">
+    //         <span className="detail-cell">{member.user.name}</span>
+    //         <span className="detail-cell">{member.user.email}</span>
+    //         <span className="detail-cell">{member.user.allergies_dietary_restrictions}</span>
+    //         <span className="detail-cell detail-gear">
+    //           {member.gear.length !== 0 ? member.gear.map(gear => (
+    //             <li key={gear.gearId}>{gear.name}</li>
+    //           )) : <span>None</span>}
+    //         </span>
+    //         <span className="detail-cell">
+    //           <button type="button" className="leader-signup-button toggle-profile" onClick={() => props.toggleProfile(member._id)}>{props.profiles[member._id] ? 'Hide' : 'Show'} Profile</button>
+    //           <button type="button" className="leader-cancel-button" onClick={() => props.moveToPending(member)}>Move to pending</button>
+    //         </span>
+    //       </div>
+    //       <Collapse
+    //         in={props.profiles[member._id]}
+    //       >
+    //         <div className="leader-profile-card">
+    //           <ProfileCard
+    //             asProfilePage={false}
+    //             isEditing={false}
+    //             user={member.user}
+    //           />
+    //         </div>
+    //       </Collapse>
+    //       <hr className="line" />
+    //     </div>
+    //   ))}
 
-        <div>
-          <h5>Emails</h5>
-          <div className="emails">
-            <Form className="col-9">
-              <Form.Control className="emails-input" ref={onTripEmailRef} as="textarea" value={props.onTripEmail} name="onTripEmail" onChange={props.onTextChange} />
-            </Form>
-            <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyOnTripToClip}>Copy</button>
-          </div>
-        </div>
-
-      </div>
+    //   <div>
+    //     <h5>Emails</h5>
+    //     <div className="emails">
+    //       <Form className="col-9">
+    //         <Form.Control className="emails-input" ref={onTripEmailRef} as="textarea" value={props.onTripEmail} name="onTripEmail" onChange={props.onTextChange} />
+    //       </Form>
+    //       <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyOnTripToClip}>Copy</button>
+    //     </div>
+    //   </div>
+    // </div>
     );
   }
 };
@@ -327,6 +348,7 @@ const getPcard = (pcard, pcardStatus, assignedPCard) => {
 
 export default React.forwardRef((props, ref) => {
   const { pendingEmailRef, onTripEmailRef } = ref;
+
   return (
     <div className="doc-card trip-details l">
       <div className="trip-number">Trip #{props.trip.number}</div>
@@ -474,7 +496,18 @@ export default React.forwardRef((props, ref) => {
       <div className="center">
         <span className="cancel-link" onClick={props.activateLeaderModal} role="button" tabIndex={0}>Delete trip</span>
       </div>
-
+      <Modal
+        centered
+        show={props.trippeeProfileOpened}
+        onHide={props.hideTrippeeProfile}
+        size="lg"
+      >
+        <ProfileCard
+          asProfilePage={false}
+          isEditing={false}
+          user={props.trippeeProfile}
+        />
+      </Modal>
       <Modal
         centered
         show={props.showModal}

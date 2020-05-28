@@ -179,11 +179,10 @@ class Trips extends Component {
             show={this.state.showTrip}
             onHide={() => this.setState({showTrip: false})}
           >
-            <div id="event-modal-close">
-              <i className="material-icons close-button" onClick={() => this.setState({showTrip: false})} role="button" tabIndex={0}>close</i>
+            <div id="trip-details-modal-wrapper">
+              <TripDetailsBasic
+                closeModal = {() => this.setState({showTrip: false})}/>
             </div>
-            <TripDetailsBasic
-              closeModal = {() => this.setState({showTrip: false})}/>
           </Modal>
         </div>
       );
