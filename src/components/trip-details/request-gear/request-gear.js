@@ -39,7 +39,7 @@ class RequestGear extends React.Component {
       const checkmarkClass = this.props.isEditing ? 'checkmark' : 'disabled-checkmark';
       console.log(this.props.trippeeGear);
       return (
-        <div id="trip-request-gear-form" className="trip-modal-details">
+        <div id="trip-request-gear-form" className="trip-details-table">
           {this.props.loading
             ? (
               <div id="trip-request-gear-form-loading">
@@ -55,9 +55,9 @@ class RequestGear extends React.Component {
               });
               return (
                 <div key={gear._id}>
-                  <div className="trip-modal-details-row">
-                    <div className="trip-modal-details-left p2">{gear.name}</div>
-                    <div className="trip-modal-details-right">
+                  <div className="trip-details-table-row">
+                    <div className="trip-details-table-left p2">{gear.name}</div>
+                    <div className="trip-details-table-right">
                       <div className="p2">Needed</div>
                       <label className="checkbox-container" htmlFor={gear._id}>
                         <input

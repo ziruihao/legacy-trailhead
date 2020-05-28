@@ -1,0 +1,73 @@
+@import '../../styles/base.scss';
+
+#sidebar{
+  background-color: white;
+  width: 350px;
+  z-index: 1;
+  overflow-x: hidden;
+  box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
+  padding-right: 30px;
+  padding-top: 30px;
+  display: flex;
+  flex-direction: column;
+
+  .sidebar-section {
+
+    .sidebar-section-title {
+      // font-weight: 800;
+      // font-size: 24px;
+      margin: 1em 0 1em 35px;
+    }
+
+    .sidebar-section-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+      height: 3em;
+
+      .sidebar-highlight {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 0.43em;
+        height: 100%;
+        background: #0CA074;
+        border-radius: 0px 5px 5px 0px;
+      }
+
+      .doc-h3 {
+        margin-left: 75px;
+
+        &.sidebar-text-highlight {
+          color: $green;
+        }
+      }
+    }
+  }
+}
+.ovr-sidebar-header{
+  font-weight: 800;
+  font-size: 2em;
+  text-align: center;
+  margin-top: 1.5em;
+  word-break: break-word;
+}
+.ovr-sidebar-subheader{
+  margin-top: 2.5em;
+  margin-left: 0.7em;
+  font-size: 1.5em;
+  font-weight: 700;
+}
+
+.ovr-sidebar-req-sections{
+  margin-top: 1em;
+  padding-right: 1em; 
+}
+.ovr-sidebar-req-section{
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+  min-height: 2.5em;
+}

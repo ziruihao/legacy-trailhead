@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Dropdown, Modal } from 'react-bootstrap';
-import TripDetailsModal from '../trip-details/trip-details-basic';
+import TripDetailsBasic from '../trip-details/basic/trip-details-basic';
 import TripCard from '../trip-card';
 import Toggle from '../toggle';
 import { fetchTrips, fetchTrip, getClubs } from '../../actions';
@@ -34,7 +34,6 @@ class Trips extends Component {
   }
 
   componentDidMount(props) {
-    console.log(utils)
     this.props.fetchTrips();
     this.props.getClubs();
   }
@@ -180,11 +179,10 @@ class Trips extends Component {
             show={this.state.showTrip}
             onHide={() => this.setState({showTrip: false})}
           >
-            <div id="event-modal-close">
-              <i className="material-icons close-button" onClick={() => this.setState({showTrip: false})} role="button" tabIndex={0}>close</i>
+            <div id="trip-details-modal-wrapper">
+              <TripDetailsBasic
+                closeModal = {() => this.setState({showTrip: false})}/>
             </div>
-            <TripDetailsModal
-              closeModal = {() => this.setState({showTrip: false})}/>
           </Modal>
         </div>
       );

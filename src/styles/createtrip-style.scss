@@ -1,5 +1,138 @@
 @import './base.scss';
 
+#create-trip-page {
+  display: flex;
+
+  .create-trip-form {
+    margin: 100px;
+    flex: 1;
+
+    .create-trip-form-content {
+      display: flex;
+      flex-direction: column;
+
+      .page-header {
+        margin-bottom: 50px;
+      }
+
+      .page-sub-headers {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        > * {
+          margin-bottom: 1em;
+        }
+
+        .trip-descrip-box {
+          height: 200px;
+        }
+
+        .ReactTags__tags {
+          .ReactTags__tagInputField {
+            border: 2px solid $inactive-text !important;
+            background: white !important;
+            border-radius: 10px;
+            padding: 0.7em 1em;
+            font-weight: 600;
+            font-size: 18px;
+            color: $gray-text;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        
+            &:focus {
+                border: 4px solid $green !important;
+                outline: none; // overrides browser default
+            }
+          }
+  
+          .ReactTags__suggestions {
+            position: absolute;
+            z-index: 2;
+
+            ul {
+              list-style-type: none;
+              box-shadow: .05em .01em .5em rgba(0,0,0,.2);
+              background: white;
+              padding-left: 0 !important; // disables some weird react-bootstrap styling
+            }
+            li {
+              border-bottom: 1px solid #ddd;
+              padding: 5px 10px;
+            }
+            li mark {
+              color: $green;
+              // text-decoration: underline;
+              background: none;
+              font-weight: 600;
+            }
+            ul li.ReactTags__activeSuggestion {
+                background: $green-faded;
+                cursor: pointer;
+            }
+          }
+  
+          .ReactTags__selected {
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 1em;
+  
+            > * {
+              margin-right: 1em;
+            }
+  
+            .ReactTags__tag {
+              background-color: white;
+              color:$green;
+              border: 2px solid $green;
+              display: flex;
+              align-items: center;
+              font-size: 16px;
+              font-weight: 600;
+              padding: 0.5em 1em;
+              border-radius: 1em;
+              margin-bottom: 1em;
+    
+              .ReactTags__remove {
+                font-size: 1em;
+                font-weight: 100;
+                margin-left: 1em;
+                cursor: pointer;
+              }
+            }
+    
+
+          }
+        }
+      }
+
+      .trip-date-range-inputs {
+        display: flex;
+        margin-top: 1.5rem;
+
+        .page-sub-headers {
+          width: 50%;
+        }
+      }
+
+      &.pcard{
+        display: flex;
+        width: 70%;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .create-trip-form-bottom-margin {
+        margin: 0rem 0rem 3rem 0rem;
+      }
+    }
+  }
+}
+
+
+
 .descrip-list{
   font-family: Nunito Sans;
   font-style: normal;
@@ -7,22 +140,6 @@
   font-size: 20px;
   line-height: 27px;
   color: #000000;
-}
-
-.gearForm{
-  margin-left: 0rem;
-  display: -webkit-inline-box;
-}
-div.gear-content{
-  display: flex;
-  flex-direction: column;
-  margin-right: 2rem;
-  width: 50%;
-  height: 100%;
-}
-.create-trip-form-content{
-  display: flex;
-  flex-direction: column;
 }
 
 #date-picker{
@@ -49,64 +166,57 @@ input[type="time"]{
   font-size: 24px;
   line-height: 33px;
   letter-spacing: 0.05em;
-
-color: #0CA074;
+  color: #0CA074;
 }
-.gear-container{
+
+.gear-container {
   display: flex;
-  &:focus{
-    outline: none;
-    border-color: #0CA074;
-  }
-}
-input[type="text"]{
-  &.gear-input{
-    max-width: 13rem;
-    margin-bottom: 1em;
-    height: 2.5rem;
-    // border-color: transparent;
-    // flex: 1;
-    // color: #474747;
-    // border-style: solid;
-  }
-  &:focus{
-    outline: none;
-    border-color: #0CA074;
-  }
-}
+  align-items: flex-start;
 
-.delete-gear-button {
-	content: "X";
-	display: inline-block;
-  width: 1rem;
-  height: 4rem;
-	background-color: transparent;
-	z-index:1;
-	margin: auto;
-	padding: 2px;
-	text-align: center;
-	color: #979797;
-	font-weight: normal;
-	font-size: 20px;
-  border-color: transparent;
-  border-width: 2px;
-  border-left: 0px;
-	cursor: pointer;
-  &:focus{
+  &:focus {
     outline: none;
+    border-color: #0CA074;
+  }
+
+  .gear-and-size {
+    display: flex;
+    flex-direction: column;
+
+    > * {
+      margin-bottom: 1em;
+    }
+  }
+
+  .remove-gear-button {
+    margin-left: 1em;
+  }
+
+  .delete-gear-button {
+    content: "X";
+    display: inline-block;
+    width: 1rem;
+    height: 4rem;
+    background-color: transparent;
+    z-index:1;
+    margin: auto;
+    padding: 2px;
+    text-align: center;
+    color: #979797;
+    font-weight: normal;
+    font-size: 20px;
     border-color: transparent;
+    border-width: 2px;
+    border-left: 0px;
+    cursor: pointer;
+    &:focus{
+      outline: none;
+      border-color: transparent;
+    }
   }
 }
 
-#equipment-description{
-  height: 100%;
-  font-family: Nunito Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 27px;
-  color: #000000;
-}
+
+
 .see-vehic-cal{
   margin-top: -1.5rem;
   margin-bottom: 0rem;
@@ -286,94 +396,12 @@ ul li .radio-button{
   color: #24A680;
 }
 
-.page-sub-headers{
-  font-family: Nunito Sans;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 24px;
-  line-height: 33px;
-  letter-spacing: 0.05em;
-  color: #000000;
-  width: inherit;
-  margin: 0px;
-  display: block;
-  &.trip-date-header{
-    margin-top: 1.5rem;
-  }
-  &.pcard{
-    display: flex;
-    width: 70%;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-}
-.page-header{
-  font-family: Nunito Sans;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 30px;
-  line-height: 41px;
-  letter-spacing: 0.05em;
-  color: #000000;
-  width: inherit;
-  margin: 0px;
-  margin-bottom: 25px;
-  &.date-loc-header{
-    margin-bottom: 0px;
-  }
-}
-
-.tag-wrapper {
-  font-family: Nunito Sans;
-  font-style: normal;
-  font-weight: 800;
-  font-size: 25px;
-  margin-bottom: 0.4em;
-  //background-color: lightgrey;
-}
-
-.ReactTags__selected{
-  display: flex;
-  flex-direction: column;
-}
-.react-tags-wrapper{
-  margin-bottom: 2em;
-
-}
-
 .invalid-email {
   font-family: Nunito Sans;
   font-style: normal;
   font-weight: 600;
   font-size: 20px;
   color: red;
-}
-
-.ReactTags__Suggestions{
-  background-color: grey;  
-}
-
-.ReactTags__tagInputField{
-  height: 3em;
-  border: 2px solid #C4C4C4;
-  box-sizing: border-box;
-  border-radius: 5px;
-  font-family: Nunito Sans;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 24px;
-  line-height: 33px;
-  letter-spacing: 0.05em;
-  color: #2c2f33;
-  width: 70%;
-  padding: 0.5em;
-  margin-bottom: 1em;
-}
-
-.ReactTags__remove{
-  font-size: 35px;
-  margin-left: 10px;
 }
 
 .button-placement{
@@ -423,26 +451,8 @@ button[disabled]{
   color: #919191;
 }
 
-.gear-and-size{
-  display: flex;
-  flex-direction: column;
-  margin-right: 1em;
-}
-.gear-field{
-  font-weight: 600;
-  font-size: 1em;
-  margin-right: 1em;
-}
-.gear-field-and-form{
-  display: flex;
-}
-#size-type-dropdown{
-  background: #FFFFFF;
-  border: 2px solid #C4C4C4;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
+
 .table td, .table thead th{
   border-color: #535658;
 }

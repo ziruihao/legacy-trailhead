@@ -46,12 +46,12 @@ const getPcardForm = (props) => {
 				</div>
 				<div className="row pcard-header">
 					<input
-						className={`field top-create-trip leaders pcard ${request.errorFields.numPeople ? 'create-trip-error' : ''}`}
+						className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.numPeople ? 'create-trip-error' : ''}`}
 						onChange={(event) => props.onPcardFieldChange(event, index)}
 						name="numPeople"
 						placeholder="e.g. 8"
 						value={request.numPeople}
-						// type="number"
+						type="number"
 					/>
 				</div>
 				<div className="page-sub-headers">
@@ -62,45 +62,45 @@ const getPcardForm = (props) => {
 					<div className="row page-sub-headers pcard">
 						<p>Snacks</p>
 						<input
-							className={`field top-create-trip leaders pcard ${request.errorFields.snacks ? 'create-trip-error' : ''}`}
+							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.snacks ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="snacks"
 							placeholder="e.g. 1"
 							value={request.snacks}
-							// type="number"
+							type="number"
 						/>
 					</div>
 					<div className="row page-sub-headers pcard">
 						<p>Breakfast</p>
 						<input
-							className={`field top-create-trip leaders pcard ${request.errorFields.breakfast ? 'create-trip-error' : ''}`}
+							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.breakfast ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="breakfast"
 							placeholder="e.g. 1"
 							value={request.breakfast}
-							// type="number"
+							type="number"
 						/>
 					</div>
 					<div className="row page-sub-headers pcard">
 						<p>Lunch</p>
 						<input
-							className={`field top-create-trip leaders pcard ${request.errorFields.lunch ? 'create-trip-error' : ''}`}
+							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.lunch ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="lunch"
 							placeholder="e.g. 1"
 							value={request.lunch}
-							// type="number"
+							type="number"
 						/>
 					</div>
 					<div className="row page-sub-headers pcard">
 						<p>Dinner</p>
 						<input
-							className={`field top-create-trip leaders pcard ${request.errorFields.dinner ? 'create-trip-error' : ''}`}
+							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.dinner ? 'create-trip-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="dinner"
 							placeholder="e.g. 1"
 							value={request.dinner}
-							// type="number"
+							type="number"
 						/>
 					</div>
 				</div>
@@ -121,7 +121,7 @@ const otherCosts = (otherCosts, onOtherCostsChange, pcardIndex, deleteOtherCost)
 		return (
 			<div key={`other_cost_${costIndex}`}>
 				<input
-					className={`field top-create-trip leaders other_costs ${otherCost.errorFields.title ? 'create-trip-error' : ''}`}
+					className={`field create-trip-form-bottom-margin leaders other_costs ${otherCost.errorFields.title ? 'create-trip-error' : ''}`}
 					onChange={() => onOtherCostsChange(event, pcardIndex, costIndex)}
 					name="title"
 					placeholder="e.g. Tickets for EVO"
@@ -131,10 +131,10 @@ const otherCosts = (otherCosts, onOtherCostsChange, pcardIndex, deleteOtherCost)
 					$
         </p>
 				<input
-					className={`field top-create-trip leaders other_costs other_costs_num ${otherCost.errorFields.cost ? 'create-trip-error' : ''}`}
+					className={`field create-trip-form-bottom-margin leaders other_costs other_costs_num ${otherCost.errorFields.cost ? 'create-trip-error' : ''}`}
 					onChange={() => onOtherCostsChange(event, pcardIndex, costIndex)}
 					name="cost"
-					// type="number"
+					type="number"
 					placeholder="e.g. 10"
 					value={otherCost.cost}
 				/>

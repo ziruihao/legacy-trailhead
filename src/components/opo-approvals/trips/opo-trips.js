@@ -136,7 +136,7 @@ class OPOTrips extends Component {
     });
     if (pendingTrips.length === 0) {
       return (
-        <div className="inactive">All set for now!</div>
+        <div className="p1 gray thin">All set for now!</div>
       );
     } else {
       return (
@@ -176,7 +176,7 @@ class OPOTrips extends Component {
     });
     if (filteredTrips.length === 0) {
       return (
-        <div className="inactive">All set for now!</div>
+        <div className="p1 gray thin">All set for now!</div>
       );
     } else {
       return (
@@ -264,7 +264,7 @@ class OPOTrips extends Component {
                     <p className="current-filter">{this.getCurrentFilter()}</p>
                     <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
                   </Dropdown.Toggle>
-                  <Dropdown.Menu className="filter-options">
+                  <Dropdown.Menu className="field-dropdown-menu">
                     <Dropdown.Item eventKey={this.ALL_KEY} active={this.ALL_KEY === this.state.selectedFilter}>{this.ALL_VALUE}</Dropdown.Item>
                     <Dropdown.Item eventKey={this.GEAR_KEY} active={this.GEAR_KEY === this.state.selectedFilter}>{this.GEAR_VALUE}</Dropdown.Item>
                     <Dropdown.Item eventKey={this.PCARD_KEY} active={this.PCARD_KEY === this.state.selectedFilter}>{this.PCARD_VALUE}</Dropdown.Item>

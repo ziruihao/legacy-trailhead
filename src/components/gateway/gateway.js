@@ -15,7 +15,7 @@ class Gateway extends Component {
       incompleteProfile: false,
     }
   }
-  componentWillMount() {
+  componentDidMount() {
     const casValues = queryString.parse(this.props.location.search);
     if (casValues.token) {
       this.props.casAuthed(casValues.token, this.props.history, this.props.dataLoader).then(completedProfile => {
@@ -86,11 +86,7 @@ class Gateway extends Component {
             <div className="landing-card-message">
               <div className="doc-h1">Welcome there!</div>
               <div className="p1">
-                {
-                  this.props.authenticated
-                    ? `You're logged in as a test ${!this.props.user ? 'loading' : this.props.user.role}.`
-                    : 'Hello there! Click the options below to login as test users of the following kind.'
-                }
+                Hello there! Click the options below to login as test users of the following kind.
               </div>
             </div>
             {this.renderDevAuthOptions()}

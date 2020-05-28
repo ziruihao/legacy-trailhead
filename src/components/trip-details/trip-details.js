@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import TripeeTripDetails from './tripdetails_trippee';
-import LeaderTripDetails from './tripdetails_leader';
-import OPOTripDetails from './tripdetails_opo';
-import DOCLoading from './doc-loading';
-import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../actions';
+import TripeeTripDetails from './basic/tripdetails_trippee';
+import LeaderTripDetails from './leader/tripdetails_leader';
+import OPOTripDetails from './opo/tripdetails_opo';
+import DOCLoading from '../doc-loading';
+import * as constants from '../../constants';
+import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../../actions';
 
 class TripDetails extends Component {
   constructor(props) {
@@ -14,12 +15,17 @@ class TripDetails extends Component {
       pendingEmail: '',
       onTripEmail: '',
       showLeaderModal: false,
+      trippeeProfileOpened: false,
+      trippeeProfile: null,
       trippeeGear: [],
       isEditing: true,
       showTrippeeModal: false,
       profiles: {},
       showAllPendingProfiles: false,
       showAllOnTripProfiles: false,
+      status: 'approved',
+      reasons: [],
+      role: '',
     });
     this.onGearChange = this.onGearChange.bind(this);
     this.goBack = this.goBack.bind(this);
@@ -31,6 +37,11 @@ class TripDetails extends Component {
   componentDidMount() {
     this.props.fetchTrip(this.props.match.params.tripID)
       .then(() => {
+        // calculates the final status of the trip
+        const tripStatus = constants.calculateTripStatus(this.props.trip);
+        this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
+        const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
+        this.setState({ role: roleOnTrip });
         if (this.props.isLeaderOnTrip) { // populate trip participant emails
           this.populateEmails();
           this.getProfiles();
@@ -254,16 +265,23 @@ class TripDetails extends Component {
     const ref = { pendingEmailRef: this.pendingEmailRef, onTripEmailRef: this.onTripEmailRef };
     if (!this.isObjectEmpty(this.props.trip)) {
       let appropriateComponent;
-      if (this.props.isLeaderOnTrip) {
+      if (this.state.role === 'LEADER') {
         appropriateComponent = (
           <LeaderTripDetails
             trip={this.props.trip}
             onTripEmail={this.state.onTripEmail}
             pendingEmail={this.state.pendingEmail}
             showModal={this.state.showLeaderModal}
+            trippeeProfileOpened={this.state.trippeeProfileOpened}
+            openTrippeeProfile={trippeeProfile => this.setState({ trippeeProfileOpened: true, trippeeProfile })}
+            trippeeProfile={this.state.trippeeProfile}
+            hideTrippeeProfile={() => this.setState({ trippeeProfileOpened: false })}
             profiles={this.state.profiles}
             showAllPendingProfiles={this.state.showAllPendingProfiles}
             showAllOnTripProfiles={this.state.showAllOnTripProfiles}
+            status={this.state.status}
+            reasons={this.state.reasons}
+            role={this.state.role}
             onTextChange={this.onTextChange}
             activateLeaderModal={this.activateLeaderModal}
             closeModal={this.closeLeaderModal}
@@ -278,7 +296,7 @@ class TripDetails extends Component {
             ref={ref}
           />
         );
-      } else if (this.props.user.role === 'OPO') {
+      } else if (this.state.role === 'OPO') {
         appropriateComponent = (
           <OPOTripDetails />
         );
@@ -304,7 +322,9 @@ class TripDetails extends Component {
         );
       }
       return (
-        appropriateComponent
+        <div id="trip-details-page" className="center-view spacy">
+          {appropriateComponent}
+        </div>
       );
     } else {
       return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
