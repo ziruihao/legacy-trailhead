@@ -81,9 +81,12 @@ a {
     font-weight: 300
 }
 
-.inactive {
-    color: $inactive-text;
+.thin {
     font-weight: 100;
+}
+
+.gray {
+    color: $gray-2;
 }
 
 .heavy-line {

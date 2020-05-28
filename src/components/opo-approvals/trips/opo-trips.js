@@ -136,7 +136,7 @@ class OPOTrips extends Component {
     });
     if (pendingTrips.length === 0) {
       return (
-        <div className="inactive">All set for now!</div>
+        <div className="p1 gray thin">All set for now!</div>
       );
     } else {
       return (
@@ -176,7 +176,7 @@ class OPOTrips extends Component {
     });
     if (filteredTrips.length === 0) {
       return (
-        <div className="inactive">All set for now!</div>
+        <div className="p1 gray thin">All set for now!</div>
       );
     } else {
       return (
