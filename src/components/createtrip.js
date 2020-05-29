@@ -59,7 +59,6 @@ class CreateTrip extends Component {
     endDate: false,
     startTime: false,
     endTime: false,
-    mileage: false,
     location: false,
     pickup: false,
     dropoff: false,
@@ -149,7 +148,6 @@ class CreateTrip extends Component {
             endDate: trip.endDate.substring(0, 10),
             startTime: trip.startTime,
             endTime: trip.endTime,
-            mileage: trip.mileage,
             pickup: trip.pickup,
             dropoff: trip.dropoff,
             location: trip.location,
@@ -361,9 +359,9 @@ class CreateTrip extends Component {
     });
   }
 
-  passVehicles = (vehicles) => {
+  passVehicles = (vehicles, mileage) => {
     this.setState((prevState) => {
-      return { vehicles, currentStep: prevState.currentStep + 1 };
+      return { vehicles, mileage, currentStep: prevState.currentStep + 1 };
     });
   }
 
@@ -458,7 +456,7 @@ class CreateTrip extends Component {
       return !this.pageHasEmptyFields(['title', 'cost']);
     }
     if (this.state.currentStep === 2) {
-      if (!this.pageHasEmptyFields(['startDate', 'startTime', 'endTime', 'endDate', 'location', 'mileage'])) {
+      if (!this.pageHasEmptyFields(['startDate', 'startTime', 'endTime', 'endDate', 'location'])) {
         const { startDate, startTime, endDate, endTime } = this.state;
         const now = new Date();
         const startAsDate = this.createDateObject(startDate, startTime);
@@ -646,7 +644,6 @@ class CreateTrip extends Component {
             theStartTime={this.state.startTime}
             theEndTime={this.state.endTime}
             tripLocation={this.state.location}
-            tripMileage={this.state.mileage}
             errorFields={this.state.errorFields}
           />
         );
