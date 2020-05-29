@@ -55,7 +55,7 @@ const getPcardForm = (props) => {
 					/>
 				</div>
 				<div className="page-sub-headers">
-					<p>Food per person on the trip</p>
+					<p>How many servings per person</p>
 				</div>
 
 				<div className="pcard-food-breakdown">
