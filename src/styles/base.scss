@@ -222,6 +222,10 @@ a {
 
 .doc-table {
     margin: 0 !important; // override for react-bootstrap
+
+    .doc-button {
+        z-index: 1;
+    }
     
     td {
         vertical-align: middle;
@@ -282,7 +286,7 @@ a {
     }
 
     &.field-error {
-        border: 2px solid $error-red-deep !important;
+        border: 4px solid $error-red-deep !important;
     }
 
     &.create-trip-form-bottom-margin {
@@ -309,5 +313,21 @@ a {
           width:20%;
         }
       }
+    }
+}
+
+.doc-toast {
+    position: fixed;
+    top: 36px;
+    right: 36px;
+    color: $error-red-deep;
+
+    .doc-toast-header {
+        background-color: $error-red-deep;
+        color: white;
+    }
+
+    .doc-toast-body {
+        background-color: $error-red-light;
     }
 }

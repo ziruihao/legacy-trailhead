@@ -50,6 +50,7 @@ class ProfileCard extends React.Component {
     this.state = {
       preview: null,
       file: null,
+      showClubs: false,
     };
     this.onImageUpload = this.onImageUpload.bind(this);
   }
@@ -214,11 +215,21 @@ class ProfileCard extends React.Component {
                   <div className="card-headings doc-h3">
                     {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
                   </div>
-                  <div className="card-info p1">
-                    {displayClubs(this.props.user.leader_for, this.props.user.has_pending_leader_change)}
+                  <div id="profile-card-clubs" className="card-info p1" onClick={() => this.setState(prevState => ({ showClubs: !prevState.showClubs }))} role="button" tabIndex={0}>
+                    Leader in {this.props.user.leader_for.length} sub-clubs
                   </div>
                 </div>
               ) : null}
+            {this.state.showClubs
+              ? (
+                <div className="profile-card-row">
+                  <div id="profile-card-clubs-all" className="card-info p1">
+                    {displayClubs(this.props.user.leader_for, this.props.user.has_pending_leader_change)}
+                  </div>
+                </div>
+              )
+              : null
+              }
           </div>
         </div>
       );

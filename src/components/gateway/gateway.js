@@ -39,7 +39,7 @@ class Gateway extends Component {
         this.signInAndThenLoadData('opo@dartmouth.edu', 'opo');
         break;
       case 'leader':
-        this.signInAndThenLoadData('leader@dartmouth.edu', 'leader');
+        this.signInAndThenLoadData('f003mfv@dartmouth.edu', 'leader');
         break;
       case 'trippee1':
         this.signInAndThenLoadData('ziray.hao.22@dartmouth.edu', 'trippee1');
@@ -78,7 +78,6 @@ class Gateway extends Component {
   render() {
       return (
         <div id="landing-page">
-          {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
           {this.state.incompleteProfile ?
             <CompleteProfile></CompleteProfile>
             :

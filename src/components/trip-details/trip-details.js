@@ -6,7 +6,7 @@ import LeaderTripDetails from './leader/tripdetails_leader';
 import OPOTripDetails from './opo/tripdetails_opo';
 import DOCLoading from '../doc-loading';
 import * as constants from '../../constants';
-import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError } from '../../actions';
+import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
 
 class TripDetails extends Component {
   constructor(props) {
@@ -199,6 +199,10 @@ class TripDetails extends Component {
     this.props.deleteTrip(this.props.trip._id, this.props.history);
   }
 
+  toggleTripReturnedStatus = (status) => {
+    this.props.toggleTripReturnedStatus(this.props.trip._id, status);
+  }
+
   closeLeaderModal = () => {
     this.setState({ showLeaderModal: false });
   }
@@ -293,6 +297,7 @@ class TripDetails extends Component {
             toggleProfile={this.toggleProfile}
             toggleAllPendingProfiles={this.toggleAllPendingProfiles}
             toggleAllOnTripProfiles={this.toggleAllOnTripProfiles}
+            toggleTripReturnedStatus={this.toggleTripReturnedStatus}
             ref={ref}
           />
         );
@@ -342,5 +347,5 @@ const mapStateToProps = state => (
   }
 );
 export default withRouter(connect(mapStateToProps, {
-  fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, appError,
+  fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError,
 })(TripDetails));

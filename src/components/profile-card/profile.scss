@@ -168,14 +168,26 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      height: 2.6em;
+      min-height: 2.6em;
+
+      #profile-card-clubs {
+        text-decoration: underline;
+        cursor: pointer;
+
+        &:hover {
+          font-weight: 'bold';
+        }
+      }
+
+      #profile-card-clubs-all {
+        flex: 1;
+      }
 
       .card-headings {
         color: gray;
       }
 
       .card-info {
-        max-width: 70%;
         color: gray;
 
         .field {
