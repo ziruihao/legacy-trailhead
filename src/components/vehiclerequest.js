@@ -301,7 +301,7 @@ class VehicleRequest extends Component {
 
   nextTripPage = () => {
     if (this.isFormValid()) {
-      this.props.passVehicles(this.state.vehicles);
+      this.props.passVehicles(this.state.vehicles, this.state.mileage);
     }
   }
 
