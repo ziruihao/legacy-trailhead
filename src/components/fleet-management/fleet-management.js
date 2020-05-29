@@ -96,7 +96,6 @@ class FleetManagement extends Component {
                     <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-                {/* <select className={`field ${this.state.newVehicleNameField && this.state.newVehicleNameField !== '' ? 'create-trip-error' : ''}`} /> */}
                 <div className="doc-button" onClick={this.submitForm} role="button" tabIndex={0}>Add</div>
               </div>
             </div>

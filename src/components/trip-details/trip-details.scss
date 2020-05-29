@@ -5,6 +5,10 @@
   flex-direction: column;
   align-items: flex-start;
 
+  &.l {
+    padding: 75px;
+  }
+
   > * {
     margin-bottom: 25px;
   }
@@ -32,10 +36,14 @@
       border-radius: 5px;
     }
   
-    #trip-modal-statuses {
+    #trip-statuses {
       display: flex;
       margin-left: 40px;
       height: 30px;
+    }
+
+    .trip-tags-spacer {
+      flex: 1;
     }
   
     #trip-modal-switch {
@@ -61,6 +69,11 @@
     text-align: justify
   }
 
+  .leader-trip-info{
+    width: 100%;
+    display: flex;
+  }
+
   .trip-details-table {
     width: 100%;
     border: 2px solid $inactive-text;
@@ -84,6 +97,11 @@
         color: $gray-2;
       }
     }
+  }
+
+  .p1.gray.thin {
+    width: 100%;
+    text-align: center;
   }
 
   .trip-modal-actions {

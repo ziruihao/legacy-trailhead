@@ -12,7 +12,6 @@ class NavBar extends Component {
       return (
         <div>
           <nav className="navbar navbar-expand-lg navbar-light" />
-          {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
         </div>
       );
     } else {
@@ -38,7 +37,6 @@ class NavBar extends Component {
             <NavDropdown.Item onClick={() => this.props.history.push('/user')}>View Profile</NavDropdown.Item>
             <NavDropdown.Item onClick={() => this.props.signOut(this.props.history)}>Logout</NavDropdown.Item>
           </NavDropdown>
-          {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
         </div>
       );
     }

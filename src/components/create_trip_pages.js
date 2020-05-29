@@ -14,7 +14,7 @@ const BasicTripInfo = (props) => {
       </div>
       <div className="page-sub-headers">
         <div className="doc-h2">Trip name</div>
-        <input className={`field field-full-width create-trip-form-bottom-margin ${props.errorFields.title ? 'create-trip-error' : ''}`}
+        <input className={`field field-full-width create-trip-form-bottom-margin ${props.errorFields.title ? 'field-error' : ''}`}
           onChange={props.onFieldChange}
           name="title"
           placeholder="e.g. Weekend Mt. Moosilauke Hike!"
@@ -37,7 +37,7 @@ const BasicTripInfo = (props) => {
       </div>
       <div className="page-sub-headers">
         <div className="doc-h2">Cost</div>
-        <input className={`field create-trip-form-bottom-margin ${props.errorFields.cost ? 'create-trip-error' : ''}`}
+        <input className={`field create-trip-form-bottom-margin ${props.errorFields.cost ? 'field-error' : ''}`}
           onChange={props.onFieldChange}
           name="cost"
           placeholder="0"
@@ -96,13 +96,13 @@ const DatesLocation = (props) => {
       <div className="trip-date-range-inputs">
         <div className="page-sub-headers">
           <div className="doc-h2">{props.dateLength === 'multi' ? 'Start' : 'Trip'} date</div>
-          <input type="date" name="startDate" onChange={props.onDateChange} className={`field create-trip-form-bottom-margin leaders ${props.errorFields.startDate ? 'create-trip-error' : ''}`} value={props.startDate} />
+          <input type="date" name="startDate" onChange={props.onDateChange} className={`field create-trip-form-bottom-margin leaders ${props.errorFields.startDate ? 'field-error' : ''}`} value={props.startDate} />
         </div>
         {props.dateLength === 'multi'
           ? (
             <div className="page-sub-headers">
               <div className="doc-h2">End date</div>
-              <input type="date" name="endDate" onChange={props.onDateChange} className={`field create-trip-form-bottom-margin leaders ${props.errorFields.endDate ? 'create-trip-error' : ''}`} value={props.endDate} />
+              <input type="date" name="endDate" onChange={props.onDateChange} className={`field create-trip-form-bottom-margin leaders ${props.errorFields.endDate ? 'field-error' : ''}`} value={props.endDate} />
             </div>
           )
           : null}
@@ -115,7 +115,7 @@ const DatesLocation = (props) => {
             type="time"
             name="startTime"
             onChange={props.onFieldChange}
-            className={`field create-trip-form-bottom-margin leaders pickupDropoff ${props.errorFields.startTime ? 'create-trip-error' : ''}`}
+            className={`field create-trip-form-bottom-margin leaders pickupDropoff ${props.errorFields.startTime ? 'field-error' : ''}`}
             value={props.theStartTime}
           />
         </div>
@@ -125,7 +125,7 @@ const DatesLocation = (props) => {
             type="time"
             name="endTime"
             onChange={props.onFieldChange}
-            className={`field create-trip-form-bottom-margin leaders pickupDropoff ${props.errorFields.endTime ? 'create-trip-error' : ''}`}
+            className={`field create-trip-form-bottom-margin leaders pickupDropoff ${props.errorFields.endTime ? 'field-error' : ''}`}
             value={props.theEndTime}
           />
         </div>
@@ -133,7 +133,7 @@ const DatesLocation = (props) => {
       <div className="page-sub-headers">
         <div className="doc-h2">Location</div>
         <input
-          className={`field create-trip-form-bottom-margin leaders ${props.errorFields.location ? 'create-trip-error' : ''}`}
+          className={`field create-trip-form-bottom-margin leaders ${props.errorFields.location ? 'field-error' : ''}`}
           name="location"
           onChange={props.onFieldChange}
           placeholder="e.g. Mt. Cube"
@@ -147,7 +147,7 @@ const DatesLocation = (props) => {
           onChange={props.onFieldChange}
           name="mileage"
           placeholder="Estimated mileage"
-          className={`field create-trip-form-bottom-margin leaders ${props.errorFields.mileage ? 'create-trip-error' : ''}`}
+          className={`field create-trip-form-bottom-margin leaders ${props.errorFields.mileage ? 'field-error' : ''}`}
           value={props.tripMileage}
         />
       </div>
@@ -165,7 +165,7 @@ const AboutTheTrip = (props) => {
         <div className="page-sub-headers">
           <div className="doc-h3">Pickup</div>
           <input
-            className={`field create-trip-form-bottom-margin pickupDropoff ${props.errorFields.pickup ? 'create-trip-error' : ''}`}
+            className={`field create-trip-form-bottom-margin pickupDropoff ${props.errorFields.pickup ? 'field-error' : ''}`}
             onChange={props.onFieldChange}
             name="pickup"
             placeholder="eg. Robo Hall"
@@ -175,7 +175,7 @@ const AboutTheTrip = (props) => {
         <div className="page-sub-headers">
           <div className="doc-h3">Dropoff</div>
           <input
-            className={`field create-trip-form-bottom-margin pickupDropoff ${props.errorFields.dropoff ? 'create-trip-error' : ''}`}
+            className={`field create-trip-form-bottom-margin pickupDropoff ${props.errorFields.dropoff ? 'field-error' : ''}`}
             onChange={props.onFieldChange}
             name="dropoff"
             placeholder="eg. McNutt Hall"
@@ -186,7 +186,7 @@ const AboutTheTrip = (props) => {
       <div className="page-sub-headers">
         <div className="doc-h3">Trip decription</div>
         <textarea
-          className={`field field-full-width trip-descrip-box ${props.errorFields.description ? 'create-trip-error' : ''}`}
+          className={`field field-full-width trip-descrip-box ${props.errorFields.description ? 'field-error' : ''}`}
           onChange={props.onFieldChange}
           name="description"
           placeholder="e.g. Our trip will feature amazing views and fun times..."
@@ -215,7 +215,7 @@ const getTrippeeGear = (props) => {
             <div className="gear-and-size">
               <input
                 type="text"
-                className={`field ${gearRequest.hasError ? 'create-trip-error' : ''}`}
+                className={`field ${gearRequest.hasError ? 'field-error' : ''}`}
                 name="trippeeGear"
                 placeholder="Item name"
                 onChange={event => props.onTrippeeGearChange(event, index)}
@@ -261,7 +261,7 @@ const getGearInputs = (props) => {
           <div className="gear-container">
             <input
               type="text"
-              className={`field ${gearRequest.hasError ? 'create-trip-error' : ''}`}
+              className={`field ${gearRequest.hasError ? 'field-error' : ''}`}
               name="opogearRequest"
               placeholder="Item name"
               onChange={event => props.onGearChange(event, index)}

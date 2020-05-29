@@ -78,7 +78,6 @@ class Gateway extends Component {
   render() {
       return (
         <div id="landing-page">
-          {this.props.errorMessage === '' ? <div className="error" /> : <div className="alert alert-danger error">{this.props.errorMessage}</div>}
           {this.state.incompleteProfile ?
             <CompleteProfile></CompleteProfile>
             :

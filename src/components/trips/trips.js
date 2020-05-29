@@ -29,7 +29,7 @@ class Trips extends Component {
       grid: true,
       showTrip: false,
       startDate: null,
-      seePastTrips: false,
+      seePastTrips: true,
     };
   }
 
