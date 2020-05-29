@@ -26,7 +26,7 @@ class CoLeadersAutoComplete extends Component {
 
   componentDidMount() {
     axios.get(`${constants.BACKEND_URL}/users`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      const parsedData = response.data.map((user) => {
+      const parsedData = response.data.filter(user => user.email).map((user) => {
         return { id: user._id, text: user.email };
       });
       this.setState({ suggestions: parsedData });
