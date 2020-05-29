@@ -46,21 +46,6 @@
     margin-bottom: 0px;
   }
 
-  input[type="file"] {
-    display: none;
-  }
-  .photo-upload-button {
-    width: 8em;
-    height: 2em;
-    margin-top: 0.5em;
-    background: #0CA074;
-    border-radius: 5px;
-    color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: 700;
-  }
   #profile-card-picture-and-name {
     display: flex;
     justify-content: space-evenly;
@@ -81,6 +66,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        input[type="file"] {
+          display: none;
+        }
 
         .user-initials {
           font-size: 3em;

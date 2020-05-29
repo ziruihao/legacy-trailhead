@@ -243,17 +243,11 @@ class ProfileCard extends React.Component {
                 <div className="profile-pic-container">
                   <div className="profile-pic">
                     <label className="user-initials">
-                      {console.log(this.state.preview)}
-                      {console.log(this.props.user.photo_url)}
-                      {(this.props.user.photo_url == null) ? this.getUserInitials(name) : null}
+                      {(this.state.preview == null || this.props.user.photo_url == null) ? this.getUserInitials(name) : null}
+                      <input type="file" name="coverImage" onChange={this.onImageUpload} />
                     </label>
                     {this.displayImageEditing()}
                   </div>
-                  <label className="photo-upload-button">
-                    <input className="photo-text" type="file" onChange={this.onImageUpload} />
-                    Upload
-                    Photo
-                  </label>
                 </div>
               )
               : null
