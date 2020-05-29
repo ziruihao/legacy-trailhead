@@ -1,8 +1,8 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
-import Badge from './badge';
-import confirmCancelImage from '../img/confirmCancel.svg';
-import '../styles/tripdetails_trippee-style.scss';
+import Badge from '../../badge';
+import confirmCancelImage from '../../../img/confirmCancel.svg';
+import '../../../styles/tripdetails_trippee-style.scss';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';

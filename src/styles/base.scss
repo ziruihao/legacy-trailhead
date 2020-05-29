@@ -10,11 +10,14 @@ $gray-text: #494c50;
 
 $menu-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
 
-body {
+$trip-card-width: 286px;
+$trip-card-margin-right: 30px;
+
+#main {
     margin: 0;
     padding: 0;
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -40,11 +43,9 @@ body {
 a {
     text-decoration: none;
     
-    &:hover {
-        text-decoration: none;
+    &:link, &:visited, &:hover {
+        text-decoration: none !important;
     }
-    //   &:link, &:visited, &:hover {
-    //   }
 }
 
 .doc-h1 {
@@ -80,9 +81,12 @@ a {
     font-weight: 300
 }
 
-.inactive {
-    color: $inactive-text;
+.thin {
     font-weight: 100;
+}
+
+.gray {
+    color: $gray-2;
 }
 
 .heavy-line {
@@ -93,7 +97,6 @@ a {
 }
 
 .doc-button {
-    align-self: center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -123,6 +126,18 @@ a {
 
     &:hover{
         filter: brightness(110%);
+    }
+}
+
+.close-button{
+    font-size: 2em;
+    margin-top: 10px;
+    margin-right: 10px;
+    color: $gray-2;
+    cursor: pointer;
+  
+    &:hover{
+      color: $orange;
     }
 }
 
@@ -230,15 +245,14 @@ a {
 }
 
 .field {
-    width: 100%;
     border: 2px solid $inactive-text !important;
     background: white !important;
     border-radius: 10px;
-    padding: 0 1em;
+    padding: 0.7em 1em;
     font-weight: 600;
     font-size: 18px;
     color: $gray-text;
-    height: 3em;
+    // height: 3em;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -246,6 +260,10 @@ a {
     &:focus {
         border: 4px solid $green !important;
         outline: none; // overrides browser default
+    }
+
+    &.field-full-width {
+        width: 100%;
     }
 
     .field-dropdown-bootstrap {
@@ -267,7 +285,7 @@ a {
         border: 2px solid $error-red-deep !important;
     }
 
-    &.top-create-trip {
+    &.create-trip-form-bottom-margin {
       margin: 0rem 0rem 3rem 0rem;
 
       &.leaders {
@@ -291,13 +309,5 @@ a {
           width:20%;
         }
       }
-    }
-
-    &.trip-descrip-box{
-      height: 200px;
-      border: 2px solid #C4C4C4;
-      box-sizing: border-box;
-      border-radius: 5px;
-      margin-bottom: 2rem;
     }
 }

@@ -202,18 +202,6 @@ export function leaveTrip(id, userTripStatus) {
   };
 }
 
-export function emailTrip(id, subject, body, history) {
-  console.log('in email trip');
-  const json = { id, subject, text: body };
-  return (dispatch) => {
-    axios.post(`${constants.BACKEND_URL}/sendEmailToTrip`, json, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      console.log(response);
-    }).catch((error) => {
-      console.log(error);
-    });
-  };
-}
-
 export function createTrip(trip, history) {
   return (dispatch) => {
     axios.post(`${constants.BACKEND_URL}/allTrips`, trip, { headers: { authorization: localStorage.getItem('token') } })
@@ -293,7 +281,6 @@ export function casAuthed(token, history, dataLoader) {
       localStorage.setItem('token', token);
       axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
         .then((response) => {
-          console.log(response.data.user.completedProfile);
           if (response.data.user.completedProfile) {
             dispatch({ type: ActionTypes.AUTH_USER });
             dataLoader().then(() => resolve(response.data.user.completedProfile));
@@ -522,7 +509,7 @@ export function submitVehicleRequest(vehicleRequest, history) {
   return (dispatch) => {
     axios.post(`${constants.BACKEND_URL}/vehicleRequests`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
-        history.push('/mytrips');
+        history.push('/my-trips');
       }).catch((error) => {
         dispatch(appError(`Error making vehicle request: ${error}`));
       });

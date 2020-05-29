@@ -5,7 +5,9 @@ import './profile-page.scss';
 function ProfilePage(props) {
   return (
     <div id="profile-page" className="center-view">
-      <ProfileCardEdit />
+      <div id="profile-card-wrapper">
+        <ProfileCardEdit />
+      </div>
     </div>
   );
 }

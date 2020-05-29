@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Modal from 'react-bootstrap/Modal';
-import Form from 'react-bootstrap/Form';
-import Collapse from 'react-bootstrap/Collapse';
-import { ProfileCard } from './profile-card';
-import Badge from './badge';
-import '../styles/tripdetails_leader.scss';
+import { Modal, Form, Collapse, Table } from 'react-bootstrap';
+import ReactToolTip from 'react-tooltip';
+import { ProfileCard } from '../../profile-card';
+import Badge from '../../badge';
+import '../../../styles/tripdetails_leader.scss';
 
-import confirmDeleteImage from '../img/confirmDelete.jpg';
-import VehicleRequestDisplay from './vehicleRequestDisplay';
+import confirmDeleteImage from '../../../img/confirmDelete.jpg';
+import VehicleRequestDisplay from '../../vehicleRequestDisplay';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -114,58 +113,81 @@ const getOnTrip = (props, onTripEmailRef) => {
     );
   } else {
     return (
-      <div className="leader-on-trip-details">
-        <div className="leader-detail-row">
-          <span className="detail-cell">Name</span>
-          <span className="detail-cell">Email</span>
-          <span className="detail-cell">Allergies/Diet Restrictions</span>
-          <span className="detail-cell">Gear Requests</span>
-          <span className="detail-cell">Actions</span>
-        </div>
-        <hr className="detail-line" />
+      <Table className="doc-table" responsive="lg" hover>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Allergies/Diet Restrictions</th>
+            <th>Medical conditions</th>
+            <th id="fleet-management-book-col">Gear Requests</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {props.trip.members.map(member => (
+            <tr key={member.user._id} onClick={() => props.openTrippeeProfile(member.user)}>
+              <td>{member.user.name}</td>
+              <td>{member.user.medical_conditions}</td>
+              <td>{member.user.allergies_dietary_restrictions}</td>
+              <td id="fleet-management-book-col">Gear requests</td>
+              <td className="fleet-delete-button-area">
+                <div id="fleet-delete-button" className="doc-button" onClick={() => props.moveToPending(member)} role="button" tabIndex={0}>Back to pending</div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    // <div className="leader-on-trip-details">
+    //   <div className="leader-detail-row">
+    //     <span className="detail-cell">Name</span>
+    //     <span className="detail-cell">Email</span>
+    //     <span className="detail-cell">Allergies/Diet Restrictions</span>
+    //     <span className="detail-cell">Gear Requests</span>
+    //     <span className="detail-cell">Actions</span>
+    //   </div>
+    //   <hr className="detail-line" />
 
-        {props.trip.members.map(member => (
-          <div key={member._id}>
-            <div className="leader-detail-row">
-              <span className="detail-cell">{member.user.name}</span>
-              <span className="detail-cell">{member.user.email}</span>
-              <span className="detail-cell">{member.user.allergies_dietary_restrictions}</span>
-              <span className="detail-cell detail-gear">
-                {member.gear.length !== 0 ? member.gear.map(gear => (
-                  <li key={gear.gearId}>{gear.name}</li>
-                )) : <span>None</span>}
-              </span>
-              <span className="detail-cell">
-                <button type="button" className="leader-signup-button toggle-profile" onClick={() => props.toggleProfile(member._id)}>{props.profiles[member._id] ? 'Hide' : 'Show'} Profile</button>
-                <button type="button" className="leader-cancel-button" onClick={() => props.moveToPending(member)}>Move to pending</button>
-              </span>
-            </div>
-            <Collapse
-              in={props.profiles[member._id]}
-            >
-              <div className="leader-profile-card">
-                <ProfileCard
-                  asProfilePage={false}
-                  isEditing={false}
-                  user={member.user}
-                />
-              </div>
-            </Collapse>
-            <hr className="line" />
-          </div>
-        ))}
+    //   {props.trip.members.map(member => (
+    //     <div key={member._id}>
+    //       <div className="leader-detail-row">
+    //         <span className="detail-cell">{member.user.name}</span>
+    //         <span className="detail-cell">{member.user.email}</span>
+    //         <span className="detail-cell">{member.user.allergies_dietary_restrictions}</span>
+    //         <span className="detail-cell detail-gear">
+    //           {member.gear.length !== 0 ? member.gear.map(gear => (
+    //             <li key={gear.gearId}>{gear.name}</li>
+    //           )) : <span>None</span>}
+    //         </span>
+    //         <span className="detail-cell">
+    //           <button type="button" className="leader-signup-button toggle-profile" onClick={() => props.toggleProfile(member._id)}>{props.profiles[member._id] ? 'Hide' : 'Show'} Profile</button>
+    //           <button type="button" className="leader-cancel-button" onClick={() => props.moveToPending(member)}>Move to pending</button>
+    //         </span>
+    //       </div>
+    //       <Collapse
+    //         in={props.profiles[member._id]}
+    //       >
+    //         <div className="leader-profile-card">
+    //           <ProfileCard
+    //             asProfilePage={false}
+    //             isEditing={false}
+    //             user={member.user}
+    //           />
+    //         </div>
+    //       </Collapse>
+    //       <hr className="line" />
+    //     </div>
+    //   ))}
 
-        <div>
-          <h5>Emails</h5>
-          <div className="emails">
-            <Form className="col-9">
-              <Form.Control className="emails-input" ref={onTripEmailRef} as="textarea" value={props.onTripEmail} name="onTripEmail" onChange={props.onTextChange} />
-            </Form>
-            <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyOnTripToClip}>Copy</button>
-          </div>
-        </div>
-
-      </div>
+    //   <div>
+    //     <h5>Emails</h5>
+    //     <div className="emails">
+    //       <Form className="col-9">
+    //         <Form.Control className="emails-input" ref={onTripEmailRef} as="textarea" value={props.onTripEmail} name="onTripEmail" onChange={props.onTextChange} />
+    //       </Form>
+    //       <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyOnTripToClip}>Copy</button>
+    //     </div>
+    //   </div>
+    // </div>
     );
   }
 };
@@ -326,107 +348,118 @@ const getPcard = (pcard, pcardStatus, assignedPCard) => {
 
 export default React.forwardRef((props, ref) => {
   const { pendingEmailRef, onTripEmailRef } = ref;
+
   return (
-    <div className="leader-details-container">
-      <h1 className="p-trip-title">{props.trip.title}</h1>
-      <div className="trip-club-container">
-        <span className="trip-club">{props.trip.club.name}</span>
+    <div className="doc-card trip-details l">
+      <div className="trip-number">Trip #{props.trip.number}</div>
+      <div className="doc-h1">{props.trip.title}</div>
+
+      <div className="trip-tags">
+        <div className="trip-club-tag">{props.trip.club.name}</div>
+        <div id="trip-modal-statuses">
+          {props.role === 'LEADER' ? <Badge type="leader" dataTip dataFor="leader-on-trip-modal" /> : null}
+          <Badge type={props.status} dataTip dataFor="trip-status-modal" />
+          <ReactToolTip id="leader-on-trip-modal" place="bottom">Your are leading this trip</ReactToolTip>
+          <ReactToolTip id="trip-status-modal" place="bottom">
+            Reasons: {props.reasons.length > 0 ? props.reasons.reduce((all, current) => `${all}, ${current}`) : null}
+          </ReactToolTip>
+        </div>
       </div>
+      <hr className="heavy-line" />
       <div className="leader-trip-info-and-desc">
-        <h3>Trip info</h3>
-        <div className="trip-description">
+        <div className="doc-h2">Description</div>
+        <div className="trip-description p1">
           <p>
             {props.trip.description}
           </p>
         </div>
-
+        <div className="doc-h2">Details</div>
         <div className="leader-trip-info">
-          <div className="trip-detail leader-trip-detail left-detail">
-            <div className="detail-row">
-              <span className="detail-left">Start</span>
-              <span className="detail-right">{formatDate(props.trip.startDate, props.trip.startTime)}</span>
+          <div className="trip-details-table leader-trip-detail left-detail">
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Start</span>
+              <span className="trip-details-table-right">{formatDate(props.trip.startDate, props.trip.startTime)}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">End</span>
-              <span className="detail-right">{formatDate(props.trip.endDate, props.trip.endTime)}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">End</span>
+              <span className="trip-details-table-right">{formatDate(props.trip.endDate, props.trip.endTime)}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Pickup</span>
-              <span className="detail-right">{props.trip.pickup}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Pickup</span>
+              <span className="trip-details-table-right">{props.trip.pickup}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Dropoff</span>
-              <span className="detail-right">{props.trip.dropoff}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Dropoff</span>
+              <span className="trip-details-table-right">{props.trip.dropoff}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Destination</span>
-              <span className="detail-right">{props.trip.location}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Destination</span>
+              <span className="trip-details-table-right">{props.trip.location}</span>
             </div>
           </div>
 
-          <div className="trip-detail leader-trip-detail right-detail">
-            <div className="detail-row">
-              <span className="detail-left">Leader</span>
-              <span className="detail-right">{props.trip.leaders[0].name}</span>
+          <div className="trip-details-table leader-trip-detail right-detail">
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Leader</span>
+              <span className="trip-details-table-right">{props.trip.leaders[0].name}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Co-Leader(s)</span>
-              <span className="detail-right">{getCoLeaders(props.trip.leaders)}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Co-Leader(s)</span>
+              <span className="trip-details-table-right">{getCoLeaders(props.trip.leaders)}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Experience Needed?</span>
-              <span className="detail-right">{props.trip.experienceNeeded ? 'Yes' : 'No'} </span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Experience Needed?</span>
+              <span className="trip-details-table-right">{props.trip.experienceNeeded ? 'Yes' : 'No'} </span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Subclub</span>
-              <span className="detail-right">{props.trip.club.name}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Subclub</span>
+              <span className="trip-details-table-right">{props.trip.club.name}</span>
             </div>
             <hr className="detail-line" />
 
-            <div className="detail-row">
-              <span className="detail-left">Cost</span>
-              <span className="detail-right">${props.trip.cost}</span>
+            <div className="trip-details-table-row">
+              <span className="trip-details-table-left">Cost</span>
+              <span className="trip-details-table-right">${props.trip.cost}</span>
             </div>
           </div>
         </div>
       </div>
+      <div className="doc-h2">Approved trippees</div>
 
-      <div className="on-trip">
-        <div className="leader-table-title">
-          <h2>On trip ({props.trip.members.length})</h2>
+      {/* <div className="leader-table-title">
+
           {props.trip.members.length === 0
             ? null
             : <span className="toggle-all" onClick={props.toggleAllOnTripProfiles} role="button" tabIndex={0}>{props.showAllOnTripProfiles ? 'Hide' : 'Show'} all profiles</span>}
-        </div>
-        <div className="trip-detail">
-          {getOnTrip(props, onTripEmailRef)}
-        </div>
+        </div> */}
+
+      <div className="trip-details-table">
+        {getOnTrip(props, onTripEmailRef)}
       </div>
 
-      <div className="ltd-pending">
-        <div className="leader-table-title">
+      <div className="doc-h2">Pending trippees</div>
+      {/* <div className="leader-table-title">
           <h2>Pending ({props.trip.pending.length})</h2>
           {props.trip.pending.length === 0
             ? null
             : <span className="toggle-all" onClick={props.toggleAllPendingProfiles} role="button" tabIndex={0}>{props.showAllPendingProfiles ? 'Hide' : 'Show'} all profiles</span>}
-        </div>
-        <div className="trip-detail">
-          {getPending(props, pendingEmailRef)}
-        </div>
+        </div> */}
+      <div className="trip-details-table">
+        {getPending(props, pendingEmailRef)}
       </div>
 
       <div className="tripdetail-gear-requests leader-trip-info">
@@ -463,7 +496,18 @@ export default React.forwardRef((props, ref) => {
       <div className="center">
         <span className="cancel-link" onClick={props.activateLeaderModal} role="button" tabIndex={0}>Delete trip</span>
       </div>
-
+      <Modal
+        centered
+        show={props.trippeeProfileOpened}
+        onHide={props.hideTrippeeProfile}
+        size="lg"
+      >
+        <ProfileCard
+          asProfilePage={false}
+          isEditing={false}
+          user={props.trippeeProfile}
+        />
+      </Modal>
       <Modal
         centered
         show={props.showModal}

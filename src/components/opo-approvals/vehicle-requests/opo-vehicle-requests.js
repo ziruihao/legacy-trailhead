@@ -82,7 +82,7 @@ class OPOVehicleRequests extends Component {
     }
 
     if (pendingRequests.length === 0) {
-      return (<div className="inactive">All set for now!</div>);
+      return (<div className="p1 gray thin">All set for now!</div>);
     }
 
     const searchedRequests = pendingRequests.filter((request) => {
@@ -91,7 +91,7 @@ class OPOVehicleRequests extends Component {
       // return true;
     });
     if (searchedRequests.length === 0) {
-      return (<div className="inactive">None found.</div>);
+      return (<div className="p1 gray thin">None found.</div>);
     } else {
       return (
         <Table responsive="lg" hover>
@@ -129,7 +129,7 @@ class OPOVehicleRequests extends Component {
     }
 
     if (approvedRequests.length === 0) {
-      return (<div className="inactive">All set for now!</div>);
+      return (<div className="p1 gray thin">All set for now!</div>);
     }
     const searchedRequests = approvedRequests.filter((request) => {
       const reason = request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title;
@@ -137,7 +137,7 @@ class OPOVehicleRequests extends Component {
       return request.requestDetails.concat([request.requester.name, reason]).toLowerCase().includes(this.state.searchReviewedTerm.toLowerCase());
     });
     if (searchedRequests.length === 0) {
-      return (<div className="inactive">None found.</div>);
+      return (<div className="p1 gray thin">None found.</div>);
     } else {
       return (
         <Table className="doc-table" responsive="lg" hover>

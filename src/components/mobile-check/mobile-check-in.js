@@ -17,7 +17,7 @@ class MobileCheckIn extends PureComponent {
     this.query = new URLSearchParams(this.props.location.search);
   }
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     this.props.fetchTrip(this.props.match.params.tripID, this.query.get('token')).then(() => {
       this.setState({ loaded: true });
     });

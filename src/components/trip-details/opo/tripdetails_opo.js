@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
-import { reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../actions';
-import { GearRequest, BasicInfo, PCardRequest } from './opo-trip-info-pages';
-import OPOVehicleRequest from './opo-vehicle-request';
-import Badge from './badge';
-import '../styles/tripdetails_opo.scss';
-import '../styles/createtrip-style.scss';
+import { reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../../../actions';
+import { GearRequest, BasicInfo, PCardRequest } from '../../opo-trip-info-pages';
+import OPOVehicleRequest from '../../opo-vehicle-request';
+import Badge from '../../badge';
+import '../../../styles/tripdetails_opo.scss';
+import '../../../styles/createtrip-style.scss';
 
 
 class OPOTripDetails extends Component {

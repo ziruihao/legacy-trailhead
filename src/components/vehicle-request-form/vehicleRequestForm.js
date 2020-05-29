@@ -1,7 +1,8 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import dropdownIcon from '../img/dropdown-toggle.svg';
-import '../styles/vehicleRequestForm-style.scss';
+import dropdownIcon from '../../img/dropdown-toggle.svg';
+import './vehicle-request-form.scss';
+import '../../styles/vehicleRequestForm-style.scss';
 
 const getApprpriateVehicleMenu = (userCertifications) => {
   let microbusVan;
@@ -140,7 +141,10 @@ const getVehicles = (props) => {
               value={vehicle.pickupDate}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
-            <div className="vrf-label"> Trip Start Date is {formatDate(props.startDate)}</div>
+            {props.requestType === 'TRIP'
+              ? <div className="vrf-label"> Trip Start Date is {formatDate(props.startDate)}</div>
+              : null
+            }
 
           </span>
           {vehicle.tripLength === 'single-day-trip' ? null
@@ -155,7 +159,10 @@ const getVehicles = (props) => {
                   value={vehicle.returnDate}
                   onChange={event => props.onVehicleDetailChange(event, index)}
                 />
-                <div className="vrf-label"> Trip End Date is {formatDate(props.endDate)}</div>
+                {props.requestType === 'TRIP'
+                  ? <div className="vrf-label"> Trip End Date is {formatDate(props.endDate)}</div>
+                  : null
+                }
               </span>
             )
           }
@@ -172,8 +179,10 @@ const getVehicles = (props) => {
               value={vehicle.pickupTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
-            <div className="vrf-label"> Trip Start Time is {formatTime(props.startTime)}</div>
-
+            {props.requestType === 'TRIP'
+              ? <div className="vrf-label"> Trip Start Time is {formatTime(props.startTime)}</div>
+              : null
+                }
           </span>
 
           <span className="vrf-req-date">
@@ -186,7 +195,10 @@ const getVehicles = (props) => {
               value={vehicle.returnTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
-            <div className="vrf-label"> Trip End Time is {formatTime(props.endTime)}</div>
+            {props.requestType === 'TRIP'
+              ? <div className="vrf-label"> Trip End Time is {formatTime(props.endTime)}</div>
+              : null
+                }
           </span>
         </div>
 
@@ -253,11 +265,8 @@ const getAppropriateButton = (props) => {
 
 const VehicleRequestForm = (props) => {
   return (
-    <div className="vrf-container">
-      <div className="vrf-title-container">
-        <h2 className="p-trip-title vrf-title-size">Vehicle Request</h2>
-      </div>
-
+    <div id="vehicle-request-form" className="doc-card">
+      <h2 className="doc-h1 p-trip-title vrf-title-size">Vehicle Request</h2>
       {props.requestType === 'SOLO'
         ? (
           <div className="vrf-solo-req">
@@ -275,7 +284,7 @@ const VehicleRequestForm = (props) => {
             <span className="vrf-form-row">
               <label className="vrf-label" htmlFor="noOfPeople">Number of people</label>
               <input
-                // type="number"
+                type="number"
                 id="noOfPeople"
                 className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.noOfPeople) === 0 ? 'no-date' : ''} ${props.soloErrorFields.noOfPeople ? 'vrf-error' : ''}`}
                 name="noOfPeople"
@@ -284,24 +293,22 @@ const VehicleRequestForm = (props) => {
                 onChange={props.onSoloReqDetailsChange}
               />
             </span>
-            <span className="vrf-form-row">
-              <label className="vrf-label" htmlFor="mileage">Estimated mileage</label>
-              <input
-                // type="number"
-                id="mileage"
-                className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'vrf-error' : ''}`}
-                name="mileage"
-                placeholder="0"
-                value={props.mileage}
-                onChange={props.onSoloReqDetailsChange}
-              />
-            </span>
           </div>
         )
         : null}
-
+      <span className="vrf-form-row">
+        <label className="vrf-label" htmlFor="mileage">Estimated mileage</label>
+        <input
+          type="number"
+          id="mileage"
+          className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'vrf-error' : ''}`}
+          name="mileage"
+          placeholder="0"
+          value={props.mileage}
+          onChange={props.onSoloReqDetailsChange}
+        />
+      </span>
       {getVehicles(props)}
-
       <div className="vrf-add-and-submit">
         <button type="button" className="vrf-add-button vrf-small-add" onClick={props.addVehicle}>Add Vehicle</button>
         {getAppropriateButton(props)}

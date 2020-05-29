@@ -24,7 +24,7 @@ class CoLeadersAutoComplete extends Component {
     this.handleAddition = this.handleAddition.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     axios.get(`${constants.BACKEND_URL}/users`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       const parsedData = response.data.map((user) => {
         return { id: user._id, text: user.email };
@@ -70,10 +70,10 @@ class CoLeadersAutoComplete extends Component {
           handleAddition={this.handleAddition}
           delimiters={delimiters}
           allowDragDrop={false}
-          minQueryLength={3}
+          minQueryLength={1}
           allowUnique
+          inputFieldPosition="top"
         />
-
       </div>
     );
   }

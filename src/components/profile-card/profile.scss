@@ -159,7 +159,6 @@
   #profile-card-info {
     display: flex;
     flex-direction: column;
-    width: 650px;
 
     :last-child {
       margin-bottom: 0 !important;
@@ -312,12 +311,7 @@
 #driver-cert-dropdown:focus{
   box-shadow: 0 0 0 0.15rem #0CA074;
 }
-.filter-options{
-  width: 90%;
-  margin-top: 0.3em;
-  box-shadow: 4px 4px 4px rgba(0, 0, 0, 0.2), 0px 0px 4px rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-}
+
 .dropdown-item.club-option:hover{
   background: #FFFFFF;
 }

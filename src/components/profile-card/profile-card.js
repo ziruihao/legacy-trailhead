@@ -122,7 +122,7 @@ class ProfileCard extends React.Component {
                 </div>
               )
               : (
-                <div id="profile-card-incomplete-notice" className="h1">
+                <div id="profile-card-incomplete-notice" className="doc-h1">
                   Incomplete profile
                 </div>
               )
@@ -137,7 +137,7 @@ class ProfileCard extends React.Component {
           <hr />
           <div id="profile-card-info">
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Pronouns
               </div>
               <div className="card-info p1">
@@ -146,7 +146,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 DASH
               </div>
               <div className="card-info p1">
@@ -155,7 +155,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Clothing Size
               </div>
               <div className="card-info p1">
@@ -164,7 +164,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Shoe Size
               </div>
               <div className="card-info p1">
@@ -173,7 +173,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Height
               </div>
               <div className="card-info p1">
@@ -182,7 +182,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Allergies/Dietary Restrictions
               </div>
               <div className="card-info p1">
@@ -191,7 +191,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Relevant Medical Conditions
               </div>
               <div className="card-info p1">
@@ -200,7 +200,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_cert_change ? 'Driver Certifications*' : 'Driver Certifications'}
               </div>
               <div className="card-info p1">
@@ -211,7 +211,7 @@ class ProfileCard extends React.Component {
             {this.props.user.role !== 'OPO'
               ? (
                 <div className="profile-card-row">
-                  <div className="card-headings h3">
+                  <div className="card-headings doc-h3">
                     {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
                   </div>
                   <div className="card-info p1">
@@ -278,7 +278,7 @@ class ProfileCard extends React.Component {
           <hr />
           <div id="profile-card-info">
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Pronouns
               </div>
               <div className="card-info p1">
@@ -294,12 +294,12 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 DASH
               </div>
               <div className="card-info p1">
                 <input
-                  // type="number"
+                  type="number"
                   id="dash_number"
                   name="dash_number"
                   maxLength="50"
@@ -311,7 +311,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Clothing Size
               </div>
               <div className="card-info p1">
@@ -320,7 +320,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Shoe Size
               </div>
               <div className="card-info p1">
@@ -329,7 +329,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Height
               </div>
               <div className="card-info p1">
@@ -345,7 +345,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Allergies/Dietary Restrictions
               </div>
               <div className="card-info p1">
@@ -361,7 +361,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3">
+              <div className="card-headings doc-h3">
                 Relevant Medical Conditions
               </div>
               <div className="card-info p1 extra-info">
@@ -380,7 +380,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3 extra-info">
+              <div className="card-headings doc-h3 extra-info">
                 Driver Certification(s)
                 {/* {this.props.displayCertificationFeedback()} */}
               </div>
@@ -391,7 +391,7 @@ class ProfileCard extends React.Component {
             </div>
             <hr />
             <div className="profile-card-row">
-              <div className="card-headings h3 extra-info">
+              <div className="card-headings doc-h3 extra-info">
                 DOC Leadership
                 {/* {this.props.displayLeaderFeedback()} */}
               </div>
@@ -403,7 +403,7 @@ class ProfileCard extends React.Component {
             {this.props.user.role !== 'OPO'
               ? (
                 <div className="profile-card-row">
-                  <div className="card-headings h3 extra-info">
+                  <div className="card-headings doc-h3 extra-info">
                     DOC Leadership
                     {this.props.displayLeaderFeedback()}
                   </div>

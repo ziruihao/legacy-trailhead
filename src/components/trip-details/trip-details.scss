@@ -1,10 +1,9 @@
 @import '../../styles/base.scss';
 
-#trip-modal {
+.trip-details {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 0 50px 50px 50px;
 
   > * {
     margin-bottom: 25px;
@@ -14,17 +13,17 @@
     margin-bottom: 0;
   }
 
-  #trip-modal-number {
+  .trip-number {
     font-size: 24px;
     color: $gray-text;
     margin-bottom: 10px;
   }
-
-  #trip-modal-tags {
+  
+  .trip-tags {
     width: 100%;
     display: flex;
-
-    #trip-modal-club {
+  
+    .trip-club-tag {
       width: fit-content;
       padding: 0 0.5em;
       background-color: rgb(229, 205, 190);
@@ -34,10 +33,11 @@
     }
   
     #trip-modal-statuses {
+      display: flex;
       margin-left: 40px;
       height: 30px;
     }
-
+  
     #trip-modal-switch {
       flex-grow: 1;
       display: flex;
@@ -48,7 +48,7 @@
         font-weight: 100;
         margin-left: 15px;
         cursor: pointer;
-
+  
         &.active {
           color: $green;
           font-weight: 800;
@@ -56,8 +56,12 @@
       }
     }
   }
+  
+  .trip-description{
+    text-align: justify
+  }
 
-  .trip-modal-details {
+  .trip-details-table {
     width: 100%;
     border: 2px solid $inactive-text;
     border-radius: 5px;
@@ -67,16 +71,16 @@
       margin: 0.5em 0;
     }
 
-    .trip-modal-details-row {
+    .trip-details-table-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
 
-      .trip-modal-details-left {
+      .trip-details-table-left {
         font-weight: 800;
   
       }
-      .trip-modal-details-right {
+      .trip-details-table-right {
         color: $gray-2;
       }
     }

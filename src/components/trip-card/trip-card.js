@@ -70,22 +70,25 @@ class TripCard extends React.Component {
 
   render() {
     return (
-      <div className="trip-card" onClick={this.props.onClick} role="button" tabIndex={0}>
-        <div className="trip-card-badge-holder">
-          <Badge type={this.state.status} dataTip dataFor={`trip-card-${this.props.trip._id}`} />
-        </div>
-        {this.renderDecal(this.props.trip.club.name)}
-        <div className="trip-card-body">
-          <div className="label-text">TRIP #{this.props.trip.number}</div>
-          <div className="doc-h2">{this.renderTripTitle(`${this.state.userIsLeader ? '[L]' : ''} ${this.props.trip.title}`)}</div>
-          <div className="p2 trip-card-date">{utils.dates.formatDate(this.props.trip.startDate)} - {utils.dates.formatDate(this.props.trip.endDate)}</div>
-          <div className="p2 trip-card-club">{this.props.trip.club ? this.props.trip.club.name : ''}</div>
-          <div className="p2">{this.renderTripDescription(this.props.trip.description)}</div>
+      <>
+        <div className="trip-card" onClick={this.props.onClick} role="button" tabIndex={0}>
+          <div className="trip-card-badge-holder">
+            <Badge type={this.state.status} dataTip dataFor={`trip-card-${this.props.trip._id}`} />
+          </div>
+          {this.renderDecal(this.props.trip.club.name)}
+          <div className="trip-card-body">
+            <div className="label-text">TRIP #{this.props.trip.number}</div>
+            <div className="doc-h2">{this.renderTripTitle(`${this.state.userIsLeader ? '[L]' : ''} ${this.props.trip.title}`)}</div>
+            <div className="p2 trip-card-date">{utils.dates.formatDate(this.props.trip.startDate)} - {utils.dates.formatDate(this.props.trip.endDate)}</div>
+            <div className="p2 trip-card-club">{this.props.trip.club ? this.props.trip.club.name : ''}</div>
+            <div className="p2">{this.renderTripDescription(this.props.trip.description)}</div>
+          </div>
+
         </div>
         <ReactToolTip id={`trip-card-${this.props.trip._id}`} place="bottom">
           Reasons: {this.state.reasons.length > 0 ? this.state.reasons.reduce((all, current) => `${all}, ${current}`) : null}
         </ReactToolTip>
-      </div>
+      </>
     );
   }
 }

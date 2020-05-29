@@ -57,7 +57,7 @@ class ProfileCardEdit extends Component {
     this.updateUserInfo = this.updateUserInfo.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     if (this.props.user) {
       const { user } = this.props;
       this.setState({
@@ -211,7 +211,7 @@ class ProfileCardEdit extends Component {
           <span className="field-dropdown-bootstrap">Leader in {this.state.clubsList.length} clubs</span>
           <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
-        <Dropdown.Menu className="filter-options profile-club-options">
+        <Dropdown.Menu className="field-dropdown-menu profile-club-options">
           {clubForm}
         </Dropdown.Menu>
       </Dropdown>
@@ -262,7 +262,7 @@ class ProfileCardEdit extends Component {
           <span className="field-dropdown-bootstrap">{this.displaySelectedCertifications()}</span>
           <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
-        <Dropdown.Menu className="filter-options">
+        <Dropdown.Menu className="field-dropdown-menu">
           {certificationForm}
           <Dropdown.Divider />
           {trailer}
@@ -283,7 +283,7 @@ class ProfileCardEdit extends Component {
               <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
             </span>
           </Dropdown.Toggle>
-          <Dropdown.Menu className="filter-options">
+          <Dropdown.Menu className="field-dropdown-menu">
             <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
             <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
           </Dropdown.Menu>
@@ -297,7 +297,7 @@ class ProfileCardEdit extends Component {
               <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
             </span>
           </Dropdown.Toggle>
-          <Dropdown.Menu className="filter-options clothe-options">
+          <Dropdown.Menu className="field-dropdown-menu clothe-options">
             <Dropdown.Item eventKey="XS">XS</Dropdown.Item>
             <Dropdown.Item eventKey="S">S</Dropdown.Item>
             <Dropdown.Item eventKey="M">M</Dropdown.Item>
@@ -353,7 +353,7 @@ class ProfileCardEdit extends Component {
           </Dropdown.Menu>
         </Dropdown>
         <input
-          // type="number"
+          type="number"
           name="shoe_size"
           step="0.5"
           onChange={this.onFieldChange}
@@ -376,7 +376,7 @@ class ProfileCardEdit extends Component {
             <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
           </span>
         </Dropdown.Toggle>
-        <Dropdown.Menu className="filter-options clothe-options">
+        <Dropdown.Menu className="field-dropdown-menu clothe-options">
           <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
           <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
         </Dropdown.Menu>
@@ -502,7 +502,6 @@ class ProfileCardEdit extends Component {
 
   render() {
     if (this.props.completeProfileMode) console.log(this.props.completeProfileMode);
-    console.log(this.state.isEditing);
     if (this.props.user) {
       if (this.props.completeProfileMode) {
         return (
