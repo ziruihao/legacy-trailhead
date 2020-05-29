@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Switch } from 'react-router';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Toast } from 'react-bootstrap';
 import DOCLoading from './doc-loading';
 import AllTrips from './trips';
 import CreateTrip from './createtrip';
@@ -25,7 +26,7 @@ import FleetManagement from './fleet-management';
 import { ROOT_URL, green } from '../constants';
 import { MobileCheckIn, MobileCheckOut } from './mobile-check';
 import CompleteProfile from './gateway/complete-profile';
-import { getUser, authUser, getClubs, getVehicles } from '../actions';
+import { getUser, authUser, getClubs, getVehicles, clearError } from '../actions';
 
 
 class App extends React.Component {
@@ -101,8 +102,8 @@ class App extends React.Component {
         <Router>
           <div id="theBody">
             <Switch>
-              <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
               <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
+              <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
               <Route path="/"><Gateway dataLoader={this.loadData} /></Route>
             </Switch>
           </div>
@@ -112,6 +113,12 @@ class App extends React.Component {
       return (
         <Router>
           <NavBar />
+          <Toast className="doc-toast" onClose={this.props.clearError} show={this.props.errorMessage !== ''} delay={3000} autohide>
+            <Toast.Header className="doc-toast-header" closeButton={false}>
+              <strong className="mr-auto">Error</strong>
+            </Toast.Header>
+            <Toast.Body className="doc-toast-body">{this.props.errorMessage}</Toast.Body>
+          </Toast>
           <Switch>
             <Route exact path="/">{() => this.requireRole(null, false)}</Route>
             <Route path="/user" component={ProfilePage} />
@@ -144,6 +151,7 @@ class App extends React.Component {
 const mapStateToProps = state => ({
   authenticated: state.auth.authenticated,
   user: state.user.user,
+  errorMessage: state.error.errorMessage,
 });
 
-export default connect(mapStateToProps, { getUser, authUser, getClubs, getVehicles })(App);
+export default connect(mapStateToProps, { getUser, authUser, getClubs, getVehicles, clearError })(App);

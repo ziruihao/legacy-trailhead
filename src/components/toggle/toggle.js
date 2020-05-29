@@ -1,6 +1,7 @@
 import React from 'react';
 import './toggle.scss';
 
+
 class Toggle extends React.Component {
   render() {
     return (
@@ -12,6 +13,7 @@ class Toggle extends React.Component {
             id={this.props.id}
             onChange={this.props.onChange}
             value={this.props.value}
+            checked={this.props.value}
             disabled={this.props.disabled}
           />
           <span className={!this.props.disabled ? 'checkmark' : 'disabled-checkmark'} />
