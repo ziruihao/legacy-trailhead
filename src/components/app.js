@@ -81,18 +81,22 @@ class App extends React.Component {
   }
 
   requireRole = (RequestedComponent, allowedRoles, switchMode) => {
-    switch (this.props.user.role) {
-      case 'OPO':
-        if (switchMode && allowedRoles.includes('OPO')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
-        else window.location.replace(`${ROOT_URL}/opo-dashboard`);
-        break;
-      case 'Leader':
-        if (switchMode && allowedRoles.includes('Leader')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
-        window.location.replace(`${ROOT_URL}/my-trips`);
-        break;
-      default:
-        if (switchMode && allowedRoles.includes('Trippee')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
-        window.location.replace(`${ROOT_URL}/all-trips`);
+    if (this.props.user) {
+      switch (this.props.user.role) {
+        case 'OPO':
+          if (switchMode && allowedRoles.includes('OPO')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
+          else window.location.replace(`${ROOT_URL}/opo-dashboard`);
+          break;
+        case 'Leader':
+          if (switchMode && allowedRoles.includes('Leader')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
+          window.location.replace(`${ROOT_URL}/my-trips`);
+          break;
+        default:
+          if (switchMode && allowedRoles.includes('Trippee')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
+          window.location.replace(`${ROOT_URL}/all-trips`);
+      }
+    } else {
+      window.location.replace(`${ROOT_URL}`);
     }
   }
 
