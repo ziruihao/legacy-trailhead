@@ -64,7 +64,7 @@ class MyTrips extends Component {
       const sortedTrips = this.props.myTrips.sort(this.compareStartDates);
       myTrips = sortedTrips.map((trip) => {
         return (
-          <TripCard key={trip._id} trip={trip} user={this.props.user} />
+          <TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.props.history.push(`/trip/${trip._id}`)} />
         );
       });
     }
