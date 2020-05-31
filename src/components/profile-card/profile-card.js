@@ -113,11 +113,11 @@ class ProfileCard extends React.Component {
                   <div className="doc-h1">
                     {this.props.user.name}
                     {this.props.user.role === 'Leader'
-                      ? <Badge type="leader" />
+                      ? <Badge type="leader" size={36} />
                       : null
                    }
                     {this.props.user.has_pending_leader_change
-                      ? <Badge type="pending" />
+                      ? <Badge type="pending" size={36} />
                       : null
                    }
                   </div>
