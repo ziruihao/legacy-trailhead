@@ -21,8 +21,6 @@ class TripDetails extends Component {
       isEditing: true,
       showTrippeeModal: false,
       profiles: {},
-      showAllPendingProfiles: false,
-      showAllOnTripProfiles: false,
       status: 'approved',
       reasons: [],
       role: '',
@@ -236,34 +234,6 @@ class TripDetails extends Component {
     this.setState({ profiles });
   }
 
-  toggleProfile = (profileId) => {
-    this.setState((prevState) => {
-      const toggled = {};
-      toggled[profileId] = !prevState.profiles[profileId];
-      return { profiles: Object.assign({}, prevState.profiles, toggled) };
-    });
-  }
-
-  toggleAllPendingProfiles = () => {
-    this.setState((prevState) => {
-      const toggled = {};
-      this.props.trip.pending.forEach((pender) => {
-        toggled[pender._id] = !prevState.showAllPendingProfiles;
-      });
-      return { profiles: Object.assign({}, prevState.profiles, toggled), showAllPendingProfiles: !prevState.showAllPendingProfiles };
-    });
-  }
-
-  toggleAllOnTripProfiles = () => {
-    this.setState((prevState) => {
-      const toggled = {};
-      this.props.trip.members.forEach((pender) => {
-        toggled[pender._id] = !prevState.showAllOnTripProfiles;
-      });
-      return { profiles: Object.assign({}, prevState.profiles, toggled), showAllOnTripProfiles: !prevState.showAllOnTripProfiles };
-    });
-  }
-
   render() {
     // ref used for copy to clipboard functionality
     const ref = { pendingEmailRef: this.pendingEmailRef, onTripEmailRef: this.onTripEmailRef };
@@ -281,8 +251,6 @@ class TripDetails extends Component {
             trippeeProfile={this.state.trippeeProfile}
             hideTrippeeProfile={() => this.setState({ trippeeProfileOpened: false })}
             profiles={this.state.profiles}
-            showAllPendingProfiles={this.state.showAllPendingProfiles}
-            showAllOnTripProfiles={this.state.showAllOnTripProfiles}
             status={this.state.status}
             reasons={this.state.reasons}
             role={this.state.role}
@@ -294,9 +262,6 @@ class TripDetails extends Component {
             moveToPending={this.moveToPending}
             copyPendingToClip={this.copyPendingToClip}
             copyOnTripToClip={this.copyOnTripToClip}
-            toggleProfile={this.toggleProfile}
-            toggleAllPendingProfiles={this.toggleAllPendingProfiles}
-            toggleAllOnTripProfiles={this.toggleAllOnTripProfiles}
             toggleTripReturnedStatus={this.toggleTripReturnedStatus}
             ref={ref}
           />
