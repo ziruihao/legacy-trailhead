@@ -1,0 +1,88 @@
+@import '../../styles/base.scss';
+
+.doc-stack {
+  width: 100%;
+}
+
+.doc-queue {
+  height: 100%;
+}
+
+.expand {
+  flex: 1;
+}
+
+.doc-divider {
+  background-color: $gray-2;
+  
+  &.horizontal {
+    width: 100%;
+  }
+  &.vertical {
+    height: 100%;
+  }
+}
+
+.doc-box {
+  display: flex;
+
+  &.doc-box-row {
+    flex-direction: row;
+  }
+
+  &.doc-box-col {
+    flex-direction: column;
+  }
+
+  &.justify-start {
+    justify-content: flex-start;
+  }
+
+  &.justify-end {
+    justify-content: flex-end;
+  }
+
+  &.justify-center {
+    justify-content: center;
+  }
+
+  &.justify-stretch {
+    justify-content: stretch;
+  }
+
+  &.justify-between {
+    justify-content: space-between;
+  }
+
+  &.justify-around {
+    justify-content: space-around;
+  }
+
+  &.align-start {
+    align-items: flex-start;
+  }
+
+  &.align-end {
+    align-items: flex-end;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.align-stretch {
+    align-items: stretch;
+  }
+
+  &.align-between {
+    align-items: space-between;
+  }
+
+  &.align-around {
+    align-items: space-around;
+  }
+
+  &.wrap {
+    flex-wrap: wrap;
+  }
+}
