@@ -455,7 +455,6 @@ class ProfileCardEdit extends Component {
       this.props.clearError();
       if (file) {
         s3.uploadImage(file).then((url) => {
-          alert(url);
           const updatedUser = {
             email: this.state.email,
             name: this.state.name,

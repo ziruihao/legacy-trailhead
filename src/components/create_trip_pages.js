@@ -168,7 +168,7 @@ const AboutTheTrip = (props) => {
             className={`field create-trip-form-bottom-margin pickupDropoff ${props.errorFields.pickup ? 'field-error' : ''}`}
             onChange={props.onFieldChange}
             name="pickup"
-            placeholder="eg. Robo Hall"
+            placeholder="e.g. Robinson Hall"
             value={props.pickUp}
           />
         </div>
@@ -178,7 +178,7 @@ const AboutTheTrip = (props) => {
             className={`field create-trip-form-bottom-margin pickupDropoff ${props.errorFields.dropoff ? 'field-error' : ''}`}
             onChange={props.onFieldChange}
             name="dropoff"
-            placeholder="eg. McNutt Hall"
+            placeholder="e.g. McNutt Hall"
             value={props.dropOff}
           />
         </div>
