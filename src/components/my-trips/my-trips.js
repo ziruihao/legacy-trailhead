@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
+import { Stack, Queue, Divider, Box } from '../layout';
+import Toggle from '../toggle';
 import DOCLoading from '../doc-loading';
 import TripCard from '../trip-card';
 import { getMyTrips } from '../../actions';
@@ -64,7 +66,10 @@ class MyTrips extends Component {
       const sortedTrips = this.props.myTrips.sort(this.compareStartDates);
       myTrips = sortedTrips.map((trip) => {
         return (
-          <TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.props.history.push(`/trip/${trip._id}`)} />
+          <>
+            <TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.props.history.push(`/trip/${trip._id}`)} />
+            <Queue size={45} />
+          </>
         );
       });
     }
@@ -110,18 +115,64 @@ class MyTrips extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div id="my-trips-page" className="center-view spacy">
-          <div className="">
+        <Box id="my-trips-page" dir="col">
+          <Stack size={85} />
+          <Box className="doc-card" dir="row" pad={45}>
             <div className="doc-h1">Your upcoming trips</div>
-          </div>
-          <div id="my-trips-tiles">
-            {this.renderCreateTrip()}
-            {this.renderMyTrips()}
-          </div>
+            <Queue expand />
+            <Toggle
+              id="pending-requests-past-toggle"
+              label="Trips I'm leading"
+              value={this.state.seePastPendingRequests}
+              onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+              disabled={false}
+            />
+            <Toggle
+              id="pending-requests-past-toggle"
+              label="See past requests"
+              value={this.state.seePastPendingRequests}
+              onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+              disabled={false}
+            />
+          </Box>
+          <Stack size={35} />
+          <Box id="my-trips-tiles-container">
+            <Box id="my-trips-tiles">
+              {this.renderCreateTrip()}
+              <Queue size={45} />
+              {this.renderMyTrips()}
+              <Queue size={300} />
+            </Box>
+            <div id="my-trip-tiles-blur" />
+          </Box>
+          <Stack size={85} />
           {this.props.user.role !== 'Trippee'
             ? (
               <>
-                <div className="doc-h1">Your upcoming trips</div>
+                <div className="doc-card">
+                  <Box dir="col" pad={45}>
+                    <Box dir="row" justify="between" align="center">
+                      <div className="doc-h1">Pending V-Requests</div>
+                      <Toggle
+                        id="pending-requests-past-toggle"
+                        label="See past requests"
+                        value={this.state.seePastPendingRequests}
+                        onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+                        disabled={false}
+                      />
+                      <input
+                        name="searchPending"
+                        placeholder="Search pending requests"
+                        value={this.state.searchPendingTerm}
+                        onChange={this.onSearchPendingTermChange}
+                        className="databox-heading-search field"
+                      />
+                    </Box>
+                    <Stack size={25} />
+                    {this.renderMyVehicleRequests()}
+                  </Box>
+                </div>
+                {/* <div className="doc-h1">Your upcoming trips</div>
                 <div className="mytrips-vehicle-reqs">
                   {this.renderMyVehicleRequests()}
                 </div>
@@ -132,12 +183,12 @@ class MyTrips extends Component {
                   {this.props.user.driver_cert !== null || this.props.user.role !== 'Trippee'
                     ? <Link to="/vehicle-calendar" className="mytrips-calendar-link" target="_blank">View vehicle calendar</Link>
                     : null}
-                </div>
+                </div> */}
               </>
             )
             : null
           }
-        </div>
+        </Box>
       );
     } else {
       return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
