@@ -85,6 +85,14 @@ a {
     font-weight: 100;
 }
 
+.think {
+    font-weight: 600;
+}
+
+.thick {
+    font-weight: 800;
+}
+
 .gray {
     color: $gray-2;
 }
@@ -180,7 +188,6 @@ a {
     background: white;
     box-shadow: $menu-shadow;
     border-radius: 10px;
-    padding: 25px;
 
     &.small-card {
         padding: 15px;
