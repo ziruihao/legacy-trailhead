@@ -2,10 +2,12 @@
 
 .doc-stack {
   width: 100%;
+  min-width: 100%;
 }
 
 .doc-queue {
   height: 100%;
+  min-height: 100%;
 }
 
 .expand {
@@ -56,6 +58,30 @@
 
   &.justify-around {
     justify-content: space-around;
+  }
+
+  &.align-self-start {
+    align-self: flex-start;
+  }
+
+  &.align-self-end {
+    align-self: flex-end;
+  }
+
+  &.align-self-center {
+    align-self: center;
+  }
+
+  &.align-self-stretch {
+    align-self: stretch;
+  }
+
+  &.align-self-between {
+    align-self: space-between;
+  }
+
+  &.align-self-around {
+    align-self: space-around;
   }
 
   &.align-start {
