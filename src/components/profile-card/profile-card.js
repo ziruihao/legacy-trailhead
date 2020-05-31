@@ -73,6 +73,7 @@ class ProfileCard extends React.Component {
 
   displayImageEditing() {
     if (this.props.user.photo_url !== '' && this.state.preview == null) {
+      console.log(this.props.user.photo_url);
       return (
         <div className="profile-photo-fit">
           <img className="profile-photo" id="preview" alt="" src={this.props.user.photo_url} />
@@ -98,8 +99,9 @@ class ProfileCard extends React.Component {
               ? (
                 <div className="profile-pic-container">
                   <div className="profile-pic">
-                    <span className="user-initials">{this.props.user.photo_url === '' ? this.getUserInitials(this.props.user.name) : null}</span>
-                    { this.props.user.photo_url === '' ? null : <div className="profile-photo-fit"><img className="profile-photo" id="photo" alt="" src={this.props.user.photo_url} /> </div>}
+                    { this.props.user.photo_url === ''
+                      ? <span className="user-initials">{this.getUserInitials(this.props.user.name)}</span>
+                      : <div className="profile-photo-fit"><img className="profile-photo" id="photo" alt="" src={this.props.user.photo_url} /> </div>}
                   </div>
                 </div>
               )
@@ -240,14 +242,14 @@ class ProfileCard extends React.Component {
           <div id="profile-card-picture-and-name">
             {this.props.user.name || this.props.user.casID
               ? (
-                <div className="profile-pic-container">
-                  <div className="profile-pic">
-                    <label className="user-initials">
-                      {(this.state.preview == null || this.props.user.photo_url == null) ? this.getUserInitials(name) : null}
+                <div className="profile-pic-container profile-pic-container-edit">
+                  <label>
+                    <div id="profile-pic-upload-text">Change</div>
+                    <div className="profile-pic">
+                      {!(this.state.preview != null || this.props.user.photo_url != null) ? <span className="user-initials">{this.getUserInitials(name)}</span> : this.displayImageEditing()}
                       <input type="file" name="coverImage" onChange={this.onImageUpload} />
-                    </label>
-                    {this.displayImageEditing()}
-                  </div>
+                    </div>
+                  </label>
                 </div>
               )
               : null
@@ -258,7 +260,7 @@ class ProfileCard extends React.Component {
                   type="text"
                   name="name"
                   onChange={this.props.onFieldChange}
-                  className={`field name-input ${this.props.errorFields.name ? 'vrf-error' : ''}`}
+                  className={`field ${this.props.errorFields.name ? 'vrf-error' : ''}`}
                   value={this.props.name}
                   placeholder="Name"
                 />
