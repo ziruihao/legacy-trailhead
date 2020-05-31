@@ -1,0 +1,56 @@
+@import '../../styles/base.scss';
+
+#trips-page {
+  width: calc(4 * 286px + 3 * 30px); // 4 * $trip-card-width + 3 * $trip-card-margin-right
+  align-self: center;
+
+  #trip-safari-configs {
+    // width: 100%;
+    display: flex;
+    justify-content: space-between;
+
+    .all-trips-date-select {
+      width: auto !important; // to prevent override from createtrip-style.scss
+      margin: 0 !important; // to prevent override from createtrip-style.scss
+      color: $green;
+      background: none;
+    }
+
+    .field-dropdown-bootstrap {
+      color: $green !important;
+    }
+  }
+    
+  #trip-tiles {
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 45px;
+
+    > * {
+      margin-right: $trip-card-margin-right;
+      margin-bottom: 30px;
+    }
+
+    > :nth-child(8n - 1) {
+      margin-right: 0px !important;
+    }
+
+    #trips-page-not-found {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 100px 0;
+
+      img {
+        margin-bottom: 50px;
+        width: 200px;
+      }
+    }
+  }
+}
+
+#trip-details-modal-wrapper {
+  margin: 50px;
+}
