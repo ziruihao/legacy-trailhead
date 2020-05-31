@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
+import { Stack, Queue, Divider, Box } from '../../layout';
 import Toggle from '../../toggle/toggle';
 import DOCLoading from '../../doc-loading';
 import { fetchVehicleRequests } from '../../../actions';
@@ -43,25 +44,6 @@ class OPOVehicleRequests extends Component {
     this.props.history.push(`/opo-vehicle-request/${id}`);
   }
 
-  formatDate = (date, time) => {
-    let timeString = '';
-    const rawDate = new Date(date);
-    const dateString = rawDate.toUTCString();
-    timeString = dateString.substring(0, 11);
-    const splitTime = time.split(':');
-    splitTime.push(' AM');
-    const originalHour = splitTime[0];
-    splitTime[0] = originalHour % 12;
-    if (originalHour >= 12) {
-      splitTime[2] = ' PM';
-    }
-    if (splitTime[0] === 0) {
-      splitTime[0] = 12;
-    }
-    timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
-    return timeString;
-  };
-
   getPendingTable = () => {
     let pendingRequests = this.props.vehicleRequests.filter((request) => {
       return request.status === 'pending';
@@ -94,7 +76,7 @@ class OPOVehicleRequests extends Component {
       return (<div className="p1 gray thin">None found.</div>);
     } else {
       return (
-        <Table responsive="lg" hover>
+        <Table className="doc-table" responsive="lg" hover>
           <thead>
             <tr>
               <th>Requester</th>
@@ -191,29 +173,32 @@ class OPOVehicleRequests extends Component {
     if (this.state.ready) {
       return (
         <div id="opo-trips-page" className="center-view">
-          <div className="opo-trips-page-databox doc-card large-card">
-            <div className="databox-heading">
-              <div className="doc-h1">Pending V-Requests</div>
-              <Toggle
-                id="pending-requests-past-toggle"
-                label="See past requests"
-                value={this.state.seePastPendingRequests}
-                onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
-                disabled={false}
-              />
-              <input
-                name="searchPending"
-                placeholder="Search pending requests"
-                value={this.state.searchPendingTerm}
-                onChange={this.onSearchPendingTermChange}
-                className="databox-heading-search field"
-              />
-            </div>
-            {this.getPendingTable()}
+          <div className="doc-card">
+            <Box dir="col" pad={45}>
+              <Box dir="row" justify="between" align="center">
+                <div className="doc-h1">Pending V-Requests</div>
+                <Toggle
+                  id="pending-requests-past-toggle"
+                  label="See past requests"
+                  value={this.state.seePastPendingRequests}
+                  onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+                  disabled={false}
+                />
+                <input
+                  name="searchPending"
+                  placeholder="Search pending requests"
+                  value={this.state.searchPendingTerm}
+                  onChange={this.onSearchPendingTermChange}
+                  className="databox-heading-search field"
+                />
+              </Box>
+              <Stack size={25} />
+              {this.getPendingTable()}
+            </Box>
           </div>
           <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
-              <h4 className="doc-h1">Reviewed V-Requests</h4>
+              <div className="doc-h1">Reviewed V-Requests</div>
               <Toggle
                 id="reviewed-requests-past-toggle"
                 label="See past requests"
