@@ -101,7 +101,7 @@ class CreateTrip extends Component {
   }
 
   componentDidMount() {
-    if (this.props.location.pathname === '/edittrip') {
+    if (this.props.location.pathname.includes('/edittrip')) {
       this.setState({editMode: true})
       this.props.fetchTrip(this.props.match.params.tripID)
         .then(() => {
@@ -582,7 +582,6 @@ class CreateTrip extends Component {
       return vehicle;
     });
     const vehicleReqId = (this.state.editMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest._id : null;
-    console.log('leaders', this.state.leaders);
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders,
