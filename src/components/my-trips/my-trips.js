@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link, NavLink, withRouter } from 'react-router-dom';
+import { Table } from 'react-bootstrap';
 import { Stack, Queue, Divider, Box } from '../layout';
 import Toggle from '../toggle';
 import DOCLoading from '../doc-loading';
+import Badge from '../badge';
 import TripCard from '../trip-card';
+import * as constants from '../../constants';
+import utils from '../../utils';
 import { getMyTrips } from '../../actions';
 import './my-trips.scss';
 import './mytrips-style.scss';
 import createtrip from './createtrip.svg';
-import Badge from '../badge';
+
 
 class MyTrips extends Component {
   constructor(props) {
     super(props);
     this.state = {
       ready: false,
+      seePastTrips: false,
+      seeTripsImLeaing: false,
+      seePastRequests: false,
+      searchRequestTerm: '',
     };
   }
 
@@ -26,12 +34,9 @@ class MyTrips extends Component {
       });
   }
 
-  formatDate = (date) => {
-    // date fix adapted from https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off/31732581
-    if (!date) {
-      return '';
-    }
-    return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
+  onSearchRequestTermChange = (event) => {
+    event.persist();
+    this.setState({ searchRequestTerm: event.target.value });
   }
 
   compareStartDates = (a, b) => {
@@ -56,7 +61,7 @@ class MyTrips extends Component {
   renderMyTrips = () => {
     let myTrips = this.props.user.role === 'Trippee'
       ? (
-        <div className="my-trips-no-trips-text p1">
+        <div className="gray thin p1">
           Trips you lead or sign up for will appear here. Only OPO approved club leaders can create trips.
           Club leaders should update the DOC Leadership field on their profiles to gain leader access.
         </div>
@@ -79,36 +84,69 @@ class MyTrips extends Component {
   renderMyVehicleRequests = () => {
     if (this.props.myVehicleReqs.length === 0) {
       return (
-        <div className="my-trips-no-trips-text p1">
+        <div className="gray thin p1">
           Your vehicle requests will appear here. Only OPO certified drivers can request vehicles.
           Certified drivers should update the Driver Certifications field on their profiles to gain driver access.
         </div>
       );
     } else {
-      return this.props.myVehicleReqs.map((vehicleReq) => {
-        const { status } = vehicleReq;
-        let reqTitle = '';
-        let reqLink = '';
-        if (vehicleReq.requestType === 'TRIP') {
-          reqTitle = vehicleReq.associatedTrip.title;
-          reqLink = `/trip/${vehicleReq.associatedTrip._id}`;
-        } else if (vehicleReq.requestType === 'SOLO') {
-          reqTitle = vehicleReq.requestDetails;
-          reqLink = `/vehicle-request/${vehicleReq._id}`;
-        }
-        return (
-          <div key={vehicleReq._id} className="mytrips-vehicle-req">
-            {/* <div className="mytrips-status-badge">
-              <img className="status-badge" src={this.badges[status]} alt={`${status}_badge`} />
-            </div> */}
-            <Badge type={status} />
-            <div className="mytrips-req-header-and-status">
-              <Link to={reqLink} className="mytrips-req-header">{reqTitle}</Link>
-              <em className="mytrips-req-status">{status}</em>
-            </div>
-          </div>
-        );
-      });
+      return (
+        <Table className="doc-table" responsive="lg" hover>
+          <thead>
+            <tr>
+              <th>Number</th>
+              <th>Date</th>
+              <th>Type</th>
+              <th>Details</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              this.props.myVehicleReqs.map((vehicleReq) => {
+                const { status } = vehicleReq;
+                let reqTitle = '';
+                let reqLink = '';
+                let earliest = null;
+                let latest = null;
+                if (vehicleReq.requestType === 'TRIP') {
+                  reqTitle = vehicleReq.associatedTrip.title;
+                  reqLink = `/trip/${vehicleReq.associatedTrip._id}`;
+                  earliest = utils.dates.formatDate(new Date(vehicleReq.associatedTrip.startDate));
+                  latest = utils.dates.formatDate(new Date(vehicleReq.associatedTrip.endDaate));
+                } else if (vehicleReq.requestType === 'SOLO') {
+                  const calc = constants.calculateVehicleRequestDateRange(vehicleReq);
+                  earliest = utils.dates.formatDate(calc.earliest);
+                  latest = utils.dates.formatDate(calc.latest);
+                  reqTitle = vehicleReq.requestDetails;
+                  reqLink = `/vehicle-request/${vehicleReq._id}`;
+                }
+                return (
+                  <tr key={vehicleReq._id} onClick={() => window.open(`${constants.ROOT_URL}${reqLink}`, '__blank')}>
+                    <td className="p2">{vehicleReq.number}</td>
+                    <td className="p2">{earliest}</td>
+                    <td className="p2">{vehicleReq.requestType === 'SOLO' ? 'Not for trip' : 'For a trip'}</td>
+                    <td className="p2">{vehicleReq.requestType === 'SOLO' ? vehicleReq.requestDetails : `Trip #${vehicleReq.associatedTrip.number}: ${vehicleReq.associatedTrip.title}`}</td>
+                    <td><Badge type={status} size={36} /></td>
+                  </tr>
+                );
+                // return (
+                //   <div key={vehicleReq._id} className="mytrips-vehicle-req">
+                //     {/* <div className="mytrips-status-badge">
+                //       <img className="status-badge" src={this.badges[status]} alt={`${status}_badge`} />
+                //     </div> */}
+                //     <Badge type={status} />
+                //     <div className="mytrips-req-header-and-status">
+                //       <Link to={reqLink} className="mytrips-req-header">{reqTitle}</Link>
+                //       <em className="mytrips-req-status">{status}</em>
+                //     </div>
+                //   </div>
+                // );
+              })
+            }
+          </tbody>
+        </Table>
+      );
     }
   }
 
@@ -121,17 +159,17 @@ class MyTrips extends Component {
             <div className="doc-h1">Your upcoming trips</div>
             <Queue expand />
             <Toggle
-              id="pending-requests-past-toggle"
+              id="see-trips-im-leading-toggle"
               label="Trips I'm leading"
-              value={this.state.seePastPendingRequests}
-              onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+              value={this.state.seeTripsImLeaing}
+              onChange={() => this.setState((prevState) => { return { seeTripsImLeaing: !prevState.seeTripsImLeaing }; })}
               disabled={false}
             />
             <Toggle
-              id="pending-requests-past-toggle"
-              label="See past requests"
-              value={this.state.seePastPendingRequests}
-              onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+              id="see-past-trips-toggle"
+              label="See past trips"
+              value={this.state.seePastTrips}
+              onChange={() => this.setState((prevState) => { return { seePastTrips: !prevState.seePastTrips }; })}
               disabled={false}
             />
           </Box>
@@ -154,17 +192,17 @@ class MyTrips extends Component {
                     <Box dir="row" justify="between" align="center">
                       <div className="doc-h1">Pending V-Requests</div>
                       <Toggle
-                        id="pending-requests-past-toggle"
+                        id="see-past-requests-toggle"
                         label="See past requests"
-                        value={this.state.seePastPendingRequests}
-                        onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
+                        value={this.state.seePastRequests}
+                        onChange={() => this.setState((prevState) => { return { seePastRequests: !prevState.seePastRequests }; })}
                         disabled={false}
                       />
                       <input
                         name="searchPending"
                         placeholder="Search pending requests"
-                        value={this.state.searchPendingTerm}
-                        onChange={this.onSearchPendingTermChange}
+                        value={this.state.searchRequestTerm}
+                        onChange={this.onSearchRequestTermChange}
                         className="databox-heading-search field"
                       />
                     </Box>
