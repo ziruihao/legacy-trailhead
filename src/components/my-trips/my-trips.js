@@ -9,7 +9,7 @@ import Badge from '../badge';
 import TripCard from '../trip-card';
 import * as constants from '../../constants';
 import utils from '../../utils';
-import { getMyTrips } from '../../actions';
+import { getMyTrips, appError } from '../../actions';
 import './my-trips.scss';
 import './mytrips-style.scss';
 import createtrip from './createtrip.svg';
@@ -162,14 +162,14 @@ class MyTrips extends Component {
               id="see-trips-im-leading-toggle"
               label="Trips I'm leading"
               value={this.state.seeTripsImLeaing}
-              onChange={() => this.setState((prevState) => { return { seeTripsImLeaing: !prevState.seeTripsImLeaing }; })}
+              onChange={() => this.setState((prevState) => { this.props.appError('This feature is under construction!'); return { seeTripsImLeaing: !prevState.seeTripsImLeaing }; })}
               disabled={false}
             />
             <Toggle
               id="see-past-trips-toggle"
               label="See past trips"
               value={this.state.seePastTrips}
-              onChange={() => this.setState((prevState) => { return { seePastTrips: !prevState.seePastTrips }; })}
+              onChange={() => this.setState((prevState) => { this.props.appError('This feature is under construction!'); return { seePastTrips: !prevState.seePastTrips }; })}
               disabled={false}
             />
           </Box>
@@ -195,7 +195,7 @@ class MyTrips extends Component {
                         id="see-past-requests-toggle"
                         label="See past requests"
                         value={this.state.seePastRequests}
-                        onChange={() => this.setState((prevState) => { return { seePastRequests: !prevState.seePastRequests }; })}
+                        onChange={() => this.setState((prevState) => { this.props.appError('This feature is under construction!'); return { seePastRequests: !prevState.seePastRequests }; })}
                         disabled={false}
                       />
                       <input
@@ -243,4 +243,4 @@ const mapStateToProps = state => (
 );
 
 
-export default withRouter(connect(mapStateToProps, { getMyTrips })(MyTrips)); // connected component
+export default withRouter(connect(mapStateToProps, { getMyTrips, appError })(MyTrips)); // connected component
