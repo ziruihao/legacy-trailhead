@@ -30,10 +30,23 @@ const MILLI = {
 
 const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
 
+/**
+ * 
+ * @param {Date} dateAndTime 
+ */
+export function formatDateAndTime(dateAndTime) {
+  return `${dateAndTime.toString().substring(0, 11)}, ${formatTime(dateAndTime.toString().substring(11, 19))}`;
+}
+
 export function formatDate(date) {
-  const rawDate = new Date(date);
-  const dateString = rawDate.toUTCString();
-  return dateString.substring(0, 11);
+  if (typeof date === 'object') {
+    console.log(date);
+    return date.toString().substring(0, 11);
+  } else if (typeof date === 'string') {
+    const rawDate = new Date(date);
+    const dateString = rawDate.toString();
+    return dateString.substring(0, 11);
+  }
 };
 
 export function formatTime(time) {
