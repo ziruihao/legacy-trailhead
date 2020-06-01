@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
+import { Stack, Queue, Divider, Box } from '../../layout';
 import RequestGear from '../request-gear'
 import ReactToolTip from 'react-tooltip';
 import Badge from '../../badge';
@@ -130,8 +131,9 @@ class TripDetailsBasic extends Component {
           <div className="trip-details">
               <div className="trip-number">{`TRIP #${this.props.trip.number}`}</div>
               <div className="doc-h1">{this.props.trip.title}</div>
+              <Stack size={25}></Stack>
               <div className="trip-tags">
-                <div id="trip-club-tag">{this.props.trip.club.name}</div>
+                <div className="trip-club-tag">{this.props.trip.club.name}</div>
                 <div id="trip-statuses">
                   {this.state.role === 'LEADER' ? <Badge type="leader" dataTip dataFor="leader-on-trip-modal"></Badge> : null}
                   <Badge type={this.state.status} dataTip dataFor="trip-status-modal"/>
@@ -150,13 +152,17 @@ class TripDetailsBasic extends Component {
                   null
                 }
               </div>
-              <hr className="heavy-line"></hr>
+              <Stack size={25}></Stack>
+              <Divider size={1}></Divider>
+              <Stack size={25}></Stack>
               {this.state.viewMode === 'action' ?
                 <>
                   <div id="trip-modal-description" className="p1">
                     Sign up for this trip here. Below are all the required gear for each trippee - request only what you need!
                   </div>
+                  <Stack size={25}></Stack>
                   <RequestGear trippeeGear={this.props.trip.trippeeGear} selfGear={this.state.requestedGear} isEditing={this.state.editingGear} updateGear={(update) => this.setState({requestedGear: update})} loading={this.state.actionPending}></RequestGear>
+                  <Stack size={25}></Stack>
                   <div className="trip-modal-actions">
                     {this.renderTripActionButton()}
                   </div>
@@ -166,9 +172,11 @@ class TripDetailsBasic extends Component {
                   <div id="trip-modal-description" className="p1">
                     {this.props.trip.description}
                   </div>
+                  <Stack size={25}></Stack>
                   <div className="trip-modal-actions">
                     {this.state.role === 'OPO' ? <div className="doc-button" onClick={() => this.props.history.push(`/trip/${this.props.trip._id}`)} role="button" tabIndex={0}>View trip as OPO staff</div> : null}
                   </div>
+                  <Stack size={25}></Stack>
                   <div className="trip-details-table">
                     <div className="trip-details-table-row">
                       <span className="trip-details-table-left p2">Start</span>
@@ -199,6 +207,7 @@ class TripDetailsBasic extends Component {
                       <span className="trip-details-table-right p2">{this.props.trip.location}</span>
                     </div>
                   </div>
+                  <Stack size={25}></Stack>
                   <div className="trip-details-table">
                     <div className="trip-details-table-row">
                       <span className="trip-details-table-left p2">Leader</span>
