@@ -82,7 +82,8 @@ const getIndividualGear = (trip) => {
   });
   trip.members.forEach((member) => {
     member.gear.forEach((gear) => {
-      if (gear) {
+      if (gear.name) {
+        console.log('gear',gear)
         const { gearId } = gear;
         const { user } = member;
         if (gearSizeType[gearId] !== 'N/A') {
