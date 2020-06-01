@@ -82,31 +82,33 @@ const getIndividualGear = (trip) => {
   });
   trip.members.forEach((member) => {
     member.gear.forEach((gear) => {
-      const { gearId } = gear;
-      const { user } = member;
-      if (gearSizeType[gearId] !== 'N/A') {
-        const sizeType = gearSizeType[gearId];
-        let indexer = '';
-        switch (sizeType) {
-          case 'Height':
-            indexer = 'height';
-            break;
-          case 'Clothe':
-            indexer = 'clothe_size';
-            break;
-          case 'Shoe':
-            indexer = 'shoe_size';
-            break;
-          default:
-            indexer = '';
-        }
-        const update = {};
-        if (Object.prototype.hasOwnProperty.call(gearData[gearId], user[indexer])) {
-          update[user[indexer]] = gearData[gearId][user[indexer]] + 1;
-          gearData[gearId] = Object.assign({}, gearData[gearId], update);
-        } else {
-          update[user[indexer]] = 1;
-          gearData[gearId] = Object.assign({}, gearData[gearId], update);
+      if (gear) {
+        const { gearId } = gear;
+        const { user } = member;
+        if (gearSizeType[gearId] !== 'N/A') {
+          const sizeType = gearSizeType[gearId];
+          let indexer = '';
+          switch (sizeType) {
+            case 'Height':
+              indexer = 'height';
+              break;
+            case 'Clothe':
+              indexer = 'clothe_size';
+              break;
+            case 'Shoe':
+              indexer = 'shoe_size';
+              break;
+            default:
+              indexer = '';
+          }
+          const update = {};
+          if (Object.prototype.hasOwnProperty.call(gearData[gearId], user[indexer])) {
+            update[user[indexer]] = gearData[gearId][user[indexer]] + 1;
+            gearData[gearId] = Object.assign({}, gearData[gearId], update);
+          } else {
+            update[user[indexer]] = 1;
+            gearData[gearId] = Object.assign({}, gearData[gearId], update);
+          }
         }
       }
     });
