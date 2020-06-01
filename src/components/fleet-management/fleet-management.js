@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Table, Dropdown } from 'react-bootstrap';
+import { Stack, Queue, Divider, Box } from '../layout';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import { fetchVehicleRequests, createVehicle, deleteVehicle } from '../../actions';
 import './fleet-management.scss';
@@ -74,7 +75,7 @@ class FleetManagement extends Component {
 
           </div>
           <div id="management">
-            <div className="doc-card">
+            <Box className="doc-card" pad={25}>
               <div className="doc-form">
                 <div className="doc-h2">Add New Vehicle</div>
                 <div className="field-label">Vehicle name</div>
@@ -98,7 +99,7 @@ class FleetManagement extends Component {
                 </Dropdown>
                 <div className="doc-button" onClick={this.submitForm} role="button" tabIndex={0}>Add</div>
               </div>
-            </div>
+            </Box>
           </div>
         </div>
 
