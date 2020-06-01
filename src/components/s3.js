@@ -1,11 +1,11 @@
 import axios from 'axios';
 import { checkPropTypes } from 'prop-types';
-import { ROOT_URL } from '../constants';
+import { ROOT_URL, BACKEND_URL } from '../constants';
 
 export function getSignedRequest(file) {
   const fileName = encodeURIComponent(file.name);
   // hit our own server to get a signed s3 url
-  return axios.get(`${ROOT_URL}/sign-s3?file-name=${fileName}&file-type=${file.type}`);
+  return axios.get(`${BACKEND_URL}/sign-s3?file-name=${fileName}&file-type=${file.type}`);
 }
 
 // return a promise that uploads file directly to S3

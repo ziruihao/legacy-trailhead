@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter, Link, NavLink } from 'react-router-dom';
 import axios from 'axios';
 import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
@@ -364,7 +364,7 @@ class OPOVehicleRequest extends Component {
       });
       return (
         <div key={vehicle._id} className="ovr-sidebar-req-section">
-          <a href={`#vehicle_req_${index}`} className="ovr-req-section-link">Vehicle #{index + 1}</a>
+          <NavLink to={`#vehicle_req_${index}`} className="ovr-req-section-link">Vehicle #{index + 1}</NavLink>
           {assignment ? <Badge type="approved" /> : null}
         </div>
       );
@@ -828,7 +828,7 @@ class OPOVehicleRequest extends Component {
                 <span className="vrf-label ovr-sidebar-subheader">Vehicle Request</span>
                 <div className="ovr-sidebar-req-sections">
                   <div className="ovr-sidebar-req-section">
-                    <a href="#req_details" className="ovr-req-section-link">Request Details</a>
+                    <NavLink to="#req_details" className="ovr-req-section-link">Request Details</NavLink>
                   </div>
 
                   {this.getSideLinks()}
