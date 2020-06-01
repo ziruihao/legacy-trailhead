@@ -17,11 +17,12 @@
 .doc-divider {
   background-color: $gray-2;
   
-  &.horizontal {
+  &.doc-divider-row {
     width: 100%;
   }
-  &.vertical {
+  &.dlc-divider-col {
     height: 100%;
+    // align-self: stretch;
   }
 }
 

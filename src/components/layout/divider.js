@@ -2,13 +2,21 @@ import React from 'react';
 import './layout.scss';
 
 const Divider = (props) => {
-  const measure = props.measure || 'px';
-  const direction = props.dir || 'horizontal';
+  const dir = props.dir || 'row';
+  let size = null;
+  if (props.size) {
+    if (typeof props.size === 'number') {
+      size = `${props.size}px`;
+    } else if (typeof props.size === 'string') {
+      // eslint-disable-next-line prefer-destructuring
+      size = props.size;
+    }
+  }
   let style = {};
-  if (direction === 'horizontal') style = { height: `${props.size}${measure}` };
-  else style = { width: `${props.size}${measure}` };
+  if (dir === 'row') style = { height: size };
+  else style = { width: size };
   return (
-    <div className={`doc-divider ${direction}`} style={style} />
+    <div className={`doc-divider doc-divider-${dir}`} style={style} />
   );
 };
 
