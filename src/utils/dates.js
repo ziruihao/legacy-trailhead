@@ -40,7 +40,6 @@ export function formatDateAndTime(dateAndTime) {
 
 export function formatDate(date) {
   if (typeof date === 'object') {
-    console.log(date);
     return date.toString().substring(0, 11);
   } else if (typeof date === 'string') {
     const rawDate = new Date(date);
