@@ -239,7 +239,7 @@ class TripDetails extends Component {
     const ref = { pendingEmailRef: this.pendingEmailRef, onTripEmailRef: this.onTripEmailRef };
     if (!this.isObjectEmpty(this.props.trip)) {
       let appropriateComponent;
-      if (this.state.role === 'LEADER') {
+      if (this.state.role === 'LEADER' || this.state.role === 'OPO') {
         appropriateComponent = (
           <LeaderTripDetails
             trip={this.props.trip}
@@ -265,10 +265,6 @@ class TripDetails extends Component {
             toggleTripReturnedStatus={this.toggleTripReturnedStatus}
             ref={ref}
           />
-        );
-      } else if (this.state.role === 'OPO') {
-        appropriateComponent = (
-          <OPOTripDetails />
         );
       } else {
         appropriateComponent = (
