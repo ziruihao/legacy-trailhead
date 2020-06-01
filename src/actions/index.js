@@ -187,6 +187,24 @@ export function moveToPending(id, member) {
         }).catch((error) => {
           console.log('move to pending error');
           console.log(error);
+          reject(error);
+        });
+    });
+  };
+}
+
+export function toggleTripReturnedStatus(tripID, status, temporaryToken) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      const token = temporaryToken || localStorage.getItem('token');
+      axios.put(`${constants.BACKEND_URL}/toggle-returned/${tripID}`, { status }, { headers: { authorization: token } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          console.log('Toggle returned error');
+          reject(error);
         });
     });
   };

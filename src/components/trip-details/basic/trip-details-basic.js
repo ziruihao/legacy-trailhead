@@ -132,7 +132,7 @@ class TripDetailsBasic extends Component {
               <div className="doc-h1">{this.props.trip.title}</div>
               <div className="trip-tags">
                 <div id="trip-club-tag">{this.props.trip.club.name}</div>
-                <div id="trip-modal-statuses">
+                <div id="trip-statuses">
                   {this.state.role === 'LEADER' ? <Badge type="leader" dataTip dataFor="leader-on-trip-modal"></Badge> : null}
                   <Badge type={this.state.status} dataTip dataFor="trip-status-modal"/>
                   <ReactToolTip id="leader-on-trip-modal" place="bottom">Your are leading this trip</ReactToolTip>

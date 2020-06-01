@@ -26,7 +26,7 @@ class CoLeadersAutoComplete extends Component {
 
   componentDidMount() {
     axios.get(`${constants.BACKEND_URL}/users`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      const parsedData = response.data.map((user) => {
+      const parsedData = response.data.filter(user => user.email).map((user) => {
         return { id: user._id, text: user.email };
       });
       this.setState({ suggestions: parsedData });
@@ -45,8 +45,6 @@ class CoLeadersAutoComplete extends Component {
     // console.log(this.state.suggestions.find((sugg) => { return sugg.text === tag.text; }));
     if (typeof (this.state.suggestions.find((sugg) => { return sugg.text === tag.text; })) !== 'undefined') {
       this.setState(state => ({ tags: [...state.tags, tag] }));
-      console.log(this.state.tags);
-
       this.props.updateLeaderValue(this.state.tags);
     } else {
       this.setState({ invalid: true });

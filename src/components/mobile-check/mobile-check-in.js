@@ -3,7 +3,7 @@ import { withRouter, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import DOCLoading from '../doc-loading';
-import { fetchTrip, setAttendingStatus } from '../../actions';
+import { fetchTrip, editTrip, setAttendingStatus, toggleTripReturnedStatus } from '../../actions';
 import utils from '../../utils';
 import './mobile-check.scss';
 
@@ -17,6 +17,7 @@ class MobileCheckIn extends PureComponent {
     this.query = new URLSearchParams(this.props.location.search);
   }
 
+
   componentDidMount = () => {
     this.props.fetchTrip(this.props.match.params.tripID, this.query.get('token')).then(() => {
       this.setState({ loaded: true });
@@ -25,6 +26,10 @@ class MobileCheckIn extends PureComponent {
 
   toggleAttendence = (memberID, status) => {
     this.props.setAttendingStatus(this.props.match.params.tripID, memberID, status, this.query.get('token'));
+  }
+
+  toggleTripReturnedStatus = (status) => {
+    this.props.toggleTripReturnedStatus(this.props.trip._id, status, this.query.get('token'));
   }
 
   render() {
@@ -41,34 +46,15 @@ class MobileCheckIn extends PureComponent {
           </div>
           <hr />
           <div id="mobile-check-body">
-            <div className="doc-h2">Check in your trippees before leaving.</div>
-            <div className="p1">You MUST accurately mark which trippees are present on the day of the trip.</div>
-            <div id="mobile-check-in-list" className="doc-card">
-              <Table className="doc-table" responsive="">
-                <thead>
-                  <tr>
-                    <th id="mobile-check-in-list-name-field">Name</th>
-                    <th id="mobile-check-in-list-button">Present</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {this.props.trip.members.map((member) => {
-                    console.log(member.attendedTrip);
-                    return (
-                      <tr key={member.user._id}>
-                        <td id="mobile-check-in-list-name-field">{member.user.name}</td>
-                        <td id="mobile-check-in-list-button">
-                          {member.attendedTrip
-                            ? <div role="button" tabIndex={0} className="doc-button alarm" onClick={() => this.toggleAttendence(member.user._id, false)}>Undo</div>
-                            : <div role="button" tabIndex={0} className="doc-button" onClick={() => this.toggleAttendence(member.user._id, true)}>Here</div>
-                       }
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </Table>
-            </div>
+            <div className="doc-h2">Welcome back!</div>
+            <div className="p1">If you have returned safely without ANY incidents or near misses during the trip:</div>
+            {this.props.trip.returned
+              ? <div role="button" tabIndex={0} className="doc-button alarm" onClick={() => this.toggleTripReturnedStatus(false)}>Undo return</div>
+
+              : <div role="button" tabIndex={0} className="doc-button" onClick={() => this.toggleTripReturnedStatus(true)}>We returned safely</div>
+          }
+            <div className="p1">If you need to file an incident or near miss report:</div>
+            <div role="button" tabIndex={0} className="doc-button alarm" onClick={() => { window.open('https://docs.google.com/forms/u/1/d/e/1FAIpQLSeo9jIcTGNstZ1uADtovDjJT8kkPtS-YpRwzJC2MZkVkbH0hw/viewform', '_blank'); }}>File report</div>
             <div>Please close this tab after you have checked in for security purposes.</div>
           </div>
         </div>
@@ -77,8 +63,8 @@ class MobileCheckIn extends PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  trip: state.trips.trip,
+const mapStateToProps = reduxState => ({
+  trip: reduxState.trips.trip,
 });
 
-export default connect(mapStateToProps, { fetchTrip, setAttendingStatus })(withRouter(MobileCheckIn));
+export default connect(mapStateToProps, { fetchTrip, editTrip, setAttendingStatus, toggleTripReturnedStatus })(withRouter(MobileCheckIn));

@@ -497,7 +497,7 @@ class CreateTrip extends Component {
         return Object.assign({}, gear, { hasError: isFieldEmpty });
       });
       const markedEmptyTrippeFields = trippeeGear.map((gear) => {
-        const isFieldEmpty = this.isStringEmpty(gear.gear);
+        const isFieldEmpty = this.isStringEmpty(gear.name);
         if (isFieldEmpty) {
           hasEmptyField = true;
         }
@@ -582,6 +582,7 @@ class CreateTrip extends Component {
       return vehicle;
     });
     const vehicleReqId = (this.state.editMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest._id : null;
+    console.log('leaders', this.state.leaders);
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders,
@@ -624,7 +625,11 @@ class CreateTrip extends Component {
             titleValue={this.state.title}
             costValue={this.state.cost}
             leaderValue={this.state.leaders}
-            updateLeaderValue={(update) => this.setState({leaders: update})}
+            updateLeaderValue={(update) => {
+              const updateTrimmed = update.map(u => u.text);
+              console.log(updateTrimmed);
+              this.setState({leaders: updateTrimmed});
+            }}
             experienceValue={this.state.experienceNeeded}
             accessValue={this.state.access}
             experienceOption={this.handleOptionChange}

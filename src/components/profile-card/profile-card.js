@@ -50,6 +50,7 @@ class ProfileCard extends React.Component {
     this.state = {
       preview: null,
       file: null,
+      showClubs: false,
     };
     this.onImageUpload = this.onImageUpload.bind(this);
   }
@@ -72,6 +73,7 @@ class ProfileCard extends React.Component {
 
   displayImageEditing() {
     if (this.props.user.photo_url !== '' && this.state.preview == null) {
+      console.log(this.props.user.photo_url);
       return (
         <div className="profile-photo-fit">
           <img className="profile-photo" id="preview" alt="" src={this.props.user.photo_url} />
@@ -97,8 +99,9 @@ class ProfileCard extends React.Component {
               ? (
                 <div className="profile-pic-container">
                   <div className="profile-pic">
-                    <span className="user-initials">{this.props.user.photo_url === '' ? this.getUserInitials(this.props.user.name) : null}</span>
-                    { this.props.user.photo_url === '' ? null : <div className="profile-photo-fit"><img className="profile-photo" id="photo" alt="" src={this.props.user.photo_url} /> </div>}
+                    { this.props.user.photo_url === ''
+                      ? <span className="user-initials">{this.getUserInitials(this.props.user.name)}</span>
+                      : <div className="profile-photo-fit"><img className="profile-photo" id="photo" alt="" src={this.props.user.photo_url} /> </div>}
                   </div>
                 </div>
               )
@@ -214,11 +217,21 @@ class ProfileCard extends React.Component {
                   <div className="card-headings doc-h3">
                     {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
                   </div>
-                  <div className="card-info p1">
-                    {displayClubs(this.props.user.leader_for, this.props.user.has_pending_leader_change)}
+                  <div id="profile-card-clubs" className="card-info p1" onClick={() => this.setState(prevState => ({ showClubs: !prevState.showClubs }))} role="button" tabIndex={0}>
+                    Leader in {this.props.user.leader_for.length} sub-clubs
                   </div>
                 </div>
               ) : null}
+            {this.state.showClubs
+              ? (
+                <div className="profile-card-row">
+                  <div id="profile-card-clubs-all" className="card-info p1">
+                    {displayClubs(this.props.user.leader_for, this.props.user.has_pending_leader_change)}
+                  </div>
+                </div>
+              )
+              : null
+              }
           </div>
         </div>
       );
@@ -229,19 +242,13 @@ class ProfileCard extends React.Component {
           <div id="profile-card-picture-and-name">
             {this.props.user.name || this.props.user.casID
               ? (
-                <div className="profile-pic-container">
-                  <div className="profile-pic">
-                    <label className="user-initials">
-                      {console.log(this.state.preview)}
-                      {console.log(this.props.user.photo_url)}
-                      {(this.props.user.photo_url == null) ? this.getUserInitials(name) : null}
-                    </label>
-                    {this.displayImageEditing()}
-                  </div>
-                  <label className="photo-upload-button">
-                    <input className="photo-text" type="file" onChange={this.onImageUpload} />
-                    Upload
-                    Photo
+                <div className="profile-pic-container profile-pic-container-edit">
+                  <label>
+                    <div id="profile-pic-upload-text">Change</div>
+                    <div className="profile-pic">
+                      {!(this.state.preview != null || this.props.user.photo_url != null) ? <span className="user-initials">{this.getUserInitials(name)}</span> : this.displayImageEditing()}
+                      <input type="file" name="coverImage" onChange={this.onImageUpload} />
+                    </div>
                   </label>
                 </div>
               )
@@ -253,7 +260,7 @@ class ProfileCard extends React.Component {
                   type="text"
                   name="name"
                   onChange={this.props.onFieldChange}
-                  className={`field name-input ${this.props.errorFields.name ? 'vrf-error' : ''}`}
+                  className={`field ${this.props.errorFields.name ? 'vrf-error' : ''}`}
                   value={this.props.name}
                   placeholder="Name"
                 />
