@@ -78,7 +78,7 @@ class Gateway extends Component {
 
   render() {
       return (
-        <div id={`landing-page ${this.state.incompleteProfile ? `landing-page-onboarding` : ''}`}>
+        <div id="landing-page" className={this.state.incompleteProfile ? `landing-page-onboarding` : ''}>
           {this.state.incompleteProfile ?
             <CompleteProfile></CompleteProfile>
             :

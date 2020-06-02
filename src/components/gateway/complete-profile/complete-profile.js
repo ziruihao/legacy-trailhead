@@ -3,6 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { Stack, Queue, Divider, Box } from '../../layout';
 import { ProfileCardEdit } from '../../profile-card';
 import queryString from 'query-string'
 import { signIn, signOut, casAuthed, getUser } from '../../../actions';
@@ -31,7 +32,7 @@ class CompleteProfile extends Component {
             {this.props.user ?
               <>
                 {this.state.stage === '1' ?
-                  <div className="landing-card doc-card s">
+                  <Box className="landing-card doc-card s" dir="col" pad={25}>
                     <div className="landing-card-message">
                       <div className="doc-h1">Hello {this.props.user.casID.split(' ')[0]}</div>
                       <div className="p1">
@@ -41,7 +42,7 @@ class CompleteProfile extends Component {
                     <div className="landing-card-actions">
                       <div role="button" tabIndex={0} className="doc-button" onClick={() => this.setState({stage: '2'})}>Let's Go</div>
                     </div>
-                  </div>
+                  </Box>
                   :
                   <ProfileCardEdit completeProfileMode={true}></ProfileCardEdit>
                 }
