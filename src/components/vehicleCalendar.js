@@ -202,7 +202,7 @@ class VehicleCalendar extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div className="vehicle-calendar-container center-view spacy">
+        <div className="vehicle-calendar-container center-view">
           <Box className="doc-card" dir="col" align="stretch" pad={25}>
             <VehicleCalendarComponent
               assignments={this.props.assignments}
