@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Table from 'react-bootstrap/Table';
+import { Stack, Queue, Divider, Box } from '../../layout';
 import DOCLoading from '../../doc-loading';
 import { fetchOpoTrips } from '../../../actions';
 import dropdownIcon from '../../../img/dropdown-toggle.svg';
@@ -275,6 +276,7 @@ class OPOTrips extends Component {
             </div>
             {this.getPendingTable()}
           </div>
+          <Stack size={100} />
           <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
               <div className="doc-h1">Reviewed & Past Trips</div>
