@@ -6,7 +6,7 @@ const Box = (props) => {
   const align = props.align || 'stretch';
   const self = props.self || 'auto';
   const wrap = props.wrap || '';
-  const expand = props.expand || '';
+  const expand = props.expand || false;
   let padding = null;
   let width = null;
   let height = null;
