@@ -1,35 +1,37 @@
 @import '../../styles/base.scss';
 
 #dashboard {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 
   #dashboard-tiles {
+    overflow-x: scroll;
     width: 100%;
-    display: grid;
-    justify-content: space-evenly;
-    grid-template-columns: auto auto;
-    grid-template-rows: auto auto;
-    grid-row-gap: 50px;
+    min-width: 1px;
   
     .section {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       
       &:hover {
         filter: brightness(1.2);
       }
-    
-      .titles {
-        color: black;
-        :hover {
-          text-decoration: none;
+
+      &.current-section {
+
+        .doc-badge {
+          // width: 48px;
+        }
+
+        .titles {
+          // font-size: 36px;
+          color: $green;
         }
       }
+
+      .titles {
+        white-space: nowrap;
+      }
     }
+  }
+
+  #dashboard-content {
   }
 }
 
