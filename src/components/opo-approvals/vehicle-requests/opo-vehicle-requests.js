@@ -196,6 +196,7 @@ class OPOVehicleRequests extends Component {
               {this.getPendingTable()}
             </Box>
           </div>
+          <Stack size={100} />
           <div className="opo-trips-page-databox doc-card large-card">
             <div className="databox-heading">
               <div className="doc-h1">Reviewed V-Requests</div>
