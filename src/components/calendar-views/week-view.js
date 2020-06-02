@@ -36,7 +36,11 @@ class WeekView extends Component {
     const vehiclesWithoutEnterprise = this.props.vehicles.filter((vehicle) => {
       return vehicle.name !== 'Enterprise';
     });
-    return vehiclesWithoutEnterprise.map((vehicle, index) => {
+    return vehiclesWithoutEnterprise.sort((a, b) => {
+      if (a.name > b.name) return -1;
+      else if (b.name > a.name) return 1;
+      else return 0;
+    }).map((vehicle, index) => {
       const eventsWithDate = vehicle.bookings.map((booking) => {
         const calendarFields = {};
         calendarFields.start = new Date(booking.assigned_pickupDateAndTime);
