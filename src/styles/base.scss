@@ -17,6 +17,7 @@ $trip-card-margin-right: 30px;
     margin: 0;
     padding: 0;
     width: 100vw;
+    max-width: 100vw;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -41,9 +42,11 @@ $trip-card-margin-right: 30px;
 }
 
 a {
+    color: inherit;
     text-decoration: none;
     
     &:link, &:visited, &:hover {
+        color: inherit;
         text-decoration: none !important;
     }
 }
