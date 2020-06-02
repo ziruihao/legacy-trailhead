@@ -6,6 +6,7 @@ import axios from 'axios';
 import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
+import Icon from '../icon';
 import { ProfileCard } from '../profile-card';
 import ConflictModal from './conflict-modal';
 import DOCLoading from '../doc-loading';
@@ -14,7 +15,6 @@ import * as constants from '../../constants';
 import utils from '../../utils';
 import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../actions';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
-import conflictMarker from './conflict-marker.svg';
 import './opo-vehicle-request.scss';
 
 class OPOVehicleRequest extends Component {
@@ -416,7 +416,7 @@ class OPOVehicleRequest extends Component {
                 {this.vehicleForm}
               </Dropdown.Menu>
             </Dropdown>
-            {assignment.conflicts.length > 0 ? <img id="ovr-vehicle-conflict-marker" src={conflictMarker} alt="conflict" onClick={() => this.openConflictsModal(assignment.assignedVehicle, assignment.conflicts)} /> : null}
+            {assignment.conflicts.length > 0 ? <Icon id="#ovr-vehicle-conflict-marker" type="warning" size={14} onClick={() => this.openConflictsModal(assignment.assignedVehicle, assignment.conflicts)} /> : null}
           </div>
           <hr className="detail-line" />
           <div className="ovr-req-row"> - </div>
