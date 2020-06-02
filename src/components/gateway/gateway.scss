@@ -1,14 +1,18 @@
 @import '../../styles/base.scss';
 
-#landing-page{
+#landing-page {
   height: 100vh;
   width: 100vw;
-  background-image: url(./background.svg) !important;
+  background-image: url(./background.svg);
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &#landing-page-onboarding {
+    background-image: url(./background-no-brand.svg) !important;
+  }
 
   .landing-card {
     display: flex;
