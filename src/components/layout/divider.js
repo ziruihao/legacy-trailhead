@@ -12,9 +12,10 @@ const Divider = (props) => {
       size = props.size;
     }
   }
+  const color = props.color || null;
   let style = {};
-  if (dir === 'row') style = { height: size, minHeight: size };
-  else style = { width: size, minWidth: size };
+  if (dir === 'row') style = { height: size, minHeight: size, backgroundColor: color };
+  else style = { width: size, minWidth: size, backgroundColor: color };
   return (
     <div className={`doc-divider doc-divider-${dir}`} style={style} />
   );
