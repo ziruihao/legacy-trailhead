@@ -34,6 +34,7 @@ const OPODashboard = (props) => {
       break;
     default:
       dashboardContent = <OPOTrips />;
+      active.trips = true;
   }
   return (
     <Box id="dashboard" dir="col" align="stretch" expand>
