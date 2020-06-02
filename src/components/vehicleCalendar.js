@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
+import { Stack, Queue, Divider, Box } from './layout';
 import VehicleCalendarComponent from './vehicleCalendarComponent';
 import DOCLoading from './doc-loading';
 import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
@@ -202,14 +203,14 @@ class VehicleCalendar extends Component {
     if (this.state.ready) {
       return (
         <div className="vehicle-calendar-container center-view spacy">
-          <div className="doc-card">
+          <Box className="doc-card" dir="col" align="stretch" pad={25}>
             <VehicleCalendarComponent
               assignments={this.props.assignments}
               vehicles={this.props.vehicles}
               showEventModal={this.showEventModal}
               userRole={this.props.user.role}
             />
-          </div>
+          </Box>
           <Modal
             centered
             size="lg"
