@@ -416,7 +416,7 @@ class OPOVehicleRequest extends Component {
                 {this.vehicleForm}
               </Dropdown.Menu>
             </Dropdown>
-            {assignment.conflicts.length > 0 ? <Icon id="#ovr-vehicle-conflict-marker" type="warning" size={14} onClick={() => this.openConflictsModal(assignment.assignedVehicle, assignment.conflicts)} /> : null}
+            {assignment.conflicts.length > 0 ? <Icon id="ovr-vehicle-conflict-marker" type="warning" size={18} onClick={() => this.openConflictsModal(assignment.assignedVehicle, assignment.conflicts)} /> : null}
           </div>
           <hr className="detail-line" />
           <div className="ovr-req-row"> - </div>
