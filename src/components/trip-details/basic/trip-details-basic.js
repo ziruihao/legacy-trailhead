@@ -99,7 +99,8 @@ class TripDetailsBasic extends Component {
   };
 
   goToTripPage = () => {
-    this.props.history.push(`/trip/${this.props.trip._id}`);
+    this.props.openCancellationModal();
+    // this.props.history.push(`/trip/${this.props.trip._id}`);
   };
 
   signUpForTrip = () => {
@@ -108,7 +109,7 @@ class TripDetailsBasic extends Component {
       id: this.props.trip._id,
       trippeeGear: this.state.requestedGear,
     }).then((modifiedTrip) => {
-      this.setState({ actionPending: false, editingGear: false });
+      this.setState({ actionPending: false, editingGear: false, role: 'PENDING' });
     });
   };
 
@@ -173,17 +174,20 @@ class TripDetailsBasic extends Component {
           <div className="trip-number">{`TRIP #${this.props.trip.number}`}</div>
           <div className="doc-h1">{this.props.trip.title}</div>
           <Stack size={25} />
-          <div className="trip-tags">
+          <Box dir="row" className="trip-tags">
             <div className="trip-club-tag">{this.props.trip.club.name}</div>
             <div id="trip-statuses">
               {this.state.role === 'LEADER' ? <><Badge type="leader" dataTip dataFor="leader-on-trip-modal" /><ReactToolTip id="leader-on-trip-modal" place="bottom">Your are leading this trip</ReactToolTip></> : null}
-              <Badge type={this.state.status} dataTip dataFor="trip-status-modal" />
+              {this.state.role === 'APPROVED' ? <><Badge type="person-approved" dataTip dataFor="approved-on-trip-modal" /><ReactToolTip id="approved-on-trip-modal" place="bottom">You've been approved to attend this trip</ReactToolTip></> : null}
+              {this.state.role === 'PENDING' ? <><Badge type="person-pending" dataTip dataFor="pending-on-trip-modal" /><ReactToolTip id="pending-on-trip-modal" place="bottom">The leader has not approved you yet</ReactToolTip></> : null}
+              <Badge type={`trip-${this.state.status}`} dataTip dataFor="trip-status-modal" />
               <ReactToolTip id="trip-status-modal" place="bottom">
                 <Box dir="col">
                   {this.state.reasons.length > 0 ? this.state.reasons.map(reason => <div key={reason}>{reason}</div>) : null}
                 </Box>
               </ReactToolTip>
             </div>
+            <Queue expand />
             {this.state.role !== 'OPO'
               ? (
                 <div id="trip-modal-switch">
@@ -194,7 +198,7 @@ class TripDetailsBasic extends Component {
               )
               : null
               }
-          </div>
+          </Box>
           <Stack size={25} />
           <Divider size={1} />
           <Stack size={25} />
@@ -286,7 +290,7 @@ class TripDetailsBasic extends Component {
                 </div>
               </>
             )
-              }
+          }
         </div>
       );
     }
