@@ -219,7 +219,7 @@ class TripDetails extends Component {
               <Stack size={24} />
               <div className="doc-h2">Are you sure you want to cancel?</div>
               <Stack size={24} />
-              <div className="p1" style={{ textAlign: 'center' }}>This cute tree will die if you do and you’ll have to register for this trip again if you change your mind. Don't worry - we inform the trip leaders know so you don't have to.</div>
+              <div className="p1 center-text">This cute tree will die if you do and you’ll have to register for this trip again if you change your mind. Don't worry - we inform the trip leaders know so you don't have to.</div>
               <Stack size={24} />
               <Box dir="row" justify="center">
                 <div className="doc-button" onClick={() => this.setState({ showCancellationModal: false })} role="button" tabIndex={0}>Wait no</div>
