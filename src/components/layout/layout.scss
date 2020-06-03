@@ -32,8 +32,16 @@
     flex-direction: row;
   }
 
+  &.doc-box-row-reverse {
+    flex-direction: row-reverse;
+  }
+
   &.doc-box-col {
     flex-direction: column;
+  }
+
+  &.doc-box-col-reverse {
+    flex-direction: column-reverse;
   }
 
   &.justify-start {
