@@ -17,7 +17,7 @@ const Divider = (props) => {
   if (dir === 'row') style = { height: size, minHeight: size, backgroundColor: color };
   else style = { width: size, minWidth: size, backgroundColor: color };
   return (
-    <div className={`doc-divider doc-divider-${dir}`} style={style} />
+    <div className={`${props.className ? props.className : ''} doc-divider doc-divider-${dir}`} style={style} />
   );
 };
 
