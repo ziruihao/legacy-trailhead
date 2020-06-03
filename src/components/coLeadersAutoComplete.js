@@ -34,12 +34,13 @@ class CoLeadersAutoComplete extends Component {
     });
   }
 
-  handleDelete(i) {
+  handleDelete(idxToDelete) {
     const { tags } = this.state;
     this.setState({
-      tags: tags.filter((tag, index) => index !== i),
-    });
-    this.props.updateLeaderValue(this.state.tags);
+      tags: tags.filter((tag, idx) => {
+        return idx !== idxToDelete;
+      }),
+    }, () => this.props.updateLeaderValue(this.state.tags));
   }
 
   handleAddition(tag) {
