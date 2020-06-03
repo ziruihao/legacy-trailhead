@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactToolTip from 'react-tooltip';
+import { Stack, Queue, Divider, Box } from '../layout';
 import Badge from '../badge';
 import * as constants from '../../constants';
 import utils from '../../utils';
@@ -86,7 +87,9 @@ class TripCard extends React.Component {
 
         </div>
         <ReactToolTip id={`trip-card-${this.props.trip._id}`} place="bottom">
-          Reasons: {this.state.reasons.length > 0 ? this.state.reasons.reduce((all, current) => `${all}, ${current}`) : null}
+          <Box dir="col">
+            {this.state.reasons.length > 0 ? this.state.reasons.map(reason => <div>{reason}</div>) : null}
+          </Box>
         </ReactToolTip>
       </>
     );

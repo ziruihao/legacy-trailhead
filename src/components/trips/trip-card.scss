@@ -18,8 +18,8 @@ $trip-card-padding: 15px;
 
   .trip-card-badge-holder {
     position: absolute;
-    z-index: 1;
-    top: $trip-card-padding;
+    z-index: 2; // on top of the decal
+    bottom: $trip-card-padding;
     right: $trip-card-padding;
     width: 40px;
     height: 40px;
@@ -29,10 +29,10 @@ $trip-card-padding: 15px;
     z-index: 1;
     position: absolute;
     right: 0;
-    bottom: 0;
+    top: 0;
     width: 60%;
     height: auto;
-    opacity: 0.2;
+    opacity: 0.1;
   }
 
   .trip-card-body {

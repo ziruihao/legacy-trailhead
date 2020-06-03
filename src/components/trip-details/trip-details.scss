@@ -41,6 +41,10 @@
         font-weight: 100;
         margin-left: 15px;
         cursor: pointer;
+
+        &:hover {
+          color: green;
+        }
   
         &.active {
           color: $green;
