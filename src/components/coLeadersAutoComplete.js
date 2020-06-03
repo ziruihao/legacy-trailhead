@@ -13,10 +13,10 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter];
 class CoLeadersAutoComplete extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       tags: [],
       suggestions: [],
+      // eslint-disable-next-line react/no-unused-state
       error: null,
       invalid: false, // invalid ID warning will appear if true
     };
@@ -30,6 +30,7 @@ class CoLeadersAutoComplete extends Component {
         return { id: user._id, text: user.email };
       });
       this.setState({ suggestions: parsedData });
+      this.setState({ tags: this.props.currentLeaders.map(leader => ({ id: leader, text: leader })) });
     });
   }
 
@@ -55,7 +56,6 @@ class CoLeadersAutoComplete extends Component {
   }
 
   render() {
-    console.log(this.state.error);
     const { tags, suggestions } = this.state;
     return (
       <div>

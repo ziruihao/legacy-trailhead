@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
 import { Dropdown, Modal } from 'react-bootstrap';
+import { Stack, Queue, Divider, Box } from '../layout';
 import TripDetailsBasic from '../trip-details/basic/trip-details-basic';
 import TripCard from '../trip-card';
 import Toggle from '../toggle';
@@ -10,6 +11,7 @@ import { fetchTrips, fetchTrip, getClubs } from '../../actions';
 import utils from '../../utils';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import notFound from './sad-tree.png';
+import './all-trips.scss';
 import './trip-card.scss';
 
 class Trips extends Component {
@@ -153,22 +155,25 @@ class Trips extends Component {
   render() {
       return (
         <div id="trips-page" className="center-view spacy">
-          <div className="doc-card spacy-card">
-            <div className="doc-h1">Explore trips</div>
-            <div id="trip-safari-configs">
-              {this.renderClubDropdown()}
-              {this.renderTimePeriodDropdown()}
-              {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
-              <Toggle value={this.state.beginnerOnly} id="defaultCheck2" label="Beginner only" onChange={(e) => {
-                this.setState(prevState => {
-                  return {beginnerOnly: !prevState.beginnerOnly}
-                })}} disabled={false}></Toggle>
-              <Toggle value={this.state.seePastTrips} id="defaultCheck1" label="See past trips" onChange={(e) => {
-                this.setState(prevState => {
-                  return {seePastTrips: !prevState.seePastTrips}
-                })
-              }} disabled={false}></Toggle>
-            </div>
+          <div className="doc-card">
+            <Box dir="col" pad={25}>
+              <div className="doc-h1">Explore trips</div>
+              <Stack size={15}></Stack>
+              <div id="trip-safari-configs">
+                {this.renderClubDropdown()}
+                {this.renderTimePeriodDropdown()}
+                {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
+                <Toggle value={this.state.beginnerOnly} id="defaultCheck2" label="Beginner only" onChange={(e) => {
+                  this.setState(prevState => {
+                    return {beginnerOnly: !prevState.beginnerOnly}
+                  })}} disabled={false}></Toggle>
+                <Toggle value={this.state.seePastTrips} id="defaultCheck1" label="See past trips" onChange={(e) => {
+                  this.setState(prevState => {
+                    return {seePastTrips: !prevState.seePastTrips}
+                  })
+                }} disabled={false}></Toggle>
+              </div>
+            </Box>
           </div>
           <div id="trip-tiles">
             {this.renderTrips()}

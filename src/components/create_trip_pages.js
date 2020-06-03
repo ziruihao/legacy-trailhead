@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import CoLeadersAutoComplete from './coLeadersAutoComplete';
 import Toggle from './toggle';
+import Loading from './doc-loading';
 import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/createtrip-style.scss';
 
@@ -29,7 +30,11 @@ const BasicTripInfo = (props) => {
             <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
           </Dropdown.Toggle>
           <Dropdown.Menu className="field-dropdown-menu">
-            {props.clubOptions.map(club => (
+            {props.clubOptions.sort((a, b) => {
+              if (a.name > b.name) return 1;
+              else if (b.name > a.name) return -1;
+              else return 0;
+            }).map(club => (
               <Dropdown.Item eventKey={club._id} key={club._id}>{club.name}</Dropdown.Item>
             ))}
           </Dropdown.Menu>
@@ -47,7 +52,11 @@ const BasicTripInfo = (props) => {
       </div>
       <div className="page-sub-headers">
         <div className="doc-h2">Invite co-leaders</div>
-        <CoLeadersAutoComplete updateLeaderValue={props.updateLeaderValue} name="leaders" />
+        {props.loaded
+          ? <CoLeadersAutoComplete updateLeaderValue={props.updateLeaderValue} currentLeaders={props.leaderValue} name="leaders" />
+          : <Loading type="cubes" />
+      }
+
       </div>
       <div className="page-sub-headers">
         <div className="doc-h2">Misc.</div>
@@ -138,17 +147,6 @@ const DatesLocation = (props) => {
           onChange={props.onFieldChange}
           placeholder="e.g. Mt. Cube"
           value={props.tripLocation}
-        />
-      </div>
-      <div className="page-sub-headers trip-date-header">
-        <div className="doc-h2">Estimated mileage (round trip)</div>
-        <input
-          type="number"
-          onChange={props.onFieldChange}
-          name="mileage"
-          placeholder="Estimated mileage"
-          className={`field create-trip-form-bottom-margin leaders ${props.errorFields.mileage ? 'field-error' : ''}`}
-          value={props.tripMileage}
         />
       </div>
     </div>

@@ -85,6 +85,14 @@ a {
     font-weight: 100;
 }
 
+.think {
+    font-weight: 600;
+}
+
+.thick {
+    font-weight: 800;
+}
+
 .gray {
     color: $gray-2;
 }
@@ -120,8 +128,11 @@ a {
     }
 
     &.disabled {
-        filter: saturate(50%);
+        filter: saturate(0%);
         cursor: default;
+        &:hover {
+            filter: saturate(0%);
+        }
     }
 
     &:hover{
@@ -180,7 +191,6 @@ a {
     background: white;
     box-shadow: $menu-shadow;
     border-radius: 10px;
-    padding: 25px;
 
     &.small-card {
         padding: 15px;
@@ -216,12 +226,16 @@ a {
             }
         }
     }
+}
 
-
+.doc-bordered {
+    border: 2px solid $inactive-text;
+    border-radius: 5px;
 }
 
 .doc-table {
     margin: 0 !important; // override for react-bootstrap
+    width: 100%;
 
     .doc-button {
         z-index: 1;

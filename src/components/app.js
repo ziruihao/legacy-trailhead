@@ -17,6 +17,7 @@ import { TripDetails } from './trip-details';
 import OPOLeaders from './opo-approvals/leaders';
 import NavBar from './nav-bar/nav-bar';
 import OPOTrips from './opo-approvals/trips';
+import OPOTripApproval from './opo-approvals/trip';
 import OPOVehicleRequests from './opo-approvals/vehicle-requests';
 import OPOVehicleRequest from './opo-vehicle-request';
 import OPODashboard from './opo-dashboard';
@@ -134,6 +135,7 @@ class App extends React.Component {
             <Route path="/createtrip">{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
             <Route path="/my-trips" component={MyTrips} />
             <Route path="/edittrip/:tripID">{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
+            <Route path="/approve-trip/:tripID">{() => this.requireRole(OPOTripApproval, ['OPO'], true)}</Route>
             <Route path="/opo-trips">{() => this.requireRole(OPOTrips, ['OPO'], true)}</Route>
             <Route path="/vehicle-requests">{() => this.requireRole(OPOVehicleRequests, ['OPO'], true)}</Route>
             <Route path="/opo-vehicle-request/:vehicleReqId">{() => this.requireRole(OPOVehicleRequest, ['OPO'], true)}</Route>

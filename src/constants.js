@@ -34,6 +34,17 @@ export const determineRoleOnTrip = (user, trip) => {
   else return 'NONE';
 };
 
+export const calculateVehicleRequestDateRange = (vehicleRequest) => {
+  return vehicleRequest.requestedVehicles.reduce((range, vehicle, idx) => {
+    if (idx === 1) range = { earliest: new Date(range.pickupDate), latest: new Date(range.returnDate) };
+    const currPickup = new Date(vehicle.pickupDate);
+    const currReturn = new Date(vehicle.returnDate);
+    if (currPickup < range.earliest) range.earliest = currPickup;
+    if (currReturn > range.latest) range.latest = currReturn;
+    return range;
+  });
+};
+
 /**
  * Returns the appropriate CSS ID for the club name for trip card decals.
  * @param {String} clubName

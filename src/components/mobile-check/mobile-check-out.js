@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { withRouter, useLocation } from 'react-router';
 import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
+import { Stack, Queue, Divider, Box } from '../layout';
 import DOCLoading from '../doc-loading';
 import { fetchTrip, setAttendingStatus } from '../../actions';
 import utils from '../../utils';
@@ -34,16 +35,19 @@ class MobileCheckOut extends PureComponent {
       return (
         <div id="mobile-check-screen">
           <div id="mobile-check-header">
-            <div className="doc-h3">{`Trip #${this.props.trip.number}`}</div>
+            <div className="doc-h3 gray">{`TRIP #${this.props.trip.number}`}</div>
+            <Stack size={18} />
             <div className="doc-h1">{`${this.props.trip.title}`}</div>
+            <Stack size={18} />
             <div className="doc-h3">{`Start: ${utils.dates.formatDate(this.props.trip.startDate)} ${utils.dates.formatTime(this.props.trip.startTime)}`}</div>
+            <Stack size={18} />
             <div className="doc-h3">{`Return: ${utils.dates.formatDate(this.props.trip.endDate)} ${utils.dates.formatTime(this.props.trip.endTime)}`}</div>
           </div>
           <hr />
           <div id="mobile-check-body">
             <div className="doc-h2">Check-out your trippees before leaving.</div>
             <div className="p1">You MUST accurately mark which trippees are present on the day of the trip.</div>
-            <div id="mobile-check-list" className="doc-card">
+            <Box id="mobile-check-list" className="doc-card" pad={10}>
               <Table className="doc-table" responsive="">
                 <thead>
                   <tr>
@@ -68,7 +72,7 @@ class MobileCheckOut extends PureComponent {
                   })}
                 </tbody>
               </Table>
-            </div>
+            </Box>
             <div>Please close this tab after you have checked in for security purposes.</div>
           </div>
         </div>

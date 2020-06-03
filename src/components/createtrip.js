@@ -91,6 +91,7 @@ class CreateTrip extends Component {
       vehicles: [],
       errorFields: this.errorFields,
       editMode: false,
+      loaded: false,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
@@ -101,7 +102,7 @@ class CreateTrip extends Component {
   }
 
   componentDidMount() {
-    if (this.props.location.pathname === '/edittrip') {
+    if (this.props.location.pathname.includes('/edittrip')) {
       this.setState({editMode: true})
       this.props.fetchTrip(this.props.match.params.tripID)
         .then(() => {
@@ -132,14 +133,15 @@ class CreateTrip extends Component {
             forEdititing.tripLength = pickupAsDate.getTime() === returnAsDate.getTime() ? 'single-day-trip' : 'multi-day-trip';
             return Object.assign({}, vehicle, forEdititing);
           });
-          const coLeaders = this.getCoLeaders(trip.leaders);
+          // const coLeaders = this.getCoLeaders(trip.leaders);
           const startDate = new Date(trip.startDate);
           const endDate = new Date(trip.endDate);
           const length = startDate.getTime() === endDate.getTime() ? 'single' : 'multi';
+          // console.log('leader 1', trip.leaders);
           this.setState({
             currentStep: 1,
             title: trip.title,
-            leaders: coLeaders,
+            leaders: trip.leaders.map(leader => leader.email),
             club: trip.club,
             experienceNeeded: trip.experienceNeeded,
             access: trip.co_leader_access,
@@ -157,6 +159,7 @@ class CreateTrip extends Component {
             pcardRequest,
             gearRequests,
             vehicles,
+            loaded: true,
           });
         });
     }
@@ -365,17 +368,17 @@ class CreateTrip extends Component {
     });
   }
 
-  getCoLeaders = (leaders) => {
-    let coleaders = '';
-    leaders.forEach((leader, index) => {
-      if (index !== 0) {
-        coleaders += `${leader.email}, `;
-      }
-    });
-    coleaders = coleaders.substring(0, coleaders.length - 2);
-    coleaders = coleaders.length === 0 ? '' : coleaders;
-    return coleaders;
-  };
+  // getCoLeaders = (leaders) => {
+  //   let coleaders = '';
+  //   leaders.forEach((leader, index) => {
+  //     if (index !== 0) {
+  //       coleaders += `${leader.email}, `;
+  //     }
+  //   });
+  //   coleaders = coleaders.substring(0, coleaders.length - 2);
+  //   coleaders = coleaders.length === 0 ? '' : coleaders;
+  //   return coleaders;
+  // };
 
   previousButton = (e) => {
     e.preventDefault();
@@ -582,7 +585,6 @@ class CreateTrip extends Component {
       return vehicle;
     });
     const vehicleReqId = (this.state.editMode && this.props.trip.vehicleStatus !== 'N/A') ? this.props.trip.vehicleRequest._id : null;
-    console.log('leaders', this.state.leaders);
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders,
@@ -636,6 +638,7 @@ class CreateTrip extends Component {
             clubOptions={this.props.user.leader_for}
             selectedClub={this.state.club}
             errorFields={this.state.errorFields}
+            loaded={this.state.loaded}
           />
         );
         break;

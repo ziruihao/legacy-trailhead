@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import queryString from 'query-string'
+import { Stack, Queue, Divider, Box } from '../layout';
 import { signIn, signOut, casAuthed, getUser } from '../../actions';
 import * as constants from '../../constants';
 import './gateway.scss';
@@ -81,16 +82,18 @@ class Gateway extends Component {
           {this.state.incompleteProfile ?
             <CompleteProfile></CompleteProfile>
             :
-            <div className="landing-card doc-card l">
-            <div className="landing-card-message">
-              <div className="doc-h1">Welcome there!</div>
-              <div className="p1">
-                Hello there! Click the options below to login as test users of the following kind.
+            <Box dir="col" className="landing-card doc-card l" pad={25}>
+
+              <div className="landing-card-message">
+                <div className="doc-h1">Welcome there!</div>
+                <div className="p1">
+                  Hello there! Click the options below to login as test users of the following kind.
+                </div>
               </div>
-            </div>
-            {this.renderDevAuthOptions()}
-            {this.renderAuthOptions()}
-        </div>
+              {this.renderDevAuthOptions()}
+              <Stack size={25}></Stack>
+              {this.renderAuthOptions()}
+            </Box>
           }
 
         </div>
