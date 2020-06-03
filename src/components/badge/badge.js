@@ -10,10 +10,17 @@ import list from './badges/list-badge.svg';
 import marker from './badges/marker-badge.svg';
 import people from './badges/people-badge.svg';
 import person from './badges/person-badge.svg';
+import personCheck from './badges/person-check-badge.svg';
 import trips from './badges/trips-badge.svg';
 import vehicle from './badges/vehicle-badge.svg';
 import verified from './badges/verified-badge.svg';
 import calendar from './badges/calendar-badge.svg';
+import personApproved from './badges/person-approved-badge.svg';
+import personPending from './badges/person-pending-badge.svg';
+import personDenied from './badges/person-denied-badge.svg';
+import tripApproved from './badges/trips-approved-badge.svg';
+import tripPending from './badges/trips-pending-badge.svg';
+import tripDenied from './badges/trips-denied-badge.svg';
 
 import './badge.scss';
 
@@ -43,6 +50,8 @@ const Badge = (props) => {
       return (<img className="doc-badge" alt="people badge" style={style} src={people} data-tip={props.dataTip} data-for={props.dataFor} />);
     case 'person':
       return (<img className="doc-badge" alt="person badge" style={style} src={person} data-tip={props.dataTip} data-for={props.dataFor} />);
+    case 'person-check':
+      return (<img className="doc-badge" alt="person badge" style={style} src={personCheck} data-tip={props.dataTip} data-for={props.dataFor} />);
     case 'trips':
       return (<img className="doc-badge" alt="trips badge" style={style} src={trips} data-tip={props.dataTip} data-for={props.dataFor} />);
     case 'vehicle':
@@ -51,6 +60,18 @@ const Badge = (props) => {
       return (<img className="doc-badge" alt="verified badge" style={style} src={verified} data-tip={props.dataTip} data-for={props.dataFor} />);
     case 'calendar':
       return (<img className="doc-badge" alt="calendar badge" style={style} src={calendar} data-tip={props.dataTip} data-for={props.dataFor} />);
+    case 'person-approved':
+      return (<img className="doc-badge" alt="person badge" style={style} src={personApproved} data-tip={props.dataTip} data-for={props.dataFor} />);
+    case 'person-pending':
+      return (<img className="doc-badge" alt="person badge" style={style} src={personPending} data-tip={props.dataTip} data-for={props.dataFor} />);
+    case 'person-denied':
+      return (<img className="doc-badge" alt="trips badge" style={style} src={personDenied} data-tip={props.dataTip} data-for={props.dataFor} />);
+    case 'trip-approved':
+      return (<img className="doc-badge" alt="vehicle badge" style={style} src={tripApproved} data-tip={props.dataTip} data-for={props.dataFor} />);
+    case 'trip-pending':
+      return (<img className="doc-badge" alt="verified badge" style={style} src={tripPending} data-tip={props.dataTip} data-for={props.dataFor} />);
+    case 'trip-denied':
+      return (<img className="doc-badge" alt="calendar badge" style={style} src={tripDenied} data-tip={props.dataTip} data-for={props.dataFor} />);
     default:
       return null;
   }

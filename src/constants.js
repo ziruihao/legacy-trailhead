@@ -16,7 +16,7 @@ export const calculateTripStatus = (trip) => {
         break;
       case 'denied':
         reasons.push(`${status.name} was denied`);
-        finalStatus = 'warning';
+        finalStatus = 'denied';
         break;
       default:
         break;
