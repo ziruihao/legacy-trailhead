@@ -32,7 +32,7 @@ const Box = (props) => {
     } else if (typeof props.pad === 'string') {
       padding = props.pad;
     } else if (Array.isArray(props.pad)) {
-      padding = props.pad.reduce((prev, curr) => { return `${prev} ${curr}px`; }).trim();
+      padding = `${props.pad.reduce((prev, curr) => { return `${prev}px ${curr}`; })}px`.trim();
     }
   }
   const style = { padding, width, height };
