@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import { Stack, Queue, Divider, Box } from '../../layout';
-import Toggle from '../../toggle/toggle';
+import Toggle from '../../toggle';
 import DOCLoading from '../../doc-loading';
 import { fetchVehicleRequests } from '../../../actions';
 import '../../../styles/tripdetails_leader.scss';

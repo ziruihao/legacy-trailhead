@@ -1,5 +1,5 @@
 import React from 'react';
-import './toggle.scss';
+import './doc-toggle.scss';
 
 
 class Toggle extends React.Component {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Stack, Queue, Divider, Box } from '../layout';
-import Toggle from '../Toggle';
+import Toggle from '../toggle';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import './vehicle-request-form.scss';
 import '../../styles/vehicleRequestForm-style.scss';
@@ -141,10 +141,6 @@ const getVehicles = (props) => {
               value={vehicle.pickupDate}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
-            {props.requestType === 'TRIP'
-              ? <div className="vrf-label"> Trip Start Date is {formatDate(props.startDate)}</div>
-              : null
-            }
 
           </span>
           {vehicle.tripLength === 'single-day-trip' ? null
@@ -159,10 +155,6 @@ const getVehicles = (props) => {
                   value={vehicle.returnDate}
                   onChange={event => props.onVehicleDetailChange(event, index)}
                 />
-                {props.requestType === 'TRIP'
-                  ? <div className="vrf-label"> Trip End Date is {formatDate(props.endDate)}</div>
-                  : null
-                }
               </span>
             )
           }
@@ -179,10 +171,6 @@ const getVehicles = (props) => {
               value={vehicle.pickupTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
-            {props.requestType === 'TRIP'
-              ? <div className="vrf-label"> Trip Start Time is {formatTime(props.startTime)}</div>
-              : null
-                }
           </span>
 
           <span className="vrf-req-date">
@@ -195,10 +183,6 @@ const getVehicles = (props) => {
               value={vehicle.returnTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
-            {props.requestType === 'TRIP'
-              ? <div className="vrf-label"> Trip End Time is {formatTime(props.endTime)}</div>
-              : null
-                }
           </span>
         </div>
 

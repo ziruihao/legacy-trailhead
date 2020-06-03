@@ -386,22 +386,26 @@ export default React.forwardRef((props, ref) => {
           </Box>
         </Box>
         <Stack size={25} />
-
-        <Box dir="col">
-          <Box dir="row" justify="between" align="center">
-            <div className="doc-h2">P-Card request</div>
-            <Badge type={props.trip.pcardStatus} size={36} dataTip dataFor="pcard-gear-status" />
-            <ReactToolTip id="pcard-gear-status">{renderBadgeToolTipText(props.trip.pcardStatus)}</ReactToolTip>
-          </Box>
-          <Stack size={10} />
-          <div className="p1">Expected {props.trip.pcard[0].numPeople} total people on trip.</div>
-          {props.trip.pcardStatus === 'approved' ? <div className="p1">Assigned P-Card: {props.trip.pcardAssigned}</div> : null }
-          <Stack size={10} />
-          <div className="trip-details-table">
-            {getPcard(props.trip.pcard, props.trip.pcardStatus, props.trip.pcardAssigned)}
-          </div>
-        </Box>
-
+        {
+          props.trip.pcardStatus !== 'N/A'
+            ? (
+              <Box dir="col">
+                <Box dir="row" justify="between" align="center">
+                  <div className="doc-h2">P-Card request</div>
+                  <Badge type={props.trip.pcardStatus} size={36} dataTip dataFor="pcard-gear-status" />
+                  <ReactToolTip id="pcard-gear-status">{renderBadgeToolTipText(props.trip.pcardStatus)}</ReactToolTip>
+                </Box>
+                <Stack size={10} />
+                <div className="p1">Expected {props.trip.pcard[0].numPeople} total people on trip.</div>
+                {props.trip.pcardStatus === 'approved' ? <div className="p1">Assigned P-Card: {props.trip.pcardAssigned}</div> : null }
+                <Stack size={10} />
+                <div className="trip-details-table">
+                  {getPcard(props.trip.pcard, props.trip.pcardStatus, props.trip.pcardAssigned)}
+                </div>
+              </Box>
+            )
+            : null
+        }
         {props.trip.vehicleStatus !== 'N/A'
           ? (
             <div className="tripdetail-gear-requests leader-trip-info">

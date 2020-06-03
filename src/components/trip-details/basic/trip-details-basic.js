@@ -98,11 +98,6 @@ class TripDetailsBasic extends Component {
     });
   };
 
-  goToTripPage = () => {
-    this.props.openCancellationModal();
-    // this.props.history.push(`/trip/${this.props.trip._id}`);
-  };
-
   signUpForTrip = () => {
     this.setState({ actionPending: true });
     this.props.addToPending({
@@ -133,11 +128,11 @@ class TripDetailsBasic extends Component {
     };
     switch (this.state.role) {
       case 'OPO':
-        return <div className="doc-button" onClick={this.goToTripPage} role="button" tabIndex={0}>View trip as OPO staff</div>;
+        return <div className="doc-button" onClick={() => this.props.history.push(`/trip/${this.props.trip._id}`)} role="button" tabIndex={0}>View trip as OPO staff</div>;
       case 'LEADER':
         return (
           <>
-            <div className="doc-button" onClick={this.goToTripPage} role="button" tabIndex={0}>Manage your trip</div>
+            <div className="doc-button" onClick={() => this.props.history.push(`/trip/${this.props.trip._id}`)} role="button" tabIndex={0}>Manage your trip</div>
             <Queue size={30} />
             {renderGearRequestButton()}
           </>
@@ -145,7 +140,7 @@ class TripDetailsBasic extends Component {
       case 'APPROVED':
         return (
           <>
-            <div className="doc-button alarm" onClick={this.goToTripPage} role="button" tabIndex={0}>I can't go</div>
+            <div className="doc-button alarm" onClick={this.props.openCancellationModal} role="button" tabIndex={0}>I can't go</div>
             <Queue size={30} />
             {renderGearRequestButton()}
           </>
@@ -153,7 +148,7 @@ class TripDetailsBasic extends Component {
       case 'PENDING':
         return (
           <>
-            <div className="doc-button alarm" onClick={this.goToTripPage} role="button" tabIndex={0}>I can't go</div>
+            <div className="doc-button alarm" onClick={this.props.openCancellationModal} role="button" tabIndex={0}>I can't go</div>
             <Queue size={30} />
             {renderGearRequestButton()}
           </>

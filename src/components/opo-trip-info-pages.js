@@ -132,7 +132,6 @@ const getIndividualGear = (trip) => {
 };
 
 const getGroupGear = (groupGearArray) => {
-  console.log(groupGearArray);
   return groupGearArray.map((groupGear) => {
     return (
       <tr key={groupGear}>

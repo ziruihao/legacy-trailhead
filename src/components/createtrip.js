@@ -3,11 +3,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { fetchTrip, createTrip, editTrip, appError } from '../actions';
+import { fetchTrip, createTrip, editTrip, appError, clearError } from '../actions';
+import { Stack, Queue, Divider, Box } from './layout';
 import PCardRequest from './pcard_request';
 import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } from './create_trip_pages';
 import Sidebar from './sidebar';
 import VehicleRequest from './vehiclerequest';
+import * as constants from '../constants';
 import '../styles/createtrip-style.scss';
 
 class CreateTrip extends Component {
@@ -133,11 +135,10 @@ class CreateTrip extends Component {
             forEdititing.tripLength = pickupAsDate.getTime() === returnAsDate.getTime() ? 'single-day-trip' : 'multi-day-trip';
             return Object.assign({}, vehicle, forEdititing);
           });
-          // const coLeaders = this.getCoLeaders(trip.leaders);
           const startDate = new Date(trip.startDate);
           const endDate = new Date(trip.endDate);
           const length = startDate.getTime() === endDate.getTime() ? 'single' : 'multi';
-          // console.log('leader 1', trip.leaders);
+          
           this.setState({
             currentStep: 1,
             title: trip.title,
@@ -162,7 +163,7 @@ class CreateTrip extends Component {
             loaded: true,
           });
         });
-    }
+    } else this.setState({loaded: true});
   }
 
   onFieldChange(event) {
@@ -387,6 +388,8 @@ class CreateTrip extends Component {
 
   _next = () => {
     if (this.pageIsValid()) {
+      this.props.clearError();
+      this.setState({errorFields: this.errorFields});
       if (this.state.currentStep !== 6) {
         this.setState((prevState) => {
           return { currentStep: prevState.currentStep + 1 };
@@ -519,41 +522,42 @@ class CreateTrip extends Component {
     }
 
     if (this.state.currentStep === 6) {
-      const pcards = this.state.pcardRequest;
-      let hasEmptyField = false;
-      const markedEmptyFields = pcards.map((pcard) => {
-        const updatedPcardErrorFields = { ...this.pcardErrorFields };
-        const soloErrorFields = Object.keys(updatedPcardErrorFields);
-        soloErrorFields.forEach((errorField) => {
-          if (this.isStringEmpty(pcard[errorField])) {
-            hasEmptyField = true;
-            updatedPcardErrorFields[errorField] = true;
-          }
+      if (this.props.trip.pcardStatus !== 'approved') {
+        const pcards = this.state.pcardRequest;
+        let hasEmptyField = false;
+        const markedEmptyFields = pcards.map((pcard) => {
+          const updatedPcardErrorFields = { ...this.pcardErrorFields };
+          const soloErrorFields = Object.keys(updatedPcardErrorFields);
+          soloErrorFields.forEach((errorField) => {
+            if (this.isStringEmpty(pcard[errorField])) {
+              hasEmptyField = true;
+              updatedPcardErrorFields[errorField] = true;
+            }
+          });
+          const { otherCosts } = pcard;
+          const markedEmptyOtherCosts = otherCosts.map((otherCost) => {
+            const updatedErrorFields = {};
+            const isTitleEmpty = this.isStringEmpty(otherCost.title);
+            const isCostEmpty = this.isStringEmpty(otherCost.cost);
+            updatedErrorFields.title = isTitleEmpty;
+            updatedErrorFields.cost = isCostEmpty;
+            if (isTitleEmpty || isCostEmpty) {
+              hasEmptyField = true;
+            }
+            return Object.assign({}, otherCost, { errorFields: updatedErrorFields });
+          });
+          const updates = {};
+          updates.otherCosts = markedEmptyOtherCosts;
+          updates.errorFields = updatedPcardErrorFields;
+          return Object.assign({}, pcard, updates);
         });
-        const { otherCosts } = pcard;
-        const markedEmptyOtherCosts = otherCosts.map((otherCost) => {
-          const updatedErrorFields = {};
-          const isTitleEmpty = this.isStringEmpty(otherCost.title);
-          const isCostEmpty = this.isStringEmpty(otherCost.cost);
-          updatedErrorFields.title = isTitleEmpty;
-          updatedErrorFields.cost = isCostEmpty;
-          if (isTitleEmpty || isCostEmpty) {
-            hasEmptyField = true;
-          }
-          return Object.assign({}, otherCost, { errorFields: updatedErrorFields });
-        });
-        const updates = {};
-        updates.otherCosts = markedEmptyOtherCosts;
-        updates.errorFields = updatedPcardErrorFields;
-        return Object.assign({}, pcard, updates);
-      });
-      if (hasEmptyField) {
-        this.setState({ pcardRequest: markedEmptyFields });
-        this.props.appError('Please complete the highlighted fields. Enter 0 if not applicable');
-        window.scrollTo(0, 0);
-        return false;
+        if (hasEmptyField) {
+          this.setState({ pcardRequest: markedEmptyFields });
+          this.props.appError('Please complete the highlighted fields. Enter 0 if not applicable');
+          window.scrollTo(0, 0);
+          return false;
+        }
       }
-
     }
     return true;
   }
@@ -649,6 +653,8 @@ class CreateTrip extends Component {
             onDateChange={this.onDateChange}
             dateLength={this.state.length}
             onDateLengthChange={this.handleDateChange}
+            startDate={this.state.startDate}
+            endDate={this.state.endDate}
             theStartTime={this.state.startTime}
             theEndTime={this.state.endTime}
             tripLocation={this.state.location}
@@ -759,10 +765,24 @@ class CreateTrip extends Component {
           <div className="create-trip-form-page">
             {page}
           </div>
-          <div className="create-trip-bottom-buttons create-trips-top-margin">
+          <Stack size={100} />
+            <Divider size={1} />
+            <Stack size={50} />
+            <Box dir="row" justify="between" align="center" id="approval-navigation">
+              <div className={`doc-button hollow ${this.state.step === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousButton} role="button" tabIndex={0}>Previous</div>
+              <a id="email-trip-leader-link" href={`${constants.ROOT_URL}/vehicle-calendar`} role="button" tabIndex={0}>Vehicle calendar</a>
+              <div className="doc-button" onClick={this._next} role="button" tabIndex={0}>
+                {this.state.currentStep === this.state.numOfPages ? 
+                <>
+                  {this.state.editMode ? 'Update trip' : 'Create trip'}
+                </>
+                : 'Next'}
+              </div>
+            </Box>
+          {/* <div className="create-trip-bottom-buttons create-trips-top-margin">
             <button disabled={this.state.currentStep === 1} type="button" className="btn next-button" onClick={this.previousButton}>Previous</button>
             {this.getAppropriateButton()}
-          </div>
+          </div> */}
         </div>
       </div>
     );
@@ -774,4 +794,4 @@ const mapStateToProps = (state) => {
     trip: state.trips.trip,
   };
 };
-export default withRouter(connect(mapStateToProps, { fetchTrip, createTrip, editTrip, appError })(CreateTrip));
+export default withRouter(connect(mapStateToProps, { fetchTrip, createTrip, editTrip, appError, clearError })(CreateTrip));
