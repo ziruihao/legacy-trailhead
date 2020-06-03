@@ -63,14 +63,12 @@ class TripDetailsBasic extends Component {
     this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
     const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
     this.setState({ role: roleOnTrip });
-    console.log('role', roleOnTrip);
     if (roleOnTrip === 'NONE') this.setState({ editingGear: true });
     else if (roleOnTrip === 'APPROVED' || roleOnTrip === 'LEADER') this.setState({ requestedGear: this.extractUserGear(this.props.trip, this.props.user._id) });
     else if (roleOnTrip === 'PENDING') this.setState({ requestedGear: this.extractUserGear(this.props.trip, this.props.user._id) });
   }
 
   extractUserGear = (populatedTrip, userID) => {
-    console.log(populatedTrip);
     return populatedTrip.members.concat(populatedTrip.pending).filter(person => person.user._id.toString() === userID.toString())[0].gear;
   }
 

@@ -5,7 +5,6 @@ import './request-gear.scss';
 
 class RequestGear extends React.Component {
   render() {
-    console.log(this.props.requestedGear);
     if (this.props.trippeeGear.length === 0) {
       return (
         <div className="p1 gray thin">None</div>
