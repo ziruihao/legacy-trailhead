@@ -3,7 +3,7 @@
 #landing-page {
   height: 100vh;
   width: 100vw;
-  background-image: url(./background.svg);
+  background-image: url(./background-phone.svg);
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -11,10 +11,12 @@
   align-items: center;
 
   &.landing-page-onboarding {
-    background-image: url(./background-no-brand.svg) !important;
+    background-image: url(./background-phone-no-brand.svg) !important;
   }
 
   .landing-card {
+    position: relative;
+    left: 300px;
     display: flex;
     flex-direction: column;
     justify-content: stretch;
