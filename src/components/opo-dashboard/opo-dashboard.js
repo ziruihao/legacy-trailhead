@@ -38,7 +38,7 @@ const OPODashboard = (props) => {
   }
   return (
     <Box id="dashboard" dir="col" align="stretch" expand>
-      <Box id="dashboard-tiles" className="doc-card" dir="row" justify="start" align="stretch" pad={[0, 50]}>
+      <Box id="dashboard-tiles" className="doc-card no-scroll-bar" dir="row" justify="start" align="stretch" pad={[0, 50]}>
         <Box className={`section ${active.trips ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 0]}>
           <NavLink to="/opo-dashboard/opo-trips">
             <Box dir="row" align="center">
@@ -118,6 +118,7 @@ const OPODashboard = (props) => {
         </Box>
         <Queue size={50} />
         <Queue size={50} />
+        <div id="dashboard-tiles-blur" />
       </Box>
       <Stack size={100} />
       <Box id="dashboard-content" dir="col" align="stretch" expand>
