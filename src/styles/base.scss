@@ -3,7 +3,8 @@ $green-faded: #E7F6F1;
 $error-red-deep: #A93A3A;
 $orange: #EE6E52;
 $error-red-light: #FFD8D8;
-$background: #FAFAFA;
+$background-light: #FAFAFA;
+$background-dark: #C4C4C4;
 $inactive-text: #C4C4C4;
 $gray-2: #848588;
 $gray-text: #494c50;
@@ -22,7 +23,7 @@ $trip-card-margin-right: 30px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    background-color: $background;
+    background-color: $background-light;
 
     .center-view {
         margin: 0 calc(50vw - 600px);
@@ -122,6 +123,12 @@ a {
 
     &.alarm {
         background: $orange;
+
+        &.hollow {
+            color: $orange;
+            background: white;
+            border: 3px solid $orange;
+        }
     }
 
     &.hollow {
@@ -313,6 +320,17 @@ a {
 
     &.field-error {
         border: 4px solid $error-red-deep !important;
+    }
+
+    &.field-disabled {
+        color: $inactive-text !important;
+        background: $background-light !important;
+        font-style: italic;
+
+        &:focus {
+            border: none !important;
+            outline: none; // overrides browser default
+        }
     }
 
     &.create-trip-form-bottom-margin {
