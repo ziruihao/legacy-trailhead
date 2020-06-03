@@ -130,18 +130,6 @@ class MyTrips extends Component {
                     <td><Badge type={status} size={36} /></td>
                   </tr>
                 );
-                // return (
-                //   <div key={vehicleReq._id} className="mytrips-vehicle-req">
-                //     {/* <div className="mytrips-status-badge">
-                //       <img className="status-badge" src={this.badges[status]} alt={`${status}_badge`} />
-                //     </div> */}
-                //     <Badge type={status} />
-                //     <div className="mytrips-req-header-and-status">
-                //       <Link to={reqLink} className="mytrips-req-header">{reqTitle}</Link>
-                //       <em className="mytrips-req-status">{status}</em>
-                //     </div>
-                //   </div>
-                // );
               })
             }
           </tbody>
@@ -175,7 +163,7 @@ class MyTrips extends Component {
           </Box>
           <Stack size={35} />
           <Box id="my-trips-tiles-container">
-            <Box id="my-trips-tiles">
+            <Box id="my-trips-tiles" className="no-scroll-bar">
               {this.renderCreateTrip()}
               <Queue size={45} />
               {this.renderMyTrips()}

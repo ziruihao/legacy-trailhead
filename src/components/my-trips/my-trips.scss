@@ -10,7 +10,7 @@
 
     #my-trips-tiles {
       width: 100%;
-      overflow: scroll;
+      overflow-x: auto;
       padding: 50px 0;
       background-color: $background;
   
