@@ -109,8 +109,7 @@ class OPOTripApproval extends Component {
 
   reviewPCardRequest = (pcardStatus) => {
     if (this.state.isEditingPcard && this.isStringEmpty(this.state.pcardAssigned)) {
-      this.props.appError('Please assign a pcard to this request');
-      window.scrollTo(0, 0);
+      this.props.appError('Please assign a pcard to this request.');
     } else {
       const pcardAssigned = pcardStatus === 'denied' ? '' : this.state.pcardAssigned;
       const review = {
@@ -211,12 +210,14 @@ class OPOTripApproval extends Component {
               {page}
             </Box>
             <Stack size={100} />
-            <Box dir="row" justify="between" align="center">
-              <button disabled={this.state.step === 1} type="button" className="btn next-button" onClick={this.previousPage}>Previous</button>
-              <span className="cancel-link ovr-bottom-link ovr-contact-link" onClick={this.openModal} role="button" tabIndex={0}>Contact Trip Leader</span>
-              <button type="button" className="btn next-button" onClick={this.nextPage}>
+            <Divider size={1} />
+            <Stack size={50} />
+            <Box dir="row" justify="between" align="center" id="approval-navigation">
+              <div className={`doc-button hollow ${this.state.step === 1 ? 'disabled' : ''}`} onClick={this.state.step === 1 ? null : this.previousPage} role="button" tabIndex={0}>Previous</div>
+              <a id="email-trip-leader-link" href={`mailto:${this.props.trip.leaders[0].email}`} role="button" tabIndex={0}>Contact Trip Leader</a>
+              <div className="doc-button" onClick={this.nextPage} role="button" tabIndex={0}>
                 {this.state.step === this.state.numOfPages ? 'Back to Trip Approvals' : 'Next'}
-              </button>
+              </div>
             </Box>
           </Box>
           <Modal
@@ -228,7 +229,6 @@ class OPOTripApproval extends Component {
               <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
             </div>
             <Badge type="denied" />
-            {/* <img className="status-badge ovr-status-badge" src={this.badges.denied} alt="warning_badge" /> */}
 
             <div className="cancel-content">
               <p className="cancel-question">{`Contact ${this.props.trip.leaders[0].name}`}</p>

@@ -35,7 +35,14 @@
   }
 }
 
-
+#approval-navigation {
+  #email-trip-leader-link {
+    color: $green;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
 
 
 .trip-status{
