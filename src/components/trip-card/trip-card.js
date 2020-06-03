@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from 'react';
 import ReactToolTip from 'react-tooltip';
 import { Stack, Queue, Divider, Box } from '../layout';
@@ -18,22 +19,18 @@ class TripCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userIsLeader: false,
+      role: '',
       status: 'approved',
       reasons: [],
     };
   }
 
   componentDidMount() {
-    // determines whether the user is a leader or co-leader in this trip
-    this.props.trip.leaders.forEach(((leader) => {
-      if (leader._id === this.props.user._id) {
-        this.setState({ userIsLeader: true });
-      }
-    }));
     // calculates the final status of the trip
     const tripStatus = constants.calculateTripStatus(this.props.trip);
     this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
+    const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
+    this.setState({ role: roleOnTrip });
   }
 
   renderDecal = (clubName) => {
@@ -73,13 +70,17 @@ class TripCard extends React.Component {
     return (
       <>
         <div className="trip-card" onClick={this.props.onClick} role="button" tabIndex={0}>
-          <div className="trip-card-badge-holder">
-            <Badge type={this.state.status} dataTip dataFor={`trip-card-${this.props.trip._id}`} />
-          </div>
+          <Box dir="col-reverse" className="trip-card-badge-holder">
+            <Badge type={`trip-${this.state.status}`} dataTip dataFor={`trip-card-${this.props.trip._id}`} />
+            <Stack size={12} />
+            {this.state.role === 'LEADER' ? <><Badge type="leader" dataTip dataFor="leader-on-trip-card" /><ReactToolTip id="leader-on-trip-card" place="bottom">Your are leading this trip</ReactToolTip></> : null}
+            {this.state.role === 'APPROVED' ? <><Badge type="person-approved" dataTip dataFor="approved-on-trip-card" /><ReactToolTip id="approved-on-trip-card" place="bottom">You've been approved to attend this trip</ReactToolTip></> : null}
+            {this.state.role === 'PENDING' ? <><Badge type="person-pending" dataTip dataFor="pending-on-trip-card" /><ReactToolTip id="pending-on-trip-card" place="bottom">The leader has not approved you yet</ReactToolTip></> : null}
+          </Box>
           {this.renderDecal(this.props.trip.club.name)}
           <div className="trip-card-body">
             <div className="label-text">TRIP #{this.props.trip.number}</div>
-            <div className="doc-h2">{this.renderTripTitle(`${this.state.userIsLeader ? '[L]' : ''} ${this.props.trip.title}`)}</div>
+            <div className="doc-h2">{this.renderTripTitle(this.props.trip.title)}</div>
             <div className="p2 trip-card-date">{utils.dates.formatDate(this.props.trip.startDate)} - {utils.dates.formatDate(this.props.trip.endDate)}</div>
             <div className="p2 trip-card-club">{this.props.trip.club ? this.props.trip.club.name : ''}</div>
             <div className="p2">{this.renderTripDescription(this.props.trip.description)}</div>
