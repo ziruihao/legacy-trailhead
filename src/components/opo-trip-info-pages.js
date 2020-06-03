@@ -186,14 +186,6 @@ const BasicInfo = (props) => {
       <div className="doc-h2">Description</div>
       <Stack size={25}></Stack>
       <div className="p1">{trip.description}</div>
-      {/* <div className="otd-trip-description">
-        <span className="sub-titles">Description</span>
-        <div className="otd-row">
-          <div className="description-field sub-fields">
-            {trip.description}
-          </div>
-        </div>
-      </div> */}
     </>
   );
 }
