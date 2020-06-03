@@ -3,7 +3,7 @@
 #landing-page {
   height: 100vh;
   width: 100vw;
-  background-image: url(./background-phone.svg);
+  background-image: url(./gateway-phone.svg);
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
@@ -11,7 +11,7 @@
   align-items: center;
 
   &.landing-page-onboarding {
-    background-image: url(./background-phone-no-brand.svg) !important;
+    background-image: url(./gateway-phone-no-brand.svg) !important;
   }
 
   .landing-card {
@@ -30,10 +30,7 @@
     }
 
     .landing-card-message {
-      font-size: 24px;
-      > * {
-        margin-bottom: 25px !important;
-      }
+      // font-size: 24px;
     }
     
     .landing-card-actions {

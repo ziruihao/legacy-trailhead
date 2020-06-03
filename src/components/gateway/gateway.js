@@ -6,6 +6,7 @@ import queryString from 'query-string';
 import { Dropdown } from 'react-bootstrap';
 import { signIn, signOut, casAuthed, getUser } from '../../actions';
 import { Stack, Queue, Divider, Box } from '../layout';
+import Icon from '../icon';
 import CompleteProfile from './complete-profile';
 import * as constants from '../../constants';
 import './gateway.scss';
@@ -64,7 +65,8 @@ class Gateway extends Component {
       <Dropdown onSelect={this.fakeSignIn}>
         <Dropdown.Toggle className="field">
           <span className="field-dropdown-bootstrap">Select test user</span>
-          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+          <Queue size={20} />
+          <Icon type="dropdown" size={20} />
         </Dropdown.Toggle>
         <Dropdown.Menu className="field-dropdown-menu">
           <Dropdown.Item eventKey="opo">OPO Staff</Dropdown.Item>
@@ -74,20 +76,13 @@ class Gateway extends Component {
           <Dropdown.Item eventKey="opo">Trippee C</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
-      // <div className="landing-card-actions">
-      //   <button className="doc-button" onClick={() => this.fakeSignIn('opo')}>OPO</button>
-      //   <button className="doc-button" onClick={() => this.fakeSignIn('leader')}>Leader</button>
-      //   <button className="doc-button" onClick={() => this.fakeSignIn('trippee1')}>Trippee 1</button>
-      //   <button className="doc-button" onClick={() => this.fakeSignIn('trippee2')}>Trippee 2</button>
-      //   <button className="doc-button" onClick={() => this.fakeSignIn('trippee3')}>Trippee 3</button>
-      // </div>
     );
   }
 
   renderAuthOptions = () => {
     return (
       <div className="landing-card-actions">
-        <button className="doc-button" onClick={() => this.fakeSignIn('cas')}>Login via CAS</button>
+        <div className="doc-button" onClick={() => this.fakeSignIn('cas')} role="button" tabIndex={0}>Login via CAS</div>
       </div>
     );
   }
@@ -99,12 +94,18 @@ class Gateway extends Component {
           ? <CompleteProfile />
           : (
             <Box dir="col" className="landing-card doc-card" width={500} pad={50}>
-              <div className="landing-card-message">
+              <Box dir="row" justify="center">
+                <Icon type="tree" size={100} />
+              </Box>
+              <Stack size={25} />
+              <Box dir="col" align="center" className="landing-card-message">
                 <div className="doc-h1">Hello traveler!</div>
-                <div className="p1">
+                <Stack size={25} />
+                <div className="p1 center-text">
                   Welcome to the Dartmouth Outing Club website! Here you can view and sign up for trips, sort by date, activity, or required experience, and create and publish your own trips as a leader. See you in the out o’ doors!
                 </div>
-              </div>
+              </Box>
+              <Stack size={25} />
               {this.renderAuthOptions()}
               <Stack size={25} />
               <Box dir="row" align="center">
