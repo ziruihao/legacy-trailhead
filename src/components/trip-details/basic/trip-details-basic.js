@@ -118,7 +118,7 @@ class TripDetailsBasic extends Component {
       if (this.state.editingGear) {
         return (
           <Box dir="row">
-            <div className="doc-button alarm"
+            <div className="doc-button alarm hollow"
               onClick={() => this.setState({ editingGear: false, requestedGear: this.extractUserGear(this.props.trip, this.props.user._id) })}
               role="button"
               tabIndex={0}
@@ -174,19 +174,20 @@ class TripDetailsBasic extends Component {
           <div className="trip-number">{`TRIP #${this.props.trip.number}`}</div>
           <div className="doc-h1">{this.props.trip.title}</div>
           <Stack size={25} />
-          <Box dir="row" className="trip-tags">
+          <Box dir="row" align="center" className="trip-tags">
             <div className="trip-club-tag">{this.props.trip.club.name}</div>
-            <div id="trip-statuses">
-              {this.state.role === 'LEADER' ? <><Badge type="leader" dataTip dataFor="leader-on-trip-modal" /><ReactToolTip id="leader-on-trip-modal" place="bottom">Your are leading this trip</ReactToolTip></> : null}
-              {this.state.role === 'APPROVED' ? <><Badge type="person-approved" dataTip dataFor="approved-on-trip-modal" /><ReactToolTip id="approved-on-trip-modal" place="bottom">You've been approved to attend this trip</ReactToolTip></> : null}
-              {this.state.role === 'PENDING' ? <><Badge type="person-pending" dataTip dataFor="pending-on-trip-modal" /><ReactToolTip id="pending-on-trip-modal" place="bottom">The leader has not approved you yet</ReactToolTip></> : null}
-              <Badge type={`trip-${this.state.status}`} dataTip dataFor="trip-status-modal" />
+            <Queue size={36} />
+            <Box dir="row">
+              {this.state.role === 'LEADER' ? <><Badge type="leader" size={36} dataTip dataFor="leader-on-trip-modal" /><Queue size={36} /><ReactToolTip id="leader-on-trip-modal" place="bottom">Your are leading this trip</ReactToolTip></> : null}
+              {this.state.role === 'APPROVED' ? <><Badge type="person-approved" size={36} dataTip dataFor="approved-on-trip-modal" /><Queue size={36} /><ReactToolTip id="approved-on-trip-modal" place="bottom">You've been approved to attend this trip</ReactToolTip></> : null}
+              {this.state.role === 'PENDING' ? <><Badge type="person-pending" size={36} dataTip dataFor="pending-on-trip-modal" /><Queue size={36} /><ReactToolTip id="pending-on-trip-modal" place="bottom">The leader has not approved you yet</ReactToolTip></> : null}
+              <Badge type={`trip-${this.state.status}`} size={36} dataTip dataFor="trip-status-modal" />
               <ReactToolTip id="trip-status-modal" place="bottom">
                 <Box dir="col">
-                  {this.state.reasons.length > 0 ? this.state.reasons.map(reason => <div key={reason}>{reason}</div>) : null}
+                  {this.state.reasons.length > 0 ? this.state.reasons.map(reason => <div key={reason}>{reason}</div>) : 'This trip is all approved!'}
                 </Box>
               </ReactToolTip>
-            </div>
+            </Box>
             <Queue expand />
             {this.state.role !== 'OPO'
               ? (

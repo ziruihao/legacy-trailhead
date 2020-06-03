@@ -89,7 +89,7 @@ class TripCard extends React.Component {
         </div>
         <ReactToolTip id={`trip-card-${this.props.trip._id}`} place="bottom">
           <Box dir="col">
-            {this.state.reasons.length > 0 ? this.state.reasons.map(reason => <div key={reason}>{reason}</div>) : null}
+            {this.state.reasons.length > 0 ? this.state.reasons.map(reason => <div key={reason}>{reason}</div>) : 'This trip is all approved!'}
           </Box>
         </ReactToolTip>
       </>
