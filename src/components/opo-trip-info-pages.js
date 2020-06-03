@@ -1,10 +1,10 @@
-/* eslint-disable */
+/* eslint-disable camelcase */
 import React from 'react';
 import Table from 'react-bootstrap/Table';
+import ReactTooltip from 'react-tooltip';
 import Badge from './badge';
 import { Stack, Queue, Divider, Box } from './layout';
 import '../styles/tripdetails_opo.scss';
-import ReactTooltip from 'react-tooltip';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -29,7 +29,7 @@ const getApprovedTrippees = (members, leaders) => {
   trippees = trippees.substring(0, trippees.length - 2);
   trippees = trippees.length === 0 ? 'None' : trippees;
   return trippees;
-}
+};
 
 const formatDate = (startDate, endDate, startTime, endTime) => {
   const startAsDate = new Date(startDate);
@@ -67,10 +67,6 @@ const formatDate = (startDate, endDate, startTime, endTime) => {
   return `${displayStartDate}, ${displayStartTime} - ${displayEndDate}, ${displayEndTime}`;
 };
 
-const isStringEmpty = (string) => {
-  return string.length === 0 || !string.toString().trim();
-};
-
 const getIndividualGear = (trip) => {
   const gearData = {};
   const gearSizeType = {};
@@ -83,7 +79,6 @@ const getIndividualGear = (trip) => {
   trip.members.forEach((member) => {
     member.gear.forEach((gear) => {
       if (gear.name) {
-        console.log('gear',gear)
         const { gearId } = gear;
         const { user } = member;
         if (gearSizeType[gearId] !== 'N/A') {
@@ -117,9 +112,8 @@ const getIndividualGear = (trip) => {
   return trip.trippeeGear.map((gear, index) => {
     if (Object.prototype.hasOwnProperty.call(gearData, gear._id)) {
       const entries = Object.entries(gearData[gear._id]);
-      console.log(entries);
       return entries.map(entry => (
-        <tr key={`${gear._id}_${entry[0]}`}>
+        <tr key={gear._id}>
           <td>{gear.name}</td>
           <td>{entry[0]}</td>
           <td>{entry[1]}</td>
@@ -127,7 +121,7 @@ const getIndividualGear = (trip) => {
       ));
     } else {
       return (
-        <tr key={`${gear._id}_${index}`}>
+        <tr key={gear._id}>
           <td>{gear.name}</td>
           <td>{gear.size_type}</td>
           <td>{gear.quantity}</td>
@@ -138,9 +132,10 @@ const getIndividualGear = (trip) => {
 };
 
 const getGroupGear = (groupGearArray) => {
-  return groupGearArray.map((groupGear, index) => {
+  console.log(groupGearArray);
+  return groupGearArray.map((groupGear) => {
     return (
-      <tr key={`groupGear_${index}`}>
+      <tr key={groupGear}>
         <td>{groupGear}</td>
       </tr>
     );
@@ -152,77 +147,77 @@ const BasicInfo = (props) => {
   return (
     <>
       <div className="doc-h1">Trip #{trip.number}: {trip.title}</div>
-      <Stack size={50}></Stack>
+      <Stack size={50} />
       <div className="doc-h2">Basic details</div>
-      <Stack size={25}></Stack>
+      <Stack size={25} />
       <Box dir="row" align="stretch">
         <Box dir="col">
-            <div className="p1 thick gray">Date</div>
-            <Stack size={18}></Stack>
-            <div className="p1 thick gray">Subclub</div>
-            <Stack size={18}></Stack>
-            <div className="p1 thick gray">Leader</div>
-            <Stack size={18}></Stack>
-            <div className="p1 thick gray">Co-Leader(s)</div>
-            <Stack size={18}></Stack>
-            <div className="p1 thick gray">Approved Trippees</div>
+          <div className="p1 thick gray">Date</div>
+          <Stack size={18} />
+          <div className="p1 thick gray">Subclub</div>
+          <Stack size={18} />
+          <div className="p1 thick gray">Leader</div>
+          <Stack size={18} />
+          <div className="p1 thick gray">Co-Leader(s)</div>
+          <Stack size={18} />
+          <div className="p1 thick gray">Approved Trippees</div>
         </Box>
-        <Queue size={25}></Queue>
-        <Divider dir="col" size={1}></Divider>
-        <Queue size={25}></Queue>
+        <Queue size={25} />
+        <Divider dir="col" size={1} />
+        <Queue size={25} />
         <Box dir="col">
-            <div className="p1">{formatDate(trip.startDate, trip.endDate, trip.startTime, trip.endTime)}</div>
-            <Stack size={18}></Stack>
-            <div className="p1">{trip.club.name}</div>
-            <Stack size={18}></Stack>
-            <div className="p1">{trip.leaders[0].name}</div>
-            <Stack size={18}></Stack>
-            <div className="p1">{getCoLeaders(trip.leaders)}</div>
-            <Stack size={18}></Stack>
-            <div className="p1">{getApprovedTrippees(trip.members, trip.leaders)}</div>
+          <div className="p1">{formatDate(trip.startDate, trip.endDate, trip.startTime, trip.endTime)}</div>
+          <Stack size={18} />
+          <div className="p1">{trip.club.name}</div>
+          <Stack size={18} />
+          <div className="p1">{trip.leaders[0].name}</div>
+          <Stack size={18} />
+          <div className="p1">{getCoLeaders(trip.leaders)}</div>
+          <Stack size={18} />
+          <div className="p1">{getApprovedTrippees(trip.members, trip.leaders)}</div>
         </Box>
       </Box>
-      <Stack size={50}></Stack>
+      <Stack size={50} />
       <div className="doc-h2">Description</div>
-      <Stack size={25}></Stack>
+      <Stack size={25} />
       <div className="p1">{trip.description}</div>
     </>
   );
-}
+};
 
 const GearRequest = (props) => {
   const { trip } = props;
   return (
     <>
       <div className="doc-h1">Gear requests</div>
-      <Stack size={50}></Stack>
+      <Stack size={50} />
       <Box dir="row" justify="center">
         {trip.gearStatus !== 'N/A'
           ? (
             <Box dir="col" expand>
               <Box dir="row" justify="between" align="center">
                 <div className="doc-h2">For the group</div>
-                <Badge type={trip.gearStatus} size={36}></Badge>
+                <Badge type={trip.gearStatus} size={36} />
               </Box>
-              <Stack size={25}></Stack>
-              <Box className="doc-bordered doc-card" pad={10}>
-              <Table className="doc-table">
-                <thead>
-                  <tr>
-                    <th>Item</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {getGroupGear(trip.OPOGearRequests)}
-                </tbody>
-              </Table>
+              <Stack size={25} />
+              <Box className="doc-bordered" pad={10}>
+                <Table className="doc-table">
+                  <thead>
+                    <tr>
+                      <th>Item</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {getGroupGear(trip.OPOGearRequests)}
+                  </tbody>
+                </Table>
               </Box>
-              <Stack size={25}></Stack>
+              <Stack size={25} />
               <Box dir="row" justify="center">
                 {(props.trip.gearStatus !== 'approved')
-                  ? < div className="doc-button hollow" onClick={() => props.reviewGroupGearRequest('approved')} role="button" tabIndex={0}>Approve</div>
+                  ? <div className="doc-button hollow" onClick={() => props.reviewGroupGearRequest('approved')} role="button" tabIndex={0}>Approve</div>
                   : <div className="doc-button hollow disabled" role="button" tabIndex={0}>Approved</div>}
-                <Queue size={25}></Queue>
+                <Queue size={25} />
                 {(props.trip.gearStatus !== 'denied')
                   ? (
                     <div className="doc-button alarm" onClick={() => props.reviewGroupGearRequest('denied')} role="button" tabIndex={0}>
@@ -239,16 +234,16 @@ const GearRequest = (props) => {
             </Box>
           )
           : null}
-        <Queue size={50}></Queue>
+        <Queue size={50} />
         {trip.trippeeGearStatus !== 'N/A'
           ? (
             <Box dir="col" expand>
               <Box dir="row" justify="between" align="center">
                 <div className="doc-h2">For trippees</div>
-                <Badge type={trip.trippeeGearStatus} size={36}></Badge>
+                <Badge type={trip.trippeeGearStatus} size={36} />
               </Box>
-              <Stack size={25}></Stack>
-              <Box className="doc-bordered doc-card" pad={10}>
+              <Stack size={25} />
+              <Box className="doc-bordered" pad={10}>
                 <Table className="doc-table">
                   <thead>
                     <tr>
@@ -262,12 +257,12 @@ const GearRequest = (props) => {
                   </tbody>
                 </Table>
               </Box>
-              <Stack size={25}></Stack>
+              <Stack size={25} />
               <Box dir="row" justify="center">
                 {(props.trip.trippeeGearStatus !== 'approved')
-                  ? < div className="doc-button hollow" onClick={() => props.reviewTrippeeGearRequest('approved')} role="button" tabIndex={0}>Approve</div>
+                  ? <div className="doc-button hollow" onClick={() => props.reviewTrippeeGearRequest('approved')} role="button" tabIndex={0}>Approve</div>
                   : <div className="doc-button hollow disabled" role="button" tabIndex={0}>Approved</div>}
-                <Queue size={25}></Queue>
+                <Queue size={25} />
                 {(props.trip.trippeeGearStatus !== 'denied')
                   ? (
                     <div className="doc-button alarm" onClick={() => props.reviewTrippeeGearRequest('denied')} role="button" tabIndex={0}>
@@ -287,32 +282,7 @@ const GearRequest = (props) => {
       </Box>
     </>
   );
-}
-
-const getAppropriateLink = (props) => {
-  const { pcardStatus } = props.trip;
-  if (props.isEditingPcard) {
-    return (
-      <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={props.cancelPcardUpdate} role="button" tabIndex={0}>
-        Cancel update
-      </span>
-    )
-  } else {
-    if (pcardStatus !== 'denied') {
-      return (
-        <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => props.reviewPCardRequest('denied')} role="button" tabIndex={0}>
-          Deny P-Card Request
-        </span>
-      )
-    } else {
-      return (
-        <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button otd-disabled-link">
-          Deny P-Card Request
-        </span>
-      )
-    }
-  }
-}
+};
 
 const PCardRequest = (props) => {
   const pcardRequest = props.trip.pcard[0];
@@ -328,53 +298,56 @@ const PCardRequest = (props) => {
   pcardRequest.otherCosts.forEach((otherCost) => {
     total += otherCost.cost;
   });
-  const pcardStatus = props.trip.pcardStatus;
+  const { pcardStatus } = props.trip;
   return (
     <>
       <Box dir="row" justify="between">
         <div className="doc-h1">P-Card request</div>
-        <Badge type={pcardStatus} size={36}></Badge>
+        <Badge type={pcardStatus} size={36} />
       </Box>
-      <Stack size={50}></Stack>
+      <Stack size={50} />
       <Box dir="row">
-      <Box dir="col">
-      <div className="doc-h2">{!props.isEditingPcard ? 'Assign P-Card' : 'Assigned P-Card'}</div>
-          <Stack size={25}></Stack>
-          {!props.isEditingPcard
+        <Box dir="col">
+          <div className="doc-h2">People count</div>
+          <Stack size={25} />
+          <Box dir="row">
+            <div className="p1" data-tip data-for="estimated-trip-participants-help">Estimated trip participants (?):</div>
+            <ReactTooltip id="estimated-trip-participants-help">How many people the trip leader estiamtes will actually attend the trip.</ReactTooltip>
+            <Queue size={18} />
+            <div className="p1">{pcardRequest.numPeople}</div>
+          </Box>
+          <Box dir="row">
+            <div className="p1">Current approved participants: </div>
+            <Queue size={18} />
+            <div className="p1">{props.trip.members.length}</div>
+          </Box>
+        </Box>
+        <Queue size={100} />
+        <Box dir="col">
+          <div className="doc-h2">{props.isEditingPcard ? 'Assign P-Card' : 'Assigned P-Card'}</div>
+          <Stack size={25} />
+          {props.isEditingPcard
             ? (
               <input
-                className="pcard-assign-input"
+                className="field"
                 onChange={props.onFieldChange}
                 name="pcardAssigned"
-                placeholder="e.g. 1234"
+                placeholder="e.g. 7799"
                 value={props.pcardAssigned}
               />
             )
             : (
-              <span className={`otd-pcard-assign-label trip-detail ovr-white-background ${pcardStatus === 'denied' ? 'ovr-skipped-detail' : ''}`}>
+              <span className={`field otd-pcard-assign-label trip-detail ovr-white-background ${pcardStatus === 'denied' ? 'field-disabled ovr-skipped-detail' : ''}`}>
                 {pcardStatus === 'denied' ? 'Denied' : props.trip.pcardAssigned}
               </span>
             )
           }
-      </Box>
-      <Queue size={100}></Queue>
-      <Box dir="col">
-        <div className="doc-h2">People count</div>
-        <Stack size={25}></Stack>
-        <Box dir="row">
-          <div className="p1 thick" data-tip data-for="estimated-trip-participants-help">Estimated trip participants (?): </div>
-          <ReactTooltip id="estimated-trip-participants-help">How many people the trip leader estiamtes will actually attend the trip.</ReactTooltip>
-          <div className="p1">{pcardRequest.numPeople}</div>
-          
-        </Box>
-        <Box dir="row">
-          <div className="p1 thick">Current approved participants: </div>
-          <div className="p1">{props.trip.members.length}</div>
         </Box>
       </Box>
-      </Box>
-        <Stack size={50}></Stack>
-        <Box dir="col" className="doc-card" pad={10}>
+      <Stack size={50} />
+      <div className="doc-h2">Cost breakdown</div>
+      <Stack size={25} />
+      <Box dir="col" className="doc-bordered" pad={20}>
         <Table className="doc-table" responsive="lg">
           <thead>
             <tr>
@@ -412,52 +385,52 @@ const PCardRequest = (props) => {
 
             {pcardRequest.otherCosts.map((otherCost, index) => {
               return (
-                <tr key={`othercosts_${index}`}>
+                <tr key={otherCost.title}>
                   <td>{otherCost.title}</td>
                   <td>-</td>
                   <td>-</td>
                   <td>${otherCost.cost}</td>
                 </tr>
-              )
+              );
             })}
           </tbody>
         </Table>
-        <Stack size={25}></Stack>
+        <Divider size={1} />
+        <Stack size={25} />
         <Box self="end">
-        <div className="doc-h2">
-          Total Cost: ${total}
-        </div>
+          <div className="doc-h3">
+            Total Cost: ${total}
+          </div>
         </Box>
       </Box>
-
-      <div className="otd-pcard-response-buttons">
-        {getAppropriateLink(props)}
-        {(!props.isEditingPcard)
+      <Stack size={25} />
+      <Box dir="row" justify="end">
+        <div className={`doc-button alarm ${props.trip.pcardStatus === 'denied' ? 'disabled' : ''}`} onClick={props.trip.pcardStatus !== 'denied' ? () => props.reviewPCardRequest('denied') : null} role="button" tabIndex={0}>Deny</div>
+        <Queue size={25} />
+        {props.isEditingPcard
           ? (
-            <button
-              type="submit"
-              className="vrf-submit-button signup-button otd-approve-pcard-button"
-              onClick={() => props.reviewPCardRequest('approved')}
-            >
-              {pcardStatus === 'pending' ? 'Approve P-Card Request' : 'Save'}
-            </button>
+            <>
+              <div className="doc-button alarm hollow" onClick={props.cancelPcardUpdate} role="button" tabIndex={0}>Cancel</div>
+              <Queue size={15} />
+              <div className="doc-button" onClick={() => props.reviewPCardRequest('approved')} role="button" tabIndex={0}>Update</div>
+            </>
           )
           : (
-            <button
-              type="submit"
-              className="vrf-submit-button signup-button otd-approve-pcard-button"
-              onClick={props.startEditingPcard}
-            >
-              Update Assignment
-            </button>
-          )}
-      </div>
+            <>
+              {props.trip.pcardStatus === 'approved'
+                ? <div className="doc-button" onClick={() => props.reviewPCardRequest('approved')} role="button" tabIndex={0}>Edit</div>
+                : <div className="doc-button" onClick={props.startEditingPcard} role="button" tabIndex={0}>Approve</div>
+              }
+            </>
+          )
+        }
+      </Box>
     </>
   );
-}
+};
 
 export {
   GearRequest,
   BasicInfo,
   PCardRequest,
-}
+};
