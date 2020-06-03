@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Table from 'react-bootstrap/Table';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import DOCLoading from '../../doc-loading';
-import { fetchOpoTrips } from '../../../actions';
+import { fetchOPOTrips } from '../../../actions';
 import dropdownIcon from '../../../img/dropdown-toggle.svg';
 import '../../../styles/tripdetails_leader.scss';
 import '../opo-approvals.scss';
@@ -40,7 +40,7 @@ class OPOTrips extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchOpoTrips()
+    this.props.fetchOPOTrips()
       .then(() => {
         this.setState({ ready: true });
       });
@@ -56,7 +56,7 @@ class OPOTrips extends Component {
   }
 
   onRowClick = (id) => {
-    this.props.history.push(`/trip/${id}`);
+    this.props.history.push(`/approve-trip/${id}`);
   }
 
   formatDate = (date, time) => {
@@ -304,4 +304,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { fetchOpoTrips })(OPOTrips));
+export default withRouter(connect(mapStateToProps, { fetchOPOTrips })(OPOTrips));
