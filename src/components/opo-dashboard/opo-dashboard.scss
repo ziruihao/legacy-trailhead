@@ -6,6 +6,7 @@
     overflow-x: scroll;
     width: 100%;
     min-width: 1px;
+    min-height: 148px;
 
         /* Hide scrollbar for Chrome, Safari and Opera */
     .example::-webkit-scrollbar {
@@ -18,9 +19,20 @@
     }
   
     .section {
+      position: relative;
       
       &:hover {
         filter: brightness(1.2);
+        cursor: pointer;
+
+        .doc-badge {
+          // width: 48px;
+        }
+
+        .titles {
+          // font-size: 24px;
+          color: $green;
+        }
       }
 
       &.current-section {
@@ -30,15 +42,28 @@
         }
 
         .titles {
-          // font-size: 36px;
+          // font-size: 24px;
           color: $green;
         }
       }
 
+      .doc-badge {
+        transition: all 0.25s;
+      }
+
       .titles {
+        transition: all 0.25s;
         white-space: nowrap;
       }
+
+      .section-underline {
+        position: absolute;
+        bottom: 0;
+      }
+ 
     }
+
+
   }
 
   #dashboard-content {

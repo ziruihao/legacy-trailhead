@@ -38,54 +38,84 @@ const OPODashboard = (props) => {
   }
   return (
     <Box id="dashboard" dir="col" align="stretch" expand>
-      <Box id="dashboard-tiles" className="doc-card" dir="row" justify="start" align="stretch" pad={50}>
-        <NavLink className={`section ${active.trips ? 'current-section' : ''}`} to="/opo-dashboard/opo-trips">
-          <Box dir="row" align="center">
-            <Badge type="trips" size={48} />
-            <Queue size={25} />
-            <div className="titles doc-h2">Trip Approvals</div>
-          </Box>
-        </NavLink>
-        <Queue size={50} />
-        <Divider dir="col" size={1} />
-        <Queue size={50} />
-        <NavLink className={`section ${active.vehicles ? 'current-section' : ''}`} to="/opo-dashboard/vehicle-requests">
-          <Box dir="row" align="center">
-            <Badge type="vehicle" size={48} />
-            <Queue size={25} />
-            <div className="titles doc-h2">Vehicle Requests</div>
-          </Box>
-        </NavLink>
-        <Queue size={50} />
-        <Divider dir="col" size={1} />
-        <Queue size={50} />
-        <NavLink className={`section ${active.calendar ? 'current-section' : ''}`} to="/opo-dashboard/vehicle-calendar">
-          <Box dir="row" align="center">
-            <Badge type="calendar" size={48} />
-            <Queue size={25} />
-            <div className="titles doc-h2">Calendar</div>
-          </Box>
-        </NavLink>
-        <Queue size={50} />
-        <Divider dir="col" size={1} />
-        <Queue size={50} />
-        <NavLink className={`section ${active.leaders ? 'current-section' : ''}`} to="/opo-dashboard/leader-approvals">
-          <Box dir="row" align="center">
-            <Badge type="person" size={48} />
-            <Queue size={25} />
-            <div className="titles doc-h2">Profile Approvals</div>
-          </Box>
-        </NavLink>
-        <Queue size={50} />
-        <Divider dir="col" size={1} />
-        <Queue size={50} />
-        <NavLink className={`section ${active.fleet ? 'current-section' : ''}`} to="/opo-dashboard/opo-fleet-management">
-          <Box dir="row" align="center">
-            <Badge type="marker" size={48} />
-            <Queue size={25} />
-            <div className="titles doc-h2">Manage Fleet</div>
-          </Box>
-        </NavLink>
+      <Box id="dashboard-tiles" className="doc-card" dir="row" justify="start" align="stretch" pad={[0, 50]}>
+        <Box className={`section ${active.trips ? 'current-section' : ''}`} dir="col" justify="center" pad={[50, 0]}>
+          <NavLink to="/opo-dashboard/opo-trips">
+            <Box dir="row" align="center">
+              <Badge type="trips" size={active.trips ? 48 : 48} />
+              <Queue size={25} />
+              <div className="titles doc-h3">Trip Approvals</div>
+            </Box>
+          </NavLink>
+          {active.trips
+            ? <Divider className="section-underline" size={5} color="#0CA074" />
+            : null
+          }
+        </Box>
+        <Box dir="row" pad={50}>
+          <Divider dir="col" size={1} />
+        </Box>
+        <Box className={`section ${active.vehicles ? 'current-section' : ''}`} dir="col" justify="center" pad={[50, 0]}>
+          <NavLink to="/opo-dashboard/vehicle-requests">
+            <Box dir="row" align="center">
+              <Badge type="vehicle" size={active.vehicles ? 48 : 48} />
+              <Queue size={25} />
+              <div className="titles doc-h3">Vehicle Requests</div>
+            </Box>
+          </NavLink>
+          {active.vehicles
+            ? <Divider className="section-underline" size={5} color="#0CA074" />
+            : null
+          }
+        </Box>
+        <Box dir="row" pad={50}>
+          <Divider dir="col" size={1} />
+        </Box>
+        <Box className={`section ${active.calendar ? 'current-section' : ''}`} dir="col" justify="center" pad={[50, 0]}>
+          <NavLink to="/opo-dashboard/vehicle-calendar">
+            <Box dir="row" align="center">
+              <Badge type="calendar" size={active.calendar ? 48 : 48} />
+              <Queue size={25} />
+              <div className="titles doc-h3">Calendar</div>
+            </Box>
+          </NavLink>
+          {active.calendar
+            ? <Divider className="section-underline" size={5} color="#0CA074" />
+            : null
+          }
+        </Box>
+        <Box dir="row" pad={50}>
+          <Divider dir="col" size={1} />
+        </Box>
+        <Box className={`section ${active.leaders ? 'current-section' : ''}`} dir="col" justify="center" pad={[50, 0]}>
+          <NavLink to="/opo-dashboard/leader-approvals">
+            <Box dir="row" align="center">
+              <Badge type="person" size={active.leaders ? 48 : 48} />
+              <Queue size={25} />
+              <div className="titles doc-h3">Profile Approvals</div>
+            </Box>
+          </NavLink>
+          {active.leaders
+            ? <Divider className="section-underline" size={5} color="#0CA074" />
+            : null
+          }
+        </Box>
+        <Box dir="row" pad={50}>
+          <Divider dir="col" size={1} />
+        </Box>
+        <Box className={`section ${active.fleet ? 'current-section' : ''}`} dir="col" justify="center" pad={[50, 0]}>
+          <NavLink to="/opo-dashboard/opo-fleet-management">
+            <Box dir="row" align="center">
+              <Badge type="marker" size={active.fleet ? 48 : 48} />
+              <Queue size={25} />
+              <div className="titles doc-h3">Manage Fleet</div>
+            </Box>
+          </NavLink>
+          {active.fleet
+            ? <Divider className="section-underline" size={5} color="#0CA074" />
+            : null
+          }
+        </Box>
         <Queue size={50} />
         <Queue size={50} />
       </Box>
