@@ -443,7 +443,7 @@ export function fetchGearRequests() {
   };
 }
 
-export function fetchOpoTrips() {
+export function fetchOPOTrips() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios.get(`${constants.BACKEND_URL}/opotrips`, { headers: { authorization: localStorage.getItem('token') } })
