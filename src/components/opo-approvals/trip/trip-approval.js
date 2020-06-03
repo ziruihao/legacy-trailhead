@@ -107,7 +107,7 @@ class OPOTripApproval extends Component {
     return string.length === 0 || !string.toString().trim();
   };
 
-  reviewPcardRequest = (pcardStatus) => {
+  reviewPCardRequest = (pcardStatus) => {
     if (this.state.isEditingPcard && this.isStringEmpty(this.state.pcardAssigned)) {
       this.props.appError('Please assign a pcard to this request');
       window.scrollTo(0, 0);
@@ -173,7 +173,7 @@ class OPOTripApproval extends Component {
               onFieldChange={this.onFieldChange}
               pcardAssigned={this.state.pcardAssigned}
               isEditingPcard={this.state.isEditingPcard}
-              reviewPcardRequest={this.reviewPcardRequest}
+              reviewPCardRequest={this.reviewPCardRequest}
               startEditingPcard={this.startEditingPcard}
               cancelPcardUpdate={this.cancelPcardUpdate}
             />

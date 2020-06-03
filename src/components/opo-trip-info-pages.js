@@ -308,7 +308,7 @@ const getAppropriateLink = (props) => {
   } else {
     if (pcardStatus !== 'denied') {
       return (
-        <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => props.reviewPcardRequest('denied')} role="button" tabIndex={0}>
+        <span className="cancel-link ovr-bottom-link ovr-skip-vehicle-button" onClick={() => props.reviewPCardRequest('denied')} role="button" tabIndex={0}>
           Deny P-Card Request
         </span>
       )
@@ -445,7 +445,7 @@ const PCardRequest = (props) => {
             <button
               type="submit"
               className="vrf-submit-button signup-button otd-approve-pcard-button"
-              onClick={() => props.reviewPcardRequest('approved')}
+              onClick={() => props.reviewPCardRequest('approved')}
             >
               {pcardStatus === 'pending' ? 'Approve P-Card Request' : 'Save'}
             </button>
