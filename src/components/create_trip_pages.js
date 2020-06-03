@@ -45,7 +45,6 @@ const BasicTripInfo = (props) => {
         <input className={`field create-trip-form-bottom-margin ${props.errorFields.cost ? 'field-error' : ''}`}
           onChange={props.onFieldChange}
           name="cost"
-          placeholder="0"
           type="number"
           value={props.costValue}
         />
@@ -145,7 +144,7 @@ const DatesLocation = (props) => {
           className={`field create-trip-form-bottom-margin leaders ${props.errorFields.location ? 'field-error' : ''}`}
           name="location"
           onChange={props.onFieldChange}
-          placeholder="e.g. Mt. Cube"
+          placeholder="e.g. Orford, NH"
           value={props.tripLocation}
         />
       </div>
@@ -192,12 +191,12 @@ const AboutTheTrip = (props) => {
         />
       </div>
       <div className="page-sub-headers">
-        <div className="doc-h3">Things you can include</div>
+        <div className="doc-h3">Things you must include</div>
         <ul className="descrip-list">
           <li>What you&apos;ll be doing on the trip</li>
-          <li>Prior experience that would be helpful (if applicable)</li>
-          <li>Rough iternary of events and activities</li>
-          <li>Short introduction of leaders</li>
+          <li>Short Introduction of Leaders for prospective Trippees</li>
+          <li>Level of prior experience (if applicable) and what gear or clothing might be needed</li>
+          <li>Rough itinerary - this is your trip plan on file, so please include route plan details like where the vehicle will be parked, main and alternate routes, in case of emergency. </li>
         </ul>
       </div>
     </div>

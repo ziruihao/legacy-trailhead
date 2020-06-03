@@ -49,7 +49,7 @@ const getPcardForm = (props) => {
 						className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.numPeople ? 'field-error' : ''}`}
 						onChange={(event) => props.onPcardFieldChange(event, index)}
 						name="numPeople"
-						placeholder="e.g. 8"
+						placeholder="e.g. 10"
 						value={request.numPeople}
 						type="number"
 					/>
@@ -65,7 +65,6 @@ const getPcardForm = (props) => {
 							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.snacks ? 'field-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="snacks"
-							placeholder="e.g. 1"
 							value={request.snacks}
 							type="number"
 						/>
@@ -76,7 +75,6 @@ const getPcardForm = (props) => {
 							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.breakfast ? 'field-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="breakfast"
-							placeholder="e.g. 1"
 							value={request.breakfast}
 							type="number"
 						/>
@@ -87,7 +85,6 @@ const getPcardForm = (props) => {
 							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.lunch ? 'field-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="lunch"
-							placeholder="e.g. 1"
 							value={request.lunch}
 							type="number"
 						/>
@@ -98,7 +95,6 @@ const getPcardForm = (props) => {
 							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.dinner ? 'field-error' : ''}`}
 							onChange={(event) => props.onPcardFieldChange(event, index)}
 							name="dinner"
-							placeholder="e.g. 1"
 							value={request.dinner}
 							type="number"
 						/>
