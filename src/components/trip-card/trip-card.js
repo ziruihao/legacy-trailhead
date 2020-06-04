@@ -36,23 +36,23 @@ class TripCard extends React.Component {
   renderDecal = (clubName) => {
     switch (clubName) {
       case 'Cabin and Trail':
-        return <img className="trip-card-decal" src={cnt} alt="" />;
+        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={cnt} alt="" />;
       case 'Women in the Wilderness':
-        return <img className="trip-card-decal" src={wiw} alt="" />;
+        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wiw} alt="" />;
       case 'Surf Club':
-        return <img className="trip-card-decal" src={surf} alt="" />;
+        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={surf} alt="" />;
       case 'Mountain Biking':
-        return <img className="trip-card-decal" src={dmbc} alt="" />;
+        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={dmbc} alt="" />;
       case 'Winter Sports':
-        return <img className="trip-card-decal" src={wsc} alt="" />;
+        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wsc} alt="" />;
       case 'Woodsmen':
-        return <img className="trip-card-decal" src={wood} alt="" />;
+        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wood} alt="" />;
       case 'Mountaineering':
-        return <img className="trip-card-decal" src={mountain} alt="" />;
+        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={mountain} alt="" />;
       case 'Ledyard':
-        return <img className="trip-card-decal" src={ledyard} alt="" />;
+        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={ledyard} alt="" />;
       default:
-        return <img className="trip-card-decal" src={doc} alt="" />;
+        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={doc} alt="" />;
     }
   }
 
@@ -70,6 +70,7 @@ class TripCard extends React.Component {
     return (
       <>
         <div className="trip-card" onClick={this.props.onClick} role="button" tabIndex={0}>
+          {/* <div className="trip-card" onClick={this.props.onClick} style={{ transform: `rotate(${(Math.random() * 5) * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)}deg)` }} role="button" tabIndex={0}> */}
           <Box dir="col-reverse" className="trip-card-badge-holder">
             <Badge type={`trip-${this.state.status}`} dataTip dataFor={`trip-card-${this.props.trip._id}`} />
             <Stack size={12} />
