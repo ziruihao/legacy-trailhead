@@ -33,7 +33,7 @@ const Icon = (props) => {
     case 'check':
       return (<img id={id} className="doc-icon" alt="approved icon" style={style} src={check} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     case 'close':
-      return (<img id={id} className="doc-icon" alt="denied icon" style={style} src={close} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
+      return (<img id={id} className="doc-icon doc-icon-close" alt="close icon" style={style} src={close} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     case 'date':
       return (<img id={id} className="doc-icon" alt="leader icon" style={style} src={date} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     case 'doc':
