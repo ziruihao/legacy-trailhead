@@ -31,7 +31,7 @@ class RequestGear extends React.Component {
                   <div className="trip-details-table-row">
                     <div className="trip-details-table-left p2">{gear.name}</div>
                     <div className="trip-details-table-right">
-                      <div className="p2">Needed</div>
+                      <div className="p2">Request</div>
                       <label className="checkbox-container" htmlFor={gear._id}>
                         <input
                           type="checkbox"
