@@ -4,15 +4,18 @@ import { green } from '../../constants';
 import logo from './doc-logo.svg';
 import './doc-loading.scss';
 
-const DOCLoading = props => (
-  <div id="doc-loading-wrapper">
-    {props.type === 'doc'
-      ? (
-        <img id="doc-loader-image" src={logo} alt="logo" style={{ height: `${props.height}${props.measure}`, width: `${props.width}${props.measure}` }} />
-      )
-      : <ReactLoading {...props} height={`${props.height}${props.measure}`} width={`${props.width}${props.measure}`} color={green} />
+const DOCLoading = (props) => {
+  const measure = measure || 'px';
+  return (
+    <div id="doc-loading-wrapper">
+      {props.type === 'doc'
+        ? (
+          <img id="doc-loader-image" src={logo} alt="logo" style={{ height: `${props.height}${measure}`, width: `${props.width}${measure}` }} />
+        )
+        : <ReactLoading {...props} height={`${props.height}${measure}`} width={`${props.width}${measure}`} color={green} />
     }
-  </div>
-);
+    </div>
+  );
+};
 
 export default DOCLoading;
