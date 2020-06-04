@@ -8,7 +8,7 @@ import { GearRequest, BasicInfo, PCardRequest } from '../../opo-trip-info-pages'
 import OPOVehicleRequest from '../../opo-vehicle-request';
 import Badge from '../../badge';
 import Sidebar from '../../sidebar';
-import Loading from '../../doc-loading';
+import DOCLoading from '../../doc-loading';
 import { fetchTrip, reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../../../actions';
 import '../../../styles/tripdetails_opo.scss';
 import '../../../styles/createtrip-style.scss';
@@ -250,7 +250,7 @@ class OPOTripApproval extends Component {
           </Modal>
         </Box>
       );
-    } else return (<Loading type="doc" />);
+    } else return (<DOCLoading type="doc" />);
   }
 }
 const mapStateToProps = (state) => {

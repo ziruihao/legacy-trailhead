@@ -7,7 +7,7 @@ import { Stack, Queue, Divider, Box } from '../layout';
 import TripDetailsBasic from '../trip-details/basic/trip-details-basic';
 import TripCard from '../trip-card';
 import Toggle from '../toggle';
-import Loading from '../doc-loading';
+import DOCLoading from '../doc-loading';
 import { fetchTrips, fetchTrip, getClubs, leaveTrip } from '../../actions';
 import utils from '../../utils';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
@@ -75,18 +75,18 @@ class AllTrips extends Component {
   renderClubDropdown = () => {
     return (
       <Dropdown onSelect={eventKey => this.setState({club: eventKey})}>
-      <Dropdown.Toggle className="field">
-        <span className="field-dropdown-bootstrap">{this.state.club}</span>
-        <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
-      </Dropdown.Toggle>
-      <Dropdown.Menu className="field-dropdown-menu">
-      <Dropdown.Item eventKey="All clubs">All clubs</Dropdown.Item>
-      <Dropdown.Divider />
-        {this.props.clubs.map((club => {
-          return (<Dropdown.Item key={club._id} eventKey={club.name}>{club.name}</Dropdown.Item>);
-        }))}
-      </Dropdown.Menu>
-    </Dropdown>
+        <Dropdown.Toggle className="field">
+          <span className="field-dropdown-bootstrap">{this.state.club}</span>
+          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="field-dropdown-menu">
+          <Dropdown.Item eventKey="All clubs">All clubs</Dropdown.Item>
+          <Dropdown.Divider />
+            {this.props.clubs.map((club => {
+              return (<Dropdown.Item key={club._id} eventKey={club.name}>{club.name}</Dropdown.Item>);
+            }))}
+        </Dropdown.Menu>
+      </Dropdown>
     )
   }
 
@@ -196,7 +196,7 @@ class AllTrips extends Component {
             <Box id="trip-cancel-modal" dir="col" align="center" pad={25}>
               {this.state.cancelling ? 
                 <div id="trip-cancel-modal-loading">
-                  <Loading type="spin" width="35" height="35" measure="px" />
+                  <DOCLoading type="spin" width="35" height="35" measure="px" />
                 </div>
                 :
                 null

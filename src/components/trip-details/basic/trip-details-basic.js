@@ -6,7 +6,7 @@ import ReactToolTip from 'react-tooltip';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import RequestGear from '../request-gear';
 import Badge from '../../badge';
-import Loading from '../../doc-loading';
+import DOCLoading from '../../doc-loading';
 import { addToPending, editUserGear } from '../../../actions';
 import * as constants from '../../../constants';
 import '../../trips/trip-card.scss';
@@ -162,7 +162,7 @@ class TripDetailsBasic extends Component {
 
   render() {
     if (!this.props.trip) {
-      return <Loading type="spin" width="50" height="50" measure="px" />;
+      return <DOCLoading type="spin" width="50" height="50" measure="px" />;
     } else {
       return (
         <div className="trip-details">
