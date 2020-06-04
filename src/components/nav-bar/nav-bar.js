@@ -19,15 +19,15 @@ class NavBar extends Component {
         <div className="nav-bar">
           {this.props.user && this.props.user.role === 'OPO'
             ? (
-              <NavDropdown title="Dashboard" className={`${['/opo-dashboard', '/opo-dashboard/vehicle-calendar', '/opo-dashboard/opo-trips', '/opo-dashboard/vehicle-requests', '/opo-dashboard/leader-approvals, /opo-dashboard/opo-fleet-management'].includes(this.props.history.location.pathname) ? 'current-bootstrap-wrapper' : ''}`}>
-                <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard/vehicle-calendar')}>Calendar</NavDropdown.Item>
+              <NavLink to="/opo-dashboard" className={`nav-link ${['/opo-dashboard', '/opo-dashboard/vehicle-calendar', '/opo-dashboard/opo-trips', '/opo-dashboard/vehicle-requests', '/opo-dashboard/leader-approvals, /opo-dashboard/opo-fleet-management'].includes(this.props.history.location.pathname) ? 'current' : ''}`}>Dashboard
+                {/* <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard/vehicle-calendar')}>Calendar</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard/opo-trips')}>Trip Approvals</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard/vehicle-requests')}>Vehicle Requests</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard/leader-approvals')}>Profile Approvals</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard/opo-fleet-management')}>Manage Fleet</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard')}>Dashboard</NavDropdown.Item>
-              </NavDropdown>
+                <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard')}>Dashboard</NavDropdown.Item> */}
+              </NavLink>
             )
             : null
           }
