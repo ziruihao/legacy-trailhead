@@ -1,3 +1,13 @@
-.doc-icon {
+@import '../../styles/base.scss';
 
+.doc-icon {
+  
+  &.doc-icon-close {
+    color: $gray-2;
+    cursor: pointer;
+  
+    &:hover{
+      color: $orange;
+    }
+  }
 }
