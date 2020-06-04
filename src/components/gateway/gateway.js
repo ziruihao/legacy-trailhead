@@ -5,17 +5,18 @@ import { withRouter } from 'react-router-dom';
 import queryString from 'query-string';
 import { Dropdown } from 'react-bootstrap';
 import { signIn, signOut, casAuthed, getUser } from '../../actions';
+import DOCLoading from '../doc-loading';
 import { Stack, Queue, Divider, Box } from '../layout';
 import Icon from '../icon';
 import CompleteProfile from './complete-profile';
 import * as constants from '../../constants';
 import './gateway.scss';
-import dropdownIcon from '../../img/dropdown-toggle.svg';
 
 class Gateway extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      signingIn: false,
       incompleteProfile: false,
     };
   }
@@ -32,7 +33,10 @@ class Gateway extends Component {
   }
 
   signInAndThenLoadData = (email, password) => {
-    this.props.signIn(email, password, this.props.dataLoader);
+    this.setState({ signingIn: true });
+    this.props.signIn(email, password, this.props.dataLoader).then(() => {
+      this.setState({ signingIn: false });
+    });
   }
 
   fakeSignIn = (type) => {
@@ -69,11 +73,11 @@ class Gateway extends Component {
           <Icon type="dropdown" size={20} />
         </Dropdown.Toggle>
         <Dropdown.Menu className="field-dropdown-menu">
-          <Dropdown.Item eventKey="opo">OPO Staff</Dropdown.Item>
-          <Dropdown.Item eventKey="leader">Trip leader</Dropdown.Item>
-          <Dropdown.Item eventKey="trippee1">Trippee A</Dropdown.Item>
-          <Dropdown.Item eventKey="trippee2">Trippee B</Dropdown.Item>
-          <Dropdown.Item eventKey="trippee3">Trippee C</Dropdown.Item>
+          <Dropdown.Item eventKey="opo">OPO Staff (the great Rory)</Dropdown.Item>
+          <Dropdown.Item eventKey="leader">Trip leader (chubber)</Dropdown.Item>
+          <Dropdown.Item eventKey="trippee1">Trippee A (most crunchy)</Dropdown.Item>
+          <Dropdown.Item eventKey="trippee2">Trippee B (average student)</Dropdown.Item>
+          <Dropdown.Item eventKey="trippee3">Trippee C (indoor cat)</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
@@ -106,7 +110,9 @@ class Gateway extends Component {
                 </div>
               </Box>
               <Stack size={25} />
-              {this.renderAuthOptions()}
+              <Box dir="row" justify="center">
+                {this.state.signingIn ? <DOCLoading type="cubes" width={50} height={50} /> : this.renderAuthOptions() }
+              </Box>
               <Stack size={25} />
               <Box dir="row" align="center">
                 <Queue size={25} />
@@ -119,7 +125,7 @@ class Gateway extends Component {
               </Box>
               <Stack size={25} />
               <Box dir="row" justify="center">
-                {this.renderDevAuthOptions()}
+                {this.state.signingIn ? <DOCLoading type="cubes" width={50} height={50} /> : this.renderDevAuthOptions() }
               </Box>
             </Box>
           )
