@@ -1,147 +1,146 @@
-/* eslint-disable */
 import React from 'react';
+import { Stack, Queue, Divider, Box } from './layout';
 import '../styles/createtrip-style.scss';
 
-const PCardRequest = (props) => {
-	return (
-		<div className="create-trip-form-content">
-			<div className="row page-header">
-				<p>P-Card Request</p>
-			</div>
-			{(!props.pcardStatus || props.pcardStatus === 'pending' || props.pcardStatus === 'N/A')
-				? (
-					<div>
-						{getPcardForm(props)}
-						<div className="toggle-pcard-button">
-							<button
-								className={`add-gear-button ${props.pcardRequest.length !== 0 ? 'create-trip-cancel-button' : ''}`}
-								type="button" onClick={props.togglePcard}
-							>
-								{props.pcardRequest.length === 0 ? 'Request P-card' : 'Cancel Request'}
-							</button>
-						</div>
-					</div>
-				)
-				: (
-					<div className="no-gear">
-						<div className="trip-detail">
-							<div className="no-on-trip">
-								<h4 className="none-f-now">You can&apos;t edit requests after they&apos;ve been reviewed</h4>
-							</div>
-						</div>
-					</div>
-				)
-			}
-		</div>
-	)
-};
+function getPcardForm(props) {
+  const { pcardRequest } = props;
+  return pcardRequest.map((request, index) => {
+    return (
+      <Box dir="col" pad={50} className="doc-card" key={request._id}>
+        <Box dir="row" justify="between" align="center">
+          <div className="doc-h2">Total people on trip</div>
+          <input
+            className={`field leaders pcard ${request.errorFields.numPeople ? 'field-error' : ''}`}
+            onChange={event => props.onPcardFieldChange(event, index)}
+            name="numPeople"
+            placeholder="e.g. 8"
+            value={request.numPeople}
+            type="number"
+          />
+        </Box>
+        <Stack size={25} />
+        <div className="doc-h2">Food costs</div>
+        <Stack size={25} />
+        <Box dir="row">
+          <Box dir="col" expand>
+            <Box dir="row" justify="between" align="center">
+              <div className="doc-h3">Snacks</div>
+              <input
+                className={`field leaders pcard ${request.errorFields.snacks ? 'field-error' : ''}`}
+                onChange={event => props.onPcardFieldChange(event, index)}
+                name="snacks"
+                placeholder="e.g. 1"
+                value={request.snacks}
+                type="number"
+              />
+            </Box>
+            <Stack size={25} />
+            <Box dir="row" justify="between" align="center">
+              <div className="doc-h3">Breakfast</div>
+              <input
+                className={`field leaders pcard ${request.errorFields.breakfast ? 'field-error' : ''}`}
+                onChange={event => props.onPcardFieldChange(event, index)}
+                name="breakfast"
+                placeholder="e.g. 1"
+                value={request.breakfast}
+                type="number"
+              />
+            </Box>
+          </Box>
+          <Queue size={25} />
+          <Box dir="col" expand>
+            <Box dir="row" justify="between" align="center">
+              <div className="doc-h3">Lunch</div>
+              <input
+                className={`field leaders pcard ${request.errorFields.lunch ? 'field-error' : ''}`}
+                onChange={event => props.onPcardFieldChange(event, index)}
+                name="lunch"
+                placeholder="e.g. 1"
+                value={request.lunch}
+                type="number"
+              />
+            </Box>
+            <Stack size={25} />
 
-const getPcardForm = (props) => {
-	const { pcardRequest } = props;
-	return pcardRequest.map((request, index) => {
-		return (
-			<div key={`req_${index}`}>
-				<div className="page-sub-headers">
-					<p>Number of People (including trip leaders)</p>
-				</div>
-				<div className="row pcard-header">
-					<input
-						className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.numPeople ? 'field-error' : ''}`}
-						onChange={(event) => props.onPcardFieldChange(event, index)}
-						name="numPeople"
-						placeholder="e.g. 8"
-						value={request.numPeople}
-						type="number"
-					/>
-				</div>
-				<div className="page-sub-headers">
-					<p>How many servings per person</p>
-				</div>
-
-				<div className="pcard-food-breakdown">
-					<div className="row page-sub-headers pcard">
-						<p>Snacks</p>
-						<input
-							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.snacks ? 'field-error' : ''}`}
-							onChange={(event) => props.onPcardFieldChange(event, index)}
-							name="snacks"
-							placeholder="e.g. 1"
-							value={request.snacks}
-							type="number"
-						/>
-					</div>
-					<div className="row page-sub-headers pcard">
-						<p>Breakfast</p>
-						<input
-							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.breakfast ? 'field-error' : ''}`}
-							onChange={(event) => props.onPcardFieldChange(event, index)}
-							name="breakfast"
-							placeholder="e.g. 1"
-							value={request.breakfast}
-							type="number"
-						/>
-					</div>
-					<div className="row page-sub-headers pcard">
-						<p>Lunch</p>
-						<input
-							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.lunch ? 'field-error' : ''}`}
-							onChange={(event) => props.onPcardFieldChange(event, index)}
-							name="lunch"
-							placeholder="e.g. 1"
-							value={request.lunch}
-							type="number"
-						/>
-					</div>
-					<div className="row page-sub-headers pcard">
-						<p>Dinner</p>
-						<input
-							className={`field create-trip-form-bottom-margin leaders pcard ${request.errorFields.dinner ? 'field-error' : ''}`}
-							onChange={(event) => props.onPcardFieldChange(event, index)}
-							name="dinner"
-							placeholder="e.g. 1"
-							value={request.dinner}
-							type="number"
-						/>
-					</div>
-				</div>
-				<div className="page-sub-headers">
-					<p>Other Costs</p>
-				</div>
-				<div>
-					{otherCosts(request.otherCosts, props.onOtherCostsChange, index, props.deleteOtherCost)}
-					<span className="create-trip-pcard-add-other" onClick={() => props.addOtherCost(event, index)} role="button" tabIndex={0}>+ Add another expense</span>
-				</div>
-			</div>
-		);
-	});
-};
-
-const otherCosts = (otherCosts, onOtherCostsChange, pcardIndex, deleteOtherCost) => {
-	return otherCosts.map((otherCost, costIndex) => {
-		return (
-			<div key={`other_cost_${costIndex}`}>
-				<input
-					className={`field create-trip-form-bottom-margin leaders other_costs ${otherCost.errorFields.title ? 'field-error' : ''}`}
-					onChange={() => onOtherCostsChange(event, pcardIndex, costIndex)}
-					name="title"
-					placeholder="e.g. Tickets for EVO"
-					value={otherCost.title}
-				/>
-				<p style={{ fontWeight: 700, display: "inline-block", width: "fit-content", fontSize: "18pt" }}>
-					$
-        </p>
-				<input
-					className={`field create-trip-form-bottom-margin leaders other_costs other_costs_num ${otherCost.errorFields.cost ? 'field-error' : ''}`}
-					onChange={() => onOtherCostsChange(event, pcardIndex, costIndex)}
-					name="cost"
-					type="number"
-					placeholder="e.g. 10"
-					value={otherCost.cost}
-				/>
-				<button type="button" className="delete-gear-button" onClick={() => deleteOtherCost(event, pcardIndex, costIndex)}>X</button>
-			</div>
-		);
-	});
+            <Box dir="row" justify="between" align="center">
+              <div className="doc-h3">Dinner</div>
+              <input
+                className={`field leaders pcard ${request.errorFields.dinner ? 'field-error' : ''}`}
+                onChange={event => props.onPcardFieldChange(event, index)}
+                name="dinner"
+                placeholder="e.g. 1"
+                value={request.dinner}
+                type="number"
+              />
+            </Box>
+          </Box>
+        </Box>
+        <Stack size={25} />
+        <div className="doc-h2">Other costs</div>
+        <div>
+          {renderOtherCosts(request.otherCosts, props.onOtherCostsChange, index, props.deleteOtherCost)}
+          <span className="create-trip-pcard-add-other" onClick={event => props.addOtherCost(event, index)} role="button" tabIndex={0}>+ Add another expense</span>
+        </div>
+      </Box>
+    );
+  });
 }
+
+function renderOtherCosts(otherCosts, onOtherCostsChange, pcardIndex, deleteOtherCost) {
+  return otherCosts.map((otherCost, costIndex) => {
+    return (
+      <div key={`other_cost_${costIndex}`}>
+        <input
+          className={`field leaders other_costs ${otherCost.errorFields.title ? 'field-error' : ''}`}
+          onChange={event => onOtherCostsChange(event, pcardIndex, costIndex)}
+          name="title"
+          placeholder="e.g. Tickets for EVO"
+          value={otherCost.title}
+        />
+        <p style={{ fontWeight: 700, display: 'inline-block', width: 'fit-content', fontSize: '18pt' }}>
+          $
+        </p>
+        <input
+          className={`field leaders other_costs other_costs_num ${otherCost.errorFields.cost ? 'field-error' : ''}`}
+          onChange={event => onOtherCostsChange(event, pcardIndex, costIndex)}
+          name="cost"
+          type="number"
+          placeholder="e.g. 10"
+          value={otherCost.cost}
+        />
+        <button type="button" className="delete-gear-button" onClick={event => deleteOtherCost(event, pcardIndex, costIndex)}>X</button>
+      </div>
+    );
+  });
+}
+
+const PCardRequest = (props) => {
+  return (
+    <Box dir="col">
+      <div className="doc-h1">P-Card Request</div>
+      <Stack size={50} />
+
+      {(!props.pcardStatus || props.pcardStatus === 'pending' || props.pcardStatus === 'N/A')
+        ? (
+          <Box dir="col" align="start">
+            {getPcardForm(props)}
+            <div className={`doc-button ${props.pcardRequest.length !== 0 ? 'alarm' : 'hollow'}`} onClick={props.togglePcard} role="button" tabIndex={0}>
+              {props.pcardRequest.length === 0 ? 'Request P-card' : 'Cancel request'}
+            </div>
+          </Box>
+        )
+        : (
+          <div className="no-gear">
+            <div className="trip-detail">
+              <div className="no-on-trip">
+                <h4 className="none-f-now">You can&apos;t edit requests after they&apos;ve been reviewed</h4>
+              </div>
+            </div>
+          </div>
+        )
+}
+    </Box>
+  );
+};
 
 export default PCardRequest;
