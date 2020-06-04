@@ -122,7 +122,7 @@ const getOnTrip = (props, onTripEmailRef) => {
                   )) : 'None'}
                 </td>
                 <td>
-                  <div className="doc-button hollow" onClick={(event) => { props.moveToPending(member); event.stopPropagation(); }} role="button" tabIndex={0}>Back to pending</div>
+                  <div className="doc-button hollow" onClick={(event) => { props.moveToPending(member); event.stopPropagation(); }} role="button" tabIndex={0}>Change to pending</div>
                 </td>
               </tr>
             ))}
