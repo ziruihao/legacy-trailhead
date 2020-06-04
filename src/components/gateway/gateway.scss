@@ -14,28 +14,31 @@
     background-image: url(./gateway-phone-no-brand.svg) !important;
   }
 
-  .landing-card {
+  .landing-card-holder {
     position: relative;
     left: 300px;
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
-
-    &.l {
-      width: 725px;
-    }
-    &.s {
-      width: 500px;
-
-    }
-
-    .landing-card-message {
-      // font-size: 24px;
-    }
     
-    .landing-card-actions {
+    .landing-card {
       display: flex;
-      justify-content: space-around;
+      flex-direction: column;
+      justify-content: stretch;
+  
+      &.l {
+        width: 725px;
+      }
+      &.s {
+        width: 500px;
+  
+      }
+  
+      .landing-card-message {
+        // font-size: 24px;
+      }
+      
+      .landing-card-actions {
+        display: flex;
+        justify-content: space-around;
+      }
     }
   }
 }

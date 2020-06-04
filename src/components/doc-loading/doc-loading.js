@@ -5,7 +5,7 @@ import logo from './doc-logo.svg';
 import './doc-loading.scss';
 
 const DOCLoading = (props) => {
-  const measure = measure || 'px';
+  const measure = props.measure || 'px';
   return (
     <div id="doc-loading-wrapper">
       {props.type === 'doc'

@@ -32,16 +32,18 @@ class CompleteProfile extends Component {
             {this.props.user ?
               <>
                 {this.state.stage === '1' ?
-                  <Box className="landing-card doc-card s" dir="col" pad={25}>
+                  <Box className="landing-card doc-card" dir="col" width={500} pad={25}>
                     <div className="landing-card-message">
                       <div className="doc-h1">Hello {this.props.user.casID.split(' ')[0]}</div>
+                      <Stack size={25}></Stack>
                       <div className="p1">
                         Welcome to the DOC platform. As a new user you just need to complete your profile to start signing up for trips.
                       </div>
                     </div>
-                    <div className="landing-card-actions">
-                      <div role="button" tabIndex={0} className="doc-button" onClick={() => this.setState({stage: '2'})}>Let's Go</div>
-                    </div>
+                    <Stack size={25}></Stack>
+                    <Box dir="row" justify="around">
+                      <div className="doc-button" onClick={() => this.setState({stage: '2'})} role="button" tabIndex={0} >Let's go</div>
+                    </Box>
                   </Box>
                   :
                   <ProfileCardEdit completeProfileMode={true}></ProfileCardEdit>
@@ -52,7 +54,7 @@ class CompleteProfile extends Component {
                 <DOCLoading type="dots" />
               </div>
             }
-        </>
+            </>
       )
   }
 }

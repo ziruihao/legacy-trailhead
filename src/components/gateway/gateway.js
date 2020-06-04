@@ -94,42 +94,44 @@ class Gateway extends Component {
   render() {
     return (
       <div id="landing-page" className={this.state.incompleteProfile ? 'landing-page-onboarding' : ''}>
-        {this.state.incompleteProfile
-          ? <CompleteProfile />
-          : (
-            <Box dir="col" className="landing-card doc-card" width={500} pad={50}>
-              <Box dir="row" justify="center">
-                <Icon type="tree" size={100} />
-              </Box>
-              <Stack size={25} />
-              <Box dir="col" align="center" className="landing-card-message">
-                <div className="doc-h1">Hello traveler!</div>
+        <Box className="landing-card-holder">
+          {this.state.incompleteProfile
+            ? <CompleteProfile />
+            : (
+              <Box dir="col" className="landing-card doc-card" width={500} pad={50}>
+                <Box dir="row" justify="center">
+                  <Icon type="tree" size={100} />
+                </Box>
                 <Stack size={25} />
-                <div className="p1 center-text">
-                  Welcome to the Dartmouth Outing Club website! Here you can view and sign up for trips, sort by date, activity, or required experience, and create and publish your own trips as a leader. See you in the out o’ doors!
-                </div>
+                <Box dir="col" align="center" className="landing-card-message">
+                  <div className="doc-h1">Hello traveler!</div>
+                  <Stack size={25} />
+                  <div className="p1 center-text">
+                    Welcome to the Dartmouth Outing Club website! Here you can view and sign up for trips, sort by date, activity, or required experience, and create and publish your own trips as a leader. See you in the out o’ doors!
+                  </div>
+                </Box>
+                <Stack size={25} />
+                <Box dir="row" justify="center">
+                  {this.state.signingIn ? <DOCLoading type="cubes" width={50} height={50} /> : this.renderAuthOptions() }
+                </Box>
+                <Stack size={25} />
+                <Box dir="row" align="center">
+                  <Queue size={25} />
+                  <Divider size={1} />
+                  <Queue size={25} />
+                  <div className="p1 thin gray">OR</div>
+                  <Queue size={25} />
+                  <Divider size={1} />
+                  <Queue size={25} />
+                </Box>
+                <Stack size={25} />
+                <Box dir="row" justify="center">
+                  {this.state.signingIn ? <DOCLoading type="cubes" width={50} height={50} /> : this.renderDevAuthOptions() }
+                </Box>
               </Box>
-              <Stack size={25} />
-              <Box dir="row" justify="center">
-                {this.state.signingIn ? <DOCLoading type="cubes" width={50} height={50} /> : this.renderAuthOptions() }
-              </Box>
-              <Stack size={25} />
-              <Box dir="row" align="center">
-                <Queue size={25} />
-                <Divider size={1} />
-                <Queue size={25} />
-                <div className="p1 thin gray">OR</div>
-                <Queue size={25} />
-                <Divider size={1} />
-                <Queue size={25} />
-              </Box>
-              <Stack size={25} />
-              <Box dir="row" justify="center">
-                {this.state.signingIn ? <DOCLoading type="cubes" width={50} height={50} /> : this.renderDevAuthOptions() }
-              </Box>
-            </Box>
-          )
+            )
         }
+        </Box>
       </div>
     );
   }
