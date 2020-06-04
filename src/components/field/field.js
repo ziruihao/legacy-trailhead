@@ -31,6 +31,7 @@ const Field = (props) => {
       <input
         className={`field ${props.error ? 'field-error' : ''}`}
         onChange={(event) => {
+          console.log(event.target.name);
           props.onChange(event);
           setErrorSeenStatus(true);
         }}
@@ -38,13 +39,13 @@ const Field = (props) => {
         placeholder={props.placeholder}
         value={props.value}
         type={props.type}
-        data-tip="what"
-        data-for="1"
+        data-tip
+        data-for={props.tooltipID ? props.tooltipID : `${props.name}-field-error`}
         ref={(ref) => { reactToolTipRef = ref; }}
         style={{ width, minWidth: width, height, minHeight: height }}
       />
       {props.error
-        ? <ReactTooltip id="1" place="bottom" backgroundColor="#A93A3A" textColor="white">{props.errorMessage}</ReactTooltip>
+        ? <ReactTooltip id={props.tooltipID ? props.tooltipID : `${props.name}-field-error`} place="bottom" backgroundColor="#A93A3A" textColor="white">{props.errorMessage}</ReactTooltip>
         : null
       }
     </>
