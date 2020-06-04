@@ -70,10 +70,10 @@ class Gateway extends Component {
         </Dropdown.Toggle>
         <Dropdown.Menu className="field-dropdown-menu">
           <Dropdown.Item eventKey="opo">OPO Staff</Dropdown.Item>
-          <Dropdown.Item eventKey="opo">Trip leader</Dropdown.Item>
-          <Dropdown.Item eventKey="opo">Trippee A</Dropdown.Item>
-          <Dropdown.Item eventKey="opo">Trippee B</Dropdown.Item>
-          <Dropdown.Item eventKey="opo">Trippee C</Dropdown.Item>
+          <Dropdown.Item eventKey="leader">Trip leader</Dropdown.Item>
+          <Dropdown.Item eventKey="trippee1">Trippee A</Dropdown.Item>
+          <Dropdown.Item eventKey="trippee2">Trippee B</Dropdown.Item>
+          <Dropdown.Item eventKey="trippee3">Trippee C</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
