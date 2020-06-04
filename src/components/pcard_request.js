@@ -89,7 +89,7 @@ function getPcardForm(props) {
 function renderOtherCosts(otherCosts, onOtherCostsChange, pcardIndex, deleteOtherCost) {
   return otherCosts.map((otherCost, costIndex) => {
     return (
-      <div key={`other_cost_${costIndex}`}>
+      <div key={otherCost}>
         <input
           className={`field leaders other_costs ${otherCost.errorFields.title ? 'field-error' : ''}`}
           onChange={event => onOtherCostsChange(event, pcardIndex, costIndex)}
