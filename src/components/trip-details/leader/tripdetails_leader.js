@@ -186,7 +186,8 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
         {groupGearArray.map((gear, index, array) => (
           <div key={gear._id}>
             <div className="trip-details-table-row">
-              <span>{gear}</span>
+              <span>{gear[0]}</span>
+              <span>{gear[1]}</span>
             </div>
             {index !== array.length - 1 ? <hr className="detail-line" /> : null}
           </div>

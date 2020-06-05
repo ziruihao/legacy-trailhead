@@ -23,7 +23,8 @@ class CreateTrip extends Component {
   }
 
   defaultGroupGear = {
-    groupGear: '',
+    groupGearName: '',
+    groupGearQuantity: null,
     hasError: false,
   }
 
@@ -96,12 +97,14 @@ class CreateTrip extends Component {
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
-    this.onGearChange = this.onGearChange.bind(this);
+    this.onGearChangeName = this.onGearChangeName.bind(this);
+    this.onGearChangeQuantity = this.onGearChangeQuantity.bind(this);
     this.onClubChange = this.onClubChange.bind(this);
     this.pageIsValid = this.pageIsValid.bind(this);
   }
 
   componentDidMount() {
+    //groupGear = [groupGearName, groupGearQuantity];
     if (this.props.location.pathname.includes('/edittrip')) {
       this.setState({editMode: true})
       this.props.fetchTrip(this.props.match.params.tripID)
@@ -133,11 +136,9 @@ class CreateTrip extends Component {
             forEdititing.tripLength = pickupAsDate.getTime() === returnAsDate.getTime() ? 'single-day-trip' : 'multi-day-trip';
             return Object.assign({}, vehicle, forEdititing);
           });
-          // const coLeaders = this.getCoLeaders(trip.leaders);
           const startDate = new Date(trip.startDate);
           const endDate = new Date(trip.endDate);
           const length = startDate.getTime() === endDate.getTime() ? 'single' : 'multi';
-          // console.log('leader 1', trip.leaders);
           this.setState({
             currentStep: 1,
             title: trip.title,
@@ -320,16 +321,30 @@ class CreateTrip extends Component {
     });
   }
 
-  onGearChange = (event, idx) => {
+  onGearChangeName = (event, idx) => {
     event.persist();
     this.setState((prevState) => {
       const gearArray = prevState.gearRequests;
       const changedGearObject = gearArray[idx];
       const updates = {};
-      updates.groupGear = event.target.value;
+      updates.groupGearName = event.target.value;
       updates.hasError = this.isStringEmpty(event.target.value);
       const updatedGearObject = Object.assign({}, changedGearObject, updates);
+      return {
+        gearRequests: Object.assign([], gearArray, { [idx]: updatedGearObject })
+      };
+    });
+  }
 
+  onGearChangeQuantity = (event, idx) => {
+    event.persist();
+    this.setState((prevState) => {
+      const gearArray = prevState.gearRequests;
+      const changedGearObject = gearArray[idx];
+      const updates = {};
+      updates.groupGearQuantity = event.target.value;
+      updates.hasError = this.isStringEmpty(event.target.value);
+      const updatedGearObject = Object.assign({}, changedGearObject, updates);
       return {
         gearRequests: Object.assign([], gearArray, { [idx]: updatedGearObject })
       };
@@ -493,11 +508,15 @@ class CreateTrip extends Component {
       const { gearRequests, trippeeGear } = this.state;
       let hasEmptyField = false;
       const markedEmptyGroupFields = gearRequests.map((gear) => {
-        const isFieldEmpty = this.isStringEmpty(gear.groupGear);
-        if (isFieldEmpty) {
+        const updatedErrorFields = {};
+        const isFieldEmptyName = this.isStringEmpty(gear.groupGearName);
+        const isFieldEmptyQuantity = (gear.groupGearQuantity > 0 ? false : true);
+        updatedErrorFields.name = this.isFieldEmptyName;
+        updatedErrorFields.quantity = this.isFieldEmptyQuantity;
+        if (isFieldEmptyName || isFieldEmptyQuantity) {
           hasEmptyField = true;
         };
-        return Object.assign({}, gear, { hasError: isFieldEmpty });
+        return Object.assign({}, gear, { hasError: updatedErrorFields });
       });
       const markedEmptyTrippeFields = trippeeGear.map((gear) => {
         const isFieldEmpty = this.isStringEmpty(gear.name);
@@ -565,6 +584,7 @@ class CreateTrip extends Component {
   createTrip() {
     const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
     const gearRequests = this.state.gearRequests.map((groupGear) => {
+      groupGear.groupGear = [groupGear.groupGearName, groupGear.groupGearQuantity];
       return groupGear.groupGear;
     });
     const trippeeGear = this.state.trippeeGear.map((trippeeGear) => {
@@ -617,6 +637,7 @@ class CreateTrip extends Component {
 
   render() {
     let page;
+    //this.state.currentStep = 4;
     switch (this.state.currentStep) {
       case 1:
         page = (
@@ -675,7 +696,8 @@ class CreateTrip extends Component {
             trippeeGear={this.state.trippeeGear}
             gearRequests={this.state.gearRequests}
             onTrippeeGearChange={this.onTrippeeGearChange}
-            onGearChange={this.onGearChange}
+            onGearChangeName={this.onGearChangeName}
+            onGearChangeQuantity={this.onGearChangeQuantity}
             onSizeTypeChange={this.onSizeTypeChange}
             removeTrippeeGear={this.removeTrippeeGear}
             removeGear={this.removeGear}

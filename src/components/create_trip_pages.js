@@ -261,8 +261,16 @@ const getGearInputs = (props) => {
               className={`field ${gearRequest.hasError ? 'field-error' : ''}`}
               name="opogearRequest"
               placeholder="Item name"
-              onChange={event => props.onGearChange(event, index)}
-              value={gearRequest.groupGear}
+              onChange={event => props.onGearChangeName(event, index)}
+              value={gearRequest.groupGearName}
+            />
+            <input
+              type="number"
+              className={`field ${gearRequest.hasError ? 'field-error' : ''} quantity`}
+              name="opogearRequestQuantity"
+              placeholder="Quantity"
+              onChange={event => props.onGearChangeQuantity(event, index)}
+              value={gearRequest.groupGearQuantity}
             />
             <i className="material-icons close-button remove-gear-button" onClick={() => props.removeGear(index)} role="button" tabIndex={0}>close</i>
           </div>
