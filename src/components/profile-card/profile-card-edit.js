@@ -275,7 +275,7 @@ class ProfileCardEdit extends Component {
     return (
       <div>
         <Dropdown onSelect={this.onClotheGenderChange}>
-          <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.gender_clothes ? 'vrf-error' : ''}`}>
+          <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.gender_clothes ? '' : ''}`}>
             <span>
               <span className={`selected-size ${this.isStringEmpty(this.state.gender_clothes) ? 'no-date' : ''}`}>
                 {this.isStringEmpty(this.state.gender_clothes) ? 'Select' : this.state.gender_clothes}
@@ -289,7 +289,7 @@ class ProfileCardEdit extends Component {
           </Dropdown.Menu>
         </Dropdown>
         <Dropdown onSelect={this.onClotheSizeChange}>
-          <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.clothe_size ? 'vrf-error' : ''}`}>
+          <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.clothe_size ? '' : ''}`}>
             <span>
               <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
                 {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
@@ -368,7 +368,7 @@ class ProfileCardEdit extends Component {
   getShoeGender = () => {
     return (
       <Dropdown onSelect={this.onShoeGenderChange}>
-        <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.gender_shoe ? 'vrf-error' : ''}`}>
+        <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.gender_shoe ? '' : ''}`}>
           <span>
             <span className={`selected-size ${this.isStringEmpty(this.state.gender_shoe) ? 'no-date' : ''}`}>
               {this.isStringEmpty(this.state.gender_shoe) ? 'Select' : this.state.gender_shoe}

@@ -408,7 +408,7 @@ class OPOVehicleRequest extends Component {
         <div className="table">
           <div className="ovr-req-row">
             <Dropdown onSelect={eventKey => this.onVehicleTypeChange(eventKey, index)}>
-              <Dropdown.Toggle id="ovr-vehicle-dropdown-button" className={assignment.errorFields.assignedVehicle ? 'vrf-error' : ''}>
+              <Dropdown.Toggle id="ovr-vehicle-dropdown-button" className={assignment.errorFields.assignedVehicle ? '' : ''}>
                 <div className={`ovr-current-vehicle ${assignment.assignedVehicle === '' ? 'inactive' : ''}`}>{assignment.assignedVehicle === '' ? 'Assign a vehicle' : assignment.assignedVehicle}</div>
                 <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
               </Dropdown.Toggle>
@@ -430,7 +430,7 @@ class OPOVehicleRequest extends Component {
                 <input
                   type="date"
                   id={`pickup_date_${index}`}
-                  className={`ovr-date-input ${assignment.pickupDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupDate ? 'vrf-error' : ''}`}
+                  className={`ovr-date-input ${assignment.pickupDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupDate ? '' : ''}`}
                   name="pickupDate"
                   value={assignment.pickupDate}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
@@ -445,7 +445,7 @@ class OPOVehicleRequest extends Component {
                 <input
                   type="time"
                   id={`pickup_time_${index}`}
-                  className={`ovr-date-input ${assignment.pickupTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupTime ? 'vrf-error' : ''}`}
+                  className={`ovr-date-input ${assignment.pickupTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupTime ? '' : ''}`}
                   name="pickupTime"
                   value={assignment.pickupTime}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
@@ -460,7 +460,7 @@ class OPOVehicleRequest extends Component {
                 <input
                   type="date"
                   id={`return_date_${index}`}
-                  className={`ovr-date-input ${assignment.returnDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnDate ? 'vrf-error' : ''}`}
+                  className={`ovr-date-input ${assignment.returnDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnDate ? '' : ''}`}
                   name="returnDate"
                   value={assignment.returnDate}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
@@ -475,7 +475,7 @@ class OPOVehicleRequest extends Component {
                 <input
                   type="time"
                   id={`return_time_${index}`}
-                  className={`ovr-date-input ${assignment.returnTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnTime ? 'vrf-error' : ''}`}
+                  className={`ovr-date-input ${assignment.returnTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnTime ? '' : ''}`}
                   name="returnTime"
                   value={assignment.returnTime}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
@@ -490,7 +490,7 @@ class OPOVehicleRequest extends Component {
                 <input
                   type="text"
                   id={`assigned_key_${index}`}
-                  className={`ovr-date-input ${assignment.errorFields.assignedKey ? 'vrf-error' : ''}`}
+                  className={`ovr-date-input ${assignment.errorFields.assignedKey ? '' : ''}`}
                   maxLength="50"
                   name="assignedKey"
                   value={assignment.assignedKey}

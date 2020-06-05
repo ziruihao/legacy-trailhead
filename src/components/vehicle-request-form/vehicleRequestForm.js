@@ -11,19 +11,19 @@ const getApprpriateVehicleMenu = (userCertifications) => {
   switch (userCertifications.driverCert) {
     case 'MICROBUS':
       microbusVan = (
-        <div>
+        <>
           <Dropdown.Item eventKey="Microbus">Microbus</Dropdown.Item>
           <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
           <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>
-        </div>
+        </>
       );
       break;
     case 'VAN':
       microbusVan = (
-        <div>
+        <>
           <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
           <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>
-        </div>
+        </>
       );
       break;
     default:
@@ -76,8 +76,8 @@ const getVehicles = (props) => {
         <Stack size={50} />
         <div className="doc-h2" htmlFor="vehicle_type">Vehicle type</div>
         <Stack size={25} />
-        <Dropdown id={`vehicle_type_${index}`} onSelect={eventKey => props.onVehicleTypeChange(eventKey, index)}>
-          <Dropdown.Toggle className={`field vehicle-type-dropdown ${vehicle.errorFields.vehicleType ? 'field-error vrf-error' : ''}`}>
+        <Dropdown onSelect={eventKey => props.onVehicleTypeChange(eventKey, index)}>
+          <Dropdown.Toggle className={`field ${vehicle.errorFields.vehicleType ? 'field-error' : ''}`}>
             <span>
               <span className="selected-size">{vehicleType.length === 0 ? 'Select a vehicle' : vehicleType}</span>
               <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
@@ -136,7 +136,7 @@ const getVehicles = (props) => {
             <input
               type="date"
               id={`pickup_date_${index}`}
-              className={`trip-detail vrf-vehicle-detail  ${singleDayClass} ${vehicle.pickupDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupDate ? 'vrf-error' : ''}`}
+              className={`trip-detail vrf-vehicle-detail  ${singleDayClass} ${vehicle.pickupDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupDate ? '' : ''}`}
               name="pickupDate"
               value={vehicle.pickupDate}
               onChange={event => props.onVehicleDetailChange(event, index)}
@@ -150,7 +150,7 @@ const getVehicles = (props) => {
                 <input
                   type="date"
                   id={`return_date_${index}`}
-                  className={`trip-detail vrf-vehicle-detail ${vehicle.returnDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnDate ? 'vrf-error' : ''}`}
+                  className={`trip-detail vrf-vehicle-detail ${vehicle.returnDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnDate ? '' : ''}`}
                   name="returnDate"
                   value={vehicle.returnDate}
                   onChange={event => props.onVehicleDetailChange(event, index)}
@@ -166,7 +166,7 @@ const getVehicles = (props) => {
             <input
               type="time"
               id={`pickup_time_${index}`}
-              className={`trip-detail vrf-vehicle-detail ${vehicle.pickupTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupTime ? 'vrf-error' : ''}`}
+              className={`trip-detail vrf-vehicle-detail ${vehicle.pickupTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupTime ? '' : ''}`}
               name="pickupTime"
               value={vehicle.pickupTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
@@ -178,7 +178,7 @@ const getVehicles = (props) => {
             <input
               type="time"
               id={`return_time_${index}`}
-              className={`trip-detail vrf-vehicle-detail ${vehicle.returnTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnTime ? 'vrf-error' : ''}`}
+              className={`trip-detail vrf-vehicle-detail ${vehicle.returnTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnTime ? '' : ''}`}
               name="returnTime"
               value={vehicle.returnTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
@@ -256,7 +256,7 @@ const getAppropriateButton = (props) => {
 
 const VehicleRequestForm = (props) => {
   return (
-    <Box dir="col" pad={50} id="vehicle-request-form" className="doc-card">
+    <Box dir="col" pad={50} className="doc-card">
       <div className="doc-h1">Vehicle request form</div>
       <Stack size={50} />
       {props.requestType === 'SOLO'
@@ -269,7 +269,7 @@ const VehicleRequestForm = (props) => {
               onChange={props.onSoloReqDetailsChange}
               name="requestDetails"
               id="request_details"
-              className={`field trip-detail vrf-req-details-input ${props.soloErrorFields.requestDetails ? 'field-error vrf-error' : ''}`}
+              className={`field trip-detail vrf-req-details-input ${props.soloErrorFields.requestDetails ? 'field-error' : ''}`}
               placeholder="e.g. I need a car to deliver wood to Cabin A"
             />
             <Stack size={25} />
@@ -278,7 +278,7 @@ const VehicleRequestForm = (props) => {
             <input
               type="number"
               id="noOfPeople"
-              className={`field trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.noOfPeople) === 0 ? 'no-date' : ''} ${props.soloErrorFields.noOfPeople ? 'field-error vrf-error' : ''}`}
+              className={`field trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.noOfPeople) === 0 ? 'no-date' : ''} ${props.soloErrorFields.noOfPeople ? 'field-error' : ''}`}
               name="noOfPeople"
               placeholder="0"
               value={props.noOfPeople}
@@ -293,7 +293,7 @@ const VehicleRequestForm = (props) => {
       <input
         type="number"
         id="mileage"
-        className={`field trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'field-error vrf-error' : ''}`}
+        className={`field ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'field-error' : ''}`}
         name="mileage"
         placeholder="0"
         value={props.mileage}
