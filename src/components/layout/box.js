@@ -5,7 +5,7 @@ const Box = (props) => {
   const justify = props.justify || 'start';
   const align = props.align || 'stretch';
   const self = props.self || 'auto';
-  const wrap = props.wrap || '';
+  const wrap = props.wrap ? 'wrap' : '';
   const expand = props.expand || false;
   let padding = null;
   let width = null;
