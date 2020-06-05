@@ -31,8 +31,8 @@ class NavBar extends Component {
             )
             : null
           }
-          <NavLink className={`nav-link ${this.props.history.location.pathname === '/my-trips' ? 'current' : ''}`} to="/my-trips">My Trips</NavLink>
           <NavLink className={`nav-link ${this.props.history.location.pathname === '/all-trips' ? 'current' : ''}`} to="/all-trips">All Trips</NavLink>
+          <NavLink className={`nav-link ${this.props.history.location.pathname === '/my-trips' ? 'current' : ''}`} to="/my-trips">My Trips</NavLink>
           <NavDropdown title="Profile" className={`${this.props.history.location.pathname === '/user' ? 'current-bootstrap-wrapper' : ''}`}>
             <NavDropdown.Item onClick={() => this.props.history.push('/user')}>View Profile</NavDropdown.Item>
             <NavDropdown.Item onClick={() => this.props.signOut(this.props.history)}>Logout</NavDropdown.Item>
