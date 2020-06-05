@@ -200,6 +200,7 @@ class CreateTrip extends Component {
   }
 
   onOtherCostsChange = (event, pCardIndex, otherCostIndex) => {
+    event.persist();
     this.setState((prevState) => {
       const pcardRequest = prevState.pcardRequest[pCardIndex];
       const otherCost = pcardRequest.otherCosts[otherCostIndex];
