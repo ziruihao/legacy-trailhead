@@ -15,6 +15,7 @@ export const ActionTypes = {
   DEAUTH_USER: 'DEAUTH_USER',
   UPDATE_USER_ID: 'UPDATE_USER_ID',
   UPDATE_USER: 'UPDATE_USER',
+  FETCH_USERS: 'FETCH_USERS',
   ALL_CLUBS: 'ALL_CLUBS',
   ERROR: 'ERROR',
   CLEAR_ERROR: 'CLEAR_ERROR',
@@ -50,6 +51,23 @@ export function updateRestrictedPath(restrictedPath) {
   return {
     type: ActionTypes.UPDATE_RESTRICTED_PATH,
     payload: restrictedPath,
+  };
+}
+
+export function getUsers() {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.get(`${constants.BACKEND_URL}/users`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_USERS, payload: response.data });
+          resolve();
+        })
+        .catch((error) => {
+          dispatch(appError(`Get user failed: ${error.response.data}`));
+          console.log(error);
+          reject(error);
+        });
+    });
   };
 }
 

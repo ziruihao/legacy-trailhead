@@ -1,4 +1,5 @@
+import SmallProfileCard from './profile-card-small';
 import ProfileCard from './profile-card';
 import ProfileCardEdit from './profile-card-edit';
 
-export { ProfileCard, ProfileCardEdit };
+export { SmallProfileCard, ProfileCard, ProfileCardEdit };
