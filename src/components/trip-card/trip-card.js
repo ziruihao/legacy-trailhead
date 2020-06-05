@@ -47,7 +47,7 @@ class TripCard extends React.Component {
         return <img className="trip-card-decal" src={dmbc} alt="" />;
       case 'Winter Sports':
         return <img className="trip-card-decal" src={wsc} alt="" />;
-      case 'Woodsmen':
+      case 'Timber Team':
         return <img className="trip-card-decal" src={wood} alt="" />;
       case 'Mountaineering':
         return <img className="trip-card-decal" src={mountain} alt="" />;
