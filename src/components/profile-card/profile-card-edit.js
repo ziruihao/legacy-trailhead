@@ -439,14 +439,6 @@ class ProfileCardEdit extends Component {
       window.scrollTo(0, 0);
       return false;
     }
-    if (!this.state.email.endsWith('@dartmouth.edu')) {
-      this.setState((prevState) => {
-        return { errorFields: Object.assign({}, prevState.errorFields, { email: true }) };
-      });
-      this.props.appError('Email must be a Dartmouth email address');
-      window.scrollTo(0, 0);
-      return false;
-    }
     return true;
   }
 
