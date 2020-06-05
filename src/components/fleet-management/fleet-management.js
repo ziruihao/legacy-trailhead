@@ -46,7 +46,6 @@ class FleetManagement extends Component {
   render() {
     return (
       <div id="fleet-management-page" className="center-view">
-
         <div id="fleet-management">
           <div id="fleet">
             <div className="doc-card large-card">

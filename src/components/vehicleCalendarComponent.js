@@ -22,7 +22,7 @@ const VehicleCalendarComponent = (props) => {
       showMultiDayTimes
       popup
       vehicles={props.vehicles}
-      assignments={props.assignments}
+      // assignments={props.assignments}
       components={{ event: VehicleBooking }}
       // eventPropGetter={(props.eventPropGetter)}
       onSelectEvent={props.userRole === 'OPO' ? (selectedEvent, e) => props.showEventModal(selectedEvent, e) : undefined}

@@ -113,11 +113,30 @@ class ProfileCard extends React.Component {
                   <div className="doc-h1">
                     {this.props.user.name}
                     {this.props.user.role === 'Leader'
-                      ? <Badge type="leader" size={36} />
+                      ? (
+                        <>
+                          <Badge type="leader" size={36} dataTip dataFor="leader-status-badge" />
+                          <ReactTooltip id="leader-status-badge" place="bottom">You are a leader DOC subclubs!</ReactTooltip>
+                        </>
+                      )
                       : null
                    }
                     {this.props.user.has_pending_leader_change
-                      ? <Badge type="pending" size={36} />
+                      ? (
+                        <>
+                          <Badge type="person-pending" size={36} dataTip dataFor="leader-pending-badge" />
+                          <ReactTooltip id="leader-pending-badge" place="bottom">Your request to be a subclub leader is being reviewed by OPO staff</ReactTooltip>
+                        </>
+                      )
+                      : null
+                   }
+                    {this.props.user.has_pending_cert_change
+                      ? (
+                        <>
+                          <Badge type="pending" size={36} dataTip dataFor="cert-pending-badge" />
+                          <ReactTooltip id="cert-pending-badge" place="bottom">Your request for vehicle certifications is being reviewed by OPO staff</ReactTooltip>
+                        </>
+                      )
                       : null
                    }
                   </div>
@@ -260,7 +279,7 @@ class ProfileCard extends React.Component {
                   type="text"
                   name="name"
                   onChange={this.props.onFieldChange}
-                  className={`field ${this.props.errorFields.name ? 'vrf-error' : ''}`}
+                  className={`field ${this.props.errorFields.name ? '' : ''}`}
                   value={this.props.name}
                   placeholder="Name"
                 />
@@ -271,7 +290,7 @@ class ProfileCard extends React.Component {
                   name="email"
                   maxLength="50"
                   onChange={this.props.onFieldChange}
-                  className={`field ${this.props.errorFields.email ? 'vrf-error' : ''}`}
+                  className={`field ${this.props.errorFields.email ? '' : ''}`}
                   value={this.props.email}
                   placeholder="Dartmouth email"
                 />
@@ -290,7 +309,7 @@ class ProfileCard extends React.Component {
               </div>
               <div className="card-info p1">
                 <input
-                  className={`field ${this.props.errorFields.pronoun ? 'vrf-error' : ''}`}
+                  className={`field ${this.props.errorFields.pronoun ? '' : ''}`}
                   type="text"
                   name="pronoun"
                   maxLength="50"
@@ -311,7 +330,7 @@ class ProfileCard extends React.Component {
                   name="dash_number"
                   maxLength="50"
                   onChange={this.props.onFieldChange}
-                  className={`field ${this.props.errorFields.dash_number ? 'vrf-error' : ''}`}
+                  className={`field ${this.props.errorFields.dash_number ? '' : ''}`}
                   value={this.props.dash_number}
                 />
               </div>
@@ -344,7 +363,7 @@ class ProfileCard extends React.Component {
                   type="text"
                   name="height"
                   onChange={this.props.onFieldChange}
-                  className={`field ${this.props.errorFields.height ? 'vrf-error' : ''}`}
+                  className={`field ${this.props.errorFields.height ? '' : ''}`}
                   value={this.props.height}
                   placeholder={'e.g. 5\'2"'}
                 />
@@ -357,7 +376,7 @@ class ProfileCard extends React.Component {
               </div>
               <div className="card-info p1">
                 <input
-                  className={`field ${this.props.errorFields.allergies_dietary_restrictions ? 'vrf-error' : ''}`}
+                  className={`field ${this.props.errorFields.allergies_dietary_restrictions ? '' : ''}`}
                   type="text"
                   name="allergies_dietary_restrictions"
                   maxLength="50"
@@ -377,7 +396,7 @@ class ProfileCard extends React.Component {
                   name="medical"
                   maxLength="50"
                   onChange={this.props.onFieldChange}
-                  className={`field ${this.props.errorFields.medical ? 'vrf-error' : ''}`}
+                  className={`field ${this.props.errorFields.medical ? '' : ''}`}
                   value={this.props.medical}
                   data-tip
                   data-for="medical-conditions-tooltip"

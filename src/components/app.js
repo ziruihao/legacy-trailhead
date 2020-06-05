@@ -86,15 +86,15 @@ class App extends React.Component {
       switch (this.props.user.role) {
         case 'OPO':
           if (switchMode && allowedRoles.includes('OPO')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
-          else window.location.replace(`${ROOT_URL}/opo-dashboard`);
+          else return <OPODashboard />;
           break;
         case 'Leader':
           if (switchMode && allowedRoles.includes('Leader')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
-          window.location.replace(`${ROOT_URL}/my-trips`);
+          else return <MyTrips />;
           break;
         default:
           if (switchMode && allowedRoles.includes('Trippee')) return <RequestedComponent switchMode={switchMode ? true : undefined} {...this.props} />;
-          window.location.replace(`${ROOT_URL}/all-trips`);
+          else return <AllTrips />;
       }
     } else {
       window.location.replace(`${ROOT_URL}`);

@@ -130,18 +130,6 @@ class MyTrips extends Component {
                     <td><Badge type={status} size={36} /></td>
                   </tr>
                 );
-                // return (
-                //   <div key={vehicleReq._id} className="mytrips-vehicle-req">
-                //     {/* <div className="mytrips-status-badge">
-                //       <img className="status-badge" src={this.badges[status]} alt={`${status}_badge`} />
-                //     </div> */}
-                //     <Badge type={status} />
-                //     <div className="mytrips-req-header-and-status">
-                //       <Link to={reqLink} className="mytrips-req-header">{reqTitle}</Link>
-                //       <em className="mytrips-req-status">{status}</em>
-                //     </div>
-                //   </div>
-                // );
               })
             }
           </tbody>
@@ -154,7 +142,7 @@ class MyTrips extends Component {
     if (this.state.ready) {
       return (
         <Box id="my-trips-page" dir="col">
-          <Stack size={85} />
+          <Stack size={100} />
           <Box className="doc-card" dir="row" pad={45}>
             <div className="doc-h1">Your upcoming trips</div>
             <Queue expand />
@@ -175,9 +163,10 @@ class MyTrips extends Component {
           </Box>
           <Stack size={35} />
           <Box id="my-trips-tiles-container">
-            <Box id="my-trips-tiles">
+            <Box id="my-trips-tiles" className="no-scroll-bar">
+              <Queue size={20} />
               {this.renderCreateTrip()}
-              <Queue size={45} />
+              {this.props.user.role !== 'Trippee' ? <Queue size={45} /> : null}
               {this.renderMyTrips()}
               <Queue size={300} />
             </Box>
@@ -186,46 +175,37 @@ class MyTrips extends Component {
           <Stack size={85} />
           {this.props.user.role !== 'Trippee'
             ? (
-              <>
-                <div className="doc-card">
-                  <Box dir="col" pad={45}>
-                    <Box dir="row" justify="between" align="center">
-                      <div className="doc-h1">Pending V-Requests</div>
-                      <Toggle
-                        id="see-past-requests-toggle"
-                        label="See past requests"
-                        value={this.state.seePastRequests}
-                        onChange={() => this.setState((prevState) => { this.props.appError('This feature is under construction!'); return { seePastRequests: !prevState.seePastRequests }; })}
-                        disabled={false}
-                      />
-                      <input
-                        name="searchPending"
-                        placeholder="Search pending requests"
-                        value={this.state.searchRequestTerm}
-                        onChange={this.onSearchRequestTermChange}
-                        className="databox-heading-search field"
-                      />
-                    </Box>
-                    <Stack size={25} />
-                    {this.renderMyVehicleRequests()}
-                  </Box>
-                </div>
-                {/* <div className="doc-h1">Your upcoming trips</div>
-                <div className="mytrips-vehicle-reqs">
-                  {this.renderMyVehicleRequests()}
-                </div>
-                <div className="mytrips-request-and-calendar-links">
-                  {this.props.user.driver_cert !== null
-                    ? <NavLink to="/vehicle-request" className="mytrips-request-button">Request vehicle</NavLink>
-                    : null}
-                  {this.props.user.driver_cert !== null || this.props.user.role !== 'Trippee'
-                    ? <NavLink to="/vehicle-calendar" className="mytrips-calendar-link" target="_blank">View vehicle calendar</NavLink>
-                    : null}
-                </div> */}
-              </>
+              <Box dir="col" pad={45} className="doc-card">
+                <Box dir="row" justify="between" align="center">
+                  <div className="doc-h1">Pending V-Requests</div>
+                  <Toggle
+                    id="see-past-requests-toggle"
+                    label="See past requests"
+                    value={this.state.seePastRequests}
+                    onChange={() => this.setState((prevState) => { this.props.appError('This feature is under construction!'); return { seePastRequests: !prevState.seePastRequests }; })}
+                    disabled={false}
+                  />
+                  <input
+                    name="searchPending"
+                    placeholder="Search pending requests"
+                    value={this.state.searchRequestTerm}
+                    onChange={this.onSearchRequestTermChange}
+                    className="databox-heading-search field"
+                  />
+                </Box>
+                <Stack size={25} />
+                {this.renderMyVehicleRequests()}
+                <Stack size={25} />
+                <Box dir="row" justify="end">
+                  <div className="doc-button hollow" onClick={() => this.props.history.push('/vehicle-calendar')} role="button" tabIndex={0}>Vehicle calendar</div>
+                  <Queue size={25} />
+                  <div className="doc-button" onClick={() => { this.props.history.push('/vehicle-request'); window.scroll(0, 0); }} role="button" tabIndex={0}>Request vehicle</div>
+                </Box>
+              </Box>
             )
             : null
           }
+          <Stack size={100} />
         </Box>
       );
     } else {

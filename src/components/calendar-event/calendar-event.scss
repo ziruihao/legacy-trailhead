@@ -1,11 +1,8 @@
 @import '../../styles/base.scss';
 
 .booking-container {
-  display: flex;
-  flex-direction: column;
   background: white;
   border-top: 5px solid $green !important;
-  padding: 10px;
   color: black;
   height: 100%;
 
@@ -25,38 +22,39 @@
     display: none;
   }
 
-  .booking-time{
-    font-size: 0.8em;
+  .booking-title {
+    text-overflow: ellipsis;
+    // font-size: 14px;
+    // font-weight: 800;
+    // display: flex;
+    // justify-content: space-between;
+    // overflow: hidden;
+    // margin-bottom: 0.3em;
+    // height: 50%;
   }
 
-  .booking-reason {
-    font-size: 14px;
-    font-weight: 800;
-    display: flex;
-    justify-content: space-between;
-    overflow: hidden;
-    margin-bottom: 0.3em;
-    height: 50%;
+  .booking-time {
+    font-size: 10px;
   }
 
-  .booking-mini-details{
+  .booking-mini-details {
     display: flex;
     white-space: nowrap;
     font-size: 12px;
     height: 50%;
     align-items: center;
 
-    .booking-status-container{
+    .booking-status-container {
       display: flex;
       align-items: center;
     
-      .booking-dot{
+      .booking-dot {
         padding-bottom: 0.5em;
         margin-left: 0.03em;
         margin-right: 0.03em;
         font-size: 2.2em;
       }
-      .booking-pickedUp, .booking-returned{
+      .booking-pickedUp, .booking-returned {
         font-weight: 700;
       }
     }

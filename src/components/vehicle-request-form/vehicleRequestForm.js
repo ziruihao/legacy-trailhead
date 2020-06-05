@@ -1,5 +1,8 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { Stack, Queue, Divider, Box } from '../layout';
+import Field from '../field';
+import Toggle from '../toggle';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import './vehicle-request-form.scss';
 import '../../styles/vehicleRequestForm-style.scss';
@@ -9,19 +12,19 @@ const getApprpriateVehicleMenu = (userCertifications) => {
   switch (userCertifications.driverCert) {
     case 'MICROBUS':
       microbusVan = (
-        <div>
+        <>
           <Dropdown.Item eventKey="Microbus">Microbus</Dropdown.Item>
           <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
           <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>
-        </div>
+        </>
       );
       break;
     case 'VAN':
       microbusVan = (
-        <div>
+        <>
           <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
           <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>
-        </div>
+        </>
       );
       break;
     default:
@@ -31,32 +34,7 @@ const getApprpriateVehicleMenu = (userCertifications) => {
   if (userCertifications.driverCert === null && !userCertifications.trailerCert) {
     microbusVan = <Dropdown.Item eventKey="">Request access in profile page</Dropdown.Item>;
   }
-  return (
-    <Dropdown.Menu className="vrf-req-options">
-      {microbusVan}
-    </Dropdown.Menu>
-  );
-};
-
-const formatDate = (date) => {
-  // date fix adapted from https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off/31732581
-  if (!date) {
-    return '';
-  }
-  return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
-};
-const formatTime = (time) => {
-  const splitTime = time.split(':');
-  splitTime.push('am');
-  const originalHour = splitTime[0];
-  splitTime[0] = originalHour % 12;
-  if (originalHour >= 12) {
-    splitTime[2] = 'pm';
-  }
-  if (splitTime[0] === 0) {
-    splitTime[0] = 12;
-  }
-  return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
+  return microbusVan;
 };
 
 const getVehicles = (props) => {
@@ -64,41 +42,53 @@ const getVehicles = (props) => {
     const { vehicleType } = vehicle;
     const singleDayClass = vehicle.tripLength === 'single-day-trip' ? 'vrf-single-day-date' : '';
     return (
-      <div key={vehicle._id} className="vrf-req-group">
-        <div className="vrf-req-header">
+      <Box dir="col" key={vehicle._id}>
+        <Divider size={1} />
+        <Stack size={50} />
+        <Box dir="row" justify="between" align="center">
+          <div className="doc-h1">Vehicle #{index + 1}</div>
+          <i className="material-icons close-button" onClick={event => props.removeVehicle(event, index)} role="button" tabIndex={0}>close</i>
+        </Box>
+        {/* <div className="vrf-req-header">
           <h3 className="vrf-label vrf-req-no">Vehicle #{index + 1}</h3>
-          <div className="trip-details-close-button">
-            <i className="material-icons close-button" onClick={event => props.removeVehicle(event, index)} role="button" tabIndex={0}>close</i>
-          </div>
-        </div>
-
-        <div className="vrf-form-row">
-          <label className="vrf-label" htmlFor="vehicle_type">Vehicle Type</label>
-          <Dropdown id={`vehicle_type_${index}`} onSelect={eventKey => props.onVehicleTypeChange(eventKey, index)}>
-            <Dropdown.Toggle className={`vehicle-type-dropdown ${vehicle.errorFields.vehicleType ? 'vrf-error' : ''}`}>
-              <span>
-                <span className="selected-size">{vehicleType.length === 0 ? 'Select a vehicle' : vehicleType}</span>
-                <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
-              </span>
-            </Dropdown.Toggle>
+          <div className="trip-details-close-button" />
+        </div> */}
+        <Stack size={50} />
+        <div className="doc-h2" htmlFor="vehicle_type">Vehicle type</div>
+        <Stack size={25} />
+        <Dropdown onSelect={eventKey => props.onVehicleTypeChange(eventKey, index)}>
+          <Dropdown.Toggle className={`field ${vehicle.errorFields.vehicleType ? 'field-error' : ''}`}>
+            <span>
+              <span className="selected-size">{vehicleType.length === 0 ? 'Select a vehicle' : vehicleType}</span>
+              <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+            </span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu className="field-dropdown-menu">
             {getApprpriateVehicleMenu(props.userCertifications)}
-          </Dropdown>
-        </div>
-
-        <div className="vrf-form-row">
-          <label className="vrf-label" htmlFor={`vehicle_details_${index}`}>Vehicle Details</label>
-          <input
-            type="text"
-            id={`vehicle_details_${index}`}
-            className="trip-detail vrf-vehicle-detail"
-            placeholder="e.g. I need Stakey!"
-            maxLength="50"
-            name="vehicleDetails"
-            value={vehicle.vehicleDetails}
-            onChange={event => props.onVehicleDetailChange(event, index)}
-          />
-        </div>
-
+          </Dropdown.Menu>
+        </Dropdown>
+        <Stack size={25} />
+        <div className="doc-h2" htmlFor={`vehicle_details_${index}`}>Vehicle notes</div>
+        <Stack size={25} />
+        <Field
+          id={`vehicle_details_${index}`}
+          placeholder="e.g. I need Stakey!"
+          width={600}
+          name="vehicleDetails"
+          value={vehicle.vehicleDetails}
+          onChange={event => props.onVehicleDetailChange(event, index)}
+        />
+        {/* <input
+          type="text"
+          id={`vehicle_details_${index}`}
+          className="field trip-detail vrf-vehicle-detail"
+          placeholder="e.g. I need Stakey!"
+          maxLength="50"
+          name="vehicleDetails"
+          value={vehicle.vehicleDetails}
+          onChange={event => props.onVehicleDetailChange(event, index)}
+        /> */}
+        <Stack size={25} />
         <div className="vrf-radio-row">
           <label className="checkbox-container" htmlFor={`single-day-trip-${index}`}>
             <input
@@ -113,7 +103,6 @@ const getVehicles = (props) => {
           </label>
           <span className="vrf-label vrf-trip-length">Single day trip</span>
         </div>
-
         <div className="vrf-radio-row">
           <label className="checkbox-container" htmlFor={`multi-day-trip-${index}`}>
             <input
@@ -128,23 +117,49 @@ const getVehicles = (props) => {
           </label>
           <span className="vrf-label vrf-trip-length">Multi-day trip</span>
         </div>
-
-        <div className="vrf-form-row vrf-req-dates">
+        <Stack size={25} />
+        <Box dir="row" justify="between" width={800}>
+          <Box dir="col">
+            <div className="doc-h2">Pickup date</div>
+            <Stack size={25} />
+            <Field
+              type="date"
+              id={`pickup_date_${index}`}
+              name="pickupDate"
+              value={vehicle.pickupDate}
+              onChange={event => props.onVehicleDetailChange(event, index)}
+              error={vehicle.errorFields.pickupDate}
+            />
+          </Box>
+          {vehicle.tripLength === 'single-day-trip' ? null
+            : (
+              <Box dir="col">
+                <div className="doc-h2">Return date</div>
+                <Stack size={25} />
+                <Field
+                  type="date"
+                  id={`return_date_${index}`}
+                  name="returnDate"
+                  value={vehicle.returnDate}
+                  onChange={event => props.onVehicleDetailChange(event, index)}
+                  error={vehicle.errorFields.returnDate}
+                />
+              </Box>
+            )
+  }
+        </Box>
+        <Stack size={25} />
+        {/* <div className="vrf-form-row vrf-req-dates">
           <span className="vrf-req-date">
             <label className="vrf-label" htmlFor={`pickup_date_${index}`}>Pickup Date</label>
             <input
-              {...console.log(props.startDate)}
               type="date"
               id={`pickup_date_${index}`}
-              className={`trip-detail vrf-vehicle-detail  ${singleDayClass} ${vehicle.pickupDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupDate ? 'vrf-error' : ''}`}
+              className={`trip-detail vrf-vehicle-detail  ${singleDayClass} ${vehicle.pickupDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupDate ? '' : ''}`}
               name="pickupDate"
               value={vehicle.pickupDate}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
-            {props.requestType === 'TRIP'
-              ? <div className="vrf-label"> Trip Start Date is {formatDate(props.startDate)}</div>
-              : null
-            }
 
           </span>
           {vehicle.tripLength === 'single-day-trip' ? null
@@ -154,35 +169,53 @@ const getVehicles = (props) => {
                 <input
                   type="date"
                   id={`return_date_${index}`}
-                  className={`trip-detail vrf-vehicle-detail ${vehicle.returnDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnDate ? 'vrf-error' : ''}`}
+                  className={`trip-detail vrf-vehicle-detail ${vehicle.returnDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnDate ? '' : ''}`}
                   name="returnDate"
                   value={vehicle.returnDate}
                   onChange={event => props.onVehicleDetailChange(event, index)}
                 />
-                {props.requestType === 'TRIP'
-                  ? <div className="vrf-label"> Trip End Date is {formatDate(props.endDate)}</div>
-                  : null
-                }
               </span>
             )
           }
-        </div>
+        </div> */}
+        <Box dir="row" justify="between" width={800}>
+          <Box dir="col">
+            <div className="doc-h2">Pickup date</div>
+            <Stack size={25} />
+            <Field
+              type="time"
+              id={`pickup_time_${index}`}
+              name="pickupTime"
+              value={vehicle.pickupTime}
+              onChange={event => props.onVehicleDetailChange(event, index)}
+              error={vehicle.errorFields.pickupTime}
+            />
+          </Box>
+          <Box dir="col">
+            <div className="doc-h2">Return date</div>
+            <Stack size={25} />
+            <Field
+              type="time"
+              id={`return_time_${index}`}
+              name="returnTime"
+              value={vehicle.returnTime}
+              onChange={event => props.onVehicleDetailChange(event, index)}
+              error={vehicle.errorFields.returnDate}
+            />
+          </Box>
+        </Box>
 
-        <div className="vrf-form-row vrf-req-dates">
+        {/* <div className="vrf-form-row vrf-req-dates">
           <span className="vrf-req-date">
             <label className="vrf-label" htmlFor={`pickup_time_${index}`}>Pickup Time</label>
             <input
               type="time"
               id={`pickup_time_${index}`}
-              className={`trip-detail vrf-vehicle-detail ${vehicle.pickupTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupTime ? 'vrf-error' : ''}`}
+              className={`trip-detail vrf-vehicle-detail ${vehicle.pickupTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupTime ? '' : ''}`}
               name="pickupTime"
               value={vehicle.pickupTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
-            {props.requestType === 'TRIP'
-              ? <div className="vrf-label"> Trip Start Time is {formatTime(props.startTime)}</div>
-              : null
-                }
           </span>
 
           <span className="vrf-req-date">
@@ -190,56 +223,29 @@ const getVehicles = (props) => {
             <input
               type="time"
               id={`return_time_${index}`}
-              className={`trip-detail vrf-vehicle-detail ${vehicle.returnTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnTime ? 'vrf-error' : ''}`}
+              className={`trip-detail vrf-vehicle-detail ${vehicle.returnTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnTime ? '' : ''}`}
               name="returnTime"
               value={vehicle.returnTime}
               onChange={event => props.onVehicleDetailChange(event, index)}
             />
-            {props.requestType === 'TRIP'
-              ? <div className="vrf-label"> Trip End Time is {formatTime(props.endTime)}</div>
-              : null
-                }
           </span>
-        </div>
+        </div> */}
 
-        <div className="vrf-form-row vrf-req-dates">
-          <div className="club-option">
-            <label className="checkbox-container club-checkbox" htmlFor={`passNeeded_${index}`}>
-              <input
-                type="checkbox"
-                name="passNeeded"
-                id={`passNeeded_${index}`}
-                checked={vehicle.passNeeded}
-                onChange={event => props.onVehicleDetailChange(event, index)}
-              />
-              <span className="checkmark" />
-            </label>
-            <span className="vrf-label">WMNF Pass Needed?</span>
-          </div>
-        </div>
-
-        {props.userCertifications.trailerCert
-          ? (
-            <div className="vrf-form-row vrf-req-dates">
-              <div className="club-option">
-                <label className="checkbox-container club-checkbox" htmlFor={`trailerNeeded_${index}`}>
-                  <input
-                    type="checkbox"
-                    name="trailerNeeded"
-                    id={`trailerNeeded_${index}`}
-                    checked={vehicle.trailerNeeded}
-                    onChange={event => props.onVehicleDetailChange(event, index)}
-                  />
-                  <span className="checkmark" />
-                </label>
-                <span className="vrf-label">Trailer Hitch Required?</span>
-              </div>
-            </div>
-          )
-          : null
+        <Stack size={25} />
+        <div className="doc-h2">Misc.</div>
+        <Stack size={25} />
+        <Box dir="col" align="start">
+          <Toggle id="wmnf-pass" name="passNeeded" value={vehicle.passNeeded} onChange={(event) => { console.log(event.target); props.onVehicleDetailChange(event, index); }} label="Need WMNF pass?" />
+          <Stack size={25} />
+          {props.userCertifications.trailerCert
+            ? (
+              <Toggle id="trailer-hitch" name="trailerNeeded" value={vehicle.trailerNeeded} onChange={(event) => { console.log(event.target); props.onVehicleDetailChange(event, index); }} label="Need trailer hitch?" />
+            )
+            : null
         }
-
-      </div>
+        </Box>
+        {index === props.vehicles.length - 1 ? null : <Stack size={50} />}
+      </Box>
     );
   });
 };
@@ -250,13 +256,14 @@ const getAppropriateButton = (props) => {
   } else if (props.requestType === 'SOLO') {
     if (props.asUpdate) {
       return (
-        <div className="vrf-cancel-and-update-buttons">
-          <button type="button" className="vrf-add-button vrf-cancel-button vrf-cancel-update-button" onClick={props.cancelUpdate}>Cancel update</button>
-          <button type="submit" className="vrf-submit-button signup-button" onClick={props.update}>Update</button>
-        </div>
+        <>
+          <div className="doc-button hollow alarm" onClick={props.cancelUpdate} role="button" tabIndex={0}>Cancel update</div>
+          <Queue size={15} />
+          <div className="doc-button" onClick={props.update} role="button" tabIndex={0}>Update</div>
+        </>
       );
     } else {
-      return <button type="submit" className="vrf-submit-button signup-button" onClick={props.submit}>Submit</button>;
+      return <div className="doc-button" onClick={props.submit} role="button" tabIndex={0}>Submit</div>;
     }
   } else {
     return null;
@@ -265,55 +272,77 @@ const getAppropriateButton = (props) => {
 
 const VehicleRequestForm = (props) => {
   return (
-    <div id="vehicle-request-form" className="doc-card">
-      <h2 className="doc-h1 p-trip-title vrf-title-size">Vehicle Request</h2>
+    <Box dir="col" pad={75} className="doc-card">
+      <div className="doc-h1">Vehicle request form</div>
+      <Stack size={50} />
       {props.requestType === 'SOLO'
         ? (
-          <div className="vrf-solo-req">
-            <div className="vrf-form-row">
-              <label className="vrf-label" htmlFor="request_detail">Request Details</label>
-              <textarea
-                value={props.requestDetails}
-                onChange={props.onSoloReqDetailsChange}
-                name="requestDetails"
-                id="request_details"
-                className={`trip-detail vrf-req-details-input ${props.soloErrorFields.requestDetails ? 'vrf-error' : ''}`}
-                placeholder="e.g. I need a car to deliver wood to Cabin A"
-              />
-            </div>
-            <span className="vrf-form-row">
-              <label className="vrf-label" htmlFor="noOfPeople">Number of people</label>
-              <input
-                type="number"
-                id="noOfPeople"
-                className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.noOfPeople) === 0 ? 'no-date' : ''} ${props.soloErrorFields.noOfPeople ? 'vrf-error' : ''}`}
-                name="noOfPeople"
-                placeholder="0"
-                value={props.noOfPeople}
-                onChange={props.onSoloReqDetailsChange}
-              />
-            </span>
-          </div>
+          <Box dir="col">
+            <div className="doc-h2" htmlFor="request_detail">Request details</div>
+            <Stack size={25} />
+            <textarea
+              value={props.requestDetails}
+              onChange={props.onSoloReqDetailsChange}
+              name="requestDetails"
+              id="request_details"
+              className={`field trip-detail vrf-req-details-input ${props.soloErrorFields.requestDetails ? 'field-error' : ''}`}
+              placeholder="e.g. I need a car to deliver wood to Cabin A"
+            />
+            <Stack size={25} />
+            <div className="doc-h2" htmlFor="noOfPeople">Number of people</div>
+            <Stack size={25} />
+            <Field
+              width={100}
+              type="number"
+              id="noOfPeople"
+              name="noOfPeople"
+              placeholder="0"
+              value={props.noOfPeople}
+              onChange={props.onSoloReqDetailsChange}
+              error={props.soloErrorFields.noOfPeople}
+            />
+            {/* <input
+              type="number"
+              id="noOfPeople"
+              className={`field trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.noOfPeople) === 0 ? 'no-date' : ''} ${props.soloErrorFields.noOfPeople ? 'field-error' : ''}`}
+              name="noOfPeople"
+              placeholder="0"
+              value={props.noOfPeople}
+              onChange={props.onSoloReqDetailsChange}
+            /> */}
+          </Box>
         )
         : null}
-      <span className="vrf-form-row">
-        <label className="vrf-label" htmlFor="mileage">Estimated mileage</label>
-        <input
-          type="number"
-          id="mileage"
-          className={`trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'vrf-error' : ''}`}
-          name="mileage"
-          placeholder="0"
-          value={props.mileage}
-          onChange={props.onSoloReqDetailsChange}
-        />
-      </span>
+      <Stack size={25} />
+      <div className="doc-h2" htmlFor="mileage">Estimated mileage</div>
+      <Stack size={25} />
+      <Field
+        width={100}
+        type="number"
+        id="mileage"
+        name="mileage"
+        placeholder="0"
+        value={props.mileage}
+        onChange={props.onSoloReqDetailsChange}
+        error={props.soloErrorFields.mileage}
+      />
+      {/* <input
+        type="number"
+        id="mileage"
+        className={`field ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'field-error' : ''}`}
+        name="mileage"
+        placeholder="0"
+        value={props.mileage}
+        onChange={props.onSoloReqDetailsChange}
+      /> */}
+      <Stack size={50} />
       {getVehicles(props)}
-      <div className="vrf-add-and-submit">
-        <button type="button" className="vrf-add-button vrf-small-add" onClick={props.addVehicle}>Add Vehicle</button>
+      <Box dir="row" justify="end">
+        <div className="doc-button hollow" onClick={props.addVehicle} role="button" tabIndex={0}>Add vehicle</div>
+        <Queue size={25} />
         {getAppropriateButton(props)}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import CoLeadersAutoComplete from './coLeadersAutoComplete';
 import Toggle from './toggle';
-import Loading from './doc-loading';
+import DOCLoading from './doc-loading';
 import dropdownIcon from '../img/dropdown-toggle.svg';
 import '../styles/createtrip-style.scss';
 
@@ -54,7 +54,7 @@ const BasicTripInfo = (props) => {
         <div className="doc-h2">Invite co-leaders</div>
         {props.loaded
           ? <CoLeadersAutoComplete updateLeaderValue={props.updateLeaderValue} currentLeaders={props.leaderValue} name="leaders" />
-          : <Loading type="cubes" />
+          : <DOCLoading type="cubes" />
       }
 
       </div>

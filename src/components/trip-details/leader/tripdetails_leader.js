@@ -122,7 +122,7 @@ const getOnTrip = (props, onTripEmailRef) => {
                   )) : 'None'}
                 </td>
                 <td>
-                  <div className="doc-button hollow" onClick={(event) => { props.moveToPending(member); event.stopPropagation(); }} role="button" tabIndex={0}>Back to pending</div>
+                  <div className="doc-button hollow" onClick={(event) => { props.moveToPending(member); event.stopPropagation(); }} role="button" tabIndex={0}>Change to pending</div>
                 </td>
               </tr>
             ))}
@@ -386,22 +386,26 @@ export default React.forwardRef((props, ref) => {
           </Box>
         </Box>
         <Stack size={25} />
-
-        <Box dir="col">
-          <Box dir="row" justify="between" align="center">
-            <div className="doc-h2">P-Card request</div>
-            <Badge type={props.trip.pcardStatus} size={36} dataTip dataFor="pcard-gear-status" />
-            <ReactToolTip id="pcard-gear-status">{renderBadgeToolTipText(props.trip.pcardStatus)}</ReactToolTip>
-          </Box>
-          <Stack size={10} />
-          <div className="p1">Expected {props.trip.pcard[0].numPeople} total people on trip.</div>
-          {props.trip.pcardStatus === 'approved' ? <div className="p1">Assigned P-Card: {props.trip.pcardAssigned}</div> : null }
-          <Stack size={10} />
-          <div className="trip-details-table">
-            {getPcard(props.trip.pcard, props.trip.pcardStatus, props.trip.pcardAssigned)}
-          </div>
-        </Box>
-
+        {
+          props.trip.pcardStatus !== 'N/A'
+            ? (
+              <Box dir="col">
+                <Box dir="row" justify="between" align="center">
+                  <div className="doc-h2">P-Card request</div>
+                  <Badge type={props.trip.pcardStatus} size={36} dataTip dataFor="pcard-gear-status" />
+                  <ReactToolTip id="pcard-gear-status">{renderBadgeToolTipText(props.trip.pcardStatus)}</ReactToolTip>
+                </Box>
+                <Stack size={10} />
+                <div className="p1">Expected {props.trip.pcard[0].numPeople} total people on trip.</div>
+                {props.trip.pcardStatus === 'approved' ? <div className="p1">Assigned P-Card: {props.trip.pcardAssigned}</div> : null }
+                <Stack size={10} />
+                <div className="trip-details-table">
+                  {getPcard(props.trip.pcard, props.trip.pcardStatus, props.trip.pcardAssigned)}
+                </div>
+              </Box>
+            )
+            : null
+        }
         {props.trip.vehicleStatus !== 'N/A'
           ? (
             <div className="tripdetail-gear-requests leader-trip-info">
@@ -412,13 +416,12 @@ export default React.forwardRef((props, ref) => {
             </div>
           )
           : null}
-        <div className="center">
-          <Link to={`/edittrip/${props.trip._id}`} className="signup-button leader-edit-link"><button type="submit" className="signup-button">Edit Trip</button></Link>
-        </div>
-
-        <div className="center">
-          <span className="cancel-link" onClick={props.activateLeaderModal} role="button" tabIndex={0}>Delete trip</span>
-        </div>
+        <Stack size={100} />
+        <Box dir="row" justify="center">
+          <Link to={`/edittrip/${props.trip._id}`} className="doc-button hollow">Edit trip</Link>
+          <Queue size={50} />
+          <div className="doc-button alarm" onClick={props.activateLeaderModal} role="button" tabIndex={0}>Delete trip</div>
+        </Box>
         <Modal
           centered
           show={props.trippeeProfileOpened}

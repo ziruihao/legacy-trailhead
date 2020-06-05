@@ -1,12 +1,16 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import TripeeTripDetails from './basic/tripdetails_trippee';
+import { Modal } from 'react-bootstrap';
+import { Stack, Queue, Divider, Box } from '../layout';
+import TripDetailsBasic from './basic/trip-details-basic';
 import LeaderTripDetails from './leader/tripdetails_leader';
 import OPOTripDetails from './opo/tripdetails_opo';
 import DOCLoading from '../doc-loading';
 import * as constants from '../../constants';
 import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
+import confirmCancel from './confirm-cancel.svg';
 
 class TripDetails extends Component {
   constructor(props) {
@@ -18,12 +22,13 @@ class TripDetails extends Component {
       trippeeProfileOpened: false,
       trippeeProfile: null,
       trippeeGear: [],
-      isEditing: true,
-      showTrippeeModal: false,
+      // isEditing: true,
+      showCancellationModal: false,
       profiles: {},
       status: 'approved',
       reasons: [],
       role: '',
+      loaded: false,
     });
     this.onGearChange = this.onGearChange.bind(this);
     this.goBack = this.goBack.bind(this);
@@ -40,24 +45,13 @@ class TripDetails extends Component {
         this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
         const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
         this.setState({ role: roleOnTrip });
+
         if (this.props.isLeaderOnTrip) { // populate trip participant emails
           this.populateEmails();
           this.getProfiles();
-        } else if (this.props.userTripStatus === 'PENDING') { // populate previously selected gear
-          this.props.trip.pending.some((pender) => {
-            if (pender.user._id === this.props.user._id) {
-              this.setState({ trippeeGear: pender.gear, isEditing: false });
-            }
-            return pender.user._id === this.props.user._id;
-          });
-        } else if (this.props.userTripStatus === 'APPROVED') {
-          this.props.trip.members.some((member) => {
-            if (member.user._id === this.props.user._id) {
-              this.setState({ trippeeGear: member.gear, isEditing: false });
-            }
-            return member.user._id === this.props.user._id;
-          });
         }
+
+        this.setState({ loaded: true });
       });
   }
 
@@ -78,85 +72,22 @@ class TripDetails extends Component {
     }
   }
 
-  startEditing = () => {
-    this.setState({ isEditing: true });
-  }
-
-  cancelChanges = () => {
-    this.props.trip.pending.some((pender) => {
-      if (pender.user._id === this.props.user._id) {
-        this.setState({ trippeeGear: pender.gear, isEditing: false });
-      }
-      return pender.user._id === this.props.user._id;
-    });
-  }
-
-  activateTrippeeModal = () => {
-    this.setState({ showTrippeeModal: true });
-  }
-
-  closeTrippeeModal = () => {
-    this.setState({ showTrippeeModal: false });
-  }
-
   activateLeaderModal = () => {
     this.setState({ showLeaderModal: true });
+  }
+
+  cancelSignup = () => {
+    this.props.leaveTrip(this.props.trip._id, this.props.isUserOnTrip);
   }
 
   goBack = () => {
     this.props.history.goBack();
   }
 
-  cancelSignup = () => {
-    const cancelPromise = new Promise((resolve, reject) => {
-      this.props.leaveTrip(this.props.trip._id, this.props.isUserOnTrip);
-      resolve();
-    });
-    cancelPromise.then(() => {
-      this.setState({ showTrippeeModal: false, trippeeGear: [], isEditing: true });
-      window.scrollTo(0, 0);
-    });
-  }
-
-  signUp = () => {
-    if (!this.props.user.email || !this.props.user.name || !this.props.user.dash_number || !this.props.user.clothe_size || !this.props.user.shoe_size || !this.props.user.height) {
-      this.props.appError('Please fill out all of your info before signing up');
-      this.props.history.push('/user');
-    } else {
-      const signUpInfo = {
-        id: this.props.trip._id,
-        trippeeGear: this.state.trippeeGear,
-      };
-      const signupPromise = new Promise((resolve, reject) => {
-        this.props.addToPending(signUpInfo);
-        resolve();
-      });
-      signupPromise.then(() => {
-        this.setState({ isEditing: false });
-        window.scrollTo(0, 0);
-      });
-    }
-  }
-
-  editGear = () => {
-    const signUpInfo = {
-      id: this.props.trip._id,
-      trippeeGear: this.state.trippeeGear,
-    };
-    const editPromise = new Promise((resolve, reject) => {
-      this.props.editUserGear(signUpInfo);
-      resolve();
-    });
-    editPromise.then(() => {
-      this.setState({ isEditing: false });
-    });
-  }
-
   showError = () => {
     this.props.appError('You can\'t edit your gear after you\'ve been approved for a trip');
   }
 
-  // LeaderTripDetails component methods
   moveToTrip = (pender) => {
     this.props.joinTrip(this.props.trip._id, pender)
       .then(() => {
@@ -237,7 +168,7 @@ class TripDetails extends Component {
   render() {
     // ref used for copy to clipboard functionality
     const ref = { pendingEmailRef: this.pendingEmailRef, onTripEmailRef: this.onTripEmailRef };
-    if (!this.isObjectEmpty(this.props.trip)) {
+    if (this.state.loaded) {
       let appropriateComponent;
       if (this.state.role === 'LEADER' || this.state.role === 'OPO') {
         appropriateComponent = (
@@ -268,28 +199,35 @@ class TripDetails extends Component {
         );
       } else {
         appropriateComponent = (
-          <TripeeTripDetails
-            trip={this.props.trip}
-            trippeeGear={this.state.trippeeGear}
-            isEditing={this.state.isEditing}
-            showModal={this.state.showTrippeeModal}
-            onGearChange={this.onGearChange}
-            startEditing={this.startEditing}
-            cancelChanges={this.cancelChanges}
-            activateTrippeeModal={this.activateTrippeeModal}
-            closeModal={this.closeTrippeeModal}
-            cancelSignup={this.cancelSignup}
-            signUp={this.signUp}
-            editGear={this.editGear}
-            goBack={this.goBack}
-            showError={this.showError}
-            isUserOnTrip={this.props.isUserOnTrip}
-          />
+          <Box pad={50}>
+            <Box className="doc-card" pad={50}>
+              <TripDetailsBasic openCancellationModal={() => this.setState({ showCancellationModal: true })} hideCancellationModal={() => this.setState({ showCancellationModal: false })} /> />
+            </Box>
+          </Box>
         );
       }
       return (
         <div id="trip-details-page" className="center-view spacy">
           {appropriateComponent}
+          <Modal
+            centered
+            show={this.state.showCancellationModal}
+            onHide={() => this.setState({ showCancellationModal: false })}
+          >
+            <Box dir="col" align="center" pad={25}>
+              <img src={confirmCancel} alt="confirm-cancel" className="cancel-image" />
+              <Stack size={24} />
+              <div className="doc-h2">Are you sure you want to cancel?</div>
+              <Stack size={24} />
+              <div className="p1 center-text">This cute tree will die if you do and you’ll have to register for this trip again if you change your mind. Don't worry - we inform the trip leaders know so you don't have to.</div>
+              <Stack size={24} />
+              <Box dir="row" justify="center">
+                <div className="doc-button" onClick={() => this.setState({ showCancellationModal: false })} role="button" tabIndex={0}>Wait no</div>
+                <Queue size={15} />
+                <div className="doc-button alarm" onClick={this.cancelSignup} role="button" tabIndex={0}>Remove me</div>
+              </Box>
+            </Box>
+          </Modal>
         </div>
       );
     } else {

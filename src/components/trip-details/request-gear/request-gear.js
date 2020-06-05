@@ -4,40 +4,13 @@ import '../trip-details.scss';
 import './request-gear.scss';
 
 class RequestGear extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      requestedGear: this.props.selfGear,
-    };
-  }
-
-  onGearChange = (event) => {
-    event.persist();
-    if (event.target.checked) {
-      this.setState(prevState => ({
-        requestedGear: [...prevState.requestedGear, { gearId: event.target.dataset._id, name: event.target.dataset.name }],
-      }));
-    } else {
-      this.setState((prevState) => {
-        const withoutClickedGear = prevState.requestedGear.filter(gear => gear.gearId !== event.target.dataset._id.toString());
-        return {
-          requestedGear: withoutClickedGear,
-        };
-      });
-    }
-    this.props.updateGear(this.state.requestedGear);
-  }
-
   render() {
     if (this.props.trippeeGear.length === 0) {
       return (
-        <div className="no-on-trip">
-          <h4 className="none-f-now">None</h4>
-        </div>
+        <div className="p1 gray thin">None</div>
       );
     } else {
-      const checkmarkClass = this.props.isEditing ? 'checkmark' : 'disabled-checkmark';
-      console.log(this.props.trippeeGear);
+      const checkmarkClass = this.props.editingGear ? 'checkmark' : 'disabled-checkmark';
       return (
         <div id="trip-request-gear-form" className="trip-details-table">
           {this.props.loading
@@ -50,7 +23,7 @@ class RequestGear extends React.Component {
           }
           {
             this.props.trippeeGear.map((gear, index, array) => {
-              const checked = this.state.requestedGear.some((userGear) => {
+              const checked = this.props.requestedGear.some((userGear) => {
                 return userGear.gearId === gear._id;
               });
               return (
@@ -58,7 +31,7 @@ class RequestGear extends React.Component {
                   <div className="trip-details-table-row">
                     <div className="trip-details-table-left p2">{gear.name}</div>
                     <div className="trip-details-table-right">
-                      <div className="p2">Needed</div>
+                      <div className="p2">Request</div>
                       <label className="checkbox-container" htmlFor={gear._id}>
                         <input
                           type="checkbox"
@@ -66,9 +39,9 @@ class RequestGear extends React.Component {
                           id={gear._id}
                           data-_id={gear._id}
                           data-name={gear.name}
-                          onChange={this.onGearChange}
+                          onChange={this.props.onGearChange}
                           checked={checked}
-                          disabled={!this.props.isEditing}
+                          disabled={!this.props.editingGear}
                         />
                         <span className={checkmarkClass} />
                       </label>

@@ -7,14 +7,15 @@ import { Stack, Queue, Divider, Box } from '../layout';
 import TripDetailsBasic from '../trip-details/basic/trip-details-basic';
 import TripCard from '../trip-card';
 import Toggle from '../toggle';
-import { fetchTrips, fetchTrip, getClubs } from '../../actions';
+import DOCLoading from '../doc-loading';
+import { fetchTrips, fetchTrip, getClubs, leaveTrip } from '../../actions';
 import utils from '../../utils';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
-import notFound from './sad-tree.png';
+import sadTree from './sad-tree.png';
 import './all-trips.scss';
 import './trip-card.scss';
 
-class Trips extends Component {
+class AllTrips extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +31,8 @@ class Trips extends Component {
       selectedTimePeriod: 'This week',
       grid: true,
       showTrip: false,
+      showCancellationModal: false,
+      cancelling: false,
       startDate: null,
       seePastTrips: false,
     };
@@ -38,6 +41,13 @@ class Trips extends Component {
   componentDidMount(props) {
     this.props.fetchTrips();
     this.props.getClubs();
+  }
+
+  cancelSignup = () => {
+    this.setState({cancelling: true});
+    this.props.leaveTrip(this.props.trip._id, this.props.isUserOnTrip).then(() => {
+      this.setState({cancelling: false, showCancellationModal: false});
+    });
   }
 
   formatDate = (date) => {
@@ -65,18 +75,18 @@ class Trips extends Component {
   renderClubDropdown = () => {
     return (
       <Dropdown onSelect={eventKey => this.setState({club: eventKey})}>
-      <Dropdown.Toggle className="field">
-        <span className="field-dropdown-bootstrap">{this.state.club}</span>
-        <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
-      </Dropdown.Toggle>
-      <Dropdown.Menu className="field-dropdown-menu">
-      <Dropdown.Item eventKey="All clubs">All clubs</Dropdown.Item>
-      <Dropdown.Divider />
-        {this.props.clubs.map((club => {
-          return (<Dropdown.Item key={club._id} eventKey={club.name}>{club.name}</Dropdown.Item>);
-        }))}
-      </Dropdown.Menu>
-    </Dropdown>
+        <Dropdown.Toggle className="field">
+          <span className="field-dropdown-bootstrap">{this.state.club}</span>
+          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+        </Dropdown.Toggle>
+        <Dropdown.Menu className="field-dropdown-menu">
+          <Dropdown.Item eventKey="All clubs">All clubs</Dropdown.Item>
+          <Dropdown.Divider />
+            {this.props.clubs.map((club => {
+              return (<Dropdown.Item key={club._id} eventKey={club.name}>{club.name}</Dropdown.Item>);
+            }))}
+        </Dropdown.Menu>
+      </Dropdown>
     )
   }
 
@@ -144,7 +154,7 @@ class Trips extends Component {
 
     if (filteredTrips.length === 0) {
       return <div id="trips-page-not-found">
-        <img src={notFound} ></img>
+        <img src={sadTree} ></img>
         <div className="h2">Sorry, we couldn't find any!</div>
         </div>;
     } else {
@@ -180,13 +190,40 @@ class Trips extends Component {
           </div>
           <Modal
             centered
+            show={this.state.showCancellationModal}
+            onHide={() => this.setState({ showCancellationModal: false })}
+          >
+            <Box id="trip-cancel-modal" dir="col" align="center" pad={25}>
+              {this.state.cancelling ? 
+                <div id="trip-cancel-modal-loading">
+                  <DOCLoading type="spin" width="35" height="35" measure="px" />
+                </div>
+                :
+                null
+              }
+              <img src={sadTree} alt="confirm-cancel" className="cancel-image" />
+              <Stack size={24} />
+              <div className="doc-h2">Are you sure you want to cancel?</div>
+              <Stack size={24} />
+              <div className="p1 center-text">This cute tree will die if you do and you’ll have to register for this trip again if you change your mind. Don't worry - we inform the trip leaders know so you don't have to.</div>
+              <Stack size={24} />
+              <Box dir="row" justify="center">
+                <div className="doc-button" onClick={() => this.setState({ showCancellationModal: false, showTrip: true, })} role="button" tabIndex={0}>Wait no</div>
+                <Queue size={15} />
+                <div className="doc-button alarm" onClick={this.cancelSignup} role="button" tabIndex={0}>Remove me</div>
+              </Box>
+            </Box>
+          </Modal>
+          <Modal
+            centered
             size="lg"
             show={this.state.showTrip}
             onHide={() => this.setState({showTrip: false})}
           >
             <div id="trip-details-modal-wrapper">
               <TripDetailsBasic
-                closeModal = {() => this.setState({showTrip: false})}/>
+                closeModal = {() => this.setState({showTrip: false})}
+                openCancellationModal={() => this.setState({ showCancellationModal: true, showTrip: false })} hideCancellationModal={() => this.setState({ showCancellationModal: false })} />
             </div>
           </Modal>
         </div>
@@ -198,10 +235,11 @@ class Trips extends Component {
 const mapStateToProps = state => (
   {
     trips: state.trips.all,
+    trip: state.trips.trip,
     authenticated: state.auth.authenticated,
     clubs: state.clubs,
     user: state.user.user,
   }
 );
 
-export default withRouter(connect(mapStateToProps, { fetchTrips, fetchTrip, getClubs })(Trips)); // connected component
+export default withRouter(connect(mapStateToProps, { fetchTrips, fetchTrip, getClubs, leaveTrip })(AllTrips)); // connected component

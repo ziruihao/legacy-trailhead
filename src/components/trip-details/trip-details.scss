@@ -41,6 +41,10 @@
         font-weight: 100;
         margin-left: 15px;
         cursor: pointer;
+
+        &:hover {
+          color: green;
+        }
   
         &.active {
           color: $green;
@@ -81,16 +85,6 @@
       .trip-details-table-right {
         color: $gray-2;
       }
-    }
-  }
-
-  .trip-modal-actions {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-
-    .doc-button {
-      margin: 0 10px;
     }
   }
 }

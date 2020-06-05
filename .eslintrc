@@ -44,7 +44,9 @@
         "capIsNew": 0,
         "react/prefer-stateless-function": 0,
         "no-unused-vars": 0,
-        "max-len": 0
+        "max-len": 0,
+        "no-await-in-loop": 0,
+        "no-use-before-define": ["error", { "functions": false }]
     },
     "plugins": [
         "react"

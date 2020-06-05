@@ -1,38 +1,44 @@
 @import '../../styles/base.scss';
 
-#landing-page{
+#landing-page {
   height: 100vh;
   width: 100vw;
-  background-image: url(./background.svg) !important;
+  background-image: url(./gateway-phone.svg);
   background-repeat: no-repeat;
   background-size: cover;
   display: flex;
   justify-content: center;
   align-items: center;
 
-  .landing-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: stretch;
+  &.landing-page-onboarding {
+    background-image: url(./gateway-phone-no-brand.svg) !important;
+  }
 
-    &.l {
-      width: 725px;
-    }
-    &.s {
-      width: 500px;
-
-    }
-
-    .landing-card-message {
-      font-size: 24px;
-      > * {
-        margin-bottom: 25px !important;
-      }
-    }
+  .landing-card-holder {
+    position: relative;
+    left: 300px;
     
-    .landing-card-actions {
+    .landing-card {
       display: flex;
-      justify-content: space-around;
+      flex-direction: column;
+      justify-content: stretch;
+  
+      &.l {
+        width: 725px;
+      }
+      &.s {
+        width: 500px;
+  
+      }
+  
+      .landing-card-message {
+        // font-size: 24px;
+      }
+      
+      .landing-card-actions {
+        display: flex;
+        justify-content: space-around;
+      }
     }
   }
 }

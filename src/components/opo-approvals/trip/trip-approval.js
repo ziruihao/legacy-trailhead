@@ -8,7 +8,7 @@ import { GearRequest, BasicInfo, PCardRequest } from '../../opo-trip-info-pages'
 import OPOVehicleRequest from '../../opo-vehicle-request';
 import Badge from '../../badge';
 import Sidebar from '../../sidebar';
-import Loading from '../../doc-loading';
+import DOCLoading from '../../doc-loading';
 import { fetchTrip, reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../../../actions';
 import '../../../styles/tripdetails_opo.scss';
 import '../../../styles/createtrip-style.scss';
@@ -50,70 +50,6 @@ class OPOTripApproval extends Component {
   setStep = (step) => {
     this.setState({ step });
   }
-
-  // getSideLinks = () => {
-  //   let gearRequest = null;
-  //   const { trip } = this.props;
-  //   if (trip.gearStatus !== 'N/A' || trip.trippeeGearStatus !== 'N/A') {
-  //     const hasBeenReviewed = trip.gearStatus !== 'pending' && trip.trippeeGearStatus !== 'pending';
-  //     let status = (trip.gearStatus !== 'denied' && trip.trippeeGearStatus !== 'denied') ? 'approved' : 'denied';
-  //     gearRequest = (
-  //       <div className="ovr-sidebar-req-section otd-sb-req-section">
-  //         {this.state.step === 2 ? <div className="otd-side-bar-highlight" /> : null}
-  //         <button
-  //           className={`side-links ovr-req-section-link ${this.state.step === 2 ? 'otd-text-highlight' : ''}`}
-  //           onClick={() => this.setStep(2)}
-  //         >
-  //           Gear Request
-  //         </button>
-  //         {hasBeenReviewed ? <Badge type={status}></Badge> : null}
-  //       </div>
-  //     );
-  //   }
-
-  // let pcardRequest = null;
-  // const { pcardStatus } = trip;
-  // if (pcardStatus !== 'N/A') {
-  //   pcardRequest = (
-  //     <div className="ovr-sidebar-req-section otd-sb-req-section">
-  //       {this.state.step === 3 ? <div className="otd-side-bar-highlight" /> : null}
-  //       <button
-  //         className={`side-links ovr-req-section-link ${this.state.step === 3 ? 'otd-text-highlight' : ''}`}
-  //         onClick={() => this.setStep(3)}
-  //       >
-  //         P-Card Request
-  //       </button>
-  //       {pcardStatus !== 'pending' ? <Badge type={status}></Badge> : null}
-  //     </div>
-  //   )
-  // }
-
-  // let vehicleRequest = null;
-  // const { vehicleStatus } = trip;
-  // if (vehicleStatus !== 'N/A') {
-  //   vehicleRequest = (
-  //     <div className="ovr-sidebar-req-section otd-sb-req-section">
-  //       {this.state.step === 4 ? <div className="otd-side-bar-highlight" /> : null}
-  //       <button
-  //         className={`side-links ovr-req-section-link ${this.state.step === 4 ? 'otd-text-highlight' : ''}`}
-  //         onClick={() => this.setStep(4)}
-  //       >
-  //         Vehicle Request
-  //       </button>
-  //       {vehicleStatus !== 'pending' ? <Badge type={status}></Badge> : null}
-  //     </div>
-  //   )
-  // }
-
-
-  //   return (
-  //     <div>
-  //       {gearRequest}
-  //       {pcardRequest}
-  //       {vehicleRequest}
-  //     </div>
-  //   )
-  // }
 
   nextPage = () => {
     if (this.state.step >= this.state.numOfPages) {
@@ -171,10 +107,9 @@ class OPOTripApproval extends Component {
     return string.length === 0 || !string.toString().trim();
   };
 
-  reviewPcardRequest = (pcardStatus) => {
+  reviewPCardRequest = (pcardStatus) => {
     if (this.state.isEditingPcard && this.isStringEmpty(this.state.pcardAssigned)) {
-      this.props.appError('Please assign a pcard to this request');
-      window.scrollTo(0, 0);
+      this.props.appError('Please assign a pcard to this request.');
     } else {
       const pcardAssigned = pcardStatus === 'denied' ? '' : this.state.pcardAssigned;
       const review = {
@@ -237,7 +172,7 @@ class OPOTripApproval extends Component {
               onFieldChange={this.onFieldChange}
               pcardAssigned={this.state.pcardAssigned}
               isEditingPcard={this.state.isEditingPcard}
-              reviewPcardRequest={this.reviewPcardRequest}
+              reviewPCardRequest={this.reviewPCardRequest}
               startEditingPcard={this.startEditingPcard}
               cancelPcardUpdate={this.cancelPcardUpdate}
             />
@@ -275,12 +210,14 @@ class OPOTripApproval extends Component {
               {page}
             </Box>
             <Stack size={100} />
-            <Box dir="row" justify="between" align="center">
-              <button disabled={this.state.step === 1} type="button" className="btn next-button" onClick={this.previousPage}>Previous</button>
-              <span className="cancel-link ovr-bottom-link ovr-contact-link" onClick={this.openModal} role="button" tabIndex={0}>Contact Trip Leader</span>
-              <button type="button" className="btn next-button" onClick={this.nextPage}>
+            <Divider size={1} />
+            <Stack size={50} />
+            <Box dir="row" justify="between" align="center" id="approval-navigation">
+              <div className={`doc-button hollow ${this.state.step === 1 ? 'disabled' : ''}`} onClick={this.state.step === 1 ? null : this.previousPage} role="button" tabIndex={0}>Previous</div>
+              <a id="email-trip-leader-link" href={`mailto:${this.props.trip.leaders[0].email}`} role="button" tabIndex={0}>Contact Trip Leader</a>
+              <div className="doc-button" onClick={this.nextPage} role="button" tabIndex={0}>
                 {this.state.step === this.state.numOfPages ? 'Back to Trip Approvals' : 'Next'}
-              </button>
+              </div>
             </Box>
           </Box>
           <Modal
@@ -292,7 +229,6 @@ class OPOTripApproval extends Component {
               <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
             </div>
             <Badge type="denied" />
-            {/* <img className="status-badge ovr-status-badge" src={this.badges.denied} alt="warning_badge" /> */}
 
             <div className="cancel-content">
               <p className="cancel-question">{`Contact ${this.props.trip.leaders[0].name}`}</p>
@@ -314,7 +250,7 @@ class OPOTripApproval extends Component {
           </Modal>
         </Box>
       );
-    } else return (<Loading type="doc" />);
+    } else return (<DOCLoading type="doc" />);
   }
 }
 const mapStateToProps = (state) => {

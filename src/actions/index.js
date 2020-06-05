@@ -15,6 +15,7 @@ export const ActionTypes = {
   DEAUTH_USER: 'DEAUTH_USER',
   UPDATE_USER_ID: 'UPDATE_USER_ID',
   UPDATE_USER: 'UPDATE_USER',
+  FETCH_USERS: 'FETCH_USERS',
   ALL_CLUBS: 'ALL_CLUBS',
   ERROR: 'ERROR',
   CLEAR_ERROR: 'CLEAR_ERROR',
@@ -50,6 +51,23 @@ export function updateRestrictedPath(restrictedPath) {
   return {
     type: ActionTypes.UPDATE_RESTRICTED_PATH,
     payload: restrictedPath,
+  };
+}
+
+export function getUsers() {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.get(`${constants.BACKEND_URL}/users`, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_USERS, payload: response.data });
+          resolve();
+        })
+        .catch((error) => {
+          dispatch(appError(`Get user failed: ${error.response.data}`));
+          console.log(error);
+          reject(error);
+        });
+    });
   };
 }
 
@@ -95,6 +113,7 @@ export function fetchTrips() {
       });
     }).catch((error) => {
       console.log('Fetch trips error');
+      dispatch(appError(`Error getting all trips: ${error.message}`));
     });
   };
 }
@@ -109,7 +128,8 @@ export function fetchTrip(id, temporaryToken) {
           resolve();
         }).catch((error) => {
           console.log(error);
-          console.log('Fetch trip error');
+          dispatch(appError(`Error getting trip data: ${error.message}`));
+          reject(error);
         });
     });
   };
@@ -125,7 +145,8 @@ export function setAttendingStatus(tripID, memberID, status, temporaryToken) {
           resolve();
         }).catch((error) => {
           console.log(error);
-          console.log('Attendence set error');
+          dispatch(appError(`Error marking attendence: ${error.message}`));
+          reject(error);
         });
     });
   };
@@ -139,7 +160,7 @@ export function addToPending(signUpInfo) {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           setTimeout(() => resolve(response.data), 1000);
         }).catch((error) => {
-          console.log('addpending error');
+          dispatch(appError(`Error applying for trip: ${error.message}`));
           console.log(error);
           reject(error);
         });
@@ -154,7 +175,7 @@ export function editUserGear(signUpInfo) {
         dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
         setTimeout(() => resolve(response.data), 1000);
       }).catch((error) => {
-        console.log('addpending error');
+        dispatch(appError(`Error editing gear requests: ${error.message}`));
         console.log(error);
         reject(error);
       });
@@ -170,7 +191,7 @@ export function joinTrip(id, pend) {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve();
         }).catch((error) => {
-          console.log('joinTrip error');
+          dispatch(appError(`Error joining trip: ${error.message}`));
           console.log(error);
         });
     });
@@ -185,7 +206,7 @@ export function moveToPending(id, member) {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve(response.data);
         }).catch((error) => {
-          console.log('move to pending error');
+          dispatch(appError(`Error putting trippee back to pending list: ${error.message}`));
           console.log(error);
           reject(error);
         });
@@ -203,19 +224,24 @@ export function toggleTripReturnedStatus(tripID, status, temporaryToken) {
           resolve();
         }).catch((error) => {
           console.log(error);
-          console.log('Toggle returned error');
+          dispatch(appError(`Error marking trip as returned: ${error.message}`));
           reject(error);
         });
     });
   };
 }
 
-export function leaveTrip(id, userTripStatus) {
+export function leaveTrip(id) {
   return (dispatch) => {
-    axios.post(`${constants.BACKEND_URL}/leaveTrip/${id}`, { userTripStatus }, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-      dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
-    }).catch((error) => {
-      console.log(error);
+    return new Promise((resolve, reject) => {
+      axios.post(`${constants.BACKEND_URL}/leaveTrip/${id}`, {}, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+        dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+        setTimeout(() => resolve(), 1000);
+      }).catch((error) => {
+        dispatch(appError(`Error leaving trip: ${error.message}`));
+        console.log(error);
+        reject(error);
+      });
     });
   };
 }
@@ -228,7 +254,7 @@ export function createTrip(trip, history) {
       })
       .catch((error) => {
         console.log(error);
-        dispatch(appError(`Error creating trip: ${error}`));
+        dispatch(appError(`Error creating trip: ${error.message}`));
       });
   };
 }
@@ -285,7 +311,7 @@ export function signIn(email, password, dataLoader) {
         localStorage.setItem('token', response.data.token);
         dispatch({ type: ActionTypes.AUTH_USER });
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        dataLoader().then(() => resolve());
+        setTimeout(() => dataLoader().then(() => resolve()), 2000);
       }).catch((error) => {
         reject(error);
       });
@@ -443,7 +469,7 @@ export function fetchGearRequests() {
   };
 }
 
-export function fetchOpoTrips() {
+export function fetchOPOTrips() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios.get(`${constants.BACKEND_URL}/opotrips`, { headers: { authorization: localStorage.getItem('token') } })

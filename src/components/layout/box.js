@@ -5,8 +5,8 @@ const Box = (props) => {
   const justify = props.justify || 'start';
   const align = props.align || 'stretch';
   const self = props.self || 'auto';
-  const wrap = props.wrap || '';
-  const expand = props.expand || '';
+  const wrap = props.wrap ? 'wrap' : '';
+  const expand = props.expand || false;
   let padding = null;
   let width = null;
   let height = null;
@@ -31,6 +31,8 @@ const Box = (props) => {
       padding = `${props.pad}px`;
     } else if (typeof props.pad === 'string') {
       padding = props.pad;
+    } else if (Array.isArray(props.pad)) {
+      padding = `${props.pad.reduce((prev, curr) => { return `${prev}px ${curr}`; })}px`.trim();
     }
   }
   const style = { padding, width, height };

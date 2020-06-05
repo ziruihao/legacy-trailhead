@@ -1,3 +1,3 @@
-import Trips from './trips';
+import AllTrips from './all-trips';
 
-export default Trips;
+export default AllTrips;

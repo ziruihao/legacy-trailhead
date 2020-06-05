@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
+import Icon from './icon';
 import { Stack, Queue, Divider, Box } from './layout';
 import VehicleCalendarComponent from './vehicleCalendarComponent';
 import DOCLoading from './doc-loading';
@@ -22,6 +23,7 @@ class VehicleCalendar extends Component {
   componentDidMount() {
     Promise.all([this.props.getVehicles(), this.props.fetchVehicleAssignments()])
       .then(() => {
+        // console.log(this.props.assignments[0].request.associatedTrip);
         this.setState({ ready: true });
       });
   }
@@ -71,6 +73,7 @@ class VehicleCalendar extends Component {
   };
 
   getCoLeaders = (leaders) => {
+    console.log(leaders);
     let coleaders = '';
     leaders.forEach((leader, index) => {
       if (index !== 0) {
@@ -86,7 +89,8 @@ class VehicleCalendar extends Component {
     const { selectedEvent } = this.state;
     const trip = selectedEvent.request.associatedTrip;
     return (
-      <div id="event-modal">
+      <Box dir="col" align="stretch" pad={50} id="event-modal">
+        <Icon id="event-modal-close" type="close" onClick={this.closeModal} size={25} />
         <h1 id="event-modal-title">
           {selectedEvent.request.associatedTrip ? `Trip #${selectedEvent.request.associatedTrip.number}: ${trip.title}` : `Vehicle Request #${selectedEvent.request.number}`}
           {/* {selectedEvent.request.requestType === 'TRIP' ? trip.title : selectedEvent.requestDetails} */}
@@ -164,21 +168,21 @@ class VehicleCalendar extends Component {
         </div>
         <hr />
         <div className="vcm-assignment-info">
-          <span className="vcm-assignment-detail">
+          <span className="vcm-assignment-detail thick">
             Vehicle
-            <span>{selectedEvent.assignedVehicle}</span>
+            <span className="thin">{selectedEvent.assignedVehicle}</span>
           </span>
-          <span className="vcm-assignment-detail">
+          <span className="vcm-assignment-detail thick">
             Key #
-            <span>{selectedEvent.assigned_key}</span>
+            <span className="thin">{selectedEvent.assigned_key}</span>
           </span>
-          <span className="vcm-assignment-detail">
+          <span className="vcm-assignment-detail thick">
             Picked Up?
-            <span>{selectedEvent.pickedUp ? 'Yes' : 'No'}</span>
+            <span className="thin">{selectedEvent.pickedUp ? 'Yes' : 'No'}</span>
           </span>
-          <span className="vcm-assignment-detail">
+          <span className="vcm-assignment-detail thick">
             Returned?
-            <span>{selectedEvent.returned ? 'Yes' : 'No'}</span>
+            <span className="thin">{selectedEvent.returned ? 'Yes' : 'No'}</span>
           </span>
           {/* <Link
             className="doc-button"
@@ -192,20 +196,20 @@ class VehicleCalendar extends Component {
             target="_blank"
             to={`/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
           >
-            Edit Assignment
+            Edit assignment
           </Link>
         </div>
-      </div>
+      </Box>
     );
   }
 
   render() {
     if (this.state.ready) {
       return (
-        <div className="vehicle-calendar-container center-view spacy">
+        <div className="vehicle-calendar-container center-view">
           <Box className="doc-card" dir="col" align="stretch" pad={25}>
             <VehicleCalendarComponent
-              assignments={this.props.assignments}
+              // assignments={this.props.assignments}
               vehicles={this.props.vehicles}
               showEventModal={this.showEventModal}
               userRole={this.props.user.role}
@@ -217,9 +221,9 @@ class VehicleCalendar extends Component {
             show={this.state.showModal}
             onHide={this.closeModal}
           >
-            <div id="event-modal-close">
+            {/* <div id="event-modal-close">
               <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
-            </div>
+            </div> */}
             {this.state.showModal ? this.getModalContent() : null}
           </Modal>
         </div>
@@ -234,7 +238,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.user.user,
     vehicles: state.vehicleRequests.vehicles,
-    assignments: state.vehicleRequests.allAssignments,
+    // assignments: state.vehicleRequests.allAssignments,
   };
 };
 
