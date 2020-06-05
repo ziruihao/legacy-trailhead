@@ -11,6 +11,7 @@ class Toggle extends React.Component {
             className="toggle-input"
             type="checkbox"
             id={this.props.id}
+            name={this.props.name}
             onChange={this.props.onChange}
             value={this.props.value}
             checked={this.props.value}
