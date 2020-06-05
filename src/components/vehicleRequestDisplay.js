@@ -1,25 +1,26 @@
 import React from 'react';
 import Badge from './badge';
+import utils from '../utils';
 import '../styles/vehicleRequestForm-style.scss';
 
-const formatDate = (date, time) => {
-  let timeString = '';
-  const rawDate = new Date(date);
-  const dateString = rawDate.toUTCString();
-  timeString = dateString.substring(0, 11);
-  const splitTime = time.split(':');
-  splitTime.push(' AM');
-  const originalHour = splitTime[0];
-  splitTime[0] = originalHour % 12;
-  if (originalHour >= 12) {
-    splitTime[2] = ' PM';
-  }
-  if (splitTime[0] === 0) {
-    splitTime[0] = 12;
-  }
-  timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
-  return timeString;
-};
+// const utils.dates.formatDateAndTime = (date, time) => {
+//   let timeString = '';
+//   const rawDate = new Date(date);
+//   const dateString = rawDate.toUTCString();
+//   timeString = dateString.substring(0, 11);
+//   const splitTime = time.split(':');
+//   splitTime.push(' AM');
+//   const originalHour = splitTime[0];
+//   splitTime[0] = originalHour % 12;
+//   if (originalHour >= 12) {
+//     splitTime[2] = ' PM';
+//   }
+//   if (splitTime[0] === 0) {
+//     splitTime[0] = 12;
+//   }
+//   timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
+//   return timeString;
+// };
 
 const getAssignment = (props, index) => {
   if (props.vehicleRequest.status === 'approved') {
@@ -53,7 +54,7 @@ const getAssignment = (props, index) => {
               <span className="vrf-req-details-display vrf-single-day-date">
                 {assignment.assigned_vehicle.name === 'Enterprise'
                   ? '-'
-                  : formatDate(assignment.assigned_pickupDate, assignment.assigned_pickupTime)}
+                  : utils.dates.formatDateAndTime(assignment.assigned_pickupDate, assignment.assigned_pickupTime)}
               </span>
             </span>
           </div>
@@ -64,7 +65,7 @@ const getAssignment = (props, index) => {
               <span className="vrf-req-details-display vrf-single-day-date">
                 {assignment.assigned_vehicle.name === 'Enterprise'
                   ? '-'
-                  : formatDate(assignment.assigned_returnDate, assignment.assigned_returnTime)}
+                  : utils.dates.formatDateAndTime(assignment.assigned_returnDate, assignment.assigned_returnTime)}
               </span>
             </span>
           </div>
@@ -141,14 +142,14 @@ const getVehicles = (props) => {
           <div className="vrf-form-row vrf-req-dates">
             <span className="vrf-req-date">
               <span className="vrf-label">Pickup Date & Time</span>
-              <span className="vrf-req-details-display vrf-single-day-date">{formatDate(vehicle.pickupDate, vehicle.pickupTime)}</span>
+              <span className="vrf-req-details-display vrf-single-day-date">{utils.dates.formatDateAndTime(vehicle.pickupDate, vehicle.pickupTime)}</span>
             </span>
           </div>
 
           <div className="vrf-form-row vrf-req-dates">
             <span className="vrf-req-date">
               <span className="vrf-label">Return Date & Time</span>
-              <span className="vrf-req-details-display vrf-single-day-date">{formatDate(vehicle.returnDate, vehicle.returnTime)}</span>
+              <span className="vrf-req-details-display vrf-single-day-date">{utils.dates.formatDateAndTime(vehicle.returnDate, vehicle.returnTime)}</span>
             </span>
           </div>
 

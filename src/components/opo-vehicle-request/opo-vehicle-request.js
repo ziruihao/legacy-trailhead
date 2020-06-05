@@ -7,10 +7,12 @@ import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import Icon from '../icon';
+import { Stack, Queue, Divider, Box } from '../layout';
 import { ProfileCard } from '../profile-card';
 import ConflictModal from './conflict-modal';
 import DOCLoading from '../doc-loading';
 import Badge from '../badge';
+import Sidebar from '../sidebar';
 import * as constants from '../../constants';
 import utils from '../../utils';
 import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../actions';
@@ -357,19 +359,19 @@ class OPOVehicleRequest extends Component {
       });
   }
 
-  getSideLinks = () => {
-    return this.props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
-      const assignment = this.props.vehicleRequest.assignments.find((element) => {
-        return element.responseIndex === index;
-      });
-      return (
-        <div key={vehicle._id} className="ovr-sidebar-req-section">
-          <NavLink to={`#vehicle_req_${index}`} className="ovr-req-section-link">Vehicle #{index + 1}</NavLink>
-          {assignment ? <Badge type="approved" /> : null}
-        </div>
-      );
-    });
-  }
+  // getSideLinks = () => {
+  //   return this.props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
+  //     const assignment = this.props.vehicleRequest.assignments.find((element) => {
+  //       return element.responseIndex === index;
+  //     });
+  //     return (
+  //       <div key={vehicle._id} className="ovr-sidebar-req-section">
+  //         <NavLink to={`#vehicle_req_${index}`} className="ovr-req-section-link">Vehicle #{index + 1}</NavLink>
+  //         {assignment ? <Badge type="approved" /> : null}
+  //       </div>
+  //     );
+  //   });
+  // }
 
   // <img className="assigned-badge" src={this.badges.approved} alt="approved_badge" />
 
@@ -819,40 +821,63 @@ class OPOVehicleRequest extends Component {
       return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
     } else {
       return (
-        <div className="ovr-container">
+        <Box dir="row">
           {this.props.partOfTrip
             ? null
             : (
-              <div className="ovr-sidebar">
-                <span className="ovr-sidebar-header">External Vehicle Request</span>
-                <span className="vrf-label ovr-sidebar-subheader">Vehicle Request</span>
-                <div className="ovr-sidebar-req-sections">
-                  <div className="ovr-sidebar-req-section">
-                    <NavLink to="#req_details" className="ovr-req-section-link">Request Details</NavLink>
-                  </div>
+              <Sidebar
+                sections={
+                [
+                  { title: `V-Req #${this.props.vehicleRequest.number}`, steps: [{ number: 1, text: 'Request details' }].concat(this.props.vehicleRequest.requestedVehicles.map((vehicle, idx) => { return { number: idx + 2, text: `Vehicle ${idx + 1}` }; })) },
+                ]
+              }
+                currentStep={1}
+              />
+          // <div className="ovr-sidebar">
+          //   <span className="ovr-sidebar-header">External Vehicle Request</span>
+          //   <span className="vrf-label ovr-sidebar-subheader">Vehicle Request</span>
+          //   <div className="ovr-sidebar-req-sections">
+          //     <div className="ovr-sidebar-req-section">
+          //       <NavLink to="#req_details" className="ovr-req-section-link">Request Details</NavLink>
+          //     </div>
 
-                  {this.getSideLinks()}
-                </div>
-              </div>
+          //     {this.getSideLinks()}
+          //   </div>
+          // </div>
             )
           }
-          <div className={`ovr-req-content ${this.props.partOfTrip ? 'otd-ovr-margin' : ''}`}>
-            <div className="vrf-title-container">
-              <h2 className="p-trip-title vrf-title-size">Vehicle Request</h2>
-              <span className="vrf-status-display">
-                <span className="vrf-label">
-                  Status:
-                </span>
-                <span className="vrf-req-status-display">
-                  {this.props.vehicleRequest.status}
-                </span>
-                <span className="vrf-req-status-badge">
-                  {/* <img className="status-badge" src={this.badges[this.props.vehicleRequest.status]} alt={`${this.props.vehicleRequest.status}_badge`} /> */}
-                  <Badge type={this.props.vehicleRequest.status} />
-                </span>
-              </span>
-            </div>
-            <div id="req_details" className="trip-detail pending-table white-background">
+          <Box dir="col" pad={this.props.partOfTrip ? 0 : 100} expand>
+            <Box dir="row" justify="between" align="center">
+              <div className="doc-h1">Vehicle request</div>
+              <Badge type={this.props.vehicleRequest.status} size={36} />
+            </Box>
+            <Stack size={50} />
+            <div className="doc-h2">Basic details</div>
+            <Stack size={25} />
+            <div className="doc-h3">Requester</div>
+            <Stack size={25} />
+            <Box dir="row">
+              <div className="p1">{this.props.vehicleRequest.requester.name}</div>
+              <Queue expand />
+              <div className="doc-button hollow" onClick={this.toggleProfile} role="button" tabIndex={0}>View profile</div>
+              <Queue size={25} />
+              <div className="doc-button" onClick={() => window.open(`mailto:${this.props.vehicleRequest.requester.email}`, '_blank')} role="button" tabIndex={0}>Email requester</div>
+            </Box>
+            <Stack size={25} />
+            <Box dir="row">
+              <Box dir="col" expand>
+                <div className="doc-h3">No. of people</div>
+                <div className="p1">{this.props.vehicleRequest.noOfPeople}</div>
+              </Box>
+              <Queue size={100} />
+              <Box dir="col" expand>
+                <div className="doc-h3">Estimated mileage</div>
+                <div className="p1">{this.props.vehicleRequest.mileage}</div>
+              </Box>
+            </Box>
+            <Stack size={25} />
+
+            {/* <div id="req_details" className="trip-detail pending-table white-background">
               <div className="leader-detail-row">
                 <span className="detail-cell vrf-label">Requester</span>
                 <span className="detail-cell vrf-label"># of people</span>
@@ -867,19 +892,18 @@ class OPOVehicleRequest extends Component {
                 <span className="detail-cell">
                   <button type="button" className="leader-signup-button toggle-profile" onClick={this.toggleProfile}>{this.state.showProfile ? 'Hide' : 'Show'} Profile</button>
                 </span>
+              </div> */}
+            <Collapse
+              in={this.state.showProfile}
+            >
+              <div className="leader-profile-card">
+                <ProfileCard
+                  asProfilePage={false}
+                  isEditing={false}
+                  user={this.props.vehicleRequest.requester}
+                />
               </div>
-              <Collapse
-                in={this.state.showProfile}
-              >
-                <div className="leader-profile-card">
-                  <ProfileCard
-                    asProfilePage={false}
-                    isEditing={false}
-                    user={this.props.vehicleRequest.requester}
-                  />
-                </div>
-              </Collapse>
-            </div>
+            </Collapse>
             {this.props.vehicleRequest.requestType === 'SOLO'
               ? (
                 <div className="trip-detail pending-table white-background">
@@ -903,7 +927,7 @@ class OPOVehicleRequest extends Component {
 
               {this.getAppropriateButton()}
             </div>
-          </div>
+          </Box>
           <Modal
             centered
             show={this.state.showModal}
@@ -919,7 +943,7 @@ class OPOVehicleRequest extends Component {
           <Modal centered show={this.state.showConflictsModal} onHide={() => this.setState({ showConflictsModal: false })}>
             <ConflictModal closeModal={() => this.setState({ showConflictsModal: false })} vehicleName={this.state.conflictWith} conflicts={this.state.conflicts} />
           </Modal>
-        </div>
+        </Box>
       );
     }
   }
