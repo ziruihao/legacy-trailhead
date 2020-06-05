@@ -113,11 +113,30 @@ class ProfileCard extends React.Component {
                   <div className="doc-h1">
                     {this.props.user.name}
                     {this.props.user.role === 'Leader'
-                      ? <Badge type="leader" size={36} />
+                      ? (
+                        <>
+                          <Badge type="leader" size={36} dataTip dataFor="leader-status-badge" />
+                          <ReactTooltip id="leader-status-badge" place="bottom">You are a leader DOC subclubs!</ReactTooltip>
+                        </>
+                      )
                       : null
                    }
                     {this.props.user.has_pending_leader_change
-                      ? <Badge type="pending" size={36} />
+                      ? (
+                        <>
+                          <Badge type="person-pending" size={36} dataTip dataFor="leader-pending-badge" />
+                          <ReactTooltip id="leader-pending-badge" place="bottom">Your request to be a subclub leader is being reviewed by OPO staff</ReactTooltip>
+                        </>
+                      )
+                      : null
+                   }
+                    {this.props.user.has_pending_cert_change
+                      ? (
+                        <>
+                          <Badge type="pending" size={36} dataTip dataFor="cert-pending-badge" />
+                          <ReactTooltip id="cert-pending-badge" place="bottom">Your request for vehicle certifications is being reviewed by OPO staff</ReactTooltip>
+                        </>
+                      )
                       : null
                    }
                   </div>
