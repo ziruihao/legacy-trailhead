@@ -164,8 +164,9 @@ class MyTrips extends Component {
           <Stack size={35} />
           <Box id="my-trips-tiles-container">
             <Box id="my-trips-tiles" className="no-scroll-bar">
+              <Queue size={20} />
               {this.renderCreateTrip()}
-              <Queue size={45} />
+              {this.props.user.role !== 'Trippee' ? <Queue size={45} /> : null}
               {this.renderMyTrips()}
               <Queue size={300} />
             </Box>
