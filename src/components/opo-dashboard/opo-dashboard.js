@@ -1,6 +1,7 @@
 import React from 'react';
 import { withRouter, NavLink } from 'react-router-dom';
 import { Stack, Queue, Divider, Box } from '../layout';
+import Icon from '../icon';
 import Badge from '../badge';
 import OPOTrips from '../opo-approvals/trips';
 import OPOVehicleRequests from '../opo-approvals/vehicle-requests';
@@ -42,7 +43,8 @@ const OPODashboard = (props) => {
         <Box className={`section ${active.trips ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]}>
           <NavLink to="/opo-dashboard/opo-trips">
             <Box dir="row" align="center">
-              <Badge type="trips" size={active.trips ? 48 : 48} />
+              <Icon type="trip" size={32} />
+              {/* <Badge type="trips" size={active.trips ? 48 : 48} /> */}
               <Queue size={25} />
               <div className="titles doc-h3">Trip Approvals</div>
             </Box>
@@ -58,7 +60,8 @@ const OPODashboard = (props) => {
         <Box className={`section ${active.vehicles ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]}>
           <NavLink to="/opo-dashboard/vehicle-requests">
             <Box dir="row" align="center">
-              <Badge type="vehicle" size={active.vehicles ? 48 : 48} />
+              <Icon type="vehicle" size={24} />
+              {/* <Badge type="vehicle" size={active.vehicles ? 48 : 48} /> */}
               <Queue size={25} />
               <div className="titles doc-h3">Vehicle Requests</div>
             </Box>
@@ -74,7 +77,8 @@ const OPODashboard = (props) => {
         <Box className={`section ${active.calendar ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]}>
           <NavLink to="/opo-dashboard/vehicle-calendar">
             <Box dir="row" align="center">
-              <Badge type="calendar" size={active.calendar ? 48 : 48} />
+              <Icon type="calendar" size={24} />
+              {/* <Badge type="calendar" size={active.calendar ? 48 : 48} /> */}
               <Queue size={25} />
               <div className="titles doc-h3">Calendar</div>
             </Box>
@@ -90,7 +94,8 @@ const OPODashboard = (props) => {
         <Box className={`section ${active.leaders ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]}>
           <NavLink to="/opo-dashboard/leader-approvals">
             <Box dir="row" align="center">
-              <Badge type="person" size={active.leaders ? 48 : 48} />
+              <Icon type="cert" size={24} />
+              {/* <Badge type="person" size={active.leaders ? 48 : 48} /> */}
               <Queue size={25} />
               <div className="titles doc-h3">Profile Approvals</div>
             </Box>
@@ -106,7 +111,8 @@ const OPODashboard = (props) => {
         <Box className={`section ${active.fleet ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]}>
           <NavLink to="/opo-dashboard/opo-fleet-management">
             <Box dir="row" align="center">
-              <Badge type="marker" size={active.fleet ? 48 : 48} />
+              <Icon type="marker" size={24} />
+              {/* <Badge type="marker" size={active.fleet ? 48 : 48} /> */}
               <Queue size={25} />
               <div className="titles doc-h3">Manage Fleet</div>
             </Box>

@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Table from 'react-bootstrap/Table';
 import { Stack, Queue, Divider, Box } from '../../layout';
+import Badge from '../../badge';
 import Toggle from '../../toggle';
 import DOCLoading from '../../doc-loading';
-import { fetchVehicleRequests } from '../../../actions';
+import { fetchVehicleRequests, appError } from '../../../actions';
 import '../../../styles/tripdetails_leader.scss';
 import '../opo-approvals.scss';
 
@@ -32,11 +33,13 @@ class OPOVehicleRequests extends Component {
 
   onSearchPendingTermChange = (event) => {
     event.persist();
+    this.props.appError('This feature will be done soon!');
     this.setState({ searchPendingTerm: event.target.value });
   }
 
   onSearchReviewedTermChange = (event) => {
     event.persist();
+    this.props.appError('This feature will be done soon!');
     this.setState({ searchReviewedTerm: event.target.value });
   }
 
@@ -142,11 +145,11 @@ class OPOVehicleRequests extends Component {
     if (status === 'N/A') {
       return <td>N/A</td>;
     } else if (status === 'pending') {
-      return <td className="pending">Pending</td>;
+      return <td className="pending"><Badge type="pending" size={36} /></td>;
     } else if (status === 'approved') {
-      return <td className="approved">Approved</td>;
+      return <td className="approved"><Badge type="approved" size={36} /></td>;
     } else {
-      return <td className="denied">Denied</td>;
+      return <td className="denied"><Badge type="denied" size={36} /></td>;
     }
   }
 
@@ -232,4 +235,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { fetchVehicleRequests })(OPOVehicleRequests));
+export default withRouter(connect(mapStateToProps, { fetchVehicleRequests, appError })(OPOVehicleRequests));

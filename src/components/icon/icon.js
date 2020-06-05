@@ -12,6 +12,11 @@ import dropdown from './icons/dropdown-icon.svg';
 import more from './icons/more-icon.svg';
 import tree from './icons/tree-icon.svg';
 import mountain from './icons/mountain-icon.svg';
+import calendar from './icons/calendar-icon.svg';
+import cert from './icons/cert-icon.svg';
+import marker from './icons/marker-icon.svg';
+import trip from './icons/trip-icon.svg';
+import vehicle from './icons/vehicle-icon.svg';
 
 import './icon.scss';
 
@@ -44,6 +49,18 @@ const Icon = (props) => {
       return (<img id={id} className="doc-icon" alt="warning icon" style={style} src={tree} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     case 'mountain':
       return (<img id={id} className="doc-icon" alt="warning icon" style={style} src={mountain} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
+    case 'more':
+      return (<img id={id} className="doc-icon" alt="more icon" style={style} src={more} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
+    case 'calendar':
+      return (<img id={id} className="doc-icon" alt="calendar icon" style={style} src={calendar} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
+    case 'cert':
+      return (<img id={id} className="doc-icon" alt="cert icon" style={style} src={cert} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
+    case 'marker':
+      return (<img id={id} className="doc-icon" alt="marker icon" style={style} src={marker} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
+    case 'trip':
+      return (<img id={id} className="doc-icon" alt="trip icon" style={style} src={trip} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
+    case 'vehicle':
+      return (<img id={id} className="doc-icon" alt="vehicle icon" style={style} src={vehicle} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     default:
       return null;
   }

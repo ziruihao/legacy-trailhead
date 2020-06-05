@@ -4,8 +4,9 @@ import { withRouter, Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Table from 'react-bootstrap/Table';
 import { Stack, Queue, Divider, Box } from '../../layout';
+import Badge from '../../badge';
 import DOCLoading from '../../doc-loading';
-import { fetchOPOTrips } from '../../../actions';
+import { fetchOPOTrips, appError } from '../../../actions';
 import dropdownIcon from '../../../img/dropdown-toggle.svg';
 import '../../../styles/tripdetails_leader.scss';
 import '../opo-approvals.scss';
@@ -52,6 +53,7 @@ class OPOTrips extends Component {
 
   onSearchTermChange = (event) => {
     event.persist();
+    this.props.appError('This feature will be done soon!');
     this.setState({ searchTerm: event.target.value });
   }
 
@@ -82,11 +84,11 @@ class OPOTrips extends Component {
     if (status === 'N/A') {
       return <td>N/A</td>;
     } else if (status === 'pending') {
-      return <td className="pending">Pending</td>;
+      return <td className="pending"><Badge type="pending" size={36} /></td>;
     } else if (status === 'approved') {
-      return <td className="approved">Approved</td>;
+      return <td className="approved"><Badge type="approved" size={36} /></td>;
     } else {
-      return <td className="denied">Denied</td>;
+      return <td className="denied"><Badge type="denied" size={36} /></td>;
     }
   }
 
@@ -94,11 +96,11 @@ class OPOTrips extends Component {
     if (individualGearStatus === 'N/A' && groupGearStatus === 'N/A') {
       return <td>N/A</td>;
     } else if (individualGearStatus === 'pending' || groupGearStatus === 'pending') {
-      return <td className="pending">Pending</td>;
+      return <td className="pending"><Badge type="pending" size={36} /></td>;
     } else if (individualGearStatus === 'denied' || groupGearStatus === 'denied') {
-      return <td className="denied">Denied</td>;
+      return <td className="denied"><Badge type="denied" size={36} /></td>;
     } else {
-      return <td className="approved">Approved</td>;
+      return <td className="approved"><Badge type="approved" size={36} /></td>;
     }
   }
 
@@ -137,7 +139,7 @@ class OPOTrips extends Component {
     });
     if (pendingTrips.length === 0) {
       return (
-        <div className="p1 gray thin">All set for now!</div>
+        <Box dir="col" align="center" className="p1 gray thin">All set for now!</Box>
       );
     } else {
       return (
@@ -148,9 +150,9 @@ class OPOTrips extends Component {
               <th>Start Time</th>
               <th>Subclub</th>
               <th>Leader</th>
-              <th>Gear Status</th>
-              <th>Vehicle Status</th>
-              <th>P-Card Status</th>
+              <th>Gear</th>
+              <th>Vehicles</th>
+              <th>P-Card</th>
             </tr>
           </thead>
           <tbody>
@@ -177,7 +179,7 @@ class OPOTrips extends Component {
     });
     if (filteredTrips.length === 0) {
       return (
-        <div className="p1 gray thin">All set for now!</div>
+        <Box dir="col" align="center" className="p1 gray thin">All set for now!</Box>
       );
     } else {
       return (
@@ -188,9 +190,9 @@ class OPOTrips extends Component {
               <th>Start Time</th>
               <th>Subclub</th>
               <th>Leader</th>
-              <th>Gear Status</th>
-              <th>Assigned Vehicle</th>
-              <th>Assigned P-Card</th>
+              <th>Gear</th>
+              <th>Vehicles</th>
+              <th>P-Card</th>
             </tr>
           </thead>
           <tbody>
@@ -304,4 +306,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { fetchOPOTrips })(OPOTrips));
+export default withRouter(connect(mapStateToProps, { fetchOPOTrips, appError })(OPOTrips));
