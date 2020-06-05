@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import Dropdown from 'react-bootstrap/Dropdown';
+import { connect } from 'react-redux';
+import { Table, Modal, Dropdown } from 'react-bootstrap/';
+import Toggle from '../../toggle';
+import { SmallProfileCard } from '../../profile-card';
+import { Stack, Queue, Divider, Box } from '../../layout';
+import { getUsers } from '../../../actions';
 import Approvals from '../../cert_approvals';
 import LeaderApprovals from '../../leader_approvals';
 import DOCLoading from '../../doc-loading';
@@ -14,22 +19,18 @@ class OPOLeaders extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      page: 'Leader Status Requests',
-      loaded: true,
+      loaded: false,
+      sortBy: 'Name',
+      club: 'All clubs',
     };
   }
 
-  onClick = () => {
-    if (this.state.page === 'Leader Status Requests') {
-      this.setState({
-        page: 'Driver Certification',
-      });
-    } else {
-      this.setState({
-        page: 'Leader Status Requests',
-      });
-    }
+  componentDidMount() {
+    this.props.getUsers().then(() => {
+      this.setState({ loaded: true });
+    });
   }
+
 
   render() {
     if (!this.state.loaded) {
@@ -38,61 +39,71 @@ class OPOLeaders extends Component {
           <DOCLoading type="doc" />
         </div>
       );
-    } else if (this.state.page === 'Leader Status Requests') {
-      return (
-        <div>
-          <div className="opo-trips-page-databox doc-card large-card">
-            <div className="databox-heading">
-              <div className="doc-h1">Pending Requests</div>
-              <div className="dropdown-and-label">
-                <span className="dropdown-label">View:</span>
-                <Dropdown>
-                  <Dropdown.Toggle id="filter-dropdown">
-                    <p className="current-filter">{this.state.page}</p>
-                    <img className="dropdown-icon right-margin" src={dropdownIcon} alt="dropdown-toggle" />
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="field-dropdown-menu">
-                    <Dropdown.Item onClick={this.onClick}>Leader Status Requests</Dropdown.Item>
-                    <Dropdown.Item onClick={this.onClick}>Driver Certification Requests</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            </div>
-          </div>
-          <LeaderApprovals />
-        </div>
-
-      );
-    } else if (this.state.page === 'Driver Certification') {
-      return (
-        <div>
-          <div className="opo-trips-page-databox doc-card large-card">
-            <div className="databox-heading">
-              <div className="doc-h1">Pending Requests</div>
-              <div className="dropdown-and-label">
-                <span className="dropdown-label">View:</span>
-                <Dropdown>
-                  <Dropdown.Toggle id="filter-dropdown">
-                    <p className="current-filter">{this.state.page}</p>
-                    <img className="dropdown-icon right-margin" src={dropdownIcon} alt="dropdown-toggle" />
-                  </Dropdown.Toggle>
-                  <Dropdown.Menu className="field-dropdown-menu">
-                    <Dropdown.Item onClick={this.onClick}>Leader Status Requests</Dropdown.Item>
-                    <Dropdown.Item onClick={this.onClick}>Driver Certification Requests</Dropdown.Item>
-                  </Dropdown.Menu>
-                </Dropdown>
-              </div>
-            </div>
-          </div>
-          <Approvals />
-        </div>
-
-      );
     } else {
-      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
+      return (
+        <Box dir="col" className="center-view">
+          <Box dir="col" className="doc-card" pad={45}>
+            <div className="doc-h1">Pending Requests</div>
+            <Stack size={45} />
+            <div className="doc-h2">Subclub leadership approvals</div>
+            <Stack size={45} />
+            <LeaderApprovals />
+            <Stack size={45} />
+            <div className="doc-h2">Subclub leadership approvals</div>
+            <Stack size={45} />
+            <Approvals />
+          </Box>
+          <Stack size={100} />
+          <Box dir="col" className="doc-card" pad={45}>
+            <div className="doc-h1">User database</div>
+            <Stack size={45} />
+            <Box dir="row" justify="between">
+              <Toggle label="Trip leaders" />
+              <Dropdown onSelect={eventKey => this.setState({ sortBy: eventKey })}>
+                <Dropdown.Toggle className="field">
+                  <span className="field-dropdown-bootstrap">{this.state.sortBy}</span>
+                  <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="field-dropdown-menu">
+                  <Dropdown.Item eventKey="Name">Name</Dropdown.Item>
+                  <Dropdown.Item eventKey="Recent activity">Recent activity</Dropdown.Item>
+                  <Dropdown.Item eventKey="No. of trips">No. of trips</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              <Dropdown onSelect={eventKey => this.setState({ club: eventKey })}>
+                <Dropdown.Toggle className="field">
+                  <span className="field-dropdown-bootstrap">{this.state.club}</span>
+                  <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                </Dropdown.Toggle>
+                <Dropdown.Menu className="field-dropdown-menu">
+                  <Dropdown.Item eventKey="All clubs">All clubs</Dropdown.Item>
+                  <Dropdown.Divider />
+                  {/* {this.props.clubs.map(((club) => {
+                    return (<Dropdown.Item key={club._id} eventKey={club.name}>{club.name}</Dropdown.Item>);
+                  }))} */}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Box>
+          </Box>
+          <Stack size={100} />
+          <Box dir="row" wrap>
+            {this.props.users.map((user) => {
+              return (
+                <SmallProfileCard user={user} />
+              );
+            })}
+          </Box>
+        </Box>
+      );
     }
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    users: state.user.users,
+    clubs: state.clubs,
+  };
+};
 
-export default withRouter(OPOLeaders);
+export default connect(mapStateToProps, { getUsers })(withRouter(OPOLeaders));
