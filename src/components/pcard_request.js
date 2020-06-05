@@ -111,7 +111,7 @@ function renderOtherCosts(otherCosts, onOtherCostsChange, pcardIndex, deleteOthe
             placeholder="e.g. Tickets for EVO"
             width={400}
             tooltipID={`additional-cost-${costIndex}-title`}
-            error={otherCost.errorFields.title}
+            error={otherCost.errorFields.title || false}
             errorMessage="Please write something here"
           />
           <Box dir="row" align="center">
@@ -125,7 +125,7 @@ function renderOtherCosts(otherCosts, onOtherCostsChange, pcardIndex, deleteOthe
               type="number"
               width={100}
               tooltipID={`additional-cost-${costIndex}-cost`}
-              error={otherCost.errorFields.cost}
+              error={otherCost.errorFields.cost || false}
               errorMessage="Value empty, put 0 if no cost"
             />
             <Queue size={25} />
