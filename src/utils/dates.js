@@ -35,7 +35,10 @@ const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
  * @param {Date} dateAndTime 
  */
 export function formatDateAndTime(dateAndTime) {
-  return `${dateAndTime.toString().substring(0, 11)}, ${formatTime(dateAndTime.toString().substring(11, 19))}`;
+  if (typeof dateAndTime === 'list') {
+    return `${formatDate(dateAndTime[0])}, ${formatTime(dateAndTime[1])}`;
+  }
+  else if (typeof dateAndTime === 'object') return `${dateAndTime.toString().substring(0, 11)}, ${formatTime(dateAndTime.toString().substring(11, 19))}`;
 }
 
 export function formatDate(date) {
