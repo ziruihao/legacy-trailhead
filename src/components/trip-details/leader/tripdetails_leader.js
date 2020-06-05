@@ -123,6 +123,8 @@ const getOnTrip = (props, onTripEmailRef) => {
                 </td>
                 <td>
                   <div className="doc-button hollow" onClick={(event) => { props.moveToPending(member); event.stopPropagation(); }} role="button" tabIndex={0}>Back to pending</div>
+
+                  <div className="doc-button hollow" onClick={(event) => { props.assignToLeader(member); event.stopPropagation(); }} role="button" tabIndex={0}>Assign to leader</div>
                 </td>
               </tr>
             ))}
