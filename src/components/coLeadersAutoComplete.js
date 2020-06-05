@@ -46,8 +46,7 @@ class CoLeadersAutoComplete extends Component {
   handleAddition(tag) {
     // console.log(this.state.suggestions.find((sugg) => { return sugg.text === tag.text; }));
     if (typeof (this.state.suggestions.find((sugg) => { return sugg.text === tag.text; })) !== 'undefined') {
-      this.setState(state => ({ tags: [...state.tags, tag] }));
-      this.props.updateLeaderValue(this.state.tags);
+      this.setState(state => ({ tags: [...state.tags, tag] }), () => this.props.updateLeaderValue(this.state.tags));
     } else {
       this.setState({ invalid: true });
       setTimeout(() => { // Animation lasts 1.5 secs
@@ -72,7 +71,7 @@ class CoLeadersAutoComplete extends Component {
           delimiters={delimiters}
           allowDragDrop={false}
           minQueryLength={1}
-          allowUnique
+          // allowUnique
           inputFieldPosition="top"
         />
       </div>
