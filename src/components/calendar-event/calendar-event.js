@@ -1,4 +1,5 @@
 import React from 'react';
+import { Stack, Queue, Divider, Box } from '../layout';
 import './calendar-event.scss';
 
 const hasReturnTimePassed = (eventEnd) => {
@@ -38,22 +39,21 @@ const VehicleBooking = ({ event }) => {
 
   let bookingTitle = '';
   if (event.request.requestType === 'SOLO') {
-    bookingTitle = event.request.requestDetails;
+    bookingTitle = `V-Req #${event.request.number}`;
   } else if (event.request.requestType === 'TRIP') {
-    bookingTitle = event.request.associatedTrip.title;
+    bookingTitle = `Trip #${event.request.associatedTrip.number}: ${event.request.associatedTrip.title}`;
   }
+  // if (bookingTitle.length >= 25) bookingTitle = `${bookingTitle.substring(0, 22)}...`;
 
   const bookingTime = `${formatTime(event.assigned_pickupTime)} - ${formatTime(event.assigned_returnTime)}`;
-  console.log(event);
-  const assignmentLabel = event.request.associatedTrip ? `Trip #${event.request.associatedTrip.number}: ${event.request.associatedTrip.title}` : `Req #${event.request.number}`;
   return (
-    <span className={`booking-container ${event.pickedUp ? 'hoverable-booking' : ''} ${event.conflicts.length > 0 ? 'conflict' : null}`}>
-      <div className="booking-reason">
-        {assignmentLabel}
+    <Box dir="col" justify="between" pad={10} className={`booking-container ${event.pickedUp ? 'hoverable-booking' : ''} ${event.conflicts.length > 0 ? 'conflict' : null}`}>
+      <div className="p2 thick booking-title">
+        {bookingTitle}
         {event.assigned_vehicle.name}
       </div>
-      <div className="booking-mini-details">
-        <span className="booking-time">{bookingTime}</span>
+      <div className="booking-time gray thin">{bookingTime}</div>
+      {/* <div className="booking-mini-details">
         {event.pickedUp
           ? (
             <span className="booking-status-container">
@@ -72,11 +72,11 @@ const VehicleBooking = ({ event }) => {
           )
           : null
         }
-      </div>
+      </div> */}
       <div className="booking-tooltip">
         <span className={`booking-time ${pickedUpStatus}`}>{statusMessage}</span>
       </div>
-    </span>
+    </Box>
   );
 };
 
