@@ -1,11 +1,9 @@
 @import './base.scss';
 
 #create-trip-page {
-  display: flex;
 
   .create-trip-form {
-    margin: 100px;
-    flex: 1;
+    // min-height: 100vh;
 
     .create-trip-form-content {
       display: flex;
@@ -466,9 +464,6 @@ button[disabled]{
 }
 .checkbox-beginner{
   display: flex;
-}
-.create-trip-form-page{
-  min-height: 75vh;
 }
 .pcard-food-breakdown{
   display: flex;

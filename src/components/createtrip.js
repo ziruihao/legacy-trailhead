@@ -750,7 +750,7 @@ class CreateTrip extends Component {
         break;
     }
     return (
-      <div id="create-trip-page">
+      <Box dir="row" id="create-trip-page">
         <Sidebar
           sections={
             [
@@ -761,30 +761,30 @@ class CreateTrip extends Component {
           }
           currentStep={this.state.currentStep}
         />
-        <div className="create-trip-form">
-          <div className="create-trip-form-page">
-            {page}
-          </div>
+        {/* <Queue size={100}></Queue> */}
+        <Box dir="col" align="stretch" pad={100} expand className="create-trip-form">
+          {/* <Stack size={100}></Stack> */}
+          {page}
           <Stack size={100} />
-            <Divider size={1} />
-            <Stack size={50} />
-            <Box dir="row" justify="between" align="center" id="approval-navigation">
-              <div className={`doc-button hollow ${this.state.step === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousButton} role="button" tabIndex={0}>Previous</div>
-              <a id="email-trip-leader-link" href={`${constants.ROOT_URL}/vehicle-calendar`} role="button" tabIndex={0}>Vehicle calendar</a>
-              <div className="doc-button" onClick={this._next} role="button" tabIndex={0}>
-                {this.state.currentStep === this.state.numOfPages ? 
-                <>
-                  {this.state.editMode ? 'Update trip' : 'Create trip'}
-                </>
-                : 'Next'}
-              </div>
-            </Box>
-          {/* <div className="create-trip-bottom-buttons create-trips-top-margin">
-            <button disabled={this.state.currentStep === 1} type="button" className="btn next-button" onClick={this.previousButton}>Previous</button>
-            {this.getAppropriateButton()}
-          </div> */}
-        </div>
-      </div>
+          <Divider size={1} />
+          <Stack size={50} />
+          <Box dir="row" justify="between" align="center" id="approval-navigation">
+            <div className={`doc-button hollow ${this.state.step === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousButton} role="button" tabIndex={0}>Previous</div>
+            <a id="email-trip-leader-link" href={`${constants.ROOT_URL}/vehicle-calendar`} role="button" tabIndex={0}>Vehicle calendar</a>
+            <div className="doc-button" onClick={this._next} role="button" tabIndex={0}>
+              {this.state.currentStep === this.state.numOfPages ? 
+              <>
+                {this.state.editMode ? 'Update trip' : 'Create trip'}
+              </>
+              : 'Next'}
+            </div>
+          </Box>
+        {/* <div className="create-trip-bottom-buttons create-trips-top-margin">
+          <button disabled={this.state.currentStep === 1} type="button" className="btn next-button" onClick={this.previousButton}>Previous</button>
+          {this.getAppropriateButton()}
+        </div> */}
+        </Box>
+      </Box>
     );
   }
 }
