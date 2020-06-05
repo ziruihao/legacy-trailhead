@@ -122,21 +122,21 @@ a {
     font-size: 18px;
     letter-spacing: 5%;
     font-weight: 800;
-    color: white;
+    color: white !important;
     cursor: pointer;
 
     &.alarm {
         background: $orange;
 
         &.hollow {
-            color: $orange;
+            color: $orange !important;
             background: white;
             border: 3px solid $orange;
         }
     }
 
     &.hollow {
-        color: $green;
+        color: $green !important;
         background: white;
         border: 3px solid $green;
     }
@@ -329,7 +329,6 @@ button {
     &.field-error {
         border: 2px solid $error-red-deep !important;
     }
-s
     &.field-disabled {
         color: $inactive-text !important;
         background: $background-light !important;
