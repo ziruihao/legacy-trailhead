@@ -1,4 +1,5 @@
 import React from 'react';
+import { Stack, Queue, Divider, Box } from './layout';
 import Badge from './badge';
 import utils from '../utils';
 import '../styles/vehicleRequestForm-style.scss';
@@ -192,23 +193,12 @@ const getVehicles = (props) => {
 
 const VehicleRequestDisplay = (props) => {
   return (
-    <div className="vrf-container vrf-full-width">
-      <div className="vrf-title-container">
-        <h2 className="p-trip-title vrf-title-size">Vehicle Request</h2>
-        <span className="vrf-status-display">
-          <span className="vrf-label">
-            Status:
-          </span>
-          <span className="vrf-req-status-display">
-            {props.vehicleRequest.status}
-          </span>
-          <span className="vrf-req-status-badge">
-            <Badge type={props.vehicleRequest.status} />
-            {/* <img className="status-badge" src={badges[props.vehicleRequest.status]} alt={`${props.vehicleRequest.status}_badge`} /> */}
-          </span>
-        </span>
-      </div>
-
+    <Box dir="col" className="vrf-full-width">
+      <Box dir="row" justify="between">
+        <div className="doc-h2">Vehicle Request</div>
+        <Badge type={props.vehicleRequest.status} size={36} />
+      </Box>
+      {/* <Stack size={25} /> */}
       {props.requestType === 'SOLO'
         ? (
           <div className="vrf-solo-req">
@@ -227,8 +217,9 @@ const VehicleRequestDisplay = (props) => {
           </div>
         )
         : null}
-
+      <Stack size={50} />
       {getVehicles(props)}
+      <Stack size={50} />
       {props.requestType === 'SOLO'
         ? (
           <div className="vrf-add-and-submit">
@@ -241,7 +232,7 @@ const VehicleRequestDisplay = (props) => {
           </div>
         )
         : null}
-    </div>
+    </Box>
   );
 };
 
