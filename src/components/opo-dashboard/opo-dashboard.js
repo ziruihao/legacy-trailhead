@@ -33,13 +33,13 @@ const OPODashboard = (props) => {
       active.fleet = true;
       break;
     default:
-      dashboardContent = <OPOTrips />;
-      active.trips = true;
+      dashboardContent = <VehicleCalendar />;
+      active.calendar = true;
   }
   return (
     <Box id="dashboard" dir="col" align="stretch" expand>
-      <Box id="dashboard-tiles" className="doc-card no-scroll-bar" dir="row" justify="start" align="stretch" pad={[0, 50]}>
-        <Box className={`section ${active.trips ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 0]}>
+      <Box id="dashboard-tiles" className="doc-card no-scroll-bar" dir="row" justify="start" align="stretch">
+        <Box className={`section ${active.trips ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]}>
           <NavLink to="/opo-dashboard/opo-trips">
             <Box dir="row" align="center">
               <Badge type="trips" size={active.trips ? 48 : 48} />
@@ -52,10 +52,10 @@ const OPODashboard = (props) => {
             : null
           }
         </Box>
-        <Box dir="row" pad={[25, 50]}>
+        <Box dir="row" pad={[25, 0]}>
           <Divider dir="col" size={1} />
         </Box>
-        <Box className={`section ${active.vehicles ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 0]}>
+        <Box className={`section ${active.vehicles ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]}>
           <NavLink to="/opo-dashboard/vehicle-requests">
             <Box dir="row" align="center">
               <Badge type="vehicle" size={active.vehicles ? 48 : 48} />
@@ -68,10 +68,10 @@ const OPODashboard = (props) => {
             : null
           }
         </Box>
-        <Box dir="row" pad={[25, 50]}>
+        <Box dir="row" pad={[25, 0]}>
           <Divider dir="col" size={1} />
         </Box>
-        <Box className={`section ${active.calendar ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 0]}>
+        <Box className={`section ${active.calendar ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]}>
           <NavLink to="/opo-dashboard/vehicle-calendar">
             <Box dir="row" align="center">
               <Badge type="calendar" size={active.calendar ? 48 : 48} />
@@ -84,10 +84,10 @@ const OPODashboard = (props) => {
             : null
           }
         </Box>
-        <Box dir="row" pad={[25, 50]}>
+        <Box dir="row" pad={[25, 0]}>
           <Divider dir="col" size={1} />
         </Box>
-        <Box className={`section ${active.leaders ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 0]}>
+        <Box className={`section ${active.leaders ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]}>
           <NavLink to="/opo-dashboard/leader-approvals">
             <Box dir="row" align="center">
               <Badge type="person" size={active.leaders ? 48 : 48} />
@@ -100,10 +100,10 @@ const OPODashboard = (props) => {
             : null
           }
         </Box>
-        <Box dir="row" pad={[25, 50]}>
+        <Box dir="row" pad={[25, 0]}>
           <Divider dir="col" size={1} />
         </Box>
-        <Box className={`section ${active.fleet ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 0]}>
+        <Box className={`section ${active.fleet ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]}>
           <NavLink to="/opo-dashboard/opo-fleet-management">
             <Box dir="row" align="center">
               <Badge type="marker" size={active.fleet ? 48 : 48} />
