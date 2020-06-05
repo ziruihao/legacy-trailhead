@@ -45,19 +45,19 @@ class Gateway extends Component {
         window.location = (`${constants.BACKEND_URL}/signin-cas`);
         break;
       case 'opo':
-        this.signInAndThenLoadData('opo@dartmouth.edu', 'opo');
+        this.signInAndThenLoadData('rory.c.gawler@dartmouth.edu', 'opo');
         break;
       case 'leader':
-        this.signInAndThenLoadData('f003mfv@dartmouth.edu', 'leader');
+        this.signInAndThenLoadData('Elliot.Ng.21@dartmouth.edu', 'leader');
         break;
       case 'trippee1':
-        this.signInAndThenLoadData('ziray.hao.22@dartmouth.edu', 'trippee1');
+        this.signInAndThenLoadData('david.s.vonderheide.21@dartmouth.edu', 'trippee1');
         break;
       case 'trippee2':
-        this.signInAndThenLoadData('ziray.hao@dali.dartmouth.edu', 'trippee2');
+        this.signInAndThenLoadData('simon.e.oster.21@dartmouth.edu', 'trippee2');
         break;
       case 'trippee3':
-        this.signInAndThenLoadData('zirui.hao@gmail.com', 'trippee3');
+        this.signInAndThenLoadData('ziray.hao@dali.dartmouth.edu', 'trippee3');
         break;
       default:
         break;
@@ -74,9 +74,9 @@ class Gateway extends Component {
         </Dropdown.Toggle>
         <Dropdown.Menu className="field-dropdown-menu">
           <Dropdown.Item eventKey="opo">OPO Staff (the great Rory)</Dropdown.Item>
-          <Dropdown.Item eventKey="leader">Trip leader (chubber)</Dropdown.Item>
-          <Dropdown.Item eventKey="trippee1">Trippee A (most crunchy)</Dropdown.Item>
-          <Dropdown.Item eventKey="trippee2">Trippee B (average student)</Dropdown.Item>
+          <Dropdown.Item eventKey="leader">Trip leader (Elliot)</Dropdown.Item>
+          <Dropdown.Item eventKey="trippee1">Trippee A (David)</Dropdown.Item>
+          <Dropdown.Item eventKey="trippee2">Trippee B (Simon)</Dropdown.Item>
           <Dropdown.Item eventKey="trippee3">Trippee C (indoor cat)</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>

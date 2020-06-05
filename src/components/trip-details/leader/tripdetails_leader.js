@@ -416,13 +416,12 @@ export default React.forwardRef((props, ref) => {
             </div>
           )
           : null}
-        <div className="center">
-          <Link to={`/edittrip/${props.trip._id}`} className="signup-button leader-edit-link"><button type="submit" className="signup-button">Edit Trip</button></Link>
-        </div>
-
-        <div className="center">
-          <span className="cancel-link" onClick={props.activateLeaderModal} role="button" tabIndex={0}>Delete trip</span>
-        </div>
+        <Stack size={100} />
+        <Box dir="row" justify="center">
+          <Link to={`/edittrip/${props.trip._id}`} className="doc-button hollow">Edit trip</Link>
+          <Queue size={50} />
+          <div className="doc-button alarm" onClick={props.activateLeaderModal} role="button" tabIndex={0}>Delete trip</div>
+        </Box>
         <Modal
           centered
           show={props.trippeeProfileOpened}
