@@ -1,5 +1,64 @@
 @import '../../styles/base.scss';
 
+
+///
+
+#assign-vehicle-dropdown {
+  flex-grow: 1;
+
+  .ovr-vehicle-dropdown-button {
+    background: #FFFFFF !important;
+    border: 0px solid #C4C4C4;
+    width: 100%;
+    padding: 0; // override for react-bootstrap
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .ovr-current-vehicle {
+      margin-top: 0;
+      margin-bottom: 0;
+      text-align: left;
+      color: black;
+      margin-right: 1em;
+      min-width: 60%;
+
+      &.inactive{
+        color: $inactive-text !important; // if no vehicles are selected, then color it lighter
+      }
+    }
+  }
+
+  .ovr-vehicle-options {
+      margin-top: 0.3em;
+      box-shadow: $menu-shadow !important;
+      border-radius: 10px;
+      // width: 100% !important;
+ }
+}
+
+.vehicle-calendar-modal {
+  max-width: 70vw;
+
+  .modal-content {
+    min-height: 70vh;
+  }
+}
+
+///
+
+
+
+
+
+
+
+
+
+
+
+
+
 .ovr-sidebar{
   background: white;
   width: 20%;
@@ -92,42 +151,7 @@
   margin-right: 1.5em;
 }
 
-///
 
-
-
-#assign-vehicle-dropdown {
-  flex-grow: 1;
-
-  .ovr-vehicle-dropdown-button {
-    background: #FFFFFF !important;
-    border: 0px solid #C4C4C4;
-    width: 100%;
-    padding: 0; // override for react-bootstrap
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-
-    .ovr-current-vehicle {
-      margin-top: 0;
-      margin-bottom: 0;
-      text-align: left;
-      color: black;
-      margin-right: 1em;
-      min-width: 60%;
-
-      &.inactive{
-        color: $inactive-text !important; // if no vehicles are selected, then color it lighter
-      }
-    }
-  }
-
-  .ovr-vehicle-options {
-    box-shadow: $menu-shadow;
-  }
-}
-
-///
 
 .ovr-req-vehicle-details, .ovr-req-assignment{
   display: flex;
