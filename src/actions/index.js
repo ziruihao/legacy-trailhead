@@ -293,7 +293,7 @@ export function signIn(email, password, dataLoader) {
         localStorage.setItem('token', response.data.token);
         dispatch({ type: ActionTypes.AUTH_USER });
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
-        dataLoader().then(() => resolve());
+        setTimeout(() => dataLoader().then(() => resolve()), 2000);
       }).catch((error) => {
         reject(error);
       });
