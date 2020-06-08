@@ -4,11 +4,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchTrip, createTrip, editTrip, appError, clearError } from '../actions';
+import {Modal} from 'react-bootstrap';
 import { Stack, Queue, Divider, Box } from './layout';
 import PCardRequest from './pcard_request';
 import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } from './create_trip_pages';
 import Sidebar from './sidebar';
 import VehicleRequest from './vehiclerequest';
+import VehicleCalendar from './vehicleCalendar';
 import * as constants from '../constants';
 import '../styles/createtrip-style.scss';
 
@@ -94,6 +96,7 @@ class CreateTrip extends Component {
       errorFields: this.errorFields,
       editMode: false,
       loaded: false,
+      showCalendarModal: false,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
@@ -751,7 +754,8 @@ class CreateTrip extends Component {
         break;
     }
     return (
-      <Box dir="row" id="create-trip-page">
+      <Box dir="row" style={{position: 'relative'}} id="create-trip-page">
+        <div style={{ zIndex: 10, position: 'fixed', bottom: '50px', left: '50px' }} className="doc-button" onClick={() => this.setState({ showCalendarModal: true })} role="button" tabIndex={0}>See vehicle calendar</div>
         <Sidebar
           sections={
             [
@@ -771,7 +775,6 @@ class CreateTrip extends Component {
           <Stack size={50} />
           <Box dir="row" justify="between" align="center" id="approval-navigation">
             <div className={`doc-button hollow ${this.state.step === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousButton} role="button" tabIndex={0}>Previous</div>
-            <a id="email-trip-leader-link" href={`${constants.ROOT_URL}/vehicle-calendar`} role="button" tabIndex={0}>Vehicle calendar</a>
             <div className="doc-button" onClick={this._next} role="button" tabIndex={0}>
               {this.state.currentStep === this.state.numOfPages ? 
               <>
@@ -785,6 +788,14 @@ class CreateTrip extends Component {
           {this.getAppropriateButton()}
         </div> */}
         </Box>
+        <Modal
+            centered
+            show={this.state.showCalendarModal}
+            onHide={() => this.setState({ showCalendarModal: false })}
+            dialogClassName="vehicle-calendar-modal"
+          >
+            <VehicleCalendar />
+          </Modal>
       </Box>
     );
   }
