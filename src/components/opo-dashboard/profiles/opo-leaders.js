@@ -86,10 +86,13 @@ class OPOLeaders extends Component {
             </Box>
           </Box>
           <Stack size={100} />
-          <Box dir="row" wrap>
+          <Box dir="row" justify="center" wrap>
             {this.props.users.map((user) => {
               return (
-                <SmallProfileCard user={user} />
+                <>
+                  <SmallProfileCard user={user} />
+                  <Queue size={50} />
+                </>
               );
             })}
           </Box>
