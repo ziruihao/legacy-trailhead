@@ -75,3 +75,11 @@ export const clubDictionary = (clubName) => {
 export const isStringEmpty = (string) => {
   return string.length === 0 || !string.toString().trim();
 };
+
+export const getEmails = (people) => {
+  let emails = '';
+  people.forEach((pender) => {
+    emails += `${pender.user.email}, `;
+  });
+  return emails.substring(0, emails.length - 2);
+};

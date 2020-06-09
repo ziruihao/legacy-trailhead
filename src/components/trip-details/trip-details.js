@@ -15,8 +15,6 @@ class TripDetails extends Component {
   constructor(props) {
     super(props);
     this.state = ({
-      pendingEmail: '',
-      onTripEmail: '',
       showLeaderModal: false,
       trippeeProfileOpened: false,
       trippeeProfile: null,
@@ -46,7 +44,6 @@ class TripDetails extends Component {
         this.setState({ role: roleOnTrip });
 
         if (this.props.isLeaderOnTrip) { // populate trip participant emails
-          this.populateEmails();
           this.getProfiles();
         }
 
@@ -139,20 +136,6 @@ class TripDetails extends Component {
     return Object.entries(object).length === 0 && object.constructor === Object;
   }
 
-  populateEmails = () => {
-    let pendingEmail = '';
-    let onTripEmail = '';
-    this.props.trip.pending.forEach((pender) => {
-      pendingEmail += `${pender.user.email}, `;
-    });
-    this.props.trip.members.forEach((member) => {
-      onTripEmail += `${member.user.email}, `;
-    });
-    pendingEmail = pendingEmail.substring(0, pendingEmail.length - 2);
-    onTripEmail = onTripEmail.substring(0, onTripEmail.length - 2);
-    this.setState({ pendingEmail, onTripEmail });
-  }
-
   getProfiles = () => {
     const profiles = {};
     this.props.trip.pending.forEach((pender) => {
@@ -173,8 +156,8 @@ class TripDetails extends Component {
         appropriateComponent = (
           <TripDetailsFull
             trip={this.props.trip}
-            onTripEmail={this.state.onTripEmail}
-            pendingEmail={this.state.pendingEmail}
+            onTripEmail={constants.getEmails(this.props.trip.members)}
+            pendingEmail={constants.getEmails(this.props.trip.pending)}
             showModal={this.state.showLeaderModal}
             trippeeProfileOpened={this.state.trippeeProfileOpened}
             openTrippeeProfile={trippeeProfile => this.setState({ trippeeProfileOpened: true, trippeeProfile })}

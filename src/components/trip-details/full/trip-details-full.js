@@ -6,6 +6,7 @@ import { ProfileCard } from '../../profile-card';
 import Badge from '../../badge';
 import Toggle from '../../toggle';
 import { Stack, Queue, Divider, Box } from '../../layout';
+import AttendeeTable from './attendee-table/attendee-table';
 import utils from '../../../utils';
 import '../../../styles/tripdetails_leader.scss';
 import confirmDeleteImage from '../../../img/confirmDelete.jpg';
@@ -21,128 +22,6 @@ const getCoLeaders = (leaders) => {
   coleaders = coleaders.substring(0, coleaders.length - 2);
   coleaders = coleaders.length === 0 ? 'None' : coleaders;
   return coleaders;
-};
-
-const getPending = (props, pendingEmailRef) => {
-  if (props.trip.pending.length === 0) {
-    return (
-      <Box dir="row" justify="center" align="center" expand>
-        <div className="p1 gray thin">None
-        </div>
-      </Box>
-    );
-  } else {
-    return (
-      <>
-        <Table className="doc-table" responsive="lg" hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Allergies/Diet Restrictions</th>
-              <th>Medical conditions</th>
-              <th>Gear Requests</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {props.trip.pending.map(pender => (
-              <tr key={pender.user._id} onClick={() => props.openTrippeeProfile(pender.user)}>
-                <td>{pender.user.name}</td>
-                <td>{pender.user.medical_conditions}</td>
-                <td>{pender.user.allergies_dietary_restrictions}</td>
-                <td>
-                  {pender.gear.length !== 0 ? pender.gear.map(gear => (
-                    <li key={gear.gearId}>{gear.name}</li>
-                  )) : 'None'}
-                </td>
-                <td>
-                  <div className="doc-button hollow" onClick={(event) => { props.moveToTrip(pender); event.stopPropagation(); }} role="button" tabIndex={0}>Admit to trip</div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        <Divider size={1} />
-        <Stack size={18} />
-        <Box dir="row" justify="center" align="stretch" wrap expand>
-          <div className="doc-button" onClick={() => window.open(`mailto:${props.pendingEmail}`, '_blank')} role="button" tabIndex={0}>Send email to all</div>
-        </Box>
-      </>
-    //     <h5>Emails</h5>
-    //     <div className="emails">
-    //       <Form className="col-9">
-    //         <Form.Control className="emails-input" ref={pendingEmailRef} as="textarea" value={props.pendingEmail} name="pendingEmail" onChange={props.onTextChange} />
-    //       </Form>
-    //       <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyPendingToClip}>Copy</button>
-    //     </div>
-    );
-  }
-};
-
-const getOnTrip = (props, onTripEmailRef) => {
-  const renderAttendence = (status) => {
-    if (new Date() >= new Date(props.trip.startDateAndTime)) {
-      if (status) return 'Yes';
-      else return 'No';
-    } else {
-      return 'N/A';
-    }
-  };
-  if (props.trip.members.length === 0) {
-    return (
-      <Box dir="row" justify="center" align="center" expand>
-        <div className="p1 gray thin">None
-        </div>
-      </Box>
-    );
-  } else {
-    return (
-      <>
-        <Table className="doc-table" responsive="lg" hover>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Attended</th>
-              <th>Allergies/Diet Restrictions</th>
-              <th>Medical conditions</th>
-              <th>Gear Requests</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {props.trip.members.map(member => (
-              <tr key={member.user._id} onClick={() => props.openTrippeeProfile(member.user)}>
-                <td>{member.user.name}</td>
-                <td>{renderAttendence(member.attendedTrip)}</td>
-                <td>{member.user.medical_conditions}</td>
-                <td>{member.user.allergies_dietary_restrictions}</td>
-                <td>
-                  {member.gear.length !== 0 ? member.gear.map(gear => (
-                    <li key={gear.gearId}>{gear.name}</li>
-                  )) : 'None'}
-                </td>
-                <td>
-                  <div className="doc-button hollow" onClick={(event) => { props.moveToPending(member); event.stopPropagation(); }} role="button" tabIndex={0}>Change to pending</div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        <Divider size={1} />
-        <Stack size={18} />
-        <Box dir="row" justify="center">
-          <div className="doc-button" onClick={() => window.open(`mailto:${props.onTripEmail}`, '_blank')} role="button" tabIndex={0}>Send email to all</div>
-        </Box>
-      </>
-    //     <h5>Emails</h5>
-    //     <div className="emails">
-    //       <Form className="col-9">
-    //         <Form.Control className="emails-input" ref={onTripEmailRef} as="textarea" value={props.onTripEmail} name="onTripEmail" onChange={props.onTextChange} />
-    //       </Form>
-    //       <button type="button" className="signup-button leader-signup-button copy-button" onClick={props.copyOnTripToClip}>Copy</button>
-    //     </div>
-    );
-  }
 };
 
 const getIndividualGear = (individualGearArray, individualGearStatus) => {
@@ -351,13 +230,15 @@ export default React.forwardRef((props, ref) => {
         <div className="doc-h2">Approved trippees</div>
         <Stack size={25} />
         <div className="trip-details-table">
-          {getOnTrip(props, onTripEmailRef)}
+          <AttendeeTable showAttendence people={props.trip.members} emails={props.onTripEmail} startDateAndTime={props.trip.startDateAndTime} action={props.moveToPending} actionMessage="Back to pending" openProfile={props.openTrippeeProfile} />
+          {/* {getOnTrip(props, onTripEmailRef)} */}
         </div>
         <Stack size={25} />
         <div className="doc-h2">Pending trippees</div>
         <Stack size={25} />
         <div className="trip-details-table">
-          {getPending(props, pendingEmailRef)}
+          <AttendeeTable people={props.trip.pending} emails={props.pendingEmail} startDateAndTime={props.trip.startDateAndTime} action={props.moveToTrip} actionMessage="Admit to trip" openProfile={props.openTrippeeProfile} />
+          {/* {getPending(props, pendingEmailRef)} */}
         </div>
         <Stack size={25} />
         <Box dir="row">
