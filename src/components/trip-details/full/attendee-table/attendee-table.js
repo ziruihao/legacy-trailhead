@@ -49,7 +49,15 @@ const AttendeeTable = (props) => {
                   )) : 'None'}
                 </td>
                 <td>
-                  <div className="doc-button hollow" onClick={(event) => { props.action(person); event.stopPropagation(); }} role="button" tabIndex={0}>{props.actionMessage}</div>
+                  <Box dir="col">
+                    {props.actions.map((action, idx) => (
+                      <>
+                        <div className="doc-button hollow" onClick={(event) => { action.callback(person); event.stopPropagation(); }} role="button" tabIndex={0}>{action.message}</div>
+                        {idx < props.actions.length - 1 ? <Stack size={15} /> : null}
+                      </>
+                    ))}
+                  </Box>
+                  {/* <div className="doc-button hollow" onClick={(event) => { props.assignToLeader(member); event.stopPropagation(); }} role="button" tabIndex={0}>Assign to leader</div> */}
                 </td>
               </tr>
             ))}
