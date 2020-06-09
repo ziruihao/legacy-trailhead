@@ -337,9 +337,9 @@ const VehicleRequestForm = (props) => {
       /> */}
       <Stack size={50} />
       {getVehicles(props)}
+      <Stack size={50} />
       <Box dir="row" justify="between">
         <div className="doc-button hollow" onClick={props.addVehicle} role="button" tabIndex={0}>Add vehicle</div>
-        {/* <Queue size={25} /> */}
         {getAppropriateButton(props)}
       </Box>
     </Box>
