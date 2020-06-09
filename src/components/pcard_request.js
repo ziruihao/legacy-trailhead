@@ -100,12 +100,12 @@ function renderOtherCosts(otherCosts, onOtherCostsChange, pcardIndex, deleteOthe
       <>
         <Box dir="row" justify="between" align="center" key={otherCost}>
           <Field
-            onChange={(event) => { console.log(event.target); onOtherCostsChange(event, pcardIndex, costIndex); }}
+            onChange={(event) => { onOtherCostsChange(event, pcardIndex, costIndex); }}
             name="title"
             value={otherCost.title}
             placeholder="e.g. Tickets for EVO"
             width={400}
-            error={otherCost.errorFields.title || false}
+            error={otherCost.errorFields ? otherCost.errorFields.title : false}
           />
           <Box dir="row" align="center">
             <div className="doc-h3">$</div>
@@ -117,7 +117,7 @@ function renderOtherCosts(otherCosts, onOtherCostsChange, pcardIndex, deleteOthe
               placeholder="USD"
               type="number"
               width={100}
-              error={otherCost.errorFields.cost || false}
+              error={otherCost.errorFields ? otherCost.errorFields.cost : false}
             />
             <Queue size={25} />
             <Icon id="delete-additional-cost" type="close" size={25} onClick={event => deleteOtherCost(event, pcardIndex, costIndex)} />
