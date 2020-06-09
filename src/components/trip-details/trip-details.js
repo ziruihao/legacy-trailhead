@@ -8,7 +8,7 @@ import TripDetailsBasic from './basic/trip-details-basic';
 import TripDetailsFull from './full/trip-details-full';
 import DOCLoading from '../doc-loading';
 import * as constants from '../../constants';
-import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
+import { assignToLeader, fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
 import confirmCancel from './confirm-cancel.svg';
 
 class TripDetails extends Component {

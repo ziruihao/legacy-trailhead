@@ -25,6 +25,12 @@ $trip-card-margin-right: 30px;
     align-items: stretch;
     background-color: $background-light;
 
+    &:not(.user-is-tabbing) {
+        *[role=button], button:focus {
+            outline: none !important;
+        }
+    }
+
     .center-view {
         margin: 0 calc(50vw - 600px);
 
