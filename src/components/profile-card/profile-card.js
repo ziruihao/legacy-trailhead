@@ -159,12 +159,6 @@ class ProfileCard extends React.Component {
               )
             }
             <Queue size={50} />
-            {this.props.asProfilePage
-              ? (
-                <input className="profile-card-edit-toggle" type="image" src={editIcon} alt="edit button" onClick={this.props.startEditing} />
-              )
-              : null
-            }
           </Box>
           <Stack size={25} />
           <Divider size={1} />
@@ -264,6 +258,21 @@ class ProfileCard extends React.Component {
               : null
               }
           </div>
+          {this.props.asProfilePage
+            ? (
+              <>
+                <Stack size={25} />
+                <Divider size={1} />
+                <Stack size={25} />
+                <Box dir="row" justify="center">
+                  <div className="doc-button alarm" onClick={this.props.signOut} role="button" tabIndex={0}>Logout</div>
+                  <Queue size={50} />
+                  <div className="doc-button hollow" onClick={this.props.startEditing} role="button" tabIndex={0}>Edit profile</div>
+                </Box>
+              </>
+            )
+            : null
+          }
         </div>
       );
     } else {
@@ -313,10 +322,6 @@ class ProfileCard extends React.Component {
               </div>
             </Box>
             <Queue size={50} />
-            {this.props.asProfilePage
-              ? <input className="profile-card-edit-toggle" type="image" src={saveIcon} alt="save button" onClick={() => this.props.updateUserInfo(this.state.file, false)} />
-              : null
-          }
           </Box>
           <Stack size={25} />
           <Divider size={1} />
@@ -328,7 +333,6 @@ class ProfileCard extends React.Component {
               </div>
               <div className="card-info p2">
                 <Field
-                  // className={`field ${this.props.errorFields.pronoun ? 'field-error' : ''}`}
                   type="text"
                   name="pronoun"
                   maxLength="50"
@@ -350,7 +354,6 @@ class ProfileCard extends React.Component {
                   name="dash_number"
                   maxLength="50"
                   onChange={this.props.onFieldChange}
-                  // className={`field ${this.props.errorFields.dash_number ? '' : ''}`}
                   value={this.props.dash_number}
                   error={this.props.errorFields.dash_number}
                 />
@@ -384,7 +387,6 @@ class ProfileCard extends React.Component {
                   type="text"
                   name="height"
                   onChange={this.props.onFieldChange}
-                  // className={`field ${this.props.errorFields.height ? '' : ''}`}
                   value={this.props.height}
                   placeholder={'e.g. 5\'2"'}
                   error={this.props.errorFields.height}
@@ -419,7 +421,6 @@ class ProfileCard extends React.Component {
                   name="medical"
                   maxLength="50"
                   onChange={this.props.onFieldChange}
-                  // className={`field ${this.props.errorFields.medical ? '' : ''}`}
                   value={this.props.medical}
                   dataTip
                   dataFor="medical-conditions-tooltip"
@@ -462,14 +463,22 @@ class ProfileCard extends React.Component {
                 </div>
               ) : null} */}
           </div>
+          <Stack size={25} />
+          <Divider size={1} />
+          <Stack size={25} />
           {this.props.completeProfileMode
             ? (
-              <>
-                <Stack size={25} />
+              <Box dir="row" justify="center">
                 <div className="doc-button" role="button" tabIndex={0} src={saveIcon} onClick={() => this.props.updateUserInfo(this.state.file, true)}>Finish</div>
-              </>
+              </Box>
             )
-            : null
+            : (
+              <Box dir="row" justify="center">
+                <div className="doc-button alarm" onClick={this.props.cancelChanges} role="button" tabIndex={0}>Cancel</div>
+                <Queue size={50} />
+                <div className="doc-button" onClick={() => this.props.updateUserInfo(this.state.file, false)} role="button" tabIndex={0}>Save</div>
+              </Box>
+            )
           }
         </div>
       );

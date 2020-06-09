@@ -379,11 +379,11 @@ export function authUser() {
   };
 }
 
-export function signOut(history) {
+export function signOut() {
   return (dispatch) => {
     localStorage.removeItem('token');
     dispatch({ type: ActionTypes.DEAUTH_USER });
-    history.push('/');
+    // history.push('/');
   };
 }
 
