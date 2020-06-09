@@ -63,7 +63,8 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
         {groupGearArray.map((gear, index, array) => (
           <div key={gear._id}>
             <div className="trip-details-table-row">
-              <span>{gear}</span>
+              <span>{gear[0]}</span>
+              <span>{gear[1]}</span>
             </div>
             {index !== array.length - 1 ? <hr className="detail-line" /> : null}
           </div>
@@ -230,14 +231,14 @@ export default React.forwardRef((props, ref) => {
         <div className="doc-h2">Approved trippees</div>
         <Stack size={25} />
         <div className="trip-details-table">
-          <AttendeeTable showAttendence people={props.trip.members} emails={props.onTripEmail} startDateAndTime={props.trip.startDateAndTime} action={props.moveToPending} actionMessage="Back to pending" openProfile={props.openTrippeeProfile} />
+          <AttendeeTable showAttendence people={props.trip.members} emails={props.onTripEmail} startDateAndTime={props.trip.startDateAndTime} actions={[{ callback: props.moveToPending, message: 'Back to pending' }, { callback: props.assignToLeader, message: 'Appoint trip leader' }]} openProfile={props.openTrippeeProfile} />
           {/* {getOnTrip(props, onTripEmailRef)} */}
         </div>
         <Stack size={25} />
         <div className="doc-h2">Pending trippees</div>
         <Stack size={25} />
         <div className="trip-details-table">
-          <AttendeeTable people={props.trip.pending} emails={props.pendingEmail} startDateAndTime={props.trip.startDateAndTime} action={props.moveToTrip} actionMessage="Admit to trip" openProfile={props.openTrippeeProfile} />
+          <AttendeeTable people={props.trip.pending} emails={props.pendingEmail} startDateAndTime={props.trip.startDateAndTime} actions={[{ callback: props.moveToTrip, message: 'Admit to trip' }]} openProfile={props.openTrippeeProfile} />
           {/* {getPending(props, pendingEmailRef)} */}
         </div>
         <Stack size={25} />

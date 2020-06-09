@@ -198,6 +198,22 @@ export function joinTrip(id, pend) {
   };
 }
 
+export function assignToLeader(id, member) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.put(`${constants.BACKEND_URL}/assignToLeader/${id}`, { id, member }, { headers: { authorization: localStorage.getItem('token') } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+          resolve(response.data);
+        }).catch((error) => {
+          console.log('Assign to Leader error');
+          console.log(error);
+          reject(error);
+        });
+    });
+  };
+}
+
 export function moveToPending(id, member) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {

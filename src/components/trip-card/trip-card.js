@@ -45,7 +45,7 @@ class TripCard extends React.Component {
         return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={dmbc} alt="" />;
       case 'Winter Sports':
         return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wsc} alt="" />;
-      case 'Woodsmen':
+      case 'Timber Team':
         return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wood} alt="" />;
       case 'Mountaineering':
         return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={mountain} alt="" />;

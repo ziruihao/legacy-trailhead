@@ -61,7 +61,7 @@ export const clubDictionary = (clubName) => {
       return 'dmbc';
     case 'Winter Sports':
       return 'wsc';
-    case 'Woodsmen':
+    case 'Timber Team':
       return 'wood';
     case 'Mountaineering':
       return 'mountain';
