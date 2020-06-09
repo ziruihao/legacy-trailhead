@@ -195,7 +195,7 @@ class OPOTripApproval extends Component {
           break;
       }
       return (
-        <Box dir="row">
+        <Box dir="row" expand>
           <Sidebar
             sections={
             [
