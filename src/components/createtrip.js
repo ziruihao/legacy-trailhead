@@ -72,7 +72,7 @@ class CreateTrip extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentStep: 1,
+      currentStep: 5,
       title: '',
       leaders: [],
       club: null,
@@ -405,19 +405,20 @@ class CreateTrip extends Component {
   }
 
   getAppropriateButton = () => {
-    if (this.state.currentStep === 5 && (!this.state.editMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')) {
-      return null;
-    } else if (this.state.currentStep !== 6) {
+    // if (this.state.currentStep === 5 && (!this.state.editMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')) {
+    //   return null;
+    // }
+    if (this.state.currentStep === 6) {
       return (
-        <button type="button" className="btn next-button" onClick={this._next}>
-          Next
-        </button>
+        <div className="doc-button" onClick={this._next} role="button" tabIndex={0}>
+        {this.state.editMode ? 'Update Trip' : 'Create Trip!'}
+      </div>
       );
     } else {
       return (
-        <button type="button" className="btn next-button" onClick={this._next}>
-          {this.state.editMode ? 'Update Trip' : 'Create Trip!'}
-        </button>
+        <div className="doc-button" onClick={this._next} role="button" tabIndex={0}>
+          {this.state.currentStep === 5 ? 'Skip' : 'Next'}
+        </div>
       );
     }
   }
@@ -754,7 +755,7 @@ class CreateTrip extends Component {
         break;
     }
     return (
-      <Box dir="row" style={{position: 'relative'}} id="create-trip-page">
+      <Box dir="row" expand style={{position: 'relative'}} id="create-trip-page">
         <div style={{ zIndex: 10, position: 'fixed', bottom: '50px', left: '50px' }} className="doc-button" onClick={() => this.setState({ showCalendarModal: true })} role="button" tabIndex={0}>See vehicle calendar</div>
         <Sidebar
           sections={
@@ -766,27 +767,15 @@ class CreateTrip extends Component {
           }
           currentStep={this.state.currentStep}
         />
-        {/* <Queue size={100}></Queue> */}
         <Box dir="col" align="stretch" pad={100} expand className="create-trip-form">
-          {/* <Stack size={100}></Stack> */}
           {page}
           <Stack size={100} />
           <Divider size={1} />
           <Stack size={50} />
           <Box dir="row" justify="between" align="center" id="approval-navigation">
             <div className={`doc-button hollow ${this.state.step === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousButton} role="button" tabIndex={0}>Previous</div>
-            <div className="doc-button" onClick={this._next} role="button" tabIndex={0}>
-              {this.state.currentStep === this.state.numOfPages ? 
-              <>
-                {this.state.editMode ? 'Update trip' : 'Create trip'}
-              </>
-              : 'Next'}
-            </div>
+            {this.getAppropriateButton()}
           </Box>
-        {/* <div className="create-trip-bottom-buttons create-trips-top-margin">
-          <button disabled={this.state.currentStep === 1} type="button" className="btn next-button" onClick={this.previousButton}>Previous</button>
-          {this.getAppropriateButton()}
-        </div> */}
         </Box>
         <Modal
             centered
