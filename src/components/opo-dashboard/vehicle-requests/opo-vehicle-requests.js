@@ -220,7 +220,7 @@ class OPOVehicleRequests extends Component {
             </div>
             {this.getApprovedTable()}
           </div>
-
+          <Stack size={100} />
         </div>
       );
     } else {

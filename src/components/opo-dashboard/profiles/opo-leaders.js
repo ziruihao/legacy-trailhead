@@ -93,6 +93,7 @@ class OPOLeaders extends Component {
               );
             })}
           </Box>
+          <Stack size={100} />
         </Box>
       );
     }
