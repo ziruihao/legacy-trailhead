@@ -271,7 +271,7 @@ const getGearInputs = (props) => {
               type="number"
               // className={`field ${gearRequest.hasError ? 'field-error' : ''}`}
               name="opogearRequestQuantity"
-              placeholder="#"
+              placeholder="Qty."
               onChange={event => props.onGearChangeQuantity(event, index)}
               value={gearRequest.groupGearQuantity}
               width={100}
