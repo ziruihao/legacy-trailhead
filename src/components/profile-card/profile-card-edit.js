@@ -63,8 +63,8 @@ class ProfileCardEdit extends Component {
     if (this.props.user) {
       const { user } = this.props;
       this.setState({
-        name: user.name,
-        email: user.email,
+        name: user.name ? user.name : '',
+        email: user.email ? user.pronoun : '',
         pronoun: user.pronoun ? user.pronoun : '',
         dash_number: user.dash_number ? user.dash_number : '',
         allergies_dietary_restrictions: user.allergies_dietary_restrictions ? user.allergies_dietary_restrictions : '',
@@ -493,7 +493,6 @@ class ProfileCardEdit extends Component {
   }
 
   render() {
-    if (this.props.completeProfileMode) console.log(this.props.completeProfileMode);
     if (this.props.user) {
       if (this.props.completeProfileMode) {
         return (
@@ -519,6 +518,7 @@ class ProfileCardEdit extends Component {
             isEditing={this.state.isEditing}
             startEditing={this.startEditing}
             user={this.props.user}
+            signOut={this.props.signOut}
           />
         );
       } else {

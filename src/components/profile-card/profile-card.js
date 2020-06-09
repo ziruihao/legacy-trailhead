@@ -6,8 +6,6 @@ import Field from '../field';
 import Icon from '../icon';
 import Badge from '../badge';
 import { Stack, Queue, Divider, Box } from '../layout';
-import editIcon from './edit-profile.svg';
-import saveIcon from './save-profile.svg';
 
 const TRAILER_CONSTANT = 'TRAILER';
 
@@ -76,7 +74,6 @@ class ProfileCard extends React.Component {
 
   displayImageEditing() {
     if (this.props.user.photo_url !== '' && this.state.preview == null) {
-      console.log(this.props.user.photo_url);
       return (
         <div className="profile-photo-fit">
           <img className="profile-photo" id="preview" alt="" src={this.props.user.photo_url} />
@@ -301,7 +298,6 @@ class ProfileCard extends React.Component {
                   type="text"
                   name="name"
                   onChange={this.props.onFieldChange}
-                  // className={`field ${this.props.errorFields.name ? '' : ''}`}
                   value={this.props.name}
                   placeholder="Name"
                   error={this.props.errorFields.name}
@@ -314,7 +310,6 @@ class ProfileCard extends React.Component {
                   name="email"
                   maxLength="50"
                   onChange={this.props.onFieldChange}
-                  // className={`field ${this.props.errorFields.email ? '' : ''}`}
                   value={this.props.email}
                   placeholder="Dartmouth email"
                   error={this.props.errorFields.email}
@@ -424,6 +419,7 @@ class ProfileCard extends React.Component {
                   value={this.props.medical}
                   dataTip
                   dataFor="medical-conditions-tooltip"
+                  error={this.props.errorFields.medical}
                 />
                 <ReactTooltip id="medical-conditions-tooltip" place="right">This will only be visible to your trip leaders and OPO staff</ReactTooltip>
               </div>
@@ -469,7 +465,7 @@ class ProfileCard extends React.Component {
           {this.props.completeProfileMode
             ? (
               <Box dir="row" justify="center">
-                <div className="doc-button" role="button" tabIndex={0} src={saveIcon} onClick={() => this.props.updateUserInfo(this.state.file, true)}>Finish</div>
+                <div className="doc-button" role="button" tabIndex={0} onClick={() => this.props.updateUserInfo(this.state.file, true)}>Finish</div>
               </Box>
             )
             : (

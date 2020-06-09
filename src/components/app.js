@@ -105,13 +105,17 @@ class App extends React.Component {
     if (!this.props.authenticated) {
       return (
         <Router>
-          <div id="theBody">
-            <Switch>
-              <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
-              <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
-              <Route path="/"><Gateway dataLoader={this.loadData} /></Route>
-            </Switch>
-          </div>
+          <Toast className="doc-toast" onClose={this.props.clearError} show={this.props.errorMessage !== ''} delay={3000} autohide>
+            <Toast.Header className="doc-toast-header" closeButton={false}>
+              <strong className="mr-auto">Error</strong>
+            </Toast.Header>
+            <Toast.Body className="doc-toast-body">{this.props.errorMessage}</Toast.Body>
+          </Toast>
+          <Switch>
+            <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
+            <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
+            <Route path="/"><Gateway dataLoader={this.loadData} /></Route>
+          </Switch>
         </Router>
       );
     } else if (this.state.loaded) {
