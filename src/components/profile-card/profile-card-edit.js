@@ -525,6 +525,7 @@ class ProfileCardEdit extends Component {
         return (
           <ProfileCard
             asProfilePage
+            cancelChanges={this.cancelChanges}
             onFieldChange={this.onFieldChange}
             {...this.state}
             photoUrlChange={(url) => { this.setState({ photo_url: url }); }}
