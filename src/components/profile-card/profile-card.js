@@ -75,13 +75,13 @@ class ProfileCard extends React.Component {
   displayImageEditing() {
     if (this.props.user.photo_url !== '' && this.state.preview == null) {
       return (
-        <div className="profile-photo-fit">
+        <div className="profile-photo-fit edit">
           <img className="profile-photo" id="preview" alt="" src={this.props.user.photo_url} />
         </div>
       );
     } else if (this.state.preview != null) {
       return (
-        <div className="profile-photo-fit">
+        <div className="profile-photo-fit edit">
           <img className="profile-photo" id="preview" alt="" src={this.state.preview} />;
         </div>
       );
@@ -282,7 +282,7 @@ class ProfileCard extends React.Component {
                 <div className="profile-pic-container profile-pic-container-edit">
                   <label>
                     <div id="profile-pic-upload-text">Change</div>
-                    <div className="profile-pic">
+                    <div className="profile-pic edit">
                       {!(this.state.preview != null || this.props.user.photo_url != null) ? <span className="user-initials">{this.getUserInitials(name)}</span> : this.displayImageEditing()}
                       <input type="file" name="coverImage" onChange={this.onImageUpload} />
                     </div>
@@ -330,6 +330,7 @@ class ProfileCard extends React.Component {
                 <Field
                   type="text"
                   name="pronoun"
+                  placeholder="xx / xx / xx"
                   maxLength="50"
                   onChange={this.props.onFieldChange}
                   value={this.props.pronoun}
@@ -348,6 +349,7 @@ class ProfileCard extends React.Component {
                   id="dash_number"
                   name="dash_number"
                   maxLength="50"
+                  placeholder="e.g. 100291029"
                   onChange={this.props.onFieldChange}
                   value={this.props.dash_number}
                   error={this.props.errorFields.dash_number}
@@ -398,7 +400,7 @@ class ProfileCard extends React.Component {
                   className={`field ${this.props.errorFields.allergies_dietary_restrictions ? '' : ''}`}
                   type="text"
                   name="allergies_dietary_restrictions"
-                  maxLength="50"
+                  placeholder="Put 'none' if so"
                   onChange={this.props.onFieldChange}
                   value={this.props.allergies_dietary_restrictions}
                   error={this.props.errorFields.allergies_dietary_restrictions}
@@ -414,7 +416,7 @@ class ProfileCard extends React.Component {
                 <Field
                   type="text"
                   name="medical"
-                  maxLength="50"
+                  placeholder="Put 'none' if so"
                   onChange={this.props.onFieldChange}
                   value={this.props.medical}
                   dataTip
