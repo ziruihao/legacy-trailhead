@@ -37,18 +37,10 @@
   box-shadow: $menu-shadow;
   border-radius: 10px;
   padding: 25px;
-
-  > * {
-    margin-bottom: 25px;
-  }
-
-  :last-child {
-    margin-bottom: 0px;
-  }
+  width: 800px;
 
   #profile-card-picture-and-name {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
 
     .profile-pic-container {
@@ -130,9 +122,6 @@
     }
 
     #profile-card-name {
-      margin-left: 25px;
-      display: flex;
-      flex-direction: column;
 
       .doc-h1 {
         display: flex;
@@ -141,11 +130,6 @@
           margin-left: 0.5em;
           width: 1em;
         }
-      }
-      
-      .p1 {
-        margin-top: 1em;
-        color: gray;
       }
   
       #profile-card-incomplete-notice {
@@ -185,7 +169,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      min-height: 2.6em;
 
       #profile-card-clubs {
         text-decoration: underline;
@@ -206,15 +189,6 @@
 
       .card-info {
         color: gray;
-
-        .field {
-          height: 2em;
-          width: auto;
-        }
-
-        .size-selection {
-          display: flex;
-        }
       }
     }
 
