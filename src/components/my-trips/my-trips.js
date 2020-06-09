@@ -12,6 +12,7 @@ import utils from '../../utils';
 import { getMyTrips, appError } from '../../actions';
 import './my-trips.scss';
 import './mytrips-style.scss';
+import sadTree from '../trips/sad-tree.png';
 import createtrip from './createtrip.svg';
 
 
@@ -20,8 +21,8 @@ class MyTrips extends Component {
     super(props);
     this.state = {
       ready: false,
-      seePastTrips: false,
-      seeTripsImLeaing: false,
+      // seePastTrips: false,
+      seeTripsImLeading: false,
       seePastRequests: false,
       searchRequestTerm: '',
     };
@@ -59,16 +60,29 @@ class MyTrips extends Component {
   }
 
   renderMyTrips = () => {
-    let myTrips = this.props.user.role === 'Trippee'
-      ? (
-        <div className="gray thin p1">
-          Trips you lead or sign up for will appear here. Only OPO approved club leaders can create trips.
-          Club leaders should update the DOC Leadership field on their profiles to gain leader access.
-        </div>
-      )
-      : null;
+    let myTrips = (
+      <Box dir="row" align="center">
+        <img src={sadTree} alt="no trips found" />
+        <Queue size={50} />
+        <Box dir="col" width={500}>
+          <div className="doc-h2 gray">
+            Not crunchy enough?
+          </div>
+          <Stack size={50} />
+          <div className="gray thin p1">
+            Also, only OPO approved club leaders can create trips.
+            Club leaders should update the DOC Leadership field on their profiles to gain leader access.
+          </div>
+        </Box>
+        <Queue size={100} />
+        <div className="doc-button" onClick={() => this.props.history.push('/all-trips')} role="button" tabIndex={0}>Explore trips</div>
+      </Box>
+    );
     if (this.props.myTrips.length !== 0) {
-      const sortedTrips = this.props.myTrips.sort(this.compareStartDates);
+      let sortedTrips = this.props.myTrips.sort(this.compareStartDates);
+      if (this.state.seeTripsImLeading) {
+        sortedTrips = sortedTrips.filter(trip => constants.determineRoleOnTrip(this.props.user, trip) === 'LEADER');
+      }
       myTrips = sortedTrips.map((trip) => {
         return (
           <>
@@ -149,17 +163,17 @@ class MyTrips extends Component {
             <Toggle
               id="see-trips-im-leading-toggle"
               label="Trips I'm leading"
-              value={this.state.seeTripsImLeaing}
-              onChange={() => this.setState((prevState) => { this.props.appError('This feature is under construction!'); return { seeTripsImLeaing: !prevState.seeTripsImLeaing }; })}
+              value={this.state.seeTripsImLeading}
+              onChange={() => this.setState((prevState) => { return { seeTripsImLeading: !prevState.seeTripsImLeading }; })}
               disabled={false}
             />
-            <Toggle
+            {/* <Toggle
               id="see-past-trips-toggle"
               label="See past trips"
               value={this.state.seePastTrips}
               onChange={() => this.setState((prevState) => { this.props.appError('This feature is under construction!'); return { seePastTrips: !prevState.seePastTrips }; })}
               disabled={false}
-            />
+            /> */}
           </Box>
           <Stack size={35} />
           <Box id="my-trips-tiles-container">
