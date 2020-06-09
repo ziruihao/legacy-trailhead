@@ -5,8 +5,7 @@ import { withRouter } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import { Stack, Queue, Divider, Box } from '../layout';
 import TripDetailsBasic from './basic/trip-details-basic';
-import LeaderTripDetails from './leader/tripdetails_leader';
-import OPOTripDetails from './opo/tripdetails_opo';
+import TripDetailsFull from './full/trip-details-full';
 import DOCLoading from '../doc-loading';
 import * as constants from '../../constants';
 import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
@@ -172,7 +171,7 @@ class TripDetails extends Component {
       let appropriateComponent;
       if (this.state.role === 'LEADER' || this.state.role === 'OPO') {
         appropriateComponent = (
-          <LeaderTripDetails
+          <TripDetailsFull
             trip={this.props.trip}
             onTripEmail={this.state.onTripEmail}
             pendingEmail={this.state.pendingEmail}

@@ -2,14 +2,18 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Table } from 'react-bootstrap';
-import DOCLoading from './doc-loading';
-import { Stack, Queue, Divider, Box } from './layout';
-import { fetchLeaderApprovals, reviewRoleRequest } from '../actions';
-import '../styles/approvals-style.scss';
-import '../styles/tripdetails_leader.scss';
-import './opo-approvals/opo-approvals.scss';
+import { Stack, Queue, Divider, Box } from '../../../layout';
+import DOCLoading from '../../../doc-loading';
+import { fetchCertApprovals, reviewCertRequest } from '../../../../actions';
+import '../../approvals-style.scss';
+import '../../../../styles/tripdetails_leader.scss';
+import '../../opo-approvals.scss';
 
-class LeaderApprovals extends Component {
+class Approvals extends Component {
+  TRAILER_CONSTANT = 'TRAILER';
+
+  NONE_CONSTANT = 'NONE';
+
   constructor(props) {
     super(props);
     this.state = {
@@ -17,8 +21,8 @@ class LeaderApprovals extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.fetchApprovals()
+  componentDidMount(props) {
+    this.props.fetchCertApprovals()
       .then(() => {
         this.setState({ ready: true });
       });
@@ -30,7 +34,7 @@ class LeaderApprovals extends Component {
         <tr key={approval._id}>
           <td>{approval.name}</td>
           <td>
-            {approval.requested_clubs.map(club => club.name).join(', ')}
+            {`${approval.requested_certs.driver_cert}${approval.requested_certs.trailer_cert ? ', TRAILER' : ''}`}
           </td>
           <td>
             <Box dir="row" justify="end">
@@ -40,6 +44,26 @@ class LeaderApprovals extends Component {
             </Box>
           </td>
         </tr>
+      // <div key={approval._id} className="trip-detail ola-approval">
+      //   <div className="ola-requester-name">
+      //     {approval.name} ({approval.email}) is requesting the following driver certification(s):
+      //   </div>
+      //   <div className="ola-requested-clubs">
+      //     <ul>
+      //       <li>{approval.requested_certs.driver_cert}</li>
+      //       {approval.requested_certs.trailer_cert
+      //         ? <li>TRAILER</li>
+      //         : null
+      //       }
+      //     </ul>
+      //   </div>
+      //   <div className="ola-action-buttons">
+      //     <button type="submit" className="ola-approve-button signup-button" onClick={() => this.reviewRequest(approval._id, 'approved')}>Approve</button>
+      //     <span className="cancel-link ovr-bottom-link" onClick={() => this.reviewRequest(approval._id, 'denied')} role="button" tabIndex={0}>
+      //       Deny
+      //     </span>
+      //   </div>
+      // </div>
       );
     });
   }
@@ -49,7 +73,7 @@ class LeaderApprovals extends Component {
       userId,
       status,
     };
-    this.props.reviewRoleRequest(review);
+    this.props.reviewCertRequest(review);
   }
 
   render() {
@@ -79,17 +103,18 @@ class LeaderApprovals extends Component {
         );
       }
     } else {
-      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
+      return (
+        <DOCLoading type="balls" />
+      );
     }
   }
 }
 
-
 const mapStateToProps = state => (
   {
-    approvals: state.opo.leaderApprovals,
+    approvals: state.opo.certApprovals,
     authenticated: state.auth.authenticated,
   }
 );
 
-export default withRouter(connect(mapStateToProps, { fetchApprovals: fetchLeaderApprovals, reviewRoleRequest })(LeaderApprovals));
+export default withRouter(connect(mapStateToProps, { fetchCertApprovals, reviewCertRequest })(Approvals));

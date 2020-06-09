@@ -6,12 +6,12 @@ import Toggle from '../../toggle';
 import { SmallProfileCard } from '../../profile-card';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import { getUsers } from '../../../actions';
-import Approvals from '../../cert_approvals';
-import LeaderApprovals from '../../leader_approvals';
+import Approvals from './certs/cert-approvals';
+import LeaderApprovals from './leaders/leader-approvals';
 import DOCLoading from '../../doc-loading';
 import dropdownIcon from '../../../img/dropdown-toggle.svg';
 // import OpoDropdown from './approval-dropdown';
-import '../../../styles/approvals-style.scss';
+import '../approvals-style.scss';
 import '../../../styles/tripdetails_leader.scss';
 import '../opo-approvals.scss';
 
