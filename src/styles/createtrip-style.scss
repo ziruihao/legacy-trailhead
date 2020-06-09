@@ -168,13 +168,6 @@ input[type="time"]{
 }
 
 .gear-container {
-  display: flex;
-  align-items: flex-start;
-
-  &:focus {
-    outline: none;
-    border-color: #0CA074;
-  }
 
   .gear-and-size {
     display: flex;
