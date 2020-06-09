@@ -61,8 +61,8 @@ class TripDetailsBasic extends Component {
       this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
       const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
       this.setState({role: roleOnTrip})
-      if (roleOnTrip === 'NONE') this.setState({editingGear: true})
-      else if (roleOnTrip === 'APPROVED' || roleOnTrip === 'LEADER') this.setState({requestedGear: this.props.trip.members.filter(member => member.user._id === this.props.user._id)[0].gear});
+      if (roleOnTrip === 'NONE' || (roleOnTrip === 'LEADER' && !this.props.isUserOnTrip === 'APPROVE')) this.setState({editingGear: true})
+      else if (roleOnTrip === 'APPROVED' || (roleOnTrip === 'LEADER' && this.props.isUserOnTrip === 'APPROVE')) this.setState({requestedGear: this.props.trip.members.filter(member => member.user._id === this.props.user._id)[0].gear});
       else if (roleOnTrip === 'PENDING') this.setState({requestedGear: this.props.trip.pending.filter(pender => pender.user._id === this.props.user._id)[0].gear});
     }
 
@@ -96,12 +96,16 @@ class TripDetailsBasic extends Component {
         case 'OPO':
           return <div className="doc-button" onClick={goToTripPage}>View trip as OPO staff</div>
         case 'LEADER':
-          return (
-            <>
-              <div className="doc-button" onClick={goToTripPage}>Manage your trip</div>
-              {renderGearRequestButton()}
-            </>
-          )
+          if (this.props.trip.co_leader_access && this.props.isUserOnTrip !== "NONE" || this.props.user._id === this.props.trip.leaders[0]._id){
+            return (
+              <>
+                <div className="doc-button" onClick={goToTripPage}>Manage your trip</div>
+                {renderGearRequestButton()}
+              </>
+            )
+          }else{
+            return <div className="doc-button" onClick={signUpForTrip}>Sign up</div>
+          }
         case 'MEMBER':
           return (
             <>
