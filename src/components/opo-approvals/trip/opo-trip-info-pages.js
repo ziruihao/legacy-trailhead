@@ -135,7 +135,8 @@ const getGroupGear = (groupGearArray) => {
   return groupGearArray.map((groupGear) => {
     return (
       <tr key={groupGear}>
-        <td>{groupGear}</td>
+        <td>{groupGear[0]}</td>
+        <td>{groupGear[1]}</td>
       </tr>
     );
   });
@@ -204,6 +205,7 @@ const GearRequest = (props) => {
                   <thead>
                     <tr>
                       <th>Item</th>
+                      <th>Quantity</th>
                     </tr>
                   </thead>
                   <tbody>
