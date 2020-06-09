@@ -6,9 +6,11 @@ import Modal from 'react-bootstrap/Modal';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import { GearRequest, BasicInfo, PCardRequest } from './opo-trip-info-pages';
 import OPOVehicleRequest from '../vehicle-request/vehicle-request-approval';
+import { ProfileCard } from '../../profile-card';
 import Badge from '../../badge';
 import Sidebar from '../../sidebar';
 import DOCLoading from '../../doc-loading';
+import AttendeeTable from '../../trip-details/full/attendee-table/attendee-table';
 import { isStringEmpty } from '../../../constants';
 import { fetchTrip, reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../../../actions';
 import './tripdetails_opo.scss';
@@ -25,6 +27,7 @@ class OPOTripApproval extends Component {
       showModal: false,
       numOfPages: null,
       isEditingPcard: true,
+      showTrippeeModal: false,
     };
     this.emailRef = React.createRef();
   }
@@ -124,6 +127,10 @@ class OPOTripApproval extends Component {
     this.setState({ showModal: false });
   }
 
+  openTrippeeProfile = (trippee) => {
+    this.setState({ currentTrippee: trippee, showTrippeeModal: true });
+  }
+
   render() {
     if (this.state.loaded) {
       let page;
@@ -136,7 +143,27 @@ class OPOTripApproval extends Component {
           );
           break;
         case 2:
-          page = null;
+          page = (
+            <Box dir="col">
+              <div className="doc-h1">Attendies</div>
+              <Stack size={50} />
+              <div className="doc-h2">Already approved</div>
+              <Stack size={25} />
+              <div className="p1">The trip leader has approved these members to attend the trip. Their attendence is not confirmed until the leader checks them in during the day-of when the trip meets outside of {this.props.trip.pickup}.</div>
+              <Stack size={25} />
+              <Box className="doc-bordered" dir="col" align="stretch" pad={25}>
+                <AttendeeTable mode="approved" people={this.props.trip.members} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} action={person => window.open(`mailto:${person.user.email}`, '_blank')} actionMessage="Email" openProfile={this.openTrippeeProfile} />
+              </Box>
+              <Stack size={50} />
+              <div className="doc-h2">Still pending</div>
+              <Stack size={25} />
+              <div className="p1">These people signed up for the trip but the leader has not yet approved them to attend. They may or may not ever be approved.</div>
+              <Stack size={25} />
+              <Box className="doc-bordered" dir="col" align="stretch" pad={25}>
+                <AttendeeTable mode="approved" people={this.props.trip.pending} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} action={person => window.open(`mailto:${person.user.email}`, '_blank')} actionMessage="Email" openProfile={this.openTrippeeProfile} />
+              </Box>
+            </Box>
+          );
           break;
         case 3:
           page = (
@@ -207,10 +234,10 @@ class OPOTripApproval extends Component {
           <Modal
             centered
             show={this.state.showModal}
-            onHide={this.setState({ showModal: false })}
+            onHide={() => this.setState({ showModal: false })}
           >
             <div className="trip-details-close-button">
-              <i className="material-icons close-button" onClick={this.setState({ showModal: false })} role="button" tabIndex={0}>close</i>
+              <i className="material-icons close-button" onClick={() => this.setState({ showModal: false })} role="button" tabIndex={0}>close</i>
             </div>
             <Badge type="denied" />
 
@@ -231,6 +258,18 @@ class OPOTripApproval extends Component {
                 <button type="button" className="vrf-submit-button signup-button" onClick={this.copyEmail}>Copy email address</button>
               </div>
             </div>
+          </Modal>
+          <Modal
+            centered
+            show={this.state.showTrippeeModal}
+            onHide={() => this.setState({ showTrippeeModal: false })}
+            size="lg"
+          >
+            <ProfileCard
+              asProfilePage={false}
+              isEditing={false}
+              user={this.state.currentTrippee}
+            />
           </Modal>
         </Box>
       );
