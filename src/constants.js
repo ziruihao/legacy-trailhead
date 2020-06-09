@@ -71,3 +71,7 @@ export const clubDictionary = (clubName) => {
       return 'doc';
   }
 };
+
+export const isStringEmpty = (string) => {
+  return string.length === 0 || !string.toString().trim();
+};
