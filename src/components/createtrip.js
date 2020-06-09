@@ -73,7 +73,7 @@ class CreateTrip extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentStep: 5,
+      currentStep: 1,
       title: '',
       leaders: [],
       club: null,

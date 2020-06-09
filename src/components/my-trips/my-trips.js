@@ -64,7 +64,7 @@ class MyTrips extends Component {
       <Box dir="row" align="center">
         <img src={sadTree} alt="no trips found" />
         <Queue size={50} />
-        <Box dir="col" width={500}>
+        <Box dir="col" width={400}>
           <div className="doc-h2 gray">
             Not crunchy enough?
           </div>
