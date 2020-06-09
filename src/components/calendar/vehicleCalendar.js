@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
-import Icon from './icon';
-import { Stack, Queue, Divider, Box } from './layout';
+import Icon from '../icon';
+import { Stack, Queue, Divider, Box } from '../layout';
 import VehicleCalendarComponent from './vehicleCalendarComponent';
-import DOCLoading from './doc-loading';
-import { appError, getVehicles, fetchVehicleAssignments } from '../actions';
-import '../styles/vehicle-calendar-style.scss';
-import './vehicle-calendar/event-modal.scss';
+import DOCLoading from '../doc-loading';
+import { appError, getVehicles, fetchVehicleAssignments } from '../../actions';
+import './calendar.scss';
+import './event-modal.scss';
 
 class VehicleCalendar extends Component {
   constructor(props) {

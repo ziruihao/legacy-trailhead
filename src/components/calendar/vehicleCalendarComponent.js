@@ -2,7 +2,7 @@ import React from 'react';
 import BigCalendar from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
-import '../styles/vehicle-calendar-style.scss';
+import './calendar.scss';
 import { AllView, WeekView } from './calendar-views';
 import VehicleBooking from './calendar-event';
 

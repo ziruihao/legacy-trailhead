@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stack, Queue, Divider, Box } from '../layout';
+import { Stack, Queue, Divider, Box } from '../../layout';
 import './calendar-event.scss';
 
 const hasReturnTimePassed = (eventEnd) => {

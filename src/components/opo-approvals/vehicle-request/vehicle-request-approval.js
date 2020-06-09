@@ -6,20 +6,19 @@ import axios from 'axios';
 import Collapse from 'react-bootstrap/Collapse';
 import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
-import Icon from '../icon';
-import Field from '../field';
-import { Stack, Queue, Divider, Box } from '../layout';
-import { ProfileCard } from '../profile-card';
+import Icon from '../../icon';
+import Field from '../../field';
+import { Stack, Queue, Divider, Box } from '../../layout';
+import { ProfileCard } from '../../profile-card';
 import ConflictModal from './conflict-modal';
-import DOCLoading from '../doc-loading';
-import Badge from '../badge';
-import Sidebar from '../sidebar';
-import VehicleCalendar from '../vehicleCalendar';
-import * as constants from '../../constants';
-import utils from '../../utils';
-import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../actions';
-import dropdownIcon from '../../img/dropdown-toggle.svg';
-import './opo-vehicle-request.scss';
+import DOCLoading from '../../doc-loading';
+import Badge from '../../badge';
+import Sidebar from '../../sidebar';
+import VehicleCalendar from '../../calendar/vehicleCalendar';
+import * as constants from '../../../constants';
+import utils from '../../../utils';
+import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../../actions';
+import './vehicle-request-approval.scss';
 
 class OPOVehicleRequest extends Component {
   vehicleForm = [];
@@ -420,7 +419,8 @@ class OPOVehicleRequest extends Component {
             <Dropdown id="assign-vehicle-dropdown" onSelect={eventKey => this.onVehicleTypeChange(eventKey, index)} style={{ flex: 1 }}>
               <Dropdown.Toggle className={`ovr-vehicle-dropdown-button ${assignment.errorFields.assignedVehicle ? 'field-error' : ''}`}>
                 <div className={`ovr-current-vehicle ${assignment.assignedVehicle === '' ? 'inactive' : ''}`}>{assignment.assignedVehicle === '' ? 'Assign a vehicle' : assignment.assignedVehicle}</div>
-                <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                <Queue size={20} />
+                <Icon type="dropdown" size={20} />
               </Dropdown.Toggle>
               <Dropdown.Menu className="ovr-vehicle-options">
                 {this.vehicleForm}

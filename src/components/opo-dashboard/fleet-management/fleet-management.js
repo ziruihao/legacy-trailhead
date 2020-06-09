@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Table, Dropdown } from 'react-bootstrap';
-import { Stack, Queue, Divider, Box } from '../layout';
-import dropdownIcon from '../../img/dropdown-toggle.svg';
-import { fetchVehicleRequests, createVehicle, deleteVehicle } from '../../actions';
+import Icon from '../../icon';
+import { Stack, Queue, Divider, Box } from '../../layout';
+import { fetchVehicleRequests, createVehicle, deleteVehicle } from '../../../actions';
 import './fleet-management.scss';
 
 class FleetManagement extends Component {
@@ -88,7 +88,8 @@ class FleetManagement extends Component {
                 <Dropdown onSelect={eventKey => this.changeNewVehicleFields(eventKey, 'newVehicleType')}>
                   <Dropdown.Toggle className={`field ${this.state.newVehicleTypeError ? 'field-error' : ''}`}>
                     <span className="field-dropdown-bootstrap">{this.state.newVehicleType ? this.state.newVehicleType : 'Select vehicle type'}</span>
-                    <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                    <Queue size={20} />
+                    <Icon type="dropdown" size={20} />
                   </Dropdown.Toggle>
                   <Dropdown.Menu className="field-dropdown-menu">
                     <Dropdown.Item eventKey="Microbus">Microbus</Dropdown.Item>

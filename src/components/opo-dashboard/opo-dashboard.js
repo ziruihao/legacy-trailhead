@@ -6,8 +6,8 @@ import Badge from '../badge';
 import OPOTrips from './trips';
 import OPOVehicleRequests from './vehicle-requests';
 import OPOLeaders from './profiles';
-import FleetManagement from '../fleet-management';
-import VehicleCalendar from '../vehicleCalendar';
+import FleetManagement from './fleet-management';
+import VehicleCalendar from '../calendar/vehicleCalendar';
 import './opo-dashboard.scss';
 
 const OPODashboard = (props) => {

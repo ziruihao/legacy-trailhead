@@ -1,7 +1,7 @@
 import React from 'react';
 import conflictIndicator from './conflict-indicator.svg';
 import './conflict-modal.scss';
-import '../../../styles/base.scss';
+import '../../../../styles/base.scss';
 
 const ConflictModal = props => (
   <div id="conflict-modal">

@@ -10,7 +10,7 @@ import PCardRequest from './pcard_request';
 import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } from './create_trip_pages';
 import Sidebar from './sidebar';
 import VehicleRequest from './vehiclerequest';
-import VehicleCalendar from './vehicleCalendar';
+import VehicleCalendar from './calendar/vehicleCalendar';
 import * as constants from '../constants';
 import '../styles/createtrip-style.scss';
 

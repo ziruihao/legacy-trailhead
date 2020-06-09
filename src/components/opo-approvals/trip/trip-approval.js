@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { Stack, Queue, Divider, Box } from '../../layout';
-import { GearRequest, BasicInfo, PCardRequest } from '../../opo-trip-info-pages';
-import OPOVehicleRequest from '../../opo-vehicle-request';
+import { GearRequest, BasicInfo, PCardRequest } from './opo-trip-info-pages';
+import OPOVehicleRequest from '../vehicle-request/vehicle-request-approval';
 import Badge from '../../badge';
 import Sidebar from '../../sidebar';
 import DOCLoading from '../../doc-loading';
 import { isStringEmpty } from '../../../constants';
 import { fetchTrip, reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../../../actions';
-import '../../../styles/tripdetails_opo.scss';
+import './tripdetails_opo.scss';
 import '../../../styles/createtrip-style.scss';
 
 

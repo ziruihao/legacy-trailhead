@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import TimeGrid from 'react-big-calendar/lib/TimeGrid';
 import { navigate } from 'react-big-calendar/lib/utils/constants';
-import * as dates from '../../utils/dates';
+import * as dates from '../../../utils/dates';
 import './calendar-views.scss';
 
 class WeekView extends Component {

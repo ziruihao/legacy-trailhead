@@ -2,9 +2,9 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table';
 import ReactTooltip from 'react-tooltip';
-import Badge from './badge';
-import { Stack, Queue, Divider, Box } from './layout';
-import '../styles/tripdetails_opo.scss';
+import Badge from '../../badge';
+import { Stack, Queue, Divider, Box } from '../../layout';
+import './tripdetails_opo.scss';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
