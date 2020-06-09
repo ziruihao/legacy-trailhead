@@ -37,7 +37,8 @@ const Box = (props) => {
   }
   const style = { padding, width, height };
   return (
-    <div id={props.id ? props.id : null} className={`${props.className ? props.className : ''} doc-box doc-box-${props.dir} justify-${justify} align-self-${self} align-${align} ${wrap} ${expand ? 'expand' : ''}`} style={style}>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div id={props.id ? props.id : null} className={`${props.className ? props.className : ''} doc-box doc-box-${props.dir} justify-${justify} align-self-${self} align-${align} ${wrap} ${expand ? 'expand' : ''}`} style={style} onClick={props.onClick} role={props.role} tabIndex={props.tabIndex}>
       {props.children}
     </div>
   );
