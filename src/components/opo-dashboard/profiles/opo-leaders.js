@@ -87,7 +87,7 @@ class OPOLeaders extends Component {
           </Box>
           <Stack size={100} />
           <Box dir="row" justify="center" wrap>
-            {this.props.users.map((user) => {
+            {this.props.users.filter(user => user.completedProfile).map((user) => {
               return (
                 <>
                   <SmallProfileCard user={user} />
