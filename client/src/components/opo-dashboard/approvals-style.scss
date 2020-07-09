@@ -1,0 +1,36 @@
+.approve-button{
+  background: #0CA074;;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: 800;
+  margin-left: 1em;
+  height: 40px;
+}
+
+.deny-button{
+  background: #EE6E52;
+  font-family: Nunito Sans;
+  font-style: normal;
+  font-weight: 800;
+  width: 120px;
+  height: 40px;
+}
+
+.ola-approval{
+  font-size: 1.4em
+}
+
+.ola-requested-clubs, .ola-action-buttons{
+  margin-top: 1em;
+}
+
+.ola-action-buttons{
+  display: flex;
+  align-items: center;
+}
+
+.ola-approve-button{
+  width: 9em;
+  min-height: 2.5em;
+  margin-right: 1.5em;
+}

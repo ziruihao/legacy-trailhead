@@ -1,0 +1,51 @@
+.trip-detail-div {
+  margin: 5% 20%;
+  background: #eaeaea;
+  border-radius: 10px;
+  padding: 20px;
+  color: black;
+  opacity: .95;
+
+}
+
+.description {
+  padding-left: 2em;
+}
+
+.leaders {
+  padding-left: 2em;
+}
+
+.spots-taken {
+  padding-left: 1em;
+  display: inline-block;
+}
+
+.member-name {
+  padding-left: 1em;
+}
+
+.member-button {
+  text-decoration: underline;
+  display: inline-block;
+}
+
+.member-button:hover {
+  color: red;
+  cursor: pointer;
+}
+
+.email {
+  margin-bottom: 5px;
+
+  &.body {
+    overflow: auto;
+    resize: none;
+    height: 250px;
+    width: 100%;
+  }
+}
+
+.btn-email {
+  margin-bottom: 10px;
+}

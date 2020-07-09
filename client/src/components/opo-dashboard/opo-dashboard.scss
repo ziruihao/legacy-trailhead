@@ -1,0 +1,75 @@
+@import '../../styles/base.scss';
+
+#dashboard {
+  position: relative;
+
+  #dashboard-tiles {
+    overflow-x: auto;
+    width: 100%;
+    min-width: 1px;
+    min-height: 98px;
+  
+    .section {
+      position: relative;
+      
+      &:hover {
+        filter: brightness(1.2);
+        cursor: pointer;
+
+        .doc-badge {
+          // width: 48px;
+        }
+
+        .titles {
+          // font-size: 24px;
+          color: $green;
+        }
+      }
+
+      &.current-section {
+
+        .doc-badge {
+          // width: 48px;
+        }
+
+        .titles {
+          // font-size: 24px;
+          color: $green;
+        }
+      }
+
+      .doc-badge {
+        transition: all 0.25s;
+      }
+
+      .titles {
+        transition: all 0.25s;
+        white-space: nowrap;
+      }
+
+      .section-underline {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+      }
+ 
+    }
+
+    #dashboard-tiles-blur {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 100px;
+      min-height: 98px;
+      z-index: 1;
+      background: linear-gradient(270deg, #FAFAFA 0%, rgba(250, 250, 250, 0) 100%);
+    }
+  }
+
+  #dashboard-content {
+  }
+}
+
+
+
+

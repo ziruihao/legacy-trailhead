@@ -1,0 +1,27 @@
+@import '../../styles/base.scss';
+
+#my-trips-page {
+  margin: 0 calc(50vw - 600px); // a wider version of .center-view
+  
+  #my-trips-tiles-container {
+    position: relative;
+    width: calc(100vw - 150px);
+    overflow: hidden;
+
+    #my-trips-tiles {
+      width: 100%;
+      overflow-x: auto;
+      padding: 50px 0;
+      background-color: $background-light;
+    }
+    #my-trip-tiles-blur {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 300px;
+      height: 100%;
+      z-index: 1;
+      background: linear-gradient(270deg, #FAFAFA 0%, rgba(250, 250, 250, 0) 100%);
+    }
+  }
+}

@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  flex-flow: column nowrap;
+  margin-top: 10px;
+  width: 98%;
+}
+
+.card-edit-trip {
+  margin: 5% 15%;
+  background: #eaeaea;
+  padding: 20px;
+  color: black;
+  opacity: .95;
+}
+
+.d-span {
+  width: 90px;
+}
+
+h1 {
+  align-self: center;
+}
+
+.field {
+  margin: 10px 0px;
+
+  &.top {
+    margin: 0px 0px 10px 0px;
+  }
+}
+
+h5 {
+  color: black;
+}
+
+.card-content {
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-bottom: 1em;
+}
+
+textarea.field {
+  height: 140px;
+  overflow: auto;
+  resize: none;
+}
+
+textarea {
+  height: 140px;
+}
+
+.btn-success {
+  margin-right: 10px;
+}

@@ -1,0 +1,135 @@
+.leader-details-container{
+  width: 90%;
+  margin: 1em auto;
+}
+
+.leader-trip-detail{
+  width: 50%;
+}
+.leader-table-title{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.toggle-all{
+  color: #4399f5;;
+  font-weight: 600;
+  margin-right: 1em;
+  cursor: pointer;
+}
+.toggle-all:hover{
+  text-decoration: underline;
+}
+.left-detail{
+  margin-right: 2em;
+}
+.right-detail{
+  margin-left: 2em;
+}
+.leader-detail-row{
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5em;
+  padding-right: 0;
+}
+.detail-cell{
+  display: flex;
+  justify-content: flex-start;
+  width: 20%;
+  word-break: break-word;
+  margin-right: 1em;
+}
+.detail-gear{
+  flex-direction: column;
+  list-style-type: none;
+}
+.emails{
+  display: flex;
+  align-items: center;
+}
+.copy-button{
+  margin-left: 2em;
+}
+.status-badge{
+  max-height: 3em;
+  margin-bottom: 0.5em;
+  max-width: 3em;
+  margin-left: 0.5em;
+}
+.no-gear{
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.group-gear-list{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.leader-detail-left{
+  margin-left: 0.5em;
+}
+.leader-detail-right{
+  margin-right: 0.5em;
+  display: flex;
+}
+.leader-signup-button{
+  width: 50%;
+  min-height: 3em;
+}
+.toggle-profile{
+  background: #497fb9;
+  margin-right: 1em;
+  width: 50%;
+  border-radius: 5px;
+  display: block;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+}
+.toggle-profile:hover{
+  background: #6789ad;
+}
+.leader-profile-card{
+  margin-top: 1em;
+}
+.leader-cancel-button{
+  background: #EE6E52;
+  width: 50%;
+  min-height: 3em;
+  border-radius: 5px;
+  display: block;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+}
+.leader-cancel-button:hover{
+  background: rgb(241, 130, 105)
+}
+.leader-edit-link:hover{
+  text-decoration: none;
+}
+.emails-input{
+  min-height: 8em;
+}
+.ltd-detail-right{
+  margin-right: 0.5em;
+  color: #939393;
+  text-transform: capitalize;
+}
+
+@media only screen and (max-width: 640px) {
+  .leader-trip-info{
+    flex-direction: column;
+  }
+  .leader-trip-detail{
+    width: 100%;
+  }
+  .left-detail{
+    margin-right: 0;
+  }
+  .right-detail{
+    margin-left: 0;
+  }
+}
