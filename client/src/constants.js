@@ -1,5 +1,5 @@
-export const BACKEND_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-dartmouth.herokuapp.com/api';
-export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://doc-dartmouth.surge.sh';
+export const BACKEND_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090/api' : 'https://doc-planner.herokuapp.com/api';
+export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://doc.dartmouth.edu';
 
 export const green = '#0CA074';
 
