@@ -4,13 +4,16 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import { Stack, Queue, Divider, Box } from '../../layout';
-import { GearRequest, BasicInfo, PCardRequest } from '../../opo-trip-info-pages';
-import OPOVehicleRequest from '../../opo-vehicle-request';
+import { GearRequest, BasicInfo, PCardRequest } from './opo-trip-info-pages';
+import OPOVehicleRequest from '../vehicle-request/vehicle-request-approval';
+import { ProfileCard } from '../../profile-card';
 import Badge from '../../badge';
 import Sidebar from '../../sidebar';
 import DOCLoading from '../../doc-loading';
+import AttendeeTable from '../../trip-details/full/attendee-table/attendee-table';
+import { isStringEmpty } from '../../../constants';
 import { fetchTrip, reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../../../actions';
-import '../../../styles/tripdetails_opo.scss';
+import './tripdetails_opo.scss';
 import '../../../styles/createtrip-style.scss';
 
 
@@ -19,18 +22,19 @@ class OPOTripApproval extends Component {
     super(props);
     this.state = {
       loaded: false,
-      step: 1,
+      currentStep: 1,
       pcardAssigned: '',
       showModal: false,
-      numOfPages: 1,
+      numOfPages: null,
       isEditingPcard: true,
+      showTrippeeModal: false,
     };
     this.emailRef = React.createRef();
   }
 
   componentDidMount() {
     const { trip } = this.props;
-    let numOfPages = 1;
+    let numOfPages = 2;
     if (trip.gearStatus !== 'N/A' || trip.trippeeGearStatus !== 'N/A') {
       numOfPages += 1;
     }
@@ -47,38 +51,22 @@ class OPOTripApproval extends Component {
     });
   }
 
-  setStep = (step) => {
-    this.setState({ step });
-  }
-
   nextPage = () => {
-    if (this.state.step >= this.state.numOfPages) {
+    if (this.state.currentStep >= this.state.numOfPages) {
       this.props.history.push('/opo-trips');
     } else {
       this.setState((prevState) => {
-        return { step: prevState.step + 1 };
+        return { currentStep: prevState.currentStep + 1 };
       });
     }
   }
 
   previousPage = () => {
-    if (this.state.step !== 1) {
+    if (this.state.currentStep !== 1) {
       this.setState((prevState) => {
-        return { step: prevState.step - 1 };
+        return { currentStep: prevState.currentStep - 1 };
       });
     }
-  }
-
-  openModal = () => {
-    this.setState({
-      showModal: true,
-    });
-  }
-
-  closeModal = () => {
-    this.setState({
-      showModal: false,
-    });
   }
 
   reviewGroupGearRequest = (status) => {
@@ -103,12 +91,8 @@ class OPOTripApproval extends Component {
     });
   }
 
-  isStringEmpty = (string) => {
-    return string.length === 0 || !string.toString().trim();
-  };
-
   reviewPCardRequest = (pcardStatus) => {
-    if (this.state.isEditingPcard && this.isStringEmpty(this.state.pcardAssigned)) {
+    if (this.state.isEditingPcard && isStringEmpty(this.state.pcardAssigned)) {
       this.props.appError('Please assign a pcard to this request.');
     } else {
       const pcardAssigned = pcardStatus === 'denied' ? '' : this.state.pcardAssigned;
@@ -143,10 +127,14 @@ class OPOTripApproval extends Component {
     this.setState({ showModal: false });
   }
 
+  openTrippeeProfile = (trippee) => {
+    this.setState({ currentTrippee: trippee, showTrippeeModal: true });
+  }
+
   render() {
     if (this.state.loaded) {
       let page;
-      switch (this.state.step) {
+      switch (this.state.currentStep) {
         case 1:
           page = (
             <BasicInfo
@@ -156,6 +144,29 @@ class OPOTripApproval extends Component {
           break;
         case 2:
           page = (
+            <Box dir="col">
+              <div className="doc-h1">Attendies</div>
+              <Stack size={50} />
+              <div className="doc-h2">Already approved</div>
+              <Stack size={25} />
+              <div className="p1">The trip leader has approved these members to attend the trip. Their attendence is not confirmed until the leader checks them in during the day-of when the trip meets outside of {this.props.trip.pickup}.</div>
+              <Stack size={25} />
+              <Box className="doc-bordered" dir="col" align="stretch" pad={25}>
+                <AttendeeTable mode="approved" people={this.props.trip.members} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} actions={[{ callback: person => window.open(`mailto:${person.user.email}`, '_blank'), message: 'Email' }]} openProfile={this.openTrippeeProfile} />
+              </Box>
+              <Stack size={50} />
+              <div className="doc-h2">Still pending</div>
+              <Stack size={25} />
+              <div className="p1">These people signed up for the trip but the leader has not yet approved them to attend. They may or may not ever be approved.</div>
+              <Stack size={25} />
+              <Box className="doc-bordered" dir="col" align="stretch" pad={25}>
+                <AttendeeTable mode="approved" people={this.props.trip.pending} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} actions={[{ callback: person => window.open(`mailto:${person.user.email}`, '_blank'), message: 'Email' }]} openProfile={this.openTrippeeProfile} />
+              </Box>
+            </Box>
+          );
+          break;
+        case 3:
+          page = (
             <GearRequest
               trip={this.props.trip}
               reviewGroupGearRequest={this.reviewGroupGearRequest}
@@ -163,7 +174,7 @@ class OPOTripApproval extends Component {
             />
           );
           break;
-        case 3:
+        case 4:
           page = (
             <PCardRequest
               trip={this.props.trip}
@@ -178,7 +189,7 @@ class OPOTripApproval extends Component {
             />
           );
           break;
-        case 4:
+        case 5:
           page = (
             <OPOVehicleRequest
               partOfTrip
@@ -195,7 +206,7 @@ class OPOTripApproval extends Component {
           break;
       }
       return (
-        <Box dir="row">
+        <Box dir="row" expand>
           <Sidebar
             sections={
             [
@@ -213,20 +224,20 @@ class OPOTripApproval extends Component {
             <Divider size={1} />
             <Stack size={50} />
             <Box dir="row" justify="between" align="center" id="approval-navigation">
-              <div className={`doc-button hollow ${this.state.step === 1 ? 'disabled' : ''}`} onClick={this.state.step === 1 ? null : this.previousPage} role="button" tabIndex={0}>Previous</div>
+              <div className={`doc-button hollow ${this.state.currentStep === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousPage} role="button" tabIndex={0}>Previous</div>
               <a id="email-trip-leader-link" href={`mailto:${this.props.trip.leaders[0].email}`} role="button" tabIndex={0}>Contact Trip Leader</a>
               <div className="doc-button" onClick={this.nextPage} role="button" tabIndex={0}>
-                {this.state.step === this.state.numOfPages ? 'Back to Trip Approvals' : 'Next'}
+                {this.state.currentStep === this.state.numOfPages ? 'Back to Trip Approvals' : 'Next'}
               </div>
             </Box>
           </Box>
           <Modal
             centered
             show={this.state.showModal}
-            onHide={this.closeModal}
+            onHide={() => this.setState({ showModal: false })}
           >
             <div className="trip-details-close-button">
-              <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
+              <i className="material-icons close-button" onClick={() => this.setState({ showModal: false })} role="button" tabIndex={0}>close</i>
             </div>
             <Badge type="denied" />
 
@@ -247,6 +258,18 @@ class OPOTripApproval extends Component {
                 <button type="button" className="vrf-submit-button signup-button" onClick={this.copyEmail}>Copy email address</button>
               </div>
             </div>
+          </Modal>
+          <Modal
+            centered
+            show={this.state.showTrippeeModal}
+            onHide={() => this.setState({ showTrippeeModal: false })}
+            size="lg"
+          >
+            <ProfileCard
+              asProfilePage={false}
+              isEditing={false}
+              user={this.state.currentTrippee}
+            />
           </Modal>
         </Box>
       );

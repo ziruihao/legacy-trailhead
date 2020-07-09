@@ -16,6 +16,16 @@ const store = createStore(reducers, {}, compose(
   window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : f => f,
 ));
 
+
+const handleFirstTab = (e) => {
+  if (e.keyCode === 9) { // the "I am a keyboard user" key
+    document.getElementById('main').classList.add('user-is-tabbing');
+    window.removeEventListener('keydown', handleFirstTab);
+  }
+};
+
+window.addEventListener('keydown', handleFirstTab);
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

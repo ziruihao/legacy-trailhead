@@ -14,16 +14,16 @@ import VehicleRequestPage from './vehicle-request';
 import VehicleRequest from './vehiclerequest';
 import ProfilePage from './profile-page';
 import { TripDetails } from './trip-details';
-import OPOLeaders from './opo-approvals/leaders';
+import OPOLeaders from './opo-dashboard/profiles';
 import NavBar from './nav-bar/nav-bar';
-import OPOTrips from './opo-approvals/trips';
+import OPOTrips from './opo-dashboard/trips';
 import OPOTripApproval from './opo-approvals/trip';
-import OPOVehicleRequests from './opo-approvals/vehicle-requests';
-import OPOVehicleRequest from './opo-vehicle-request';
+import OPOVehicleRequests from './opo-dashboard/vehicle-requests';
+import OPOVehicleRequest from './opo-approvals/vehicle-request';
 import OPODashboard from './opo-dashboard';
-import VehicleCalendar from './vehicleCalendar';
+import VehicleCalendar from './calendar/vehicleCalendar';
 import Gateway from './gateway';
-import FleetManagement from './fleet-management';
+import FleetManagement from './opo-dashboard/fleet-management';
 import { ROOT_URL, green } from '../constants';
 import { MobileCheckIn, MobileCheckOut } from './mobile-check';
 import CompleteProfile from './gateway/complete-profile';
@@ -105,13 +105,17 @@ class App extends React.Component {
     if (!this.props.authenticated) {
       return (
         <Router>
-          <div id="theBody">
-            <Switch>
-              <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
-              <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
-              <Route path="/"><Gateway dataLoader={this.loadData} /></Route>
-            </Switch>
-          </div>
+          <Toast className="doc-toast" onClose={this.props.clearError} show={this.props.errorMessage !== ''} delay={3000} autohide>
+            <Toast.Header className="doc-toast-header" closeButton={false}>
+              <strong className="mr-auto">Error</strong>
+            </Toast.Header>
+            <Toast.Body className="doc-toast-body">{this.props.errorMessage}</Toast.Body>
+          </Toast>
+          <Switch>
+            <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
+            <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
+            <Route path="/"><Gateway dataLoader={this.loadData} /></Route>
+          </Switch>
         </Router>
       );
     } else if (this.state.loaded) {

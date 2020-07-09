@@ -2,9 +2,10 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import './profile.scss';
+import Field from '../field';
+import Icon from '../icon';
 import Badge from '../badge';
-import editIcon from './edit-profile.svg';
-import saveIcon from './save-profile.svg';
+import { Stack, Queue, Divider, Box } from '../layout';
 
 const TRAILER_CONSTANT = 'TRAILER';
 
@@ -73,15 +74,14 @@ class ProfileCard extends React.Component {
 
   displayImageEditing() {
     if (this.props.user.photo_url !== '' && this.state.preview == null) {
-      console.log(this.props.user.photo_url);
       return (
-        <div className="profile-photo-fit">
+        <div className="profile-photo-fit edit">
           <img className="profile-photo" id="preview" alt="" src={this.props.user.photo_url} />
         </div>
       );
     } else if (this.state.preview != null) {
       return (
-        <div className="profile-photo-fit">
+        <div className="profile-photo-fit edit">
           <img className="profile-photo" id="preview" alt="" src={this.state.preview} />;
         </div>
       );
@@ -94,7 +94,7 @@ class ProfileCard extends React.Component {
     if (!this.props.isEditing && !this.props.completeProfileMode) {
       return (
         <div id="profile-card">
-          <div id="profile-card-picture-and-name">
+          <Box dir="row" justify="center" align="center" id="profile-card-picture-and-name">
             {this.props.user.name
               ? (
                 <div className="profile-pic-container">
@@ -107,9 +107,10 @@ class ProfileCard extends React.Component {
               )
               : null
             }
+            <Queue size={50} />
             {this.props.user.completedProfile
               ? (
-                <div id="profile-card-name">
+                <Box dir="col" justify="between" id="profile-card-name">
                   <div className="doc-h1">
                     {this.props.user.name}
                     {this.props.user.role === 'Leader'
@@ -140,8 +141,13 @@ class ProfileCard extends React.Component {
                       : null
                    }
                   </div>
-                  <div className="p1">{`Email: ${this.props.user.email}`}</div>
-                </div>
+                  <Stack size={15} />
+                  <Box dir="row" align="center">
+                    <Icon type="email" size={18} />
+                    <Queue size={15} />
+                    <div className="p1 gray">{this.props.user.email}</div>
+                  </Box>
+                </Box>
               )
               : (
                 <div id="profile-card-incomplete-notice" className="doc-h1">
@@ -149,122 +155,134 @@ class ProfileCard extends React.Component {
                 </div>
               )
             }
-            {this.props.asProfilePage
-              ? (
-                <input className="profile-card-edit-toggle" type="image" src={editIcon} alt="edit button" onClick={this.props.startEditing} />
-              )
-              : null
-            }
-          </div>
-          <hr />
+            <Queue size={50} />
+          </Box>
+          <Stack size={25} />
+          <Divider size={1} />
+          <Stack size={25} />
           <div id="profile-card-info">
-            <div className="profile-card-row">
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Pronouns
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {this.props.user.pronoun ? this.props.user.pronoun : 'Please fill out'}
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 DASH
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Clothing Size
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {this.props.user.clothe_size ? this.props.user.clothe_size : 'Please fill out'}
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Shoe Size
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {this.props.user.shoe_size ? this.props.user.shoe_size : 'Please fill out'}
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Height
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {this.props.user.height ? this.props.user.height : 'Please fill out'}
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Allergies/Dietary Restrictions
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {this.props.user.allergies_dietary_restrictions ? this.props.user.allergies_dietary_restrictions : 'Please fill out'}
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Relevant Medical Conditions
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {this.props.user.medical_conditions ? this.props.user.medical_conditions : 'Please fill out'}
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_cert_change ? 'Driver Certifications*' : 'Driver Certifications'}
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {displayCertifications(this.props.user.driver_cert, this.props.user.trailer_cert, this.props.user.has_pending_cert_change)}
               </div>
-            </div>
-            {this.props.user.role !== 'OPO' ? <hr /> : null}
+            </Box>
+            {this.props.user.role !== 'OPO' ? <Stack size={15} /> : null}
             {this.props.user.role !== 'OPO'
               ? (
-                <div className="profile-card-row">
+                <Box className="profile-card-row">
                   <div className="card-headings doc-h3">
                     {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
                   </div>
-                  <div id="profile-card-clubs" className="card-info p1" onClick={() => this.setState(prevState => ({ showClubs: !prevState.showClubs }))} role="button" tabIndex={0}>
+                  <div id="profile-card-clubs" className="card-info p2" onClick={() => this.setState(prevState => ({ showClubs: !prevState.showClubs }))} role="button" tabIndex={0}>
                     Leader in {this.props.user.leader_for.length} sub-clubs
                   </div>
-                </div>
+                </Box>
               ) : null}
             {this.state.showClubs
               ? (
-                <div className="profile-card-row">
-                  <div id="profile-card-clubs-all" className="card-info p1">
+                <Box className="profile-card-row">
+                  <div id="profile-card-clubs-all" className="card-info p2">
                     {displayClubs(this.props.user.leader_for, this.props.user.has_pending_leader_change)}
                   </div>
-                </div>
+                </Box>
               )
               : null
               }
           </div>
+          {this.props.asProfilePage
+            ? (
+              <>
+                <Stack size={25} />
+                <Divider size={1} />
+                <Stack size={25} />
+                <Box dir="row" justify="center">
+                  <div className="doc-button alarm" onClick={this.props.signOut} role="button" tabIndex={0}>Logout</div>
+                  <Queue size={50} />
+                  <div className="doc-button hollow" onClick={this.props.startEditing} role="button" tabIndex={0}>Edit profile</div>
+                </Box>
+              </>
+            )
+            : null
+          }
         </div>
       );
     } else {
       const name = this.props.user.name || this.props.user.casID.split(' ')[0];
       return (
         <div id="profile-card">
-          <div id="profile-card-picture-and-name">
+          <Box dir="row" justify="center" align="center" id="profile-card-picture-and-name">
             {this.props.user.name || this.props.user.casID
               ? (
                 <div className="profile-pic-container profile-pic-container-edit">
                   <label>
                     <div id="profile-pic-upload-text">Change</div>
-                    <div className="profile-pic">
+                    <div className="profile-pic edit">
                       {!(this.state.preview != null || this.props.user.photo_url != null) ? <span className="user-initials">{this.getUserInitials(name)}</span> : this.displayImageEditing()}
                       <input type="file" name="coverImage" onChange={this.onImageUpload} />
                     </div>
@@ -273,175 +291,192 @@ class ProfileCard extends React.Component {
               )
               : null
             }
-            <div id="profile-card-name">
-              <div className="doc-h1">
-                <input
+            <Queue size={50} />
+            <Box dir="col" id="profile-card-name">
+              <div className="p2">
+                <Field
                   type="text"
                   name="name"
                   onChange={this.props.onFieldChange}
-                  className={`field ${this.props.errorFields.name ? '' : ''}`}
                   value={this.props.name}
                   placeholder="Name"
+                  error={this.props.errorFields.name}
                 />
               </div>
-              <div className="p1">
-                <input
+              <Stack size={15} />
+              <div className="p2">
+                <Field
                   type="text"
                   name="email"
                   maxLength="50"
                   onChange={this.props.onFieldChange}
-                  className={`field ${this.props.errorFields.email ? '' : ''}`}
                   value={this.props.email}
                   placeholder="Dartmouth email"
+                  error={this.props.errorFields.email}
                 />
               </div>
-            </div>
-            {this.props.asProfilePage
-              ? <input className="profile-card-edit-toggle" type="image" src={saveIcon} alt="save button" onClick={() => this.props.updateUserInfo(this.state.file, false)} />
-              : null
-          }
-          </div>
-          <hr />
+            </Box>
+            <Queue size={50} />
+          </Box>
+          <Stack size={25} />
+          <Divider size={1} />
+          <Stack size={25} />
           <div id="profile-card-info">
-            <div className="profile-card-row">
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Pronouns
               </div>
-              <div className="card-info p1">
-                <input
-                  className={`field ${this.props.errorFields.pronoun ? '' : ''}`}
+              <div className="card-info p2">
+                <Field
                   type="text"
                   name="pronoun"
+                  placeholder="xx / xx / xx"
                   maxLength="50"
                   onChange={this.props.onFieldChange}
                   value={this.props.pronoun}
+                  error={this.props.errorFields.pronoun}
                 />
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 DASH
               </div>
-              <div className="card-info p1">
-                <input
+              <div className="card-info p2">
+                <Field
                   type="number"
                   id="dash_number"
                   name="dash_number"
                   maxLength="50"
+                  placeholder="e.g. 100291029"
                   onChange={this.props.onFieldChange}
-                  className={`field ${this.props.errorFields.dash_number ? '' : ''}`}
                   value={this.props.dash_number}
+                  error={this.props.errorFields.dash_number}
                 />
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Clothing Size
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {this.props.renderClothingSizeSelection()}
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Shoe Size
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {this.props.renderShoeSizeSelection()}
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Height
               </div>
-              <div className="card-info p1">
-                <input
+              <div className="card-info p2">
+                <Field
                   type="text"
                   name="height"
                   onChange={this.props.onFieldChange}
-                  className={`field ${this.props.errorFields.height ? '' : ''}`}
                   value={this.props.height}
                   placeholder={'e.g. 5\'2"'}
+                  error={this.props.errorFields.height}
                 />
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Allergies/Dietary Restrictions
               </div>
-              <div className="card-info p1">
-                <input
+              <div className="card-info p2">
+                <Field
                   className={`field ${this.props.errorFields.allergies_dietary_restrictions ? '' : ''}`}
                   type="text"
                   name="allergies_dietary_restrictions"
-                  maxLength="50"
+                  placeholder="Put 'none' if so"
                   onChange={this.props.onFieldChange}
                   value={this.props.allergies_dietary_restrictions}
+                  error={this.props.errorFields.allergies_dietary_restrictions}
                 />
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
               <div className="card-headings doc-h3">
                 Relevant Medical Conditions
               </div>
-              <div className="card-info p1 extra-info">
-                <input
+              <div className="card-info p2 extra-info">
+                <Field
                   type="text"
                   name="medical"
-                  maxLength="50"
+                  placeholder="Put 'none' if so"
                   onChange={this.props.onFieldChange}
-                  className={`field ${this.props.errorFields.medical ? '' : ''}`}
                   value={this.props.medical}
-                  data-tip
-                  data-for="medical-conditions-tooltip"
+                  dataTip
+                  dataFor="medical-conditions-tooltip"
+                  error={this.props.errorFields.medical}
                 />
                 <ReactTooltip id="medical-conditions-tooltip" place="right">This will only be visible to your trip leaders and OPO staff</ReactTooltip>
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
-              <div className="card-headings doc-h3 extra-info">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
+              <div className="card-headings doc-h3">
                 Driver Certification(s)
                 {/* {this.props.displayCertificationFeedback()} */}
               </div>
-              <div className="card-info p1 extra-info">
+              <div className="card-info p2">
                 {this.props.getCertificationsForm()}
                 <ReactTooltip id="driver-certification-tooltip" place="right">Please select your highest level of driver certification</ReactTooltip>
               </div>
-            </div>
-            <hr />
-            <div className="profile-card-row">
-              <div className="card-headings doc-h3 extra-info">
+            </Box>
+            <Stack size={15} />
+            <Box className="profile-card-row">
+              <div className="card-headings doc-h3">
                 DOC Leadership
                 {/* {this.props.displayLeaderFeedback()} */}
               </div>
-              <div className="card-info p1">
+              <div className="card-info p2">
                 {this.props.getClubForm()}
               </div>
-            </div>
-            {/* {this.props.user.role !== 'OPO' ? <hr /> : null}
+            </Box>
+            {/* {this.props.user.role !== 'OPO' ? <Stack size={15} /> : null}
             {this.props.user.role !== 'OPO'
               ? (
-                <div className="profile-card-row">
-                  <div className="card-headings doc-h3 extra-info">
+                <Box className="profile-card-row">
+                  <div className="card-headings doc-h3">
                     DOC Leadership
                     {this.props.displayLeaderFeedback()}
                   </div>
-                  <div className="card-info p1">
+                  <div className="card-info p2">
                     {this.props.getClubForm()}
                   </div>
                 </div>
               ) : null} */}
           </div>
+          <Stack size={25} />
+          <Divider size={1} />
+          <Stack size={25} />
           {this.props.completeProfileMode
-            ? <div className="doc-button" role="button" tabIndex={0} src={saveIcon} onClick={() => this.props.updateUserInfo(this.state.file, true)}>Finish</div>
-            : null
+            ? (
+              <Box dir="row" justify="center">
+                <div className="doc-button" role="button" tabIndex={0} onClick={() => this.props.updateUserInfo(this.state.file, true)}>Finish</div>
+              </Box>
+            )
+            : (
+              <Box dir="row" justify="center">
+                <div className="doc-button alarm" onClick={this.props.cancelChanges} role="button" tabIndex={0}>Cancel</div>
+                <Queue size={50} />
+                <div className="doc-button" onClick={() => this.props.updateUserInfo(this.state.file, false)} role="button" tabIndex={0}>Save</div>
+              </Box>
+            )
           }
         </div>
       );

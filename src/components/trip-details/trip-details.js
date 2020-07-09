@@ -5,19 +5,16 @@ import { withRouter } from 'react-router-dom';
 import { Modal } from 'react-bootstrap';
 import { Stack, Queue, Divider, Box } from '../layout';
 import TripDetailsBasic from './basic/trip-details-basic';
-import LeaderTripDetails from './leader/tripdetails_leader';
-import OPOTripDetails from './opo/tripdetails_opo';
+import TripDetailsFull from './full/trip-details-full';
 import DOCLoading from '../doc-loading';
 import * as constants from '../../constants';
-import { fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
+import { assignToLeader, fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
 import confirmCancel from './confirm-cancel.svg';
 
 class TripDetails extends Component {
   constructor(props) {
     super(props);
     this.state = ({
-      pendingEmail: '',
-      onTripEmail: '',
       showLeaderModal: false,
       trippeeProfileOpened: false,
       trippeeProfile: null,
@@ -47,7 +44,6 @@ class TripDetails extends Component {
         this.setState({ role: roleOnTrip });
 
         if (this.props.isLeaderOnTrip) { // populate trip participant emails
-          this.populateEmails();
           this.getProfiles();
         }
 
@@ -90,6 +86,15 @@ class TripDetails extends Component {
 
   moveToTrip = (pender) => {
     this.props.joinTrip(this.props.trip._id, pender)
+      .then(() => {
+        this.populateEmails();
+        this.getProfiles();
+      });
+  }
+
+  // LeaderTripDetails component methods
+  assignToLeader = (member) => {
+    this.props.assignToLeader(this.props.trip._id, member)
       .then(() => {
         this.populateEmails();
         this.getProfiles();
@@ -140,20 +145,6 @@ class TripDetails extends Component {
     return Object.entries(object).length === 0 && object.constructor === Object;
   }
 
-  populateEmails = () => {
-    let pendingEmail = '';
-    let onTripEmail = '';
-    this.props.trip.pending.forEach((pender) => {
-      pendingEmail += `${pender.user.email}, `;
-    });
-    this.props.trip.members.forEach((member) => {
-      onTripEmail += `${member.user.email}, `;
-    });
-    pendingEmail = pendingEmail.substring(0, pendingEmail.length - 2);
-    onTripEmail = onTripEmail.substring(0, onTripEmail.length - 2);
-    this.setState({ pendingEmail, onTripEmail });
-  }
-
   getProfiles = () => {
     const profiles = {};
     this.props.trip.pending.forEach((pender) => {
@@ -172,10 +163,10 @@ class TripDetails extends Component {
       let appropriateComponent;
       if (this.state.role === 'LEADER' || this.state.role === 'OPO') {
         appropriateComponent = (
-          <LeaderTripDetails
+          <TripDetailsFull
             trip={this.props.trip}
-            onTripEmail={this.state.onTripEmail}
-            pendingEmail={this.state.pendingEmail}
+            onTripEmail={constants.getEmails(this.props.trip.members)}
+            pendingEmail={constants.getEmails(this.props.trip.pending)}
             showModal={this.state.showLeaderModal}
             trippeeProfileOpened={this.state.trippeeProfileOpened}
             openTrippeeProfile={trippeeProfile => this.setState({ trippeeProfileOpened: true, trippeeProfile })}
@@ -190,6 +181,7 @@ class TripDetails extends Component {
             closeModal={this.closeLeaderModal}
             deleteTrip={this.deleteTrip}
             moveToTrip={this.moveToTrip}
+            assignToLeader={this.assignToLeader}
             moveToPending={this.moveToPending}
             copyPendingToClip={this.copyPendingToClip}
             copyOnTripToClip={this.copyOnTripToClip}
@@ -246,5 +238,5 @@ const mapStateToProps = state => (
   }
 );
 export default withRouter(connect(mapStateToProps, {
-  fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError,
+  fetchTrip, joinTrip, assignToLeader, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError,
 })(TripDetails));

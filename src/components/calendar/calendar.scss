@@ -1,0 +1,29 @@
+@import '../../styles/base.scss';
+
+.weekview-container{
+  display: flex;
+}
+// .vehicle-name{
+//   // width: 5%;
+//   // margin-left: 0.5em;
+//   // margin-right: 0.5em;
+//   // word-break: break-word;
+
+// }
+.timegrid-latch{
+  width: 95%;
+}
+
+.rbc-event{
+  padding: 0;
+  // background: white;
+  // border: 2px solid $green !important;
+}
+.vcm-assignment-info{
+  display: flex;
+  justify-content: space-between;
+}
+.vcm-assignment-detail{
+  display:flex;
+  flex-direction: column;
+}

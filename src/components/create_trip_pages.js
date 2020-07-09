@@ -1,6 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { Stack, Queue, Divider, Box } from './layout';
+import Field from './field';
 import CoLeadersAutoComplete from './coLeadersAutoComplete';
 import Toggle from './toggle';
 import DOCLoading from './doc-loading';
@@ -45,7 +47,6 @@ const BasicTripInfo = (props) => {
         <input className={`field create-trip-form-bottom-margin ${props.errorFields.cost ? 'field-error' : ''}`}
           onChange={props.onFieldChange}
           name="cost"
-          placeholder="0"
           type="number"
           value={props.costValue}
         />
@@ -145,7 +146,7 @@ const DatesLocation = (props) => {
           className={`field create-trip-form-bottom-margin leaders ${props.errorFields.location ? 'field-error' : ''}`}
           name="location"
           onChange={props.onFieldChange}
-          placeholder="e.g. Mt. Cube"
+          placeholder="e.g. Orford, NH"
           value={props.tripLocation}
         />
       </div>
@@ -192,12 +193,12 @@ const AboutTheTrip = (props) => {
         />
       </div>
       <div className="page-sub-headers">
-        <div className="doc-h3">Things you can include</div>
+        <div className="doc-h3">Things you must include</div>
         <ul className="descrip-list">
           <li>What you&apos;ll be doing on the trip</li>
-          <li>Prior experience that would be helpful (if applicable)</li>
-          <li>Rough iternary of events and activities</li>
-          <li>Short introduction of leaders</li>
+          <li>Short Introduction of Leaders for prospective Trippees</li>
+          <li>Level of prior experience (if applicable) and what gear or clothing might be needed</li>
+          <li>Rough itinerary - this is your trip plan on file, so please include route plan details like where the vehicle will be parked, main and alternate routes, in case of emergency. </li>
         </ul>
       </div>
     </div>
@@ -209,7 +210,7 @@ const getTrippeeGear = (props) => {
     return props.trippeeGear.map((gearRequest, index) => {
       return (
         <div key={gearRequest._id}>
-          <div className="gear-container">
+          <Box dir="row" align="start" className="gear-container">
             <div className="gear-and-size">
               <input
                 type="text"
@@ -221,11 +222,11 @@ const getTrippeeGear = (props) => {
               />
               <Dropdown onSelect={eventKey => props.onSizeTypeChange(eventKey, index)}>
                 <Dropdown.Toggle className="field field-full-width">
-                  <span className="field-dropdown-bootstrap">{gearRequest.size_type}</span>
+                  <span className="field-dropdown-bootstrap">{gearRequest.size_type === 'N/A' ? 'No measurement' : gearRequest.size_type}</span>
                   <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="field-dropdown-menu">
-                  <Dropdown.Item eventKey="N/A">N/A</Dropdown.Item>
+                  <Dropdown.Item eventKey="N/A">No measurement</Dropdown.Item>
                   <Dropdown.Item eventKey="Clothe">Measured by clothing size</Dropdown.Item>
                   <Dropdown.Item eventKey="Shoe">Measured by shoe size</Dropdown.Item>
                   <Dropdown.Item eventKey="Height">Measured by height</Dropdown.Item>
@@ -233,7 +234,7 @@ const getTrippeeGear = (props) => {
               </Dropdown>
             </div>
             <i className="material-icons close-button remove-gear-button" onClick={() => props.removeTrippeeGear(index)} role="button" tabIndex={0}>close</i>
-          </div>
+          </Box>
           <hr className="line" />
         </div>
       );
@@ -256,17 +257,28 @@ const getGearInputs = (props) => {
     return props.gearRequests.map((gearRequest, index) => {
       return (
         <div key={gearRequest._id}>
-          <div className="gear-container">
+          <Box dir="row" align="center" className="gear-container">
             <input
               type="text"
               className={`field ${gearRequest.hasError ? 'field-error' : ''}`}
               name="opogearRequest"
               placeholder="Item name"
-              onChange={event => props.onGearChange(event, index)}
-              value={gearRequest.groupGear}
+              onChange={event => props.onGearChangeName(event, index)}
+              value={gearRequest.groupGearName}
+            />
+            <Queue size={15} />
+            <Field
+              type="number"
+              // className={`field ${gearRequest.hasError ? 'field-error' : ''}`}
+              name="opogearRequestQuantity"
+              placeholder="Qty."
+              onChange={event => props.onGearChangeQuantity(event, index)}
+              value={gearRequest.groupGearQuantity}
+              width={100}
+              error={gearRequest.hasError}
             />
             <i className="material-icons close-button remove-gear-button" onClick={() => props.removeGear(index)} role="button" tabIndex={0}>close</i>
-          </div>
+          </Box>
           <hr className="line" />
         </div>
       );

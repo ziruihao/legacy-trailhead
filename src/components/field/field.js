@@ -14,12 +14,12 @@ import ReactTooltip from 'react-tooltip';
  * @param {Function} onChange Function to handle changes.
  */
 const Field = (props) => {
-  const [seenError, setErrorSeenStatus] = useState(false);
+  // const [seenError, setErrorSeenStatus] = useState(false);
 
-  useEffect(() => {
-    // eslint-disable-next-line no-use-before-define
-    if (props.error && !seenError) ReactTooltip.show(reactToolTipRef);
-  });
+  // useEffect(() => {
+  //   // eslint-disable-next-line no-use-before-define
+  //   if (props.error && !seenError) ReactTooltip.show(reactToolTipRef);
+  // });
 
   let reactToolTipRef = {};
   const measure = props.measure || 'px';
@@ -30,24 +30,16 @@ const Field = (props) => {
     <>
       <input
         className={`field ${props.error ? 'field-error' : ''}`}
-        onChange={(event) => {
-          console.log(event.target.name);
-          props.onChange(event);
-          setErrorSeenStatus(true);
-        }}
+        onChange={props.onChange}
         name={props.name}
         placeholder={props.placeholder}
         value={props.value}
         type={props.type}
-        data-tip
-        data-for={props.tooltipID ? props.tooltipID : `${props.name}-field-error`}
+        data-tip={props.dataTip}
+        data-for={props.dataFor}
         ref={(ref) => { reactToolTipRef = ref; }}
         style={{ width, minWidth: width, height, minHeight: height }}
       />
-      {props.error
-        ? <ReactTooltip id={props.tooltipID ? props.tooltipID : `${props.name}-field-error`} place="bottom" backgroundColor="#A93A3A" textColor="white">{props.errorMessage}</ReactTooltip>
-        : null
-      }
     </>
   );
 };

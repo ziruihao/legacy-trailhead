@@ -252,7 +252,7 @@ const getVehicles = (props) => {
 
 const getAppropriateButton = (props) => {
   if (props.requestType === 'TRIP') {
-    return <button type="submit" className="vrf-submit-button signup-button" onClick={props.nextTripPage}>Next</button>;
+    return <div className="doc-button" onClick={props.nextTripPage} role="button" tabIndex={0}>Link request to trip</div>;
   } else if (props.requestType === 'SOLO') {
     if (props.asUpdate) {
       return (
@@ -337,9 +337,9 @@ const VehicleRequestForm = (props) => {
       /> */}
       <Stack size={50} />
       {getVehicles(props)}
-      <Box dir="row" justify="end">
+      <Stack size={50} />
+      <Box dir="row" justify="between">
         <div className="doc-button hollow" onClick={props.addVehicle} role="button" tabIndex={0}>Add vehicle</div>
-        <Queue size={25} />
         {getAppropriateButton(props)}
       </Box>
     </Box>

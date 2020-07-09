@@ -1,0 +1,113 @@
+// @import 'react-big-calendar/lib/sass/styles';
+@import '../../../styles/base.scss';
+
+.weekview-container {
+  .vehicle-name {
+    display: flex;
+    justify-content: center;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    padding: 0 1em;
+    transform: rotate(180deg);
+    font-size: 1em;
+    font-weight: 800;
+    color: $green;
+    border-right: 2px solid $green;
+  }
+}
+
+.rbc-toolbar {
+  height: 75px;
+
+  .rbc-btn-group {
+    display: flex;
+
+    button {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 0.5em 1em;
+      border-radius: 5px;
+      border: 1px solid $green;
+      font-size: 18px;
+      letter-spacing: 5%;
+      font-weight: 800;
+      color: $green;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: $green;
+        color: white;
+        filter: brightness(110%);
+      }
+    }
+  }
+
+  .rbc-toolbar-label {
+    font-size: 24px;
+    font-weight: 800;
+  }
+}
+
+.rbc-time-view {
+  .rbc-time-header {
+    .rbc-header {
+      display: flex;
+      align-items: center;
+      height: 50px;
+
+      a {
+        width: 100%;
+      }
+    }
+  }
+  
+  .rbc-time-content {
+    .rbc-time-gutter {
+      .rbc-timeslot-group {
+        .rbc-time-slot {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+  
+          &:not(:first-child) {
+            display: none !important;
+          }
+        }
+      }
+    }
+  
+    .rbc-time-column {
+      .rbc-timeslot-group {
+        height: 100px !important;
+
+        .rbc-time-slot {
+          border-width: 0 !important;
+        }
+      }
+
+      .rbc-events-container {
+
+        .rbc-event {
+          background-color: rgba(0,0,0,0);
+          border: none;
+          box-shadow: $menu-shadow;
+
+          .rbc-event-label {
+            display: none;
+          }
+        }
+      }
+  
+    }
+  
+  }
+  
+  .rbc-today {
+    background-color: $green-faded !important;
+  }
+  
+  .rbc-allday-cell {
+    display: none;
+  }
+}

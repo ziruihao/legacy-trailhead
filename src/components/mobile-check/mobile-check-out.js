@@ -43,10 +43,14 @@ class MobileCheckOut extends PureComponent {
             <Stack size={18} />
             <div className="doc-h3">{`Return: ${utils.dates.formatDate(this.props.trip.endDate)} ${utils.dates.formatTime(this.props.trip.endTime)}`}</div>
           </div>
+          <Stack size={18} />
           <hr />
+          <Stack size={18} />
           <div id="mobile-check-body">
             <div className="doc-h2">Check-out your trippees before leaving.</div>
+            <Stack size={18} />
             <div className="p1">You MUST accurately mark which trippees are present on the day of the trip.</div>
+            <Stack size={18} />
             <Box id="mobile-check-list" className="doc-card" pad={10}>
               <Table className="doc-table" responsive="">
                 <thead>
@@ -73,6 +77,7 @@ class MobileCheckOut extends PureComponent {
                 </tbody>
               </Table>
             </Box>
+            <Stack size={18} />
             <div>Please close this tab after you have checked in for security purposes.</div>
           </div>
         </div>

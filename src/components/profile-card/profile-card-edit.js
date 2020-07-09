@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
 import * as s3 from '../s3';
+import Field from '../field';
+import { Stack, Queue, Divider, Box } from '../layout';
 import DOCLoading from '../doc-loading';
 import { appError, clearError, updateUser, getClubs, signOut, getUser, authUser } from '../../actions';
 import ProfileCard from './profile-card';
@@ -61,8 +63,8 @@ class ProfileCardEdit extends Component {
     if (this.props.user) {
       const { user } = this.props;
       this.setState({
-        name: user.name,
-        email: user.email,
+        name: user.name ? user.name : '',
+        email: user.email ? user.pronoun : '',
         pronoun: user.pronoun ? user.pronoun : '',
         dash_number: user.dash_number ? user.dash_number : '',
         allergies_dietary_restrictions: user.allergies_dietary_restrictions ? user.allergies_dietary_restrictions : '',
@@ -207,7 +209,7 @@ class ProfileCardEdit extends Component {
     });
     return (
       <Dropdown>
-        <Dropdown.Toggle id="leader-dropdown" className="field">
+        <Dropdown.Toggle className="field p2">
           <span className="field-dropdown-bootstrap">Leader in {this.state.clubsList.length} clubs</span>
           <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
@@ -220,7 +222,7 @@ class ProfileCardEdit extends Component {
 
   getCertificationsForm = () => {
     const trailer = (
-      <div className="club-option">
+      <div className="club-option p2">
         <label className="checkbox-container club-checkbox" htmlFor={this.TRAILER_CONSTANT}>
           <input
             type="checkbox"
@@ -240,7 +242,7 @@ class ProfileCardEdit extends Component {
       const checked = certification === this.state.driver_cert;
       certification = certification === null ? this.NONE_CONSTANT : certification;
       return (
-        <div className="club-option" key={certification}>
+        <div className="club-option p2" key={certification}>
           <label className="checkbox-container club-checkbox" htmlFor={certification}>
             <input
               type="radio"
@@ -258,7 +260,7 @@ class ProfileCardEdit extends Component {
     });
     return (
       <Dropdown>
-        <Dropdown.Toggle id="driver-cert-dropdown" className="field" data-tip data-for="driver-certification-tooltip">
+        <Dropdown.Toggle className="field p2" data-tip data-for="driver-certification-tooltip">
           <span className="field-dropdown-bootstrap">{this.displaySelectedCertifications()}</span>
           <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
@@ -275,13 +277,11 @@ class ProfileCardEdit extends Component {
     return (
       <div>
         <Dropdown onSelect={this.onClotheGenderChange}>
-          <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.gender_clothes ? '' : ''}`}>
-            <span>
-              <span className={`selected-size ${this.isStringEmpty(this.state.gender_clothes) ? 'no-date' : ''}`}>
-                {this.isStringEmpty(this.state.gender_clothes) ? 'Select' : this.state.gender_clothes}
-              </span>
-              <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+          <Dropdown.Toggle className={`field p2 ${this.state.errorFields.gender_clothes ? '' : ''}`}>
+            <span className={`selected-size ${this.isStringEmpty(this.state.gender_clothes) ? 'no-date' : ''}`}>
+              {this.isStringEmpty(this.state.gender_clothes) ? 'Select' : this.state.gender_clothes}
             </span>
+            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
           </Dropdown.Toggle>
           <Dropdown.Menu className="field-dropdown-menu">
             <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
@@ -289,15 +289,13 @@ class ProfileCardEdit extends Component {
           </Dropdown.Menu>
         </Dropdown>
         <Dropdown onSelect={this.onClotheSizeChange}>
-          <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.clothe_size ? '' : ''}`}>
-            <span>
-              <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
-                {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
-              </span>
-              <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+          <Dropdown.Toggle className={`field p2 ${this.state.errorFields.clothe_size ? '' : ''}`}>
+            <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
+              {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
             </span>
+            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
           </Dropdown.Toggle>
-          <Dropdown.Menu className="field-dropdown-menu clothe-options">
+          <Dropdown.Menu className="field-dropdown-menu">
             <Dropdown.Item eventKey="XS">XS</Dropdown.Item>
             <Dropdown.Item eventKey="S">S</Dropdown.Item>
             <Dropdown.Item eventKey="M">M</Dropdown.Item>
@@ -311,7 +309,7 @@ class ProfileCardEdit extends Component {
 
   renderClothingSizeSelection = () => {
     return (
-      <div className="size-selection">
+      <Box dir="row" className="p2">
         <Dropdown onSelect={this.onClotheGenderChange}>
           <Dropdown.Toggle className={`field ${this.state.errorFields.gender_clothes ? 'field-error' : ''}`}>
             <span className="field-dropdown-bootstrap">{this.state.gender_clothes ? this.state.gender_clothes : 'Type'}</span>
@@ -322,6 +320,7 @@ class ProfileCardEdit extends Component {
             <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
+        <Queue size={15} />
         <Dropdown onSelect={this.onClotheSizeChange}>
           <Dropdown.Toggle className={`field ${this.state.errorFields.clothe_size ? 'field-error' : ''}`}>
             <span className="field-dropdown-bootstrap">{this.state.clothe_size ? this.state.clothe_size : 'Size'}</span>
@@ -335,13 +334,13 @@ class ProfileCardEdit extends Component {
             <Dropdown.Item eventKey="XL">XL</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-      </div>
+      </Box>
     );
   }
 
   renderShoeSizeSelection = () => {
     return (
-      <div className="size-selection">
+      <Box dir="row" className="p2">
         <Dropdown onSelect={this.onShoeGenderChange}>
           <Dropdown.Toggle className={`field ${this.state.errorFields.gender_shoe ? 'field-error' : ''}`}>
             <span className="field-dropdown-bootstrap">{this.state.gender_shoe ? this.state.gender_shoe : 'Type'}</span>
@@ -352,31 +351,32 @@ class ProfileCardEdit extends Component {
             <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
-        <input
+        <Queue size={15} />
+        <Field
+          width={100}
           type="number"
           name="shoe_size"
           step="0.5"
           onChange={this.onFieldChange}
-          className={`field ${this.state.errorFields.shoe_size ? 'field-error' : ''}`}
+          // className={`field ${this.state.errorFields.shoe_size ? 'field-error' : ''}`}
           value={this.state.shoe_size}
           placeholder="e.g. 9.5"
+          error={this.state.errorFields.shoe_size}
         />
-      </div>
+      </Box>
     );
   }
 
   getShoeGender = () => {
     return (
       <Dropdown onSelect={this.onShoeGenderChange}>
-        <Dropdown.Toggle id="clothe-size-dropdown" className={`${this.state.errorFields.gender_shoe ? '' : ''}`}>
-          <span>
-            <span className={`selected-size ${this.isStringEmpty(this.state.gender_shoe) ? 'no-date' : ''}`}>
-              {this.isStringEmpty(this.state.gender_shoe) ? 'Select' : this.state.gender_shoe}
-            </span>
-            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+        <Dropdown.Toggle className={`field p2 ${this.state.errorFields.gender_shoe ? '' : ''}`}>
+          <span className={`selected-size ${this.isStringEmpty(this.state.gender_shoe) ? 'no-date' : ''}`}>
+            {this.isStringEmpty(this.state.gender_shoe) ? 'Select' : this.state.gender_shoe}
           </span>
+          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
         </Dropdown.Toggle>
-        <Dropdown.Menu className="field-dropdown-menu clothe-options">
+        <Dropdown.Menu className="field-dropdown-menu">
           <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
           <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
         </Dropdown.Menu>
@@ -493,7 +493,6 @@ class ProfileCardEdit extends Component {
   }
 
   render() {
-    if (this.props.completeProfileMode) console.log(this.props.completeProfileMode);
     if (this.props.user) {
       if (this.props.completeProfileMode) {
         return (
@@ -519,12 +518,14 @@ class ProfileCardEdit extends Component {
             isEditing={this.state.isEditing}
             startEditing={this.startEditing}
             user={this.props.user}
+            signOut={this.props.signOut}
           />
         );
       } else {
         return (
           <ProfileCard
             asProfilePage
+            cancelChanges={this.cancelChanges}
             onFieldChange={this.onFieldChange}
             {...this.state}
             photoUrlChange={(url) => { this.setState({ photo_url: url }); }}

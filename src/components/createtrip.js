@@ -4,11 +4,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { fetchTrip, createTrip, editTrip, appError, clearError } from '../actions';
+import {Modal} from 'react-bootstrap';
 import { Stack, Queue, Divider, Box } from './layout';
 import PCardRequest from './pcard_request';
 import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } from './create_trip_pages';
 import Sidebar from './sidebar';
 import VehicleRequest from './vehiclerequest';
+import VehicleCalendar from './calendar/vehicleCalendar';
 import * as constants from '../constants';
 import '../styles/createtrip-style.scss';
 
@@ -25,7 +27,8 @@ class CreateTrip extends Component {
   }
 
   defaultGroupGear = {
-    groupGear: '',
+    groupGearName: '',
+    groupGearQuantity: null,
     hasError: false,
   }
 
@@ -94,16 +97,19 @@ class CreateTrip extends Component {
       errorFields: this.errorFields,
       editMode: false,
       loaded: false,
+      showCalendarModal: false,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
     this.onDateChange = this.onDateChange.bind(this);
-    this.onGearChange = this.onGearChange.bind(this);
+    this.onGearChangeName = this.onGearChangeName.bind(this);
+    this.onGearChangeQuantity = this.onGearChangeQuantity.bind(this);
     this.onClubChange = this.onClubChange.bind(this);
     this.pageIsValid = this.pageIsValid.bind(this);
   }
 
   componentDidMount() {
+    //groupGear = [groupGearName, groupGearQuantity];
     if (this.props.location.pathname.includes('/edittrip')) {
       this.setState({editMode: true})
       this.props.fetchTrip(this.props.match.params.tripID)
@@ -322,16 +328,30 @@ class CreateTrip extends Component {
     });
   }
 
-  onGearChange = (event, idx) => {
+  onGearChangeName = (event, idx) => {
     event.persist();
     this.setState((prevState) => {
       const gearArray = prevState.gearRequests;
       const changedGearObject = gearArray[idx];
       const updates = {};
-      updates.groupGear = event.target.value;
+      updates.groupGearName = event.target.value;
       updates.hasError = this.isStringEmpty(event.target.value);
       const updatedGearObject = Object.assign({}, changedGearObject, updates);
+      return {
+        gearRequests: Object.assign([], gearArray, { [idx]: updatedGearObject })
+      };
+    });
+  }
 
+  onGearChangeQuantity = (event, idx) => {
+    event.persist();
+    this.setState((prevState) => {
+      const gearArray = prevState.gearRequests;
+      const changedGearObject = gearArray[idx];
+      const updates = {};
+      updates.groupGearQuantity = event.target.value;
+      updates.hasError = this.isStringEmpty(event.target.value);
+      const updatedGearObject = Object.assign({}, changedGearObject, updates);
       return {
         gearRequests: Object.assign([], gearArray, { [idx]: updatedGearObject })
       };
@@ -402,19 +422,20 @@ class CreateTrip extends Component {
   }
 
   getAppropriateButton = () => {
-    if (this.state.currentStep === 5 && (!this.state.editMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')) {
-      return null;
-    } else if (this.state.currentStep !== 6) {
+    // if (this.state.currentStep === 5 && (!this.state.editMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')) {
+    //   return null;
+    // }
+    if (this.state.currentStep === 6) {
       return (
-        <button type="button" className="btn next-button" onClick={this._next}>
-          Next
-        </button>
+        <div className="doc-button" onClick={this._next} role="button" tabIndex={0}>
+        {this.state.editMode ? 'Update Trip' : 'Create Trip!'}
+      </div>
       );
     } else {
       return (
-        <button type="button" className="btn next-button" onClick={this._next}>
-          {this.state.editMode ? 'Update Trip' : 'Create Trip!'}
-        </button>
+        <div className="doc-button" onClick={this._next} role="button" tabIndex={0}>
+          {this.state.currentStep === 5 ? 'Skip' : 'Next'}
+        </div>
       );
     }
   }
@@ -497,11 +518,15 @@ class CreateTrip extends Component {
       const { gearRequests, trippeeGear } = this.state;
       let hasEmptyField = false;
       const markedEmptyGroupFields = gearRequests.map((gear) => {
-        const isFieldEmpty = this.isStringEmpty(gear.groupGear);
-        if (isFieldEmpty) {
+        const updatedErrorFields = {};
+        const isFieldEmptyName = this.isStringEmpty(gear.groupGearName);
+        const isFieldEmptyQuantity = (gear.groupGearQuantity > 0 ? false : true);
+        updatedErrorFields.name = this.isFieldEmptyName;
+        updatedErrorFields.quantity = this.isFieldEmptyQuantity;
+        if (isFieldEmptyName || isFieldEmptyQuantity) {
           hasEmptyField = true;
         };
-        return Object.assign({}, gear, { hasError: isFieldEmpty });
+        return Object.assign({}, gear, { hasError: updatedErrorFields });
       });
       const markedEmptyTrippeFields = trippeeGear.map((gear) => {
         const isFieldEmpty = this.isStringEmpty(gear.name);
@@ -570,6 +595,7 @@ class CreateTrip extends Component {
   createTrip() {
     const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
     const gearRequests = this.state.gearRequests.map((groupGear) => {
+      groupGear.groupGear = [groupGear.groupGearName, groupGear.groupGearQuantity];
       return groupGear.groupGear;
     });
     const trippeeGear = this.state.trippeeGear.map((trippeeGear) => {
@@ -622,6 +648,7 @@ class CreateTrip extends Component {
 
   render() {
     let page;
+    //this.state.currentStep = 4;
     switch (this.state.currentStep) {
       case 1:
         page = (
@@ -682,7 +709,8 @@ class CreateTrip extends Component {
             trippeeGear={this.state.trippeeGear}
             gearRequests={this.state.gearRequests}
             onTrippeeGearChange={this.onTrippeeGearChange}
-            onGearChange={this.onGearChange}
+            onGearChangeName={this.onGearChangeName}
+            onGearChangeQuantity={this.onGearChangeQuantity}
             onSizeTypeChange={this.onSizeTypeChange}
             removeTrippeeGear={this.removeTrippeeGear}
             removeGear={this.removeGear}
@@ -751,7 +779,8 @@ class CreateTrip extends Component {
         break;
     }
     return (
-      <Box dir="row" id="create-trip-page">
+      <Box dir="row" expand style={{position: 'relative'}} id="create-trip-page">
+        <div style={{ zIndex: 10, position: 'fixed', bottom: '50px', left: '50px' }} className="doc-button" onClick={() => this.setState({ showCalendarModal: true })} role="button" tabIndex={0}>See vehicle calendar</div>
         <Sidebar
           sections={
             [
@@ -762,29 +791,24 @@ class CreateTrip extends Component {
           }
           currentStep={this.state.currentStep}
         />
-        {/* <Queue size={100}></Queue> */}
         <Box dir="col" align="stretch" pad={100} expand className="create-trip-form">
-          {/* <Stack size={100}></Stack> */}
           {page}
           <Stack size={100} />
           <Divider size={1} />
           <Stack size={50} />
           <Box dir="row" justify="between" align="center" id="approval-navigation">
             <div className={`doc-button hollow ${this.state.step === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousButton} role="button" tabIndex={0}>Previous</div>
-            <a id="email-trip-leader-link" href={`${constants.ROOT_URL}/vehicle-calendar`} role="button" tabIndex={0}>Vehicle calendar</a>
-            <div className="doc-button" onClick={this._next} role="button" tabIndex={0}>
-              {this.state.currentStep === this.state.numOfPages ? 
-              <>
-                {this.state.editMode ? 'Update trip' : 'Create trip'}
-              </>
-              : 'Next'}
-            </div>
+            {this.getAppropriateButton()}
           </Box>
-        {/* <div className="create-trip-bottom-buttons create-trips-top-margin">
-          <button disabled={this.state.currentStep === 1} type="button" className="btn next-button" onClick={this.previousButton}>Previous</button>
-          {this.getAppropriateButton()}
-        </div> */}
         </Box>
+        <Modal
+            centered
+            show={this.state.showCalendarModal}
+            onHide={() => this.setState({ showCalendarModal: false })}
+            dialogClassName="vehicle-calendar-modal"
+          >
+            <VehicleCalendar />
+          </Modal>
       </Box>
     );
   }

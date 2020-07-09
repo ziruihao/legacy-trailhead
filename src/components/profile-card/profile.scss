@@ -37,18 +37,10 @@
   box-shadow: $menu-shadow;
   border-radius: 10px;
   padding: 25px;
-
-  > * {
-    margin-bottom: 25px;
-  }
-
-  :last-child {
-    margin-bottom: 0px;
-  }
+  width: 800px;
 
   #profile-card-picture-and-name {
     display: flex;
-    justify-content: space-evenly;
     align-items: center;
 
     .profile-pic-container {
@@ -60,28 +52,27 @@
       margin-right: 25px;
 
       &.profile-pic-container-edit {
-        #profile-pic-upload-text {
-          display: none;
+        // #profile-pic-upload-text {
+        //   display: none;
 
+        // }
+        #profile-pic-upload-text {
+          cursor: pointer;
+          position: absolute;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1;
+          width: 100%;
+          height: 100%;
+          color: white;
+          font-size: 1em;
+          font-weight: 500;
         }
 
         &:hover {
           .profile-pic {
             filter: brightness(40%);
-          }
-  
-          #profile-pic-upload-text {
-            cursor: pointer;
-            position: absolute;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1;
-            width: 100%;
-            height: 100%;
-            color: white;
-            font-size: 1em;
-            font-weight: 500;
           }
         }
       }
@@ -94,6 +85,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+
+        &.edit {
+          filter: brightness(60%);
+        }
 
         input[type="file"] {
           display: none;
@@ -111,28 +106,25 @@
           height: 100%;
           overflow: hidden;
           border-radius: 50%;
-        }
-        
-        .profile-photo {
-          position: absolute;
-          top: 50%;     
-          left: 50%;
-          height: 100%;
-          width: auto;
-          transform: translate( -50%, -50%);
-  
-          &.landscape {
+
+          .profile-photo {
+            position: absolute;
+            top: 50%;     
+            left: 50%;
             height: 100%;
             width: auto;
+            transform: translate( -50%, -50%);
+    
+            &.landscape {
+              height: 100%;
+              width: auto;
+            }
           }
         }
       }
     }
 
     #profile-card-name {
-      margin-left: 25px;
-      display: flex;
-      flex-direction: column;
 
       .doc-h1 {
         display: flex;
@@ -141,11 +133,6 @@
           margin-left: 0.5em;
           width: 1em;
         }
-      }
-      
-      .p1 {
-        margin-top: 1em;
-        color: gray;
       }
   
       #profile-card-incomplete-notice {
@@ -185,7 +172,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      min-height: 2.6em;
 
       #profile-card-clubs {
         text-decoration: underline;
@@ -206,15 +192,6 @@
 
       .card-info {
         color: gray;
-
-        .field {
-          height: 2em;
-          width: auto;
-        }
-
-        .size-selection {
-          display: flex;
-        }
       }
     }
 

@@ -11,6 +11,12 @@ const getUserInitials = (userName) => {
   return `${firstInitial}${lastInitial}`;
 };
 
+const shortenEmail = (email) => {
+  if (email.length > 26) {
+    return `${email.substring(0, 23)}...`;
+  } else return email;
+};
+
 const SmallProfileCard = (props) => {
   return (
     <Box dir="row" align="center" pad={25} width={400} className="doc-card">
@@ -30,7 +36,7 @@ const SmallProfileCard = (props) => {
       <Box dir="col">
         <div className="doc-h3">{props.user.name}</div>
         <Stack size={15} />
-        <div className="label-text">{props.user.email}</div>
+        <div className="label-text">{shortenEmail(props.user.email)}</div>
         <Stack size={15} />
         <Box dir="row">
           {props.user.role === 'Leader'

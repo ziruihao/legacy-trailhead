@@ -1,0 +1,265 @@
+@import '../../../styles/base.scss';
+
+///
+
+#assign-vehicle-dropdown {
+  flex-grow: 1;
+
+  .ovr-vehicle-dropdown-button {
+    background: #FFFFFF !important;
+    border: 0px solid #C4C4C4;
+    width: 100%;
+    padding: 0; // override for react-bootstrap
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .ovr-current-vehicle {
+      margin-top: 0;
+      margin-bottom: 0;
+      text-align: left;
+      color: black;
+      margin-right: 1em;
+      min-width: 60%;
+
+      &.inactive{
+        color: $inactive-text !important; // if no vehicles are selected, then color it lighter
+      }
+    }
+  }
+
+  .ovr-vehicle-options {
+      margin-top: 0.3em;
+      box-shadow: $menu-shadow !important;
+      border-radius: 10px;
+      // width: 100% !important;
+ }
+}
+
+.vehicle-calendar-modal {
+  max-width: 70vw;
+
+  .modal-content {
+    min-height: 70vh;
+  }
+}
+
+///
+
+
+
+
+
+
+
+
+
+
+
+
+
+.ovr-sidebar{
+  background: white;
+  width: 20%;
+  height: 130%;
+  position: absolute; /* Fixed Sidebar (stay in place on scroll) */
+  top: 4em;
+  z-index: 1; /* Stay on top */
+  overflow-x: hidden;
+  box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
+  padding-right: 0.5em;
+  padding-top: 1em;
+}
+.ovr-sidebarText{
+  width: 18%;
+  display: flex;
+  flex-direction: column;
+  position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+}
+.ovr-sidebar-header{
+  font-weight: 800;
+  font-size: 2em;
+  text-align: center;
+  margin-top: 1.5em;
+  word-break: break-word;
+}
+.ovr-sidebar-subheader{
+  margin-top: 2.5em;
+  margin-left: 0.7em;
+  font-size: 1.5em;
+  font-weight: 700;
+}
+.ovr-sidebar-highlight{
+  width: 0.43em;
+  height: 2.5em;
+  background: #0CA074;
+  border-radius: 0px 5px 5px 0px;
+}
+.ovr-sidebar-req-sections{
+  margin-top: 1em;
+  padding-right: 1em; 
+}
+.ovr-sidebar-req-section{
+  font-size: 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.5em;
+  min-height: 2.5em;
+}
+.assigned-badge{
+  display: none;
+  max-height: 1.5em;
+  max-width: 1.5em;
+  margin-left: 0.5em;
+}
+.ovr-req-section-link{
+  margin-left: 1.2em;
+  color: #24A680;
+  font-size: 1.1em;
+}
+.ovr-selected-link{
+  margin-left: 1em;
+}
+.ovr-req-section-link:hover{
+  color: #24A680;
+}
+.ovr-req-content{
+  margin-left: 20%;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  padding-left: 2.5em;
+  padding-right: 2.5em;
+  width: 80%;
+  height: 100%;
+}
+.ovr-req-content-header{
+  margin-bottom: 3em;
+  padding-left: 1em;
+}
+.ovr-req-detail{
+  padding-top: 1em;
+  padding-bottom: 1em;
+  font-size: 1.1em;
+  text-align: justify;
+}
+.ovr-req-labels{
+  min-width: 33%;
+  display: flex;
+  flex-direction: column;
+  margin-right: 1.5em;
+}
+
+
+
+.ovr-req-vehicle-details, .ovr-req-assignment{
+  display: flex;
+  flex-direction: column;
+  min-width: 25%;
+  margin-right: 1em;
+
+  .ovr-req-row {
+    height: 4em;
+    display: flex;
+    align-items: center;
+
+    
+
+    #ovr-vehicle-conflict-marker {
+      flex-grow: 0;
+      margin-left: 1em;
+
+      &:hover {
+        cursor: pointer;
+        filter: brightness(120%);
+      }
+    }
+  }
+
+  .detail-line{
+    margin: 0;
+  }
+
+  &#ovr-req-assignment-label {
+    & .ovr-header-filler {
+      visibility: hidden;
+    }
+    & .ovr-req-row {
+      justify-content: flex-end;
+      text-align: end;
+    }
+  }
+}
+
+.ovr-column-header{
+  height: 2.5em;
+  margin-bottom: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  word-break: break-word;
+  text-align: center;
+}
+.ovr-bottom-button-and-link{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2em;
+}
+
+
+#ovr-vehicle-dropdown:focus{
+  box-shadow: 0 0 0 0.15rem #0CA074;
+}
+input.ovr-date-input{
+  margin-right: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.ovr-bottom-link{
+  margin-bottom: 0;
+}
+.ovr-contact-link{
+  color: #28a745;
+}
+.ovr-status-badge{
+  max-width: 100%;
+  margin-left: 0;
+}
+.ovr-modal-button-container{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1em;
+  margin-top: 1em;
+}
+.ovr-requester-email{
+  border: 0;
+  font-weight: 800;
+}
+.ovr-vehicle-option{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ovr-vehicle-option-type{
+  margin-left: 1.5em;
+  color: #C4C4C4;
+  font-size: 0.8em;
+}
+
+.ovr-skip-vehicle-button{
+  display: flex;
+  justify-content: center;
+}
+.ovr-skipped-detail{
+  color: #C4C4C4;
+  font-style: italic;
+  letter-spacing: 0.1em;
+}
+.ovr-display-flex{
+  display: flex;
+}
+.otd-ovr-margin{
+  margin-left: 1.5em;
+}

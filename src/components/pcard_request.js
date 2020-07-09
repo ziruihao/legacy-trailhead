@@ -20,7 +20,6 @@ function getPcardForm(props) {
             type="number"
             width={100}
             error={request.errorFields.numPeople}
-            errorMessage="Value empty, please put a number here"
           />
         </Box>
         <Stack size={25} />
@@ -39,7 +38,6 @@ function getPcardForm(props) {
                 type="number"
                 width={100}
                 error={request.errorFields.snacks}
-                errorMessage="Value empty for snacks, put 0 if no cost"
               />
             </Box>
             <Stack size={25} />
@@ -52,7 +50,6 @@ function getPcardForm(props) {
                 type="number"
                 width={100}
                 error={request.errorFields.breakfast}
-                errorMessage="Value empty for breakfast, put 0 if no cost"
               />
             </Box>
           </Box>
@@ -66,7 +63,6 @@ function getPcardForm(props) {
                 type="number"
                 width={100}
                 error={request.errorFields.lunch}
-                errorMessage="Value empty for lunch, put 0 if no cost"
               />
             </Box>
             <Stack size={25} />
@@ -80,7 +76,6 @@ function getPcardForm(props) {
                 type="number"
                 width={100}
                 error={request.errorFields.dinner}
-                errorMessage="Value empty for dinner, put 0 if no cost"
               />
             </Box>
           </Box>
@@ -105,14 +100,12 @@ function renderOtherCosts(otherCosts, onOtherCostsChange, pcardIndex, deleteOthe
       <>
         <Box dir="row" justify="between" align="center" key={otherCost}>
           <Field
-            onChange={(event) => { console.log(event.target); onOtherCostsChange(event, pcardIndex, costIndex); }}
+            onChange={(event) => { onOtherCostsChange(event, pcardIndex, costIndex); }}
             name="title"
             value={otherCost.title}
             placeholder="e.g. Tickets for EVO"
             width={400}
-            tooltipID={`additional-cost-${costIndex}-title`}
-            error={otherCost.errorFields.title || false}
-            errorMessage="Please write something here"
+            error={otherCost.errorFields ? otherCost.errorFields.title : false}
           />
           <Box dir="row" align="center">
             <div className="doc-h3">$</div>
@@ -124,9 +117,7 @@ function renderOtherCosts(otherCosts, onOtherCostsChange, pcardIndex, deleteOthe
               placeholder="USD"
               type="number"
               width={100}
-              tooltipID={`additional-cost-${costIndex}-cost`}
-              error={otherCost.errorFields.cost || false}
-              errorMessage="Value empty, put 0 if no cost"
+              error={otherCost.errorFields ? otherCost.errorFields.cost : false}
             />
             <Queue size={25} />
             <Icon id="delete-additional-cost" type="close" size={25} onClick={event => deleteOtherCost(event, pcardIndex, costIndex)} />
