@@ -64,7 +64,7 @@ class ProfileCardEdit extends Component {
       const { user } = this.props;
       this.setState({
         name: user.name ? user.name : '',
-        email: user.email ? user.pronoun : '',
+        email: user.email ? user.email : '',
         pronoun: user.pronoun ? user.pronoun : '',
         dash_number: user.dash_number ? user.dash_number : '',
         allergies_dietary_restrictions: user.allergies_dietary_restrictions ? user.allergies_dietary_restrictions : '',
