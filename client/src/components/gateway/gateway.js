@@ -45,19 +45,19 @@ class Gateway extends Component {
         window.location = (`${constants.BACKEND_URL}/signin-cas`);
         break;
       case 'opo':
-        this.signInAndThenLoadData('opo@dartmouth.edu', 'opo');
+        this.signInAndThenLoadData('zirui.hao@gmail.com', 'opo');
         break;
       case 'leader':
-        this.signInAndThenLoadData('f003mfv@dartmouth.edu', 'leader');
+        this.signInAndThenLoadData('ziray.hao@dali.dartmouth.edu', 'leader');
         break;
       case 'trippee1':
         this.signInAndThenLoadData('ziray.hao.22@dartmouth.edu', 'trippee1');
         break;
       case 'trippee2':
-        this.signInAndThenLoadData('ziray.hao@dali.dartmouth.edu', 'trippee2');
+        this.signInAndThenLoadData('f003mfv@dartmouth.edu', 'trippee2');
         break;
       case 'trippee3':
-        this.signInAndThenLoadData('zirui.hao@gmail.com', 'trippee3');
+        this.signInAndThenLoadData('z.22@@dartmouth.edu', 'trippee3');
         break;
       default:
         break;
