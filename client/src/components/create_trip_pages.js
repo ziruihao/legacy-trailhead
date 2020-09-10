@@ -146,7 +146,7 @@ const DatesLocation = (props) => {
           className={`field create-trip-form-bottom-margin leaders ${props.errorFields.location ? 'field-error' : ''}`}
           name="location"
           onChange={props.onFieldChange}
-          placeholder="e.g. Orford, NH"
+          placeholder="e.g. Orford, NH - include town, state, and any trails"
           value={props.tripLocation}
         />
       </div>
