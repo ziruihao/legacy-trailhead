@@ -22,7 +22,7 @@ class trippeeGearRequests extends Component {
         }
       });
       gearRequest.members.forEach((member) => {
-        member.gear.forEach((gear) => {
+        member.requestedGear.forEach((gear) => {
           const { gearId } = gear;
           const { user } = member;
           if (gearSizeType[gearId] !== 'N/A') {
@@ -99,7 +99,7 @@ class trippeeGearRequests extends Component {
         }
       });
       gearRequest.members.forEach((member) => {
-        member.gear.forEach((gear) => {
+        member.requestedGear.forEach((gear) => {
           const { gearId } = gear;
           const { user } = member;
           if (gearSizeType[gearId] !== 'N/A') {

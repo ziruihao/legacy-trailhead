@@ -61,12 +61,12 @@ class MobileCheckOut extends PureComponent {
                 </thead>
                 <tbody>
                   {this.props.trip.members.map((member) => {
-                    console.log(member.attendedTrip);
+                    console.log(member.attended);
                     return (
                       <tr key={member.user._id}>
                         <td id="mobile-check-list-name-field">{member.user.name}</td>
                         <td id="mobile-check-list-button">
-                          {member.attendedTrip
+                          {member.attended
                             ? <div role="button" tabIndex={0} className="doc-button alarm" onClick={() => this.toggleAttendence(member.user._id, false)}>Undo</div>
                             : <div role="button" tabIndex={0} className="doc-button" onClick={() => this.toggleAttendence(member.user._id, true)}>Here</div>
                        }

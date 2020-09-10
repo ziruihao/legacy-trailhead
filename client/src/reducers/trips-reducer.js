@@ -23,9 +23,9 @@ const TripsReducer = (state = initialState, action) => {
     case ActionTypes.LEAVE_TRIP:
       return Object.assign({}, state, { isUserOnTrip: action.payload.isUserOnTrip, trip: action.payload.trip });
     case ActionTypes.SET_ATTENDENCE:
-      console.log(updatedState.trip.members.find(member => member.user._id.toString() === action.payload.memberID.toString()).attendedTrip);
+      console.log(updatedState.trip.members.find(member => member.user._id.toString() === action.payload.memberID.toString()).attended);
       console.log(action.payload.attending);
-      updatedState.trip.members.find(member => member.user._id.toString() === action.payload.memberID.toString()).attendedTrip = action.payload.attending;
+      updatedState.trip.members.find(member => member.user._id.toString() === action.payload.memberID.toString()).attended = action.payload.attending;
       return updatedState;
     case ActionTypes.MY_TRIPS:
       return Object.assign({}, state, { myTrips: action.payload.trips, myVehicleReqs: action.payload.vehicleRequests });

@@ -39,12 +39,12 @@ const AttendeeTable = (props) => {
               <tr key={person.user._id} onClick={() => props.openProfile(person.user)}>
                 <td>{person.user.name}</td>
                 {props.showAttendence
-                  ? <td>{renderAttendence(person.attendedTrip)}</td>
+                  ? <td>{renderAttendence(person.attended)}</td>
                   : null }
                 <td>{person.user.medical_conditions}</td>
                 <td>{person.user.allergies_dietary_restrictions}</td>
                 <td>
-                  {person.gear.length !== 0 ? person.gear.map(gear => (
+                  {person.requestedGear.length !== 0 ? person.requestedGear.map(gear => (
                     <li key={gear.gearId}>{gear.name}</li>
                   )) : 'None'}
                 </td>

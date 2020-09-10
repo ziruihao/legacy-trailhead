@@ -77,7 +77,7 @@ const getIndividualGear = (trip) => {
     }
   });
   trip.members.forEach((member) => {
-    member.gear.forEach((gear) => {
+    member.requestedGear.forEach((gear) => {
       if (gear.name) {
         const { gearId } = gear;
         const { user } = member;
