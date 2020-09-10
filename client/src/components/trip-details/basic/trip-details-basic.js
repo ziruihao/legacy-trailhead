@@ -69,7 +69,7 @@ class TripDetailsBasic extends Component {
   }
 
   extractUserGear = (populatedTrip, userID) => {
-    return populatedTrip.members.concat(populatedTrip.pending).filter(person => person.user._id.toString() === userID.toString())[0].gear;
+    return populatedTrip.members.concat(populatedTrip.pending).filter(person => person.user._id.toString() === userID.toString())[0].requestedGear;
   }
 
   onGearChange = (event) => {
