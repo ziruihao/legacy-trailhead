@@ -106,7 +106,7 @@ export function updateUser(updatedUser) {
 
 export function fetchTrips() {
   return (dispatch) => {
-    axios.get(`${constants.BACKEND_URL}/alltrips`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    axios.get(`${constants.BACKEND_URL}/trips`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
       dispatch({
         type: ActionTypes.FETCH_TRIPS,
         payload: response.data,
@@ -264,7 +264,7 @@ export function leaveTrip(id) {
 
 export function createTrip(trip, history) {
   return (dispatch) => {
-    axios.post(`${constants.BACKEND_URL}/allTrips`, trip, { headers: { authorization: localStorage.getItem('token') } })
+    axios.post(`${constants.BACKEND_URL}/trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
       .then((response) => {
         history.push('/all-trips');
       })
