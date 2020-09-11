@@ -222,7 +222,7 @@ const getTrippeeGear = (props) => {
               />
               <Dropdown onSelect={eventKey => props.onSizeTypeChange(eventKey, index)}>
                 <Dropdown.Toggle className="field field-full-width">
-                  <span className="field-dropdown-bootstrap">{gearRequest.size_type === 'N/A' ? 'No measurement' : gearRequest.size_type}</span>
+                  <span className="field-dropdown-bootstrap">{gearRequest.sizeType === 'N/A' ? 'No measurement' : gearRequest.sizeType}</span>
                   <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
                 </Dropdown.Toggle>
                 <Dropdown.Menu className="field-dropdown-menu">

@@ -34,7 +34,7 @@ class CreateTrip extends Component {
 
   defaultTrippeeGear = {
     gear: '',
-    size_type: 'N/A',
+    sizeType: 'N/A',
     quantity: 0,
     hasError: false,
   }
@@ -377,7 +377,7 @@ class CreateTrip extends Component {
   onSizeTypeChange = (eventKey, index) => {
     this.setState((prevState) => {
       const trippeeGear = [...prevState.trippeeGear];
-      trippeeGear[index].size_type = eventKey;
+      trippeeGear[index].sizeType = eventKey;
       return {
         trippeeGear,
       };

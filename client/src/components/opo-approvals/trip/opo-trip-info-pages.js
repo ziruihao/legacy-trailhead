@@ -71,8 +71,8 @@ const getIndividualGear = (trip) => {
   const gearData = {};
   const gearSizeType = {};
   trip.trippeeGear.forEach((gear) => {
-    gearSizeType[gear._id] = gear.size_type;
-    if (gear.size_type !== 'N/A') {
+    gearSizeType[gear._id] = gear.sizeType;
+    if (gear.sizeType !== 'N/A') {
       gearData[gear._id] = {};
     }
   });
@@ -123,7 +123,7 @@ const getIndividualGear = (trip) => {
       return (
         <tr key={gear._id}>
           <td>{gear.name}</td>
-          <td>{gear.size_type}</td>
+          <td>{gear.sizeType}</td>
           <td>{gear.quantity}</td>
         </tr>
       );

@@ -16,8 +16,8 @@ class trippeeGearRequests extends Component {
       const gearData = {};
       const gearSizeType = {};
       gearRequest.trippeeGear.forEach((gear) => {
-        gearSizeType[gear._id] = gear.size_type;
-        if (gear.size_type !== 'N/A') {
+        gearSizeType[gear._id] = gear.sizeType;
+        if (gear.sizeType !== 'N/A') {
           gearData[gear._id] = {};
         }
       });
@@ -93,8 +93,8 @@ class trippeeGearRequests extends Component {
       const gearData = {};
       const gearSizeType = {};
       gearRequest.trippeeGear.forEach((gear) => {
-        gearSizeType[gear._id] = gear.size_type;
-        if (gear.size_type !== 'N/A') {
+        gearSizeType[gear._id] = gear.sizeType;
+        if (gear.sizeType !== 'N/A') {
           gearData[gear._id] = {};
         }
       });
