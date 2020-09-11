@@ -45,7 +45,7 @@ class AllTrips extends Component {
 
   cancelSignup = () => {
     this.setState({cancelling: true});
-    this.props.leaveTrip(this.props.trip._id, this.props.isUserOnTrip).then(() => {
+    this.props.leaveTrip(this.props.trip._id, this.props.user._id).then(() => {
       this.setState({cancelling: false, showCancellationModal: false});
     });
   }

@@ -69,6 +69,7 @@ class App extends React.Component {
   verifyToken = () => {
     return new Promise((resolve, reject) => {
       const token = localStorage.getItem('token');
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
       if (token) {
         this.props.getUser().then((user) => {
           if (user.completedProfile) this.props.authUser();

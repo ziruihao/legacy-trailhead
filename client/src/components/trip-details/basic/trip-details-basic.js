@@ -93,7 +93,7 @@ class TripDetailsBasic extends Component {
     this.props.editUserGear({
       id: this.props.trip._id,
       trippeeGear: this.state.requestedGear,
-    }).then((modifiedTrip) => {
+    }).then(() => {
       this.setState({ actionPending: false, editingGear: false });
     });
   };
@@ -103,7 +103,7 @@ class TripDetailsBasic extends Component {
     this.props.addToPending({
       id: this.props.trip._id,
       trippeeGear: this.state.requestedGear,
-    }).then((modifiedTrip) => {
+    }).then(() => {
       this.setState({ actionPending: false, editingGear: false, role: 'PENDING' });
     });
   };

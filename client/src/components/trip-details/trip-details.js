@@ -73,7 +73,7 @@ class TripDetails extends Component {
   }
 
   cancelSignup = () => {
-    this.props.leaveTrip(this.props.trip._id, this.props.isUserOnTrip);
+    this.props.leaveTrip(this.props.trip._id, this.props.user._id);
   }
 
   goBack = () => {
@@ -85,7 +85,15 @@ class TripDetails extends Component {
   }
 
   moveToTrip = (pender) => {
-    this.props.joinTrip(this.props.trip._id, pender)
+    this.props.joinTrip(this.props.trip._id, pender.user._id)
+      .then(() => {
+        this.populateEmails();
+        this.getProfiles();
+      });
+  }
+
+  leaveTrip = (pender) => {
+    this.props.leaveTrip(this.props.trip._id, pender.user._id)
       .then(() => {
         this.populateEmails();
         this.getProfiles();
@@ -102,7 +110,7 @@ class TripDetails extends Component {
   }
 
   moveToPending = (member) => {
-    this.props.moveToPending(this.props.trip._id, member)
+    this.props.moveToPending(this.props.trip._id, member.user._id)
       .then(() => {
         this.populateEmails();
         this.getProfiles();
@@ -181,6 +189,7 @@ class TripDetails extends Component {
             closeModal={this.closeLeaderModal}
             deleteTrip={this.deleteTrip}
             moveToTrip={this.moveToTrip}
+            leaveTrip={this.leaveTrip}
             assignToLeader={this.assignToLeader}
             moveToPending={this.moveToPending}
             copyPendingToClip={this.copyPendingToClip}

@@ -57,7 +57,7 @@ export function updateRestrictedPath(restrictedPath) {
 export function getUsers() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/users`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.get(`${constants.BACKEND_URL}/users`)
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_USERS, payload: response.data });
           resolve();
@@ -74,7 +74,8 @@ export function getUsers() {
 export function getUser() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
+      console.log(axios.defaults.headers.common.Authorization);
+      axios.get(`${constants.BACKEND_URL}/user`)
         .then((response) => {
           dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
           resolve(response.data.user);
@@ -91,7 +92,7 @@ export function getUser() {
 export function updateUser(updatedUser) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${constants.BACKEND_URL}/user`, updatedUser, { headers: { authorization: localStorage.getItem('token') } })
+      axios.put(`${constants.BACKEND_URL}/user`, updatedUser)
         .then((response) => {
           dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
           resolve();
@@ -106,7 +107,7 @@ export function updateUser(updatedUser) {
 
 export function fetchTrips() {
   return (dispatch) => {
-    axios.get(`${constants.BACKEND_URL}/trips`, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
+    axios.get(`${constants.BACKEND_URL}/trips`).then((response) => {
       dispatch({
         type: ActionTypes.FETCH_TRIPS,
         payload: response.data,
@@ -118,11 +119,11 @@ export function fetchTrips() {
   };
 }
 
-export function fetchTrip(id, temporaryToken) {
+export function fetchTrip(tripID, temporaryToken) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       const token = temporaryToken || localStorage.getItem('token');
-      axios.get(`${constants.BACKEND_URL}/trip/${id}`, { headers: { authorization: token } })
+      axios.get(`${constants.BACKEND_URL}/trips/${tripID}`, { headers: { Authorization: `Bearer ${token}` } })
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve();
@@ -139,7 +140,7 @@ export function setAttendingStatus(tripID, memberID, status, temporaryToken) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       const token = temporaryToken || localStorage.getItem('token');
-      axios.put(`${constants.BACKEND_URL}/set-attendence/${tripID}`, { memberID, status }, { headers: { authorization: token } })
+      axios.put(`${constants.BACKEND_URL}/set-attendence/${tripID}`, { memberID, status }, { headers: { Authorization: `Bearer ${token}` } })
         .then((response) => {
           dispatch({ type: ActionTypes.SET_ATTENDENCE, payload: { memberID, attending: response.data.status } });
           resolve();
@@ -152,28 +153,12 @@ export function setAttendingStatus(tripID, memberID, status, temporaryToken) {
   };
 }
 
-export function addToPending(signUpInfo) {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      axios.put(`${constants.BACKEND_URL}/addpending/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } })
-        .then((response) => {
-          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
-          setTimeout(() => resolve(response.data), 1000);
-        }).catch((error) => {
-          dispatch(appError(`Error applying for trip: ${error.message}`));
-          console.log(error);
-          reject(error);
-        });
-    });
-  };
-}
-
 export function editUserGear(signUpInfo) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${constants.BACKEND_URL}/editusergear/${signUpInfo.id}`, signUpInfo, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-        dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
-        setTimeout(() => resolve(response.data), 1000);
+      axios.put(`${constants.BACKEND_URL}/trips/editusergear/${signUpInfo.id}`, signUpInfo).then((response) => {
+        fetchTrip(signUpInfo.id)(dispatch);
+        setTimeout(() => resolve(), 1000);
       }).catch((error) => {
         dispatch(appError(`Error editing gear requests: ${error.message}`));
         console.log(error);
@@ -183,25 +168,10 @@ export function editUserGear(signUpInfo) {
   };
 }
 
-export function joinTrip(id, pend) {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      axios.put(`${constants.BACKEND_URL}/jointrip/${id}`, { id, pend }, { headers: { authorization: localStorage.getItem('token') } })
-        .then((response) => {
-          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
-          resolve();
-        }).catch((error) => {
-          dispatch(appError(`Error joining trip: ${error.message}`));
-          console.log(error);
-        });
-    });
-  };
-}
-
 export function assignToLeader(id, member) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${constants.BACKEND_URL}/assignToLeader/${id}`, { id, member }, { headers: { authorization: localStorage.getItem('token') } })
+      axios.put(`${constants.BACKEND_URL}/assignToLeader/${id}`, { id, member })
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve(response.data);
@@ -214,13 +184,45 @@ export function assignToLeader(id, member) {
   };
 }
 
-export function moveToPending(id, member) {
+export function addToPending(signUpInfo) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${constants.BACKEND_URL}/movetopending/${id}`, { id, member }, { headers: { authorization: localStorage.getItem('token') } })
-        .then((response) => {
-          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
-          resolve(response.data);
+      axios.post(`${constants.BACKEND_URL}/trips/apply/${signUpInfo.id}`, signUpInfo)
+        .then(() => {
+          fetchTrip(signUpInfo.id)(dispatch);
+          setTimeout(() => resolve(), 1000);
+        }).catch((error) => {
+          dispatch(appError(`Error applying for trip: ${error.message}`));
+          console.log(error);
+          reject(error);
+        });
+    });
+  };
+}
+
+export function joinTrip(tripID, joiningUserID) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.post(`${constants.BACKEND_URL}/trips/join/${tripID}`, { joiningUserID })
+        .then(() => {
+          fetchTrip(tripID)(dispatch);
+          resolve();
+        }).catch((error) => {
+          dispatch(appError(`Error joining trip: ${error.message}`));
+          console.log(error);
+          reject(error);
+        });
+    });
+  };
+}
+
+export function moveToPending(tripID, rejectedUserID) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.post(`${constants.BACKEND_URL}/trips/reject/${tripID}`, { rejectedUserID })
+        .then(() => {
+          fetchTrip(tripID)(dispatch);
+          resolve();
         }).catch((error) => {
           dispatch(appError(`Error putting trippee back to pending list: ${error.message}`));
           console.log(error);
@@ -230,11 +232,26 @@ export function moveToPending(id, member) {
   };
 }
 
+export function leaveTrip(tripID, leavingUserID) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.post(`${constants.BACKEND_URL}/trips/leave/${tripID}`, { leavingUserID }).then(() => {
+        fetchTrip(tripID)(dispatch);
+        setTimeout(() => resolve(), 1000);
+      }).catch((error) => {
+        dispatch(appError(`Error leaving trip: ${error.message}`));
+        console.log(error);
+        reject(error);
+      });
+    });
+  };
+}
+
 export function toggleTripReturnedStatus(tripID, status, temporaryToken) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       const token = temporaryToken || localStorage.getItem('token');
-      axios.put(`${constants.BACKEND_URL}/toggle-returned/${tripID}`, { status }, { headers: { authorization: token } })
+      axios.put(`${constants.BACKEND_URL}/toggle-returned/${tripID}`, { status }, { headers: { Authorization: `Bearer ${token}` } })
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve();
@@ -247,24 +264,9 @@ export function toggleTripReturnedStatus(tripID, status, temporaryToken) {
   };
 }
 
-export function leaveTrip(id) {
-  return (dispatch) => {
-    return new Promise((resolve, reject) => {
-      axios.post(`${constants.BACKEND_URL}/leaveTrip/${id}`, {}, { headers: { authorization: localStorage.getItem('token') } }).then((response) => {
-        dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
-        setTimeout(() => resolve(), 1000);
-      }).catch((error) => {
-        dispatch(appError(`Error leaving trip: ${error.message}`));
-        console.log(error);
-        reject(error);
-      });
-    });
-  };
-}
-
 export function createTrip(trip, history) {
   return (dispatch) => {
-    axios.post(`${constants.BACKEND_URL}/trips`, trip, { headers: { authorization: localStorage.getItem('token') } })
+    axios.post(`${constants.BACKEND_URL}/trips`, trip)
       .then((response) => {
         history.push('/all-trips');
       })
@@ -277,7 +279,7 @@ export function createTrip(trip, history) {
 
 export function deleteTrip(id, history) {
   return (dispatch) => {
-    axios.delete(`${constants.BACKEND_URL}/trip/${id}`, { headers: { authorization: localStorage.getItem('token') } })
+    axios.delete(`${constants.BACKEND_URL}/trip/${id}`)
       .then((response) => {
         history.goBack();
       })
@@ -292,7 +294,7 @@ export function editTrip(trip, history, id, temporaryToken) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       const token = temporaryToken || localStorage.getItem('token');
-      axios.put(`${constants.BACKEND_URL}/trip/${id}`, trip, { headers: { authorization: localStorage.getItem('token') } })
+      axios.put(`${constants.BACKEND_URL}/trip/${id}`, trip)
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve();
@@ -309,7 +311,7 @@ export function editTrip(trip, history, id, temporaryToken) {
 export function getMyTrips() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/myTrips`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.get(`${constants.BACKEND_URL}/myTrips`)
         .then((response) => {
           dispatch({ type: ActionTypes.MY_TRIPS, payload: response.data });
           resolve();
@@ -325,6 +327,7 @@ export function signIn(email, password, dataLoader) {
     return new Promise((resolve, reject) => {
       axios.post(`${constants.BACKEND_URL}/signin-simple`, { email, password }).then((response) => {
         localStorage.setItem('token', response.data.token);
+        axios.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
         dispatch({ type: ActionTypes.AUTH_USER });
         dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
         setTimeout(() => dataLoader().then(() => resolve()), 2000);
@@ -339,7 +342,8 @@ export function casAuthed(token, history, dataLoader) {
   return (dispatch, getState) => {
     return new Promise((resolve, reject) => {
       localStorage.setItem('token', token);
-      axios.get(`${constants.BACKEND_URL}/user`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+      axios.get(`${constants.BACKEND_URL}/user`)
         .then((response) => {
           if (response.data.user.completedProfile) {
             dispatch({ type: ActionTypes.AUTH_USER });
@@ -406,7 +410,7 @@ export function getClubs() {
 export function fetchLeaderApprovals() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/leaderapprovals`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.get(`${constants.BACKEND_URL}/leaderapprovals`)
         .then((response) => {
           dispatch({
             type: ActionTypes.FETCH_LEADER_APPROVALS,
@@ -425,7 +429,7 @@ export function fetchLeaderApprovals() {
 export function fetchCertApprovals() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/certapprovals`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.get(`${constants.BACKEND_URL}/certapprovals`)
         .then((response) => {
           dispatch({
             type: ActionTypes.FETCH_CERT_APPROVALS,
@@ -442,7 +446,7 @@ export function fetchCertApprovals() {
 
 export function reviewRoleRequest(review) {
   return (dispatch) => {
-    axios.put(`${constants.BACKEND_URL}/leaderapprovals`, review, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${constants.BACKEND_URL}/leaderapprovals`, review)
       .then((response) => {
         dispatch({
           type: ActionTypes.FETCH_LEADER_APPROVALS,
@@ -457,7 +461,7 @@ export function reviewRoleRequest(review) {
 
 export function reviewCertRequest(review) {
   return (dispatch) => {
-    axios.put(`${constants.BACKEND_URL}/certapprovals`, review, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${constants.BACKEND_URL}/certapprovals`, review)
       .then((response) => {
         dispatch({
           type: ActionTypes.FETCH_CERT_APPROVALS,
@@ -472,7 +476,7 @@ export function reviewCertRequest(review) {
 
 export function fetchGearRequests() {
   return (dispatch) => {
-    axios.get(`${constants.BACKEND_URL}/gearrequests`, { headers: { authorization: localStorage.getItem('token') } })
+    axios.get(`${constants.BACKEND_URL}/gearrequests`)
       .then((response) => {
         dispatch({
           type: ActionTypes.FETCH_GEAR_REQUESTS,
@@ -488,7 +492,7 @@ export function fetchGearRequests() {
 export function fetchOPOTrips() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/opotrips`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.get(`${constants.BACKEND_URL}/opotrips`)
         .then((response) => {
           dispatch({
             type: ActionTypes.FETCH_OPO_TRIPS,
@@ -506,7 +510,7 @@ export function fetchOPOTrips() {
 
 export function reviewGearRequest(review) {
   return (dispatch) => {
-    axios.put(`${constants.BACKEND_URL}/gearrequest/${review.id}`, review, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${constants.BACKEND_URL}/gearrequest/${review.id}`, review)
       .then((response) => {
         dispatch({
           type: ActionTypes.FETCH_TRIP,
@@ -520,7 +524,7 @@ export function reviewGearRequest(review) {
 
 export function fetchTrippeeGearRequests() {
   return (dispatch) => {
-    axios.get(`${constants.BACKEND_URL}/trippeegearrequests`, { headers: { authorization: localStorage.getItem('token') } })
+    axios.get(`${constants.BACKEND_URL}/trippeegearrequests`)
       .then((response) => {
         dispatch({
           type: ActionTypes.FETCH_TRIPPEE_GEAR_REQUESTS,
@@ -535,7 +539,7 @@ export function fetchTrippeeGearRequests() {
 
 export function reviewTrippeeGearRequest(review) {
   return (dispatch) => {
-    axios.put(`${constants.BACKEND_URL}/trippeegearrequest/${review.id}`, review, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${constants.BACKEND_URL}/trippeegearrequest/${review.id}`, review)
       .then((response) => {
         dispatch({
           type: ActionTypes.FETCH_TRIP,
@@ -550,7 +554,7 @@ export function reviewTrippeeGearRequest(review) {
 export function reviewPCardRequests(review) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${constants.BACKEND_URL}/pcardrequest/:id`, review, { headers: { authorization: localStorage.getItem('token') } })
+      axios.put(`${constants.BACKEND_URL}/pcardrequest/:id`, review)
         .then((response) => {
           dispatch({
             type: ActionTypes.FETCH_TRIP,
@@ -567,7 +571,7 @@ export function reviewPCardRequests(review) {
 
 export function submitVehicleRequest(vehicleRequest, history) {
   return (dispatch) => {
-    axios.post(`${constants.BACKEND_URL}/vehicleRequests`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
+    axios.post(`${constants.BACKEND_URL}/vehicleRequests`, vehicleRequest)
       .then((response) => {
         history.push('/my-trips');
       }).catch((error) => {
@@ -579,7 +583,7 @@ export function submitVehicleRequest(vehicleRequest, history) {
 export function fetchVehicleRequest(id) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/vehiclerequest/${id}`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.get(`${constants.BACKEND_URL}/vehiclerequest/${id}`)
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
           resolve();
@@ -594,7 +598,7 @@ export function fetchVehicleRequest(id) {
 export function fetchVehicleRequests() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/vehicleRequests`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.get(`${constants.BACKEND_URL}/vehicleRequests`)
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUESTS, payload: response.data });
           resolve();
@@ -607,7 +611,7 @@ export function fetchVehicleRequests() {
 
 export function updateVehicleRequest(vehicleRequest) {
   return (dispatch) => {
-    axios.put(`${constants.BACKEND_URL}/vehicleRequest/${vehicleRequest.id}`, vehicleRequest, { headers: { authorization: localStorage.getItem('token') } })
+    axios.put(`${constants.BACKEND_URL}/vehicleRequest/${vehicleRequest.id}`, vehicleRequest)
       .then((response) => {
         dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
       }).catch((error) => {
@@ -620,7 +624,7 @@ export function updateVehicleRequest(vehicleRequest) {
 export function getVehicles() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/vehicles`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.get(`${constants.BACKEND_URL}/vehicles`)
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_VEHICLES, payload: response.data });
           setTimeout(() => {
@@ -639,7 +643,7 @@ export function getVehicles() {
 export function createVehicle(vehicle) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.post(`${constants.BACKEND_URL}/vehicles`, vehicle, { headers: { authorization: localStorage.getItem('token') } })
+      axios.post(`${constants.BACKEND_URL}/vehicles`, vehicle)
         .then(() => {
           getVehicles()(dispatch).then(() => {
             resolve();
@@ -656,7 +660,7 @@ export function createVehicle(vehicle) {
 export function deleteVehicle(vehicleID) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.delete(`${constants.BACKEND_URL}/vehicles/${vehicleID}`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.delete(`${constants.BACKEND_URL}/vehicles/${vehicleID}`)
         .then(() => {
           getVehicles()(dispatch).then(() => {
             resolve();
@@ -673,7 +677,7 @@ export function deleteVehicle(vehicleID) {
 export function assignVehicles(vehicleResponse, finishEditing) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.post(`${constants.BACKEND_URL}/opoVehicleRequest/${vehicleResponse.reqId}`, vehicleResponse, { headers: { authorization: localStorage.getItem('token') } })
+      axios.post(`${constants.BACKEND_URL}/opoVehicleRequest/${vehicleResponse.reqId}`, vehicleResponse)
         .then((response) => {
           finishEditing();
           dispatch({ type: ActionTypes.OPO_RESPOND_TO_VEHICLE_REQUEST, payload: response.data });
@@ -705,7 +709,7 @@ export function cancelAssignments(deleteInfo) {
 export function denyVehicleRequest(id) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${constants.BACKEND_URL}/opoVehicleRequest/${id}`, id, { headers: { authorization: localStorage.getItem('token') } })
+      axios.put(`${constants.BACKEND_URL}/opoVehicleRequest/${id}`, id)
         .then((response) => {
           dispatch({ type: ActionTypes.OPO_RESPOND_TO_VEHICLE_REQUEST, payload: response.data });
           resolve();
@@ -720,7 +724,7 @@ export function denyVehicleRequest(id) {
 export function fetchVehicleAssignments() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/vehicle-assignments`, { headers: { authorization: localStorage.getItem('token') } })
+      axios.get(`${constants.BACKEND_URL}/vehicle-assignments`)
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_ASSIGNMENTS, payload: response.data });
           resolve();

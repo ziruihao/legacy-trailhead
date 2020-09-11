@@ -231,14 +231,14 @@ export default React.forwardRef((props, ref) => {
         <div className="doc-h2">Approved trippees</div>
         <Stack size={25} />
         <div className="trip-details-table">
-          <AttendeeTable showAttendence people={props.trip.members} emails={props.onTripEmail} startDateAndTime={props.trip.startDateAndTime} actions={[{ callback: props.moveToPending, message: 'Back to pending' }, { callback: props.assignToLeader, message: 'Appoint trip leader' }]} openProfile={props.openTrippeeProfile} />
+          <AttendeeTable showAttendence people={props.trip.members} emails={props.onTripEmail} startDateAndTime={props.trip.startDateAndTime} actions={[{ callback: props.moveToPending, message: 'Un-admit' }, { callback: props.assignToLeader, message: 'Appoint trip leader' }]} openProfile={props.openTrippeeProfile} />
           {/* {getOnTrip(props, onTripEmailRef)} */}
         </div>
         <Stack size={25} />
         <div className="doc-h2">Pending trippees</div>
         <Stack size={25} />
         <div className="trip-details-table">
-          <AttendeeTable people={props.trip.pending} emails={props.pendingEmail} startDateAndTime={props.trip.startDateAndTime} actions={[{ callback: props.moveToTrip, message: 'Admit to trip' }]} openProfile={props.openTrippeeProfile} />
+          <AttendeeTable people={props.trip.pending} emails={props.pendingEmail} startDateAndTime={props.trip.startDateAndTime} actions={[{ callback: props.moveToTrip, message: 'Admit' }, { callback: props.leaveTrip, message: 'Reject' }]} openProfile={props.openTrippeeProfile} />
           {/* {getPending(props, pendingEmailRef)} */}
         </div>
         <Stack size={25} />

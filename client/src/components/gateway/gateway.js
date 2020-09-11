@@ -57,7 +57,7 @@ class Gateway extends Component {
         this.signInAndThenLoadData('f003mfv@dartmouth.edu', 'trippee2');
         break;
       case 'trippee3':
-        this.signInAndThenLoadData('z.22@@dartmouth.edu', 'trippee3');
+        this.signInAndThenLoadData('z.22@dartmouth.edu', 'trippee3');
         break;
       default:
         break;
