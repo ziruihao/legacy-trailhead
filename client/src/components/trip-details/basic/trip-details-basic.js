@@ -124,7 +124,16 @@ class TripDetailsBasic extends Component {
             <div className="doc-button" onClick={this.saveGearRequest} role="button" tabIndex={0}>Save your gear request</div>
           </Box>
         );
-      } else return <div className="doc-button hollow" onClick={() => this.setState({ editingGear: true })} role="button" tabIndex={0}>Edit your gear request</div>;
+      } else if (this.props.trippeeGearStatus === 'pending' || this.props.isUserOnTrip === 'PENDING') {
+        return <div className="doc-button hollow" onClick={() => this.setState({ editingGear: true })} role="button" tabIndex={0}>Edit your gear request</div>;
+      } else {
+        return (
+          <>
+            <div className="doc-button hollow disabled" data-tip data-for="cannot-edit-trippee-gear-request" role="button" tabIndex={0}>Edit your gear request</div>
+            <ReactToolTip id="cannot-edit-trippee-gear-request" place="bottom">You can't edit your requests because OPO staff already either approved or denied this trip's requests. Please reach out to the trip leader and OPO staff if you need gear accomodations.</ReactToolTip>
+          </>
+        );
+      }
     };
     switch (this.state.role) {
       case 'OPO':
