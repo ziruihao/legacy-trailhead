@@ -119,7 +119,7 @@ const getIndividualGear = (trip) => {
           <td>{entry[1]}</td>
         </tr>
       ));
-    } else {
+    } else if (gear.quantity > 0) {
       return (
         <tr key={gear._id}>
           <td>{gear.name}</td>
@@ -127,18 +127,20 @@ const getIndividualGear = (trip) => {
           <td>{gear.quantity}</td>
         </tr>
       );
-    }
+    } else return null;
   });
 };
 
 const getGroupGear = (groupGearArray) => {
   return groupGearArray.map((groupGear) => {
-    return (
-      <tr key={groupGear}>
-        <td>{groupGear[0]}</td>
-        <td>{groupGear[1]}</td>
-      </tr>
-    );
+    if (groupGear.quantity > 0) {
+      return (
+        <tr key={groupGear}>
+          <td>{groupGear.name}</td>
+          <td>{groupGear.quantity}</td>
+        </tr>
+      );
+    } else return null;
   });
 };
 

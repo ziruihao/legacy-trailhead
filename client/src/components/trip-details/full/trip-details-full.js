@@ -138,21 +138,22 @@ export default React.forwardRef((props, ref) => {
         <div className='trip-number'>Trip #{props.trip.number}</div>
         <div className='doc-h1'>{props.trip.title}</div>
         <Stack size={25} />
-        <div className='trip-tags'>
-          <div className='trip-club-tag'>{props.trip.club.name}</div>
-          <div id='trip-statuses'>
-            {props.role === 'LEADER' ? <Badge type='leader' dataTip dataFor='leader-on-trip-modal' /> : null}
-            <Badge type={props.status} dataTip dataFor='trip-status-modal' />
+        <Box dir='row' className='trip-tags'>
+          <Box pad='0 0.5em' align='center' className='trip-club-tag'>{props.trip.club.name}</Box>
+          <Box dir='row'>
+            <Queue size={36} />
+            <Badge type={props.status} size={36} dataTip dataFor='trip-status-modal' />
+            {props.role === 'LEADER' ? <><Queue size={36} /><Badge type='leader' size={36} dataTip dataFor='leader-on-trip-modal' /></> : null}
             <ReactToolTip id='leader-on-trip-modal' place='bottom'>Your are leading this trip</ReactToolTip>
             <ReactToolTip id='trip-status-modal' place='bottom'>
               Reasons: {props.reasons.length > 0 ? props.reasons.reduce((all, current) => `${all}, ${current}`) : null}
             </ReactToolTip>
-          </div>
+          </Box>
           <div className='trip-tags-spacer' />
           <div id='trip-returned'>
             <Toggle id='trip-returned-toggle' value={props.trip.returned} onChange={event => props.toggleTripReturnedStatus(event.target.checked)} label='Returned' />
           </div>
-        </div>
+        </Box>
         <Stack size={25} />
         <Divider size={1} />
         <Stack size={25} />
