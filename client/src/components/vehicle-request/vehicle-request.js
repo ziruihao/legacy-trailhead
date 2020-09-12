@@ -5,7 +5,7 @@ import VehicleRequest from '../vehiclerequest';
 class VehicleRequestPage extends React.Component {
   render() {
     return (
-      <div id="vehicle-request-page" className="center-view spacy">
+      <div id='vehicle-request-page' className='center-view spacy'>
         <VehicleRequest />
       </div>
     );

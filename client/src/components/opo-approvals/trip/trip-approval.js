@@ -144,23 +144,23 @@ class OPOTripApproval extends Component {
           break;
         case 2:
           page = (
-            <Box dir="col">
-              <div className="doc-h1">Attendies</div>
+            <Box dir='col'>
+              <div className='doc-h1'>Attendies</div>
               <Stack size={50} />
-              <div className="doc-h2">Already approved</div>
+              <div className='doc-h2'>Already approved</div>
               <Stack size={25} />
-              <div className="p1">The trip leader has approved these members to attend the trip. Their attendence is not confirmed until the leader checks them in during the day-of when the trip meets outside of {this.props.trip.pickup}.</div>
+              <div className='p1'>The trip leader has approved these members to attend the trip. Their attendence is not confirmed until the leader checks them in during the day-of when the trip meets outside of {this.props.trip.pickup}.</div>
               <Stack size={25} />
-              <Box className="doc-bordered" dir="col" align="stretch" pad={25}>
-                <AttendeeTable mode="approved" people={this.props.trip.members} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} actions={[{ callback: person => window.open(`mailto:${person.user.email}`, '_blank'), message: 'Email' }]} openProfile={this.openTrippeeProfile} />
+              <Box className='doc-bordered' dir='col' align='stretch' pad={25}>
+                <AttendeeTable mode='approved' people={this.props.trip.members} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} actions={[{ callback: person => window.open(`mailto:${person.user.email}`, '_blank'), message: 'Email' }]} openProfile={this.openTrippeeProfile} />
               </Box>
               <Stack size={50} />
-              <div className="doc-h2">Still pending</div>
+              <div className='doc-h2'>Still pending</div>
               <Stack size={25} />
-              <div className="p1">These people signed up for the trip but the leader has not yet approved them to attend. They may or may not ever be approved.</div>
+              <div className='p1'>These people signed up for the trip but the leader has not yet approved them to attend. They may or may not ever be approved.</div>
               <Stack size={25} />
-              <Box className="doc-bordered" dir="col" align="stretch" pad={25}>
-                <AttendeeTable mode="approved" people={this.props.trip.pending} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} actions={[{ callback: person => window.open(`mailto:${person.user.email}`, '_blank'), message: 'Email' }]} openProfile={this.openTrippeeProfile} />
+              <Box className='doc-bordered' dir='col' align='stretch' pad={25}>
+                <AttendeeTable mode='approved' people={this.props.trip.pending} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} actions={[{ callback: person => window.open(`mailto:${person.user.email}`, '_blank'), message: 'Email' }]} openProfile={this.openTrippeeProfile} />
               </Box>
             </Box>
           );
@@ -206,7 +206,7 @@ class OPOTripApproval extends Component {
           break;
       }
       return (
-        <Box dir="row" expand>
+        <Box dir='row' expand>
           <Sidebar
             sections={
             [
@@ -216,17 +216,17 @@ class OPOTripApproval extends Component {
           }
             currentStep={this.state.currentStep}
           />
-          <Box dir="col" pad={100} expand>
-            <Box dir="col">
+          <Box dir='col' pad={100} expand>
+            <Box dir='col'>
               {page}
             </Box>
             <Stack size={100} />
             <Divider size={1} />
             <Stack size={50} />
-            <Box dir="row" justify="between" align="center" id="approval-navigation">
-              <div className={`doc-button hollow ${this.state.currentStep === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousPage} role="button" tabIndex={0}>Previous</div>
-              <a id="email-trip-leader-link" href={`mailto:${this.props.trip.leaders[0].email}`} role="button" tabIndex={0}>Contact Trip Leader</a>
-              <div className="doc-button" onClick={this.nextPage} role="button" tabIndex={0}>
+            <Box dir='row' justify='between' align='center' id='approval-navigation'>
+              <div className={`doc-button hollow ${this.state.currentStep === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousPage} role='button' tabIndex={0}>Previous</div>
+              <a id='email-trip-leader-link' href={`mailto:${this.props.trip.leaders[0].email}`} role='button' tabIndex={0}>Contact Trip Leader</a>
+              <div className='doc-button' onClick={this.nextPage} role='button' tabIndex={0}>
                 {this.state.currentStep === this.state.numOfPages ? 'Back to Trip Approvals' : 'Next'}
               </div>
             </Box>
@@ -236,26 +236,26 @@ class OPOTripApproval extends Component {
             show={this.state.showModal}
             onHide={() => this.setState({ showModal: false })}
           >
-            <div className="trip-details-close-button">
-              <i className="material-icons close-button" onClick={() => this.setState({ showModal: false })} role="button" tabIndex={0}>close</i>
+            <div className='trip-details-close-button'>
+              <i className='material-icons close-button' onClick={() => this.setState({ showModal: false })} role='button' tabIndex={0}>close</i>
             </div>
-            <Badge type="denied" />
+            <Badge type='denied' />
 
-            <div className="cancel-content">
-              <p className="cancel-question">{`Contact ${this.props.trip.leaders[0].name}`}</p>
-              <p className="cancel-message">
+            <div className='cancel-content'>
+              <p className='cancel-question'>{`Contact ${this.props.trip.leaders[0].name}`}</p>
+              <p className='cancel-message'>
                 Please email the requester if you need them to update a request. They can't update a request after it has been reviewed.
               </p>
-              <div className="ovr-modal-button-container">
+              <div className='ovr-modal-button-container'>
                 <input
                   ref={this.emailRef}
-                  type="text"
-                  className="ovr-requester-email"
+                  type='text'
+                  className='ovr-requester-email'
                   defaultValue={this.props.trip.leaders[0].email}
                 />
               </div>
-              <div className="ovr-modal-button-container">
-                <button type="button" className="vrf-submit-button signup-button" onClick={this.copyEmail}>Copy email address</button>
+              <div className='ovr-modal-button-container'>
+                <button type='button' className='vrf-submit-button signup-button' onClick={this.copyEmail}>Copy email address</button>
               </div>
             </div>
           </Modal>
@@ -263,7 +263,7 @@ class OPOTripApproval extends Component {
             centered
             show={this.state.showTrippeeModal}
             onHide={() => this.setState({ showTrippeeModal: false })}
-            size="lg"
+            size='lg'
           >
             <ProfileCard
               asProfilePage={false}
@@ -273,7 +273,7 @@ class OPOTripApproval extends Component {
           </Modal>
         </Box>
       );
-    } else return (<DOCLoading type="doc" />);
+    } else return (<DOCLoading type='doc' />);
   }
 }
 const mapStateToProps = (state) => {

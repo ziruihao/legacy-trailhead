@@ -13,15 +13,15 @@ const AttendeeTable = (props) => {
   };
   if (props.people.length === 0) {
     return (
-      <Box dir="row" justify="center" align="center" expand>
-        <div className="p1 gray thin">None
+      <Box dir='row' justify='center' align='center' expand>
+        <div className='p1 gray thin'>None
         </div>
       </Box>
     );
   } else {
     return (
       <>
-        <Table className="doc-table" responsive="lg" hover>
+        <Table className='doc-table' responsive='lg' hover>
           <thead>
             <tr>
               <th>Name</th>
@@ -49,10 +49,10 @@ const AttendeeTable = (props) => {
                   )) : 'None'}
                 </td>
                 <td>
-                  <Box dir="col">
+                  <Box dir='col'>
                     {props.actions.map((action, idx) => (
                       <>
-                        <div className="doc-button hollow" onClick={(event) => { action.callback(person); event.stopPropagation(); }} role="button" tabIndex={0}>{action.message}</div>
+                        <div className='doc-button hollow' onClick={(event) => { action.callback(person); event.stopPropagation(); }} role='button' tabIndex={0}>{action.message}</div>
                         {idx < props.actions.length - 1 ? <Stack size={15} /> : null}
                       </>
                     ))}
@@ -65,8 +65,8 @@ const AttendeeTable = (props) => {
         </Table>
         <Divider size={1} />
         <Stack size={18} />
-        <Box dir="row" justify="center" align="stretch" wrap expand>
-          <div className="doc-button" onClick={() => window.open(`mailto:${props.emails}`, '_blank')} role="button" tabIndex={0}>Send email to all</div>
+        <Box dir='row' justify='center' align='stretch' wrap expand>
+          <div className='doc-button' onClick={() => window.open(`mailto:${props.emails}`, '_blank')} role='button' tabIndex={0}>Send email to all</div>
         </Box>
       </>
     );

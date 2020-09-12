@@ -30,33 +30,33 @@ class MobileCheckOut extends PureComponent {
 
   render() {
     if (!this.state.loaded) {
-      return (<DOCLoading type="doc" width="64" height="64" measure="px" />);
+      return (<DOCLoading type='doc' width='64' height='64' measure='px' />);
     } else {
       return (
-        <div id="mobile-check-screen">
-          <div id="mobile-check-header">
-            <div className="doc-h3 gray">{`TRIP #${this.props.trip.number}`}</div>
+        <div id='mobile-check-screen'>
+          <div id='mobile-check-header'>
+            <div className='doc-h3 gray'>{`TRIP #${this.props.trip.number}`}</div>
             <Stack size={18} />
-            <div className="doc-h1">{`${this.props.trip.title}`}</div>
+            <div className='doc-h1'>{`${this.props.trip.title}`}</div>
             <Stack size={18} />
-            <div className="doc-h3">{`Start: ${utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'LONG')}`}</div>
+            <div className='doc-h3'>{`Start: ${utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'LONG')}`}</div>
             <Stack size={18} />
-            <div className="doc-h3">{`Return: ${utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'LONG')}`}</div>
+            <div className='doc-h3'>{`Return: ${utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'LONG')}`}</div>
           </div>
           <Stack size={18} />
           <hr />
           <Stack size={18} />
-          <div id="mobile-check-body">
-            <div className="doc-h2">Check-out your trippees before leaving.</div>
+          <div id='mobile-check-body'>
+            <div className='doc-h2'>Check-out your trippees before leaving.</div>
             <Stack size={18} />
-            <div className="p1">You MUST accurately mark which trippees are present on the day of the trip.</div>
+            <div className='p1'>You MUST accurately mark which trippees are present on the day of the trip.</div>
             <Stack size={18} />
-            <Box id="mobile-check-list" className="doc-card" pad={10}>
-              <Table className="doc-table" responsive="">
+            <Box id='mobile-check-list' className='doc-card' pad={10}>
+              <Table className='doc-table' responsive=''>
                 <thead>
                   <tr>
-                    <th id="mobile-check-list-name-field">Name</th>
-                    <th id="mobile-check-list-button">Present</th>
+                    <th id='mobile-check-list-name-field'>Name</th>
+                    <th id='mobile-check-list-button'>Present</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -64,11 +64,11 @@ class MobileCheckOut extends PureComponent {
                     console.log(member.attended);
                     return (
                       <tr key={member.user._id}>
-                        <td id="mobile-check-list-name-field">{member.user.name}</td>
-                        <td id="mobile-check-list-button">
+                        <td id='mobile-check-list-name-field'>{member.user.name}</td>
+                        <td id='mobile-check-list-button'>
                           {member.attended
-                            ? <div role="button" tabIndex={0} className="doc-button alarm" onClick={() => this.toggleAttendence(member.user._id, false)}>Undo</div>
-                            : <div role="button" tabIndex={0} className="doc-button" onClick={() => this.toggleAttendence(member.user._id, true)}>Here</div>
+                            ? <div role='button' tabIndex={0} className='doc-button alarm' onClick={() => this.toggleAttendence(member.user._id, false)}>Undo</div>
+                            : <div role='button' tabIndex={0} className='doc-button' onClick={() => this.toggleAttendence(member.user._id, true)}>Here</div>
                        }
                         </td>
                       </tr>

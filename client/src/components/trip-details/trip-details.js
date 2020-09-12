@@ -201,38 +201,38 @@ class TripDetails extends Component {
       } else {
         appropriateComponent = (
           <Box pad={50}>
-            <Box className="doc-card" pad={50}>
+            <Box className='doc-card' pad={50}>
               <TripDetailsBasic openCancellationModal={() => this.setState({ showCancellationModal: true })} hideCancellationModal={() => this.setState({ showCancellationModal: false })} /> />
             </Box>
           </Box>
         );
       }
       return (
-        <div id="trip-details-page" className="center-view spacy">
+        <div id='trip-details-page' className='center-view spacy'>
           {appropriateComponent}
           <Modal
             centered
             show={this.state.showCancellationModal}
             onHide={() => this.setState({ showCancellationModal: false })}
           >
-            <Box dir="col" align="center" pad={25}>
-              <img src={confirmCancel} alt="confirm-cancel" className="cancel-image" />
+            <Box dir='col' align='center' pad={25}>
+              <img src={confirmCancel} alt='confirm-cancel' className='cancel-image' />
               <Stack size={24} />
-              <div className="doc-h2">Are you sure you want to cancel?</div>
+              <div className='doc-h2'>Are you sure you want to cancel?</div>
               <Stack size={24} />
-              <div className="p1 center-text">This cute tree will die if you do and you’ll have to register for this trip again if you change your mind. Don't worry - we inform the trip leaders know so you don't have to.</div>
+              <div className='p1 center-text'>This cute tree will die if you do and you’ll have to register for this trip again if you change your mind. Don't worry - we inform the trip leaders know so you don't have to.</div>
               <Stack size={24} />
-              <Box dir="row" justify="center">
-                <div className="doc-button" onClick={() => this.setState({ showCancellationModal: false })} role="button" tabIndex={0}>Wait no</div>
+              <Box dir='row' justify='center'>
+                <div className='doc-button' onClick={() => this.setState({ showCancellationModal: false })} role='button' tabIndex={0}>Wait no</div>
                 <Queue size={15} />
-                <div className="doc-button alarm" onClick={this.cancelSignup} role="button" tabIndex={0}>Remove me</div>
+                <div className='doc-button alarm' onClick={this.cancelSignup} role='button' tabIndex={0}>Remove me</div>
               </Box>
             </Box>
           </Modal>
         </div>
       );
     } else {
-      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type='doc' height='150' width='150' measure='px' />);
     }
   }
 }

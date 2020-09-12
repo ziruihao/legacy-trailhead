@@ -191,17 +191,17 @@ class ProfileCardEdit extends Component {
     const clubForm = this.props.clubs.map((club) => {
       const checked = currentClubIds.includes(club._id);
       return (
-        <div className="club-option" key={club._id}>
-          <label className="checkbox-container club-checkbox" htmlFor={club._id}>
+        <div className='club-option' key={club._id}>
+          <label className='checkbox-container club-checkbox' htmlFor={club._id}>
             <input
-              type="checkbox"
-              name="club"
+              type='checkbox'
+              name='club'
               id={club._id}
               value={club.name}
               onChange={this.onFieldChange}
               checked={checked}
             />
-            <span className="checkmark" />
+            <span className='checkmark' />
           </label>
           <span>{club.name}</span>
         </div>
@@ -209,11 +209,11 @@ class ProfileCardEdit extends Component {
     });
     return (
       <Dropdown>
-        <Dropdown.Toggle className="field p2">
-          <span className="field-dropdown-bootstrap">Leader in {this.state.clubsList.length} clubs</span>
-          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+        <Dropdown.Toggle className='field p2'>
+          <span className='field-dropdown-bootstrap'>Leader in {this.state.clubsList.length} clubs</span>
+          <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
         </Dropdown.Toggle>
-        <Dropdown.Menu className="field-dropdown-menu profile-club-options">
+        <Dropdown.Menu className='field-dropdown-menu profile-club-options'>
           {clubForm}
         </Dropdown.Menu>
       </Dropdown>
@@ -222,17 +222,17 @@ class ProfileCardEdit extends Component {
 
   getCertificationsForm = () => {
     const trailer = (
-      <div className="club-option p2">
-        <label className="checkbox-container club-checkbox" htmlFor={this.TRAILER_CONSTANT}>
+      <div className='club-option p2'>
+        <label className='checkbox-container club-checkbox' htmlFor={this.TRAILER_CONSTANT}>
           <input
-            type="checkbox"
+            type='checkbox'
             name={this.TRAILER_CONSTANT}
             id={this.TRAILER_CONSTANT}
             value={this.TRAILER_CONSTANT}
             onChange={this.onDriverCertChange}
             checked={this.state.trailer_cert}
           />
-          <span className="checkmark" />
+          <span className='checkmark' />
         </label>
         <span>{this.TRAILER_CONSTANT}</span>
       </div>
@@ -242,17 +242,17 @@ class ProfileCardEdit extends Component {
       const checked = certification === this.state.driver_cert;
       certification = certification === null ? this.NONE_CONSTANT : certification;
       return (
-        <div className="club-option p2" key={certification}>
-          <label className="checkbox-container club-checkbox" htmlFor={certification}>
+        <div className='club-option p2' key={certification}>
+          <label className='checkbox-container club-checkbox' htmlFor={certification}>
             <input
-              type="radio"
+              type='radio'
               name={this.CERTIFICATION_CONSTANT}
               id={certification}
               value={certification}
               onChange={this.onDriverCertChange}
               checked={checked}
             />
-            <span className="radio-button" />
+            <span className='radio-button' />
           </label>
           <span>{certification}</span>
         </div>
@@ -260,11 +260,11 @@ class ProfileCardEdit extends Component {
     });
     return (
       <Dropdown>
-        <Dropdown.Toggle className="field p2" data-tip data-for="driver-certification-tooltip">
-          <span className="field-dropdown-bootstrap">{this.displaySelectedCertifications()}</span>
-          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+        <Dropdown.Toggle className='field p2' data-tip data-for='driver-certification-tooltip'>
+          <span className='field-dropdown-bootstrap'>{this.displaySelectedCertifications()}</span>
+          <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
         </Dropdown.Toggle>
-        <Dropdown.Menu className="field-dropdown-menu">
+        <Dropdown.Menu className='field-dropdown-menu'>
           {certificationForm}
           <Dropdown.Divider />
           {trailer}
@@ -281,11 +281,11 @@ class ProfileCardEdit extends Component {
             <span className={`selected-size ${this.isStringEmpty(this.state.gender_clothes) ? 'no-date' : ''}`}>
               {this.isStringEmpty(this.state.gender_clothes) ? 'Select' : this.state.gender_clothes}
             </span>
-            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+            <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
           </Dropdown.Toggle>
-          <Dropdown.Menu className="field-dropdown-menu">
-            <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
-            <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
+          <Dropdown.Menu className='field-dropdown-menu'>
+            <Dropdown.Item eventKey='Women'>Women</Dropdown.Item>
+            <Dropdown.Item eventKey='Men'>Men</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         <Dropdown onSelect={this.onClotheSizeChange}>
@@ -293,14 +293,14 @@ class ProfileCardEdit extends Component {
             <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
               {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
             </span>
-            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+            <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
           </Dropdown.Toggle>
-          <Dropdown.Menu className="field-dropdown-menu">
-            <Dropdown.Item eventKey="XS">XS</Dropdown.Item>
-            <Dropdown.Item eventKey="S">S</Dropdown.Item>
-            <Dropdown.Item eventKey="M">M</Dropdown.Item>
-            <Dropdown.Item eventKey="L">L</Dropdown.Item>
-            <Dropdown.Item eventKey="XL">XL</Dropdown.Item>
+          <Dropdown.Menu className='field-dropdown-menu'>
+            <Dropdown.Item eventKey='XS'>XS</Dropdown.Item>
+            <Dropdown.Item eventKey='S'>S</Dropdown.Item>
+            <Dropdown.Item eventKey='M'>M</Dropdown.Item>
+            <Dropdown.Item eventKey='L'>L</Dropdown.Item>
+            <Dropdown.Item eventKey='XL'>XL</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </div>
@@ -309,29 +309,29 @@ class ProfileCardEdit extends Component {
 
   renderClothingSizeSelection = () => {
     return (
-      <Box dir="row" className="p2">
+      <Box dir='row' className='p2'>
         <Dropdown onSelect={this.onClotheGenderChange}>
           <Dropdown.Toggle className={`field ${this.state.errorFields.gender_clothes ? 'field-error' : ''}`}>
-            <span className="field-dropdown-bootstrap">{this.state.gender_clothes ? this.state.gender_clothes : 'Type'}</span>
-            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+            <span className='field-dropdown-bootstrap'>{this.state.gender_clothes ? this.state.gender_clothes : 'Type'}</span>
+            <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
           </Dropdown.Toggle>
-          <Dropdown.Menu className="field-dropdown-menu">
-            <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
-            <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
+          <Dropdown.Menu className='field-dropdown-menu'>
+            <Dropdown.Item eventKey='Men'>Men</Dropdown.Item>
+            <Dropdown.Item eventKey='Women'>Women</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         <Queue size={15} />
         <Dropdown onSelect={this.onClotheSizeChange}>
           <Dropdown.Toggle className={`field ${this.state.errorFields.clothe_size ? 'field-error' : ''}`}>
-            <span className="field-dropdown-bootstrap">{this.state.clothe_size ? this.state.clothe_size : 'Size'}</span>
-            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+            <span className='field-dropdown-bootstrap'>{this.state.clothe_size ? this.state.clothe_size : 'Size'}</span>
+            <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
           </Dropdown.Toggle>
-          <Dropdown.Menu className="field-dropdown-menu">
-            <Dropdown.Item eventKey="XS">XS</Dropdown.Item>
-            <Dropdown.Item eventKey="S">S</Dropdown.Item>
-            <Dropdown.Item eventKey="M">M</Dropdown.Item>
-            <Dropdown.Item eventKey="L">L</Dropdown.Item>
-            <Dropdown.Item eventKey="XL">XL</Dropdown.Item>
+          <Dropdown.Menu className='field-dropdown-menu'>
+            <Dropdown.Item eventKey='XS'>XS</Dropdown.Item>
+            <Dropdown.Item eventKey='S'>S</Dropdown.Item>
+            <Dropdown.Item eventKey='M'>M</Dropdown.Item>
+            <Dropdown.Item eventKey='L'>L</Dropdown.Item>
+            <Dropdown.Item eventKey='XL'>XL</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Box>
@@ -340,27 +340,27 @@ class ProfileCardEdit extends Component {
 
   renderShoeSizeSelection = () => {
     return (
-      <Box dir="row" className="p2">
+      <Box dir='row' className='p2'>
         <Dropdown onSelect={this.onShoeGenderChange}>
           <Dropdown.Toggle className={`field ${this.state.errorFields.gender_shoe ? 'field-error' : ''}`}>
-            <span className="field-dropdown-bootstrap">{this.state.gender_shoe ? this.state.gender_shoe : 'Type'}</span>
-            <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+            <span className='field-dropdown-bootstrap'>{this.state.gender_shoe ? this.state.gender_shoe : 'Type'}</span>
+            <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
           </Dropdown.Toggle>
-          <Dropdown.Menu className="field-dropdown-menu">
-            <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
-            <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
+          <Dropdown.Menu className='field-dropdown-menu'>
+            <Dropdown.Item eventKey='Men'>Men</Dropdown.Item>
+            <Dropdown.Item eventKey='Women'>Women</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
         <Queue size={15} />
         <Field
           width={100}
-          type="number"
-          name="shoe_size"
-          step="0.5"
+          type='number'
+          name='shoe_size'
+          step='0.5'
           onChange={this.onFieldChange}
           // className={`field ${this.state.errorFields.shoe_size ? 'field-error' : ''}`}
           value={this.state.shoe_size}
-          placeholder="e.g. 9.5"
+          placeholder='e.g. 9.5'
           error={this.state.errorFields.shoe_size}
         />
       </Box>
@@ -374,11 +374,11 @@ class ProfileCardEdit extends Component {
           <span className={`selected-size ${this.isStringEmpty(this.state.gender_shoe) ? 'no-date' : ''}`}>
             {this.isStringEmpty(this.state.gender_shoe) ? 'Select' : this.state.gender_shoe}
           </span>
-          <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+          <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
         </Dropdown.Toggle>
-        <Dropdown.Menu className="field-dropdown-menu">
-          <Dropdown.Item eventKey="Women">Women</Dropdown.Item>
-          <Dropdown.Item eventKey="Men">Men</Dropdown.Item>
+        <Dropdown.Menu className='field-dropdown-menu'>
+          <Dropdown.Item eventKey='Women'>Women</Dropdown.Item>
+          <Dropdown.Item eventKey='Men'>Men</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
@@ -541,7 +541,7 @@ class ProfileCardEdit extends Component {
         );
       }
     } else {
-      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type='doc' height='150' width='150' measure='px' />);
     }
   }
 }

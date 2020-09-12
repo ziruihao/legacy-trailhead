@@ -5,7 +5,7 @@ import './profile-page.scss';
 
 function ProfilePage(props) {
   return (
-    <Box dir="col" align="center" className="center-view">
+    <Box dir='col' align='center' className='center-view'>
       <Stack size={100} />
       <ProfileCardEdit />
       <Stack size={100} />

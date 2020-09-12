@@ -30,29 +30,29 @@ const getAssignment = (props, index) => {
     });
     if (assignment) {
       return (
-        <div className="vrf-requested-vehicles">
-          <div className="vrf-req-header">
-            <h3 className="vrf-label vrf-req-no">Assigned vehicle</h3>
+        <div className='vrf-requested-vehicles'>
+          <div className='vrf-req-header'>
+            <h3 className='vrf-label vrf-req-no'>Assigned vehicle</h3>
           </div>
 
-          <div className="vrf-form-row">
-            <span className="vrf-label">Vehicle</span>
-            <span className="vrf-req-details-display">{assignment.assigned_vehicle.name}</span>
+          <div className='vrf-form-row'>
+            <span className='vrf-label'>Vehicle</span>
+            <span className='vrf-req-details-display'>{assignment.assigned_vehicle.name}</span>
           </div>
 
-          <div className="vrf-form-row">
-            <span className="vrf-label">Key #</span>
-            <span className="vrf-req-details-display">
+          <div className='vrf-form-row'>
+            <span className='vrf-label'>Key #</span>
+            <span className='vrf-req-details-display'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : assignment.assigned_key}
             </span>
           </div>
 
-          <div className="vrf-form-row vrf-req-dates">
-            <span className="vrf-req-date">
-              <span className="vrf-label">Pickup Date & Time</span>
-              <span className="vrf-req-details-display vrf-single-day-date">
+          <div className='vrf-form-row vrf-req-dates'>
+            <span className='vrf-req-date'>
+              <span className='vrf-label'>Pickup Date & Time</span>
+              <span className='vrf-req-details-display vrf-single-day-date'>
                 {assignment.assigned_vehicle.name === 'Enterprise'
                   ? '-'
                   : utils.dates.formatDateAndTime(new Date(assignment.assigned_pickupDateAndTime), 'LONG')}
@@ -60,10 +60,10 @@ const getAssignment = (props, index) => {
             </span>
           </div>
 
-          <div className="vrf-form-row vrf-req-dates">
-            <span className="vrf-req-date">
-              <span className="vrf-label">Return Date & Time</span>
-              <span className="vrf-req-details-display vrf-single-day-date">
+          <div className='vrf-form-row vrf-req-dates'>
+            <span className='vrf-req-date'>
+              <span className='vrf-label'>Return Date & Time</span>
+              <span className='vrf-req-details-display vrf-single-day-date'>
                 {assignment.assigned_vehicle.name === 'Enterprise'
                   ? '-'
                   : utils.dates.formatDateAndTime(new Date(assignment.assigned_returnDateAndTime), 'LONG')}
@@ -75,34 +75,34 @@ const getAssignment = (props, index) => {
             ? null
             : (
               <div>
-                <div className="vrf-form-row vrf-req-dates">
-                  <div className="club-option">
-                    <label className="checkbox-container club-checkbox" htmlFor={`pickedUp_${index}`}>
+                <div className='vrf-form-row vrf-req-dates'>
+                  <div className='club-option'>
+                    <label className='checkbox-container club-checkbox' htmlFor={`pickedUp_${index}`}>
                       <input
-                        type="checkbox"
-                        name="pickedUp"
+                        type='checkbox'
+                        name='pickedUp'
                         id={`pickedUp_${index}`}
                         checked={assignment.pickedUp}
                         disabled
                       />
-                      <span className="checkmark" />
+                      <span className='checkmark' />
                     </label>
-                    <span className="vrf-label">Picked up?</span>
+                    <span className='vrf-label'>Picked up?</span>
                   </div>
                 </div>
-                <div className="vrf-form-row vrf-req-dates">
-                  <div className="club-option">
-                    <label className="checkbox-container club-checkbox" htmlFor={`returned_${index}`}>
+                <div className='vrf-form-row vrf-req-dates'>
+                  <div className='club-option'>
+                    <label className='checkbox-container club-checkbox' htmlFor={`returned_${index}`}>
                       <input
-                        type="checkbox"
-                        name="returned"
+                        type='checkbox'
+                        name='returned'
                         id={`returned_${index}`}
                         checked={assignment.returned}
                         disabled
                       />
-                      <span className="checkmark" />
+                      <span className='checkmark' />
                     </label>
-                    <span className="vrf-label">Returned?</span>
+                    <span className='vrf-label'>Returned?</span>
                   </div>
                 </div>
               </div>
@@ -111,7 +111,7 @@ const getAssignment = (props, index) => {
       );
     } else {
       return (
-        <div className="vrf-requested-vehicles vrf-skipped-assignment">
+        <div className='vrf-requested-vehicles vrf-skipped-assignment'>
           Skipped assignment
         </div>
       );
@@ -124,64 +124,64 @@ const getAssignment = (props, index) => {
 const getVehicles = (props) => {
   return props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
     return (
-      <div key={vehicle._id} className="vrf-req-group vrf-req-and-assignment">
-        <div className="vrf-requested-vehicles">
-          <div className="vrf-req-header">
-            <h3 className="vrf-label vrf-req-no">Vehicle #{index + 1}</h3>
+      <div key={vehicle._id} className='vrf-req-group vrf-req-and-assignment'>
+        <div className='vrf-requested-vehicles'>
+          <div className='vrf-req-header'>
+            <h3 className='vrf-label vrf-req-no'>Vehicle #{index + 1}</h3>
           </div>
 
-          <div className="vrf-form-row">
-            <span className="vrf-label">Vehicle Type</span>
-            <span className="vrf-req-details-display">{vehicle.vehicleType}</span>
+          <div className='vrf-form-row'>
+            <span className='vrf-label'>Vehicle Type</span>
+            <span className='vrf-req-details-display'>{vehicle.vehicleType}</span>
           </div>
 
-          <div className="vrf-form-row">
-            <span className="vrf-label">Vehicle Details</span>
-            <span className="vrf-req-details-display">{vehicle.vehicleDetails}</span>
+          <div className='vrf-form-row'>
+            <span className='vrf-label'>Vehicle Details</span>
+            <span className='vrf-req-details-display'>{vehicle.vehicleDetails}</span>
           </div>
 
-          <div className="vrf-form-row vrf-req-dates">
-            <span className="vrf-req-date">
-              <span className="vrf-label">Pickup Date & Time</span>
-              <span className="vrf-req-details-display vrf-single-day-date">{utils.dates.formatDateAndTime(new Date(vehicle.pickupDateAndTime), 'LONG')}</span>
+          <div className='vrf-form-row vrf-req-dates'>
+            <span className='vrf-req-date'>
+              <span className='vrf-label'>Pickup Date & Time</span>
+              <span className='vrf-req-details-display vrf-single-day-date'>{utils.dates.formatDateAndTime(new Date(vehicle.pickupDateAndTime), 'LONG')}</span>
             </span>
           </div>
 
-          <div className="vrf-form-row vrf-req-dates">
-            <span className="vrf-req-date">
-              <span className="vrf-label">Return Date & Time</span>
-              <span className="vrf-req-details-display vrf-single-day-date">{utils.dates.formatDateAndTime(new Date(vehicle.returnDateAndTime), 'LONG')}</span>
+          <div className='vrf-form-row vrf-req-dates'>
+            <span className='vrf-req-date'>
+              <span className='vrf-label'>Return Date & Time</span>
+              <span className='vrf-req-details-display vrf-single-day-date'>{utils.dates.formatDateAndTime(new Date(vehicle.returnDateAndTime), 'LONG')}</span>
             </span>
           </div>
 
-          <div className="vrf-form-row vrf-req-dates">
-            <div className="club-option">
-              <label className="checkbox-container club-checkbox" htmlFor={`passNeeded_${index}`}>
+          <div className='vrf-form-row vrf-req-dates'>
+            <div className='club-option'>
+              <label className='checkbox-container club-checkbox' htmlFor={`passNeeded_${index}`}>
                 <input
-                  type="checkbox"
-                  name="passNeeded"
+                  type='checkbox'
+                  name='passNeeded'
                   id={`passNeeded_${index}`}
                   checked={vehicle.passNeeded}
                   disabled
                 />
-                <span className="checkmark" />
+                <span className='checkmark' />
               </label>
-              <span className="vrf-label">WMNF Pass Needed?</span>
+              <span className='vrf-label'>WMNF Pass Needed?</span>
             </div>
           </div>
-          <div className="vrf-form-row vrf-req-dates">
-            <div className="club-option">
-              <label className="checkbox-container club-checkbox" htmlFor={`trailerNeeded_${index}`}>
+          <div className='vrf-form-row vrf-req-dates'>
+            <div className='club-option'>
+              <label className='checkbox-container club-checkbox' htmlFor={`trailerNeeded_${index}`}>
                 <input
-                  type="checkbox"
-                  name="trailerNeeded"
+                  type='checkbox'
+                  name='trailerNeeded'
                   id={`trailerNeeded_${index}`}
                   checked={vehicle.trailerNeeded}
                   disabled
                 />
-                <span className="checkmark" />
+                <span className='checkmark' />
               </label>
-              <span className="vrf-label">Trailer Hitch Required?</span>
+              <span className='vrf-label'>Trailer Hitch Required?</span>
             </div>
           </div>
         </div>
@@ -193,26 +193,26 @@ const getVehicles = (props) => {
 
 const VehicleRequestDisplay = (props) => {
   return (
-    <Box dir="col" className="vrf-full-width">
-      <Box dir="row" justify="between">
-        <div className="doc-h2">Vehicle Request</div>
+    <Box dir='col' className='vrf-full-width'>
+      <Box dir='row' justify='between'>
+        <div className='doc-h2'>Vehicle Request</div>
         <Badge type={props.vehicleRequest.status} size={36} />
       </Box>
       {/* <Stack size={25} /> */}
       {props.requestType === 'SOLO'
         ? (
-          <div className="vrf-solo-req">
-            <div className="vrf-form-row">
-              <span className="vrf-label">Request Details</span>
-              <span className="vrf-req-details-display">{props.vehicleRequest.requestDetails}</span>
+          <div className='vrf-solo-req'>
+            <div className='vrf-form-row'>
+              <span className='vrf-label'>Request Details</span>
+              <span className='vrf-req-details-display'>{props.vehicleRequest.requestDetails}</span>
             </div>
-            <div className="vrf-form-row">
-              <span className="vrf-label">Number of people</span>
-              <span className="vrf-req-details-display">{props.vehicleRequest.noOfPeople}</span>
+            <div className='vrf-form-row'>
+              <span className='vrf-label'>Number of people</span>
+              <span className='vrf-req-details-display'>{props.vehicleRequest.noOfPeople}</span>
             </div>
-            <div className="vrf-form-row">
-              <span className="vrf-label">Estimated mileage</span>
-              <span className="vrf-req-details-display">{props.vehicleRequest.mileage}</span>
+            <div className='vrf-form-row'>
+              <span className='vrf-label'>Estimated mileage</span>
+              <span className='vrf-req-details-display'>{props.vehicleRequest.mileage}</span>
             </div>
           </div>
         )
@@ -222,13 +222,13 @@ const VehicleRequestDisplay = (props) => {
       <Stack size={50} />
       {props.requestType === 'SOLO'
         ? (
-          <div className="vrf-add-and-submit">
+          <div className='vrf-add-and-submit'>
             {props.vehicleRequest.status !== 'approved'
-              ? <button type="button" className="vrf-add-button vrf-cancel-button vrf-small-cancel" onClick={props.addVehicle}>Cancel request</button>
-              : <button type="button" className="vrf-add-button vrf-small-cancel disabled-cancel-button" onClick={props.showError}>Cancel request</button>}
+              ? <button type='button' className='vrf-add-button vrf-cancel-button vrf-small-cancel' onClick={props.addVehicle}>Cancel request</button>
+              : <button type='button' className='vrf-add-button vrf-small-cancel disabled-cancel-button' onClick={props.showError}>Cancel request</button>}
             {props.vehicleRequest.status !== 'approved'
-              ? <button type="submit" className="vrf-submit-button signup-button" onClick={props.startEditing}>Update request</button>
-              : <button type="submit" className="disabled vrf-submit-button" onClick={props.showError}>Update request</button>}
+              ? <button type='submit' className='vrf-submit-button signup-button' onClick={props.startEditing}>Update request</button>
+              : <button type='submit' className='disabled vrf-submit-button' onClick={props.showError}>Update request</button>}
           </div>
         )
         : null}

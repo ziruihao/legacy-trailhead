@@ -84,11 +84,11 @@ class OPOTrips extends Component {
     if (status === 'N/A') {
       return <td>N/A</td>;
     } else if (status === 'pending') {
-      return <td className="pending"><Badge type="pending" size={36} /></td>;
+      return <td className='pending'><Badge type='pending' size={36} /></td>;
     } else if (status === 'approved') {
-      return <td className="approved"><Badge type="approved" size={36} /></td>;
+      return <td className='approved'><Badge type='approved' size={36} /></td>;
     } else {
-      return <td className="denied"><Badge type="denied" size={36} /></td>;
+      return <td className='denied'><Badge type='denied' size={36} /></td>;
     }
   }
 
@@ -96,11 +96,11 @@ class OPOTrips extends Component {
     if (individualGearStatus === 'N/A' && groupGearStatus === 'N/A') {
       return <td>N/A</td>;
     } else if (individualGearStatus === 'pending' || groupGearStatus === 'pending') {
-      return <td className="pending"><Badge type="pending" size={36} /></td>;
+      return <td className='pending'><Badge type='pending' size={36} /></td>;
     } else if (individualGearStatus === 'denied' || groupGearStatus === 'denied') {
-      return <td className="denied"><Badge type="denied" size={36} /></td>;
+      return <td className='denied'><Badge type='denied' size={36} /></td>;
     } else {
-      return <td className="approved"><Badge type="approved" size={36} /></td>;
+      return <td className='approved'><Badge type='approved' size={36} /></td>;
     }
   }
 
@@ -139,11 +139,11 @@ class OPOTrips extends Component {
     });
     if (pendingTrips.length === 0) {
       return (
-        <Box dir="col" align="center" className="p1 gray thin">All set for now!</Box>
+        <Box dir='col' align='center' className='p1 gray thin'>All set for now!</Box>
       );
     } else {
       return (
-        <Table className="doc-table" responsive="lg" hover>
+        <Table className='doc-table' responsive='lg' hover>
           <thead>
             <tr>
               <th>Trip</th>
@@ -179,11 +179,11 @@ class OPOTrips extends Component {
     });
     if (filteredTrips.length === 0) {
       return (
-        <Box dir="col" align="center" className="p1 gray thin">All set for now!</Box>
+        <Box dir='col' align='center' className='p1 gray thin'>All set for now!</Box>
       );
     } else {
       return (
-        <Table className="doc-table" responsive="lg" hover>
+        <Table className='doc-table' responsive='lg' hover>
           <thead>
             <tr>
               <th>Trip</th>
@@ -249,16 +249,16 @@ class OPOTrips extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div id="opo-trips-page" className="center-view">
-          <div className="opo-trips-page-databox doc-card large-card">
-            <div className="databox-heading">
-              <div className="doc-h1">Pending Trips</div>
+        <div id='opo-trips-page' className='center-view'>
+          <div className='opo-trips-page-databox doc-card large-card'>
+            <div className='databox-heading'>
+              <div className='doc-h1'>Pending Trips</div>
               <input
-                name="search"
-                placeholder="Search pending trips"
+                name='search'
+                placeholder='Search pending trips'
                 value={this.state.searchTerm}
                 onChange={this.onSearchTermChange}
-                className="databox-heading-search field"
+                className='databox-heading-search field'
               />
               {/* <div className="dropdown-and-label">
                 <span className="dropdown-label">Filter by:</span>
@@ -279,15 +279,15 @@ class OPOTrips extends Component {
             {this.getPendingTable()}
           </div>
           <Stack size={100} />
-          <div className="opo-trips-page-databox doc-card large-card">
-            <div className="databox-heading">
-              <div className="doc-h1">Reviewed & Past Trips</div>
+          <div className='opo-trips-page-databox doc-card large-card'>
+            <div className='databox-heading'>
+              <div className='doc-h1'>Reviewed & Past Trips</div>
               <input
-                name="search"
-                placeholder="Search reviewed & past trips"
+                name='search'
+                placeholder='Search reviewed & past trips'
                 value={this.state.searchTerm}
                 onChange={this.onSearchTermChange}
-                className="databox-heading-search field"
+                className='databox-heading-search field'
               />
             </div>
             {this.getApprovedTable()}
@@ -296,7 +296,7 @@ class OPOTrips extends Component {
         </div>
       );
     } else {
-      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type='doc' height='150' width='150' measure='px' />);
     }
   }
 }

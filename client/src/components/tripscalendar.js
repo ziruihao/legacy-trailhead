@@ -84,10 +84,10 @@ class TripsCal extends Component {
             </Modal.Header>
             <Modal.Body>{this.state.currEvent._id} and {this.state.currEvent._id}</Modal.Body>
             <Modal.Footer>
-              <button type="button" variant="secondary" onClick={this.handleClose}>
+              <button type='button' variant='secondary' onClick={this.handleClose}>
                 Close
               </button>
-              <NavLink type="button" to={`/trip/${this.state.currEvent._id}`} key={this.state.currEvent._id}>
+              <NavLink type='button' to={`/trip/${this.state.currEvent._id}`} key={this.state.currEvent._id}>
                 <div>
                   <h2>See Trip Details</h2>
                 </div>
@@ -95,11 +95,11 @@ class TripsCal extends Component {
             </Modal.Footer>
           </Modal>;
         </div>
-        <div className="calendar-container">
+        <div className='calendar-container'>
           <BigCalendar
             events={this.createEvents()}
-            startAccessor="start"
-            endAccessor="end"
+            startAccessor='start'
+            endAccessor='end'
             selectable
             views={allViews}
             step={30}

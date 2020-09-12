@@ -47,12 +47,12 @@ const VehicleBooking = ({ event }) => {
 
   const bookingTime = `${formatTime(event.assigned_pickupTime)} - ${formatTime(event.assigned_returnTime)}`;
   return (
-    <Box dir="col" justify="between" pad={10} className={`booking-container ${event.pickedUp ? 'hoverable-booking' : ''} ${event.conflicts.length > 0 ? 'conflict' : null}`}>
-      <div className="p2 thick booking-title">
+    <Box dir='col' justify='between' pad={10} className={`booking-container ${event.pickedUp ? 'hoverable-booking' : ''} ${event.conflicts.length > 0 ? 'conflict' : null}`}>
+      <div className='p2 thick booking-title'>
         {bookingTitle}
         {event.assigned_vehicle.name}
       </div>
-      <div className="booking-time gray thin">{bookingTime}</div>
+      <div className='booking-time gray thin'>{bookingTime}</div>
       {/* <div className="booking-mini-details">
         {event.pickedUp
           ? (
@@ -73,7 +73,7 @@ const VehicleBooking = ({ event }) => {
           : null
         }
       </div> */}
-      <div className="booking-tooltip">
+      <div className='booking-tooltip'>
         <span className={`booking-time ${pickedUpStatus}`}>{statusMessage}</span>
       </div>
     </Box>

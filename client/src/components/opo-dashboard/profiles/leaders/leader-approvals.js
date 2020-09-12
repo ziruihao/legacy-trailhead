@@ -33,10 +33,10 @@ class LeaderApprovals extends Component {
             {approval.requested_clubs.map(club => club.name).join(', ')}
           </td>
           <td>
-            <Box dir="row" justify="end">
-              <div className="doc-button alarm" onClick={() => this.reviewRequest(approval._id, 'denied')} role="button" tabIndex={0}>Deny</div>
+            <Box dir='row' justify='end'>
+              <div className='doc-button alarm' onClick={() => this.reviewRequest(approval._id, 'denied')} role='button' tabIndex={0}>Deny</div>
               <Queue size={15} />
-              <div className="doc-button" onClick={() => this.reviewRequest(approval._id, 'approved')} role="button" tabIndex={0}>Approve</div>
+              <div className='doc-button' onClick={() => this.reviewRequest(approval._id, 'approved')} role='button' tabIndex={0}>Approve</div>
             </Box>
           </td>
         </tr>
@@ -56,17 +56,17 @@ class LeaderApprovals extends Component {
     if (this.state.ready) {
       if (this.props.approvals.length === 0) {
         return (
-          <Box dir="col" align="center" className="p1 gray thin">All set for now!</Box>
+          <Box dir='col' align='center' className='p1 gray thin'>All set for now!</Box>
         );
       } else {
         return (
-          <Table className="doc-table" responsive="lg" hover>
+          <Table className='doc-table' responsive='lg' hover>
             <thead>
               <tr>
                 <th>Person</th>
                 <th>Requests</th>
                 <th>
-                  <Box dir="row" justify="end">
+                  <Box dir='row' justify='end'>
                     Action
                   </Box>
                 </th>
@@ -79,7 +79,7 @@ class LeaderApprovals extends Component {
         );
       }
     } else {
-      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type='doc' height='150' width='150' measure='px' />);
     }
   }
 }

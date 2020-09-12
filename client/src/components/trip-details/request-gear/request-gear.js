@@ -7,16 +7,16 @@ class RequestGear extends React.Component {
   render() {
     if (this.props.trippeeGear.length === 0) {
       return (
-        <div className="p1 gray thin">None</div>
+        <div className='p1 gray thin'>None</div>
       );
     } else {
       const checkmarkClass = this.props.editingGear ? 'checkmark' : 'disabled-checkmark';
       return (
-        <div id="trip-request-gear-form" className="trip-details-table">
+        <div id='trip-request-gear-form' className='trip-details-table'>
           {this.props.loading
             ? (
-              <div id="trip-request-gear-form-loading">
-                <DOCLoading type="spin" width="35" height="35" measure="px" />
+              <div id='trip-request-gear-form-loading'>
+                <DOCLoading type='spin' width='35' height='35' measure='px' />
               </div>
             )
             : null
@@ -28,14 +28,14 @@ class RequestGear extends React.Component {
               });
               return (
                 <div key={gear._id}>
-                  <div className="trip-details-table-row">
-                    <div className="trip-details-table-left p2">{gear.name}</div>
-                    <div className="trip-details-table-right">
-                      <div className="p2">Request</div>
-                      <label className="checkbox-container" htmlFor={gear._id}>
+                  <div className='trip-details-table-row'>
+                    <div className='trip-details-table-left p2'>{gear.name}</div>
+                    <div className='trip-details-table-right'>
+                      <div className='p2'>Request</div>
+                      <label className='checkbox-container' htmlFor={gear._id}>
                         <input
-                          type="checkbox"
-                          name="gear"
+                          type='checkbox'
+                          name='gear'
                           id={gear._id}
                           data-_id={gear._id}
                           data-name={gear.name}
@@ -47,7 +47,7 @@ class RequestGear extends React.Component {
                       </label>
                     </div>
                   </div>
-                  {index !== array.length - 1 ? <hr className="detail-line" /> : null}
+                  {index !== array.length - 1 ? <hr className='detail-line' /> : null}
                 </div>
               );
             })

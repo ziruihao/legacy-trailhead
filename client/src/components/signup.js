@@ -59,14 +59,14 @@ class SignUp extends Component {
 
   render() {
     return (
-      <div className="main-signup">
-        <div className="input-fields">
-          <input className="input-styling" placeholder="Name" name="name" type="text" onChange={this.onFieldChange} value={this.state.name} />
-          <input className="input-styling" placeholder="Dartmouth Email" name="email" type="text" onChange={this.onFieldChange} value={this.state.email} />
+      <div className='main-signup'>
+        <div className='input-fields'>
+          <input className='input-styling' placeholder='Name' name='name' type='text' onChange={this.onFieldChange} value={this.state.name} />
+          <input className='input-styling' placeholder='Dartmouth Email' name='email' type='text' onChange={this.onFieldChange} value={this.state.email} />
         </div>
-        <div className="form-buttons">
-          <button className="button-styling" type="submit" onClick={this.signUp}>Sign Up</button>
-          <button className="button-styling" type="reset" onClick={() => this.props.history.push('/')}>Cancel</button>
+        <div className='form-buttons'>
+          <button className='button-styling' type='submit' onClick={this.signUp}>Sign Up</button>
+          <button className='button-styling' type='reset' onClick={() => this.props.history.push('/')}>Cancel</button>
         </div>
       </div>
     );

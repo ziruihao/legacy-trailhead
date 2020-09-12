@@ -41,86 +41,86 @@ const OPODashboard = (props) => {
       active.calendar = true;
   }
   return (
-    <Box id="dashboard" dir="col" align="stretch" expand>
-      <Box id="dashboard-tiles" className="doc-card no-scroll-bar" dir="row" justify="start" align="stretch">
-        <Box className={`section ${active.trips ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]} onClick={() => navigateDashboard('/opo-dashboard/opo-trips')} role="button" tabIndex={0}>
-          <Box dir="row" align="center">
-            <Icon type="trip" size={32} />
+    <Box id='dashboard' dir='col' align='stretch' expand>
+      <Box id='dashboard-tiles' className='doc-card no-scroll-bar' dir='row' justify='start' align='stretch'>
+        <Box className={`section ${active.trips ? 'current-section' : ''}`} dir='col' justify='center' pad={[25, 50]} onClick={() => navigateDashboard('/opo-dashboard/opo-trips')} role='button' tabIndex={0}>
+          <Box dir='row' align='center'>
+            <Icon type='trip' size={32} />
             {/* <Badge type="trips" size={active.trips ? 48 : 48} /> */}
             <Queue size={25} />
-            <div className="titles doc-h3">Trip Approvals</div>
+            <div className='titles doc-h3'>Trip Approvals</div>
           </Box>
           {active.trips
-            ? <Divider className="section-underline" size={5} color="#0CA074" />
+            ? <Divider className='section-underline' size={5} color='#0CA074' />
             : null
           }
         </Box>
-        <Box dir="row" pad={[25, 0]}>
-          <Divider dir="col" size={1} />
+        <Box dir='row' pad={[25, 0]}>
+          <Divider dir='col' size={1} />
         </Box>
-        <Box className={`section ${active.vehicles ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]} onClick={() => navigateDashboard('/opo-dashboard/vehicle-requests')} role="button" tabIndex={0}>
-          <Box dir="row" align="center">
-            <Icon type="vehicle" size={24} />
+        <Box className={`section ${active.vehicles ? 'current-section' : ''}`} dir='col' justify='center' pad={[25, 50]} onClick={() => navigateDashboard('/opo-dashboard/vehicle-requests')} role='button' tabIndex={0}>
+          <Box dir='row' align='center'>
+            <Icon type='vehicle' size={24} />
             {/* <Badge type="vehicle" size={active.vehicles ? 48 : 48} /> */}
             <Queue size={25} />
-            <div className="titles doc-h3">Vehicle Requests</div>
+            <div className='titles doc-h3'>Vehicle Requests</div>
           </Box>
           {active.vehicles
-            ? <Divider className="section-underline" size={5} color="#0CA074" />
+            ? <Divider className='section-underline' size={5} color='#0CA074' />
             : null
           }
         </Box>
-        <Box dir="row" pad={[25, 0]}>
-          <Divider dir="col" size={1} />
+        <Box dir='row' pad={[25, 0]}>
+          <Divider dir='col' size={1} />
         </Box>
-        <Box className={`section ${active.calendar ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]} onClick={() => navigateDashboard('/opo-dashboard/vehicle-calendar')} role="button" tabIndex={0}>
-          <Box dir="row" align="center">
-            <Icon type="calendar" size={24} />
+        <Box className={`section ${active.calendar ? 'current-section' : ''}`} dir='col' justify='center' pad={[25, 50]} onClick={() => navigateDashboard('/opo-dashboard/vehicle-calendar')} role='button' tabIndex={0}>
+          <Box dir='row' align='center'>
+            <Icon type='calendar' size={24} />
             {/* <Badge type="calendar" size={active.calendar ? 48 : 48} /> */}
             <Queue size={25} />
-            <div className="titles doc-h3">Calendar</div>
+            <div className='titles doc-h3'>Calendar</div>
           </Box>
           {active.calendar
-            ? <Divider className="section-underline" size={5} color="#0CA074" />
+            ? <Divider className='section-underline' size={5} color='#0CA074' />
             : null
           }
         </Box>
-        <Box dir="row" pad={[25, 0]}>
-          <Divider dir="col" size={1} />
+        <Box dir='row' pad={[25, 0]}>
+          <Divider dir='col' size={1} />
         </Box>
-        <Box className={`section ${active.leaders ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]} onClick={() => navigateDashboard('/opo-dashboard/leader-approvals')} role="button" tabIndex={0}>
-          <Box dir="row" align="center">
-            <Icon type="cert" size={24} />
+        <Box className={`section ${active.leaders ? 'current-section' : ''}`} dir='col' justify='center' pad={[25, 50]} onClick={() => navigateDashboard('/opo-dashboard/leader-approvals')} role='button' tabIndex={0}>
+          <Box dir='row' align='center'>
+            <Icon type='cert' size={24} />
             {/* <Badge type="person" size={active.leaders ? 48 : 48} /> */}
             <Queue size={25} />
-            <div className="titles doc-h3">Profile Approvals</div>
+            <div className='titles doc-h3'>Profile Approvals</div>
           </Box>
           {active.leaders
-            ? <Divider className="section-underline" size={5} color="#0CA074" />
+            ? <Divider className='section-underline' size={5} color='#0CA074' />
             : null
           }
         </Box>
-        <Box dir="row" pad={[25, 0]}>
-          <Divider dir="col" size={1} />
+        <Box dir='row' pad={[25, 0]}>
+          <Divider dir='col' size={1} />
         </Box>
-        <Box className={`section ${active.fleet ? 'current-section' : ''}`} dir="col" justify="center" pad={[25, 50]} onClick={() => navigateDashboard('/opo-dashboard/opo-fleet-management')} role="button" tabIndex={0}>
-          <Box dir="row" align="center">
-            <Icon type="marker" size={24} />
+        <Box className={`section ${active.fleet ? 'current-section' : ''}`} dir='col' justify='center' pad={[25, 50]} onClick={() => navigateDashboard('/opo-dashboard/opo-fleet-management')} role='button' tabIndex={0}>
+          <Box dir='row' align='center'>
+            <Icon type='marker' size={24} />
             {/* <Badge type="marker" size={active.fleet ? 48 : 48} /> */}
             <Queue size={25} />
-            <div className="titles doc-h3">Manage Fleet</div>
+            <div className='titles doc-h3'>Manage Fleet</div>
           </Box>
           {active.fleet
-            ? <Divider className="section-underline" size={5} color="#0CA074" />
+            ? <Divider className='section-underline' size={5} color='#0CA074' />
             : null
           }
         </Box>
         <Queue size={50} />
         <Queue size={50} />
-        <div id="dashboard-tiles-blur" />
+        <div id='dashboard-tiles-blur' />
       </Box>
       <Stack size={100} />
-      <Box id="dashboard-content" dir="col" align="stretch" expand>
+      <Box id='dashboard-content' dir='col' align='stretch' expand>
         {dashboardContent}
       </Box>
     </Box>

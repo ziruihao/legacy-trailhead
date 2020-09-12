@@ -14,7 +14,7 @@ const VehicleCalendarComponent = (props) => {
   return (
     <BigCalendar
       localizer={localizer}
-      defaultView="week"
+      defaultView='week'
       views={{
         week: WeekView,
       }}

@@ -45,17 +45,17 @@ class FleetManagement extends Component {
 
   render() {
     return (
-      <div id="fleet-management-page" className="center-view">
-        <div id="fleet-management">
-          <div id="fleet">
-            <div className="doc-card large-card">
-              <div className="doc-h1">Vehicle Fleet</div>
-              <Table className="doc-table" responsive="lg" hover>
+      <div id='fleet-management-page' className='center-view'>
+        <div id='fleet-management'>
+          <div id='fleet'>
+            <div className='doc-card large-card'>
+              <div className='doc-h1'>Vehicle Fleet</div>
+              <Table className='doc-table' responsive='lg' hover>
                 <thead>
                   <tr>
                     <th>Name</th>
                     <th>Type</th>
-                    <th id="fleet-management-book-col">Booked by</th>
+                    <th id='fleet-management-book-col'>Booked by</th>
                     <th>Action</th>
                   </tr>
                 </thead>
@@ -64,8 +64,8 @@ class FleetManagement extends Component {
                     <tr key={vehicle._id} onClick={() => this.onRowClick(vehicle._id)}>
                       <td>{vehicle.name}</td>
                       <td>{vehicle.type}</td>
-                      <td id="fleet-management-book-col">To implement</td>
-                      <td className="fleet-delete-button-area"><div id="fleet-delete-button" className="doc-button" onClick={() => this.handleDeleteVehicleButton(vehicle._id)} role="button" tabIndex={0}>Delete</div></td>
+                      <td id='fleet-management-book-col'>To implement</td>
+                      <td className='fleet-delete-button-area'><div id='fleet-delete-button' className='doc-button' onClick={() => this.handleDeleteVehicleButton(vehicle._id)} role='button' tabIndex={0}>Delete</div></td>
                     </tr>
                   ))}
                 </tbody>
@@ -73,31 +73,31 @@ class FleetManagement extends Component {
             </div>
 
           </div>
-          <div id="management">
-            <Box className="doc-card" pad={25}>
-              <div className="doc-form">
-                <div className="doc-h2">Add New Vehicle</div>
-                <div className="field-label">Vehicle name</div>
+          <div id='management'>
+            <Box className='doc-card' pad={25}>
+              <div className='doc-form'>
+                <div className='doc-h2'>Add New Vehicle</div>
+                <div className='field-label'>Vehicle name</div>
                 <input className={`field ${this.state.newVehicleNameError ? 'field-error' : ''}`}
                   onChange={event => this.changeNewVehicleFields(event.target.value, 'newVehicleName')}
-                  name="title"
-                  placeholder="Example van"
+                  name='title'
+                  placeholder='Example van'
                   value={this.state.newVehicleName}
                 />
-                <div className="field-label">Vehicle type</div>
+                <div className='field-label'>Vehicle type</div>
                 <Dropdown onSelect={eventKey => this.changeNewVehicleFields(eventKey, 'newVehicleType')}>
                   <Dropdown.Toggle className={`field ${this.state.newVehicleTypeError ? 'field-error' : ''}`}>
-                    <span className="field-dropdown-bootstrap">{this.state.newVehicleType ? this.state.newVehicleType : 'Select vehicle type'}</span>
+                    <span className='field-dropdown-bootstrap'>{this.state.newVehicleType ? this.state.newVehicleType : 'Select vehicle type'}</span>
                     <Queue size={20} />
-                    <Icon type="dropdown" size={20} />
+                    <Icon type='dropdown' size={20} />
                   </Dropdown.Toggle>
-                  <Dropdown.Menu className="field-dropdown-menu">
-                    <Dropdown.Item eventKey="Microbus">Microbus</Dropdown.Item>
-                    <Dropdown.Item eventKey="Van">Van</Dropdown.Item>
-                    <Dropdown.Item eventKey="Truck">Truck</Dropdown.Item>
+                  <Dropdown.Menu className='field-dropdown-menu'>
+                    <Dropdown.Item eventKey='Microbus'>Microbus</Dropdown.Item>
+                    <Dropdown.Item eventKey='Van'>Van</Dropdown.Item>
+                    <Dropdown.Item eventKey='Truck'>Truck</Dropdown.Item>
                   </Dropdown.Menu>
                 </Dropdown>
-                <div className="doc-button" onClick={this.submitForm} role="button" tabIndex={0}>Add</div>
+                <div className='doc-button' onClick={this.submitForm} role='button' tabIndex={0}>Add</div>
               </div>
             </Box>
           </div>

@@ -54,11 +54,11 @@ class trippeeGearRequests extends Component {
       });
       if (gearRequest.trippeeGearStatus === 'pending') {
         return (
-          <div key={gearRequest._id} className="container">
+          <div key={gearRequest._id} className='container'>
             <div>
               <span>{gearRequest.leaders[0].name} is requesting the following gear for trippees</span>
-              <button data-id={gearRequest._id} data-action="approve" type="button" className="btn btn-success" onClick={this.reviewRequest}>Approve</button>
-              <button data-id={gearRequest._id} data-action="deny" type="button" className="btn btn-danger" onClick={this.reviewRequest}>Deny</button>
+              <button data-id={gearRequest._id} data-action='approve' type='button' className='btn btn-success' onClick={this.reviewRequest}>Approve</button>
+              <button data-id={gearRequest._id} data-action='deny' type='button' className='btn btn-danger' onClick={this.reviewRequest}>Deny</button>
               <br />
             </div>
             <span>Gear - Size - Qty</span>
@@ -132,7 +132,7 @@ class trippeeGearRequests extends Component {
       if (gearRequest.trippeeGearStatus !== 'pending') {
         const status = gearRequest.trippeeGearStatus === 'approved' ? 'approved' : 'denied';
         return (
-          <div key={gearRequest._id} className="container">
+          <div key={gearRequest._id} className='container'>
             <div>
               <span>You {status} {gearRequest.leaders[0].name}&apos;s request for the following gear:</span>
             </div>

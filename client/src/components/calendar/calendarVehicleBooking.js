@@ -47,15 +47,15 @@ const VehicleBooking = ({ event }) => {
 
   return (
     <span className={`booking-container ${event.pickedUp ? 'hoverable-booking' : ''} ${event.conflicts.length > 0 ? 'conflict' : null}`}>
-      <div className="booking-reason">
+      <div className='booking-reason'>
         {bookingTitle}
       </div>
-      <div className="booking-mini-details">
-        <span className="booking-time">{bookingTime}</span>
+      <div className='booking-mini-details'>
+        <span className='booking-time'>{bookingTime}</span>
         {event.pickedUp
           ? (
-            <span className="booking-status-container">
-              <span className="booking-dot">.</span>
+            <span className='booking-status-container'>
+              <span className='booking-dot'>.</span>
               <span className={`booking-pickedUp ${pickedUpStatus}`}>P</span>
             </span>
           )
@@ -63,15 +63,15 @@ const VehicleBooking = ({ event }) => {
         }
         {event.returned
           ? (
-            <span className="booking-status-container">
-              <span className="booking-dot">.</span>
-              <span className="booking-returned approved">R</span>
+            <span className='booking-status-container'>
+              <span className='booking-dot'>.</span>
+              <span className='booking-returned approved'>R</span>
             </span>
           )
           : null
         }
       </div>
-      <div className="booking-tooltip">
+      <div className='booking-tooltip'>
         <span className={`booking-time ${pickedUpStatus}`}>{statusMessage}</span>
       </div>
     </span>

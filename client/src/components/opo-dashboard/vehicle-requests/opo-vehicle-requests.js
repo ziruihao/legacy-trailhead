@@ -67,7 +67,7 @@ class OPOVehicleRequests extends Component {
     }
 
     if (pendingRequests.length === 0) {
-      return (<div className="p1 gray thin">All set for now!</div>);
+      return (<div className='p1 gray thin'>All set for now!</div>);
     }
 
     const searchedRequests = pendingRequests.filter((request) => {
@@ -76,10 +76,10 @@ class OPOVehicleRequests extends Component {
       // return true;
     });
     if (searchedRequests.length === 0) {
-      return (<div className="p1 gray thin">None found.</div>);
+      return (<div className='p1 gray thin'>None found.</div>);
     } else {
       return (
-        <Table className="doc-table" responsive="lg" hover>
+        <Table className='doc-table' responsive='lg' hover>
           <thead>
             <tr>
               <th>Requester</th>
@@ -114,7 +114,7 @@ class OPOVehicleRequests extends Component {
     }
 
     if (approvedRequests.length === 0) {
-      return (<div className="p1 gray thin">All set for now!</div>);
+      return (<div className='p1 gray thin'>All set for now!</div>);
     }
     const searchedRequests = approvedRequests.filter((request) => {
       const reason = request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title;
@@ -122,10 +122,10 @@ class OPOVehicleRequests extends Component {
       return request.requestDetails.concat([request.requester.name, reason]).toLowerCase().includes(this.state.searchReviewedTerm.toLowerCase());
     });
     if (searchedRequests.length === 0) {
-      return (<div className="p1 gray thin">None found.</div>);
+      return (<div className='p1 gray thin'>None found.</div>);
     } else {
       return (
-        <Table className="doc-table" responsive="lg" hover>
+        <Table className='doc-table' responsive='lg' hover>
           <thead>
             <tr>
               <th>Requester</th>
@@ -145,11 +145,11 @@ class OPOVehicleRequests extends Component {
     if (status === 'N/A') {
       return <td>N/A</td>;
     } else if (status === 'pending') {
-      return <td className="pending"><Badge type="pending" size={36} /></td>;
+      return <td className='pending'><Badge type='pending' size={36} /></td>;
     } else if (status === 'approved') {
-      return <td className="approved"><Badge type="approved" size={36} /></td>;
+      return <td className='approved'><Badge type='approved' size={36} /></td>;
     } else {
-      return <td className="denied"><Badge type="denied" size={36} /></td>;
+      return <td className='denied'><Badge type='denied' size={36} /></td>;
     }
   }
 
@@ -175,24 +175,24 @@ class OPOVehicleRequests extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div id="opo-trips-page" className="center-view">
-          <div className="doc-card">
-            <Box dir="col" pad={45}>
-              <Box dir="row" justify="between" align="center">
-                <div className="doc-h1">Pending V-Requests</div>
+        <div id='opo-trips-page' className='center-view'>
+          <div className='doc-card'>
+            <Box dir='col' pad={45}>
+              <Box dir='row' justify='between' align='center'>
+                <div className='doc-h1'>Pending V-Requests</div>
                 <Toggle
-                  id="pending-requests-past-toggle"
-                  label="See past requests"
+                  id='pending-requests-past-toggle'
+                  label='See past requests'
                   value={this.state.seePastPendingRequests}
                   onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
                   disabled={false}
                 />
                 <input
-                  name="searchPending"
-                  placeholder="Search pending requests"
+                  name='searchPending'
+                  placeholder='Search pending requests'
                   value={this.state.searchPendingTerm}
                   onChange={this.onSearchPendingTermChange}
-                  className="databox-heading-search field"
+                  className='databox-heading-search field'
                 />
               </Box>
               <Stack size={25} />
@@ -200,22 +200,22 @@ class OPOVehicleRequests extends Component {
             </Box>
           </div>
           <Stack size={100} />
-          <div className="opo-trips-page-databox doc-card large-card">
-            <div className="databox-heading">
-              <div className="doc-h1">Reviewed V-Requests</div>
+          <div className='opo-trips-page-databox doc-card large-card'>
+            <div className='databox-heading'>
+              <div className='doc-h1'>Reviewed V-Requests</div>
               <Toggle
-                id="reviewed-requests-past-toggle"
-                label="See past requests"
+                id='reviewed-requests-past-toggle'
+                label='See past requests'
                 value={this.state.seePastReviewedRequests}
                 onChange={() => this.setState((prevState) => { return { seePastReviewedRequests: !prevState.seePastReviewedRequests }; })}
                 disabled={false}
               />
               <input
-                name="searchReviewed"
-                placeholder="Search reviewed requests"
+                name='searchReviewed'
+                placeholder='Search reviewed requests'
                 value={this.state.searchReviewedTerm}
                 onChange={this.onSearchReviewedTermChange}
-                className="databox-heading-search field"
+                className='databox-heading-search field'
               />
             </div>
             {this.getApprovedTable()}
@@ -224,7 +224,7 @@ class OPOVehicleRequests extends Component {
         </div>
       );
     } else {
-      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type='doc' height='150' width='150' measure='px' />);
     }
   }
 }

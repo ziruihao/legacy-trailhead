@@ -57,11 +57,11 @@ class WeekView extends Component {
         return Object.assign({}, booking, calendarFields);
       });
       return (
-        <div key={vehicle._id} className="weekview-container">
+        <div key={vehicle._id} className='weekview-container'>
           <span className={`vehicle-name ${index === 0 && 'weekView-top-padding'}`}>
             {vehicle.name}
           </span>
-          <span className="timegrid-latch">
+          <span className='timegrid-latch'>
             <TimeGrid
               ref={(timeGridRef) => { this.arrayofRefs[index] = timeGridRef; }}
               {...this.props}
@@ -71,8 +71,8 @@ class WeekView extends Component {
               timeslots={9}
               showMultiDayTimes
               events={eventsWithDate}
-              startAccessor="start"
-              endAccessor="end"
+              startAccessor='start'
+              endAccessor='end'
             />
           </span>
         </div>

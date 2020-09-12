@@ -49,9 +49,9 @@ class MyTrips extends Component {
   renderCreateTrip = () => {
     if (this.props.user.role !== 'Trippee') {
       return (
-        <NavLink id="create-trip" className="trip-card" to="/createtrip">
-          <div className="create-trip-words h3">Create a trip</div>
-          <img src={createtrip} alt="green circle with a plus sign" />
+        <NavLink id='create-trip' className='trip-card' to='/createtrip'>
+          <div className='create-trip-words h3'>Create a trip</div>
+          <img src={createtrip} alt='green circle with a plus sign' />
         </NavLink>
       );
     } else {
@@ -61,21 +61,21 @@ class MyTrips extends Component {
 
   renderMyTrips = () => {
     let myTrips = (
-      <Box dir="row" align="center">
-        <img src={sadTree} alt="no trips found" />
+      <Box dir='row' align='center'>
+        <img src={sadTree} alt='no trips found' />
         <Queue size={50} />
-        <Box dir="col" width={400}>
-          <div className="doc-h2 gray">
+        <Box dir='col' width={400}>
+          <div className='doc-h2 gray'>
             Not crunchy enough?
           </div>
           <Stack size={50} />
-          <div className="gray thin p1">
+          <div className='gray thin p1'>
             Also, only OPO approved club leaders can create trips.
             Club leaders should update the DOC Leadership field on their profiles to gain leader access.
           </div>
         </Box>
         <Queue size={100} />
-        <div className="doc-button" onClick={() => this.props.history.push('/all-trips')} role="button" tabIndex={0}>Explore trips</div>
+        <div className='doc-button' onClick={() => this.props.history.push('/all-trips')} role='button' tabIndex={0}>Explore trips</div>
       </Box>
     );
     if (this.props.myTrips.length !== 0) {
@@ -98,14 +98,14 @@ class MyTrips extends Component {
   renderMyVehicleRequests = () => {
     if (this.props.myVehicleReqs.length === 0) {
       return (
-        <div className="gray thin p1">
+        <div className='gray thin p1'>
           Your vehicle requests will appear here. Only OPO certified drivers can request vehicles.
           Certified drivers should update the Driver Certifications field on their profiles to gain driver access.
         </div>
       );
     } else {
       return (
-        <Table className="doc-table" responsive="lg" hover>
+        <Table className='doc-table' responsive='lg' hover>
           <thead>
             <tr>
               <th>Number</th>
@@ -137,10 +137,10 @@ class MyTrips extends Component {
                 }
                 return (
                   <tr key={vehicleReq._id} onClick={() => window.open(`${constants.ROOT_URL}${reqLink}`, '__blank')}>
-                    <td className="p2">{vehicleReq.number}</td>
-                    <td className="p2">{earliest}</td>
-                    <td className="p2">{vehicleReq.requestType === 'SOLO' ? 'Not for trip' : 'For a trip'}</td>
-                    <td className="p2">{vehicleReq.requestType === 'SOLO' ? vehicleReq.requestDetails : `Trip #${vehicleReq.associatedTrip.number}: ${vehicleReq.associatedTrip.title}`}</td>
+                    <td className='p2'>{vehicleReq.number}</td>
+                    <td className='p2'>{earliest}</td>
+                    <td className='p2'>{vehicleReq.requestType === 'SOLO' ? 'Not for trip' : 'For a trip'}</td>
+                    <td className='p2'>{vehicleReq.requestType === 'SOLO' ? vehicleReq.requestDetails : `Trip #${vehicleReq.associatedTrip.number}: ${vehicleReq.associatedTrip.title}`}</td>
                     <td><Badge type={status} size={36} /></td>
                   </tr>
                 );
@@ -155,13 +155,13 @@ class MyTrips extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <Box id="my-trips-page" dir="col">
+        <Box id='my-trips-page' dir='col'>
           <Stack size={100} />
-          <Box className="doc-card" dir="row" pad={45}>
-            <div className="doc-h1">Your upcoming trips</div>
+          <Box className='doc-card' dir='row' pad={45}>
+            <div className='doc-h1'>Your upcoming trips</div>
             <Queue expand />
             <Toggle
-              id="see-trips-im-leading-toggle"
+              id='see-trips-im-leading-toggle'
               label="Trips I'm leading"
               value={this.state.seeTripsImLeading}
               onChange={() => this.setState((prevState) => { return { seeTripsImLeading: !prevState.seeTripsImLeading }; })}
@@ -176,44 +176,44 @@ class MyTrips extends Component {
             /> */}
           </Box>
           <Stack size={35} />
-          <Box id="my-trips-tiles-container">
-            <Box id="my-trips-tiles" className="no-scroll-bar">
+          <Box id='my-trips-tiles-container'>
+            <Box id='my-trips-tiles' className='no-scroll-bar'>
               <Queue size={20} />
               {this.renderCreateTrip()}
               {this.props.user.role !== 'Trippee' ? <Queue size={45} /> : null}
               {this.renderMyTrips()}
               <Queue size={300} />
             </Box>
-            <div id="my-trip-tiles-blur" />
+            <div id='my-trip-tiles-blur' />
           </Box>
           <Stack size={85} />
           {this.props.user.role !== 'Trippee'
             ? (
-              <Box dir="col" pad={45} className="doc-card">
-                <Box dir="row" justify="between" align="center">
-                  <div className="doc-h1">Pending V-Requests</div>
+              <Box dir='col' pad={45} className='doc-card'>
+                <Box dir='row' justify='between' align='center'>
+                  <div className='doc-h1'>Pending V-Requests</div>
                   <Toggle
-                    id="see-past-requests-toggle"
-                    label="See past requests"
+                    id='see-past-requests-toggle'
+                    label='See past requests'
                     value={this.state.seePastRequests}
                     onChange={() => this.setState((prevState) => { this.props.appError('This feature is under construction!'); return { seePastRequests: !prevState.seePastRequests }; })}
                     disabled={false}
                   />
                   <input
-                    name="searchPending"
-                    placeholder="Search pending requests"
+                    name='searchPending'
+                    placeholder='Search pending requests'
                     value={this.state.searchRequestTerm}
                     onChange={this.onSearchRequestTermChange}
-                    className="databox-heading-search field"
+                    className='databox-heading-search field'
                   />
                 </Box>
                 <Stack size={25} />
                 {this.renderMyVehicleRequests()}
                 <Stack size={25} />
-                <Box dir="row" justify="end">
-                  <div className="doc-button hollow" onClick={() => this.props.history.push('/vehicle-calendar')} role="button" tabIndex={0}>Vehicle calendar</div>
+                <Box dir='row' justify='end'>
+                  <div className='doc-button hollow' onClick={() => this.props.history.push('/vehicle-calendar')} role='button' tabIndex={0}>Vehicle calendar</div>
                   <Queue size={25} />
-                  <div className="doc-button" onClick={() => { this.props.history.push('/vehicle-request'); window.scroll(0, 0); }} role="button" tabIndex={0}>Request vehicle</div>
+                  <div className='doc-button' onClick={() => { this.props.history.push('/vehicle-request'); window.scroll(0, 0); }} role='button' tabIndex={0}>Request vehicle</div>
                 </Box>
               </Box>
             )
@@ -223,7 +223,7 @@ class MyTrips extends Component {
         </Box>
       );
     } else {
-      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type='doc' height='150' width='150' measure='px' />);
     }
   }
 }

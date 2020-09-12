@@ -35,36 +35,36 @@ class MobileCheckIn extends PureComponent {
 
   render() {
     if (!this.state.loaded) {
-      return (<DOCLoading type="doc" width="64" height="64" measure="px" />);
+      return (<DOCLoading type='doc' width='64' height='64' measure='px' />);
     } else {
       return (
-        <div id="mobile-check-screen">
-          <div id="mobile-check-header">
-            <div className="doc-h3">{`Trip #${this.props.trip.number}`}</div>
+        <div id='mobile-check-screen'>
+          <div id='mobile-check-header'>
+            <div className='doc-h3'>{`Trip #${this.props.trip.number}`}</div>
             <Stack size={18} />
-            <div className="doc-h1">{`${this.props.trip.title}`}</div>
+            <div className='doc-h1'>{`${this.props.trip.title}`}</div>
             <Stack size={18} />
-            <div className="doc-h3">{`Start: ${utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'LONG')}`}</div>
+            <div className='doc-h3'>{`Start: ${utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'LONG')}`}</div>
             <Stack size={18} />
-            <div className="doc-h3">{`Return: ${utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'LONG')}`}</div>
+            <div className='doc-h3'>{`Return: ${utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'LONG')}`}</div>
           </div>
           <Stack size={18} />
           <hr />
           <Stack size={18} />
-          <div id="mobile-check-body">
-            <div className="doc-h2">Welcome back!</div>
+          <div id='mobile-check-body'>
+            <div className='doc-h2'>Welcome back!</div>
             <Stack size={18} />
-            <div className="p1">If you have returned safely without ANY incidents or near misses during the trip:</div>
+            <div className='p1'>If you have returned safely without ANY incidents or near misses during the trip:</div>
             <Stack size={18} />
             {this.props.trip.returned
-              ? <div role="button" tabIndex={0} className="doc-button alarm" onClick={() => this.toggleTripReturnedStatus(false)}>Undo return</div>
+              ? <div role='button' tabIndex={0} className='doc-button alarm' onClick={() => this.toggleTripReturnedStatus(false)}>Undo return</div>
 
-              : <div role="button" tabIndex={0} className="doc-button" onClick={() => this.toggleTripReturnedStatus(true)}>We returned safely</div>
+              : <div role='button' tabIndex={0} className='doc-button' onClick={() => this.toggleTripReturnedStatus(true)}>We returned safely</div>
           }
             <Stack size={18} />
-            <div className="p1">If you need to file an incident or near miss report:</div>
+            <div className='p1'>If you need to file an incident or near miss report:</div>
             <Stack size={18} />
-            <div role="button" tabIndex={0} className="doc-button alarm" onClick={() => { window.open('https://docs.google.com/forms/u/1/d/e/1FAIpQLSeo9jIcTGNstZ1uADtovDjJT8kkPtS-YpRwzJC2MZkVkbH0hw/viewform', '_blank'); }}>File report</div>
+            <div role='button' tabIndex={0} className='doc-button alarm' onClick={() => { window.open('https://docs.google.com/forms/u/1/d/e/1FAIpQLSeo9jIcTGNstZ1uADtovDjJT8kkPtS-YpRwzJC2MZkVkbH0hw/viewform', '_blank'); }}>File report</div>
             <Stack size={18} />
             <div>Please close this tab after you have checked in for security purposes.</div>
           </div>

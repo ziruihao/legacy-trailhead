@@ -67,9 +67,9 @@ class OPOVehicleRequest extends Component {
       .then(() => {
         this.vehicleForm = this.props.vehicles.map((vehicle) => {
           return (
-            <Dropdown.Item key={vehicle._id} className="ovr-vehicle-option" eventKey={vehicle.name}>
+            <Dropdown.Item key={vehicle._id} className='ovr-vehicle-option' eventKey={vehicle.name}>
               <span>{vehicle.name}</span>
-              <span className="ovr-vehicle-option-type">{vehicle.type}</span>
+              <span className='ovr-vehicle-option-type'>{vehicle.type}</span>
             </Dropdown.Item>
           );
         });
@@ -294,9 +294,9 @@ class OPOVehicleRequest extends Component {
       .then(() => {
         this.vehicleForm = this.props.vehicles.map((vehicle) => {
           return (
-            <Dropdown.Item className="ovr-vehicle-option" key={vehicle._id} eventKey={vehicle.name}>
+            <Dropdown.Item className='ovr-vehicle-option' key={vehicle._id} eventKey={vehicle.name}>
               <span>{vehicle.name}</span>
-              <span className="ovr-vehicle-option-type">{vehicle.type}</span>
+              <span className='ovr-vehicle-option-type'>{vehicle.type}</span>
             </Dropdown.Item>
           );
         });
@@ -387,11 +387,11 @@ class OPOVehicleRequest extends Component {
 
   renderPotentialConflicts = (conflicts) => {
     return (
-      <div className="ovr-req-assignment-conflicts">
+      <div className='ovr-req-assignment-conflicts'>
         {conflicts.map((conflict) => {
           console.log(conflict);
           return (
-            <div className="ovr-req-assignment-conflict" key={conflict.objectID}>
+            <div className='ovr-req-assignment-conflict' key={conflict.objectID}>
               {conflict.message}
             </div>
           );
@@ -412,92 +412,92 @@ class OPOVehicleRequest extends Component {
   renderAssignmentForm = (index, vehicle) => {
     const assignment = this.state.assignments[index];
     return (
-      <Box dir="col" align="center">
-        <Box dir="row" align="center" height={60} className="doc-h2">Assign</Box>
-        <Box dir="col" pad={[0, 30]} className="doc-bordered doc-white">
-          <Box dir="row" align="center" height={60} className="p1">
-            <Dropdown id="assign-vehicle-dropdown" onSelect={eventKey => this.onVehicleTypeChange(eventKey, index)} style={{ flex: 1 }}>
+      <Box dir='col' align='center'>
+        <Box dir='row' align='center' height={60} className='doc-h2'>Assign</Box>
+        <Box dir='col' pad={[0, 30]} className='doc-bordered doc-white'>
+          <Box dir='row' align='center' height={60} className='p1'>
+            <Dropdown id='assign-vehicle-dropdown' onSelect={eventKey => this.onVehicleTypeChange(eventKey, index)} style={{ flex: 1 }}>
               <Dropdown.Toggle className={`ovr-vehicle-dropdown-button ${assignment.errorFields.assignedVehicle ? 'field-error' : ''}`}>
                 <div className={`ovr-current-vehicle ${assignment.assignedVehicle === '' ? 'inactive' : ''}`}>{assignment.assignedVehicle === '' ? 'Assign a vehicle' : assignment.assignedVehicle}</div>
                 <Queue size={20} />
-                <Icon type="dropdown" size={20} />
+                <Icon type='dropdown' size={20} />
               </Dropdown.Toggle>
-              <Dropdown.Menu className="ovr-vehicle-options">
+              <Dropdown.Menu className='ovr-vehicle-options'>
                 {this.vehicleForm}
               </Dropdown.Menu>
             </Dropdown>
-            {assignment.conflicts.length > 0 ? <Icon id="ovr-vehicle-conflict-marker" type="warning" size={18} onClick={() => this.openConflictsModal(assignment.assignedVehicle, assignment.conflicts)} /> : null}
+            {assignment.conflicts.length > 0 ? <Icon id='ovr-vehicle-conflict-marker' type='warning' size={18} onClick={() => this.openConflictsModal(assignment.assignedVehicle, assignment.conflicts)} /> : null}
           </Box>
-          <Box dir="row" align="center" height={60} className="p1">{vehicle.trailerNeeded ? 'Yes' : 'No'}</Box>
-          <Box dir="row" align="center" height={60} className="p1">{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
-          <Box dir="row" align="center" height={60} className="p1">
+          <Box dir='row' align='center' height={60} className='p1'>{vehicle.trailerNeeded ? 'Yes' : 'No'}</Box>
+          <Box dir='row' align='center' height={60} className='p1'>{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
+          <Box dir='row' align='center' height={60} className='p1'>
             {assignment.assignedVehicle === 'Enterprise'
               ? '-'
               : (
                 <input
-                  type="date"
+                  type='date'
                   id={`pickup_date_${index}`}
                   className={`ovr-date-input ${assignment.pickupDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupDate ? '' : ''}`}
-                  name="pickupDate"
+                  name='pickupDate'
                   value={assignment.pickupDate}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
           </Box>
-          <Box dir="row" align="center" height={60} className="p1">
+          <Box dir='row' align='center' height={60} className='p1'>
             {assignment.assignedVehicle === 'Enterprise'
               ? '-'
               : (
                 <input
-                  type="time"
+                  type='time'
                   id={`pickup_time_${index}`}
                   className={`ovr-date-input ${assignment.pickupTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupTime ? '' : ''}`}
-                  name="pickupTime"
+                  name='pickupTime'
                   value={assignment.pickupTime}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
           </Box>
-          <Box dir="row" align="center" height={60} className="p1">
+          <Box dir='row' align='center' height={60} className='p1'>
             {assignment.assignedVehicle === 'Enterprise'
               ? '-'
               : (
                 <input
-                  type="date"
+                  type='date'
                   id={`return_date_${index}`}
                   className={`ovr-date-input ${assignment.returnDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnDate ? '' : ''}`}
-                  name="returnDate"
+                  name='returnDate'
                   value={assignment.returnDate}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
           </Box>
-          <Box dir="row" align="center" height={60} className="p1">
+          <Box dir='row' align='center' height={60} className='p1'>
             {assignment.assignedVehicle === 'Enterprise'
               ? '-'
               : (
                 <input
-                  type="time"
+                  type='time'
                   id={`return_time_${index}`}
                   className={`ovr-date-input ${assignment.returnTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnTime ? '' : ''}`}
-                  name="returnTime"
+                  name='returnTime'
                   value={assignment.returnTime}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
           </Box>
-          <Box dir="row" align="center" height={60} className="p1">
+          <Box dir='row' align='center' height={60} className='p1'>
             {assignment.assignedVehicle === 'Enterprise'
               ? '-'
               : (
                 <input
-                  type="text"
+                  type='text'
                   id={`assigned_key_${index}`}
                   className={`ovr-date-input ${assignment.errorFields.assignedKey ? '' : ''}`}
-                  maxLength="50"
-                  name="assignedKey"
+                  maxLength='50'
+                  name='assignedKey'
                   value={assignment.assignedKey}
-                  placeholder="33A"
+                  placeholder='33A'
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
@@ -554,40 +554,40 @@ class OPOVehicleRequest extends Component {
     const assignment = this.findMatchingAssignment(index);
     if (assignment) {
       return (
-        <Box dir="col" align="center">
-          <Box dir="row" align="center" height={60} className="doc-h2">Assigned</Box>
-          <Box dir="col" pad={[0, 30]} className="doc-bordered">
-            <Box dir="row" align="center" height={60} className="p1">{assignment.assigned_vehicle.name}</Box>
+        <Box dir='col' align='center'>
+          <Box dir='row' align='center' height={60} className='doc-h2'>Assigned</Box>
+          <Box dir='col' pad={[0, 30]} className='doc-bordered'>
+            <Box dir='row' align='center' height={60} className='p1'>{assignment.assigned_vehicle.name}</Box>
 
-            <Box dir="row" align="center" height={60} className="p1">{vehicle.trailerNeeded ? 'Yes' : 'No'}</Box>
+            <Box dir='row' align='center' height={60} className='p1'>{vehicle.trailerNeeded ? 'Yes' : 'No'}</Box>
 
-            <Box dir="row" align="center" height={60} className="p1">{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
+            <Box dir='row' align='center' height={60} className='p1'>{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
 
-            <Box dir="row" align="center" height={60} className="p1">
+            <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : utils.dates.formatDate(new Date(assignment.assigned_pickupDateAndTime), 'LONG')}
             </Box>
 
-            <Box dir="row" align="center" height={60} className="p1">
+            <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : utils.dates.formatTime(new Date(assignment.assigned_pickupTime))}
             </Box>
 
-            <Box dir="row" align="center" height={60} className="p1">
+            <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : utils.dates.formatDate(new Date(assignment.assigned_returnDateAndTime), 'LONG')}
             </Box>
 
-            <Box dir="row" align="center" height={60} className="p1">
+            <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : utils.dates.formatTime(new Date(assignment.assigned_returnTime))}
             </Box>
 
-            <Box dir="row" align="center" height={60} className="p1">
+            <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
                 : assignment.assigned_key}
@@ -596,13 +596,13 @@ class OPOVehicleRequest extends Component {
               ? (
                 <div>
 
-                  <Box dir="row" align="center" height={60} className="p1">
+                  <Box dir='row' align='center' height={60} className='p1'>
                     {assignment.assigned_vehicle.name === 'Enterprise'
                       ? '-'
                       : assignment.pickedUp ? 'Yes' : 'No' }
                   </Box>
 
-                  <Box dir="row" align="center" height={60} className="p1">
+                  <Box dir='row' align='center' height={60} className='p1'>
                     {assignment.assigned_vehicle.name === 'Enterprise'
                       ? '-'
                       : assignment.returned ? 'Yes' : 'No'}
@@ -616,16 +616,16 @@ class OPOVehicleRequest extends Component {
       );
     } else {
       return (
-        <Box dir="col" style={{ textAlign: 'right' }}>
-          <Box dir="row" align="center" height={60} className="doc-h2">Skipped</Box>
-          <Box dir="row" align="center" height={60} className="p1 thin italic gray">Skipped</Box>
-          <Box dir="row" align="center" height={60} className="p1 thin italic gray">-</Box>
-          <Box dir="row" align="center" height={60} className="p1 thin italic gray">-</Box>
-          <Box dir="row" align="center" height={60} className="p1 thin italic gray">Skipped</Box>
-          <Box dir="row" align="center" height={60} className="p1 thin italic gray">Skipped</Box>
-          <Box dir="row" align="center" height={60} className="p1 thin italic gray">Skipped</Box>
-          <Box dir="row" align="center" height={60} className="p1 thin italic gray">Skipped</Box>
-          <Box dir="row" align="center" height={60} className="p1 thin italic gray">Skipped</Box>
+        <Box dir='col' style={{ textAlign: 'right' }}>
+          <Box dir='row' align='center' height={60} className='doc-h2'>Skipped</Box>
+          <Box dir='row' align='center' height={60} className='p1 thin italic gray'>Skipped</Box>
+          <Box dir='row' align='center' height={60} className='p1 thin italic gray'>-</Box>
+          <Box dir='row' align='center' height={60} className='p1 thin italic gray'>-</Box>
+          <Box dir='row' align='center' height={60} className='p1 thin italic gray'>Skipped</Box>
+          <Box dir='row' align='center' height={60} className='p1 thin italic gray'>Skipped</Box>
+          <Box dir='row' align='center' height={60} className='p1 thin italic gray'>Skipped</Box>
+          <Box dir='row' align='center' height={60} className='p1 thin italic gray'>Skipped</Box>
+          <Box dir='row' align='center' height={60} className='p1 thin italic gray'>Skipped</Box>
         </Box>
       );
     }
@@ -635,74 +635,74 @@ class OPOVehicleRequest extends Component {
     return this.props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
       const assignment = this.findMatchingAssignment(index);
       return (
-        <Box dir="col" key={vehicle._id} id={`vehicle_req_${index}`}>
+        <Box dir='col' key={vehicle._id} id={`vehicle_req_${index}`}>
           <Divider size={1} />
           <Stack size={50} />
-          <Box dir="row" justify="between" align="center">
-            <div className="doc-h1">Vehicle #{index + 1}</div>
+          <Box dir='row' justify='between' align='center'>
+            <div className='doc-h1'>Vehicle #{index + 1}</div>
             {this.state.isEditing || typeof assignment === 'undefined'
               ? null
               : (
-                <div className="doc-button alarm hollow" onClick={() => this.activateModal({ trigger: 'CANCEL', ids: [assignment._id] })} role="button" tabIndex={0}>
+                <div className='doc-button alarm hollow' onClick={() => this.activateModal({ trigger: 'CANCEL', ids: [assignment._id] })} role='button' tabIndex={0}>
                   Cancel assignment
                 </div>
               )
           }
           </Box>
           <Stack size={25} />
-          <div className="doc-h2">
+          <div className='doc-h2'>
             Vehicle Details
           </div>
           <Stack size={25} />
-          <div className="p1">{this.isStringEmpty(vehicle.vehicleDetails) ? 'skipped' : vehicle.vehicleDetails}</div>
+          <div className='p1'>{this.isStringEmpty(vehicle.vehicleDetails) ? 'skipped' : vehicle.vehicleDetails}</div>
           <Stack size={25} />
-          <Box dir="row" justify="between">
-            <Box dir="col" style={{ textAlign: 'right' }}>
+          <Box dir='row' justify='between'>
+            <Box dir='col' style={{ textAlign: 'right' }}>
               <Stack size={60} />
-              <Box dir="row" align="center" height={60} className="p1 thick">Vehicle</Box>
-              <Box dir="row" align="center" height={60} className="p1 thick">Trailer Hitch Required?</Box>
-              <Box dir="row" align="center" height={60} className="p1 thick">WMNF Pass Needed?</Box>
-              <Box dir="row" align="center" height={60} className="p1 thick">Pickup Date</Box>
-              <Box dir="row" align="center" height={60} className="p1 thick">Pickup Time</Box>
-              <Box dir="row" align="center" height={60} className="p1 thick">Return Date</Box>
-              <Box dir="row" align="center" height={60} className="p1 thick">Return Time</Box>
-              <Box dir="row" align="center" height={60} className="p1 thick">Key Assignment</Box>
+              <Box dir='row' align='center' height={60} className='p1 thick'>Vehicle</Box>
+              <Box dir='row' align='center' height={60} className='p1 thick'>Trailer Hitch Required?</Box>
+              <Box dir='row' align='center' height={60} className='p1 thick'>WMNF Pass Needed?</Box>
+              <Box dir='row' align='center' height={60} className='p1 thick'>Pickup Date</Box>
+              <Box dir='row' align='center' height={60} className='p1 thick'>Pickup Time</Box>
+              <Box dir='row' align='center' height={60} className='p1 thick'>Return Date</Box>
+              <Box dir='row' align='center' height={60} className='p1 thick'>Return Time</Box>
+              <Box dir='row' align='center' height={60} className='p1 thick'>Key Assignment</Box>
               {assignment
                 ? (
                   <div>
-                    <Box dir="row" align="center" height={60} className="p1 thick">Picked up?</Box>
-                    <Box dir="row" align="center" height={60} className="p1 thick">Returned?</Box>
+                    <Box dir='row' align='center' height={60} className='p1 thick'>Picked up?</Box>
+                    <Box dir='row' align='center' height={60} className='p1 thick'>Returned?</Box>
                   </div>
                 )
                 : null
               }
             </Box>
 
-            <Box dir="col" align="center">
-              <Box dir="row" align="center" height={60} className="doc-h2">Requested</Box>
-              <Box dir="col" pad={[0, 30]} className="doc-bordered">
-                <Box dir="row" align="center" height={60} className="p1">{vehicle.vehicleType}</Box>
+            <Box dir='col' align='center'>
+              <Box dir='row' align='center' height={60} className='doc-h2'>Requested</Box>
+              <Box dir='col' pad={[0, 30]} className='doc-bordered'>
+                <Box dir='row' align='center' height={60} className='p1'>{vehicle.vehicleType}</Box>
 
-                <Box dir="row" align="center" height={60} className="p1">{vehicle.trailerNeeded ? 'Yes' : 'No'}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{vehicle.trailerNeeded ? 'Yes' : 'No'}</Box>
 
-                <Box dir="row" align="center" height={60} className="p1">{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
+                <Box dir='row' align='center' height={60} className='p1'>{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
 
-                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatDate(new Date(vehicle.pickupDateAndTime), 'LONG')}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.pickupDateAndTime), 'LONG')}</Box>
 
-                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatTime(new Date(vehicle.pickupTime))}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.pickupTime))}</Box>
 
-                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatDate(new Date(vehicle.returnDateAndTime), 'LONG')}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.returnDateAndTime), 'LONG')}</Box>
 
-                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatTime(new Date(vehicle.returnTime))}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.returnTime))}</Box>
 
-                <Box dir="row" align="center" height={60} className="p1"> - </Box>
+                <Box dir='row' align='center' height={60} className='p1'> - </Box>
                 {assignment
                   ? (
                     <div>
 
-                      <Box dir="row" align="center" height={60} className="p1"> - </Box>
+                      <Box dir='row' align='center' height={60} className='p1'> - </Box>
 
-                      <Box dir="row" align="center" height={60} className="p1"> - </Box>
+                      <Box dir='row' align='center' height={60} className='p1'> - </Box>
                     </div>
                   )
                   : null
@@ -725,7 +725,7 @@ class OPOVehicleRequest extends Component {
       return null;
     } else if (!this.state.isEditing && this.props.vehicleRequest.status === 'approved') {
       return (
-        <div className="doc-button alarm" onClick={() => this.activateModal({ trigger: 'CANCEL ALL', ids: allAssignmentIds })} role="button" tabIndex={0}>
+        <div className='doc-button alarm' onClick={() => this.activateModal({ trigger: 'CANCEL ALL', ids: allAssignmentIds })} role='button' tabIndex={0}>
           Cancel all assignments
         </div>
       );
@@ -739,9 +739,9 @@ class OPOVehicleRequest extends Component {
       if (this.props.vehicleRequest.status === 'pending') {
         return (
           <>
-            <div className="doc-button alarm" onClick={this.denyVehicleRequest} role="button" tabIndex={0}>Deny request</div>
+            <div className='doc-button alarm' onClick={this.denyVehicleRequest} role='button' tabIndex={0}>Deny request</div>
             <Queue size={50} />
-            <div className="doc-button" onClick={this.approve} role="button" tabIndex={0}>Assign vehicles</div>
+            <div className='doc-button' onClick={this.approve} role='button' tabIndex={0}>Assign vehicles</div>
           </>
         );
       } else {
@@ -749,9 +749,9 @@ class OPOVehicleRequest extends Component {
           <>
             {/* <div className="doc-button alarm" onClick={this.denyVehicleRequest} role="button" tabIndex={0}>Deny request</div>
             <Queue size={50} /> */}
-            <div className="doc-button alarm follow" onClick={this.cancelUpdate} role="button" tabIndex={0}>Cancel changes</div>
+            <div className='doc-button alarm follow' onClick={this.cancelUpdate} role='button' tabIndex={0}>Cancel changes</div>
             <Queue size={25} />
-            <div className="doc-button" onClick={this.approve} role="button" tabIndex={0}>Save changes</div>
+            <div className='doc-button' onClick={this.approve} role='button' tabIndex={0}>Save changes</div>
           </>
         );
       }
@@ -760,7 +760,7 @@ class OPOVehicleRequest extends Component {
         <>
           {/* <div className="doc-button alarm" onClick={this.denyVehicleRequest} role="button" tabIndex={0}>Deny request</div>
           <Queue size={50} /> */}
-          <div className="doc-button" onClick={this.startEditing} role="button" tabIndex={0}>Change assignments</div>
+          <div className='doc-button' onClick={this.startEditing} role='button' tabIndex={0}>Change assignments</div>
         </>
       );
     }
@@ -770,39 +770,39 @@ class OPOVehicleRequest extends Component {
   getModalContent = () => {
     if (this.state.modalInfo.trigger === 'CONTACT') {
       return (
-        <div className="cancel-content">
-          <p className="cancel-question">{`Contact ${this.props.vehicleRequest.requester.name}`}</p>
-          <p className="cancel-message">Please email the requester if you need them to update the request. They cannot update a request after it has been approved.</p>
-          <div className="ovr-modal-button-container">
+        <div className='cancel-content'>
+          <p className='cancel-question'>{`Contact ${this.props.vehicleRequest.requester.name}`}</p>
+          <p className='cancel-message'>Please email the requester if you need them to update the request. They cannot update a request after it has been approved.</p>
+          <div className='ovr-modal-button-container'>
             <input
               ref={this.emailRef}
-              type="text"
-              className="ovr-requester-email"
+              type='text'
+              className='ovr-requester-email'
               defaultValue={this.props.vehicleRequest.requester.email}
             />
           </div>
-          <div className="ovr-modal-button-container">
-            <button type="button" className="vrf-submit-button signup-button" onClick={this.copyEmail}>Copy email address</button>
+          <div className='ovr-modal-button-container'>
+            <button type='button' className='vrf-submit-button signup-button' onClick={this.copyEmail}>Copy email address</button>
           </div>
         </div>
       );
     } else if (this.state.modalInfo.trigger === 'CANCEL ALL') {
       return (
-        <div className="cancel-content">
-          <p className="cancel-question">Cancel all assignments for this request?</p>
-          <p className="cancel-message">The assigned vehicles will become available for other requests</p>
-          <div className="ovr-modal-button-container">
-            <button type="submit" className="leader-cancel-button confirm-cancel" onClick={() => this.cancelAssignments(this.state.modalInfo.ids)}>Cancel All</button>
+        <div className='cancel-content'>
+          <p className='cancel-question'>Cancel all assignments for this request?</p>
+          <p className='cancel-message'>The assigned vehicles will become available for other requests</p>
+          <div className='ovr-modal-button-container'>
+            <button type='submit' className='leader-cancel-button confirm-cancel' onClick={() => this.cancelAssignments(this.state.modalInfo.ids)}>Cancel All</button>
           </div>
         </div>
       );
     } else if (this.state.modalInfo.trigger === 'CANCEL') {
       return (
-        <div className="cancel-content">
-          <p className="cancel-question">Cancel assignment?</p>
-          <p className="cancel-message">The assigned vehicle will become available for other requests</p>
-          <div className="ovr-modal-button-container">
-            <button type="submit" className="leader-cancel-button confirm-cancel" onClick={() => this.cancelAssignments(this.state.modalInfo.ids)}>Cancel</button>
+        <div className='cancel-content'>
+          <p className='cancel-question'>Cancel assignment?</p>
+          <p className='cancel-message'>The assigned vehicle will become available for other requests</p>
+          <div className='ovr-modal-button-container'>
+            <button type='submit' className='leader-cancel-button confirm-cancel' onClick={() => this.cancelAssignments(this.state.modalInfo.ids)}>Cancel</button>
           </div>
         </div>
       );
@@ -813,11 +813,11 @@ class OPOVehicleRequest extends Component {
 
   render() {
     if (!this.state.ready) {
-      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type='doc' height='150' width='150' measure='px' />);
     } else {
       return (
-        <Box dir="row" style={{ position: 'relative' }}>
-          <div style={{ zIndex: 10, position: 'fixed', bottom: '50px', left: '50px' }} className="doc-button" onClick={() => this.setState({ showCalendarModal: true })} role="button" tabIndex={0}>See vehicle calendar</div>
+        <Box dir='row' style={{ position: 'relative' }}>
+          <div style={{ zIndex: 10, position: 'fixed', bottom: '50px', left: '50px' }} className='doc-button' onClick={() => this.setState({ showCalendarModal: true })} role='button' tabIndex={0}>See vehicle calendar</div>
           {this.props.partOfTrip
             ? null
             : (
@@ -831,44 +831,44 @@ class OPOVehicleRequest extends Component {
               />
             )
           }
-          <Box dir="col" pad={this.props.partOfTrip ? 0 : 100} expand>
-            <Box dir="row" justify="between" align="center">
-              <div className="doc-h1">Vehicle request</div>
+          <Box dir='col' pad={this.props.partOfTrip ? 0 : 100} expand>
+            <Box dir='row' justify='between' align='center'>
+              <div className='doc-h1'>Vehicle request</div>
               <Badge type={this.props.vehicleRequest.status} size={36} />
             </Box>
             <Stack size={50} />
-            <div className="doc-h2">Requester</div>
+            <div className='doc-h2'>Requester</div>
             <Stack size={25} />
-            <Box dir="row" align="center">
-              <div className="p1">{this.props.vehicleRequest.requester.name}</div>
+            <Box dir='row' align='center'>
+              <div className='p1'>{this.props.vehicleRequest.requester.name}</div>
               <Queue expand />
-              <div className="doc-button hollow" onClick={this.toggleProfile} role="button" tabIndex={0}>View profile</div>
+              <div className='doc-button hollow' onClick={this.toggleProfile} role='button' tabIndex={0}>View profile</div>
               <Queue size={25} />
-              <div className="doc-button" onClick={() => window.open(`mailto:${this.props.vehicleRequest.requester.email}`, '_blank')} role="button" tabIndex={0}>Email requester</div>
+              <div className='doc-button' onClick={() => window.open(`mailto:${this.props.vehicleRequest.requester.email}`, '_blank')} role='button' tabIndex={0}>Email requester</div>
             </Box>
             <Stack size={25} />
-            <Box dir="row">
-              <Box dir="col" expand>
-                <div className="doc-h2">No. of people</div>
+            <Box dir='row'>
+              <Box dir='col' expand>
+                <div className='doc-h2'>No. of people</div>
                 <Stack size={25} />
-                <div className="p1">{this.props.vehicleRequest.noOfPeople}</div>
+                <div className='p1'>{this.props.vehicleRequest.noOfPeople}</div>
               </Box>
               <Queue size={100} />
-              <Box dir="col" expand>
-                <div className="doc-h2">Estimated mileage</div>
+              <Box dir='col' expand>
+                <div className='doc-h2'>Estimated mileage</div>
                 <Stack size={25} />
-                <div className="p1">{this.props.vehicleRequest.mileage}</div>
+                <div className='p1'>{this.props.vehicleRequest.mileage}</div>
               </Box>
             </Box>
             <Stack size={25} />
             {this.props.vehicleRequest.requestType === 'SOLO'
               ? (
                 <>
-                  <div className="doc-h2">
+                  <div className='doc-h2'>
                     Request Details
                   </div>
                   <Stack size={25} />
-                  <div className="p1">
+                  <div className='p1'>
                     {this.props.vehicleRequest.requestDetails}
                   </div>
                 </>
@@ -878,7 +878,7 @@ class OPOVehicleRequest extends Component {
             {this.getVehicles()}
             <Divider size={1} />
             <Stack size={25} />
-            <Box dir="row" justify="end" align="center">
+            <Box dir='row' justify='end' align='center'>
               {this.getAppropriateLink()}
               <Queue size={50} />
               {this.getAppropriateButton()}
@@ -886,7 +886,7 @@ class OPOVehicleRequest extends Component {
           </Box>
           <Modal
             centered
-            size="lg"
+            size='lg'
             show={this.state.showProfile}
             onHide={this.toggleProfile}
           >
@@ -901,10 +901,10 @@ class OPOVehicleRequest extends Component {
             show={this.state.showModal}
             onHide={this.closeModal}
           >
-            <div className="trip-details-close-button">
-              <i className="material-icons close-button" onClick={this.closeModal} role="button" tabIndex={0}>close</i>
+            <div className='trip-details-close-button'>
+              <i className='material-icons close-button' onClick={this.closeModal} role='button' tabIndex={0}>close</i>
             </div>
-            <Badge type="denied" />
+            <Badge type='denied' />
             {this.getModalContent()}
           </Modal>
           <Modal centered show={this.state.showConflictsModal} onHide={() => this.setState({ showConflictsModal: false })}>
@@ -914,7 +914,7 @@ class OPOVehicleRequest extends Component {
             centered
             show={this.state.showCalendarModal}
             onHide={() => this.setState({ showCalendarModal: false })}
-            dialogClassName="vehicle-calendar-modal"
+            dialogClassName='vehicle-calendar-modal'
           >
             <VehicleCalendar />
           </Modal>

@@ -106,16 +106,16 @@ class App extends React.Component {
     if (!this.props.authenticated) {
       return (
         <Router>
-          <Toast className="doc-toast" onClose={this.props.clearError} show={this.props.errorMessage !== ''} delay={3000} autohide>
-            <Toast.Header className="doc-toast-header" closeButton={false}>
-              <strong className="mr-auto">Error</strong>
+          <Toast className='doc-toast' onClose={this.props.clearError} show={this.props.errorMessage !== ''} delay={3000} autohide>
+            <Toast.Header className='doc-toast-header' closeButton={false}>
+              <strong className='mr-auto'>Error</strong>
             </Toast.Header>
-            <Toast.Body className="doc-toast-body">{this.props.errorMessage}</Toast.Body>
+            <Toast.Body className='doc-toast-body'>{this.props.errorMessage}</Toast.Body>
           </Toast>
           <Switch>
-            <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
-            <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
-            <Route path="/"><Gateway dataLoader={this.loadData} /></Route>
+            <Route path='/trip-check-out/:tripID' component={MobileCheckOut} />
+            <Route path='/trip-check-in/:tripID' component={MobileCheckIn} />
+            <Route path='/'><Gateway dataLoader={this.loadData} /></Route>
           </Switch>
         </Router>
       );
@@ -123,38 +123,38 @@ class App extends React.Component {
       return (
         <Router>
           <NavBar />
-          <Toast className="doc-toast" onClose={this.props.clearError} show={this.props.errorMessage !== ''} delay={3000} autohide>
-            <Toast.Header className="doc-toast-header" closeButton={false}>
-              <strong className="mr-auto">Error</strong>
+          <Toast className='doc-toast' onClose={this.props.clearError} show={this.props.errorMessage !== ''} delay={3000} autohide>
+            <Toast.Header className='doc-toast-header' closeButton={false}>
+              <strong className='mr-auto'>Error</strong>
             </Toast.Header>
-            <Toast.Body className="doc-toast-body">{this.props.errorMessage}</Toast.Body>
+            <Toast.Body className='doc-toast-body'>{this.props.errorMessage}</Toast.Body>
           </Toast>
           <Switch>
-            <Route exact path="/">{() => this.requireRole(null, false)}</Route>
-            <Route path="/user" component={ProfilePage} />
-            <Route path="/complete-profile" component={CompleteProfile} />
-            <Route path="/all-trips" component={AllTrips} />
-            <Route path="/vehicle-request/:vehicleReqId">{() => this.requireRole(VehicleRequest, ['OPO', 'Leader'], true)}</Route>
-            <Route path="/vehicle-request">{() => this.requireRole(VehicleRequestPage, ['OPO', 'Leader'], true)}</Route>
-            <Route path="/trip/:tripID" component={TripDetails} />
-            <Route path="/createtrip">{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
-            <Route path="/my-trips" component={MyTrips} />
-            <Route path="/edittrip/:tripID">{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
-            <Route path="/approve-trip/:tripID">{() => this.requireRole(OPOTripApproval, ['OPO'], true)}</Route>
-            <Route path="/opo-trips">{() => this.requireRole(OPOTrips, ['OPO'], true)}</Route>
-            <Route path="/vehicle-requests">{() => this.requireRole(OPOVehicleRequests, ['OPO'], true)}</Route>
-            <Route path="/opo-vehicle-request/:vehicleReqId">{() => this.requireRole(OPOVehicleRequest, ['OPO'], true)}</Route>
-            <Route path="/opo-dashboard">{() => this.requireRole(OPODashboard, ['OPO'], true)}</Route>
-            <Route path="/opo-fleet-management">{() => this.requireRole(FleetManagement, ['OPO'], true)}</Route>
-            <Route path="/leader-approvals">{() => this.requireRole(OPOLeaders, ['OPO'], true)}</Route>
-            <Route path="/vehicle-calendar" component={VehicleCalendar} />
-            <Route path="/trip-check-in/:tripID" component={MobileCheckIn} />
-            <Route path="/trip-check-out/:tripID" component={MobileCheckOut} />
+            <Route exact path='/'>{() => this.requireRole(null, false)}</Route>
+            <Route path='/user' component={ProfilePage} />
+            <Route path='/complete-profile' component={CompleteProfile} />
+            <Route path='/all-trips' component={AllTrips} />
+            <Route path='/vehicle-request/:vehicleReqId'>{() => this.requireRole(VehicleRequest, ['OPO', 'Leader'], true)}</Route>
+            <Route path='/vehicle-request'>{() => this.requireRole(VehicleRequestPage, ['OPO', 'Leader'], true)}</Route>
+            <Route path='/trip/:tripID' component={TripDetails} />
+            <Route path='/createtrip'>{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
+            <Route path='/my-trips' component={MyTrips} />
+            <Route path='/edittrip/:tripID'>{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
+            <Route path='/approve-trip/:tripID'>{() => this.requireRole(OPOTripApproval, ['OPO'], true)}</Route>
+            <Route path='/opo-trips'>{() => this.requireRole(OPOTrips, ['OPO'], true)}</Route>
+            <Route path='/vehicle-requests'>{() => this.requireRole(OPOVehicleRequests, ['OPO'], true)}</Route>
+            <Route path='/opo-vehicle-request/:vehicleReqId'>{() => this.requireRole(OPOVehicleRequest, ['OPO'], true)}</Route>
+            <Route path='/opo-dashboard'>{() => this.requireRole(OPODashboard, ['OPO'], true)}</Route>
+            <Route path='/opo-fleet-management'>{() => this.requireRole(FleetManagement, ['OPO'], true)}</Route>
+            <Route path='/leader-approvals'>{() => this.requireRole(OPOLeaders, ['OPO'], true)}</Route>
+            <Route path='/vehicle-calendar' component={VehicleCalendar} />
+            <Route path='/trip-check-in/:tripID' component={MobileCheckIn} />
+            <Route path='/trip-check-out/:tripID' component={MobileCheckOut} />
           </Switch>
         </Router>
       );
     } else {
-      return <DOCLoading type="doc" height="150" width="150" measure="px" />;
+      return <DOCLoading type='doc' height='150' width='150' measure='px' />;
     }
   }
 }

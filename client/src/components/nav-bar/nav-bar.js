@@ -11,15 +11,15 @@ class NavBar extends Component {
     if (!this.props.authenticated) {
       return (
         <div>
-          <nav className="navbar navbar-expand-lg navbar-light" />
+          <nav className='navbar navbar-expand-lg navbar-light' />
         </div>
       );
     } else {
       return (
-        <div className="nav-bar">
+        <div className='nav-bar'>
           {this.props.user && this.props.user.role === 'OPO'
             ? (
-              <NavLink to="/opo-dashboard" className={`nav-link ${['/opo-dashboard', '/opo-dashboard/vehicle-calendar', '/opo-dashboard/opo-trips', '/opo-dashboard/vehicle-requests', '/opo-dashboard/leader-approvals, /opo-dashboard/opo-fleet-management'].includes(this.props.history.location.pathname) ? 'current' : ''}`}>Dashboard
+              <NavLink to='/opo-dashboard' className={`nav-link ${['/opo-dashboard', '/opo-dashboard/vehicle-calendar', '/opo-dashboard/opo-trips', '/opo-dashboard/vehicle-requests', '/opo-dashboard/leader-approvals, /opo-dashboard/opo-fleet-management'].includes(this.props.history.location.pathname) ? 'current' : ''}`}>Dashboard
                 {/* <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard/vehicle-calendar')}>Calendar</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard/opo-trips')}>Trip Approvals</NavDropdown.Item>
                 <NavDropdown.Item onClick={() => this.props.history.push('/opo-dashboard/vehicle-requests')}>Vehicle Requests</NavDropdown.Item>
@@ -31,9 +31,9 @@ class NavBar extends Component {
             )
             : null
           }
-          <NavLink className={`nav-link ${this.props.history.location.pathname === '/all-trips' ? 'current' : ''}`} to="/all-trips">All Trips</NavLink>
-          <NavLink className={`nav-link ${this.props.history.location.pathname === '/my-trips' ? 'current' : ''}`} to="/my-trips">My Trips</NavLink>
-          <NavDropdown title="Profile" className={`${this.props.history.location.pathname === '/user' ? 'current-bootstrap-wrapper' : ''}`}>
+          <NavLink className={`nav-link ${this.props.history.location.pathname === '/all-trips' ? 'current' : ''}`} to='/all-trips'>All Trips</NavLink>
+          <NavLink className={`nav-link ${this.props.history.location.pathname === '/my-trips' ? 'current' : ''}`} to='/my-trips'>My Trips</NavLink>
+          <NavDropdown title='Profile' className={`${this.props.history.location.pathname === '/user' ? 'current-bootstrap-wrapper' : ''}`}>
             <NavDropdown.Item onClick={() => this.props.history.push('/user')}>View Profile</NavDropdown.Item>
             <NavDropdown.Item onClick={() => this.props.signOut(this.props.history)}>Logout</NavDropdown.Item>
           </NavDropdown>

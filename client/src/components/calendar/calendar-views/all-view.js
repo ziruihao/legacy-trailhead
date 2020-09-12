@@ -53,8 +53,8 @@ class AllView extends Component {
       return Object.assign({}, booking, calendarFields);
     });
     return (
-      <div className="all-view-container">
-        <span className="timegrid-latch">
+      <div className='all-view-container'>
+        <span className='timegrid-latch'>
           <TimeGrid
             // ref={(timeGridRef) => { this.arrayofRefs[index] = timeGridRef; }}
             {...this.props}
@@ -64,8 +64,8 @@ class AllView extends Component {
             timeslots={6}
             showMultiDayTimes
             events={eventsWithDate}
-            startAccessor="start"
-            endAccessor="end"
+            startAccessor='start'
+            endAccessor='end'
           />
         </span>
       </div>

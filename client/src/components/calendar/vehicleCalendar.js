@@ -89,47 +89,47 @@ class VehicleCalendar extends Component {
     const { selectedEvent } = this.state;
     const trip = selectedEvent.request.associatedTrip;
     return (
-      <Box dir="col" align="stretch" pad={50} id="event-modal">
-        <Icon id="event-modal-close" type="close" onClick={this.closeModal} size={25} />
-        <h1 id="event-modal-title">
+      <Box dir='col' align='stretch' pad={50} id='event-modal'>
+        <Icon id='event-modal-close' type='close' onClick={this.closeModal} size={25} />
+        <h1 id='event-modal-title'>
           {selectedEvent.request.associatedTrip ? `Trip #${selectedEvent.request.associatedTrip.number}: ${trip.title}` : `Vehicle Request #${selectedEvent.request.number}`}
           {/* {selectedEvent.request.requestType === 'TRIP' ? trip.title : selectedEvent.requestDetails} */}
         </h1>
-        <div id="event-key-details">
-          <div id="event-key-details-labels">
-            <div id="event-key-detail-row">
+        <div id='event-key-details'>
+          <div id='event-key-details-labels'>
+            <div id='event-key-detail-row'>
               {selectedEvent.request.requestType === 'TRIP' ? 'Leader' : 'Requester'}
             </div>
-            <div id="event-key-detail-row">
+            <div id='event-key-detail-row'>
               {selectedEvent.request.requestType === 'TRIP' ? 'Leader Contact' : 'Requester Contact'}
             </div>
-            <div id="event-key-detail-row">
+            <div id='event-key-detail-row'>
               Assigned Vehicle Date
             </div>
             {selectedEvent.request.requestType === 'TRIP'
               ? (
                 <div>
-                  <div id="event-key-detail-row">
+                  <div id='event-key-detail-row'>
                     Trip Name
                   </div>
-                  <div id="event-key-detail-row">
+                  <div id='event-key-detail-row'>
                     Trip Date
                   </div>
-                  <div id="event-key-detail-row">
+                  <div id='event-key-detail-row'>
                     Co-Leader(s)
                   </div>
                 </div>
               )
               : null}
           </div>
-          <div id="event-key-details-values">
-            <div id="event-key-detail-row">
+          <div id='event-key-details-values'>
+            <div id='event-key-detail-row'>
               {selectedEvent.requester.name}
             </div>
-            <div id="event-key-detail-row">
+            <div id='event-key-detail-row'>
               {`Email: ${selectedEvent.requester.email} | Phone: ${selectedEvent.requester.phone ? selectedEvent.requester.phone : 'N/A'}`}
             </div>
-            <div id="event-key-detail-row">
+            <div id='event-key-detail-row'>
 
               {this.formatDate(selectedEvent.assigned_pickupDate,
                 selectedEvent.assigned_returnDate,
@@ -139,10 +139,10 @@ class VehicleCalendar extends Component {
             {selectedEvent.request.requestType === 'TRIP'
               ? (
                 <div>
-                  <div id="event-key-detail-row">
+                  <div id='event-key-detail-row'>
                     {trip.title}
                   </div>
-                  <div id="event-key-detail-row">
+                  <div id='event-key-detail-row'>
 
                     {this.formatDate(trip.startDate,
                       trip.endDate,
@@ -150,7 +150,7 @@ class VehicleCalendar extends Component {
                       trip.endTime)}
 
                   </div>
-                  <div id="event-key-detail-row">
+                  <div id='event-key-detail-row'>
 
                     {this.getCoLeaders(trip.leaders)}
                   </div>
@@ -160,29 +160,29 @@ class VehicleCalendar extends Component {
           </div>
         </div>
         <hr />
-        <div id="event-description">
-          <span id="event-description-label">Description</span>
-          <div id="event-key-detail-row">
+        <div id='event-description'>
+          <span id='event-description-label'>Description</span>
+          <div id='event-key-detail-row'>
             {selectedEvent.request.requestType === 'TRIP' ? trip.description : selectedEvent.request.requestDetails}
           </div>
         </div>
         <hr />
-        <div className="vcm-assignment-info">
-          <span className="vcm-assignment-detail thick">
+        <div className='vcm-assignment-info'>
+          <span className='vcm-assignment-detail thick'>
             Vehicle
-            <span className="thin">{selectedEvent.assignedVehicle}</span>
+            <span className='thin'>{selectedEvent.assignedVehicle}</span>
           </span>
-          <span className="vcm-assignment-detail thick">
+          <span className='vcm-assignment-detail thick'>
             Key #
-            <span className="thin">{selectedEvent.assigned_key}</span>
+            <span className='thin'>{selectedEvent.assigned_key}</span>
           </span>
-          <span className="vcm-assignment-detail thick">
+          <span className='vcm-assignment-detail thick'>
             Picked Up?
-            <span className="thin">{selectedEvent.pickedUp ? 'Yes' : 'No'}</span>
+            <span className='thin'>{selectedEvent.pickedUp ? 'Yes' : 'No'}</span>
           </span>
-          <span className="vcm-assignment-detail thick">
+          <span className='vcm-assignment-detail thick'>
             Returned?
-            <span className="thin">{selectedEvent.returned ? 'Yes' : 'No'}</span>
+            <span className='thin'>{selectedEvent.returned ? 'Yes' : 'No'}</span>
           </span>
           {/* <Link
             className="doc-button"
@@ -192,8 +192,8 @@ class VehicleCalendar extends Component {
               : `/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
           > */}
           <Link
-            className="doc-button"
-            target="_blank"
+            className='doc-button'
+            target='_blank'
             to={`/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
           >
             Edit assignment
@@ -206,8 +206,8 @@ class VehicleCalendar extends Component {
   render() {
     if (this.state.ready) {
       return (
-        <div className="vehicle-calendar-container center-view">
-          <Box className="doc-card" dir="col" align="stretch" pad={25}>
+        <div className='vehicle-calendar-container center-view'>
+          <Box className='doc-card' dir='col' align='stretch' pad={25}>
             <VehicleCalendarComponent
               // assignments={this.props.assignments}
               vehicles={this.props.vehicles}
@@ -217,7 +217,7 @@ class VehicleCalendar extends Component {
           </Box>
           <Modal
             centered
-            size="lg"
+            size='lg'
             show={this.state.showModal}
             onHide={this.closeModal}
           >
@@ -229,7 +229,7 @@ class VehicleCalendar extends Component {
         </div>
       );
     } else {
-      return (<DOCLoading type="doc" height="150" width="150" measure="px" />);
+      return (<DOCLoading type='doc' height='150' width='150' measure='px' />);
     }
   }
 }

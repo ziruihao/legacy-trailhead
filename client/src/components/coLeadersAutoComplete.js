@@ -59,11 +59,11 @@ class CoLeadersAutoComplete extends Component {
     const { tags, suggestions } = this.state;
     return (
       <div>
-        <h1 className="invalid-email">
+        <h1 className='invalid-email'>
           {this.state.invalid ? '* Invalid email *' : null}
         </h1>
         <ReactTags
-          placeholder="Enter email(s)"
+          placeholder='Enter email(s)'
           tags={tags}
           suggestions={suggestions}
           handleDelete={this.handleDelete}
@@ -72,7 +72,7 @@ class CoLeadersAutoComplete extends Component {
           allowDragDrop={false}
           minQueryLength={1}
           // allowUnique
-          inputFieldPosition="top"
+          inputFieldPosition='top'
         />
       </div>
     );

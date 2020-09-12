@@ -35,48 +35,48 @@ class OPOLeaders extends Component {
   render() {
     if (!this.state.loaded) {
       return (
-        <div className="center-view">
-          <DOCLoading type="doc" />
+        <div className='center-view'>
+          <DOCLoading type='doc' />
         </div>
       );
     } else {
       return (
-        <Box dir="col" className="center-view">
-          <Box dir="col" className="doc-card" pad={45}>
-            <div className="doc-h1">Pending Requests</div>
+        <Box dir='col' className='center-view'>
+          <Box dir='col' className='doc-card' pad={45}>
+            <div className='doc-h1'>Pending Requests</div>
             <Stack size={45} />
-            <div className="doc-h2">Subclub leadership approvals</div>
+            <div className='doc-h2'>Subclub leadership approvals</div>
             <Stack size={45} />
             <LeaderApprovals />
             <Stack size={45} />
-            <div className="doc-h2">Subclub leadership approvals</div>
+            <div className='doc-h2'>Subclub leadership approvals</div>
             <Stack size={45} />
             <Approvals />
           </Box>
           <Stack size={100} />
-          <Box dir="col" className="doc-card" pad={45}>
-            <div className="doc-h1">User database</div>
+          <Box dir='col' className='doc-card' pad={45}>
+            <div className='doc-h1'>User database</div>
             <Stack size={45} />
-            <Box dir="row" justify="between">
-              <Toggle label="Trip leaders" />
+            <Box dir='row' justify='between'>
+              <Toggle label='Trip leaders' />
               <Dropdown onSelect={eventKey => this.setState({ sortBy: eventKey })}>
-                <Dropdown.Toggle className="field">
-                  <span className="field-dropdown-bootstrap">{this.state.sortBy}</span>
-                  <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                <Dropdown.Toggle className='field'>
+                  <span className='field-dropdown-bootstrap'>{this.state.sortBy}</span>
+                  <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
                 </Dropdown.Toggle>
-                <Dropdown.Menu className="field-dropdown-menu">
-                  <Dropdown.Item eventKey="Name">Name</Dropdown.Item>
-                  <Dropdown.Item eventKey="Recent activity">Recent activity</Dropdown.Item>
-                  <Dropdown.Item eventKey="No. of trips">No. of trips</Dropdown.Item>
+                <Dropdown.Menu className='field-dropdown-menu'>
+                  <Dropdown.Item eventKey='Name'>Name</Dropdown.Item>
+                  <Dropdown.Item eventKey='Recent activity'>Recent activity</Dropdown.Item>
+                  <Dropdown.Item eventKey='No. of trips'>No. of trips</Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
               <Dropdown onSelect={eventKey => this.setState({ club: eventKey })}>
-                <Dropdown.Toggle className="field">
-                  <span className="field-dropdown-bootstrap">{this.state.club}</span>
-                  <img className="dropdown-icon" src={dropdownIcon} alt="dropdown-toggle" />
+                <Dropdown.Toggle className='field'>
+                  <span className='field-dropdown-bootstrap'>{this.state.club}</span>
+                  <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
                 </Dropdown.Toggle>
-                <Dropdown.Menu className="field-dropdown-menu">
-                  <Dropdown.Item eventKey="All clubs">All clubs</Dropdown.Item>
+                <Dropdown.Menu className='field-dropdown-menu'>
+                  <Dropdown.Item eventKey='All clubs'>All clubs</Dropdown.Item>
                   <Dropdown.Divider />
                   {/* {this.props.clubs.map(((club) => {
                     return (<Dropdown.Item key={club._id} eventKey={club.name}>{club.name}</Dropdown.Item>);
@@ -86,7 +86,7 @@ class OPOLeaders extends Component {
             </Box>
           </Box>
           <Stack size={100} />
-          <Box dir="row" justify="center" wrap>
+          <Box dir='row' justify='center' wrap>
             {this.props.users.filter(user => user.completedProfile).map((user) => {
               return (
                 <>
