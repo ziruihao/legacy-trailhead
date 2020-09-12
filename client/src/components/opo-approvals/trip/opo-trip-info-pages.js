@@ -217,19 +217,11 @@ const GearRequest = (props) => {
               <Box dir="row" justify="center">
                 {(props.trip.gearStatus !== 'approved')
                   ? <div className="doc-button hollow" onClick={() => props.reviewGroupGearRequest('approved')} role="button" tabIndex={0}>Approve</div>
-                  : <div className="doc-button hollow disabled" role="button" tabIndex={0}>Approved</div>}
+                  : <div className="doc-button hollow" onClick={() => props.reviewGroupGearRequest('pending')} role="button" tabIndex={0}>Un-approve</div>}
                 <Queue size={25} />
                 {(props.trip.gearStatus !== 'denied')
-                  ? (
-                    <div className="doc-button alarm" onClick={() => props.reviewGroupGearRequest('denied')} role="button" tabIndex={0}>
-                      Deny
-                    </div>
-                  )
-                  : (
-                    <div className="doc-button alarm disabled">
-                      Denied
-                    </div>
-                  )
+                  ? <div className="doc-button alarm" onClick={() => props.reviewGroupGearRequest('denied')} role="button" tabIndex={0}>Deny</div>
+                  : <div className="doc-button alarm" onClick={() => props.reviewGroupGearRequest('pending')} role="button" tabIndex={0}>Un-deny</div>
                 }
               </Box>
             </Box>
@@ -262,19 +254,11 @@ const GearRequest = (props) => {
               <Box dir="row" justify="center">
                 {(props.trip.trippeeGearStatus !== 'approved')
                   ? <div className="doc-button hollow" onClick={() => props.reviewTrippeeGearRequest('approved')} role="button" tabIndex={0}>Approve</div>
-                  : <div className="doc-button hollow disabled" role="button" tabIndex={0}>Approved</div>}
+                  : <div className="doc-button hollow" onClick={() => props.reviewTrippeeGearRequest('pending')} role="button" tabIndex={0}>Un-approve</div>}
                 <Queue size={25} />
                 {(props.trip.trippeeGearStatus !== 'denied')
-                  ? (
-                    <div className="doc-button alarm" onClick={() => props.reviewTrippeeGearRequest('denied')} role="button" tabIndex={0}>
-                      Deny
-                    </div>
-                  )
-                  : (
-                    <div className="doc-button alarm disabled">
-                      Denied
-                    </div>
-                  )
+                  ? <div className="doc-button alarm" onClick={() => props.reviewTrippeeGearRequest('denied')} role="button" tabIndex={0}>Deny</div>
+                  : <div className="doc-button alarm" onClick={() => props.reviewTrippeeGearRequest('pending')} role="button" tabIndex={0}>Un-deny</div>
                 }
               </Box>
             </Box>
