@@ -52,41 +52,6 @@ export const formatTime = (date) => {
   return dateFormat(date, 'h:mm TT');
 };
 
-// /**
-//  *
-//  * @param {Date} dateAndTime
-//  */
-// export function formatDateAndTime(dateAndTime) {
-//   if (Array.isArray(dateAndTime)) {
-//     return `${formatDate(dateAndTime[0])}, ${formatTime(dateAndTime[1])}`;
-//   }
-//   else if (typeof dateAndTime === 'object') return `${dateAndTime.toString().substring(0, 11)}, ${formatTime(dateAndTime.toString().substring(11, 19))}`;
-// }
-
-// export function formatDate(date) {
-//   if (typeof date === 'object') {
-//     return date.toString().substring(0, 11);
-//   } else if (typeof date === 'string') {
-//     const rawDate = new Date(date);
-//     const dateString = rawDate.toString();
-//     return dateString.substring(0, 11);
-//   }
-// };
-
-// export function formatTime(time) {
-//   const splitTime = time.split(':');
-//   splitTime.push(' AM');
-//   const originalHour = splitTime[0];
-//   splitTime[0] = originalHour % 12;
-//   if (originalHour >= 12) {
-//     splitTime[2] = ' PM';
-//   }
-//   if (splitTime[0] === 0) {
-//     splitTime[0] = 12;
-//   }
-//   return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
-// }
-
 export function withinTimePeriod(date, timePeriod, specificDay) {
   const today = dates.startOf(new Date(), 'day');
   if (typeof date === 'string') date = new Date(date);
