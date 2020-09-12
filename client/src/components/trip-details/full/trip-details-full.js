@@ -63,8 +63,8 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
         {groupGearArray.map((gear, index, array) => (
           <div key={gear._id}>
             <div className='trip-details-table-row'>
-              <span>{gear[0]}</span>
-              <span>{gear[1]}</span>
+              <span>{gear.name}</span>
+              <span>{gear.quantity}</span>
             </div>
             {index !== array.length - 1 ? <hr className='detail-line' /> : null}
           </div>
@@ -288,6 +288,7 @@ export default React.forwardRef((props, ref) => {
             )
             : null
         }
+        <Stack size={25} />
         {props.trip.vehicleStatus !== 'N/A'
           ? (
             <div className='tripdetail-gear-requests leader-trip-info'>

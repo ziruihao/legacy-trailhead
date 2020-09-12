@@ -268,7 +268,7 @@ export function createTrip(trip, history) {
   return (dispatch) => {
     axios.post(`${constants.BACKEND_URL}/trips`, trip)
       .then((response) => {
-        history.push('/all-trips');
+        history.push(`/trip/${response.data._id}`);
       })
       .catch((error) => {
         console.log(error);
@@ -279,7 +279,7 @@ export function createTrip(trip, history) {
 
 export function deleteTrip(id, history) {
   return (dispatch) => {
-    axios.delete(`${constants.BACKEND_URL}/trip/${id}`)
+    axios.delete(`${constants.BACKEND_URL}/trips/${id}`)
       .then((response) => {
         history.goBack();
       })
@@ -294,8 +294,9 @@ export function editTrip(trip, history, id, temporaryToken) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       const token = temporaryToken || localStorage.getItem('token');
-      axios.put(`${constants.BACKEND_URL}/trip/${id}`, trip)
+      axios.put(`${constants.BACKEND_URL}/trips/${id}`, trip, { headers: { Authorization: `Bearer ${token}` } })
         .then((response) => {
+          history.push(`/trip/${id}`);
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve();
         })

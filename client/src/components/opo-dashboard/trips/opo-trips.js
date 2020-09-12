@@ -7,6 +7,7 @@ import { Stack, Queue, Divider, Box } from '../../layout';
 import Badge from '../../badge';
 import DOCLoading from '../../doc-loading';
 import { fetchOPOTrips, appError } from '../../../actions';
+import utils from '../../../utils';
 import dropdownIcon from '../../../img/dropdown-toggle.svg';
 import '../../../styles/tripdetails_leader.scss';
 import '../opo-approvals.scss';
@@ -60,25 +61,6 @@ class OPOTrips extends Component {
   onRowClick = (id) => {
     this.props.history.push(`/approve-trip/${id}`);
   }
-
-  formatDate = (date, time) => {
-    let timeString = '';
-    const rawDate = new Date(date);
-    const dateString = rawDate.toUTCString();
-    timeString = dateString.substring(0, 11);
-    const splitTime = time.split(':');
-    splitTime.push(' AM');
-    const originalHour = splitTime[0];
-    splitTime[0] = originalHour % 12;
-    if (originalHour >= 12) {
-      splitTime[2] = ' PM';
-    }
-    if (splitTime[0] === 0) {
-      splitTime[0] = 12;
-    }
-    timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
-    return timeString;
-  };
 
   getReqStatus = (status) => {
     if (status === 'N/A') {
@@ -174,7 +156,7 @@ class OPOTrips extends Component {
       return (hasPassed || (!hasPendingTrippeeGear && !hasPendingGear && !hasPendingPcard && !hasPendingVehicle));
     });
     const filteredTrips = approvedTrips.filter((trip) => {
-      return trip.title.concat([this.formatDate(trip.startDate, trip.startTime), trip.leaders[0].name, trip.club.name])
+      return trip.title.concat([utils.dates.formatDateAndTime(new Date(trip.startDateAndTime), 'LONG'), trip.leaders[0].name, trip.club.name])
         .toLowerCase().includes(this.state.searchTerm.toLowerCase());
     });
     if (filteredTrips.length === 0) {
@@ -207,7 +189,7 @@ class OPOTrips extends Component {
     return pendingTrips.map(trip => (
       <tr key={trip._id} onClick={() => this.onRowClick(trip._id)}>
         <td>{trip.title}</td>
-        <td>{this.formatDate(trip.startDate, trip.startTime)}</td>
+        <td>{utils.dates.formatDateAndTime(new Date(trip.startDateAndTime), 'LONG')}</td>
         <td>{trip.club.name}</td>
         <td>{trip.leaders[0].name}</td>
         {this.getGearStatus(trip.gearStatus, trip.trippeeGearStatus)}
@@ -221,7 +203,7 @@ class OPOTrips extends Component {
     return approvedTrips.map(trip => (
       <tr key={trip._id} onClick={() => this.onRowClick(trip._id)}>
         <td>{trip.title}</td>
-        <td>{this.formatDate(trip.startDate, trip.startTime)}</td>
+        <td>{utils.dates.formatDateAndTime(new Date(trip.startDateAndTime), 'LONG')}</td>
         <td>{trip.club.name}</td>
         <td>{trip.leaders[0].name}</td>
         {this.getGearStatus(trip.gearStatus, trip.trippeeGearStatus)}

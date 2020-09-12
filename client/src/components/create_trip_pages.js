@@ -255,6 +255,7 @@ const getTrippeeGear = (props) => {
 const getGearInputs = (props) => {
   if (!props.gearStatus || props.gearStatus === 'pending' || props.gearStatus === 'N/A') {
     return props.gearRequests.map((gearRequest, index) => {
+      console.log(gearRequest);
       return (
         <div key={gearRequest._id}>
           <Box dir='row' align='center' className='gear-container'>
@@ -264,7 +265,7 @@ const getGearInputs = (props) => {
               name='opogearRequest'
               placeholder='Item name'
               onChange={event => props.onGearChangeName(event, index)}
-              value={gearRequest.groupGearName}
+              value={gearRequest.name}
             />
             <Queue size={15} />
             <Field
@@ -273,7 +274,7 @@ const getGearInputs = (props) => {
               name='opogearRequestQuantity'
               placeholder='Qty.'
               onChange={event => props.onGearChangeQuantity(event, index)}
-              value={gearRequest.groupGearQuantity}
+              value={gearRequest.quantity}
               width={100}
               error={gearRequest.hasError}
             />

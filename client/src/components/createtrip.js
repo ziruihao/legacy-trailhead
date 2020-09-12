@@ -27,8 +27,8 @@ class CreateTrip extends Component {
   }
 
   defaultGroupGear = {
-    groupGearName: '',
-    groupGearQuantity: null,
+    name: '',
+    quantity: 0,
     hasError: false,
   }
 
@@ -109,15 +109,15 @@ class CreateTrip extends Component {
   }
 
   componentDidMount() {
-    //groupGear = [groupGearName, groupGearQuantity];
     if (this.props.location.pathname.includes('/edittrip')) {
       this.setState({editMode: true})
       this.props.fetchTrip(this.props.match.params.tripID)
         .then(() => {
           const { trip } = this.props;
           const gearRequests = trip.OPOGearRequests.map((groupGear) => {
-            return { groupGear, hasError: false };
+            return { ...groupGear, hasError: false };
           });
+          console.log(gearRequests);
           const trippeeGear = trip.trippeeGear.map((individualGear) => {
             return Object.assign({}, individualGear, { hasError: false });
           });
@@ -334,7 +334,7 @@ class CreateTrip extends Component {
       const gearArray = prevState.gearRequests;
       const changedGearObject = gearArray[idx];
       const updates = {};
-      updates.groupGearName = event.target.value;
+      updates.name = event.target.value;
       updates.hasError = this.isStringEmpty(event.target.value);
       const updatedGearObject = Object.assign({}, changedGearObject, updates);
       return {
@@ -349,7 +349,7 @@ class CreateTrip extends Component {
       const gearArray = prevState.gearRequests;
       const changedGearObject = gearArray[idx];
       const updates = {};
-      updates.groupGearQuantity = event.target.value;
+      updates.quantity = event.target.value;
       updates.hasError = this.isStringEmpty(event.target.value);
       const updatedGearObject = Object.assign({}, changedGearObject, updates);
       return {
@@ -519,8 +519,8 @@ class CreateTrip extends Component {
       let hasEmptyField = false;
       const markedEmptyGroupFields = gearRequests.map((gear) => {
         const updatedErrorFields = {};
-        const isFieldEmptyName = this.isStringEmpty(gear.groupGearName);
-        const isFieldEmptyQuantity = (gear.groupGearQuantity > 0 ? false : true);
+        const isFieldEmptyName = this.isStringEmpty(gear.name);
+        const isFieldEmptyQuantity = (gear.quantity > 0 ? false : true);
         updatedErrorFields.name = this.isFieldEmptyName;
         updatedErrorFields.quantity = this.isFieldEmptyQuantity;
         if (isFieldEmptyName || isFieldEmptyQuantity) {
@@ -595,8 +595,8 @@ class CreateTrip extends Component {
   createTrip() {
     const club = this.isObjectEmpty(this.state.club) ? this.props.user.leader_for[0] : this.state.club;
     const gearRequests = this.state.gearRequests.map((groupGear) => {
-      groupGear.groupGear = [groupGear.groupGearName, groupGear.groupGearQuantity];
-      return groupGear.groupGear;
+      delete groupGear.hasError;
+      return groupGear;
     });
     const trippeeGear = this.state.trippeeGear.map((trippeeGear) => {
       delete trippeeGear.hasError;
