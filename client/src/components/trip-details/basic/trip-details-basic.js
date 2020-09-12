@@ -124,7 +124,7 @@ class TripDetailsBasic extends Component {
             <div className="doc-button" onClick={this.saveGearRequest} role="button" tabIndex={0}>Save your gear request</div>
           </Box>
         );
-      } else if (this.props.trippeeGearStatus === 'pending' || this.props.isUserOnTrip === 'PENDING') {
+      } else if (this.props.trip.trippeeGearStatus === 'pending' || this.props.isUserOnTrip === 'PENDING') {
         return <div className="doc-button hollow" onClick={() => this.setState({ editingGear: true })} role="button" tabIndex={0}>Edit your gear request</div>;
       } else {
         return (
