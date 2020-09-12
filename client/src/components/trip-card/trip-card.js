@@ -36,23 +36,23 @@ class TripCard extends React.Component {
   renderDecal = (clubName) => {
     switch (clubName) {
       case 'Cabin and Trail':
-        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={cnt} alt="" />;
+        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={cnt} alt='' />;
       case 'Women in the Wilderness':
-        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wiw} alt="" />;
+        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wiw} alt='' />;
       case 'Surf Club':
-        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={surf} alt="" />;
+        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={surf} alt='' />;
       case 'Mountain Biking':
-        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={dmbc} alt="" />;
+        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={dmbc} alt='' />;
       case 'Winter Sports':
-        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wsc} alt="" />;
+        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wsc} alt='' />;
       case 'Timber Team':
-        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wood} alt="" />;
+        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wood} alt='' />;
       case 'Mountaineering':
-        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={mountain} alt="" />;
+        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={mountain} alt='' />;
       case 'Ledyard':
-        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={ledyard} alt="" />;
+        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={ledyard} alt='' />;
       default:
-        return <img className="trip-card-decal" style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={doc} alt="" />;
+        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={doc} alt='' />;
     }
   }
 
@@ -69,27 +69,27 @@ class TripCard extends React.Component {
   render() {
     return (
       <>
-        <div className="trip-card" onClick={this.props.onClick} role="button" tabIndex={0}>
+        <div className='trip-card' onClick={this.props.onClick} role='button' tabIndex={0}>
           {/* <div className="trip-card" onClick={this.props.onClick} style={{ transform: `rotate(${(Math.random() * 5) * (Math.floor(Math.random() * 2) === 1 ? 1 : -1)}deg)` }} role="button" tabIndex={0}> */}
-          <Box dir="col-reverse" className="trip-card-badge-holder">
+          <Box dir='col-reverse' className='trip-card-badge-holder'>
             <Badge type={`trip-${this.state.status}`} dataTip dataFor={`trip-card-${this.props.trip._id}`} />
             <Stack size={12} />
-            {this.state.role === 'LEADER' ? <><Badge type="leader" dataTip dataFor="leader-on-trip-card" /><ReactToolTip id="leader-on-trip-card" place="bottom">Your are leading this trip</ReactToolTip></> : null}
-            {this.state.role === 'APPROVED' ? <><Badge type="person-approved" dataTip dataFor="approved-on-trip-card" /><ReactToolTip id="approved-on-trip-card" place="bottom">You've been approved to attend this trip</ReactToolTip></> : null}
-            {this.state.role === 'PENDING' ? <><Badge type="person-pending" dataTip dataFor="pending-on-trip-card" /><ReactToolTip id="pending-on-trip-card" place="bottom">The leader has not approved you yet</ReactToolTip></> : null}
+            {this.state.role === 'LEADER' ? <><Badge type='leader' dataTip dataFor='leader-on-trip-card' /><ReactToolTip id='leader-on-trip-card' place='bottom'>Your are leading this trip</ReactToolTip></> : null}
+            {this.state.role === 'APPROVED' ? <><Badge type='person-approved' dataTip dataFor='approved-on-trip-card' /><ReactToolTip id='approved-on-trip-card' place='bottom'>You've been approved to attend this trip</ReactToolTip></> : null}
+            {this.state.role === 'PENDING' ? <><Badge type='person-pending' dataTip dataFor='pending-on-trip-card' /><ReactToolTip id='pending-on-trip-card' place='bottom'>The leader has not approved you yet</ReactToolTip></> : null}
           </Box>
           {this.renderDecal(this.props.trip.club.name)}
-          <div className="trip-card-body">
-            <div className="label-text">TRIP #{this.props.trip.number}</div>
-            <div className="doc-h2">{this.renderTripTitle(this.props.trip.title)}</div>
-            <div className="p2 trip-card-date">{utils.dates.formatDate(this.props.trip.startDate)} - {utils.dates.formatDate(this.props.trip.endDate)}</div>
-            <div className="p2 trip-card-club">{this.props.trip.club ? this.props.trip.club.name : ''}</div>
-            <div className="p2">{this.renderTripDescription(this.props.trip.description)}</div>
+          <div className='trip-card-body'>
+            <div className='label-text'>TRIP #{this.props.trip.number}</div>
+            <div className='doc-h2'>{this.renderTripTitle(this.props.trip.title)}</div>
+            <div className='p2 trip-card-date'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime), 'SHORT')} - {utils.dates.formatDate(new Date(this.props.trip.endDateAndTime), 'SHORT')}</div>
+            <div className='p2 trip-card-club'>{this.props.trip.club ? this.props.trip.club.name : ''}</div>
+            <div className='p2'>{this.renderTripDescription(this.props.trip.description)}</div>
           </div>
 
         </div>
-        <ReactToolTip id={`trip-card-${this.props.trip._id}`} place="bottom">
-          <Box dir="col">
+        <ReactToolTip id={`trip-card-${this.props.trip._id}`} place='bottom'>
+          <Box dir='col'>
             {this.state.reasons.length > 0 ? this.state.reasons.map(reason => <div key={reason}>{reason}</div>) : 'This trip is all approved!'}
           </Box>
         </ReactToolTip>

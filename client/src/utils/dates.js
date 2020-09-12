@@ -1,5 +1,6 @@
-/* eslint-disable */
-import * as dates from 'date-arithmetic'
+/* eslint-disable no-case-declarations */
+import * as dates from 'date-arithmetic';
+import dateFormat from 'dateformat';
 
 export {
   milliseconds,
@@ -19,56 +20,77 @@ export {
   inRange,
   min,
   max,
-} from 'date-arithmetic'
+} from 'date-arithmetic';
 
 const MILLI = {
   seconds: 1000,
   minutes: 1000 * 60,
   hours: 1000 * 60 * 60,
   day: 1000 * 60 * 60 * 24,
-}
+};
 
-const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-/**
- * 
- * @param {Date} dateAndTime 
- */
-export function formatDateAndTime(dateAndTime) {
-  if (Array.isArray(dateAndTime)) {
-    return `${formatDate(dateAndTime[0])}, ${formatTime(dateAndTime[1])}`;
-  }
-  else if (typeof dateAndTime === 'object') return `${dateAndTime.toString().substring(0, 11)}, ${formatTime(dateAndTime.toString().substring(11, 19))}`;
-}
-
-export function formatDate(date) {
-  if (typeof date === 'object') {
-    return date.toString().substring(0, 11);
-  } else if (typeof date === 'string') {
-    const rawDate = new Date(date);
-    const dateString = rawDate.toString();
-    return dateString.substring(0, 11);
+export const formatDateAndTime = (date, mode) => {
+  console.log(date);
+  if (mode === 'LONG') {
+    return dateFormat(date, 'ddd, m/d/yy @ h:mm TT');
+  } else {
+    return dateFormat(date, 'm/d/yy, h:mm TT');
   }
 };
 
-export function formatTime(time) {
-  const splitTime = time.split(':');
-  splitTime.push(' AM');
-  const originalHour = splitTime[0];
-  splitTime[0] = originalHour % 12;
-  if (originalHour >= 12) {
-    splitTime[2] = ' PM';
+export const formatDate = (date, mode) => {
+  if (mode === 'LONG') {
+    return dateFormat(date, 'ddd, m/d/yy');
+  } else {
+    return dateFormat(date, 'm/d/yy');
   }
-  if (splitTime[0] === 0) {
-    splitTime[0] = 12;
-  }
-  return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
 };
+
+export const formatTime = (date) => {
+  return dateFormat(date, 'h:mm TT');
+};
+
+// /**
+//  *
+//  * @param {Date} dateAndTime
+//  */
+// export function formatDateAndTime(dateAndTime) {
+//   if (Array.isArray(dateAndTime)) {
+//     return `${formatDate(dateAndTime[0])}, ${formatTime(dateAndTime[1])}`;
+//   }
+//   else if (typeof dateAndTime === 'object') return `${dateAndTime.toString().substring(0, 11)}, ${formatTime(dateAndTime.toString().substring(11, 19))}`;
+// }
+
+// export function formatDate(date) {
+//   if (typeof date === 'object') {
+//     return date.toString().substring(0, 11);
+//   } else if (typeof date === 'string') {
+//     const rawDate = new Date(date);
+//     const dateString = rawDate.toString();
+//     return dateString.substring(0, 11);
+//   }
+// };
+
+// export function formatTime(time) {
+//   const splitTime = time.split(':');
+//   splitTime.push(' AM');
+//   const originalHour = splitTime[0];
+//   splitTime[0] = originalHour % 12;
+//   if (originalHour >= 12) {
+//     splitTime[2] = ' PM';
+//   }
+//   if (splitTime[0] === 0) {
+//     splitTime[0] = 12;
+//   }
+//   return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
+// }
 
 export function withinTimePeriod(date, timePeriod, specificDay) {
   const today = dates.startOf(new Date(), 'day');
   if (typeof date === 'string') date = new Date(date);
-  switch(timePeriod) {
+  switch (timePeriod) {
     case 'Specific day':
       if (specificDay == null) return true;
       else {
@@ -102,6 +124,8 @@ export function withinTimePeriod(date, timePeriod, specificDay) {
       const next30Days = dates.add(today, 30, 'day');
       if (date >= today && date < next30Days) return true;
       else return false;
+    default:
+      return false;
   }
 }
 
@@ -113,141 +137,135 @@ export function inThePast(date) {
 }
 
 export function monthsInYear(year) {
-  let date = new Date(year, 0, 1)
+  const date = new Date(year, 0, 1);
 
-  return MONTHS.map(i => dates.month(date, i))
+  return MONTHS.map(i => dates.month(date, i));
 }
 
 export function firstVisibleDay(date, localizer) {
-  let firstOfMonth = dates.startOf(date, 'month')
+  const firstOfMonth = dates.startOf(date, 'month');
 
-  return dates.startOf(firstOfMonth, 'week', localizer.startOfWeek())
+  return dates.startOf(firstOfMonth, 'week', localizer.startOfWeek());
 }
 
 export function lastVisibleDay(date, localizer) {
-  let endOfMonth = dates.endOf(date, 'month')
+  const endOfMonth = dates.endOf(date, 'month');
 
-  return dates.endOf(endOfMonth, 'week', localizer.startOfWeek())
+  return dates.endOf(endOfMonth, 'week', localizer.startOfWeek());
 }
 
 export function visibleDays(date, localizer) {
-  let current = firstVisibleDay(date, localizer),
-    last = lastVisibleDay(date, localizer),
-    days = []
+  let current = firstVisibleDay(date, localizer);
+  const last = lastVisibleDay(date, localizer);
+  const days = [];
 
   while (dates.lte(current, last, 'day')) {
-    days.push(current)
-    current = dates.add(current, 1, 'day')
+    days.push(current);
+    current = dates.add(current, 1, 'day');
   }
 
-  return days
+  return days;
 }
 
 export function ceil(date, unit) {
-  let floor = dates.startOf(date, unit)
+  const floor = dates.startOf(date, unit);
 
-  return dates.eq(floor, date) ? floor : dates.add(floor, 1, unit)
+  return dates.eq(floor, date) ? floor : dates.add(floor, 1, unit);
 }
 
 export function range(start, end, unit = 'day') {
-  let current = start,
-    days = []
+  let current = start;
+  const days = [];
 
   while (dates.lte(current, end, unit)) {
-    days.push(current)
-    current = dates.add(current, 1, unit)
+    days.push(current);
+    current = dates.add(current, 1, unit);
   }
 
-  return days
+  return days;
 }
 
 export function merge(date, time) {
-  if (time == null && date == null) return null
+  if (time == null && date == null) return null;
 
-  if (time == null) time = new Date()
-  if (date == null) date = new Date()
+  if (time == null) time = new Date();
+  if (date == null) date = new Date();
 
-  date = dates.startOf(date, 'day')
-  date = dates.hours(date, dates.hours(time))
-  date = dates.minutes(date, dates.minutes(time))
-  date = dates.seconds(date, dates.seconds(time))
-  return dates.milliseconds(date, dates.milliseconds(time))
+  date = dates.startOf(date, 'day');
+  date = dates.hours(date, dates.hours(time));
+  date = dates.minutes(date, dates.minutes(time));
+  date = dates.seconds(date, dates.seconds(time));
+  return dates.milliseconds(date, dates.milliseconds(time));
 }
 
 export function eqTime(dateA, dateB) {
   return (
-    dates.hours(dateA) === dates.hours(dateB) &&
-    dates.minutes(dateA) === dates.minutes(dateB) &&
-    dates.seconds(dateA) === dates.seconds(dateB)
-  )
+    dates.hours(dateA) === dates.hours(dateB)
+    && dates.minutes(dateA) === dates.minutes(dateB)
+    && dates.seconds(dateA) === dates.seconds(dateB)
+  );
 }
 
 export function isJustDate(date) {
   return (
-    dates.hours(date) === 0 &&
-    dates.minutes(date) === 0 &&
-    dates.seconds(date) === 0 &&
-    dates.milliseconds(date) === 0
-  )
+    dates.hours(date) === 0
+    && dates.minutes(date) === 0
+    && dates.seconds(date) === 0
+    && dates.milliseconds(date) === 0
+  );
 }
 
 export function duration(start, end, unit, firstOfWeek) {
-  if (unit === 'day') unit = 'date'
+  if (unit === 'day') unit = 'date';
   return Math.abs(
-    dates[unit](start, undefined, firstOfWeek) -
-    dates[unit](end, undefined, firstOfWeek)
-  )
+    dates[unit](start, undefined, firstOfWeek)
+    - dates[unit](end, undefined, firstOfWeek),
+  );
 }
 
 export function diff(dateA, dateB, unit) {
-  if (!unit || unit === 'milliseconds') return Math.abs(+dateA - +dateB)
+  if (!unit || unit === 'milliseconds') return Math.abs(+dateA - +dateB);
 
   // the .round() handles an edge case
   // with DST where the total won't be exact
   // since one day in the range may be shorter/longer by an hour
   return Math.round(
     Math.abs(
-      +dates.startOf(dateA, unit) / MILLI[unit] -
-      +dates.startOf(dateB, unit) / MILLI[unit]
-    )
-  )
+      +dates.startOf(dateA, unit) / MILLI[unit]
+      - +dates.startOf(dateB, unit) / MILLI[unit],
+    ),
+  );
 }
 
 export function total(date, unit) {
-  let ms = date.getTime(),
-    div = 1
+  const ms = date.getTime();
+  let div = 1;
 
   switch (unit) {
     case 'week':
-      div *= 7
+      div *= 7;
+      break;
     case 'day':
-      div *= 24
+      div *= 24;
+      break;
     case 'hours':
-      div *= 60
+      div *= 60;
+      break;
     case 'minutes':
-      div *= 60
+      div *= 60;
+      break;
     case 'seconds':
-      div *= 1000
+      div *= 1000;
+      break;
+    default:
   }
 
-  return ms / div
+  return ms / div;
 }
 
 export function week(date) {
-  var d = new Date(date)
-  d.setHours(0, 0, 0)
-  d.setDate(d.getDate() + 4 - (d.getDay() || 7))
-  return Math.ceil(((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7 + 1) / 7)
-}
-
-export function today() {
-  return dates.startOf(new Date(), 'day')
-}
-
-export function yesterday() {
-  return dates.add(dates.startOf(new Date(), 'day'), -1, 'day')
-}
-
-export function tomorrow() {
-  return dates.add(dates.startOf(new Date(), 'day'), 1, 'day')
+  const d = new Date(date);
+  d.setHours(0, 0, 0);
+  d.setDate(d.getDate() + 4 - (d.getDay() || 7));
+  return Math.ceil(((d - new Date(d.getFullYear(), 0, 1)) / 8.64e7 + 1) / 7);
 }

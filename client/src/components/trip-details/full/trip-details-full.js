@@ -168,13 +168,13 @@ export default React.forwardRef((props, ref) => {
           <div className="trip-details-table leader-trip-detail left-detail">
             <div className="trip-details-table-row">
               <div className="p1 thick">Start</div>
-              <div className="p1 thin gray">{`${utils.dates.formatDate(props.trip.startDate)}, ${utils.dates.formatTime(props.trip.startTime)}`}</div>
+              <div className="p1 thin gray">{utils.dates.formatDateAndTime(new Date(props.trip.startDateAndTime), 'LONG')}</div>
             </div>
             <hr className="detail-line" />
 
             <div className="trip-details-table-row">
               <div className="p1 thick">End</div>
-              <div className="p1 thin gray">{`${utils.dates.formatDate(props.trip.endDate)}, ${utils.dates.formatTime(props.trip.endTime)}`}</div>
+              <div className="p1 thin gray">{utils.dates.formatDateAndTime(new Date(props.trip.endDateAndTime), 'LONG')}</div>
             </div>
             <hr className="detail-line" />
 

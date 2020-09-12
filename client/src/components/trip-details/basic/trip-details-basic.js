@@ -11,6 +11,7 @@ import { addToPending, editUserGear } from '../../../actions';
 import * as constants from '../../../constants';
 import '../../trips/trip-card.scss';
 import '../trip-details.scss';
+import utils from '../../../utils';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -22,25 +23,6 @@ const getCoLeaders = (leaders) => {
   coleaders = coleaders.substring(0, coleaders.length - 2);
   coleaders = coleaders.length === 0 ? 'None' : coleaders;
   return coleaders;
-};
-
-const formatDate = (date, time) => {
-  let timeString = '';
-  const rawDate = new Date(date);
-  const dateString = rawDate.toUTCString();
-  timeString = dateString.substring(0, 11);
-  const splitTime = time.split(':');
-  splitTime.push(' AM');
-  const originalHour = splitTime[0];
-  splitTime[0] = originalHour % 12;
-  if (originalHour >= 12) {
-    splitTime[2] = ' PM';
-  }
-  if (splitTime[0] === 0) {
-    splitTime[0] = 12;
-  }
-  timeString = `${timeString}, ${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
-  return timeString;
 };
 
 class TripDetailsBasic extends Component {
@@ -235,13 +217,13 @@ class TripDetailsBasic extends Component {
                 <div className="trip-details-table">
                   <div className="trip-details-table-row">
                     <span className="trip-details-table-left p2">Start</span>
-                    <span className="trip-details-table-right p2">{formatDate(this.props.trip.startDate, this.props.trip.startTime)}</span>
+                    <span className="trip-details-table-right p2">{utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'LONG')}</span>
                   </div>
                   <hr className="trip-details-table-line" />
 
                   <div className="trip-details-table-row">
                     <span className="trip-details-table-left p2">End</span>
-                    <span className="trip-details-table-right p2">{formatDate(this.props.trip.endDate, this.props.trip.endTime)}</span>
+                    <span className="trip-details-table-right p2">{utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'LONG')}</span>
                   </div>
                   <hr className="trip-details-table-line" />
 

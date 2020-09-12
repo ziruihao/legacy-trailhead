@@ -55,7 +55,7 @@ const getAssignment = (props, index) => {
               <span className="vrf-req-details-display vrf-single-day-date">
                 {assignment.assigned_vehicle.name === 'Enterprise'
                   ? '-'
-                  : utils.dates.formatDateAndTime(assignment.assigned_pickupDate, assignment.assigned_pickupTime)}
+                  : utils.dates.formatDateAndTime(new Date(assignment.assigned_pickupDateAndTime), 'LONG')}
               </span>
             </span>
           </div>
@@ -66,7 +66,7 @@ const getAssignment = (props, index) => {
               <span className="vrf-req-details-display vrf-single-day-date">
                 {assignment.assigned_vehicle.name === 'Enterprise'
                   ? '-'
-                  : utils.dates.formatDateAndTime(assignment.assigned_returnDate, assignment.assigned_returnTime)}
+                  : utils.dates.formatDateAndTime(new Date(assignment.assigned_returnDateAndTime), 'LONG')}
               </span>
             </span>
           </div>
@@ -143,14 +143,14 @@ const getVehicles = (props) => {
           <div className="vrf-form-row vrf-req-dates">
             <span className="vrf-req-date">
               <span className="vrf-label">Pickup Date & Time</span>
-              <span className="vrf-req-details-display vrf-single-day-date">{utils.dates.formatDateAndTime(vehicle.pickupDate, vehicle.pickupTime)}</span>
+              <span className="vrf-req-details-display vrf-single-day-date">{utils.dates.formatDateAndTime(new Date(vehicle.pickupDateAndTime), 'LONG')}</span>
             </span>
           </div>
 
           <div className="vrf-form-row vrf-req-dates">
             <span className="vrf-req-date">
               <span className="vrf-label">Return Date & Time</span>
-              <span className="vrf-req-details-display vrf-single-day-date">{utils.dates.formatDateAndTime(vehicle.returnDate, vehicle.returnTime)}</span>
+              <span className="vrf-req-details-display vrf-single-day-date">{utils.dates.formatDateAndTime(new Date(vehicle.returnDateAndTime), 'LONG')}</span>
             </span>
           </div>
 

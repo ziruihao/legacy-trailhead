@@ -566,25 +566,25 @@ class OPOVehicleRequest extends Component {
             <Box dir="row" align="center" height={60} className="p1">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatDate(assignment.assigned_pickupDate.substring(0, 10))}
+                : utils.dates.formatDate(new Date(assignment.assigned_pickupDateAndTime), 'LONG')}
             </Box>
 
             <Box dir="row" align="center" height={60} className="p1">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatTime(assignment.assigned_pickupTime)}
+                : utils.dates.formatTime(new Date(assignment.assigned_pickupTime))}
             </Box>
 
             <Box dir="row" align="center" height={60} className="p1">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatDate(assignment.assigned_returnDate.substring(0, 10))}
+                : utils.dates.formatDate(new Date(assignment.assigned_returnDateAndTime), 'LONG')}
             </Box>
 
             <Box dir="row" align="center" height={60} className="p1">
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatTime(assignment.assigned_returnTime)}
+                : utils.dates.formatTime(new Date(assignment.assigned_returnTime))}
             </Box>
 
             <Box dir="row" align="center" height={60} className="p1">
@@ -687,13 +687,13 @@ class OPOVehicleRequest extends Component {
 
                 <Box dir="row" align="center" height={60} className="p1">{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
 
-                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatDate(vehicle.pickupDate.substring(0, 10))}</Box>
+                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatDate(new Date(vehicle.pickupDateAndTime), 'LONG')}</Box>
 
-                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatTime(vehicle.pickupTime)}</Box>
+                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatTime(new Date(vehicle.pickupTime))}</Box>
 
-                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatDate(vehicle.returnDate.substring(0, 10))}</Box>
+                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatDate(new Date(vehicle.returnDateAndTime), 'LONG')}</Box>
 
-                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatTime(vehicle.returnTime)}</Box>
+                <Box dir="row" align="center" height={60} className="p1">{utils.dates.formatTime(new Date(vehicle.returnTime))}</Box>
 
                 <Box dir="row" align="center" height={60} className="p1"> - </Box>
                 {assignment

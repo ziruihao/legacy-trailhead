@@ -126,12 +126,12 @@ class MyTrips extends Component {
                 if (vehicleReq.requestType === 'TRIP') {
                   reqTitle = vehicleReq.associatedTrip.title;
                   reqLink = `/trip/${vehicleReq.associatedTrip._id}`;
-                  earliest = utils.dates.formatDate(new Date(vehicleReq.associatedTrip.startDate));
-                  latest = utils.dates.formatDate(new Date(vehicleReq.associatedTrip.endDaate));
+                  earliest = utils.dates.formatDateAndTime(new Date(vehicleReq.associatedTrip.startDateAndTime), 'SHORT');
+                  latest = utils.dates.formatDateAndTime(new Date(vehicleReq.associatedTrip.endDateAndTime), 'SHORT');
                 } else if (vehicleReq.requestType === 'SOLO') {
                   const calc = constants.calculateVehicleRequestDateRange(vehicleReq);
-                  earliest = utils.dates.formatDate(calc.earliest);
-                  latest = utils.dates.formatDate(calc.latest);
+                  earliest = utils.dates.formatDateAndTime(new Date(calc.earliest), 'SHORT');
+                  latest = utils.dates.formatDateAndTime(new Date(calc.latest), 'SHORT');
                   reqTitle = vehicleReq.requestDetails;
                   reqLink = `/vehicle-request/${vehicleReq._id}`;
                 }
