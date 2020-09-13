@@ -35,14 +35,16 @@ export const determineRoleOnTrip = (user, trip) => {
 };
 
 export const calculateVehicleRequestDateRange = (vehicleRequest) => {
-  return vehicleRequest.requestedVehicles.reduce((range, vehicle, idx) => {
-    if (idx === 1) range = { earliest: new Date(range.pickupDate), latest: new Date(range.returnDate) };
-    const currPickup = new Date(vehicle.pickupDate);
-    const currReturn = new Date(vehicle.returnDate);
-    if (currPickup < range.earliest) range.earliest = currPickup;
-    if (currReturn > range.latest) range.latest = currReturn;
-    return range;
-  });
+  if (vehicleRequest.requestedVehicles.length > 1) {
+    return vehicleRequest.requestedVehicles.reduce((range, vehicle, idx) => {
+      if (idx === 1) range = { earliest: new Date(range.pickupDateAndTime), latest: new Date(range.returnDateAndTime) };
+      const currPickup = new Date(vehicle.pickupDateAndTime);
+      const currReturn = new Date(vehicle.returnDateAndTime);
+      if (currPickup < range.earliest) range.earliest = currPickup;
+      if (currReturn > range.latest) range.latest = currReturn;
+      return range;
+    });
+  } else return { earliest: new Date(vehicleRequest.requestedVehicles[0].pickupDateAndTime), latest: new Date(vehicleRequest.requestedVehicles[0].returnDateAndTime) };
 };
 
 /**

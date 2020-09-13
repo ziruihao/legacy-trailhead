@@ -4,9 +4,6 @@
   padding-right: 1.5em;
   padding-left: 1.5em;
 }
-.vrf-full-width{
-  width: 100%;
-}
 .vrf-title-container{
   width: 100%;
   padding-top: 1em;
@@ -29,11 +26,6 @@
 }
 .vrf-cancel-update-button{
   margin-right: 2em;
-}
-.vrf-form-row{
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 1.5em;
 }
 .vrf-label{
   font-weight: 600;
@@ -96,10 +88,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-size: auto;
   width: 2em;
   height: 2em;
-}
-.vrf-req-dates{
-  flex-direction: row;
-  justify-content: space-between;
 }
 .vrf-req-date{
   width: 100%;
@@ -176,9 +164,6 @@ button.disabled-cancel-button:hover{
 @media only screen and (max-width: 640px) {
   textarea.vrf-req-details-input, input.vrf-vehicle-detail{
     width: 100%;
-  }
-  .vrf-req-dates{
-    flex-direction: column;
   }
   .vrf-req-date{
     width: 70%;

@@ -10,8 +10,8 @@ import DOCLoading from './doc-loading';
 import AllTrips from './trips';
 import CreateTrip from './createtrip';
 import MyTrips from './my-trips';
-import VehicleRequestPage from './vehicle-request';
-import VehicleRequest from './vehiclerequest';
+import VehicleRequestPage from './vehicle-request-page';
+import VehicleRequest from './vehicle-request-page/vehicle-request';
 import ProfilePage from './profile-page';
 import { TripDetails } from './trip-details';
 import OPOLeaders from './opo-dashboard/profiles';
@@ -134,7 +134,7 @@ class App extends React.Component {
             <Route path='/user' component={ProfilePage} />
             <Route path='/complete-profile' component={CompleteProfile} />
             <Route path='/all-trips' component={AllTrips} />
-            <Route path='/vehicle-request/:vehicleReqId'>{() => this.requireRole(VehicleRequest, ['OPO', 'Leader'], true)}</Route>
+            <Route path='/vehicle-request/:vehicleReqId'>{() => this.requireRole(VehicleRequestPage, ['OPO', 'Leader'], true)}</Route>
             <Route path='/vehicle-request'>{() => this.requireRole(VehicleRequestPage, ['OPO', 'Leader'], true)}</Route>
             <Route path='/trip/:tripID' component={TripDetails} />
             <Route path='/createtrip'>{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>

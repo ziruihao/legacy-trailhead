@@ -1,12 +1,12 @@
 import React from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
-import { Stack, Queue, Divider, Box } from '../layout';
-import Field from '../field';
-import Toggle from '../toggle';
-import Text from '../text';
-import dropdownIcon from '../../img/dropdown-toggle.svg';
+import { Stack, Queue, Divider, Box } from '../../layout';
+import Field from '../../field';
+import Toggle from '../../toggle';
+import Text from '../../text';
+import dropdownIcon from '../../../img/dropdown-toggle.svg';
 import './vehicle-request-form.scss';
-import '../../styles/vehicleRequestForm-style.scss';
+import '../../../styles/vehicleRequestForm-style.scss';
 
 const getApprpriateVehicleMenu = (userCertifications) => {
   let microbusVan;
@@ -76,7 +76,17 @@ const getVehicles = (props) => {
           onChange={event => props.onVehicleDetailChange(event, index)}
         />
         <Stack size={25} />
-        <div className='vrf-radio-row'>
+        <Dropdown onSelect={eventKey => props.onVehicleDetailChange(eventKey, index)}>
+          <Dropdown.Toggle className='field'>
+            <span className='field-dropdown-bootstrap'>{vehicle.tripLength === 'single-day-trip' ? 'Single-day trip' : 'Multi-day trip'}</span>
+            <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
+          </Dropdown.Toggle>
+          <Dropdown.Menu className='field-dropdown-menu'>
+            <Dropdown.Item eventKey='single-day-trip'>Single-day trip</Dropdown.Item>
+            <Dropdown.Item eventKey='multi-day-trip'>Multi-day trip</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        {/* <div className='vrf-radio-row'>
           <label className='checkbox-container' htmlFor={`single-day-trip-${index}`}>
             <input
               type='radio'
@@ -88,7 +98,7 @@ const getVehicles = (props) => {
             />
             <span className='radio-button' />
           </label>
-          <span className='vrf-label vrf-trip-length'>Single day trip</span>
+          <span className='vrf-label vrf-trip-length'>Single-day trip</span>
         </div>
         <div className='vrf-radio-row'>
           <label className='checkbox-container' htmlFor={`multi-day-trip-${index}`}>
@@ -103,7 +113,7 @@ const getVehicles = (props) => {
             <span className='radio-button' />
           </label>
           <span className='vrf-label vrf-trip-length'>Multi-day trip</span>
-        </div>
+        </div> */}
         <Stack size={25} />
         <Box dir='row' justify='between' width={800}>
           <Box dir='col'>
@@ -138,7 +148,7 @@ const getVehicles = (props) => {
         <Stack size={25} />
         <Box dir='row' justify='between' width={800}>
           <Box dir='col'>
-            <Text type='h2'>Pickup date</Text>
+            <Text type='h2'>Pickup time</Text>
             <Stack size={25} />
             <Field
               type='time'
@@ -150,7 +160,7 @@ const getVehicles = (props) => {
             />
           </Box>
           <Box dir='col'>
-            <Text type='h2'>Return date</Text>
+            <Text type='h2'>Return time</Text>
             <Stack size={25} />
             <Field
               type='time'
@@ -187,11 +197,11 @@ const getAppropriateButton = (props) => {
   } else if (props.requestType === 'SOLO') {
     if (props.asUpdate) {
       return (
-        <>
+        <Box dir='row'>
           <div className='doc-button hollow alarm' onClick={props.cancelUpdate} role='button' tabIndex={0}>Cancel update</div>
           <Queue size={15} />
           <div className='doc-button' onClick={props.update} role='button' tabIndex={0}>Update</div>
-        </>
+        </Box>
       );
     } else {
       return <div className='doc-button' onClick={props.submit} role='button' tabIndex={0}>Submit</div>;
@@ -232,15 +242,6 @@ const VehicleRequestForm = (props) => {
               onChange={props.onSoloReqDetailsChange}
               error={props.soloErrorFields.noOfPeople}
             />
-            {/* <input
-              type="number"
-              id="noOfPeople"
-              className={`field trip-detail vrf-vehicle-detail vrf-single-day-date ${Number(props.noOfPeople) === 0 ? 'no-date' : ''} ${props.soloErrorFields.noOfPeople ? 'field-error' : ''}`}
-              name="noOfPeople"
-              placeholder="0"
-              value={props.noOfPeople}
-              onChange={props.onSoloReqDetailsChange}
-            /> */}
           </Box>
         )
         : null}
@@ -257,15 +258,6 @@ const VehicleRequestForm = (props) => {
         onChange={props.onSoloReqDetailsChange}
         error={props.soloErrorFields.mileage}
       />
-      {/* <input
-        type="number"
-        id="mileage"
-        className={`field ${Number(props.mileage) === 0 ? 'no-date' : ''} ${props.soloErrorFields.mileage ? 'field-error' : ''}`}
-        name="mileage"
-        placeholder="0"
-        value={props.mileage}
-        onChange={props.onSoloReqDetailsChange}
-      /> */}
       <Stack size={50} />
       {getVehicles(props)}
       <Stack size={50} />

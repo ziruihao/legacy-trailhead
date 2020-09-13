@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import VehicleRequest from '../vehiclerequest';
+import VehicleRequest from './vehicle-request/vehiclerequest';
 
 class VehicleRequestPage extends React.Component {
   render() {

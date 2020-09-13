@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { appError, fetchVehicleRequest, submitVehicleRequest, updateVehicleRequest } from '../actions';
-import VehicleRequestForm from './vehicle-request-form';
-import VehicleRequestDisplay from './vehicleRequestDisplay';
+import { appError, fetchVehicleRequest, submitVehicleRequest, updateVehicleRequest } from '../../../actions';
+import VehicleRequestForm from '../vehicle-request-form';
+import VehicleRequestDisplay from '../vehicle-request-display/vehicleRequestDisplay';
+import DOCLoading from '../../doc-loading';
 
 class VehicleRequest extends Component {
   errorFields = {
@@ -36,29 +37,32 @@ class VehicleRequest extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: true,
+      isEditing: false,
       requestDetails: '',
       noOfPeople: '',
       mileage: '',
       soloErrorFields: { ...this.soloErrorFields },
       requestType: 'SOLO',
       vehicles: [this.defaultVehicleReq],
+      loaded: false,
+      new: true,
     };
   }
 
   componentDidMount() {
-    if (this.props.switchMode) {
+    if (this.props.requestType === 'TRIP') {
+      this.setState({ requestType: 'TRIP', vehicles: this.props.vehicles });
+    } else if (this.props.match.params.vehicleReqId) {
       this.props.fetchVehicleRequest(this.props.match.params.vehicleReqId)
         .then(() => {
-          const updates = {};
-          updates.isEditing = false;
+          const updates = { loaded: true, new: false };
           if (this.props.requestType === 'TRIP') {
             updates.requestType = 'TRIP';
           }
           this.setState(updates);
         });
-    } else if (this.props.requestType === 'TRIP') {
-      this.setState({ requestType: 'TRIP', vehicles: this.props.vehicles });
+    } else {
+      this.setState({ new: true });
     }
   }
 
@@ -86,30 +90,44 @@ class VehicleRequest extends Component {
   }
 
   onVehicleDetailChange = (event, index) => {
-    event.persist();
-    this.setState((prevState) => {
-      const oldVehicles = prevState.vehicles;
-      const oldVehicle = oldVehicles[index];
-      const newValue = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
-      const updatedEntry = event.target.type === 'radio' ? 'tripLength' : event.target.name;
-      const update = {};
-      // update entry with new value
-      update[updatedEntry] = newValue;
-      // update return date to match pickup date if single day trip
-      if (oldVehicle.tripLength === 'single-day-trip' && event.target.name === 'pickupDate') {
-        update.returnDate = newValue;
-      }
-      // error highlight form if value is empty
-      if (Object.prototype.hasOwnProperty.call(oldVehicle.errorFields, updatedEntry)) {
-        update.errorFields = Object.assign({}, oldVehicle.errorFields, { [updatedEntry]: this.isStringEmpty(event.target.value) });
-      }
-      if (oldVehicle.tripLength === 'multi-day-trip' && event.target.value === 'single-day-trip') {
-        update.returnDate = oldVehicle.pickupDate;
-      }
-      const updatedVehicle = Object.assign({}, oldVehicle, update);
-      const updatedVehicles = Object.assign([], oldVehicles, { [index]: updatedVehicle });
-      return { vehicles: updatedVehicles };
-    });
+    if (event === 'single-day-trip' || event === 'multi-day-trip') {
+      this.setState((prevState) => {
+        const oldVehicles = prevState.vehicles;
+        const oldVehicle = oldVehicles[index];
+        const newValue = event;
+        const updatedEntry = 'tripLength';
+        const update = {};
+        update[updatedEntry] = newValue;
+        const updatedVehicle = Object.assign({}, oldVehicle, update);
+        const updatedVehicles = Object.assign([], oldVehicles, { [index]: updatedVehicle });
+        return { vehicles: updatedVehicles };
+      });
+    } else {
+      event.persist();
+      this.setState((prevState) => {
+        const oldVehicles = prevState.vehicles;
+        const oldVehicle = oldVehicles[index];
+        const newValue = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+        const updatedEntry = event.target.type === 'radio' ? 'tripLength' : event.target.name;
+        const update = {};
+        // update entry with new value
+        update[updatedEntry] = newValue;
+        // update return date to match pickup date if single day trip
+        if (oldVehicle.tripLength === 'single-day-trip' && event.target.name === 'pickupDate') {
+          update.returnDate = newValue;
+        }
+        // error highlight form if value is empty
+        if (Object.prototype.hasOwnProperty.call(oldVehicle.errorFields, updatedEntry)) {
+          update.errorFields = Object.assign({}, oldVehicle.errorFields, { [updatedEntry]: this.isStringEmpty(event.target.value) });
+        }
+        if (oldVehicle.tripLength === 'multi-day-trip' && event.target.value === 'single-day-trip') {
+          update.returnDate = oldVehicle.pickupDate;
+        }
+        const updatedVehicle = Object.assign({}, oldVehicle, update);
+        const updatedVehicles = Object.assign([], oldVehicles, { [index]: updatedVehicle });
+        return { vehicles: updatedVehicles };
+      });
+    }
   }
 
   addVehicle = () => {
@@ -237,8 +255,9 @@ class VehicleRequest extends Component {
   submit = () => {
     if (this.isFormValid()) {
       const vehicles = this.state.vehicles.map((vehicle) => {
-        delete vehicle.errorFields;
-        return vehicle;
+        const newVehicleToAvoidDeletingErrorFieldsBeforeThePageRedirects = JSON.parse(JSON.stringify(vehicle));
+        delete newVehicleToAvoidDeletingErrorFieldsBeforeThePageRedirects.errorFields;
+        return newVehicleToAvoidDeletingErrorFieldsBeforeThePageRedirects;
       });
       const vehicleRequest = {
         requester: this.props.user,
@@ -310,7 +329,7 @@ class VehicleRequest extends Component {
       driverCert: this.props.user.driver_cert,
       trailerCert: this.props.user.trailer_cert,
     };
-    if (this.state.isEditing) {
+    if (this.state.new) {
       return (
         <VehicleRequestForm
           requestType={this.state.requestType}
@@ -330,23 +349,50 @@ class VehicleRequest extends Component {
           removeVehicle={this.removeVehicle}
           submit={this.submit}
           userCertifications={userCertifications}
-          asUpdate={this.props.viewMode}
           cancelUpdate={this.cancelUpdate}
           update={this.update}
           nextTripPage={this.nextTripPage}
         />
       );
-    } else {
-      return (
-        <VehicleRequestDisplay
-          userCertifications={userCertifications}
-          requestType={this.state.requestType}
-          vehicleRequest={this.props.vehicleRequest}
-          startEditing={this.startEditing}
-          showError={this.showError}
-        />
-      );
-    }
+    } else if (this.state.loaded) {
+      if (this.state.isEditing) {
+        return (
+          <VehicleRequestForm
+            requestType={this.state.requestType}
+            requestDetails={this.state.requestDetails}
+            soloErrorFields={this.state.soloErrorFields}
+            noOfPeople={this.state.noOfPeople}
+            mileage={this.state.mileage}
+            vehicles={this.state.vehicles}
+            startDate={this.props.startDate}
+            endDate={this.props.endDate}
+            startTime={this.props.startTime}
+            endTime={this.props.endTime}
+            onSoloReqDetailsChange={this.onSoloReqDetailsChange}
+            onVehicleTypeChange={this.onVehicleTypeChange}
+            onVehicleDetailChange={this.onVehicleDetailChange}
+            addVehicle={this.addVehicle}
+            removeVehicle={this.removeVehicle}
+            submit={this.submit}
+            userCertifications={userCertifications}
+            cancelUpdate={this.cancelUpdate}
+            update={this.update}
+            nextTripPage={this.nextTripPage}
+            asUpdate
+          />
+        );
+      } else {
+        return (
+          <VehicleRequestDisplay
+            userCertifications={userCertifications}
+            requestType={this.state.requestType}
+            vehicleRequest={this.props.vehicleRequest}
+            startEditing={this.startEditing}
+            showError={this.showError}
+          />
+        );
+      }
+    } else return <DOCLoading type='doc' height='150' width='150' measure='px' />;
   }
 }
 

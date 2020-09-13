@@ -559,7 +559,7 @@ export function submitVehicleRequest(vehicleRequest, history) {
   return (dispatch) => {
     axios.post(`${constants.BACKEND_URL}/vehicleRequests`, vehicleRequest)
       .then((response) => {
-        history.push('/my-trips');
+        history.push(`/vehicle-request/${response.data._id}`);
       }).catch((error) => {
         dispatch(appError(`Error making vehicle request: ${error}`));
       });
@@ -576,6 +576,7 @@ export function fetchVehicleRequest(id) {
         }).catch((error) => {
           console.log(error);
           dispatch(appError(`Error fetching vehicle request: ${error}`));
+          reject(error);
         });
     });
   };

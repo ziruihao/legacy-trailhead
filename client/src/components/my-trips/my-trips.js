@@ -129,6 +129,7 @@ class MyTrips extends Component {
                   latest = utils.dates.formatDateAndTime(new Date(vehicleReq.associatedTrip.endDateAndTime), 'SHORT');
                 } else if (vehicleReq.requestType === 'SOLO') {
                   const calc = constants.calculateVehicleRequestDateRange(vehicleReq);
+                  console.log(calc);
                   earliest = utils.dates.formatDateAndTime(new Date(calc.earliest), 'SHORT');
                   latest = utils.dates.formatDateAndTime(new Date(calc.latest), 'SHORT');
                   reqTitle = vehicleReq.requestDetails;

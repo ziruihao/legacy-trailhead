@@ -13,7 +13,7 @@ import Text from '../../text';
 import * as constants from '../../../constants';
 import '../../../styles/tripdetails_leader.scss';
 import confirmDeleteImage from '../../../img/confirmDelete.jpg';
-import VehicleRequestDisplay from '../../vehicleRequestDisplay';
+import VehicleRequestDisplay from '../../vehicle-request-page/vehicle-request-display/vehicleRequestDisplay';
 
 const getCoLeaders = (leaders) => {
   let coleaders = '';
@@ -320,12 +320,11 @@ export default React.forwardRef((props, ref) => {
         <Stack size={25} />
         {props.trip.vehicleStatus !== 'N/A'
           ? (
-            <div className='tripdetail-gear-requests leader-trip-info'>
-              <VehicleRequestDisplay
-                requestType='TRIP'
-                vehicleRequest={props.trip.vehicleRequest}
-              />
-            </div>
+            <VehicleRequestDisplay
+              requestType='TRIP'
+              trip={props.trip}
+              vehicleRequest={props.trip.vehicleRequest}
+            />
           )
           : null}
         <Stack size={100} />

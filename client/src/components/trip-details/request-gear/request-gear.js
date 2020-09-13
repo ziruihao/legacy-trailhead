@@ -1,5 +1,6 @@
 import React from 'react';
 import DOCLoading from '../../doc-loading';
+import { Box, Stack, Queue, Divider } from '../../layout';
 import '../trip-details.scss';
 import './request-gear.scss';
 
@@ -7,7 +8,9 @@ class RequestGear extends React.Component {
   render() {
     if (this.props.trippeeGear.length === 0) {
       return (
-        <div className='p1 gray thin'>None</div>
+        <Box dir='row' justify='center' align='center' height={50} className='doc-bordered'>
+          <div className='p1 gray thin'>None</div>
+        </Box>
       );
     } else {
       const checkmarkClass = this.props.editingGear ? 'checkmark' : 'disabled-checkmark';
