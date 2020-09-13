@@ -4,7 +4,7 @@ import { Stack, Queue, Divider, Box } from '../../../layout';
 
 const AttendeeTable = (props) => {
   const renderAttendence = (status) => {
-    if (new Date() >= new Date(props.startDateAndTime)) {
+    if (props.tripLeft) {
       if (status) return 'Yes';
       else return 'No';
     } else {

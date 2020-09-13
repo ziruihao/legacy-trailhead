@@ -44,9 +44,9 @@ class MobileCheckIn extends PureComponent {
             <Stack size={18} />
             <div className='doc-h1'>{`${this.props.trip.title}`}</div>
             <Stack size={18} />
-            <div className='doc-h3'>{`Start: ${utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'LONG')}`}</div>
+            <div className='doc-h3'>{`Start: ${utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'SHORT')}`}</div>
             <Stack size={18} />
-            <div className='doc-h3'>{`Return: ${utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'LONG')}`}</div>
+            <div className='doc-h3'>{`Return: ${utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'SHORT')}`}</div>
           </div>
           <Stack size={18} />
           <hr />

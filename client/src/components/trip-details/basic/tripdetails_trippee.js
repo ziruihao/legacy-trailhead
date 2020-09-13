@@ -1,6 +1,7 @@
 import React from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Badge from '../../badge';
+import { Box } from '../../layout';
 import confirmCancelImage from '../../../img/confirmCancel.svg';
 import '../../../styles/tripdetails_trippee-style.scss';
 
@@ -58,9 +59,9 @@ const formatDate = (date, time) => {
 const getGear = (props) => {
   if (props.trip.trippeeGear.length === 0) {
     return (
-      <div className='no-on-trip'>
-        <h4 className='none-f-now'>None</h4>
-      </div>
+      <Box dir='row' justify='center' align='center'>
+        <div className='p1 gray thin'>You can&apos;t edit requests after they&apos;ve been reviewed</div>
+      </Box>
     );
   } else {
     const rows = [];

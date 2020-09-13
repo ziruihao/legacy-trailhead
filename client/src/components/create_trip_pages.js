@@ -12,9 +12,8 @@ import '../styles/createtrip-style.scss';
 const BasicTripInfo = (props) => {
   return (
     <div className='create-trip-form-content'>
-      <div className='page-header'>
-        <div className='doc-h1'>Basic trip information</div>
-      </div>
+      <div className='doc-h1'>Basic trip information</div>
+      <Stack size={50} />
       <div className='page-sub-headers'>
         <div className='doc-h2'>Trip name</div>
         <input className={`field field-full-width create-trip-form-bottom-margin ${props.errorFields.title ? 'field-error' : ''}`}
@@ -42,16 +41,20 @@ const BasicTripInfo = (props) => {
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      <div className='page-sub-headers'>
-        <div className='doc-h2'>Cost per person</div>
-        <input className={`field create-trip-form-bottom-margin ${props.errorFields.cost ? 'field-error' : ''}`}
+      <div className='doc-h2'>Cost per person</div>
+      <Stack size={25} />
+      <Box dir='row' align='center'>
+        <div className='doc-h3'>$</div>
+        <Queue size={10} />
+        <Field
           onChange={props.onFieldChange}
           name='cost'
           type='number'
           value={props.costValue}
-          placeholder='0'
+          error={props.errorFields.cost}
         />
-      </div>
+      </Box>
+      <Stack size={50} />
       <div className='page-sub-headers'>
         <div className='doc-h2'>Invite co-leaders</div>
         {props.loaded
@@ -65,21 +68,6 @@ const BasicTripInfo = (props) => {
         <Toggle id='co-leader-access' value={props.accessValue} onChange={props.toggleAccess} label='Give co-leaders edit access to this trip?' />
         <Toggle id='beginner' value={props.experienceValue} onChange={props.experienceOption} label='Do trippees need prior experience?' />
       </div>
-      {/* <div className="page-sub-headers">
-        <p>Tag as non-beginner trip</p>
-        <div className="checkbox-beginner">
-          <input
-            type="checkbox"
-            value="Yes"
-            id="beginner"
-            onChange={props.experienceOption}
-            checked={props.experienceValue}
-          />
-          <label htmlFor="beginner">
-            Select if trippees need prior experience to go on this trip
-          </label>
-        </div>
-      </div> */}
     </div>
 
   );
@@ -88,9 +76,8 @@ const BasicTripInfo = (props) => {
 const DatesLocation = (props) => {
   return (
     <div className='create-trip-form-content'>
-      <div className='page-header date-loc-header'>
-        <div className='doc-h1'>Dates and Location</div>
-      </div>
+      <div className='doc-h1'>Dates and Location</div>
+      <Stack size={50} />
       <div className='page-sub-headers checkbox-beginner'>
         <div className='doc-h2'>Type</div>
         <Dropdown onSelect={props.onDateLengthChange}>
@@ -161,9 +148,8 @@ const DatesLocation = (props) => {
 const AboutTheTrip = (props) => {
   return (
     <div className='create-trip-form-content'>
-      <div className='page-header'>
-        <div className='doc-h1'>About the trip</div>
-      </div>
+      <div className='doc-h1'>About the trip</div>
+      <Stack size={50} />
       <div className='trip-date-range-inputs'>
         <div className='page-sub-headers'>
           <div className='doc-h3'>Pickup</div>
@@ -245,13 +231,9 @@ const getTrippeeGear = (props) => {
     });
   } else {
     return (
-      <div className='no-gear'>
-        <div className='trip-detail'>
-          <div className='no-on-trip'>
-            <h4 className='none-f-now'>You can&apos;t edit requests after they&apos;ve been reviewed</h4>
-          </div>
-        </div>
-      </div>
+      <Box dir='row' justify='center' align='center'>
+        <div className='p1 gray thin'>You can&apos;t edit requests after they&apos;ve been reviewed</div>
+      </Box>
     );
   }
 };
@@ -259,28 +241,26 @@ const getTrippeeGear = (props) => {
 const getGearInputs = (props) => {
   if (!props.gearStatus || props.gearStatus === 'pending' || props.gearStatus === 'N/A') {
     return props.gearRequests.map((gearRequest, index) => {
-      console.log(gearRequest);
       return (
         <div key={gearRequest._id}>
           <Box dir='row' align='center' className='gear-container'>
-            <input
+            <Field
               type='text'
-              className={`field ${gearRequest.hasError ? 'field-error' : ''}`}
               name='opogearRequest'
-              placeholder='Item name'
-              onChange={event => props.onGearChangeName(event, index)}
               value={gearRequest.name}
+              onChange={event => props.onGearChangeName(event, index)}
+              placeholder='Item name'
+              error={gearRequest.hasError}
             />
             <Queue size={15} />
             <Field
               type='number'
-              // className={`field ${gearRequest.hasError ? 'field-error' : ''}`}
               name='opogearRequestQuantity'
-              placeholder='Qty.'
-              onChange={event => props.onGearChangeQuantity(event, index)}
               value={gearRequest.quantity}
-              width={100}
+              onChange={event => props.onGearChangeQuantity(event, index)}
+              placeholder='Qty.'
               error={gearRequest.hasError}
+              width={100}
             />
             <i className='material-icons close-button remove-gear-button' onClick={() => props.removeGear(index)} role='button' tabIndex={0}>close</i>
           </Box>
@@ -290,13 +270,9 @@ const getGearInputs = (props) => {
     });
   } else {
     return (
-      <div className='no-gear'>
-        <div className='trip-detail'>
-          <div className='no-on-trip'>
-            <h4 className='none-f-now'>You can&apos;t edit requests after they&apos;ve been reviewed</h4>
-          </div>
-        </div>
-      </div>
+      <Box dir='row' justify='center' align='center'>
+        <div className='p1 gray thin'>You can&apos;t edit requests after they&apos;ve been reviewed</div>
+      </Box>
     );
   }
 };
@@ -304,9 +280,8 @@ const getGearInputs = (props) => {
 const Equipment = (props) => {
   return (
     <div className='create-trip-form-content'>
-      <div className='page-header'>
-        <div className='doc-h1'>Equipment</div>
-      </div>
+      <div className='doc-h1'>Equipment</div>
+      <Stack size={50} />
       <div className='trip-date-range-inputs'>
         <div className='page-sub-headers'>
           <div className='doc-h2'>Individual gear</div>

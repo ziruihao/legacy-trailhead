@@ -28,7 +28,7 @@ class CreateTrip extends Component {
 
   defaultGroupGear = {
     name: '',
-    quantity: 0,
+    quantity: 1,
     hasError: false,
   }
 
@@ -738,16 +738,13 @@ class CreateTrip extends Component {
             />
           )
           : (
-            <div className="no-gear">
-              <div className="vrf-title-container">
-                <h2 className="p-trip-title vrf-title-size">Vehicle Request</h2>
-              </div>
-              <div className="trip-detail">
-                <div className="no-on-trip">
-                  <h4 className="none-f-now">You can&apos;t edit requests after they&apos;ve been reviewed</h4>
-                </div>
-              </div>
-            </div>
+            <>
+              <div className="doc-h1">Vehicle requests</div>
+              <Stack size={50}></Stack>
+              <Box dir='row' justify='center' align='center'>
+                <div className='p1 gray thin'>You can&apos;t edit requests after they&apos;ve been reviewed</div>
+              </Box>
+            </>
           );
         break;
       case 6:

@@ -70,43 +70,6 @@ const getAssignment = (props, index) => {
               </span>
             </span>
           </div>
-
-          {assignment.assigned_vehicle.name === 'Enterprise'
-            ? null
-            : (
-              <div>
-                <div className='vrf-form-row vrf-req-dates'>
-                  <div className='club-option'>
-                    <label className='checkbox-container club-checkbox' htmlFor={`pickedUp_${index}`}>
-                      <input
-                        type='checkbox'
-                        name='pickedUp'
-                        id={`pickedUp_${index}`}
-                        checked={assignment.pickedUp}
-                        disabled
-                      />
-                      <span className='checkmark' />
-                    </label>
-                    <span className='vrf-label'>Picked up?</span>
-                  </div>
-                </div>
-                <div className='vrf-form-row vrf-req-dates'>
-                  <div className='club-option'>
-                    <label className='checkbox-container club-checkbox' htmlFor={`returned_${index}`}>
-                      <input
-                        type='checkbox'
-                        name='returned'
-                        id={`returned_${index}`}
-                        checked={assignment.returned}
-                        disabled
-                      />
-                      <span className='checkmark' />
-                    </label>
-                    <span className='vrf-label'>Returned?</span>
-                  </div>
-                </div>
-              </div>
-            )}
         </div>
       );
     } else {

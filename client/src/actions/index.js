@@ -20,8 +20,6 @@ export const ActionTypes = {
   ERROR: 'ERROR',
   CLEAR_ERROR: 'CLEAR_ERROR',
   FETCH_LEADER_APPROVALS: 'FETCH_LEADER_APPROVALS',
-  FETCH_GEAR_REQUESTS: 'FETCH_GEAR_REQUESTS',
-  FETCH_TRIPPEE_GEAR_REQUESTS: 'FETCH_TRIPPEE_GEAR_REQUESTS',
   UPDATE_RESTRICTED_PATH: 'UPDATE_RESTRICTED_PATH',
   FETCH_CERT_APPROVALS: 'FETCH_CERT_APPROVALS',
   FETCH_OPO_TRIPS: 'FETCH_OPO_TRIPS',
@@ -140,7 +138,7 @@ export function setAttendingStatus(tripID, memberID, status, temporaryToken) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       const token = temporaryToken || localStorage.getItem('token');
-      axios.put(`${constants.BACKEND_URL}/set-attendence/${tripID}`, { memberID, status }, { headers: { Authorization: `Bearer ${token}` } })
+      axios.put(`${constants.BACKEND_URL}/trips/set-attendence/${tripID}`, { memberID, status }, { headers: { Authorization: `Bearer ${token}` } })
         .then((response) => {
           dispatch({ type: ActionTypes.SET_ATTENDENCE, payload: { memberID, attending: response.data.status } });
           resolve();
@@ -243,6 +241,23 @@ export function leaveTrip(tripID, leavingUserID) {
         console.log(error);
         reject(error);
       });
+    });
+  };
+}
+
+export function toggleTripLeftStatus(tripID, status, temporaryToken) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      const token = temporaryToken || localStorage.getItem('token');
+      axios.put(`${constants.BACKEND_URL}/trips/toggle-left/${tripID}`, { status }, { headers: { Authorization: `Bearer ${token}` } })
+        .then((response) => {
+          dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
+          resolve();
+        }).catch((error) => {
+          console.log(error);
+          dispatch(appError(`Error marking trip as returned: ${error.message}`));
+          reject(error);
+        });
     });
   };
 }
@@ -475,21 +490,6 @@ export function reviewCertRequest(review) {
   };
 }
 
-export function fetchGearRequests() {
-  return (dispatch) => {
-    axios.get(`${constants.BACKEND_URL}/gearrequests`)
-      .then((response) => {
-        dispatch({
-          type: ActionTypes.FETCH_GEAR_REQUESTS,
-          payload: response.data,
-        });
-      }).catch((error) => {
-        dispatch(appError(`Error fetching gear request: ${error}`));
-        console.log(error);
-      });
-  };
-}
-
 export function fetchOPOTrips() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -519,21 +519,6 @@ export function reviewGearRequest(review) {
         });
       }).catch((error) => {
         dispatch(appError(`Error responding to gear request: ${error}`));
-      });
-  };
-}
-
-export function fetchTrippeeGearRequests() {
-  return (dispatch) => {
-    axios.get(`${constants.BACKEND_URL}/trippeegearrequests`)
-      .then((response) => {
-        dispatch({
-          type: ActionTypes.FETCH_TRIPPEE_GEAR_REQUESTS,
-          payload: response.data,
-        });
-      }).catch((error) => {
-        dispatch(appError(`Error fetching trippee gear request: ${error}`));
-        console.log(error);
       });
   };
 }

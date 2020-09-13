@@ -90,29 +90,29 @@ const getPcard = (pcard, pcardStatus, assignedPCard) => {
       <>
         <div className='trip-details-table-row'>
           <span>Snacks</span>
-          <span>{pcardReq.snacks} per person</span>
+          <span>${pcardReq.snacks} per person</span>
         </div>
         <hr className='detail-line' />
         <div className='trip-details-table-row'>
           <span>Breakfast</span>
-          <span>{pcardReq.breakfast} per person</span>
+          <span>${pcardReq.breakfast} per person</span>
         </div>
         <hr className='detail-line' />
         <div className='trip-details-table-row'>
           <span>Lunch</span>
-          <span>{pcardReq.lunch} per person</span>
+          <span>${pcardReq.lunch} per person</span>
         </div>
         <hr className='detail-line' />
         <div className='trip-details-table-row'>
           <span>Dinner</span>
-          <span>{pcardReq.dinner} per person</span>
+          <span>${pcardReq.dinner} per person</span>
         </div>
         <hr className='detail-line' />
         {pcardReq.otherCosts.map((cost, index, array) => (
           <div key={cost._id}>
             <div className='trip-details-table-row'>
               <span>{cost.title}</span>
-              <span>{cost.cost}</span>
+              <span>${cost.cost}</span>
             </div>
             {index !== array.length - 1 ? <hr className='detail-line' /> : null}
           </div>
@@ -152,9 +152,11 @@ export default React.forwardRef((props, ref) => {
             </ReactToolTip>
           </Box>
           <div className='trip-tags-spacer' />
-          <div id='trip-returned'>
+          <Box dir='row'>
+            <Toggle id='trip-left-toggle' value={props.trip.left} onChange={event => props.toggleTripLeftStatus(event.target.checked)} label='Left' />
+            <Queue size={25} />
             <Toggle id='trip-returned-toggle' value={props.trip.returned} onChange={event => props.toggleTripReturnedStatus(event.target.checked)} label='Returned' />
-          </div>
+          </Box>
         </Box>
         <Stack size={25} />
         <Divider size={1} />
@@ -236,6 +238,7 @@ export default React.forwardRef((props, ref) => {
         <div className='trip-details-table'>
           <AttendeeTable
             showAttendence
+            tripLeft={props.trip.left}
             people={props.trip.members}
             emails={props.onTripEmail}
             startDateAndTime={props.trip.startDateAndTime}
@@ -254,7 +257,15 @@ export default React.forwardRef((props, ref) => {
             people={props.trip.pending}
             emails={props.pendingEmail}
             startDateAndTime={props.trip.startDateAndTime}
-            actions={[{ callback: (person) => { props.setCachedPerson(person); props.showTripChangesModal(); }, message: 'Admit' }, { callback: props.leaveTrip, message: 'Reject' }]}
+            actions={[{ callback: (person) => {
+              if (props.trip.trippeeGearStatus === 'approved') {
+                props.setCachedPerson(person);
+                props.showTripChangesModal();
+              } else {
+                props.moveToTrip(person);
+              }
+            },
+            message: 'Admit' }, { callback: props.leaveTrip, message: 'Reject' }]}
             openProfile={props.openTrippeeProfile}
           />
         </div>

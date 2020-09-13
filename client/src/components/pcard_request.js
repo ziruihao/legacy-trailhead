@@ -13,14 +13,18 @@ function getPcardForm(props) {
         <Icon id='delete-pcard' type='close' size={15} onClick={props.togglePcard} />
         <Box dir='row' justify='between' align='center'>
           <div className='doc-h2'>Total people on trip</div>
-          <Field
-            onChange={event => props.onPcardFieldChange(event, index)}
-            name='numPeople'
-            value={request.numPeople}
-            type='number'
-            width={100}
-            error={request.errorFields.numPeople}
-          />
+          <Box dir='row' align='center'>
+            <div className='doc-h3'>$</div>
+            <Queue size={10} />
+            <Field
+              onChange={event => props.onPcardFieldChange(event, index)}
+              name='numPeople'
+              value={request.numPeople}
+              type='number'
+              width={100}
+              error={request.errorFields.numPeople}
+            />
+          </Box>
         </Box>
         <Stack size={25} />
         <div className='doc-h2'>Food costs</div>
@@ -31,52 +35,68 @@ function getPcardForm(props) {
           <Box dir='col' width={300}>
             <Box dir='row' justify='between' align='center'>
               <div className='doc-h3'>Snacks</div>
-              <Field
-                onChange={event => props.onPcardFieldChange(event, index)}
-                name='snacks'
-                value={request.snacks}
-                type='number'
-                width={100}
-                error={request.errorFields.snacks}
-              />
+              <Box dir='row' align='center'>
+                <div className='doc-h3'>$</div>
+                <Queue size={10} />
+                <Field
+                  onChange={event => props.onPcardFieldChange(event, index)}
+                  name='snacks'
+                  value={request.snacks}
+                  type='number'
+                  width={100}
+                  error={request.errorFields.snacks}
+                />
+              </Box>
             </Box>
             <Stack size={25} />
             <Box dir='row' justify='between' align='center'>
               <div className='doc-h3'>Breakfast</div>
-              <Field
-                onChange={event => props.onPcardFieldChange(event, index)}
-                name='breakfast'
-                value={request.breakfast}
-                type='number'
-                width={100}
-                error={request.errorFields.breakfast}
-              />
+              <Box dir='row' align='center'>
+                <div className='doc-h3'>$</div>
+                <Queue size={10} />
+                <Field
+                  onChange={event => props.onPcardFieldChange(event, index)}
+                  name='breakfast'
+                  value={request.breakfast}
+                  type='number'
+                  width={100}
+                  error={request.errorFields.breakfast}
+                />
+              </Box>
             </Box>
           </Box>
           <Box dir='col' width={300}>
             <Box dir='row' justify='between' align='center'>
               <div className='doc-h3'>Lunch</div>
-              <Field
-                onChange={event => props.onPcardFieldChange(event, index)}
-                name='lunch'
-                value={request.lunch}
-                type='number'
-                width={100}
-                error={request.errorFields.lunch}
-              />
+              <Box dir='row' align='center'>
+                <div className='doc-h3'>$</div>
+                <Queue size={10} />
+                <Field
+                  onChange={event => props.onPcardFieldChange(event, index)}
+                  name='lunch'
+                  value={request.lunch}
+                  type='number'
+                  width={100}
+                  error={request.errorFields.lunch}
+                />
+              </Box>
             </Box>
             <Stack size={25} />
 
             <Box dir='row' justify='between' align='center'>
               <div className='doc-h3'>Dinner</div>
-              <Field
-                onChange={event => props.onPcardFieldChange(event, index)}
-                name='dinner'
-                value={request.dinner}
-                type='number'
-                width={100}
-                error={request.errorFields.dinner}
-              />
+              <Box dir='row' align='center'>
+                <div className='doc-h3'>$</div>
+                <Queue size={10} />
+                <Field
+                  onChange={event => props.onPcardFieldChange(event, index)}
+                  name='dinner'
+                  value={request.dinner}
+                  type='number'
+                  width={100}
+                  error={request.errorFields.dinner}
+                />
+              </Box>
             </Box>
           </Box>
         </Box>
@@ -145,15 +165,11 @@ const PCardRequest = (props) => {
           </Box>
         )
         : (
-          <div className='no-gear'>
-            <div className='trip-detail'>
-              <div className='no-on-trip'>
-                <h4 className='none-f-now'>You can&apos;t edit requests after they&apos;ve been reviewed</h4>
-              </div>
-            </div>
-          </div>
+          <Box dir='row' justify='center' align='center'>
+            <div className='p1 gray thin'>You can&apos;t edit requests after they&apos;ve been reviewed</div>
+          </Box>
         )
-}
+      }
     </Box>
   );
 };
