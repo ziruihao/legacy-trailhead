@@ -8,6 +8,7 @@ import { GearRequest, BasicInfo, PCardRequest } from './opo-trip-info-pages';
 import OPOVehicleRequest from '../vehicle-request/vehicle-request-approval';
 import { ProfileCard } from '../../profile-card';
 import Badge from '../../badge';
+import Text from '../../text';
 import Sidebar from '../../sidebar';
 import DOCLoading from '../../doc-loading';
 import AttendeeTable from '../../trip-details/full/attendee-table/attendee-table';
@@ -145,9 +146,9 @@ class OPOTripApproval extends Component {
         case 2:
           page = (
             <Box dir='col'>
-              <div className='doc-h1'>Attendies</div>
+              <Text type='h1'>Attendies</Text>
               <Stack size={50} />
-              <div className='doc-h2'>Already approved</div>
+              <Text type='h2'>Already approved</Text>
               <Stack size={25} />
               <div className='p1'>The trip leader has approved these members to attend the trip. Their attendence is not confirmed until the leader checks them in during the day-of when the trip meets outside of {this.props.trip.pickup}.</div>
               <Stack size={25} />
@@ -155,7 +156,7 @@ class OPOTripApproval extends Component {
                 <AttendeeTable mode='approved' people={this.props.trip.members} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} actions={[{ callback: person => window.open(`mailto:${person.user.email}`, '_blank'), message: 'Email' }]} openProfile={this.openTrippeeProfile} />
               </Box>
               <Stack size={50} />
-              <div className='doc-h2'>Still pending</div>
+              <Text type='h2'>Still pending</Text>
               <Stack size={25} />
               <div className='p1'>These people signed up for the trip but the leader has not yet approved them to attend. They may or may not ever be approved.</div>
               <Stack size={25} />

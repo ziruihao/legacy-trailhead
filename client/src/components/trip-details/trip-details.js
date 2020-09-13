@@ -7,6 +7,7 @@ import { Stack, Queue, Divider, Box } from '../layout';
 import TripDetailsBasic from './basic/trip-details-basic';
 import TripDetailsFull from './full/trip-details-full';
 import DOCLoading from '../doc-loading';
+import Text from '../text';
 import * as constants from '../../constants';
 import { assignToLeader, fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
 import confirmCancel from './confirm-cancel.svg';
@@ -224,7 +225,7 @@ class TripDetails extends Component {
             <Box dir='col' align='center' pad={25}>
               <img src={confirmCancel} alt='confirm-cancel' className='cancel-image' />
               <Stack size={24} />
-              <div className='doc-h2'>Are you sure you want to cancel?</div>
+              <Text type='h2'>Are you sure you want to cancel?</Text>
               <Stack size={24} />
               <div className='p1 center-text'>This cute tree will die if you do and you’ll have to register for this trip again if you change your mind. Don't worry - we inform the trip leaders know so you don't have to.</div>
               <Stack size={24} />

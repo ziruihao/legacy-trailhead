@@ -8,6 +8,7 @@ import { signIn, signOut, casAuthed, getUser } from '../../actions';
 import DOCLoading from '../doc-loading';
 import { Stack, Queue, Divider, Box } from '../layout';
 import Icon from '../icon';
+import Text from '../text';
 import CompleteProfile from './complete-profile';
 import * as constants from '../../constants';
 import './gateway.scss';
@@ -104,7 +105,7 @@ class Gateway extends Component {
                 </Box>
                 <Stack size={25} />
                 <Box dir='col' align='center' className='landing-card-message'>
-                  <div className='doc-h1'>Hello traveler!</div>
+                  <Text type='h1'>Hello traveler!</Text>
                   <Stack size={25} />
                   <div className='p1 center-text'>
                     Welcome to the Dartmouth Outing Club website! Here you can view and sign up for trips, sort by date, activity, or required experience, and create and publish your own trips as a leader. See you in the out o’ doors!

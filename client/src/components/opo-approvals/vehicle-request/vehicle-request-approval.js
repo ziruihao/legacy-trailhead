@@ -8,6 +8,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Modal from 'react-bootstrap/Modal';
 import Icon from '../../icon';
 import Field from '../../field';
+import Text from '../../text';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import { ProfileCard } from '../../profile-card';
 import ConflictModal from './conflict-modal';
@@ -413,7 +414,9 @@ class OPOVehicleRequest extends Component {
     const assignment = this.state.assignments[index];
     return (
       <Box dir='col' align='center'>
-        <Box dir='row' align='center' height={60} className='doc-h2'>Assign</Box>
+        <Box dir='row' align='center' height={60}>
+          <Text type='h2'>Assign</Text>
+        </Box>
         <Box dir='col' pad={[0, 30]} className='doc-bordered doc-white'>
           <Box dir='row' align='center' height={60} className='p1'>
             <Dropdown id='assign-vehicle-dropdown' onSelect={eventKey => this.onVehicleTypeChange(eventKey, index)} style={{ flex: 1 }}>
@@ -555,7 +558,9 @@ class OPOVehicleRequest extends Component {
     if (assignment) {
       return (
         <Box dir='col' align='center'>
-          <Box dir='row' align='center' height={60} className='doc-h2'>Assigned</Box>
+          <Box dir='row' align='center' height={60}>
+            <Text type='h2'>Assigned</Text>
+          </Box>
           <Box dir='col' pad={[0, 30]} className='doc-bordered'>
             <Box dir='row' align='center' height={60} className='p1'>{assignment.assigned_vehicle.name}</Box>
 
@@ -617,7 +622,9 @@ class OPOVehicleRequest extends Component {
     } else {
       return (
         <Box dir='col' style={{ textAlign: 'right' }}>
-          <Box dir='row' align='center' height={60} className='doc-h2'>Skipped</Box>
+          <Box dir='row' align='center' height={60}>
+            <Text type='h2'>Assigned</Text>
+          </Box>
           <Box dir='row' align='center' height={60} className='p1 thin italic gray'>Skipped</Box>
           <Box dir='row' align='center' height={60} className='p1 thin italic gray'>-</Box>
           <Box dir='row' align='center' height={60} className='p1 thin italic gray'>-</Box>
@@ -639,7 +646,7 @@ class OPOVehicleRequest extends Component {
           <Divider size={1} />
           <Stack size={50} />
           <Box dir='row' justify='between' align='center'>
-            <div className='doc-h1'>Vehicle #{index + 1}</div>
+            <Text type='h1'>Vehicle #{index + 1}</Text>
             {this.state.isEditing || typeof assignment === 'undefined'
               ? null
               : (
@@ -650,9 +657,7 @@ class OPOVehicleRequest extends Component {
           }
           </Box>
           <Stack size={25} />
-          <div className='doc-h2'>
-            Vehicle Details
-          </div>
+          <Text type='h2'>Vehicle Details</Text>
           <Stack size={25} />
           <div className='p1'>{this.isStringEmpty(vehicle.vehicleDetails) ? 'skipped' : vehicle.vehicleDetails}</div>
           <Stack size={25} />
@@ -679,7 +684,9 @@ class OPOVehicleRequest extends Component {
             </Box>
 
             <Box dir='col' align='center'>
-              <Box dir='row' align='center' height={60} className='doc-h2'>Requested</Box>
+              <Box dir='row' align='center' height={60}>
+                <Text type='h2'>Requested</Text>
+              </Box>
               <Box dir='col' pad={[0, 30]} className='doc-bordered'>
                 <Box dir='row' align='center' height={60} className='p1'>{vehicle.vehicleType}</Box>
 
@@ -833,11 +840,11 @@ class OPOVehicleRequest extends Component {
           }
           <Box dir='col' pad={this.props.partOfTrip ? 0 : 100} expand>
             <Box dir='row' justify='between' align='center'>
-              <div className='doc-h1'>Vehicle request</div>
+              <Text type='h1'>Vehicle request</Text>
               <Badge type={this.props.vehicleRequest.status} size={36} />
             </Box>
             <Stack size={50} />
-            <div className='doc-h2'>Requester</div>
+            <Text type='h2'>Requester</Text>
             <Stack size={25} />
             <Box dir='row' align='center'>
               <div className='p1'>{this.props.vehicleRequest.requester.name}</div>
@@ -849,13 +856,13 @@ class OPOVehicleRequest extends Component {
             <Stack size={25} />
             <Box dir='row'>
               <Box dir='col' expand>
-                <div className='doc-h2'>No. of people</div>
+                <Text type='h2'>No. of people</Text>
                 <Stack size={25} />
                 <div className='p1'>{this.props.vehicleRequest.noOfPeople}</div>
               </Box>
               <Queue size={100} />
               <Box dir='col' expand>
-                <div className='doc-h2'>Estimated mileage</div>
+                <Text type='h2'>Estimated mileage</Text>
                 <Stack size={25} />
                 <div className='p1'>{this.props.vehicleRequest.mileage}</div>
               </Box>
@@ -864,9 +871,7 @@ class OPOVehicleRequest extends Component {
             {this.props.vehicleRequest.requestType === 'SOLO'
               ? (
                 <>
-                  <div className='doc-h2'>
-                    Request Details
-                  </div>
+                  <Text type='h2'>Request Details</Text>
                   <Stack size={25} />
                   <div className='p1'>
                     {this.props.vehicleRequest.requestDetails}

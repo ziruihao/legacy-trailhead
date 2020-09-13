@@ -6,6 +6,7 @@ import { Stack, Queue, Divider, Box } from '../layout';
 import Toggle from '../toggle';
 import DOCLoading from '../doc-loading';
 import Badge from '../badge';
+import Text from '../text';
 import TripCard from '../trip-card';
 import * as constants from '../../constants';
 import utils from '../../utils';
@@ -65,9 +66,7 @@ class MyTrips extends Component {
         <img src={sadTree} alt='no trips found' />
         <Queue size={50} />
         <Box dir='col' width={400}>
-          <div className='doc-h2 gray'>
-            Not crunchy enough?
-          </div>
+          <Text type='h2' color='gray'>Not crunchy enough?</Text>
           <Stack size={50} />
           <div className='gray thin p1'>
             Also, only OPO approved club leaders can create trips.
@@ -158,7 +157,7 @@ class MyTrips extends Component {
         <Box id='my-trips-page' dir='col'>
           <Stack size={100} />
           <Box className='doc-card' dir='row' pad={45}>
-            <div className='doc-h1'>Your upcoming trips</div>
+            <Text type='h1'>Your upcoming trips</Text>
             <Queue expand />
             <Toggle
               id='see-trips-im-leading-toggle'
@@ -191,7 +190,7 @@ class MyTrips extends Component {
             ? (
               <Box dir='col' pad={45} className='doc-card'>
                 <Box dir='row' justify='between' align='center'>
-                  <div className='doc-h1'>Pending V-Requests</div>
+                  <Text type='h1'>Pending V-Requests</Text>
                   <Toggle
                     id='see-past-requests-toggle'
                     label='See past requests'

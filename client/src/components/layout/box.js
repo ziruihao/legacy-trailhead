@@ -35,7 +35,7 @@ const Box = (props) => {
       padding = `${props.pad.reduce((prev, curr) => { return `${prev}px ${curr}`; })}px`.trim();
     }
   }
-  const style = { padding, width, height };
+  const style = { padding, width, minWidth: width, height, minHeight: height };
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div id={props.id ? props.id : null} className={`${props.className ? props.className : ''} doc-box doc-box-${props.dir} justify-${justify} align-self-${self} align-${align} ${wrap} ${expand ? 'expand' : ''}`} style={style} onClick={props.onClick} role={props.role} tabIndex={props.tabIndex}>

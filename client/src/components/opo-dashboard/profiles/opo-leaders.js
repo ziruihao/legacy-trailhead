@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Table, Modal, Dropdown } from 'react-bootstrap/';
 import Toggle from '../../toggle';
+import Text from '../../text';
 import { SmallProfileCard } from '../../profile-card';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import { getUsers } from '../../../actions';
@@ -43,19 +44,19 @@ class OPOLeaders extends Component {
       return (
         <Box dir='col' className='center-view'>
           <Box dir='col' className='doc-card' pad={45}>
-            <div className='doc-h1'>Pending Requests</div>
+            <Text type='h1'>Pending Requests</Text>
             <Stack size={45} />
-            <div className='doc-h2'>Subclub leadership approvals</div>
+            <Text type='h2'>Subclub leadership approvals</Text>
             <Stack size={45} />
             <LeaderApprovals />
             <Stack size={45} />
-            <div className='doc-h2'>Vehicle certification approvals</div>
+            <Text type='h2'>Vehicle certification approvals</Text>
             <Stack size={45} />
             <Approvals />
           </Box>
           <Stack size={100} />
           <Box dir='col' className='doc-card' pad={45}>
-            <div className='doc-h1'>User database</div>
+            <Text type='h1'>User database</Text>
             <Stack size={45} />
             <Box dir='row' justify='between'>
               <Toggle label='Trip leaders' />

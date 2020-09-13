@@ -5,6 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Table from 'react-bootstrap/Table';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import Badge from '../../badge';
+import Text from '../../text';
 import DOCLoading from '../../doc-loading';
 import { fetchOPOTrips, appError } from '../../../actions';
 import utils from '../../../utils';
@@ -234,7 +235,7 @@ class OPOTrips extends Component {
         <div id='opo-trips-page' className='center-view'>
           <div className='opo-trips-page-databox doc-card large-card'>
             <div className='databox-heading'>
-              <div className='doc-h1'>Pending Trips</div>
+              <Text type='h1'>Pending Trips</Text>
               <input
                 name='search'
                 placeholder='Search pending trips'
@@ -263,7 +264,7 @@ class OPOTrips extends Component {
           <Stack size={100} />
           <div className='opo-trips-page-databox doc-card large-card'>
             <div className='databox-heading'>
-              <div className='doc-h1'>Reviewed & Past Trips</div>
+              <Text type='h1'>Reviewed & Past Trips</Text>
               <input
                 name='search'
                 placeholder='Search reviewed & past trips'

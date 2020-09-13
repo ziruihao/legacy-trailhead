@@ -5,6 +5,7 @@ import './profile.scss';
 import Field from '../field';
 import Icon from '../icon';
 import Badge from '../badge';
+import Text from '../text';
 import { Stack, Queue, Divider, Box } from '../layout';
 
 const TRAILER_CONSTANT = 'TRAILER';
@@ -111,11 +112,12 @@ class ProfileCard extends React.Component {
             {this.props.user.completedProfile
               ? (
                 <Box dir='col' justify='between' id='profile-card-name'>
-                  <div className='doc-h1'>
-                    {this.props.user.name}
+                  <Box dir='row'>
+                    <Text type='h1'>{this.props.user.name}</Text>
                     {this.props.user.role === 'Leader'
                       ? (
                         <>
+                          <Queue size={25} />
                           <Badge type='leader' size={36} dataTip dataFor='leader-status-badge' />
                           <ReactTooltip id='leader-status-badge' place='bottom'>You are a leader DOC subclubs!</ReactTooltip>
                         </>
@@ -125,6 +127,7 @@ class ProfileCard extends React.Component {
                     {this.props.user.has_pending_leader_change
                       ? (
                         <>
+                          <Queue size={25} />
                           <Badge type='person-pending' size={36} dataTip dataFor='leader-pending-badge' />
                           <ReactTooltip id='leader-pending-badge' place='bottom'>Your request to be a subclub leader is being reviewed by OPO staff</ReactTooltip>
                         </>
@@ -134,13 +137,14 @@ class ProfileCard extends React.Component {
                     {this.props.user.has_pending_cert_change
                       ? (
                         <>
+                          <Queue size={25} />
                           <Badge type='pending' size={36} dataTip dataFor='cert-pending-badge' />
                           <ReactTooltip id='cert-pending-badge' place='bottom'>Your request for vehicle certifications is being reviewed by OPO staff</ReactTooltip>
                         </>
                       )
                       : null
                    }
-                  </div>
+                  </Box>
                   <Stack size={15} />
                   <Box dir='row' align='center'>
                     <Icon type='email' size={18} />

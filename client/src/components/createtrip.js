@@ -781,7 +781,7 @@ class CreateTrip extends Component {
         break;
     }
     return (
-      <Box dir="row" expand style={{position: 'relative'}} id="create-trip-page">
+      <Box dir="row" expand style={{position: 'relative'}}>
         <div style={{ zIndex: 10, position: 'fixed', bottom: '50px', left: '50px' }} className="doc-button" onClick={() => this.setState({ showCalendarModal: true })} role="button" tabIndex={0}>See vehicle calendar</div>
         <Sidebar
           sections={

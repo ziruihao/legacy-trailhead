@@ -1,139 +1,129 @@
 @import './base.scss';
 
-#create-trip-page {
+.create-trip-form {
 
-  .create-trip-form {
-    // min-height: 100vh;
+  .description-box {
+    min-height: 200px;
+  }
 
-    .create-trip-form-content {
+  .description-list{
+    font-size: 20px;
+    line-height: 27px;
+  }
+
+  .create-trip-form-content {
+    display: flex;
+    flex-direction: column;
+
+    .page-sub-headers {
       display: flex;
       flex-direction: column;
+      align-items: flex-start;
 
-      .page-sub-headers {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
+      > * {
+        margin-bottom: 1em;
+      }
 
-        > * {
-          margin-bottom: 1em;
+      .ReactTags__tags {
+        .ReactTags__tagInputField {
+          border: 2px solid $inactive-text !important;
+          background: white !important;
+          border-radius: 10px;
+          padding: 0.7em 1em;
+          font-weight: 600;
+          font-size: 18px;
+          color: $gray-text;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+      
+          &:focus {
+              border: 4px solid $green !important;
+              outline: none; // overrides browser default
+          }
         }
 
-        .trip-descrip-box {
-          height: 200px;
-        }
+        .ReactTags__suggestions {
+          position: absolute;
+          z-index: 2;
 
-        .ReactTags__tags {
-          .ReactTags__tagInputField {
-            border: 2px solid $inactive-text !important;
-            background: white !important;
-            border-radius: 10px;
-            padding: 0.7em 1em;
+          ul {
+            list-style-type: none;
+            box-shadow: .05em .01em .5em rgba(0,0,0,.2);
+            background: white;
+            padding-left: 0 !important; // disables some weird react-bootstrap styling
+          }
+          li {
+            border-bottom: 1px solid #ddd;
+            padding: 5px 10px;
+          }
+          li mark {
+            color: $green;
+            // text-decoration: underline;
+            background: none;
             font-weight: 600;
-            font-size: 18px;
-            color: $gray-text;
+          }
+          ul li.ReactTags__activeSuggestion {
+              background: $green-faded;
+              cursor: pointer;
+          }
+        }
+
+        .ReactTags__selected {
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+          margin-top: 1em;
+
+          > * {
+            margin-right: 1em;
+          }
+
+          .ReactTags__tag {
+            background-color: white;
+            color:$green;
+            border: 2px solid $green;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-        
-            &:focus {
-                border: 4px solid $green !important;
-                outline: none; // overrides browser default
+            font-size: 16px;
+            font-weight: 600;
+            padding: 0.5em 1em;
+            border-radius: 1em;
+            margin-bottom: 1em;
+  
+            .ReactTags__remove {
+              font-size: 1em;
+              font-weight: 100;
+              margin-left: 1em;
+              cursor: pointer;
             }
           }
   
-          .ReactTags__suggestions {
-            position: absolute;
-            z-index: 2;
 
-            ul {
-              list-style-type: none;
-              box-shadow: .05em .01em .5em rgba(0,0,0,.2);
-              background: white;
-              padding-left: 0 !important; // disables some weird react-bootstrap styling
-            }
-            li {
-              border-bottom: 1px solid #ddd;
-              padding: 5px 10px;
-            }
-            li mark {
-              color: $green;
-              // text-decoration: underline;
-              background: none;
-              font-weight: 600;
-            }
-            ul li.ReactTags__activeSuggestion {
-                background: $green-faded;
-                cursor: pointer;
-            }
-          }
-  
-          .ReactTags__selected {
-            width: 100%;
-            display: flex;
-            flex-wrap: wrap;
-            margin-top: 1em;
-  
-            > * {
-              margin-right: 1em;
-            }
-  
-            .ReactTags__tag {
-              background-color: white;
-              color:$green;
-              border: 2px solid $green;
-              display: flex;
-              align-items: center;
-              font-size: 16px;
-              font-weight: 600;
-              padding: 0.5em 1em;
-              border-radius: 1em;
-              margin-bottom: 1em;
-    
-              .ReactTags__remove {
-                font-size: 1em;
-                font-weight: 100;
-                margin-left: 1em;
-                cursor: pointer;
-              }
-            }
-    
-
-          }
         }
-      }
-
-      .trip-date-range-inputs {
-        display: flex;
-        margin-top: 1.5rem;
-
-        .page-sub-headers {
-          width: 50%;
-        }
-      }
-
-      &.pcard{
-        display: flex;
-        width: 70%;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .create-trip-form-bottom-margin {
-        margin: 0rem 0rem 3rem 0rem;
       }
     }
+
+    .trip-date-range-inputs {
+      display: flex;
+      margin-top: 1.5rem;
+
+      .page-sub-headers {
+        width: 50%;
+      }
+    }
+
+    &.pcard{
+      display: flex;
+      width: 70%;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .create-trip-form-bottom-margin {
+      margin: 0rem 0rem 3rem 0rem;
+    }
   }
-}
-
-
-
-.descrip-list{
-  font-family: Nunito Sans;
-  font-style: normal;
-  font-weight: normal;
-  font-size: 20px;
-  line-height: 27px;
-  color: #000000;
 }
 
 #date-picker{

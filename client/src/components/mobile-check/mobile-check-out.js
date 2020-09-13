@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { Stack, Queue, Divider, Box } from '../layout';
 import DOCLoading from '../doc-loading';
+import Text from '../text';
 import { fetchTrip, setAttendingStatus, toggleTripLeftStatus } from '../../actions';
 import utils from '../../utils';
 import './mobile-check.scss';
@@ -41,7 +42,7 @@ class MobileCheckOut extends PureComponent {
           <div id='mobile-check-header'>
             <div className='doc-h3 gray'>{`TRIP #${this.props.trip.number}`}</div>
             <Stack size={18} />
-            <div className='doc-h1'>{`${this.props.trip.title}`}</div>
+            <Text type='h1'>{`${this.props.trip.title}`}</Text>
             <Stack size={18} />
             <div className='doc-h3'>{`Start: ${utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'SHORT')}`}</div>
             <Stack size={18} />
@@ -51,7 +52,7 @@ class MobileCheckOut extends PureComponent {
           <hr />
           <Stack size={18} />
           <div id='mobile-check-body'>
-            <div className='doc-h2'>Check-out your trippees before leaving.</div>
+            <Text type='h2'>Check-out your trippees before leaving.</Text>
             <Stack size={18} />
             <div className='p1'>You MUST accurately mark which trippees are present on the day of the trip.</div>
             <Stack size={18} />

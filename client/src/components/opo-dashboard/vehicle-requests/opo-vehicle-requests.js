@@ -5,6 +5,7 @@ import Table from 'react-bootstrap/Table';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import Badge from '../../badge';
 import Toggle from '../../toggle';
+import Text from '../../text';
 import DOCLoading from '../../doc-loading';
 import { fetchVehicleRequests, appError } from '../../../actions';
 import '../../../styles/tripdetails_leader.scss';
@@ -179,7 +180,7 @@ class OPOVehicleRequests extends Component {
           <div className='doc-card'>
             <Box dir='col' pad={45}>
               <Box dir='row' justify='between' align='center'>
-                <div className='doc-h1'>Pending V-Requests</div>
+                <Text type='h1'>Pending V-Requests</Text>
                 <Toggle
                   id='pending-requests-past-toggle'
                   label='See past requests'
@@ -202,7 +203,7 @@ class OPOVehicleRequests extends Component {
           <Stack size={100} />
           <div className='opo-trips-page-databox doc-card large-card'>
             <div className='databox-heading'>
-              <div className='doc-h1'>Reviewed V-Requests</div>
+              <Text type='h1'>Reviewed V-Requests</Text>
               <Toggle
                 id='reviewed-requests-past-toggle'
                 label='See past requests'

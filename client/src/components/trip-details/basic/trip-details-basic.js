@@ -7,6 +7,7 @@ import { Stack, Queue, Divider, Box } from '../../layout';
 import RequestGear from '../request-gear';
 import Badge from '../../badge';
 import DOCLoading from '../../doc-loading';
+import Text from '../../text';
 import { addToPending, editUserGear } from '../../../actions';
 import * as constants from '../../../constants';
 import '../../trips/trip-card.scss';
@@ -158,10 +159,10 @@ class TripDetailsBasic extends Component {
       return (
         <div className='trip-details'>
           <div className='trip-number'>{`TRIP #${this.props.trip.number}`}</div>
-          <div className='doc-h1'>{this.props.trip.title}</div>
+          <Text type='h1'>{this.props.trip.title}</Text>
           <Stack size={25} />
           <Box dir='row' align='center' className='trip-tags'>
-            <div className='trip-club-tag'>{this.props.trip.club.name}</div>
+            <Box pad='0 0.5em' align='center' className='trip-club-tag'>{this.props.trip.club.name}</Box>
             <Queue size={36} />
             <Box dir='row'>
               {this.state.role === 'LEADER' ? <><Badge type='leader' size={36} dataTip dataFor='leader-on-trip-modal' /><Queue size={36} /><ReactToolTip id='leader-on-trip-modal' place='bottom'>Your are leading this trip</ReactToolTip></> : null}

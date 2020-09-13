@@ -3,6 +3,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Stack, Queue, Divider, Box } from '../layout';
 import Field from '../field';
 import Toggle from '../toggle';
+import Text from '../text';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import './vehicle-request-form.scss';
 import '../../styles/vehicleRequestForm-style.scss';
@@ -46,11 +47,11 @@ const getVehicles = (props) => {
         <Divider size={1} />
         <Stack size={50} />
         <Box dir='row' justify='between' align='center'>
-          <div className='doc-h1'>Vehicle #{index + 1}</div>
+          <Text type='h1'>Vehicle #{index + 1}</Text>
           <i className='material-icons close-button' onClick={event => props.removeVehicle(event, index)} role='button' tabIndex={0}>close</i>
         </Box>
         <Stack size={50} />
-        <div className='doc-h2' htmlFor='vehicle_type'>Vehicle type</div>
+        <Text type='h2' htmlFor='vehicle_type'>Vehicle type</Text>
         <Stack size={25} />
         <Dropdown onSelect={eventKey => props.onVehicleTypeChange(eventKey, index)}>
           <Dropdown.Toggle className={`field ${vehicle.errorFields.vehicleType ? 'field-error' : ''}`}>
@@ -64,7 +65,7 @@ const getVehicles = (props) => {
           </Dropdown.Menu>
         </Dropdown>
         <Stack size={25} />
-        <div className='doc-h2' htmlFor={`vehicle_details_${index}`}>Vehicle notes</div>
+        <Text type='h2' htmlFor={`vehicle_details_${index}`}>Vehicle notes</Text>
         <Stack size={25} />
         <Field
           id={`vehicle_details_${index}`}
@@ -106,7 +107,7 @@ const getVehicles = (props) => {
         <Stack size={25} />
         <Box dir='row' justify='between' width={800}>
           <Box dir='col'>
-            <div className='doc-h2'>Pickup date</div>
+            <Text type='h2'>Pickup date</Text>
             <Stack size={25} />
             <Field
               type='date'
@@ -120,7 +121,7 @@ const getVehicles = (props) => {
           {vehicle.tripLength === 'single-day-trip' ? null
             : (
               <Box dir='col'>
-                <div className='doc-h2'>Return date</div>
+                <Text type='h2'>Return date</Text>
                 <Stack size={25} />
                 <Field
                   type='date'
@@ -137,7 +138,7 @@ const getVehicles = (props) => {
         <Stack size={25} />
         <Box dir='row' justify='between' width={800}>
           <Box dir='col'>
-            <div className='doc-h2'>Pickup date</div>
+            <Text type='h2'>Pickup date</Text>
             <Stack size={25} />
             <Field
               type='time'
@@ -149,7 +150,7 @@ const getVehicles = (props) => {
             />
           </Box>
           <Box dir='col'>
-            <div className='doc-h2'>Return date</div>
+            <Text type='h2'>Return date</Text>
             <Stack size={25} />
             <Field
               type='time'
@@ -162,7 +163,7 @@ const getVehicles = (props) => {
           </Box>
         </Box>
         <Stack size={25} />
-        <div className='doc-h2'>Misc.</div>
+        <Text type='h2'>Misc.</Text>
         <Stack size={25} />
         <Box dir='col' align='start'>
           <Toggle id={`wmnf-pass-${index}`} name='passNeeded' value={vehicle.passNeeded} onChange={(event) => { props.onVehicleDetailChange(event, index); }} label='Need WMNF pass?' />
@@ -203,12 +204,12 @@ const getAppropriateButton = (props) => {
 const VehicleRequestForm = (props) => {
   return (
     <Box dir='col' pad={75} className='doc-card'>
-      <div className='doc-h1'>Vehicle request form</div>
+      <Text type='h1'>Vehicle request form</Text>
       <Stack size={50} />
       {props.requestType === 'SOLO'
         ? (
           <Box dir='col'>
-            <div className='doc-h2' htmlFor='request_detail'>Request details</div>
+            <Text type='h2' htmlFor='request_detail'>Request details</Text>
             <Stack size={25} />
             <textarea
               value={props.requestDetails}
@@ -219,7 +220,7 @@ const VehicleRequestForm = (props) => {
               placeholder='e.g. I need a car to deliver wood to Cabin A'
             />
             <Stack size={25} />
-            <div className='doc-h2' htmlFor='noOfPeople'>Number of people</div>
+            <Text type='h2' htmlFor='noOfPeople'>Number of people</Text>
             <Stack size={25} />
             <Field
               width={100}
@@ -244,7 +245,7 @@ const VehicleRequestForm = (props) => {
         )
         : null}
       <Stack size={25} />
-      <div className='doc-h2' htmlFor='mileage'>Estimated mileage</div>
+      <Text type='h2' htmlFor='mileage'>Estimated mileage</Text>
       <Stack size={25} />
       <Field
         width={100}

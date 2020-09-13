@@ -1,6 +1,7 @@
 import React from 'react';
 import { Stack, Queue, Divider, Box } from './layout';
 import Badge from './badge';
+import Text from './text';
 import utils from '../utils';
 import '../styles/vehicleRequestForm-style.scss';
 
@@ -158,7 +159,7 @@ const VehicleRequestDisplay = (props) => {
   return (
     <Box dir='col' className='vrf-full-width'>
       <Box dir='row' justify='between'>
-        <div className='doc-h2'>Vehicle Request</div>
+        <Text type='h2'>Vehicle Request</Text>
         <Badge type={props.vehicleRequest.status} size={36} />
       </Box>
       {/* <Stack size={25} /> */}

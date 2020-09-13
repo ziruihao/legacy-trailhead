@@ -1,14 +1,19 @@
 import React from 'react';
+import { Box, Stack, Queue, Divider } from '../layout';
+import Text from '../text';
 import './sidebar.scss';
 
 const Sidebar = (props) => {
   return (
-    <div id='sidebar'>
+    <Box dir='col' pad={[30, 0, 0, 0]} width={350} id='sidebar'>
       {props.sections.map(section => (
         <div className='sidebar-section' key={section.title}>
-          <div className='sidebar-section-title doc-h2'>
-            {section.title}
-          </div>
+          <Stack size={36} />
+          <Box dir='row'>
+            <Queue size={30} />
+            <Text type='h2'>{section.title}</Text>
+          </Box>
+          <Stack size={36} />
           {section.steps.map(step => (
             <div className='sidebar-section-row' key={step.number}>
               <div className={props.currentStep === step.number ? 'sidebar-highlight' : ''} />
@@ -17,7 +22,7 @@ const Sidebar = (props) => {
           ))}
         </div>
       ))}
-    </div>
+    </Box>
   );
 };
 

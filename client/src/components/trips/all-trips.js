@@ -203,7 +203,7 @@ class AllTrips extends Component {
               }
               <img src={sadTree} alt="confirm-cancel" className="cancel-image" />
               <Stack size={24} />
-              <div className="doc-h2">Are you sure you want to cancel?</div>
+              <Text type='h2'>Are you sure you want to cancel?</Text>
               <Stack size={24} />
               <div className="p1 center-text">This cute tree will die if you do and you’ll have to register for this trip again if you change your mind. Don't worry - we inform the trip leaders know so you don't have to.</div>
               <Stack size={24} />

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Table, Dropdown } from 'react-bootstrap';
 import Icon from '../../icon';
+import Text from '../../text';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import { fetchVehicleRequests, createVehicle, deleteVehicle } from '../../../actions';
 import './fleet-management.scss';
@@ -49,7 +50,8 @@ class FleetManagement extends Component {
         <div id='fleet-management'>
           <div id='fleet'>
             <div className='doc-card large-card'>
-              <div className='doc-h1'>Vehicle Fleet</div>
+              <Text type='h1'>Vehicle Fleet</Text>
+              <Stack size={50} />
               <Table className='doc-table' responsive='lg' hover>
                 <thead>
                   <tr>
@@ -76,7 +78,7 @@ class FleetManagement extends Component {
           <div id='management'>
             <Box className='doc-card' pad={25}>
               <div className='doc-form'>
-                <div className='doc-h2'>Add New Vehicle</div>
+                <Text type='h2'>Add New Vehicle</Text>
                 <div className='field-label'>Vehicle name</div>
                 <input className={`field ${this.state.newVehicleNameError ? 'field-error' : ''}`}
                   onChange={event => this.changeNewVehicleFields(event.target.value, 'newVehicleName')}

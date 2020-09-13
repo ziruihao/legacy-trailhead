@@ -2,6 +2,7 @@ import React from 'react';
 import { Stack, Queue, Divider, Box } from './layout';
 import Icon from './icon';
 import Field from './field';
+import Text from './text';
 import '../styles/createtrip-style.scss';
 import './pcard-request.scss';
 
@@ -12,7 +13,7 @@ function getPcardForm(props) {
       <Box dir='col' width={800} pad={50} className='doc-card pcard-request' key={request._id}>
         <Icon id='delete-pcard' type='close' size={15} onClick={props.togglePcard} />
         <Box dir='row' justify='between' align='center'>
-          <div className='doc-h2'>Total people on trip</div>
+          <Text type='h2'>Total people on trip</Text>
           <Box dir='row' align='center'>
             <div className='doc-h3'>$</div>
             <Queue size={10} />
@@ -27,7 +28,7 @@ function getPcardForm(props) {
           </Box>
         </Box>
         <Stack size={25} />
-        <div className='doc-h2'>Food costs</div>
+        <Text type='h2'>Food costs</Text>
         <Stack size={25} />
         <div className='p1'>Put how many each trippee (including leaders) will need.</div>
         <Stack size={25} />
@@ -101,7 +102,7 @@ function getPcardForm(props) {
           </Box>
         </Box>
         <Stack size={25} />
-        <div className='doc-h2'>Other costs</div>
+        <Text type='h2'>Other costs</Text>
         <Stack size={25} />
         {renderOtherCosts(request.otherCosts, props.onOtherCostsChange, index, props.deleteOtherCost)}
         <Stack size={25} />
@@ -152,7 +153,7 @@ function renderOtherCosts(otherCosts, onOtherCostsChange, pcardIndex, deleteOthe
 const PCardRequest = (props) => {
   return (
     <Box dir='col'>
-      <div className='doc-h1'>P-Card Request</div>
+      <Text type='h1'>P-Card Request</Text>
       <Stack size={50} />
 
       {(!props.pcardStatus || props.pcardStatus === 'pending' || props.pcardStatus === 'N/A')

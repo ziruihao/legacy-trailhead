@@ -3,6 +3,7 @@ import React from 'react';
 import Table from 'react-bootstrap/Table';
 import ReactTooltip from 'react-tooltip';
 import Badge from '../../badge';
+import Text from '../../text';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import './tripdetails_opo.scss';
 
@@ -148,9 +149,9 @@ const BasicInfo = (props) => {
   const { trip } = props;
   return (
     <>
-      <div className='doc-h1'>Trip #{trip.number}: {trip.title}</div>
+      <Text type='h1'>Trip #{trip.number}: {trip.title}</Text>
       <Stack size={50} />
-      <div className='doc-h2'>Basic details</div>
+      <Text type='h2'>Basic details</Text>
       <Stack size={25} />
       <Box dir='row' align='stretch'>
         <Box dir='col'>
@@ -180,7 +181,7 @@ const BasicInfo = (props) => {
         </Box>
       </Box>
       <Stack size={50} />
-      <div className='doc-h2'>Description</div>
+      <Text type='h2'>Description</Text>
       <Stack size={25} />
       <div className='p1'>{trip.description}</div>
     </>
@@ -191,14 +192,14 @@ const GearRequest = (props) => {
   const { trip } = props;
   return (
     <>
-      <div className='doc-h1'>Gear requests</div>
+      <Text type='h1'>Gear requests</Text>
       <Stack size={50} />
       <Box dir='row' justify='center'>
         {trip.gearStatus !== 'N/A'
           ? (
             <Box dir='col' expand>
               <Box dir='row' justify='between' align='center'>
-                <div className='doc-h2'>For the group</div>
+                <Text type='h2'>For the group</Text>
                 <Badge type={trip.gearStatus} size={36} />
               </Box>
               <Stack size={25} />
@@ -234,7 +235,7 @@ const GearRequest = (props) => {
           ? (
             <Box dir='col' expand>
               <Box dir='row' justify='between' align='center'>
-                <div className='doc-h2'>For trippees</div>
+                <Text type='h2'>For trippees</Text>
                 <Badge type={trip.trippeeGearStatus} size={36} />
               </Box>
               <Stack size={25} />
@@ -289,13 +290,13 @@ const PCardRequest = (props) => {
   return (
     <>
       <Box dir='row' justify='between'>
-        <div className='doc-h1'>P-Card request</div>
+        <Text type='h1'>P-Card request</Text>
         <Badge type={pcardStatus} size={36} />
       </Box>
       <Stack size={50} />
       <Box dir='row'>
         <Box dir='col'>
-          <div className='doc-h2'>People count</div>
+          <Text type='h2'>People count</Text>
           <Stack size={25} />
           <Box dir='row'>
             <div className='p1' data-tip data-for='estimated-trip-participants-help'>Estimated trip participants (?):</div>
@@ -311,7 +312,7 @@ const PCardRequest = (props) => {
         </Box>
         <Queue size={100} />
         <Box dir='col'>
-          <div className='doc-h2'>{props.isEditingPcard ? 'Assign P-Card' : 'Assigned P-Card'}</div>
+          <Text type='h2'>{props.isEditingPcard ? 'Assign P-Card' : 'Assigned P-Card'}</Text>
           <Stack size={25} />
           {props.isEditingPcard
             ? (
@@ -332,7 +333,7 @@ const PCardRequest = (props) => {
         </Box>
       </Box>
       <Stack size={50} />
-      <div className='doc-h2'>Cost breakdown</div>
+      <Text type='h2'>Cost breakdown</Text>
       <Stack size={25} />
       <Box dir='col' className='doc-bordered' pad={20}>
         <Table className='doc-table' responsive='lg'>

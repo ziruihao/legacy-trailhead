@@ -1,23 +1,12 @@
 @import '../../styles/base.scss';
 
 #sidebar{
-  background-color: white;
-  width: 350px;
   z-index: 1;
   overflow-x: hidden;
   box-shadow: 0px 4px 25px rgba(0, 0, 0, 0.15);
-  padding-right: 30px;
-  padding-top: 30px;
-  display: flex;
-  flex-direction: column;
+  background-color: white;
 
   .sidebar-section {
-
-    .sidebar-section-title {
-      // font-weight: 800;
-      // font-size: 24px;
-      margin: 1em 0 1em 35px;
-    }
 
     .sidebar-section-row {
       position: relative;

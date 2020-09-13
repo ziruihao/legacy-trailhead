@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Table } from 'react-bootstrap';
 import { Stack, Queue, Divider, Box } from '../layout';
 import DOCLoading from '../doc-loading';
+import Text from '../text';
 import { fetchTrip, editTrip, setAttendingStatus, toggleTripReturnedStatus } from '../../actions';
 import utils from '../../utils';
 import './mobile-check.scss';
@@ -42,7 +43,7 @@ class MobileCheckIn extends PureComponent {
           <div id='mobile-check-header'>
             <div className='doc-h3'>{`Trip #${this.props.trip.number}`}</div>
             <Stack size={18} />
-            <div className='doc-h1'>{`${this.props.trip.title}`}</div>
+            <Text type='h1'>{`${this.props.trip.title}`}</Text>
             <Stack size={18} />
             <div className='doc-h3'>{`Start: ${utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'SHORT')}`}</div>
             <Stack size={18} />
@@ -52,7 +53,7 @@ class MobileCheckIn extends PureComponent {
           <hr />
           <Stack size={18} />
           <div id='mobile-check-body'>
-            <div className='doc-h2'>Welcome back!</div>
+            <Text type='h2'>Welcome back!</Text>
             <Stack size={18} />
             <div className='p1'>If you have returned safely without ANY incidents or near misses during the trip:</div>
             <Stack size={18} />

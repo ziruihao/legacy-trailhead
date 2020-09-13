@@ -9,6 +9,7 @@ import { Stack, Queue, Divider, Box } from '../../layout';
 import AttendeeTable from './attendee-table/attendee-table';
 import utils from '../../../utils';
 import Icon from '../../icon';
+import Text from '../../text';
 import * as constants from '../../../constants';
 import '../../../styles/tripdetails_leader.scss';
 import confirmDeleteImage from '../../../img/confirmDelete.jpg';
@@ -138,7 +139,7 @@ export default React.forwardRef((props, ref) => {
     <div className='doc-card trip-details'>
       <Box dir='col' pad={75}>
         <div className='trip-number'>Trip #{props.trip.number}</div>
-        <div className='doc-h1'>{props.trip.title}</div>
+        <Text type='h1'>{props.trip.title}</Text>
         <Stack size={25} />
         <Box dir='row' className='trip-tags'>
           <Box pad='0 0.5em' align='center' className='trip-club-tag'>{props.trip.club.name}</Box>
@@ -161,13 +162,13 @@ export default React.forwardRef((props, ref) => {
         <Stack size={25} />
         <Divider size={1} />
         <Stack size={25} />
-        <div className='doc-h2'>Description</div>
+        <Text type='h2'>Description</Text>
         <Stack size={25} />
         <div className='trip-description p1'>
           {props.trip.description}
         </div>
         <Stack size={25} />
-        <div className='doc-h2'>Details</div>
+        <Text type='h2'>Details</Text>
         <Stack size={25} />
         <div className='leader-trip-info'>
           <div className='trip-details-table leader-trip-detail left-detail'>
@@ -233,7 +234,7 @@ export default React.forwardRef((props, ref) => {
           </div>
         </div>
         <Stack size={25} />
-        <div className='doc-h2'>Approved trippees</div>
+        <Text type='h2'>Approved trippees</Text>
         <Stack size={25} />
         <div className='trip-details-table'>
           <AttendeeTable
@@ -250,7 +251,7 @@ export default React.forwardRef((props, ref) => {
           />
         </div>
         <Stack size={25} />
-        <div className='doc-h2'>Pending trippees</div>
+        <Text type='h2'>Pending trippees</Text>
         <Stack size={25} />
         <div className='trip-details-table'>
           <AttendeeTable
@@ -273,7 +274,7 @@ export default React.forwardRef((props, ref) => {
         <Box dir='row'>
           <Box dir='col' expand>
             <Box dir='row' justify='between' align='center'>
-              <div className='doc-h2'>Individual gear</div>
+              <Text type='h2'>Individual gear</Text>
               <Badge type={props.trip.trippeeGearStatus} size={36} dataTip dataFor='trippee-gear-status' />
               <ReactToolTip id='trippee-gear-status'>{renderBadgeToolTipText(props.trip.trippeeGearStatus)}</ReactToolTip>
             </Box>
@@ -285,7 +286,7 @@ export default React.forwardRef((props, ref) => {
           <Queue size={50} />
           <Box dir='col' expand>
             <Box dir='row' justify='between' align='center'>
-              <div className='doc-h2'>Group gear</div>
+              <Text type='h2'>Group gear</Text>
               <Badge type={props.trip.gearStatus} size={36} dataTip dataFor='group-gear-status' />
               <ReactToolTip id='group-gear-status'>{renderBadgeToolTipText(props.trip.gearStatus)}</ReactToolTip>
             </Box>
@@ -301,7 +302,7 @@ export default React.forwardRef((props, ref) => {
             ? (
               <Box dir='col'>
                 <Box dir='row' justify='between' align='center'>
-                  <div className='doc-h2'>P-Card request</div>
+                  <Text type='h2'>P-Card request</Text>
                   <Badge type={props.trip.pcardStatus} size={36} dataTip dataFor='pcard-gear-status' />
                   <ReactToolTip id='pcard-gear-status'>{renderBadgeToolTipText(props.trip.pcardStatus)}</ReactToolTip>
                 </Box>
@@ -353,7 +354,7 @@ export default React.forwardRef((props, ref) => {
           <Box dir='col' align='center' pad={25}>
             <Icon type='warning' size={50} />
             <Stack size={24} />
-            <div className='doc-h2'>This will alter your gear requests</div>
+            <Text type='h2'>This will alter your gear requests</Text>
             <Stack size={24} />
             <div className='p1 center-text'>If you admit this trippee, their individual gear requests will alter your trip&apos;s total gear requests, which already has been approved by OPO staff. This will revert your trip status back to pending and you must await gear approval again before continuing.</div>
             <Stack size={24} />
