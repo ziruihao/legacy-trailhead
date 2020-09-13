@@ -113,7 +113,7 @@ class CreateTrip extends Component {
       this.setState({editMode: true})
       this.props.fetchTrip(this.props.match.params.tripID)
         .then(() => {
-          if (this.props.isLeaderOnTrip) {
+          if (this.props.isLeaderOnTrip && this.props.trip.coLeaderCanEditTrip) {
             const { trip } = this.props;
             const gearRequests = trip.OPOGearRequests.map((groupGear) => {
               return { ...groupGear, hasError: false };
@@ -177,6 +177,7 @@ class CreateTrip extends Component {
   }
 
   onFieldChange(event) {
+    console.log(event.target.value);
     event.persist();
     this.setState((prevState) => {
       const updates = {};

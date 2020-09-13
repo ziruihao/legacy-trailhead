@@ -43,12 +43,13 @@ const BasicTripInfo = (props) => {
         </Dropdown>
       </div>
       <div className='page-sub-headers'>
-        <div className='doc-h2'>Cost</div>
+        <div className='doc-h2'>Cost per person</div>
         <input className={`field create-trip-form-bottom-margin ${props.errorFields.cost ? 'field-error' : ''}`}
           onChange={props.onFieldChange}
           name='cost'
           type='number'
           value={props.costValue}
+          placeholder='0'
         />
       </div>
       <div className='page-sub-headers'>
@@ -94,7 +95,7 @@ const DatesLocation = (props) => {
         <div className='doc-h2'>Type</div>
         <Dropdown onSelect={props.onDateLengthChange}>
           <Dropdown.Toggle className='field create-trip-form-bottom-margin'>
-            <span className='field-dropdown-bootstrap'>{props.dateLength}</span>
+            <span className='field-dropdown-bootstrap'>{props.dateLength === 'single' ? 'Single-day trip' : 'Multi-day trip'}</span>
             <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
           </Dropdown.Toggle>
           <Dropdown.Menu className='field-dropdown-menu'>
@@ -142,12 +143,15 @@ const DatesLocation = (props) => {
       </div>
       <div className='page-sub-headers'>
         <div className='doc-h2'>Location</div>
-        <input
-          className={`field create-trip-form-bottom-margin leaders ${props.errorFields.location ? 'field-error' : ''}`}
+        <Field
           name='location'
+          className='field'
+          width='100%'
+          type='text'
+          value={props.tripLocation}
           onChange={props.onFieldChange}
           placeholder='e.g. Orford, NH - include town, state, and any trails'
-          value={props.tripLocation}
+          error={props.errorFields.location}
         />
       </div>
     </div>

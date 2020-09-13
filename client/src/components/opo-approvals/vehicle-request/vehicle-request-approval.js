@@ -107,7 +107,7 @@ class OPOVehicleRequest extends Component {
 
   checkForAssignmentConflicts = (proposedAssignment) => {
     return new Promise((resolve, reject) => {
-      axios.post(`${constants.BACKEND_URL}/vehicle-requests/check-conflict`, proposedAssignment, { headers: { authorization: localStorage.getItem('token') } })
+      axios.post(`${constants.BACKEND_URL}/vehicle-requests/check-conflict`, proposedAssignment)
         .then((response) => {
           resolve(response.data);
         }).catch((error) => {
@@ -566,25 +566,25 @@ class OPOVehicleRequest extends Component {
             <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatDate(new Date(assignment.assigned_pickupDateAndTime), 'LONG')}
+                : utils.dates.formatDate(new Date(assignment.assigned_pickupDate), 'LONG')}
             </Box>
 
             <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatTime(new Date(assignment.assigned_pickupTime))}
+                : utils.dates.formatTime(new Date(assignment.assigned_pickupDateAndTime))}
             </Box>
 
             <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatDate(new Date(assignment.assigned_returnDateAndTime), 'LONG')}
+                : utils.dates.formatDate(new Date(assignment.assigned_returnDate), 'LONG')}
             </Box>
 
             <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatTime(new Date(assignment.assigned_returnTime))}
+                : utils.dates.formatTime(new Date(assignment.assigned_returnDateAndTime))}
             </Box>
 
             <Box dir='row' align='center' height={60} className='p1'>
@@ -687,13 +687,13 @@ class OPOVehicleRequest extends Component {
 
                 <Box dir='row' align='center' height={60} className='p1'>{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
 
-                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.pickupDateAndTime), 'LONG')}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.pickupDate), 'LONG')}</Box>
 
-                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.pickupTime))}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.pickupDateAndTime))}</Box>
 
-                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.returnDateAndTime), 'LONG')}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.returnDate), 'LONG')}</Box>
 
-                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.returnTime))}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.returnDateAndTime))}</Box>
 
                 <Box dir='row' align='center' height={60} className='p1'> - </Box>
                 {assignment

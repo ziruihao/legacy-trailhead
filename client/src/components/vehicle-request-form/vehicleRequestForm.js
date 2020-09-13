@@ -49,10 +49,6 @@ const getVehicles = (props) => {
           <div className='doc-h1'>Vehicle #{index + 1}</div>
           <i className='material-icons close-button' onClick={event => props.removeVehicle(event, index)} role='button' tabIndex={0}>close</i>
         </Box>
-        {/* <div className="vrf-req-header">
-          <h3 className="vrf-label vrf-req-no">Vehicle #{index + 1}</h3>
-          <div className="trip-details-close-button" />
-        </div> */}
         <Stack size={50} />
         <div className='doc-h2' htmlFor='vehicle_type'>Vehicle type</div>
         <Stack size={25} />
@@ -78,16 +74,6 @@ const getVehicles = (props) => {
           value={vehicle.vehicleDetails}
           onChange={event => props.onVehicleDetailChange(event, index)}
         />
-        {/* <input
-          type="text"
-          id={`vehicle_details_${index}`}
-          className="field trip-detail vrf-vehicle-detail"
-          placeholder="e.g. I need Stakey!"
-          maxLength="50"
-          name="vehicleDetails"
-          value={vehicle.vehicleDetails}
-          onChange={event => props.onVehicleDetailChange(event, index)}
-        /> */}
         <Stack size={25} />
         <div className='vrf-radio-row'>
           <label className='checkbox-container' htmlFor={`single-day-trip-${index}`}>
@@ -146,38 +132,9 @@ const getVehicles = (props) => {
                 />
               </Box>
             )
-  }
+          }
         </Box>
         <Stack size={25} />
-        {/* <div className="vrf-form-row vrf-req-dates">
-          <span className="vrf-req-date">
-            <label className="vrf-label" htmlFor={`pickup_date_${index}`}>Pickup Date</label>
-            <input
-              type="date"
-              id={`pickup_date_${index}`}
-              className={`trip-detail vrf-vehicle-detail  ${singleDayClass} ${vehicle.pickupDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupDate ? '' : ''}`}
-              name="pickupDate"
-              value={vehicle.pickupDate}
-              onChange={event => props.onVehicleDetailChange(event, index)}
-            />
-
-          </span>
-          {vehicle.tripLength === 'single-day-trip' ? null
-            : (
-              <span className="vrf-req-date">
-                <label className="vrf-label" htmlFor={`return_date_${index}`}>Return Date</label>
-                <input
-                  type="date"
-                  id={`return_date_${index}`}
-                  className={`trip-detail vrf-vehicle-detail ${vehicle.returnDate.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnDate ? '' : ''}`}
-                  name="returnDate"
-                  value={vehicle.returnDate}
-                  onChange={event => props.onVehicleDetailChange(event, index)}
-                />
-              </span>
-            )
-          }
-        </div> */}
         <Box dir='row' justify='between' width={800}>
           <Box dir='col'>
             <div className='doc-h2'>Pickup date</div>
@@ -204,42 +161,15 @@ const getVehicles = (props) => {
             />
           </Box>
         </Box>
-
-        {/* <div className="vrf-form-row vrf-req-dates">
-          <span className="vrf-req-date">
-            <label className="vrf-label" htmlFor={`pickup_time_${index}`}>Pickup Time</label>
-            <input
-              type="time"
-              id={`pickup_time_${index}`}
-              className={`trip-detail vrf-vehicle-detail ${vehicle.pickupTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.pickupTime ? '' : ''}`}
-              name="pickupTime"
-              value={vehicle.pickupTime}
-              onChange={event => props.onVehicleDetailChange(event, index)}
-            />
-          </span>
-
-          <span className="vrf-req-date">
-            <label className="vrf-label" htmlFor={`return_time_${index}`}>Return Time</label>
-            <input
-              type="time"
-              id={`return_time_${index}`}
-              className={`trip-detail vrf-vehicle-detail ${vehicle.returnTime.length === 0 ? 'no-date' : ''} ${vehicle.errorFields.returnTime ? '' : ''}`}
-              name="returnTime"
-              value={vehicle.returnTime}
-              onChange={event => props.onVehicleDetailChange(event, index)}
-            />
-          </span>
-        </div> */}
-
         <Stack size={25} />
         <div className='doc-h2'>Misc.</div>
         <Stack size={25} />
         <Box dir='col' align='start'>
-          <Toggle id='wmnf-pass' name='passNeeded' value={vehicle.passNeeded} onChange={(event) => { console.log(event.target); props.onVehicleDetailChange(event, index); }} label='Need WMNF pass?' />
+          <Toggle id={`wmnf-pass-${index}`} name='passNeeded' value={vehicle.passNeeded} onChange={(event) => { props.onVehicleDetailChange(event, index); }} label='Need WMNF pass?' />
           <Stack size={25} />
           {props.userCertifications.trailerCert
             ? (
-              <Toggle id='trailer-hitch' name='trailerNeeded' value={vehicle.trailerNeeded} onChange={(event) => { console.log(event.target); props.onVehicleDetailChange(event, index); }} label='Need trailer hitch?' />
+              <Toggle id={`trailer-hitch-${index}`} name='trailerNeeded' value={vehicle.trailerNeeded} onChange={(event) => { props.onVehicleDetailChange(event, index); }} label='Need trailer hitch?' />
             )
             : null
         }

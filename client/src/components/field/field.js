@@ -22,27 +22,27 @@ const Field = (props) => {
   // });
 
   let reactToolTipRef = {};
+  let { width } = props;
+  if (typeof (props.width) === 'number') {
+    width = `${props.width}px`;
+  }
   const measure = props.measure || 'px';
-  const width = `${props.width}${measure}` || '100%';
   const height = `${props.height}${measure}` || 'auto';
 
   return (
-    <>
-      <input
-        className={`field ${props.error ? 'field-error' : ''}`}
-        onChange={props.onChange}
-        name={props.name}
-        placeholder={props.placeholder}
-        value={props.value}
-        type={props.type}
-        data-tip={props.dataTip}
-        data-for={props.dataFor}
-        ref={(ref) => { reactToolTipRef = ref; }}
-        style={{ width, minWidth: width, height, minHeight: height }}
-      />
-    </>
+    <input
+      className={`field ${props.error ? 'field-error' : ''}`}
+      onChange={props.onChange}
+      name={props.name}
+      placeholder={props.placeholder}
+      value={props.value}
+      type={props.type}
+      data-tip={props.dataTip}
+      data-for={props.dataFor}
+      ref={(ref) => { reactToolTipRef = ref; }}
+      style={{ width, minWidth: width, height, minHeight: height }}
+    />
   );
 };
-
 
 export default Field;

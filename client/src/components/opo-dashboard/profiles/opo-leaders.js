@@ -49,7 +49,7 @@ class OPOLeaders extends Component {
             <Stack size={45} />
             <LeaderApprovals />
             <Stack size={45} />
-            <div className='doc-h2'>Subclub leadership approvals</div>
+            <div className='doc-h2'>Vehicle certification approvals</div>
             <Stack size={45} />
             <Approvals />
           </Box>
