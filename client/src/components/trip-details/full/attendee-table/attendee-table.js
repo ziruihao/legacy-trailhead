@@ -52,7 +52,7 @@ const AttendeeTable = (props) => {
                   <Box dir='col'>
                     {props.actions.map((action, idx) => (
                       <>
-                        <div className='doc-button hollow' onClick={(event) => { action.callback(person); event.stopPropagation(); }} role='button' tabIndex={0}>{action.message}</div>
+                        <div className='doc-button hollow' onClick={(event) => { action.callback(person); event.stopPropagation(); }} role='button' tabIndex={0}>{typeof (action.message) === 'string' ? action.message : action.message(person.user)}</div>
                         {idx < props.actions.length - 1 ? <Stack size={15} /> : null}
                       </>
                     ))}

@@ -113,61 +113,65 @@ class CreateTrip extends Component {
       this.setState({editMode: true})
       this.props.fetchTrip(this.props.match.params.tripID)
         .then(() => {
-          const { trip } = this.props;
-          const gearRequests = trip.OPOGearRequests.map((groupGear) => {
-            return { ...groupGear, hasError: false };
-          });
-          console.log(gearRequests);
-          const trippeeGear = trip.trippeeGear.map((individualGear) => {
-            return Object.assign({}, individualGear, { hasError: false });
-          });
-          const pcardRequest = trip.pcard.map((pcard) => {
-            const { otherCosts } = pcard;
-            const withErrorFields = otherCosts.map((otherCost) => {
-              return Object.assign({}, otherCost, { errorFields: { ...this.otherCostErrorFields } });
+          if (this.props.isLeaderOnTrip) {
+            const { trip } = this.props;
+            const gearRequests = trip.OPOGearRequests.map((groupGear) => {
+              return { ...groupGear, hasError: false };
             });
-            const updates = {};
-            updates.otherCosts = withErrorFields;
-            updates.errorFields = { ...this.pcardErrorFields };
-            return Object.assign({}, pcard, updates);
-          });
-          const vehicles = trip.vehicleRequest.requestedVehicles.map((vehicle) => {
-            const forEdititing = {};
-            forEdititing.errorFields = { ...this.errorFields };
-            forEdititing.pickupDate = vehicle.pickupDate.substring(0, 10);
-            forEdititing.returnDate = vehicle.returnDate.substring(0, 10);
-            const pickupAsDate = new Date(vehicle.pickupDate);
-            const returnAsDate = new Date(vehicle.returnDate);
-            forEdititing.tripLength = pickupAsDate.getTime() === returnAsDate.getTime() ? 'single-day-trip' : 'multi-day-trip';
-            return Object.assign({}, vehicle, forEdititing);
-          });
-          const startDate = new Date(trip.startDate);
-          const endDate = new Date(trip.endDate);
-          const length = startDate.getTime() === endDate.getTime() ? 'single' : 'multi';
-          
-          this.setState({
-            currentStep: 1,
-            title: trip.title,
-            leaders: trip.leaders.map(leader => leader.email),
-            club: trip.club,
-            experienceNeeded: trip.experienceNeeded,
-            access: trip.coLeaderCanEditTrip,
-            description: trip.description,
-            startDate: trip.startDate.substring(0, 10),
-            endDate: trip.endDate.substring(0, 10),
-            startTime: trip.startTime,
-            endTime: trip.endTime,
-            pickup: trip.pickup,
-            dropoff: trip.dropoff,
-            location: trip.location,
-            cost: trip.cost,
-            length,
-            trippeeGear,
-            pcardRequest,
-            gearRequests,
-            vehicles,
-            loaded: true,
-          });
+            const trippeeGear = trip.trippeeGear.map((individualGear) => {
+              return Object.assign({}, individualGear, { hasError: false });
+            });
+            const pcardRequest = trip.pcard.map((pcard) => {
+              const { otherCosts } = pcard;
+              const withErrorFields = otherCosts.map((otherCost) => {
+                return Object.assign({}, otherCost, { errorFields: { ...this.otherCostErrorFields } });
+              });
+              const updates = {};
+              updates.otherCosts = withErrorFields;
+              updates.errorFields = { ...this.pcardErrorFields };
+              return Object.assign({}, pcard, updates);
+            });
+            const vehicles = trip.vehicleRequest.requestedVehicles.map((vehicle) => {
+              const forEdititing = {};
+              forEdititing.errorFields = { ...this.errorFields };
+              forEdititing.pickupDate = vehicle.pickupDate.substring(0, 10);
+              forEdititing.returnDate = vehicle.returnDate.substring(0, 10);
+              const pickupAsDate = new Date(vehicle.pickupDate);
+              const returnAsDate = new Date(vehicle.returnDate);
+              forEdititing.tripLength = pickupAsDate.getTime() === returnAsDate.getTime() ? 'single-day-trip' : 'multi-day-trip';
+              return Object.assign({}, vehicle, forEdititing);
+            });
+            const startDate = new Date(trip.startDate);
+            const endDate = new Date(trip.endDate);
+            const length = startDate.getTime() === endDate.getTime() ? 'single' : 'multi';
+            
+            this.setState({
+              currentStep: 1,
+              title: trip.title,
+              leaders: trip.leaders.map(leader => leader.email),
+              club: trip.club,
+              experienceNeeded: trip.experienceNeeded,
+              access: trip.coLeaderCanEditTrip,
+              description: trip.description,
+              startDate: trip.startDate.substring(0, 10),
+              endDate: trip.endDate.substring(0, 10),
+              startTime: trip.startTime,
+              endTime: trip.endTime,
+              pickup: trip.pickup,
+              dropoff: trip.dropoff,
+              location: trip.location,
+              cost: trip.cost,
+              length,
+              trippeeGear,
+              pcardRequest,
+              gearRequests,
+              vehicles,
+              loaded: true,
+            });
+
+          } else {
+            this.props.history.push(`/trip/${this.props.match.params.tripID}`);
+          }
         });
     } else this.setState({loaded: true});
   }
@@ -817,6 +821,7 @@ const mapStateToProps = (state) => {
   return {
     user: state.user.user,
     trip: state.trips.trip,
+    isLeaderOnTrip: state.trips.isLeaderOnTrip,
   };
 };
 export default withRouter(connect(mapStateToProps, { fetchTrip, createTrip, editTrip, appError, clearError })(CreateTrip));

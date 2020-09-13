@@ -6,6 +6,7 @@ const initialState = ({
   myTrips: [],
   myVehicleReqs: [],
   isUserOnTrip: 'NONE', // other options: 'PENDING', 'YES'
+  isLeaderOnTrip: false,
 });
 
 // Trips reducer

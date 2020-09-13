@@ -19,8 +19,9 @@ class TripDetails extends Component {
       trippeeProfileOpened: false,
       trippeeProfile: null,
       trippeeGear: [],
-      // isEditing: true,
       showCancellationModal: false,
+      cachedPerson: {},
+      tripChangesModalOpen: false,
       profiles: {},
       status: 'approved',
       reasons: [],
@@ -195,6 +196,11 @@ class TripDetails extends Component {
             copyPendingToClip={this.copyPendingToClip}
             copyOnTripToClip={this.copyOnTripToClip}
             toggleTripReturnedStatus={this.toggleTripReturnedStatus}
+            tripChangesModalOpen={this.state.tripChangesModalOpen}
+            showTripChangesModal={() => { this.setState({ tripChangesModalOpen: true }); }}
+            hideTripChangesModal={() => { this.setState({ tripChangesModalOpen: false }); }}
+            cachedPerson={this.state.cachedPerson}
+            setCachedPerson={(person) => { this.setState({ cachedPerson: person }); }}
             ref={ref}
           />
         );

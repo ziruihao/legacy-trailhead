@@ -8,6 +8,8 @@ import Toggle from '../../toggle';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import AttendeeTable from './attendee-table/attendee-table';
 import utils from '../../../utils';
+import Icon from '../../icon';
+import * as constants from '../../../constants';
 import '../../../styles/tripdetails_leader.scss';
 import confirmDeleteImage from '../../../img/confirmDelete.jpg';
 import VehicleRequestDisplay from '../../vehicleRequestDisplay';
@@ -232,15 +234,29 @@ export default React.forwardRef((props, ref) => {
         <div className='doc-h2'>Approved trippees</div>
         <Stack size={25} />
         <div className='trip-details-table'>
-          <AttendeeTable showAttendence people={props.trip.members} emails={props.onTripEmail} startDateAndTime={props.trip.startDateAndTime} actions={[{ callback: props.moveToPending, message: 'Un-admit' }, { callback: props.assignToLeader, message: 'Appoint trip leader' }]} openProfile={props.openTrippeeProfile} />
-          {/* {getOnTrip(props, onTripEmailRef)} */}
+          <AttendeeTable
+            showAttendence
+            people={props.trip.members}
+            emails={props.onTripEmail}
+            startDateAndTime={props.trip.startDateAndTime}
+            actions={[
+              { callback: props.moveToPending, message: 'Un-admit' },
+              { callback: props.assignToLeader, message: (person) => { if (constants.determineRoleOnTrip(person, props.trip) === 'LEADER') { return 'Demote to trippee'; } else { return 'Make co-leader'; } } },
+            ]}
+            openProfile={props.openTrippeeProfile}
+          />
         </div>
         <Stack size={25} />
         <div className='doc-h2'>Pending trippees</div>
         <Stack size={25} />
         <div className='trip-details-table'>
-          <AttendeeTable people={props.trip.pending} emails={props.pendingEmail} startDateAndTime={props.trip.startDateAndTime} actions={[{ callback: props.moveToTrip, message: 'Admit' }, { callback: props.leaveTrip, message: 'Reject' }]} openProfile={props.openTrippeeProfile} />
-          {/* {getPending(props, pendingEmailRef)} */}
+          <AttendeeTable
+            people={props.trip.pending}
+            emails={props.pendingEmail}
+            startDateAndTime={props.trip.startDateAndTime}
+            actions={[{ callback: (person) => { props.setCachedPerson(person); props.showTripChangesModal(); }, message: 'Admit' }, { callback: props.leaveTrip, message: 'Reject' }]}
+            openProfile={props.openTrippeeProfile}
+          />
         </div>
         <Stack size={25} />
         <Box dir='row'>
@@ -317,6 +333,25 @@ export default React.forwardRef((props, ref) => {
             isEditing={false}
             user={props.trippeeProfile}
           />
+        </Modal>
+        <Modal
+          centered
+          show={props.tripChangesModalOpen}
+          onHide={props.hideTripChangesModal}
+        >
+          <Box dir='col' align='center' pad={25}>
+            <Icon type='warning' size={50} />
+            <Stack size={24} />
+            <div className='doc-h2'>This will alter your gear requests</div>
+            <Stack size={24} />
+            <div className='p1 center-text'>If you admit this trippee, their individual gear requests will alter your trip&apos;s total gear requests, which already has been approved by OPO staff. This will revert your trip status back to pending and you must await gear approval again before continuing.</div>
+            <Stack size={24} />
+            <Box dir='row' justify='center'>
+              <div className='doc-button' onClick={props.hideTripChangesModal} role='button' tabIndex={0}>Wait no</div>
+              <Queue size={15} />
+              <div className='doc-button alarm' onClick={() => { props.moveToTrip(props.cachedPerson); props.hideTripChangesModal(); }} role='button' tabIndex={0}>Admit</div>
+            </Box>
+          </Box>
         </Modal>
         <Modal
           centered

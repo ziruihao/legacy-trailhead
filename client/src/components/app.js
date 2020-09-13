@@ -139,7 +139,7 @@ class App extends React.Component {
             <Route path='/trip/:tripID' component={TripDetails} />
             <Route path='/createtrip'>{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
             <Route path='/my-trips' component={MyTrips} />
-            <Route path='/edittrip/:tripID'>{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
+            <Route path='/edittrip/:tripID'>{() => this.requireRole(CreateTrip, ['OPO', 'Leader', 'Trippee'], true)}</Route>
             <Route path='/approve-trip/:tripID'>{() => this.requireRole(OPOTripApproval, ['OPO'], true)}</Route>
             <Route path='/opo-trips'>{() => this.requireRole(OPOTrips, ['OPO'], true)}</Route>
             <Route path='/vehicle-requests'>{() => this.requireRole(OPOVehicleRequests, ['OPO'], true)}</Route>
