@@ -251,7 +251,7 @@ export function toggleTripReturnedStatus(tripID, status, temporaryToken) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       const token = temporaryToken || localStorage.getItem('token');
-      axios.put(`${constants.BACKEND_URL}/toggle-returned/${tripID}`, { status }, { headers: { Authorization: `Bearer ${token}` } })
+      axios.put(`${constants.BACKEND_URL}/trips/toggle-returned/${tripID}`, { status }, { headers: { Authorization: `Bearer ${token}` } })
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve();
