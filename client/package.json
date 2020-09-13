@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "test": "./node_modules/.bin/eslint src",
-    "start": "webpack-dev-server",
+    "start": "webpack-dev-server --host 0.0.0.0",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
     "clean": "rimraf dist",
     "deploy": "yarn build; surge -p build -d doc-dartmouth.surge.sh; yarn clean"
