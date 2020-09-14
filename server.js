@@ -4,10 +4,10 @@ const path = require('path');
 const app = express();
 
 // Serve the static files from the React app
-app.use(express.static('client/dist'));
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
 // An api endpoint that returns a short list of items
-app.get('/api/getList', (req, res) => {
+app.get('/api/getList', (req,res) => {
 	var list = ["item1", "item2", "item3"];
 	res.json(list);
 	console.log('Sent list of items');
@@ -15,7 +15,7 @@ app.get('/api/getList', (req, res) => {
 
 // Handles any requests that don't match the ones above
 app.get('*', (req, res) =>{
-	res.sendFile('./client/dist/index.html');
+	res.sendFile(path.join(__dirname, 'client/dist/index.html'));
 });
 
 const port = process.env.PORT || 8080;
