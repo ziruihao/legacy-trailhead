@@ -680,7 +680,7 @@ export function assignVehicles(vehicleResponse, finishEditing) {
 export function cancelAssignments(deleteInfo) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.delete(`${constants.BACKEND_URL}/opoVehicleRequest/${deleteInfo.reqId}`, { headers: { authorization: localStorage.getItem('token') }, data: { deleteInfo } })
+      axios.delete(`${constants.BACKEND_URL}/opoVehicleRequest/${deleteInfo.reqId}`, { data: { deleteInfo } })
         .then((response) => {
           dispatch({ type: ActionTypes.OPO_RESPOND_TO_VEHICLE_REQUEST, payload: response.data });
           resolve();
