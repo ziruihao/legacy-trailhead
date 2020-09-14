@@ -6,13 +6,17 @@
   flex-grow: 1;
 
   .ovr-vehicle-dropdown-button {
-    background: #FFFFFF !important;
+    background: #FFFFFF;
     border: 0px solid #C4C4C4;
     width: 100%;
     padding: 0; // override for react-bootstrap
     display: flex;
     justify-content: space-between;
     align-items: center;
+
+    &.field-error {
+      background: rgb(233, 212, 212) !important;
+    }
 
     .ovr-current-vehicle {
       margin-top: 0;
@@ -216,6 +220,9 @@ input.ovr-date-input{
   width: 100%;
   height: 100%;
   border: 0;
+  &.field-error {
+    background: rgb(233, 212, 212) !important;
+  }
 }
 .ovr-bottom-link{
   margin-bottom: 0;

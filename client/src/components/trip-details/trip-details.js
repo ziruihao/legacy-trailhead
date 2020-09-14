@@ -76,6 +76,7 @@ class TripDetails extends Component {
 
   cancelSignup = () => {
     this.props.leaveTrip(this.props.trip._id, this.props.user._id);
+    this.props.history.push('/all-trips');
   }
 
   goBack = () => {

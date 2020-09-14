@@ -1,23 +1,38 @@
 import React from 'react';
-import conflictIndicator from './conflict-indicator.svg';
+import utils from '../../../../utils';
+import Badge from '../../../badge';
+import Text from '../../../text';
+import { Box, Stack, Queue, Divider } from '../../../layout';
+import * as constants from '../../../../constants';
 import './conflict-modal.scss';
 import '../../../../styles/base.scss';
 
 const ConflictModal = props => (
-  <div id='conflict-modal'>
-    <img src={conflictIndicator} alt='warning-badge' id='conflict-modal-warning-badge' />
-    <div id='conflict-modal-message' className='p1'>{props.vehicleName} is booked by these trips:</div>
-    <div id='conflict-modal-conflicts' className='p1'>
-      {props.conflicts.map((conflict) => {
+  <Box dir='col' align='center' pad={20} id='conflict-modal'>
+    <Badge type='warning' size={100} />
+    <Stack size={25} />
+    <Text type='h3'>{props.vehicleName} is booked by these trips:</Text>
+    <Stack size={25} />
+    <Box dir='col'>
+      {props.conflicts.map((conflict, index) => {
+        const conflictObjectURL = `${constants.ROOT_URL}/opo-vehicle-request/${conflict.objectID}`;
         return (
-          <div key={conflict.objectID} className='conflict-modal-conflict p1'>
-            {conflict.message}: {conflict.time.start} - {conflict.time.end}
-          </div>
+          <Box dir='col' key={conflict.objectID}>
+            <Box dir='row'>
+              <Text type='p1'>
+                {conflict.message}: {utils.dates.formatDateAndTime(new Date(conflict.time.start), 'SUPER_SHORT')} - {utils.dates.formatDateAndTime(new Date(conflict.time.end), 'SUPER_SHORT')}
+              </Text>
+              <Queue size={25} />
+              <Text type='p1 thick'><a href={conflictObjectURL} target='_blank' rel='noopener noreferrer'>[View]</a></Text>
+            </Box>
+            <Stack size={index < props.conflicts.length - 1 ? 10 : 0} />
+          </Box>
         );
       })}
-    </div>
-    <button type='submit' className='action-button' onClick={props.closeModal}>Okay</button>
-  </div>
+    </Box>
+    <Stack size={25} />
+    <div className='doc-button' onClick={props.closeModal} role='button' tabIndex={0}>Okay</div>
+  </Box>
 );
 
 export default ConflictModal;

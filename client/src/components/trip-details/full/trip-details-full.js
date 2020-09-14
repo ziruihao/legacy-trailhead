@@ -56,8 +56,7 @@ const getGroupGear = (groupGearArray, groupGearStatus) => {
   if (groupGearArray.length === 0) {
     return (
       <Box dir='row' justify='center' align='center' expand>
-        <div className='p1 gray thin'>None
-        </div>
+        <div className='p1 gray thin'>None</div>
       </Box>
     );
   } else {

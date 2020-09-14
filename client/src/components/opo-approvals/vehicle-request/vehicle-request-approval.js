@@ -280,7 +280,6 @@ class OPOVehicleRequest extends Component {
         reqId: this.props.vehicleRequest._id,
         assignments: deletedErrorFields,
       };
-      console.log(response);
       this.props.assignVehicles(response, () => {
         this.setState((prevState) => {
           return { isEditing: false };
@@ -383,22 +382,6 @@ class OPOVehicleRequest extends Component {
       conflicts,
       showConflictsModal: true,
     });
-    console.log(conflicts);
-  }
-
-  renderPotentialConflicts = (conflicts) => {
-    return (
-      <div className='ovr-req-assignment-conflicts'>
-        {conflicts.map((conflict) => {
-          console.log(conflict);
-          return (
-            <div className='ovr-req-assignment-conflict' key={conflict.objectID}>
-              {conflict.message}
-            </div>
-          );
-        })}
-      </div>
-    );
   }
 
   findMatchingAssignment = (index) => {
@@ -422,14 +405,14 @@ class OPOVehicleRequest extends Component {
             <Dropdown id='assign-vehicle-dropdown' onSelect={eventKey => this.onVehicleTypeChange(eventKey, index)} style={{ flex: 1 }}>
               <Dropdown.Toggle className={`ovr-vehicle-dropdown-button ${assignment.errorFields.assignedVehicle ? 'field-error' : ''}`}>
                 <div className={`ovr-current-vehicle ${assignment.assignedVehicle === '' ? 'inactive' : ''}`}>{assignment.assignedVehicle === '' ? 'Assign a vehicle' : assignment.assignedVehicle}</div>
-                <Queue size={20} />
+                {assignment.conflicts.length > 0 ? <Icon id='ovr-vehicle-conflict-marker' type='warning' size={18} onClick={() => this.openConflictsModal(assignment.assignedVehicle, assignment.conflicts)} /> : null}
+                <Queue size={5} />
                 <Icon type='dropdown' size={20} />
               </Dropdown.Toggle>
               <Dropdown.Menu className='ovr-vehicle-options'>
                 {this.vehicleForm}
               </Dropdown.Menu>
             </Dropdown>
-            {assignment.conflicts.length > 0 ? <Icon id='ovr-vehicle-conflict-marker' type='warning' size={18} onClick={() => this.openConflictsModal(assignment.assignedVehicle, assignment.conflicts)} /> : null}
           </Box>
           <Box dir='row' align='center' height={60} className='p1'>{vehicle.trailerNeeded ? 'Yes' : 'No'}</Box>
           <Box dir='row' align='center' height={60} className='p1'>{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
@@ -440,7 +423,7 @@ class OPOVehicleRequest extends Component {
                 <input
                   type='date'
                   id={`pickup_date_${index}`}
-                  className={`ovr-date-input ${assignment.pickupDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupDate ? '' : ''}`}
+                  className={`ovr-date-input ${assignment.pickupDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupDate ? 'field-error' : ''}`}
                   name='pickupDate'
                   value={assignment.pickupDate}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
@@ -454,7 +437,7 @@ class OPOVehicleRequest extends Component {
                 <input
                   type='time'
                   id={`pickup_time_${index}`}
-                  className={`ovr-date-input ${assignment.pickupTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupTime ? '' : ''}`}
+                  className={`ovr-date-input ${assignment.pickupTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.pickupTime ? 'field-error' : ''}`}
                   name='pickupTime'
                   value={assignment.pickupTime}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
@@ -468,7 +451,7 @@ class OPOVehicleRequest extends Component {
                 <input
                   type='date'
                   id={`return_date_${index}`}
-                  className={`ovr-date-input ${assignment.returnDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnDate ? '' : ''}`}
+                  className={`ovr-date-input ${assignment.returnDate.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnDate ? 'field-error' : ''}`}
                   name='returnDate'
                   value={assignment.returnDate}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
@@ -482,7 +465,7 @@ class OPOVehicleRequest extends Component {
                 <input
                   type='time'
                   id={`return_time_${index}`}
-                  className={`ovr-date-input ${assignment.returnTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnTime ? '' : ''}`}
+                  className={`ovr-date-input ${assignment.returnTime.length === 0 ? 'no-date' : ''} ${assignment.errorFields.returnTime ? 'field-error' : ''}`}
                   name='returnTime'
                   value={assignment.returnTime}
                   onChange={event => this.onAssignmentDetailChange(event, index)}
@@ -496,11 +479,11 @@ class OPOVehicleRequest extends Component {
                 <input
                   type='text'
                   id={`assigned_key_${index}`}
-                  className={`ovr-date-input ${assignment.errorFields.assignedKey ? '' : ''}`}
+                  className={`ovr-date-input ${assignment.errorFields.assignedKey ? 'field-error' : ''}`}
                   maxLength='50'
                   name='assignedKey'
                   value={assignment.assignedKey}
-                  placeholder='33A'
+                  placeholder='e.g. 33A'
                   onChange={event => this.onAssignmentDetailChange(event, index)}
                 />
               )}
@@ -646,7 +629,7 @@ class OPOVehicleRequest extends Component {
           <Divider size={1} />
           <Stack size={50} />
           <Box dir='row' justify='between' align='center'>
-            <Text type='h1'>Vehicle #{index + 1}</Text>
+            <Text type='h2'>Vehicle {index + 1}</Text>
             {this.state.isEditing || typeof assignment === 'undefined'
               ? null
               : (
@@ -657,7 +640,7 @@ class OPOVehicleRequest extends Component {
           }
           </Box>
           <Stack size={25} />
-          <Text type='h2'>Vehicle Details</Text>
+          <Text type='h3'>Vehicle notes</Text>
           <Stack size={25} />
           <div className='p1'>{this.isStringEmpty(vehicle.vehicleDetails) ? 'skipped' : vehicle.vehicleDetails}</div>
           <Stack size={25} />
@@ -854,6 +837,18 @@ class OPOVehicleRequest extends Component {
               <div className='doc-button' onClick={() => window.open(`mailto:${this.props.vehicleRequest.requester.email}`, '_blank')} role='button' tabIndex={0}>Email requester</div>
             </Box>
             <Stack size={25} />
+            {this.props.vehicleRequest.requestType === 'SOLO'
+              ? (
+                <>
+                  <Text type='h2'>Request Details</Text>
+                  <Stack size={25} />
+                  <div className='p1'>
+                    {this.props.vehicleRequest.requestDetails}
+                  </div>
+                </>
+              )
+              : null}
+            <Stack size={25} />
             <Box dir='row'>
               <Box dir='col' expand>
                 <Text type='h2'>No. of people</Text>
@@ -867,18 +862,6 @@ class OPOVehicleRequest extends Component {
                 <div className='p1'>{this.props.vehicleRequest.mileage}</div>
               </Box>
             </Box>
-            <Stack size={25} />
-            {this.props.vehicleRequest.requestType === 'SOLO'
-              ? (
-                <>
-                  <Text type='h2'>Request Details</Text>
-                  <Stack size={25} />
-                  <div className='p1'>
-                    {this.props.vehicleRequest.requestDetails}
-                  </div>
-                </>
-              )
-              : null}
             <Stack size={50} />
             {this.getVehicles()}
             <Divider size={1} />

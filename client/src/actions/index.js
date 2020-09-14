@@ -72,7 +72,6 @@ export function getUsers() {
 export function getUser() {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      console.log(axios.defaults.headers.common.Authorization);
       axios.get(`${constants.BACKEND_URL}/user`)
         .then((response) => {
           dispatch({ type: ActionTypes.UPDATE_USER, payload: response.data.user });
