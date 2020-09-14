@@ -15,7 +15,7 @@ app.get('/api/getList', (req, res) => {
 
 // Handles any requests that don't match the ones above
 app.get('*', (req, res) =>{
-	res.sendFile('/client/dist/index.html');
+	res.sendFile('client/dist/index.html');
 });
 
 const port = process.env.PORT || 8080;
