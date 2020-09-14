@@ -6,7 +6,8 @@
   "main": "server.js",
   "author": "Ziray Hao",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && yarn install && yarn build"
   },
   "dependencies": {
     "express": "^4.16.3"
