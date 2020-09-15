@@ -123,8 +123,6 @@ const getPcard = (pcard, pcardStatus, assignedPCard) => {
 };
 
 export default React.forwardRef((props, ref) => {
-  const { pendingEmailRef, onTripEmailRef } = ref;
-
   const renderBadgeToolTipText = (status) => {
     switch (props.trip.gearStatus) {
       case 'approved': return 'Approved by OPO';
@@ -240,7 +238,6 @@ export default React.forwardRef((props, ref) => {
             showAttendence
             tripLeft={props.trip.left}
             people={props.trip.members}
-            emails={props.onTripEmail}
             startDateAndTime={props.trip.startDateAndTime}
             actions={[
               { callback: props.moveToPending, message: 'Un-admit' },
@@ -255,7 +252,6 @@ export default React.forwardRef((props, ref) => {
         <div className='trip-details-table'>
           <AttendeeTable
             people={props.trip.pending}
-            emails={props.pendingEmail}
             startDateAndTime={props.trip.startDateAndTime}
             actions={[{ callback: (person) => {
               if (props.trip.trippeeGearStatus === 'approved') {
