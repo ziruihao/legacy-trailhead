@@ -4,6 +4,7 @@ import Table from 'react-bootstrap/Table';
 import ReactTooltip from 'react-tooltip';
 import Badge from '../../badge';
 import Text from '../../text';
+import Field from '../../field';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import './tripdetails_opo.scss';
 
@@ -299,7 +300,7 @@ const PCardRequest = (props) => {
           <Text type='h2'>People count</Text>
           <Stack size={25} />
           <Box dir='row'>
-            <div className='p1' data-tip data-for='estimated-trip-participants-help'>Estimated trip participants (?):</div>
+            <div className='p1' data-tip data-for='estimated-trip-participants-help'>Estimated trip participants [?]:</div>
             <ReactTooltip id='estimated-trip-participants-help'>How many people the trip leader estiamtes will actually attend the trip.</ReactTooltip>
             <Queue size={18} />
             <div className='p1'>{pcardRequest.numPeople}</div>
@@ -316,18 +317,19 @@ const PCardRequest = (props) => {
           <Stack size={25} />
           {props.isEditingPcard
             ? (
-              <input
+              <Field
                 className='field'
                 onChange={props.onFieldChange}
                 name='pcardAssigned'
                 placeholder='e.g. 7799'
                 value={props.pcardAssigned}
+                error={props.pcardError}
               />
             )
             : (
-              <span className={`field otd-pcard-assign-label trip-detail ovr-white-background ${pcardStatus === 'denied' ? 'field-disabled ovr-skipped-detail' : ''}`}>
-                {pcardStatus === 'denied' ? 'Denied' : props.trip.pcardAssigned}
-              </span>
+              <Text type='p1' variant='thick'>{pcardStatus === 'denied' ? 'Denied' : props.trip.pcardAssigned}</Text>
+          // <span className={`field otd-pcard-assign-label trip-detail ovr-white-background ${pcardStatus === 'denied' ? 'field-disabled ovr-skipped-detail' : ''}`}>
+          // </span>
             )
           }
         </Box>
@@ -395,21 +397,25 @@ const PCardRequest = (props) => {
       <Box dir='row' justify='end'>
         <div className={`doc-button alarm ${props.trip.pcardStatus === 'denied' ? 'disabled' : ''}`} onClick={props.trip.pcardStatus !== 'denied' ? () => props.reviewPCardRequest('denied') : null} role='button' tabIndex={0}>Deny</div>
         <Queue size={25} />
-        {props.isEditingPcard
+        {props.isEditingPcard || props.trip.pcardStatus === 'pending'
           ? (
             <>
-              <div className='doc-button alarm hollow' onClick={props.cancelPcardUpdate} role='button' tabIndex={0}>Cancel</div>
+              {props.trip.pcardStatus === 'denied'
+                ? <div className='doc-button alarm hollow' onClick={props.cancelPcardUpdate} role='button' tabIndex={0}>Cancel</div>
+                : null
+              }
               <Queue size={15} />
-              <div className='doc-button' onClick={() => props.reviewPCardRequest('approved')} role='button' tabIndex={0}>Update</div>
+              <div className='doc-button' onClick={() => props.reviewPCardRequest('approved')} role='button' tabIndex={0}>Approve</div>
             </>
           )
           : (
-            <>
-              {props.trip.pcardStatus === 'approved'
-                ? <div className='doc-button' onClick={() => props.reviewPCardRequest('approved')} role='button' tabIndex={0}>Edit</div>
-                : <div className='doc-button' onClick={props.startEditingPcard} role='button' tabIndex={0}>Approve</div>
-              }
-            </>
+            <div className='doc-button hollow' onClick={props.startEditingPcard} role='button' tabIndex={0}>Edit</div>
+            // <>
+            //   {props.trip.pcardStatus === 'approved'
+            //     ? <div className='doc-button hollow' onClick={() => props.reviewPCardRequest('approved')} role='button' tabIndex={0}>Edit</div>
+
+        //   }
+        // </>
           )
         }
       </Box>
