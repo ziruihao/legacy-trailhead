@@ -151,7 +151,6 @@ class VehicleCalendar extends Component {
 
                   </div>
                   <div id='event-key-detail-row'>
-
                     {this.getCoLeaders(trip.leaders)}
                   </div>
                 </div>
@@ -192,7 +191,7 @@ class VehicleCalendar extends Component {
               : `/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
           > */}
           <Link
-            className='doc-button'
+            className='doc-button hollow'
             target='_blank'
             to={`/opo-vehicle-request/${selectedEvent.request._id}#vehicle_req_${selectedEvent.responseIndex}`}
           >
