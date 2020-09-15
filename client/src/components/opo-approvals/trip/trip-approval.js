@@ -29,25 +29,26 @@ class OPOTripApproval extends Component {
       numOfPages: null,
       isEditingPcard: true,
       showTrippeeModal: false,
+      pcardError: false,
     };
     this.emailRef = React.createRef();
   }
 
   componentDidMount() {
-    const { trip } = this.props;
-    let numOfPages = 2;
-    if (trip.gearStatus !== 'N/A' || trip.trippeeGearStatus !== 'N/A') {
-      numOfPages += 1;
-    }
-    if (trip.pcardStatus !== 'N/A') {
-      numOfPages += 1;
-    }
-    if (trip.vehicleStatus !== 'N/A') {
-      numOfPages += 1;
-    }
-    const isEditingPcard = trip.pcardStatus === 'pending';
-    this.setState({ numOfPages, isEditingPcard });
     this.props.fetchTrip(this.props.match.params.tripID).then(() => {
+      const { trip } = this.props;
+      let numOfPages = 2;
+      if (trip.gearStatus !== 'N/A' || trip.trippeeGearStatus !== 'N/A') {
+        numOfPages += 1;
+      }
+      if (trip.pcardStatus !== 'N/A') {
+        numOfPages += 1;
+      }
+      if (trip.vehicleStatus !== 'N/A') {
+        numOfPages += 1;
+      }
+      const isEditingPcard = trip.pcardStatus === 'pending';
+      this.setState({ numOfPages, isEditingPcard });
       this.setState({ loaded: true });
     });
   }
@@ -95,14 +96,15 @@ class OPOTripApproval extends Component {
   reviewPCardRequest = (pcardStatus) => {
     if (this.state.isEditingPcard && isStringEmpty(this.state.pcardAssigned)) {
       this.props.appError('Please assign a pcard to this request.');
+      this.setState({ pcardError: true });
     } else {
+      this.setState({ pcardError: false });
       const pcardAssigned = pcardStatus === 'denied' ? '' : this.state.pcardAssigned;
       const review = {
-        id: this.props.trip._id,
         pcardStatus,
         pcardAssigned,
       };
-      this.props.reviewPCardRequests(review)
+      this.props.reviewPCardRequests(this.props.trip._id, review)
         .then(() => {
           this.setState({ isEditingPcard: false });
         });
@@ -187,6 +189,7 @@ class OPOTripApproval extends Component {
               reviewPCardRequest={this.reviewPCardRequest}
               startEditingPcard={this.startEditingPcard}
               cancelPcardUpdate={this.cancelPcardUpdate}
+              pcardError={this.state.pcardError}
             />
           );
           break;
