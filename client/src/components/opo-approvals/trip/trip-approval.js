@@ -226,7 +226,7 @@ class OPOTripApproval extends Component {
             <Stack size={50} />
             <Box dir='row' justify='between' align='center' id='approval-navigation'>
               <div className={`doc-button hollow ${this.state.currentStep === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousPage} role='button' tabIndex={0}>Previous</div>
-              <a id='email-trip-leader-link' href={`mailto:${this.props.trip.leaders[0].email}`} role='button' tabIndex={0}>Contact Trip Leader</a>
+              <a id='email-trip-leader-link' href={`mailto:${this.props.trip.leaders.map(leader => leader.email)}`} target='_blank' rel='noopener noreferrer'>Contact trip leaders</a>
               <div className='doc-button' onClick={this.nextPage} role='button' tabIndex={0}>
                 {this.state.currentStep === this.state.numOfPages ? 'Back to Trip Approvals' : 'Next'}
               </div>
