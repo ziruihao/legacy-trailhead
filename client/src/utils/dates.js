@@ -33,11 +33,11 @@ const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 export const formatDateAndTime = (date, mode) => {
   if (mode === 'LONG') {
-    return dateFormat(date, 'ddd, m/d/yy @ h:mm TT');
+    return dateFormat(date, 'ddd, m/d/yy @ h:MM TT');
   } else if (mode === 'SHORT') {
-    return dateFormat(date, 'm/d/yy, h:mm TT');
+    return dateFormat(date, 'm/d/yy, h:MM TT');
   } else {
-    return dateFormat(date, 'm/d hh:mm');
+    return dateFormat(date, 'm/d hh:MM');
   }
 };
 
