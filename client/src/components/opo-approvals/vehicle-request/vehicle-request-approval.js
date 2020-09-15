@@ -739,7 +739,7 @@ class OPOVehicleRequest extends Component {
           <>
             {/* <div className="doc-button alarm" onClick={this.denyVehicleRequest} role="button" tabIndex={0}>Deny request</div>
             <Queue size={50} /> */}
-            <div className='doc-button alarm follow' onClick={this.cancelUpdate} role='button' tabIndex={0}>Cancel changes</div>
+            <div className='doc-button alarm hollow' onClick={this.cancelUpdate} role='button' tabIndex={0}>Cancel changes</div>
             <Queue size={25} />
             <div className='doc-button' onClick={this.approve} role='button' tabIndex={0}>Save changes</div>
           </>
@@ -750,7 +750,7 @@ class OPOVehicleRequest extends Component {
         <>
           {/* <div className="doc-button alarm" onClick={this.denyVehicleRequest} role="button" tabIndex={0}>Deny request</div>
           <Queue size={50} /> */}
-          <div className='doc-button' onClick={this.startEditing} role='button' tabIndex={0}>Change assignments</div>
+          <div className='doc-button hollow' onClick={this.startEditing} role='button' tabIndex={0}>Change assignments</div>
         </>
       );
     }
