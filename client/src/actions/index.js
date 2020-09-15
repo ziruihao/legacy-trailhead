@@ -536,10 +536,10 @@ export function reviewTrippeeGearRequest(review) {
   };
 }
 
-export function reviewPCardRequests(review) {
+export function reviewPCardRequests(tripID, review) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${constants.BACKEND_URL}/pcardrequest/:id`, review)
+      axios.put(`${constants.BACKEND_URL}/pcardrequest/${tripID}`, review)
         .then((response) => {
           dispatch({
             type: ActionTypes.FETCH_TRIP,
@@ -548,7 +548,7 @@ export function reviewPCardRequests(review) {
           resolve();
         })
         .catch((error) => {
-          dispatch(appError(`Error responding to pcard  request: ${error}`));
+          dispatch(appError(`Error responding to pcard request: ${error}`));
         });
     });
   };
