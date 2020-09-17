@@ -15,7 +15,7 @@ function getPcardForm(props) {
         <Box dir='row' justify='between' align='center'>
           <Text type='h2'>Total people on trip</Text>
           <Box dir='row' align='center'>
-            <div className='doc-h3'>$</div>
+            <div className='doc-h3' />
             <Queue size={10} />
             <Field
               onChange={event => props.onPcardFieldChange(event, index)}
