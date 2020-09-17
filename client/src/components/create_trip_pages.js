@@ -158,7 +158,7 @@ const AboutTheTrip = (props) => {
             name='pickup'
             placeholder='e.g. Robinson Hall'
             value={props.pickUp}
-            error={props.errorFields.pickUp}
+            error={props.errorFields.pickup}
           />
 
         </Box>
