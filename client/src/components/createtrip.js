@@ -113,34 +113,46 @@ class CreateTrip extends Component {
       this.setState({editMode: true})
       this.props.fetchTrip(this.props.match.params.tripID)
         .then(() => {
-          if (this.props.isLeaderOnTrip && this.props.trip.coLeaderCanEditTrip) {
+          if (this.props.isLeaderOnTrip || (constants.determineRoleOnTrip(this.props.user, this.props.trip) && this.props.trip.coLeaderCanEditTrip)) {
             const { trip } = this.props;
-            const gearRequests = trip.OPOGearRequests.map((groupGear) => {
-              return { ...groupGear, hasError: false };
-            });
-            const trippeeGear = trip.trippeeGear.map((individualGear) => {
-              return Object.assign({}, individualGear, { hasError: false });
-            });
-            const pcardRequest = trip.pcard.map((pcard) => {
-              const { otherCosts } = pcard;
-              const withErrorFields = otherCosts.map((otherCost) => {
-                return Object.assign({}, otherCost, { errorFields: { ...this.otherCostErrorFields } });
+            let gearRequests;
+            if (trip.OPOGearRequests) {
+              gearRequests = trip.OPOGearRequests.map((groupGear) => {
+                return { ...groupGear, hasError: false };
               });
-              const updates = {};
-              updates.otherCosts = withErrorFields;
-              updates.errorFields = { ...this.pcardErrorFields };
-              return Object.assign({}, pcard, updates);
-            });
-            const vehicles = trip.vehicleRequest.requestedVehicles.map((vehicle) => {
-              const forEdititing = {};
-              forEdititing.errorFields = { ...this.errorFields };
-              forEdititing.pickupDate = vehicle.pickupDate.substring(0, 10);
-              forEdititing.returnDate = vehicle.returnDate.substring(0, 10);
-              const pickupAsDate = new Date(vehicle.pickupDate);
-              const returnAsDate = new Date(vehicle.returnDate);
-              forEdititing.tripLength = pickupAsDate.getTime() === returnAsDate.getTime() ? 'single-day-trip' : 'multi-day-trip';
-              return Object.assign({}, vehicle, forEdititing);
-            });
+            }
+            let trippeeGear;
+            if (trip.trippeeGear) {
+              trippeeGear = trip.trippeeGear.map((individualGear) => {
+                return Object.assign({}, individualGear, { hasError: false });
+              });
+            }
+            let pcardRequest;
+            if (trip.pcard) {
+              pcardRequest = trip.pcard.map((pcard) => {
+                const { otherCosts } = pcard;
+                const withErrorFields = otherCosts.map((otherCost) => {
+                  return Object.assign({}, otherCost, { errorFields: { ...this.otherCostErrorFields } });
+                });
+                const updates = {};
+                updates.otherCosts = withErrorFields;
+                updates.errorFields = { ...this.pcardErrorFields };
+                return Object.assign({}, pcard, updates);
+              });
+            }
+            let vehicles;
+            if (trip.vehicleRequest) {
+              vehicles = trip.vehicleRequest.requestedVehicles.map((vehicle) => {
+                const forEdititing = {};
+                forEdititing.errorFields = { ...this.errorFields };
+                forEdititing.pickupDate = vehicle.pickupDate.substring(0, 10);
+                forEdititing.returnDate = vehicle.returnDate.substring(0, 10);
+                const pickupAsDate = new Date(vehicle.pickupDate);
+                const returnAsDate = new Date(vehicle.returnDate);
+                forEdititing.tripLength = pickupAsDate.getTime() === returnAsDate.getTime() ? 'single-day-trip' : 'multi-day-trip';
+                return Object.assign({}, vehicle, forEdititing);
+              });
+            }
             const startDate = new Date(trip.startDate);
             const endDate = new Date(trip.endDate);
             const length = startDate.getTime() === endDate.getTime() ? 'single' : 'multi';
