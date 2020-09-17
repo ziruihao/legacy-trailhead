@@ -210,7 +210,7 @@ class TripDetails extends Component {
         appropriateComponent = (
           <Box pad={50}>
             <Box className='doc-card' pad={50}>
-              <TripDetailsBasic openCancellationModal={() => this.setState({ showCancellationModal: true })} hideCancellationModal={() => this.setState({ showCancellationModal: false })} /> />
+              <TripDetailsBasic openCancellationModal={() => this.setState({ showCancellationModal: true })} hideCancellationModal={() => this.setState({ showCancellationModal: false })} />
             </Box>
           </Box>
         );
