@@ -13,10 +13,18 @@ export function getSignedRequest(file) {
 // since we already know what the url will be - just not that it has been uploaded
 export function uploadFileToS3(signedRequest, file, url) {
   return new Promise((fulfill, reject) => {
+    const saveHeader = axios.defaults.headers.common.Authorization;
+    delete axios.defaults.headers.common.Authorization;
     axios.put(signedRequest, file, { headers: { 'Content-Type': file.type } }).then((response) => {
+      axios.defaults.headers.common.Authorization = saveHeader;
+      console.log(saveHeader);
       fulfill(url);
     }).catch((error) => {
+      console.log(error.message);
+      axios.defaults.headers.common.Authorization = saveHeader;
       reject(error);
+    }).finally(() => {
+      axios.defaults.headers.common.Authorization = saveHeader;
     });
   });
 }
@@ -24,6 +32,7 @@ export function uploadFileToS3(signedRequest, file, url) {
 export function uploadImage(file) {
   // returns a promise so you can handle error and completion in your component
   return getSignedRequest(file).then((response) => {
+    console.log(response.data.url);
     return uploadFileToS3(response.data.signedRequest, file, response.data.url);
   });
 }
