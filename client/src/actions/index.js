@@ -555,14 +555,16 @@ export function reviewPCardRequests(tripID, review) {
 }
 
 export function submitVehicleRequest(vehicleRequest, history) {
-  return (dispatch) => {
+  return dispatch => new Promise((resolve, reject) => {
     axios.post(`${constants.BACKEND_URL}/vehicleRequests`, vehicleRequest)
       .then((response) => {
         history.push(`/vehicle-request/${response.data._id}`);
+        resolve();
       }).catch((error) => {
+        reject(error);
         dispatch(appError(`Error making vehicle request: ${error}`));
       });
-  };
+  });
 }
 
 export function fetchVehicleRequest(id) {

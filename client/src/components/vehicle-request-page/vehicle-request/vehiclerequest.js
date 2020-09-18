@@ -50,6 +50,10 @@ class VehicleRequest extends Component {
   }
 
   componentDidMount() {
+    this.reload();
+  }
+
+  reload = () => {
     if (this.props.requestType === 'TRIP') {
       this.setState({ requestType: 'TRIP', vehicles: this.props.vehicles });
     } else if (this.props.match.params.vehicleReqId) {
@@ -267,7 +271,9 @@ class VehicleRequest extends Component {
         requestType: this.state.requestType,
         requestedVehicles: vehicles,
       };
-      this.props.submitVehicleRequest(vehicleRequest, this.props.history);
+      this.props.submitVehicleRequest(vehicleRequest, this.props.history).then(() => {
+        this.reload();
+      });
     }
   }
 
