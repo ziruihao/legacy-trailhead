@@ -135,7 +135,7 @@ class App extends React.Component {
             <Route path='/complete-profile' component={CompleteProfile} />
             <Route path='/all-trips' component={AllTrips} />
             <Route path='/vehicle-request/:vehicleReqId'>{() => this.requireRole(VehicleRequestPage, ['OPO', 'Leader'], true)}</Route>
-            <Route path='/vehicle-request'>{() => this.requireRole(VehicleRequestPage, ['OPO', 'Leader'], true)}</Route>
+            <Route path='/vehicle-request'>{() => this.requireRole(VehicleRequestPage, ['OPO', 'Leader', 'Trippee'], true)}</Route>
             <Route path='/trip/:tripID' component={TripDetails} />
             <Route path='/createtrip'>{() => this.requireRole(CreateTrip, ['OPO', 'Leader'], true)}</Route>
             <Route path='/my-trips' component={MyTrips} />
