@@ -45,6 +45,7 @@ function getPcardForm(props) {
                   value={request.snacks}
                   type='number'
                   width={100}
+                  placeholder='USD'
                   error={request.errorFields.snacks}
                 />
               </Box>
@@ -61,6 +62,7 @@ function getPcardForm(props) {
                   value={request.breakfast}
                   type='number'
                   width={100}
+                  placeholder='USD'
                   error={request.errorFields.breakfast}
                 />
               </Box>
@@ -78,6 +80,7 @@ function getPcardForm(props) {
                   value={request.lunch}
                   type='number'
                   width={100}
+                  placeholder='USD'
                   error={request.errorFields.lunch}
                 />
               </Box>
@@ -95,6 +98,7 @@ function getPcardForm(props) {
                   value={request.dinner}
                   type='number'
                   width={100}
+                  placeholder='USD'
                   error={request.errorFields.dinner}
                 />
               </Box>
@@ -109,7 +113,6 @@ function getPcardForm(props) {
         <Box dir='row' justify='end'>
           <div className='doc-button hollow' onClick={event => props.addOtherCost(event, index)} role='button' tabIndex={0}>Add other expense</div>
         </Box>
-        {/* <span className="create-trip-pcard-add-other" onClick={event => props.addOtherCost(event, index)} role="button" tabIndex={0}>+ Add another expense</span> */}
       </Box>
     );
   });
