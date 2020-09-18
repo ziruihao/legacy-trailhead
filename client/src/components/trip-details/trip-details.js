@@ -9,7 +9,7 @@ import TripDetailsFull from './full/trip-details-full';
 import DOCLoading from '../doc-loading';
 import Text from '../text';
 import * as constants from '../../constants';
-import { assignToLeader, fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
+import { toggleTripLeadership, fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
 import confirmCancel from './confirm-cancel.svg';
 
 class TripDetails extends Component {
@@ -90,7 +90,6 @@ class TripDetails extends Component {
   moveToTrip = (pender) => {
     this.props.joinTrip(this.props.trip._id, pender.user._id)
       .then(() => {
-        this.populateEmails();
         this.getProfiles();
       });
   }
@@ -98,16 +97,14 @@ class TripDetails extends Component {
   leaveTrip = (pender) => {
     this.props.leaveTrip(this.props.trip._id, pender.user._id)
       .then(() => {
-        this.populateEmails();
         this.getProfiles();
       });
   }
 
   // LeaderTripDetails component methods
-  assignToLeader = (member) => {
-    this.props.assignToLeader(this.props.trip._id, member)
+  toggleTripLeadership = (member) => {
+    this.props.toggleTripLeadership(this.props.trip._id, member)
       .then(() => {
-        this.populateEmails();
         this.getProfiles();
       });
   }
@@ -115,7 +112,6 @@ class TripDetails extends Component {
   moveToPending = (member) => {
     this.props.moveToPending(this.props.trip._id, member.user._id)
       .then(() => {
-        this.populateEmails();
         this.getProfiles();
       });
   }
@@ -193,7 +189,7 @@ class TripDetails extends Component {
             deleteTrip={this.deleteTrip}
             moveToTrip={this.moveToTrip}
             leaveTrip={this.leaveTrip}
-            assignToLeader={this.assignToLeader}
+            toggleTripLeadership={this.toggleTripLeadership}
             moveToPending={this.moveToPending}
             copyPendingToClip={this.copyPendingToClip}
             copyOnTripToClip={this.copyOnTripToClip}
@@ -255,5 +251,5 @@ const mapStateToProps = state => (
   }
 );
 export default withRouter(connect(mapStateToProps, {
-  fetchTrip, joinTrip, assignToLeader, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError,
+  fetchTrip, joinTrip, toggleTripLeadership, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError,
 })(TripDetails));

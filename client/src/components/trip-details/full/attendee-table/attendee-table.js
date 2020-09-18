@@ -58,7 +58,7 @@ const AttendeeTable = (props) => {
                       </>
                     ))}
                   </Box>
-                  {/* <div className="doc-button hollow" onClick={(event) => { props.assignToLeader(member); event.stopPropagation(); }} role="button" tabIndex={0}>Assign to leader</div> */}
+                  {/* <div className="doc-button hollow" onClick={(event) => { props.toggleTripLeadership(member); event.stopPropagation(); }} role="button" tabIndex={0}>Assign to leader</div> */}
                 </td>
               </tr>
             ))}

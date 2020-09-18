@@ -165,10 +165,10 @@ export function editUserGear(signUpInfo) {
   };
 }
 
-export function assignToLeader(id, member) {
+export function toggleTripLeadership(id, member) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.put(`${constants.BACKEND_URL}/assignToLeader/${id}`, { id, member })
+      axios.put(`${constants.BACKEND_URL}/trips/toggle-leadership/${id}`, { id, member })
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_TRIP, payload: response.data });
           resolve(response.data);
