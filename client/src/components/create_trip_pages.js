@@ -53,6 +53,7 @@ const BasicTripInfo = (props) => {
           type='number'
           value={props.costValue}
           error={props.errorFields.cost}
+          placeholder='USD'
         />
       </Box>
       <Stack size={50} />
