@@ -22,9 +22,9 @@ class MyTrips extends Component {
     super(props);
     this.state = {
       ready: false,
-      // seePastTrips: false,
+      seePastTrips: false,
       seeTripsImLeading: false,
-      seePastRequests: false,
+      // seePastRequests: false,
       searchRequestTerm: '',
     };
   }
@@ -77,9 +77,12 @@ class MyTrips extends Component {
       </Box>
     );
     if (this.props.myTrips.length !== 0) {
-      let sortedTrips = this.props.myTrips.sort(this.compareStartDates);
+      let sortedTrips = this.props.myTrips.sort(this.compareStartDates).filter(trip => !utils.dates.inThePast(trip.startDate));
       if (this.state.seeTripsImLeading) {
         sortedTrips = sortedTrips.filter(trip => constants.determineRoleOnTrip(this.props.user, trip) === 'LEADER');
+      }
+      if (this.state.seePastTrips) {
+        sortedTrips = sortedTrips.concat(this.props.myTrips.filter(trip => utils.dates.inThePast(trip.startDate)));
       }
       myTrips = sortedTrips.map((trip) => {
         return (
@@ -165,13 +168,13 @@ class MyTrips extends Component {
               onChange={() => this.setState((prevState) => { return { seeTripsImLeading: !prevState.seeTripsImLeading }; })}
               disabled={false}
             />
-            {/* <Toggle
-              id="see-past-trips-toggle"
-              label="See past trips"
+            <Toggle
+              id='see-past-trips-toggle'
+              label='See past trips'
               value={this.state.seePastTrips}
-              onChange={() => this.setState((prevState) => { this.props.appError('This feature is under construction!'); return { seePastTrips: !prevState.seePastTrips }; })}
+              onChange={() => this.setState((prevState) => { return { seePastTrips: !prevState.seePastTrips }; })}
               disabled={false}
-            /> */}
+            />
           </Box>
           <Stack size={35} />
           <Box id='my-trips-tiles-container'>
@@ -185,18 +188,18 @@ class MyTrips extends Component {
             <div id='my-trip-tiles-blur' />
           </Box>
           <Stack size={85} />
-          {this.props.user.role !== 'Trippee'
+          {this.props.user.driver_cert || this.props.user.trailer_cert
             ? (
               <Box dir='col' pad={45} className='doc-card'>
                 <Box dir='row' justify='between' align='center'>
                   <Text type='h1'>Pending V-Requests</Text>
-                  <Toggle
+                  {/* <Toggle
                     id='see-past-requests-toggle'
                     label='See past requests'
                     value={this.state.seePastRequests}
-                    onChange={() => this.setState((prevState) => { this.props.appError('This feature is under construction!'); return { seePastRequests: !prevState.seePastRequests }; })}
+                    onChange={() => this.setState((prevState) => { return { seePastRequests: !prevState.seePastRequests }; })}
                     disabled={false}
-                  />
+                  /> */}
                   <input
                     name='searchPending'
                     placeholder='Search pending requests'
