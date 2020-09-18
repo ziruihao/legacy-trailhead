@@ -1,7 +1,7 @@
-// export const BACKEND_URL = process.env.NODE_ENV === 'PRODUCTION' ? 'https://doc-planner.herokuapp.com' : 'http://localhost:9090';
-// export const ROOT_URL = process.env.NODE_ENV === 'PRODUCTION' ? 'http://doc.dartmouth.edu' : 'http://localhost:8080';
-export const BACKEND_URL = 'https://doc-planner.herokuapp.com';
-export const ROOT_URL = 'http://doc.dartmouth.edu';
+export const BACKEND_URL = process.env.NODE_ENV === 'PRODUCTION' ? 'https://doc-planner.herokuapp.com' : 'http://localhost:9090';
+export const ROOT_URL = process.env.NODE_ENV === 'PRODUCTION' ? 'http://doc.dartmouth.edu' : 'http://localhost:8080';
+// export const BACKEND_URL = 'https://doc-planner.herokuapp.com';
+// export const ROOT_URL = 'http://doc.dartmouth.edu';
 
 export const green = '#0CA074';
 
@@ -31,7 +31,7 @@ export const calculateTripStatus = (trip) => {
 export const determineRoleOnTrip = (user, trip) => {
   if (user.role === 'OPO') return 'OPO';
   // else if (trip.owner._id.toString() === user._id.toString()) return 'LEADER';
-  else if (trip.leaders.some(leader => leader._id.toString() === user._id.toString())) return 'COLEADER';
+  else if (trip.leaders.some(leader => leader._id.toString() === user._id.toString())) return 'LEADER';
   else if (trip.members.some(member => member.user._id.toString() === user._id.toString())) return 'APPROVED';
   else if (trip.pending.some(pender => pender.user._id.toString() === user._id.toString())) return 'PENDING';
   else return 'NONE';

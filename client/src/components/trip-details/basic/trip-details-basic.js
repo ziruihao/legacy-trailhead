@@ -249,7 +249,7 @@ class TripDetailsBasic extends Component {
                 <div className='trip-details-table'>
                   <div className='trip-details-table-row'>
                     <span className='trip-details-table-left p2'>Leader</span>
-                    <span className='trip-details-table-right p2'>{this.props.trip.leaders[0].name}</span>
+                    <span className='trip-details-table-right p2'>{this.props.trip.owner.name}</span>
                   </div>
                   <hr className='trip-details-table-line' />
 

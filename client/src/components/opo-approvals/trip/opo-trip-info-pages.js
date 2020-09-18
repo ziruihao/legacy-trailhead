@@ -174,7 +174,7 @@ const BasicInfo = (props) => {
           <Stack size={18} />
           <div className='p1'>{trip.club.name}</div>
           <Stack size={18} />
-          <div className='p1'>{trip.leaders[0].name}</div>
+          <div className='p1'>{trip.owner.name}</div>
           <Stack size={18} />
           <div className='p1'>{getCoLeaders(trip.leaders)}</div>
           <Stack size={18} />

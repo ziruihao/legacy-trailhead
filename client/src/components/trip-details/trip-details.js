@@ -172,6 +172,7 @@ class TripDetails extends Component {
         appropriateComponent = (
           <TripDetailsFull
             trip={this.props.trip}
+            isLeaderOnTrip={this.props.isLeaderOnTrip}
             onTripEmail={constants.getEmails(this.props.trip.members)}
             pendingEmail={constants.getEmails(this.props.trip.pending)}
             showModal={this.state.showLeaderModal}

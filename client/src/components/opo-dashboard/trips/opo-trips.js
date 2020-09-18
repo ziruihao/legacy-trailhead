@@ -192,7 +192,7 @@ class OPOTrips extends Component {
         <td>{trip.title}</td>
         <td>{utils.dates.formatDateAndTime(new Date(trip.startDateAndTime), 'LONG')}</td>
         <td>{trip.club.name}</td>
-        <td>{trip.leaders[0].name}</td>
+        <td>{trip.owner.name}</td>
         {this.getGearStatus(trip.gearStatus, trip.trippeeGearStatus)}
         {this.getReqStatus(trip.vehicleStatus)}
         {this.getReqStatus(trip.pcardStatus)}
@@ -206,7 +206,7 @@ class OPOTrips extends Component {
         <td>{trip.title}</td>
         <td>{utils.dates.formatDateAndTime(new Date(trip.startDateAndTime), 'LONG')}</td>
         <td>{trip.club.name}</td>
-        <td>{trip.leaders[0].name}</td>
+        <td>{trip.owner.name}</td>
         {this.getGearStatus(trip.gearStatus, trip.trippeeGearStatus)}
         {this.getReqStatus(trip.vehicleStatus)}
         {this.getReqStatus(trip.pcardStatus)}

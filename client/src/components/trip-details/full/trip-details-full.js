@@ -202,7 +202,7 @@ export default React.forwardRef((props, ref) => {
           <div className='trip-details-table leader-trip-detail right-detail'>
             <div className='trip-details-table-row'>
               <div className='p1 thick'>Leader</div>
-              <div className='p1 thin gray'>{props.trip.leaders[0].name}</div>
+              <div className='p1 thin gray'>{props.trip.owner.name}</div>
             </div>
             <hr className='detail-line' />
 
@@ -324,7 +324,11 @@ export default React.forwardRef((props, ref) => {
           : null}
         <Stack size={100} />
         <Box dir='row' justify='center'>
-          <Link to={`/edittrip/${props.trip._id}`} className={`doc-button hollow${props.isLeaderOnTrip ? '' : ' disabled'}`}>Edit trip</Link>
+          {props.isLeaderOnTrip
+
+            ? <Link to={`/edittrip/${props.trip._id}`} className='doc-button hollow'>Edit trip</Link>
+            : <div className='doc-button hollow disabled' role='button' tabIndex={0}>Edit trip</div>
+          }
           <Queue size={50} />
           <div className='doc-button alarm' onClick={props.activateLeaderModal} role='button' tabIndex={0}>Delete trip</div>
         </Box>

@@ -246,7 +246,7 @@ class OPOTripApproval extends Component {
             <Badge type='denied' />
 
             <div className='cancel-content'>
-              <p className='cancel-question'>{`Contact ${this.props.trip.leaders[0].name}`}</p>
+              <p className='cancel-question'>{`Contact ${this.props.trip.owner.name}`}</p>
               <p className='cancel-message'>
                 Please email the requester if you need them to update a request. They can't update a request after it has been reviewed.
               </p>
@@ -255,7 +255,7 @@ class OPOTripApproval extends Component {
                   ref={this.emailRef}
                   type='text'
                   className='ovr-requester-email'
-                  defaultValue={this.props.trip.leaders[0].email}
+                  defaultValue={this.props.trip.owner.email}
                 />
               </div>
               <div className='ovr-modal-button-container'>

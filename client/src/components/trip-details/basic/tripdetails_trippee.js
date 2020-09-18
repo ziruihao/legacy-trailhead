@@ -229,7 +229,7 @@ const TripeeTripDetails = (props) => {
         <div className='trip-detail'>
           <div className='detail-row'>
             <span className='detail-left'>Leader</span>
-            <span className='detail-right'>{props.trip.leaders[0].name}</span>
+            <span className='detail-right'>{props.trip.owner.name}</span>
           </div>
           <hr className='detail-line' />
 
