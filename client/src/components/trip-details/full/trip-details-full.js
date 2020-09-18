@@ -324,7 +324,7 @@ export default React.forwardRef((props, ref) => {
           : null}
         <Stack size={100} />
         <Box dir='row' justify='center'>
-          <Link to={`/edittrip/${props.trip._id}`} className='doc-button hollow'>Edit trip</Link>
+          <Link to={`/edittrip/${props.trip._id}`} className={`doc-button hollow${props.isLeaderOnTrip ? '' : ' disabled'}`}>Edit trip</Link>
           <Queue size={50} />
           <div className='doc-button alarm' onClick={props.activateLeaderModal} role='button' tabIndex={0}>Delete trip</div>
         </Box>

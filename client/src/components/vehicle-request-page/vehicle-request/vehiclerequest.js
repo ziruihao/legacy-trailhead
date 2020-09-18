@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { appError, fetchVehicleRequest, submitVehicleRequest, updateVehicleRequest } from '../../../actions';
+import { appError, fetchVehicleRequest, submitVehicleRequest, updateVehicleRequest, cancelVehicleRequest } from '../../../actions';
 import VehicleRequestForm from '../vehicle-request-form';
 import VehicleRequestDisplay from '../vehicle-request-display/vehicleRequestDisplay';
 import DOCLoading from '../../doc-loading';
@@ -390,11 +390,13 @@ class VehicleRequest extends Component {
       } else {
         return (
           <VehicleRequestDisplay
+            history={this.props.history}
             userCertifications={userCertifications}
             requestType={this.state.requestType}
             vehicleRequest={this.props.vehicleRequest}
             startEditing={this.startEditing}
             showError={this.showError}
+            cancelVehicleRequest={this.props.cancelVehicleRequest}
           />
         );
       }
@@ -409,4 +411,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, submitVehicleRequest, updateVehicleRequest })(VehicleRequest));
+export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, submitVehicleRequest, updateVehicleRequest, cancelVehicleRequest })(VehicleRequest));

@@ -30,7 +30,8 @@ export const calculateTripStatus = (trip) => {
 
 export const determineRoleOnTrip = (user, trip) => {
   if (user.role === 'OPO') return 'OPO';
-  else if (trip.leaders.some(leader => leader._id.toString() === user._id.toString())) return 'LEADER';
+  // else if (trip.owner._id.toString() === user._id.toString()) return 'LEADER';
+  else if (trip.leaders.some(leader => leader._id.toString() === user._id.toString())) return 'COLEADER';
   else if (trip.members.some(member => member.user._id.toString() === user._id.toString())) return 'APPROVED';
   else if (trip.pending.some(pender => pender.user._id.toString() === user._id.toString())) return 'PENDING';
   else return 'NONE';

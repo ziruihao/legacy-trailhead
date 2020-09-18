@@ -570,7 +570,7 @@ export function submitVehicleRequest(vehicleRequest, history) {
 export function fetchVehicleRequest(id) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/vehiclerequest/${id}`)
+      axios.get(`${constants.BACKEND_URL}/vehicle-request/${id}`)
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
           resolve();
@@ -599,7 +599,7 @@ export function fetchVehicleRequests() {
 
 export function updateVehicleRequest(vehicleRequest) {
   return (dispatch) => {
-    axios.put(`${constants.BACKEND_URL}/vehicleRequest/${vehicleRequest.id}`, vehicleRequest)
+    axios.put(`${constants.BACKEND_URL}/vehicle-request/${vehicleRequest.id}`, vehicleRequest)
       .then((response) => {
         dispatch({ type: ActionTypes.FETCH_VEHICLE_REQUEST, payload: response.data });
       }).catch((error) => {
@@ -607,6 +607,19 @@ export function updateVehicleRequest(vehicleRequest) {
         dispatch(appError(`Error making vehicle request: ${error}`));
       });
   };
+}
+
+export function cancelVehicleRequest(vehicleRequestID, history) {
+  return dispatch => new Promise((resolve, reject) => {
+    axios.delete(`${constants.BACKEND_URL}/vehicle-request/${vehicleRequestID}`)
+      .then(() => {
+        resolve();
+        history.push('/');
+      }).catch((error) => {
+        reject(error);
+        dispatch(appError(`Error cancelling vehicle request: ${error.message}`));
+      });
+  });
 }
 
 export function getVehicles() {

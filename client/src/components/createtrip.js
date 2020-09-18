@@ -113,7 +113,7 @@ class CreateTrip extends Component {
       this.setState({editMode: true})
       this.props.fetchTrip(this.props.match.params.tripID)
         .then(() => {
-          if (this.props.isLeaderOnTrip || (constants.determineRoleOnTrip(this.props.user, this.props.trip) && this.props.trip.coLeaderCanEditTrip)) {
+          if (this.props.isLeaderOnTrip) {
             const { trip } = this.props;
             let gearRequests = [];
             if (trip.OPOGearRequests) {
