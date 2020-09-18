@@ -115,19 +115,19 @@ class CreateTrip extends Component {
         .then(() => {
           if (this.props.isLeaderOnTrip || (constants.determineRoleOnTrip(this.props.user, this.props.trip) && this.props.trip.coLeaderCanEditTrip)) {
             const { trip } = this.props;
-            let gearRequests;
+            let gearRequests = [];
             if (trip.OPOGearRequests) {
               gearRequests = trip.OPOGearRequests.map((groupGear) => {
                 return { ...groupGear, hasError: false };
               });
             }
-            let trippeeGear;
+            let trippeeGear = [];
             if (trip.trippeeGear) {
               trippeeGear = trip.trippeeGear.map((individualGear) => {
                 return Object.assign({}, individualGear, { hasError: false });
               });
             }
-            let pcardRequest;
+            let pcardRequest = [];
             if (trip.pcard) {
               pcardRequest = trip.pcard.map((pcard) => {
                 const { otherCosts } = pcard;
@@ -140,9 +140,9 @@ class CreateTrip extends Component {
                 return Object.assign({}, pcard, updates);
               });
             }
-            let vehicles;
+            let vehicles = [];
             if (trip.vehicleRequest) {
-              vehicles = trip.vehicleRequest.requestedVehicles.map((vehicle) => {
+              vehicles = trip.vehicleRequest.requestedVehicles?.map((vehicle) => {
                 const forEdititing = {};
                 forEdititing.errorFields = { ...this.errorFields };
                 forEdititing.pickupDate = vehicle.pickupDate.substring(0, 10);
@@ -151,7 +151,7 @@ class CreateTrip extends Component {
                 const returnAsDate = new Date(vehicle.returnDate);
                 forEdititing.tripLength = pickupAsDate.getTime() === returnAsDate.getTime() ? 'single-day-trip' : 'multi-day-trip';
                 return Object.assign({}, vehicle, forEdititing);
-              });
+              }) || [];
             }
             const startDate = new Date(trip.startDate);
             const endDate = new Date(trip.endDate);
@@ -678,7 +678,6 @@ class CreateTrip extends Component {
             leaderValue={this.state.leaders}
             updateLeaderValue={(update) => {
               const updateTrimmed = update.map(u => u.text);
-              console.log(updateTrimmed);
               this.setState({leaders: updateTrimmed});
             }}
             experienceValue={this.state.experienceNeeded}
