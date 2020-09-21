@@ -9,7 +9,7 @@ import TripDetailsFull from './full/trip-details-full';
 import DOCLoading from '../doc-loading';
 import Text from '../text';
 import * as constants from '../../constants';
-import { toggleTripLeadership, fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError } from '../../actions';
+import { toggleTripLeadership, fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripLeftStatus, toggleTripReturnedStatus, appError } from '../../actions';
 import confirmCancel from './confirm-cancel.svg';
 
 class TripDetails extends Component {
@@ -136,6 +136,10 @@ class TripDetails extends Component {
     this.props.deleteTrip(this.props.trip._id, this.props.history);
   }
 
+  toggleTripLeftStatus = (status) => {
+    this.props.toggleTripLeftStatus(this.props.trip._id, status);
+  }
+
   toggleTripReturnedStatus = (status) => {
     this.props.toggleTripReturnedStatus(this.props.trip._id, status);
   }
@@ -183,6 +187,7 @@ class TripDetails extends Component {
             moveToPending={this.moveToPending}
             copyPendingToClip={this.copyPendingToClip}
             copyOnTripToClip={this.copyOnTripToClip}
+            toggleTripLeftStatus={this.toggleTripLeftStatus}
             toggleTripReturnedStatus={this.toggleTripReturnedStatus}
             tripChangesModalOpen={this.state.tripChangesModalOpen}
             showTripChangesModal={() => { this.setState({ tripChangesModalOpen: true }); }}
@@ -244,5 +249,5 @@ const mapStateToProps = state => (
   }
 );
 export default withRouter(connect(mapStateToProps, {
-  fetchTrip, joinTrip, toggleTripLeadership, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripReturnedStatus, appError,
+  fetchTrip, joinTrip, toggleTripLeadership, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripLeftStatus, toggleTripReturnedStatus, appError,
 })(TripDetails));
