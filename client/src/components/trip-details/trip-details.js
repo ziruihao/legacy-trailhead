@@ -16,13 +16,13 @@ class TripDetails extends Component {
   constructor(props) {
     super(props);
     this.state = ({
-      showLeaderModal: false,
       trippeeProfileOpened: false,
       trippeeProfile: null,
       trippeeGear: [],
       showCancellationModal: false,
       cachedPerson: {},
       tripChangesModalOpen: false,
+      deleteTripModalOpen: false,
       profiles: {},
       status: 'approved',
       reasons: [],
@@ -68,10 +68,6 @@ class TripDetails extends Component {
         };
       });
     }
-  }
-
-  activateLeaderModal = () => {
-    this.setState({ showLeaderModal: true });
   }
 
   cancelSignup = () => {
@@ -144,10 +140,6 @@ class TripDetails extends Component {
     this.props.toggleTripReturnedStatus(this.props.trip._id, status);
   }
 
-  closeLeaderModal = () => {
-    this.setState({ showLeaderModal: false });
-  }
-
   isObjectEmpty = (object) => {
     return Object.entries(object).length === 0 && object.constructor === Object;
   }
@@ -175,7 +167,6 @@ class TripDetails extends Component {
             isLeaderOnTrip={this.props.isLeaderOnTrip}
             onTripEmail={constants.getEmails(this.props.trip.members)}
             pendingEmail={constants.getEmails(this.props.trip.pending)}
-            showModal={this.state.showLeaderModal}
             trippeeProfileOpened={this.state.trippeeProfileOpened}
             openTrippeeProfile={trippeeProfile => this.setState({ trippeeProfileOpened: true, trippeeProfile })}
             trippeeProfile={this.state.trippeeProfile}
@@ -185,8 +176,6 @@ class TripDetails extends Component {
             reasons={this.state.reasons}
             role={this.state.role}
             onTextChange={this.onTextChange}
-            activateLeaderModal={this.activateLeaderModal}
-            closeModal={this.closeLeaderModal}
             deleteTrip={this.deleteTrip}
             moveToTrip={this.moveToTrip}
             leaveTrip={this.leaveTrip}
@@ -198,6 +187,9 @@ class TripDetails extends Component {
             tripChangesModalOpen={this.state.tripChangesModalOpen}
             showTripChangesModal={() => { this.setState({ tripChangesModalOpen: true }); }}
             hideTripChangesModal={() => { this.setState({ tripChangesModalOpen: false }); }}
+            deleteTripModalOpen={this.state.deleteTripModalOpen}
+            showDeleteTripModal={() => { this.setState({ deleteTripModalOpen: true }); }}
+            hideDeleteTripModal={() => { this.setState({ deleteTripModalOpen: false }); }}
             cachedPerson={this.state.cachedPerson}
             setCachedPerson={(person) => { this.setState({ cachedPerson: person }); }}
             ref={ref}

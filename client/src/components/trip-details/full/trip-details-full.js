@@ -9,6 +9,7 @@ import { Stack, Queue, Divider, Box } from '../../layout';
 import AttendeeTable from './attendee-table/attendee-table';
 import utils from '../../../utils';
 import Icon from '../../icon';
+import sadTree from '../../trips/sad-tree.png';
 import Text from '../../text';
 import * as constants from '../../../constants';
 import '../../../styles/tripdetails_leader.scss';
@@ -330,7 +331,7 @@ export default React.forwardRef((props, ref) => {
             : <div className='doc-button hollow disabled' role='button' tabIndex={0}>Edit trip</div>
           }
           <Queue size={50} />
-          <div className='doc-button alarm' onClick={props.activateLeaderModal} role='button' tabIndex={0}>Delete trip</div>
+          <div className='doc-button alarm' onClick={props.showDeleteTripModal} role='button' tabIndex={0}>Delete trip</div>
         </Box>
         <Modal
           centered
@@ -365,19 +366,22 @@ export default React.forwardRef((props, ref) => {
         </Modal>
         <Modal
           centered
-          show={props.showModal}
-          onHide={props.closeModal}
+          show={props.deleteTripModalOpen}
+          onHide={props.hideDeleteTripModal}
         >
-          <div className='trip-details-close-button'>
-            <i className='material-icons close-button' onClick={props.closeModal} role='button' tabIndex={0}>close</i>
-          </div>
-          <img src={confirmDeleteImage} alt='confirm-delete' className='cancel-image' />
-          <div className='cancel-content'>
-            <p className='cancel-question'>Are you sure you want to delete this trip?</p>
-            <p className='cancel-message'>You&apos;ll be letting down a lot of trees if you do</p>
-          </div>
-          <button type='submit' className='leader-cancel-button confirm-cancel' onClick={props.deleteTrip}>It be like that sometimes</button>
-
+          <Box dir='col' align='center' pad={25}>
+            <img src={sadTree} alt='delete-trip' />
+            <Stack size={24} />
+            <Text type='h2'>Delete this trip</Text>
+            <Stack size={24} />
+            <div className='p1 center-text'>You&apos;ll be letting down a lot of trees if you do. This will also cancel any associated gear, P-Card, and vehicle requests.</div>
+            <Stack size={24} />
+            <Box dir='row' justify='center'>
+              <div className='doc-button' onClick={props.hideDeleteTripModal} role='button' tabIndex={0}>Wait no</div>
+              <Queue size={15} />
+              <div className='doc-button alarm' onClick={() => { props.deleteTrip(); props.hideDeleteTripModal(); }} role='button' tabIndex={0}>Delete</div>
+            </Box>
+          </Box>
         </Modal>
       </Box>
 
