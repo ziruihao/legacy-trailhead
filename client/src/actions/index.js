@@ -97,7 +97,7 @@ export function updateUser(updatedUser) {
         .catch((error) => {
           console.log(error);
           reject(error);
-          dispatch(appError(`Update user failed: ${error.message}`));
+          dispatch(appError(`Error: ${error.response.data}`));
         });
     });
   };
