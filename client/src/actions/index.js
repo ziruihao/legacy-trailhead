@@ -96,7 +96,8 @@ export function updateUser(updatedUser) {
         })
         .catch((error) => {
           console.log(error);
-          dispatch(appError(`Update user failed: ${error.response.data}`));
+          reject(error);
+          dispatch(appError(`Update user failed: ${error.message}`));
         });
     });
   };
@@ -398,11 +399,11 @@ export function authUser() {
   };
 }
 
-export function signOut() {
+export function signOut(history) {
   return (dispatch) => {
     localStorage.removeItem('token');
     dispatch({ type: ActionTypes.DEAUTH_USER });
-    // history.push('/');
+    history.push('/');
   };
 }
 
