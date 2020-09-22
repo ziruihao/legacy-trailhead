@@ -1,5 +1,5 @@
-export const BACKEND_URL = process.env.NODE_ENV === 'PRODUCTION' ? 'https://doc-planner.herokuapp.com' : 'http://localhost:9090';
-export const ROOT_URL = process.env.NODE_ENV === 'PRODUCTION' ? 'http://doc.dartmouth.edu' : 'http://localhost:8080';
+export const BACKEND_URL = process.env.NODE_ENV === 'DEVELOPMENT' ? 'http://localhost:9090' : 'https://doc-planner.herokuapp.com';
+export const ROOT_URL = process.env.NODE_ENV === 'DEVELOPMENT' ? 'http://localhost:8080' : 'http://doc.dartmouth.edu';
 // export const BACKEND_URL = 'https://doc-planner.herokuapp.com';
 // export const ROOT_URL = 'http://doc.dartmouth.edu';
 
