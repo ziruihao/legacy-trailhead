@@ -166,83 +166,83 @@ class ProfileCard extends React.Component {
           <Stack size={25} />
           <div id='profile-card-info'>
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Pronouns
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.user.pronoun ? this.props.user.pronoun : 'Please fill out'}
-              </div>
+              </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 DASH
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}
-              </div>
+              </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Clothing Size
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.user.clothe_size ? this.props.user.clothe_size : 'Please fill out'}
-              </div>
+              </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Shoe Size
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.user.shoe_size ? this.props.user.shoe_size : 'Please fill out'}
-              </div>
+              </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Height
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.user.height ? this.props.user.height : 'Please fill out'}
-              </div>
+              </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Allergies/Dietary Restrictions
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.user.allergies_dietary_restrictions ? this.props.user.allergies_dietary_restrictions : 'Please fill out'}
-              </div>
+              </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Relevant Medical Conditions
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.user.medical_conditions ? this.props.user.medical_conditions : 'Please fill out'}
-              </div>
+              </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_cert_change ? 'Driver Certifications*' : 'Driver Certifications'}
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 {displayCertifications(this.props.user.driver_cert, this.props.user.trailer_cert, this.props.user.has_pending_cert_change)}
-              </div>
+              </Text>
             </Box>
             {this.props.user.role !== 'OPO' ? <Stack size={15} /> : null}
             {this.props.user.role !== 'OPO'
               ? (
                 <Box className='profile-card-row'>
-                  <div className='card-headings doc-h3'>
+                  <Text type='h3' color='gray'>
                     {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
-                  </div>
+                  </Text>
                   <div id='profile-card-clubs' className='card-info p2' onClick={() => this.setState(prevState => ({ showClubs: !prevState.showClubs }))} role='button' tabIndex={0}>
                     Leader in {this.props.user.leader_for.length} sub-clubs
                   </div>
@@ -297,7 +297,7 @@ class ProfileCard extends React.Component {
             }
             <Queue size={50} />
             <Box dir='col' id='profile-card-name'>
-              <div className='p2'>
+              <Text type='p2'>
                 <Field
                   type='text'
                   name='name'
@@ -306,9 +306,9 @@ class ProfileCard extends React.Component {
                   placeholder='Name'
                   error={this.props.errorFields.name}
                 />
-              </div>
-              <Stack size={15} />
-              <div className='p2'>
+              </Text>
+              <Stack size={5} />
+              <Text type='p2'>
                 <Field
                   type='text'
                   name='email'
@@ -318,7 +318,7 @@ class ProfileCard extends React.Component {
                   placeholder='Dartmouth email'
                   error={this.props.errorFields.email}
                 />
-              </div>
+              </Text>
             </Box>
             <Queue size={50} />
           </Box>
@@ -327,10 +327,10 @@ class ProfileCard extends React.Component {
           <Stack size={25} />
           <div id='profile-card-info'>
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Pronouns
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 <Field
                   type='text'
                   name='pronoun'
@@ -340,14 +340,14 @@ class ProfileCard extends React.Component {
                   value={this.props.pronoun}
                   error={this.props.errorFields.pronoun}
                 />
-              </div>
+              </Text>
             </Box>
-            <Stack size={15} />
+            <Stack size={5} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 DASH
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 <Field
                   type='number'
                   id='dash_number'
@@ -358,32 +358,32 @@ class ProfileCard extends React.Component {
                   value={this.props.dash_number}
                   error={this.props.errorFields.dash_number}
                 />
-              </div>
+              </Text>
             </Box>
-            <Stack size={15} />
+            <Stack size={5} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Clothing Size
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.renderClothingSizeSelection()}
-              </div>
+              </Text>
             </Box>
-            <Stack size={15} />
+            <Stack size={5} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Shoe Size
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.renderShoeSizeSelection()}
-              </div>
+              </Text>
             </Box>
-            <Stack size={15} />
+            <Stack size={5} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Height
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 <Field
                   type='text'
                   name='height'
@@ -392,14 +392,14 @@ class ProfileCard extends React.Component {
                   placeholder={'e.g. 5\'2"'}
                   error={this.props.errorFields.height}
                 />
-              </div>
+              </Text>
             </Box>
-            <Stack size={15} />
+            <Stack size={5} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Allergies/Dietary Restrictions
-              </div>
-              <div className='card-info p2'>
+              </Text>
+              <Text type='p2' color='gray'>
                 <Field
                   className={`field ${this.props.errorFields.allergies_dietary_restrictions ? '' : ''}`}
                   type='text'
@@ -409,14 +409,14 @@ class ProfileCard extends React.Component {
                   value={this.props.allergies_dietary_restrictions}
                   error={this.props.errorFields.allergies_dietary_restrictions}
                 />
-              </div>
+              </Text>
             </Box>
-            <Stack size={15} />
+            <Stack size={5} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Relevant Medical Conditions
-              </div>
-              <div className='card-info p2 extra-info'>
+              </Text>
+              <Text type='p2' color='gray'>
                 <Field
                   type='text'
                   name='medical'
@@ -428,30 +428,30 @@ class ProfileCard extends React.Component {
                   error={this.props.errorFields.medical}
                 />
                 <ReactTooltip id='medical-conditions-tooltip' place='right'>This will only be visible to your trip leaders and OPO staff</ReactTooltip>
-              </div>
+              </Text>
             </Box>
-            <Stack size={15} />
+            <Stack size={5} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 Driver Certification(s)
-                {/* {this.props.displayCertificationFeedback()} */}
-              </div>
-              <div className='card-info p2'>
+                {/* {this.props.displayCeTextficationFeedback()} */}
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.getCertificationsForm()}
                 <ReactTooltip id='driver-certification-tooltip' place='right'>Please select your highest level of driver certification</ReactTooltip>
-              </div>
+              </Text>
             </Box>
-            <Stack size={15} />
+            <Stack size={5} />
             <Box className='profile-card-row'>
-              <div className='card-headings doc-h3'>
+              <Text type='h3' color='gray'>
                 DOC Leadership
-                {/* {this.props.displayLeaderFeedback()} */}
-              </div>
-              <div className='card-info p2'>
+                {/* {this.props.displayLeTextrFeedback()} */}
+              </Text>
+              <Text type='p2' color='gray'>
                 {this.props.getClubForm()}
-              </div>
+              </Text>
             </Box>
-            {/* {this.props.user.role !== 'OPO' ? <Stack size={15} /> : null}
+            {/* {this.props.user.role !== 'OPO' ? <Stack size={5} /> : null}
             {this.props.user.role !== 'OPO'
               ? (
                 <Box className="profile-card-row">
