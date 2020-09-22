@@ -1,4 +1,3 @@
-console.log(process.env.NODE_ENV);
 export const BACKEND_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://doc-planner.herokuapp.com';
 export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://doc.dartmouth.edu';
 // export const BACKEND_URL = 'https://doc-planner.herokuapp.com';
