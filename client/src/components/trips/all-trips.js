@@ -7,6 +7,7 @@ import { Stack, Queue, Divider, Box } from '../layout';
 import TripDetailsBasic from '../trip-details/basic/trip-details-basic';
 import TripCard from '../trip-card';
 import Toggle from '../toggle';
+import Text from '../text';
 import DOCLoading from '../doc-loading';
 import { fetchTrips, fetchTrip, getClubs, leaveTrip } from '../../actions';
 import utils from '../../utils';
