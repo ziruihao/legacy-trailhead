@@ -36,6 +36,8 @@ export const formatDateAndTime = (date, mode) => {
     return dateFormat(date, 'ddd, m/d/yy @ h:MM TT');
   } else if (mode === 'SHORT') {
     return dateFormat(date, 'm/d/yy, h:MM TT');
+  } else if (mode === 'NO_YEAR') {
+    return dateFormat(date, 'm/d @ h:MM TT');
   } else {
     return dateFormat(date, 'm/d hh:MM');
   }
