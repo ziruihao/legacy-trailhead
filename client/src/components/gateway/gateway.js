@@ -115,20 +115,27 @@ class Gateway extends Component {
                 <Box dir='row' justify='center'>
                   {this.state.signingIn ? <DOCLoading type='cubes' width={50} height={50} /> : this.renderAuthOptions() }
                 </Box>
-                <Stack size={25} />
-                <Box dir='row' align='center'>
-                  <Queue size={25} />
-                  <Divider size={1} />
-                  <Queue size={25} />
-                  <div className='p1 thin gray'>OR</div>
-                  <Queue size={25} />
-                  <Divider size={1} />
-                  <Queue size={25} />
-                </Box>
-                <Stack size={25} />
-                <Box dir='row' justify='center'>
-                  {this.state.signingIn ? <DOCLoading type='cubes' width={50} height={50} /> : this.renderDevAuthOptions() }
-                </Box>
+                {process.env.NODE_ENV === 'development'
+                  ? (
+                    <>
+                      <Stack size={25} />
+                      <Box dir='row' align='center'>
+                        <Queue size={25} />
+                        <Divider size={1} />
+                        <Queue size={25} />
+                        <div className='p1 thin gray'>OR</div>
+                        <Queue size={25} />
+                        <Divider size={1} />
+                        <Queue size={25} />
+                      </Box>
+                      <Stack size={25} />
+                      <Box dir='row' justify='center'>
+                        {this.state.signingIn ? <DOCLoading type='cubes' width={50} height={50} /> : this.renderDevAuthOptions() }
+                      </Box>
+                    </>
+                  )
+                  : null
+                }
               </Box>
             )
         }
