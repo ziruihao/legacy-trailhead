@@ -132,7 +132,7 @@ class AllTrips extends Component {
 
     switch(this.state.selectedTimePeriod) {
       case 'All':
-        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !utils.dates.inThePast(trip.startDate)));
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !utils.dates.inThePast(trip.startDateAndTime)));
         break;
       case 'Specific day':
         tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, this.state.startDate)));
@@ -142,7 +142,7 @@ class AllTrips extends Component {
     }
 
     if (this.state.seePastTrips) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().concat(this.props.trips.filter(trip => utils.dates.inThePast(trip.startDate))));
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().concat(this.props.trips.filter(trip => utils.dates.inThePast(trip.startDateAndTime))));
     }
 
     tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => (this.state.club === 'All clubs' || trip.club.name === this.state.club)));
