@@ -55,7 +55,7 @@ class MobileCheckIn extends PureComponent {
           <div id='mobile-check-body'>
             <Text type='h2'>Welcome back!</Text>
             <Stack size={18} />
-            <div className='p1'>If you have returned safely without ANY incidents or near misses during the trip:</div>
+            <div className='p1'>When you have returned to campus with all of your participants:</div>
             <Stack size={18} />
             {this.props.trip.returned
               ? <div role='button' tabIndex={0} className='doc-button alarm' onClick={() => this.toggleTripReturnedStatus(false)}>Undo return</div>
