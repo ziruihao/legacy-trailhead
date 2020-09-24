@@ -214,7 +214,7 @@ class VehicleRequestDisplay extends React.Component {
               <div className='doc-button alarm' onClick={() => this.setState({ showCancellationModal: true })} role='button' tabIndex={0}>Cancel request</div>
               {this.props.vehicleRequest.status !== 'approved'
                 ? <div className='doc-button hollow' onClick={this.props.startEditing} role='button' tabIndex={0}>Edit request</div>
-                : <div className='doc-button hollow disabled' onClick={this.props.startEditing} role='button' tabIndex={0}>Edit request</div>
+                : <div className='doc-button hollow disabled' role='button' tabIndex={0}>Edit request</div>
             }
             </Box>
           )

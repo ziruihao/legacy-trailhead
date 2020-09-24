@@ -133,6 +133,28 @@ export default React.forwardRef((props, ref) => {
     }
   };
 
+  const renderTripEditButton = () => {
+    if (!utils.dates.withinTimePeriod(props.trip.startDateAndTime, 'Tomorrow')) {
+      if (props.isLeaderOnTrip) {
+        return (<Link to={`/edittrip/${props.trip._id}`} className='doc-button hollow'>Edit trip</Link>);
+      } else {
+        return (
+          <>
+            <div className='doc-button hollow disabled' role='button' tabIndex={0} data-tip data-for='no-edit-trip-permission'>Edit trip</div>
+            <ReactToolTip id='no-edit-trip-permission' place='bottom'>You do not have permission to edit this trip</ReactToolTip>
+          </>
+        );
+      }
+    } else {
+      return (
+        <>
+          <div className='doc-button hollow disabled' role='button' tabIndex={0} data-tip data-for='too-late-to-edit-trip'>Edit trip</div>
+          <ReactToolTip id='too-late-to-edit-trip' place='bottom'>You cannot edit the trip within 24 hours of its start time</ReactToolTip>
+        </>
+      );
+    }
+  };
+
   return (
     <div className='doc-card trip-details'>
       <Box dir='col' pad={75}>
@@ -325,11 +347,7 @@ export default React.forwardRef((props, ref) => {
           : null}
         <Stack size={100} />
         <Box dir='row' justify='center'>
-          {props.isLeaderOnTrip
-
-            ? <Link to={`/edittrip/${props.trip._id}`} className='doc-button hollow'>Edit trip</Link>
-            : <div className='doc-button hollow disabled' role='button' tabIndex={0}>Edit trip</div>
-          }
+          {renderTripEditButton()}
           <Queue size={50} />
           <div className='doc-button alarm' onClick={props.showDeleteTripModal} role='button' tabIndex={0}>Delete trip</div>
         </Box>

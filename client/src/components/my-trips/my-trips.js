@@ -77,12 +77,12 @@ class MyTrips extends Component {
       </Box>
     );
     if (this.props.myTrips.length !== 0) {
-      let sortedTrips = this.props.myTrips.sort(this.compareStartDates).filter(trip => !utils.dates.inThePast(trip.startDate));
+      let sortedTrips = this.props.myTrips.sort(this.compareStartDates).filter(trip => !utils.dates.inThePast(trip.startDateAndTime));
       if (this.state.seeTripsImLeading) {
         sortedTrips = sortedTrips.filter(trip => constants.determineRoleOnTrip(this.props.user, trip) === 'LEADER');
       }
       if (this.state.seePastTrips) {
-        sortedTrips = sortedTrips.concat(this.props.myTrips.filter(trip => utils.dates.inThePast(trip.startDate)));
+        sortedTrips = sortedTrips.concat(this.props.myTrips.filter(trip => utils.dates.inThePast(trip.startDateAndTime)));
       }
       myTrips = sortedTrips.map((trip) => {
         return (
