@@ -37,7 +37,7 @@ export const formatDateAndTime = (date, mode) => {
   } else if (mode === 'SHORT') {
     return dateFormat(date, 'm/d/yy, h:MM TT');
   } else if (mode === 'NO_YEAR') {
-    return dateFormat(date, 'm/d @ h:MM TT');
+    return dateFormat(date, 'm/d, h:MM TT');
   } else {
     return dateFormat(date, 'm/d hh:MM');
   }
@@ -99,7 +99,7 @@ export function withinTimePeriod(date, timePeriod, specificDay) {
 
 export function inThePast(date) {
   if (typeof date === 'string') date = new Date(date);
-  const today = dates.startOf(new Date(), 'day');
+  const today = new Date(); // dates.startOf(new Date(), 'day');
   if (date >= today) return false;
   else return true;
 }
