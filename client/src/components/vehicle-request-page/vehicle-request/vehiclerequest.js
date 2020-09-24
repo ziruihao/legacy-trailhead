@@ -55,7 +55,7 @@ class VehicleRequest extends Component {
 
   reload = () => {
     if (this.props.requestType === 'TRIP') {
-      this.setState({ requestType: 'TRIP', vehicles: this.props.vehicles });
+      this.setState({ requestType: 'TRIP', vehicles: this.props.vehicles, mileage: this.props.mileage });
     } else if (this.props.match.params.vehicleReqId) {
       this.props.fetchVehicleRequest(this.props.match.params.vehicleReqId)
         .then(() => {
