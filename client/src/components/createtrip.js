@@ -9,6 +9,7 @@ import { Stack, Queue, Divider, Box } from './layout';
 import PCardRequest from './pcard_request';
 import { LeftColumn, BasicTripInfo, DatesLocation, AboutTheTrip, Equipment } from './create_trip_pages';
 import Sidebar from './sidebar';
+import Text from './text';
 import VehicleRequest from './vehicle-request-page/vehicle-request';
 import VehicleCalendar from './calendar/vehicleCalendar';
 import * as constants from '../constants';
@@ -174,6 +175,7 @@ class CreateTrip extends Component {
               location: trip.location,
               cost: trip.cost,
               length,
+              mileage: trip.vehicleRequest?.mileage,
               trippeeGear,
               pcardRequest,
               gearRequests,
@@ -741,6 +743,7 @@ class CreateTrip extends Component {
             <VehicleRequest
               requestType='TRIP'
               passVehicles={this.passVehicles}
+              mileage={this.state.mileage}
               vehicles={this.state.vehicles}
               startDate={this.state.startDate}
               endDate={this.state.endDate}
@@ -750,10 +753,10 @@ class CreateTrip extends Component {
           )
           : (
             <>
-              <div className="doc-h1">Vehicle requests</div>
+              <Text type='h1'>Vehicle requests</Text>
               <Stack size={50}></Stack>
-              <Box dir='row' justify='center' align='center'>
-                <div className='p1 gray thin'>You can&apos;t edit requests after they&apos;ve been reviewed</div>
+              <Box dir='row' justify='center' align='center' height={100} className='doc-bordered'>
+                <Text type='p1' color='gray' weight='thin'>You can&apos;t edit requests after they&apos;ve been reviewed</Text>
               </Box>
             </>
           );
