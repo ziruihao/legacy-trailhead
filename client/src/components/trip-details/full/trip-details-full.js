@@ -134,25 +134,25 @@ export default React.forwardRef((props, ref) => {
   };
 
   const renderTripEditButton = () => {
-    if (!utils.dates.withinTimePeriod(props.trip.startDateAndTime, 'Tomorrow')) {
-      if (props.isLeaderOnTrip) {
-        return (<Link to={`/edittrip/${props.trip._id}`} className='doc-button hollow'>Edit trip</Link>);
-      } else {
-        return (
-          <>
-            <div className='doc-button hollow disabled' role='button' tabIndex={0} data-tip data-for='no-edit-trip-permission'>Edit trip</div>
-            <ReactToolTip id='no-edit-trip-permission' place='bottom'>You do not have permission to edit this trip</ReactToolTip>
-          </>
-        );
-      }
+    // if (!utils.dates.withinTimePeriod(props.trip.startDateAndTime, 'Tomorrow')) {
+    if (props.isLeaderOnTrip) {
+      return (<Link to={`/edittrip/${props.trip._id}`} className='doc-button hollow'>Edit trip</Link>);
     } else {
       return (
         <>
-          <div className='doc-button hollow disabled' role='button' tabIndex={0} data-tip data-for='too-late-to-edit-trip'>Edit trip</div>
-          <ReactToolTip id='too-late-to-edit-trip' place='bottom'>You cannot edit the trip within 24 hours of its start time</ReactToolTip>
+          <div className='doc-button hollow disabled' role='button' tabIndex={0} data-tip data-for='no-edit-trip-permission'>Edit trip</div>
+          <ReactToolTip id='no-edit-trip-permission' place='bottom'>You do not have permission to edit this trip</ReactToolTip>
         </>
       );
     }
+    // } else {
+    //   return (
+    //     <>
+    //       <div className='doc-button hollow disabled' role='button' tabIndex={0} data-tip data-for='too-late-to-edit-trip'>Edit trip</div>
+    //       <ReactToolTip id='too-late-to-edit-trip' place='bottom'>You cannot edit the trip within 24 hours of its start time</ReactToolTip>
+    //     </>
+    //   );
+    // }
   };
 
   return (
