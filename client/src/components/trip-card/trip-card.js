@@ -81,7 +81,10 @@ class TripCard extends React.Component {
           </Box>
           {this.renderDecal(this.props.trip.club.name)}
           <div className='trip-card-body'>
-            <div className='label-text'>TRIP #{this.props.trip.number}</div>
+            <Box dir='row' justify='between' align='start'>
+              <div className='label-text'>TRIP #{this.props.trip.number}</div>
+              <div className='label-text'>{this.props.trip.members.length + this.props.trip.pending.length} signups</div>
+            </Box>
             <Text type='h2'>{this.renderTripTitle(this.props.trip.title)}</Text>
             <Stack size={10} />
             <div className='p2 trip-card-date'>{utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'NO_YEAR')} - {utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'NO_YEAR')}</div>
