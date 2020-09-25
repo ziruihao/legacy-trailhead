@@ -1,7 +1,10 @@
 const express = require('express');
 const path = require('path');
+import sslRedirect from 'heroku-ssl-redirect';
 
 const app = express();
+
+app.use(sslRedirect());
 
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'client/dist')));
