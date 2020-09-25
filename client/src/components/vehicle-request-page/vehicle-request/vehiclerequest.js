@@ -318,6 +318,8 @@ class VehicleRequest extends Component {
         id: this.props.vehicleRequest._id,
         requester: this.props.user,
         requestDetails: this.state.requestDetails,
+        noOfPeople: this.state.noOfPeople,
+        mileage: this.state.mileage,
         requestType: this.state.requestType,
         requestedVehicles: vehicles,
         timezone: utils.dates.timezone(),
