@@ -780,23 +780,35 @@ class OPOVehicleRequest extends Component {
       );
     } else if (this.state.modalInfo.trigger === 'CANCEL ALL') {
       return (
-        <div className='cancel-content'>
-          <p className='cancel-question'>Cancel all assignments for this request?</p>
-          <p className='cancel-message'>The assigned vehicles will become available for other requests</p>
-          <div className='ovr-modal-button-container'>
-            <button type='submit' className='leader-cancel-button confirm-cancel' onClick={() => this.cancelAssignments(this.state.modalInfo.ids)}>Cancel All</button>
-          </div>
-        </div>
+        <Box dir='col' align='center' pad={25}>
+          <Icon type='warning' size={50} />
+          <Stack size={24} />
+          <Text type='h2'>Cancel all assignments for this request?</Text>
+          <Stack size={24} />
+          <div className='p1 center-text'>The assigned vehicles will become available for other requests. We will notify the requester that their assignments have been cancelled.</div>
+          <Stack size={24} />
+          <Box dir='row' justify='center' align='center'>
+            <div className='doc-button' onClick={this.closeModal} role='button' tabIndex={0}>Nevermind</div>
+            <Queue size={25} />
+            <div className='doc-button alarm' onClick={() => this.cancelAssignments(this.state.modalInfo.ids)} role='button' tabIndex={0}>Cancel all</div>
+          </Box>
+        </Box>
       );
     } else if (this.state.modalInfo.trigger === 'CANCEL') {
       return (
-        <div className='cancel-content'>
-          <p className='cancel-question'>Cancel assignment?</p>
-          <p className='cancel-message'>The assigned vehicle will become available for other requests</p>
-          <div className='ovr-modal-button-container'>
-            <button type='submit' className='leader-cancel-button confirm-cancel' onClick={() => this.cancelAssignments(this.state.modalInfo.ids)}>Cancel</button>
-          </div>
-        </div>
+        <Box dir='col' align='center' pad={25}>
+          <Icon type='warning' size={50} />
+          <Stack size={24} />
+          <Text type='h2'>Cancel this assignment?</Text>
+          <Stack size={24} />
+          <div className='p1 center-text'>The assigned vehicle will become available for other requests. We will notify the requester that their assignments have been cancelled.</div>
+          <Stack size={24} />
+          <Box dir='row' justify='center' align='center'>
+            <div className='doc-button' onClick={this.closeModal} role='button' tabIndex={0}>Nevermind</div>
+            <Queue size={25} />
+            <div className='doc-button alarm' onClick={() => this.cancelAssignments(this.state.modalInfo.ids)} role='button' tabIndex={0}>Cancel</div>
+          </Box>
+        </Box>
       );
     } else {
       return null;
@@ -891,10 +903,6 @@ class OPOVehicleRequest extends Component {
             show={this.state.showModal}
             onHide={this.closeModal}
           >
-            <div className='trip-details-close-button'>
-              <i className='material-icons close-button' onClick={this.closeModal} role='button' tabIndex={0}>close</i>
-            </div>
-            <Badge type='denied' />
             {this.getModalContent()}
           </Modal>
           <Modal centered show={this.state.showConflictsModal} onHide={() => this.setState({ showConflictsModal: false })}>
