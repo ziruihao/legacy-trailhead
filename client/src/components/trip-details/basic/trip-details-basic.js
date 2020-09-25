@@ -159,6 +159,7 @@ class TripDetailsBasic extends Component {
       return (
         <div className='trip-details'>
           <div className='trip-number'>{`TRIP #${this.props.trip.number}`}</div>
+
           <Text type='h1'>{this.props.trip.title}</Text>
           <Stack size={25} />
           <Box dir='row' align='center' className='trip-tags'>
@@ -193,9 +194,17 @@ class TripDetailsBasic extends Component {
           {this.state.viewMode === 'action'
             ? (
               <>
-                <div id='trip-modal-description' className='p1'>
-                  Sign up for this trip here. Below are all the required gear for each trippee - request only what you need!
-                </div>
+                <Box dir='row' align='stretch'>
+                  <Box dir='row' expand>
+                    <Text type='p1' spacing='relaxed'>
+                      Sign up for this trip here. Below are all the required gear for each trippee - request only what you need!
+                    </Text>
+                  </Box>
+                  <Box width={50} />
+                  <Box dir='row' align='center'>
+                    <Text type='overline' weight='thick' color='gray'>{`[${this.props.trip.members.length + this.props.trip.pending.length} signups]`}</Text>
+                  </Box>
+                </Box>
                 <Stack size={25} />
                 <RequestGear trippeeGear={this.props.trip.trippeeGear} requestedGear={this.state.requestedGear} editingGear={this.state.editingGear} onGearChange={this.onGearChange} loading={this.state.actionPending} />
                 <Stack size={25} />
