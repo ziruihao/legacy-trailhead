@@ -5,6 +5,7 @@ import { appError, fetchVehicleRequest, submitVehicleRequest, updateVehicleReque
 import VehicleRequestForm from '../vehicle-request-form';
 import VehicleRequestDisplay from '../vehicle-request-display/vehicleRequestDisplay';
 import DOCLoading from '../../doc-loading';
+import utils from '../../../utils';
 
 class VehicleRequest extends Component {
   errorFields = {
@@ -270,6 +271,7 @@ class VehicleRequest extends Component {
         mileage: this.state.mileage,
         requestType: this.state.requestType,
         requestedVehicles: vehicles,
+        timezone: utils.dates.timezone(),
       };
       this.props.submitVehicleRequest(vehicleRequest, this.props.history).then(() => {
         this.reload();
