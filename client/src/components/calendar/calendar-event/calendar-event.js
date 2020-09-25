@@ -1,4 +1,5 @@
 import React from 'react';
+import utils from '../../../utils';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import './calendar-event.scss';
 
@@ -6,20 +7,6 @@ const hasReturnTimePassed = (eventEnd) => {
   const now = new Date();
   const returnTime = new Date(eventEnd);
   return returnTime < now;
-};
-
-const formatTime = (time) => {
-  const splitTime = time.split(':');
-  splitTime.push('am');
-  const originalHour = splitTime[0];
-  splitTime[0] = originalHour % 12;
-  if (originalHour >= 12) {
-    splitTime[2] = 'pm';
-  }
-  if (splitTime[0] === 0) {
-    splitTime[0] = 12;
-  }
-  return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
 };
 
 const VehicleBooking = ({ event }) => {
@@ -45,7 +32,7 @@ const VehicleBooking = ({ event }) => {
   }
   // if (bookingTitle.length >= 25) bookingTitle = `${bookingTitle.substring(0, 22)}...`;
 
-  const bookingTime = `${formatTime(event.assigned_pickupTime)} - ${formatTime(event.assigned_returnTime)}`;
+  const bookingTime = `${utils.dates.formatTime(new Date(event.assigned_pickupDateAndTime))} - ${utils.dates.formatTime(new Date(event.assigned_returnDateAndTime))}`;
   return (
     <Box dir='col' justify='between' pad={10} className={`booking-container ${event.pickedUp ? 'hoverable-booking' : ''} ${event.conflicts.length > 0 ? 'conflict' : null}`}>
       <div className='p2 thick booking-title'>
