@@ -14,6 +14,7 @@ import VehicleRequest from './vehicle-request-page/vehicle-request';
 import VehicleCalendar from './calendar/vehicleCalendar';
 import * as constants from '../constants';
 import '../styles/createtrip-style.scss';
+import utils from '../utils';
 
 class CreateTrip extends Component {
   otherCostErrorFields = {
@@ -647,6 +648,7 @@ class CreateTrip extends Component {
       endDate: this.state.endDate,
       startTime: this.state.startTime,
       endTime: this.state.endTime,
+      timezone: utils.dates.timezone(),
       cost: this.state.cost,
       pickup: this.state.pickup,
       dropoff: this.state.dropoff,

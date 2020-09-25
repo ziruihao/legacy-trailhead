@@ -1,24 +1,10 @@
 import React from 'react';
-import '../styles/vehicle-calendar-style.scss';
+import utils from '../../utils';
 
 const hasReturnTimePassed = (eventEnd) => {
   const now = new Date();
   const returnTime = new Date(eventEnd);
   return returnTime < now;
-};
-
-const formatTime = (time) => {
-  const splitTime = time.split(':');
-  splitTime.push('am');
-  const originalHour = splitTime[0];
-  splitTime[0] = originalHour % 12;
-  if (originalHour >= 12) {
-    splitTime[2] = 'pm';
-  }
-  if (splitTime[0] === 0) {
-    splitTime[0] = 12;
-  }
-  return `${splitTime[0]}:${splitTime[1]}${splitTime[2]}`;
 };
 
 const VehicleBooking = ({ event }) => {
@@ -43,7 +29,7 @@ const VehicleBooking = ({ event }) => {
     bookingTitle = event.request.associatedTrip.title;
   }
 
-  const bookingTime = `${formatTime(event.assigned_pickupTime)}-${formatTime(event.assigned_returnTime)}`;
+  const bookingTime = `${utils.dates.formatTime(new Date(event.assigned_pickupDateAndTime))}-${utils.dates.formatTime(new Date(event.assigned_returnDateAndTime))}`;
 
   return (
     <span className={`booking-container ${event.pickedUp ? 'hoverable-booking' : ''} ${event.conflicts.length > 0 ? 'conflict' : null}`}>

@@ -121,6 +121,7 @@ class OPOVehicleRequest extends Component {
   onVehicleTypeChange = (eventkey, index) => {
     const proposedAssignment = this.state.assignments[index];
     proposedAssignment.assignedVehicle = eventkey;
+    proposedAssignment.timezone = utils.dates.timezone();
     this.checkForAssignmentConflicts(proposedAssignment).then((conflicts) => {
       this.setState((prevState) => {
         const updates = prevState.assignments[index];
@@ -273,6 +274,7 @@ class OPOVehicleRequest extends Component {
       const deletedErrorFields = nonEmptyAssignemnts.map((assignment) => {
         delete assignment.errorFields;
         delete assignment.conflicts;
+        assignment.timezone = utils.dates.timezone();
         return assignment;
       });
 
@@ -554,7 +556,7 @@ class OPOVehicleRequest extends Component {
             <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatDate(new Date(assignment.assigned_pickupDate), 'LONG')}
+                : utils.dates.formatDate(new Date(assignment.assigned_pickupDateAndTime), 'LONG')}
             </Box>
 
             <Box dir='row' align='center' height={60} className='p1'>
@@ -566,7 +568,7 @@ class OPOVehicleRequest extends Component {
             <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatDate(new Date(assignment.assigned_returnDate), 'LONG')}
+                : utils.dates.formatDate(new Date(assignment.assigned_returnDateAndTime), 'LONG')}
             </Box>
 
             <Box dir='row' align='center' height={60} className='p1'>
@@ -677,11 +679,11 @@ class OPOVehicleRequest extends Component {
 
                 <Box dir='row' align='center' height={60} className='p1'>{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
 
-                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.pickupDate), 'LONG')}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.pickupDateAndTime), 'LONG')}</Box>
 
                 <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.pickupDateAndTime))}</Box>
 
-                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.returnDate), 'LONG')}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.returnDateAndTime), 'LONG')}</Box>
 
                 <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.returnDateAndTime))}</Box>
 
