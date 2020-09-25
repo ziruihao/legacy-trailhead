@@ -42,8 +42,8 @@ const AttendeeTable = (props) => {
                 {props.showAttendence
                   ? <td>{renderAttendence(person.attended)}</td>
                   : null }
-                <td>{person.user.medical_conditions}</td>
                 <td>{person.user.allergies_dietary_restrictions}</td>
+                <td>{person.user.medical_conditions}</td>
                 <td>
                   {person.requestedGear.length !== 0 ? person.requestedGear.map(gear => (
                     <li key={gear.gearId}>{gear.name}</li>
