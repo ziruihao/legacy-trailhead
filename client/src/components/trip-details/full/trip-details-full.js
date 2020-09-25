@@ -263,7 +263,7 @@ export default React.forwardRef((props, ref) => {
             people={props.trip.members}
             startDateAndTime={props.trip.startDateAndTime}
             actions={[
-              { callback: props.moveToPending, message: 'Un-admit' },
+              { callback: props.unAdmitToTrip, message: 'Un-admit' },
               { callback: props.toggleTripLeadership, message: (person) => { if (constants.determineRoleOnTrip(person, props.trip) === 'LEADER') { return 'Demote to trippee'; } else { return 'Make co-leader'; } } },
             ]}
             openProfile={props.openTrippeeProfile}
@@ -276,15 +276,19 @@ export default React.forwardRef((props, ref) => {
           <AttendeeTable
             people={props.trip.pending}
             startDateAndTime={props.trip.startDateAndTime}
-            actions={[{ callback: (person) => {
-              if (props.trip.trippeeGearStatus === 'approved') {
-                props.setCachedPerson(person);
-                props.showTripChangesModal();
-              } else {
-                props.moveToTrip(person);
-              }
-            },
-            message: 'Admit' }, { callback: props.leaveTrip, message: 'Reject' }]}
+            actions={[
+              { callback: (person) => {
+                if (props.trip.trippeeGearStatus === 'approved') {
+                  props.setCachedPerson(person);
+                  props.showTripChangesModal();
+                } else {
+                  props.admitToTrip(person);
+                }
+              },
+              message: 'Admit' },
+              { callback: props.rejectFromTrip,
+                message: 'Reject' },
+            ]}
             openProfile={props.openTrippeeProfile}
           />
         </div>
@@ -378,7 +382,7 @@ export default React.forwardRef((props, ref) => {
             <Box dir='row' justify='center'>
               <div className='doc-button' onClick={props.hideTripChangesModal} role='button' tabIndex={0}>Wait no</div>
               <Queue size={15} />
-              <div className='doc-button alarm' onClick={() => { props.moveToTrip(props.cachedPerson); props.hideTripChangesModal(); }} role='button' tabIndex={0}>Admit</div>
+              <div className='doc-button alarm' onClick={() => { props.admitToTrip(props.cachedPerson); props.hideTripChangesModal(); }} role='button' tabIndex={0}>Admit</div>
             </Box>
           </Box>
         </Modal>

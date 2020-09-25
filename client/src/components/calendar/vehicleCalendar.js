@@ -9,6 +9,7 @@ import DOCLoading from '../doc-loading';
 import { appError, getVehicles, fetchVehicleAssignments } from '../../actions';
 import './calendar.scss';
 import './event-modal.scss';
+import utils from '../../utils';
 
 class VehicleCalendar extends Component {
   constructor(props) {
@@ -130,11 +131,11 @@ class VehicleCalendar extends Component {
               {`Email: ${selectedEvent.requester.email} | Phone: ${selectedEvent.requester.phone ? selectedEvent.requester.phone : 'N/A'}`}
             </div>
             <div id='event-key-detail-row'>
-
-              {this.formatDate(selectedEvent.assigned_pickupDate,
+              {utils.dates.formatDateAndTime(new Date(selectedEvent.assigned_pickupDateAndTime), 'LONG')} - {utils.dates.formatDateAndTime(new Date(selectedEvent.assigned_returnDateAndTime), 'LONG')}
+              {/* {this.formatDate(selectedEvent.assigned_pickupDate,
                 selectedEvent.assigned_returnDate,
                 selectedEvent.assigned_pickupTime,
-                selectedEvent.assigned_returnTime)}
+                selectedEvent.assigned_returnTime)} */}
             </div>
             {selectedEvent.request.requestType === 'TRIP'
               ? (
@@ -143,12 +144,11 @@ class VehicleCalendar extends Component {
                     {trip.title}
                   </div>
                   <div id='event-key-detail-row'>
-
-                    {this.formatDate(trip.startDate,
+                    {utils.dates.formatDateAndTime(new Date(trip.startDateAndTime), 'LONG')} - {utils.dates.formatDateAndTime(new Date(trip.endDateAndTime), 'LONG')}
+                    {/* {this.formatDate(trip.startDate,
                       trip.endDate,
                       trip.startTime,
-                      trip.endTime)}
-
+                      trip.endTime)} */}
                   </div>
                   <div id='event-key-detail-row'>
                     {this.getCoLeaders(trip.leaders)}

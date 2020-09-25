@@ -8,7 +8,7 @@ import RequestGear from '../request-gear';
 import Badge from '../../badge';
 import DOCLoading from '../../doc-loading';
 import Text from '../../text';
-import { addToPending, editUserGear } from '../../../actions';
+import { applyToTrip, editUserGear } from '../../../actions';
 import * as constants from '../../../constants';
 import '../../trips/trip-card.scss';
 import '../trip-details.scss';
@@ -83,7 +83,7 @@ class TripDetailsBasic extends Component {
 
   signUpForTrip = () => {
     this.setState({ actionPending: true });
-    this.props.addToPending({
+    this.props.applyToTrip({
       id: this.props.trip._id,
       trippeeGear: this.state.requestedGear,
     }).then(() => {
@@ -302,4 +302,4 @@ const mapStateToProps = state => (
     user: state.user.user,
   }
 );
-export default withRouter(connect(mapStateToProps, { addToPending, editUserGear })(TripDetailsBasic));
+export default withRouter(connect(mapStateToProps, { applyToTrip, editUserGear })(TripDetailsBasic));

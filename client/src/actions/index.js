@@ -182,7 +182,7 @@ export function toggleTripLeadership(id, member) {
   };
 }
 
-export function addToPending(signUpInfo) {
+export function applyToTrip(signUpInfo) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios.post(`${constants.BACKEND_URL}/trips/apply/${signUpInfo.id}`, signUpInfo)
@@ -198,15 +198,15 @@ export function addToPending(signUpInfo) {
   };
 }
 
-export function joinTrip(tripID, joiningUserID) {
+export function rejectFromTrip(tripID, rejectedUserID) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.post(`${constants.BACKEND_URL}/trips/join/${tripID}`, { joiningUserID })
+      axios.post(`${constants.BACKEND_URL}/trips/reject/${tripID}`, { rejectedUserID })
         .then(() => {
           fetchTrip(tripID)(dispatch);
-          resolve();
+          setTimeout(() => resolve(), 1000);
         }).catch((error) => {
-          dispatch(appError(`Error joining trip: ${error.message}`));
+          dispatch(appError(`Error rejecting from trip: ${error.message}`));
           console.log(error);
           reject(error);
         });
@@ -214,10 +214,26 @@ export function joinTrip(tripID, joiningUserID) {
   };
 }
 
-export function moveToPending(tripID, rejectedUserID) {
+export function admitToTrip(tripID, admittedUserID) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.post(`${constants.BACKEND_URL}/trips/reject/${tripID}`, { rejectedUserID })
+      axios.post(`${constants.BACKEND_URL}/trips/admit/${tripID}`, { admittedUserID })
+        .then(() => {
+          fetchTrip(tripID)(dispatch);
+          resolve();
+        }).catch((error) => {
+          dispatch(appError(`Error admitting trip: ${error.message}`));
+          console.log(error);
+          reject(error);
+        });
+    });
+  };
+}
+
+export function unAdmitToTrip(tripID, unAdmittedUserID) {
+  return (dispatch) => {
+    return new Promise((resolve, reject) => {
+      axios.post(`${constants.BACKEND_URL}/trips/unadmit/${tripID}`, { unAdmittedUserID })
         .then(() => {
           fetchTrip(tripID)(dispatch);
           resolve();

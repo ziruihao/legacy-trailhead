@@ -286,6 +286,10 @@ button {
     .doc-button {
         z-index: 1;
     }
+
+    tr:hover {
+        cursor: pointer;
+    }
     
     td {
         vertical-align: middle;

@@ -9,7 +9,7 @@ import TripDetailsFull from './full/trip-details-full';
 import DOCLoading from '../doc-loading';
 import Text from '../text';
 import * as constants from '../../constants';
-import { toggleTripLeadership, fetchTrip, joinTrip, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripLeftStatus, toggleTripReturnedStatus, appError } from '../../actions';
+import { toggleTripLeadership, fetchTrip, admitToTrip, unAdmitToTrip, deleteTrip, applyToTrip, rejectFromTrip, editUserGear, leaveTrip, toggleTripLeftStatus, toggleTripReturnedStatus, appError } from '../../actions';
 import confirmCancel from './confirm-cancel.svg';
 
 class TripDetails extends Component {
@@ -83,15 +83,15 @@ class TripDetails extends Component {
     this.props.appError('You can\'t edit your gear after you\'ve been approved for a trip');
   }
 
-  moveToTrip = (pender) => {
-    this.props.joinTrip(this.props.trip._id, pender.user._id)
+  admitToTrip = (pender) => {
+    this.props.admitToTrip(this.props.trip._id, pender.user._id)
       .then(() => {
         this.getProfiles();
       });
   }
 
-  leaveTrip = (pender) => {
-    this.props.leaveTrip(this.props.trip._id, pender.user._id)
+  rejectFromTrip = (pender) => {
+    this.props.rejectFromTrip(this.props.trip._id, pender.user._id)
       .then(() => {
         this.getProfiles();
       });
@@ -105,8 +105,8 @@ class TripDetails extends Component {
       });
   }
 
-  moveToPending = (member) => {
-    this.props.moveToPending(this.props.trip._id, member.user._id)
+  unAdmitToTrip = (member) => {
+    this.props.unAdmitToTrip(this.props.trip._id, member.user._id)
       .then(() => {
         this.getProfiles();
       });
@@ -181,10 +181,10 @@ class TripDetails extends Component {
             role={this.state.role}
             onTextChange={this.onTextChange}
             deleteTrip={this.deleteTrip}
-            moveToTrip={this.moveToTrip}
-            leaveTrip={this.leaveTrip}
+            admitToTrip={this.admitToTrip}
+            rejectFromTrip={this.rejectFromTrip}
             toggleTripLeadership={this.toggleTripLeadership}
-            moveToPending={this.moveToPending}
+            unAdmitToTrip={this.unAdmitToTrip}
             copyPendingToClip={this.copyPendingToClip}
             copyOnTripToClip={this.copyOnTripToClip}
             toggleTripLeftStatus={this.toggleTripLeftStatus}
@@ -249,5 +249,5 @@ const mapStateToProps = state => (
   }
 );
 export default withRouter(connect(mapStateToProps, {
-  fetchTrip, joinTrip, toggleTripLeadership, moveToPending, deleteTrip, addToPending, editUserGear, leaveTrip, toggleTripLeftStatus, toggleTripReturnedStatus, appError,
+  fetchTrip, admitToTrip, toggleTripLeadership, unAdmitToTrip, deleteTrip, applyToTrip, rejectFromTrip, editUserGear, leaveTrip, toggleTripLeftStatus, toggleTripReturnedStatus, appError,
 })(TripDetails));

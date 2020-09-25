@@ -562,7 +562,7 @@ class OPOVehicleRequest extends Component {
             <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatTime(new Date(assignment.assigned_pickupDateAndTime))}
+                : utils.dates.formatTime(new Date(assignment.assigned_pickupDateAndTime), { includeTimezone: true })}
             </Box>
 
             <Box dir='row' align='center' height={60} className='p1'>
@@ -574,7 +574,7 @@ class OPOVehicleRequest extends Component {
             <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatTime(new Date(assignment.assigned_returnDateAndTime))}
+                : utils.dates.formatTime(new Date(assignment.assigned_returnDateAndTime), { includeTimezone: true })}
             </Box>
 
             <Box dir='row' align='center' height={60} className='p1'>
@@ -681,11 +681,11 @@ class OPOVehicleRequest extends Component {
 
                 <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.pickupDateAndTime), 'LONG')}</Box>
 
-                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.pickupDateAndTime))}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.pickupDateAndTime), { includeTimezone: true })}</Box>
 
                 <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.returnDateAndTime), 'LONG')}</Box>
 
-                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.returnDateAndTime))}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.returnDateAndTime), { includeTimezone: true })}</Box>
 
                 <Box dir='row' align='center' height={60} className='p1'> - </Box>
                 {assignment

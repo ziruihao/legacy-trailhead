@@ -33,9 +33,9 @@ const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
 export const formatDateAndTime = (date, mode) => {
   if (mode === 'LONG') {
-    return dateFormat(date, 'ddd, m/d/yy @ h:MM TT Z');
+    return dateFormat(date, 'ddd, m/d @ h:MM TT Z');
   } else if (mode === 'SHORT') {
-    return dateFormat(date, 'm/d/yy, h:MM TT');
+    return dateFormat(date, 'm/d, h:MM TT');
   } else if (mode === 'NO_YEAR') {
     return dateFormat(date, 'm/d, h:MM TT');
   } else {
@@ -51,8 +51,9 @@ export const formatDate = (date, mode) => {
   }
 };
 
-export const formatTime = (date) => {
-  return dateFormat(date, 'h:MM TT Z');
+export const formatTime = (date, options) => {
+  if (options?.includeTimezone) return dateFormat(date, 'h:MM TT Z');
+  else return dateFormat(date, 'h:MM TT');
 };
 
 export const timezone = () => { return dateFormat(new Date(), 'Z'); };
