@@ -116,8 +116,7 @@ class OPOTrips extends Component {
           hasPendingPcard = trip.pcardStatus === 'pending';
           hasPendingVehicle = trip.vehicleStatus === 'pending';
       }
-      const startDate = new Date(trip.startDate);
-      const hasPassed = startDate < this.now;
+      const hasPassed = new Date(trip.startDateAndTime) < this.now;
       return (!hasPassed && (hasPendingTrippeeGear || hasPendingGear || hasPendingPcard || hasPendingVehicle));
     });
     if (pendingTrips.length === 0) {
@@ -152,8 +151,7 @@ class OPOTrips extends Component {
       const hasPendingGear = trip.gearStatus === 'pending';
       const hasPendingPcard = trip.pcardStatus === 'pending';
       const hasPendingVehicle = trip.vehicleStatus === 'pending';
-      const startDate = new Date(trip.startDate);
-      const hasPassed = startDate < this.now;
+      const hasPassed = new Date(trip.startDateAndTime) < this.now;
       return (hasPassed || (!hasPendingTrippeeGear && !hasPendingGear && !hasPendingPcard && !hasPendingVehicle));
     });
     const filteredTrips = approvedTrips.filter((trip) => {

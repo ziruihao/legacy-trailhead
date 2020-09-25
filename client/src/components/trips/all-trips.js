@@ -135,10 +135,10 @@ class AllTrips extends Component {
         tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !utils.dates.inThePast(trip.startDateAndTime)));
         break;
       case 'Specific day':
-        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, this.state.startDate)));
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod, this.state.startDate)));
         break;
       default:
-        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDate, this.state.selectedTimePeriod, null)));
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod, null)));
     }
 
     if (this.state.seePastTrips) {
