@@ -73,6 +73,16 @@ const Text = (props) => {
     default:
       break;
   }
+  switch (props.spacing) {
+    case 'tight':
+      style.lineHeight = 1.0;
+      break;
+    case 'relaxed':
+      style.lineHeight = 1.5;
+      break;
+    default:
+      style.lineHeight = 1.0;
+  }
   return (
     <div id={props.id} className={props.className} style={style}>{props.children}</div>
   );
