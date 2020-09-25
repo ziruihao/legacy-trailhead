@@ -4,6 +4,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import { Stack, Queue, Divider, Box } from './layout';
 import Field from './field';
 import Text from './text';
+import utils from '../utils';
 import CoLeadersAutoComplete from './coLeadersAutoComplete';
 import Toggle from './toggle';
 import DOCLoading from './doc-loading';
@@ -82,16 +83,21 @@ const DatesLocation = (props) => {
       <Stack size={50} />
       <Text type='h2'>Type</Text>
       <Stack size={25} />
-      <Dropdown onSelect={props.onDateLengthChange}>
-        <Dropdown.Toggle className='field create-trip-form-bottom-margin'>
-          <span className='field-dropdown-bootstrap'>{props.dateLength === 'single' ? 'Single-day trip' : 'Multi-day trip'}</span>
-          <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
-        </Dropdown.Toggle>
-        <Dropdown.Menu className='field-dropdown-menu'>
-          <Dropdown.Item eventKey='single'>Single-day trip</Dropdown.Item>
-          <Dropdown.Item eventKey='multi'>Multi-day trip</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+      <Box dir='row' align='center'>
+        <Dropdown onSelect={props.onDateLengthChange}>
+          <Dropdown.Toggle className='field'>
+            <span className='field-dropdown-bootstrap'>{props.dateLength === 'single' ? 'Single-day trip' : 'Multi-day trip'}</span>
+            <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
+          </Dropdown.Toggle>
+          <Dropdown.Menu className='field-dropdown-menu'>
+            <Dropdown.Item eventKey='single'>Single-day trip</Dropdown.Item>
+            <Dropdown.Item eventKey='multi'>Multi-day trip</Dropdown.Item>
+          </Dropdown.Menu>
+        </Dropdown>
+        <Queue size={50} />
+        <Text type='overline'>Your local timezone: {utils.dates.timezone()}</Text>
+      </Box>
+      <Stack size={25} />
       <div className='trip-date-range-inputs'>
         <div className='page-sub-headers'>
           <Text type='h2'>{props.dateLength === 'multi' ? 'Start' : 'Trip'} date</Text>
