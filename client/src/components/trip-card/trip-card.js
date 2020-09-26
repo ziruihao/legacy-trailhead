@@ -15,6 +15,7 @@ import wood from './decals/woodsmen.png';
 import surf from './decals/surf.png';
 import dmbc from './decals/dmbc.png';
 import wsc from './decals/wsc.png';
+import poc from './decals/poc.jpg';
 
 class TripCard extends React.Component {
   constructor(props) {
@@ -52,6 +53,8 @@ class TripCard extends React.Component {
         return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={mountain} alt='' />;
       case 'Ledyard':
         return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={ledyard} alt='' />;
+      case 'People of Color Outdoors':
+        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={poc} alt='' />;
       default:
         return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={doc} alt='' />;
     }
