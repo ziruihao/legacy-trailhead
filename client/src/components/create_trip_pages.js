@@ -70,6 +70,7 @@ const BasicTripInfo = (props) => {
         <Text type='h2'>Misc.</Text>
         <Toggle id='co-leader-access' value={props.accessValue} onChange={props.toggleAccess} label='Give co-leaders edit access to this trip?' />
         <Toggle id='beginner' value={props.experienceValue} onChange={props.experienceOption} label='Do trippees need prior experience?' />
+        <Toggle id='private' value={props.privateValue} onChange={props.togglePrivate} label='Is this a private trip? (check this if this is just a gear request)' />
       </div>
     </Box>
 
@@ -101,13 +102,13 @@ const DatesLocation = (props) => {
       <div className='trip-date-range-inputs'>
         <div className='page-sub-headers'>
           <Text type='h2'>{props.dateLength === 'multi' ? 'Start' : 'Trip'} date</Text>
-          <input type='date' name='startDate' onChange={props.onDateChange} className={`field create-trip-form-bottom-margin leaders ${props.errorFields.startDate ? 'field-error' : ''}`} value={props.startDate} />
+          <input type='date' name='startDate' onChange={props.onDateChange} className={`field create-trip-form-bottom-margin leaders ${props.errorFields.startDate ? 'field-error' : ''}`} value={props.startDate} placeholder='yyyy-mm-dd' />
         </div>
         {props.dateLength === 'multi'
           ? (
             <div className='page-sub-headers'>
               <Text type='h2'>End date</Text>
-              <input type='date' name='endDate' onChange={props.onDateChange} className={`field create-trip-form-bottom-margin leaders ${props.errorFields.endDate ? 'field-error' : ''}`} value={props.endDate} />
+              <input type='date' name='endDate' onChange={props.onDateChange} className={`field create-trip-form-bottom-margin leaders ${props.errorFields.endDate ? 'field-error' : ''}`} value={props.endDate} placeholder='yyyy-mm-dd' />
             </div>
           )
           : null}
@@ -122,6 +123,7 @@ const DatesLocation = (props) => {
             onChange={props.onFieldChange}
             className={`field create-trip-form-bottom-margin leaders pickupDropoff ${props.errorFields.startTime ? 'field-error' : ''}`}
             value={props.theStartTime}
+            placeholder='hh:mm'
           />
         </div>
         <div className='page-sub-headers'>
@@ -132,6 +134,7 @@ const DatesLocation = (props) => {
             onChange={props.onFieldChange}
             className={`field create-trip-form-bottom-margin leaders pickupDropoff ${props.errorFields.endTime ? 'field-error' : ''}`}
             value={props.theEndTime}
+            placeholder='hh:mm'
           />
         </div>
       </div>
