@@ -639,6 +639,7 @@ class CreateTrip extends Component {
     const trip = {
       title: this.state.title,
       leaders: this.state.leaders,
+      private: this.state.private,
       club,
       experienceNeeded: this.state.experienceNeeded,
       description: this.state.description,
@@ -687,6 +688,7 @@ class CreateTrip extends Component {
             experienceValue={this.state.experienceNeeded}
             accessValue={this.state.access}
             experienceOption={this.handleOptionChange}
+            togglePrivate={(event) => this.setState({ private: event.target.checked })}
             clubOptions={this.props.user.leader_for}
             selectedClub={this.state.club}
             errorFields={this.state.errorFields}
