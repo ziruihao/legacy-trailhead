@@ -100,6 +100,7 @@ class CreateTrip extends Component {
       editMode: false,
       loaded: false,
       showCalendarModal: false,
+      private: false,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
