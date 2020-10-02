@@ -3,13 +3,8 @@
 $trip-card-padding: 15px;
 
 .trip-card {
-  overflow: hidden;
-  width: $trip-card-width;
-  min-width: $trip-card-width;
-  height: 330px;
   position: relative;
-  background: white;
-  box-shadow: $menu-shadow;
+  overflow: hidden;
   border-radius: 10px;
 
   &:hover {
@@ -18,12 +13,10 @@ $trip-card-padding: 15px;
   }
 
   .trip-card-badge-holder {
-    position: absolute;
     z-index: 2; // on top of the decal
+    position: absolute;
     bottom: $trip-card-padding;
     right: $trip-card-padding;
-    width: 40px;
-    height: 40px;
   }
 
   .trip-card-decal {
@@ -31,42 +24,35 @@ $trip-card-padding: 15px;
     position: absolute;
     right: $trip-card-padding;
     top: $trip-card-padding;
-    // right: -15%;
-    // top: -15%;
-    // width: 60%;
     width: 45%;
     height: auto;
     opacity: 0.07;
   }
 
   .trip-card-body {
-    height: 100%;
-    padding: $trip-card-padding;
-    // box-sizing: content-box;
     position: relative;
     overflow: hidden;
 
-    .label-text {
-      margin-bottom: 10px;
+    .trip-card-description {
+      overflow:hidden
     }
+  }
 
-    .trip-card-date {
-      margin-bottom: $trip-card-padding;
-    }
-
-    .trip-card-club {
-      width: fit-content;
-      padding: 0 0.5em;
-      background-color: rgb(229, 205, 190);
-      border-style: solid;
-      border-color: rgb(229, 205, 190);
-      border-radius: 5px;
-      margin-bottom: $trip-card-padding;
-    }
+  #trip-card-blur {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 75px;
+    z-index: 1;
+    background: linear-gradient(0deg, #FAFAFA 25%, rgba(250, 250, 250, 0) 100%);
   }
 }
 
 #create-trip {
+  width: $trip-card-width;
+  height: 330px;
+  padding: $trip-card-padding;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -85,61 +71,17 @@ $trip-card-padding: 15px;
   }
 }
 
-.all-trips-header {
-  margin-bottom: 10px;
-  color:black;
-}
+// input[type=date]::-webkit-inner-spin-button,
+// input[type=date]::-webkit-outer-spin-button {
+//   display: none;
+// }
 
-.all-trips-select {
-  display: inline-block;
-  width:15%;
-  color:rgb(75, 157, 119);
-  background: url(../../img/dropdownarrow.svg);
-  background-repeat: no-repeat;
-  background-position-x: 90%;
-  background-position-y: 50%;
-  margin-right: 1rem;
-
-}
-
-
-input[type=date]::-webkit-inner-spin-button,
-input[type=date]::-webkit-outer-spin-button {
-  display: none;
-}
-
-
-.calendar-container {
-  margin-top: 2vh;
-  height: 90vh;
-  background-color: red;
-  background: red;
-}
-
-.detail-right{
-  text-align:right;
-}
-
-#signup-button{
-  border-color:  rgb(75, 157, 119);
-  background-color:  rgb(75, 157, 119);
-
-}
 .link{
   background-color: rgb(75, 157, 119);
   color:white;
 }
 
-#tiles-modal-open{
-  width: 50%;
-}
-#tiles-modal-closed{
-  width:100%;
-}
-
-
 // Unused
-
 
 #ledyard::after{
   // background-image: url("../../img/ledyard.png");

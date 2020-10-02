@@ -10,7 +10,7 @@ import DOCLoading from '../../doc-loading';
 import Text from '../../text';
 import { applyToTrip, editUserGear } from '../../../actions';
 import * as constants from '../../../constants';
-import '../../trips/trip-card.scss';
+import '../../trip-card/trip-card.scss';
 import '../trip-details.scss';
 import utils from '../../../utils';
 

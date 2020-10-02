@@ -259,7 +259,7 @@ class OPOTripApproval extends Component {
                 />
               </div>
               <div className='ovr-modal-button-container'>
-                <button type='button' className='vrf-submit-button signup-button' onClick={this.copyEmail}>Copy email address</button>
+                <div className='doc-button' onClick={this.copyEmail} role='button' tabIndex={0}>Copy email address</div>
               </div>
             </div>
           </Modal>

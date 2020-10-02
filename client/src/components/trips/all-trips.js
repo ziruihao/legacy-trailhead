@@ -14,7 +14,7 @@ import utils from '../../utils';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import sadTree from './sad-tree.png';
 import './all-trips.scss';
-import './trip-card.scss';
+import '../trip-card/trip-card.scss';
 
 class AllTrips extends Component {
   constructor(props) {
@@ -159,7 +159,7 @@ class AllTrips extends Component {
         <div className="h2">Sorry, we couldn't find any!</div>
         </div>;
     } else {
-      return filteredTrips.map((trip) => <TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.setCurrTrip(trip)}></TripCard>);
+      return filteredTrips.map((trip) => <TripCard type='large' trip={trip} displayInfoBadges user={this.props.user} onClick={() => this.setCurrTrip(trip)} key={trip._id} />);
     }
   }
 

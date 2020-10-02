@@ -86,10 +86,10 @@ class MyTrips extends Component {
       }
       myTrips = sortedTrips.map((trip) => {
         return (
-          <>
-            <TripCard key={trip._id} trip={trip} user={this.props.user} onClick={() => this.props.history.push(`/trip/${trip._id}`)} />
+          <React.Fragment key={trip._id}>
+            <TripCard type='large' trip={trip} displayInfoBadges user={this.props.user} onClick={() => this.props.history.push(`/trip/${trip._id}`)} />
             <Queue size={45} />
-          </>
+          </React.Fragment>
         );
       });
     }
