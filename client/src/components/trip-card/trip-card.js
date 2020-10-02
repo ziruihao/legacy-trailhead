@@ -35,28 +35,28 @@ class TripCard extends React.Component {
     this.setState({ role: roleOnTrip });
   }
 
-  renderDecal = (clubName) => {
+  renderDecal = (clubName, size) => {
     switch (clubName) {
       case 'Cabin and Trail':
-        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={cnt} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={cnt} alt='' />;
       case 'Women in the Wilderness':
-        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wiw} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wiw} alt='' />;
       case 'Surf Club':
-        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={surf} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={surf} alt='' />;
       case 'Mountain Biking':
-        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={dmbc} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={dmbc} alt='' />;
       case 'Winter Sports':
-        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wsc} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wsc} alt='' />;
       case 'Timber Team':
-        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wood} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={wood} alt='' />;
       case 'Mountaineering':
-        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={mountain} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={mountain} alt='' />;
       case 'Ledyard':
-        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={ledyard} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={ledyard} alt='' />;
       case 'People of Color Outdoors':
-        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={poc} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={poc} alt='' />;
       default:
-        return <img className='trip-card-decal' style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={doc} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={doc} alt='' />;
     }
   }
 
@@ -67,12 +67,12 @@ class TripCard extends React.Component {
 
   renderTripDescription = (description) => {
     return description;
-    if (description.length < 200) return description;
-    else return `${description.substring(0, 196)}...`;
+    // if (description.length < 200) return description;
+    // else return `${description.substring(0, 196)}...`;
   }
 
   render() {
-    if (this.props.type === 'large') {
+    if (this.props.type === 'larg') {
       return (
         <>
           <Box className='trip-card doc-card' width={286} height={330} onClick={this.props.onClick} role='button' tabIndex={0}>
@@ -89,7 +89,7 @@ class TripCard extends React.Component {
               )
               : null
               }
-            {this.renderDecal(this.props.trip.club.name)}
+            {this.renderDecal(this.props.trip.club.name, 'large')}
             <Box dir='col' pad={15} className='trip-card-body'>
               <Box dir='row' justify='between' align='start'>
                 <Text type='overline' color='gray'>TRIP #{this.props.trip.number}</Text>
@@ -104,7 +104,7 @@ class TripCard extends React.Component {
               <Stack size={15} />
               <Text type='p2' spacing='relaxed' className='trip-card-description'>{this.renderTripDescription(this.props.trip.description)}</Text>
             </Box>
-            <div id='trip-card-blur' />
+            <div className='trip-card-blur large' />
           </Box>
           <ReactToolTip id={`trip-card-${this.props.trip._id}`} place='bottom'>
             <Box dir='col'>
@@ -113,7 +113,36 @@ class TripCard extends React.Component {
           </ReactToolTip>
         </>
       );
-    } else return null;
+    } else {
+      return (
+        <Box dir='row' justify='between' height={108.5} pad={25} className='trip-card doc-card'>
+          <Box dir='col' justify='center'>
+            <Text type='h3'>{this.renderTripTitle(this.props.trip.location)}</Text>
+            <Stack size={15} />
+            <Text type='overline' color='gray'>{utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))} - {utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
+          </Box>
+          {this.props.displayDescription
+            ? (
+              <>
+                <Queue minSize={25} />
+                <Divider dir='col' size={1} />
+                <Queue minSize={25} />
+                <Box dir='row' width={200} height={58.5} className='trip-card-body'>
+                  <Text type='p2' color='gray' spacing='relaxed' style={{ overflow: 'hidden' }}>{this.props.trip.title}: {this.props.trip.description}</Text>
+                  {/* <div className='trip-card-blur small' /> */}
+                </Box>
+                {/* <Box dir='col' justify='center'>
+                  <Text type='p2' className='trip-club-tag'>{this.props.trip.club.name}</Text>
+                </Box> */}
+              </>
+            )
+            : <Queue size={158.5} />
+          }
+          <Queue size={108.5} />
+          {this.renderDecal(this.props.trip.club.name, 'small')}
+        </Box>
+      );
+    }
   }
 }
 

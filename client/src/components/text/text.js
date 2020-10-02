@@ -84,7 +84,7 @@ const Text = (props) => {
       style.lineHeight = 1.0;
   }
   return (
-    <div id={props.id} className={props.className} style={style}>{props.children}</div>
+    <div id={props.id} className={props.className} style={{ ...style, ...props.style }}>{props.children}</div>
   );
 };
 

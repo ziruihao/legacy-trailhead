@@ -87,7 +87,7 @@ class MyTrips extends Component {
       myTrips = sortedTrips.map((trip) => {
         return (
           <React.Fragment key={trip._id}>
-            <TripCard type='large' trip={trip} displayInfoBadges user={this.props.user} onClick={() => this.props.history.push(`/trip/${trip._id}`)} />
+            <TripCard type='large' trip={trip} displayInfoBadges user={this.props.user} displayDescription onClick={() => this.props.history.push(`/trip/${trip._id}`)} />
             <Queue size={45} />
           </React.Fragment>
         );

@@ -123,11 +123,13 @@ class OPOTripApproval extends Component {
   }
 
   copyEmail = (event) => {
+    this.emailRef.current.focus();
     this.emailRef.current.select();
+    console.log(document.getSelection());
     document.execCommand('copy');
     event.target.focus();
     this.props.appError('Email copied to clipboard!');
-    this.setState({ showModal: false });
+    // this.setState({ showModal: false });
   }
 
   openTrippeeProfile = (trippee) => {
@@ -230,6 +232,8 @@ class OPOTripApproval extends Component {
             <Box dir='row' justify='between' align='center' id='approval-navigation'>
               <div className={`doc-button hollow ${this.state.currentStep === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousPage} role='button' tabIndex={0}>Previous</div>
               <a id='email-trip-leader-link' href={`mailto:${this.props.trip.leaders.map(leader => leader.email)}`} target='_blank' rel='noopener noreferrer'>Contact trip leaders</a>
+              <input type='text' ref={this.emailRef} style={{ display: 'none' }} value={this.props.trip.leaders.map(leader => leader.email).join()} />
+              {/* <div className='doc-button' onClick={this.copyEmail} role='button' tabIndex={0}>Copy</div> */}
               <div className='doc-button' onClick={this.nextPage} role='button' tabIndex={0}>
                 {this.state.currentStep === this.state.numOfPages ? 'Back to Trip Approvals' : 'Next'}
               </div>
@@ -244,7 +248,6 @@ class OPOTripApproval extends Component {
               <i className='material-icons close-button' onClick={() => this.setState({ showModal: false })} role='button' tabIndex={0}>close</i>
             </div>
             <Badge type='denied' />
-
             <div className='cancel-content'>
               <p className='cancel-question'>{`Contact ${this.props.trip.owner.name}`}</p>
               <p className='cancel-message'>
@@ -252,7 +255,6 @@ class OPOTripApproval extends Component {
               </p>
               <div className='ovr-modal-button-container'>
                 <input
-                  ref={this.emailRef}
                   type='text'
                   className='ovr-requester-email'
                   defaultValue={this.props.trip.owner.email}

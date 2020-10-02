@@ -159,7 +159,7 @@ class AllTrips extends Component {
         <div className="h2">Sorry, we couldn't find any!</div>
         </div>;
     } else {
-      return filteredTrips.map((trip) => <TripCard type='large' trip={trip} displayInfoBadges user={this.props.user} onClick={() => this.setCurrTrip(trip)} key={trip._id} />);
+      return filteredTrips.map((trip) => <TripCard type='large' trip={trip} displayInfoBadges user={this.props.user} displayDescription  onClick={() => this.setCurrTrip(trip)} key={trip._id} />);
     }
   }
 
