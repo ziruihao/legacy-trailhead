@@ -131,11 +131,7 @@ class VehicleCalendar extends Component {
               {`Email: ${selectedEvent.requester.email} | Phone: ${selectedEvent.requester.phone ? selectedEvent.requester.phone : 'N/A'}`}
             </div>
             <div id='event-key-detail-row'>
-              {utils.dates.formatDateAndTime(new Date(selectedEvent.assigned_pickupDateAndTime), 'LONG')} - {utils.dates.formatDateAndTime(new Date(selectedEvent.assigned_returnDateAndTime), 'LONG')}
-              {/* {this.formatDate(selectedEvent.assigned_pickupDate,
-                selectedEvent.assigned_returnDate,
-                selectedEvent.assigned_pickupTime,
-                selectedEvent.assigned_returnTime)} */}
+              {utils.dates.formatDate(new Date(selectedEvent.assigned_pickupDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(selectedEvent.assigned_pickupDateAndTime), { timezone: true })} - {utils.dates.formatDate(new Date(selectedEvent.assigned_returnTimeAndDate), { weekday: true })} @ {utils.dates.formatTime(new Date(selectedEvent.assigned_returnTimeAndDate), { timezone: true })}
             </div>
             {selectedEvent.request.requestType === 'TRIP'
               ? (
@@ -144,11 +140,7 @@ class VehicleCalendar extends Component {
                     {trip.title}
                   </div>
                   <div id='event-key-detail-row'>
-                    {utils.dates.formatDateAndTime(new Date(trip.startDateAndTime), 'LONG')} - {utils.dates.formatDateAndTime(new Date(trip.endDateAndTime), 'LONG')}
-                    {/* {this.formatDate(trip.startDate,
-                      trip.endDate,
-                      trip.startTime,
-                      trip.endTime)} */}
+                    {utils.dates.formatDate(new Date(trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })} - {utils.dates.formatDate(new Date(trip.endDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.endDateAndTime), { timezone: true })}
                   </div>
                   <div id='event-key-detail-row'>
                     {this.getCoLeaders(trip.leaders)}

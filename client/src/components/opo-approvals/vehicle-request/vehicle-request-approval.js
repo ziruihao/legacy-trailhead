@@ -556,7 +556,7 @@ class OPOVehicleRequest extends Component {
             <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatDate(new Date(assignment.assigned_pickupDateAndTime), 'LONG')}
+                : utils.dates.formatDate(new Date(assignment.assigned_pickupDateAndTime), { weekday: true })}
             </Box>
 
             <Box dir='row' align='center' height={60} className='p1'>
@@ -568,7 +568,7 @@ class OPOVehicleRequest extends Component {
             <Box dir='row' align='center' height={60} className='p1'>
               {assignment.assigned_vehicle.name === 'Enterprise'
                 ? '-'
-                : utils.dates.formatDate(new Date(assignment.assigned_returnDateAndTime), 'LONG')}
+                : utils.dates.formatDate(new Date(assignment.assigned_returnDateAndTime), { weekday: true })}
             </Box>
 
             <Box dir='row' align='center' height={60} className='p1'>
@@ -679,11 +679,11 @@ class OPOVehicleRequest extends Component {
 
                 <Box dir='row' align='center' height={60} className='p1'>{vehicle.passNeeded ? 'Yes' : 'No'} </Box>
 
-                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.pickupDateAndTime), 'LONG')}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.pickupDateAndTime), { weekday: true })}</Box>
 
                 <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.pickupDateAndTime), { includeTimezone: true })}</Box>
 
-                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.returnDateAndTime), 'LONG')}</Box>
+                <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatDate(new Date(vehicle.returnDateAndTime), { weekday: true })}</Box>
 
                 <Box dir='row' align='center' height={60} className='p1'>{utils.dates.formatTime(new Date(vehicle.returnDateAndTime), { includeTimezone: true })}</Box>
 

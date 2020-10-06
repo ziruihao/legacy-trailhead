@@ -31,29 +31,27 @@ const MILLI = {
 
 const MONTHS = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-export const formatDateAndTime = (date, mode) => {
-  if (mode === 'LONG') {
-    return dateFormat(date, 'ddd, m/d @ h:MM TT Z');
-  } else if (mode === 'SHORT') {
-    return dateFormat(date, 'm/d, h:MM TT');
-  } else if (mode === 'NO_YEAR') {
-    return dateFormat(date, 'm/d, h:MM TT');
-  } else {
-    return dateFormat(date, 'm/d hh:MM');
+/**
+ * @param {*} date
+ * @param {*} options weekday, year
+ */
+export const formatDate = (date, options) => {
+  let dateString = 'm/d';
+  if (options?.weekday) {
+    dateString = `ddd, ${dateString}`;
   }
-};
-
-export const formatDate = (date, mode) => {
-  if (mode === 'LONG') {
-    return dateFormat(date, 'ddd, m/d/yy');
-  } else {
-    return dateFormat(date, 'm/d/yy');
+  if (options?.year) {
+    dateString += '/yy';
   }
+  return dateFormat(date, dateString);
 };
 
 export const formatTime = (date, options) => {
-  if (options?.includeTimezone) return dateFormat(date, 'h:MM TT Z');
-  else return dateFormat(date, 'h:MM TT');
+  let dateString = 'h:MM TT';
+  if (options?.military) dateString = `h${dateString}`;
+  else dateString += ' TT';
+  if (options?.timezone) dateString += ' Z';
+  return dateFormat(date, dateString);
 };
 
 export const timezone = () => { return dateFormat(new Date(), 'Z'); };

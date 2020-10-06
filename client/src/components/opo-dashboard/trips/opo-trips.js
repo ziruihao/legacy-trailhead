@@ -155,7 +155,7 @@ class OPOTrips extends Component {
       return (hasPassed || (!hasPendingTrippeeGear && !hasPendingGear && !hasPendingPcard && !hasPendingVehicle));
     });
     const filteredTrips = approvedTrips.filter((trip) => {
-      return trip.title.concat([utils.dates.formatDateAndTime(new Date(trip.startDateAndTime), 'LONG'), trip.leaders[0].name, trip.club.name])
+      return trip.title.concat([`${utils.dates.formatDate(new Date(trip.startDateAndTime), { year: true, weekday: true })}@${utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })}`, trip.leaders[0].name, trip.club.name])
         .toLowerCase().includes(this.state.searchTerm.toLowerCase());
     });
     if (filteredTrips.length === 0) {
@@ -188,7 +188,7 @@ class OPOTrips extends Component {
     return pendingTrips.map(trip => (
       <tr key={trip._id} onClick={() => this.onRowClick(trip._id)}>
         <td>{trip.title}</td>
-        <td>{utils.dates.formatDateAndTime(new Date(trip.startDateAndTime), 'LONG')}</td>
+        <td>{utils.dates.formatDate(new Date(trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })}</td>
         <td>{trip.club.name}</td>
         <td>{trip.owner.name}</td>
         {this.getGearStatus(trip.gearStatus, trip.trippeeGearStatus)}
@@ -202,7 +202,7 @@ class OPOTrips extends Component {
     return approvedTrips.map(trip => (
       <tr key={trip._id} onClick={() => this.onRowClick(trip._id)}>
         <td>{trip.title}</td>
-        <td>{utils.dates.formatDateAndTime(new Date(trip.startDateAndTime), 'LONG')}</td>
+        <td>{utils.dates.formatDate(new Date(trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })}</td>
         <td>{trip.club.name}</td>
         <td>{trip.owner.name}</td>
         {this.getGearStatus(trip.gearStatus, trip.trippeeGearStatus)}

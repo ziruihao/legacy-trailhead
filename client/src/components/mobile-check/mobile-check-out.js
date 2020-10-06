@@ -44,9 +44,9 @@ class MobileCheckOut extends PureComponent {
             <Stack size={18} />
             <Text type='h1'>{`${this.props.trip.title}`}</Text>
             <Stack size={18} />
-            <div className='doc-h3'>{`Start: ${utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'SHORT')}`}</div>
+            <div className='doc-h3'>{`Start: ${utils.dates.formatDate(new Date(this.props.trip.startDateAndTime))} @ ${utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))}`}</div>
             <Stack size={18} />
-            <div className='doc-h3'>{`Return: ${utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'SHORT')}`}</div>
+            <div className='doc-h3'>{`Return: ${utils.dates.formatDate(new Date(this.props.trip.endDateAndTime))} @ ${utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}`}</div>
           </div>
           <Stack size={18} />
           <hr />

@@ -98,7 +98,7 @@ class TripCard extends React.Component {
               <Stack size={15} />
               <Text type='h2'>{this.renderTripTitle(this.props.trip.title)}</Text>
               <Stack size={15} />
-              <Text type='p2'>{utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'NO_YEAR')} - {utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'NO_YEAR')}</Text>
+              <Text type='p2'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime))} {utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))} - {utils.dates.formatDate(new Date(this.props.trip.endDateAndTime))} {utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
               <Stack size={15} />
               <Text type='p2' className='trip-club-tag'>{this.props.trip.club ? this.props.trip.club.name : ''}</Text>
               <Stack size={15} />
@@ -116,10 +116,20 @@ class TripCard extends React.Component {
     } else {
       return (
         <Box dir='row' justify='between' height={108.5} pad={25} className='trip-card doc-card'>
-          <Box dir='col' justify='center'>
+          <Box dir='col' justify=' between'>
             <Text type='h3'>{this.renderTripTitle(this.props.trip.location)}</Text>
-            <Stack size={15} />
-            <Text type='overline' color='gray'>{utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))} - {utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
+            <Stack minSize={15} />
+            <Box dir='row'>
+              <Box dir='col'>
+                <Text type='overline' color='gray'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime), { weekday: true })}</Text>
+                <Text type='overline' color='gray'>{utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))}</Text>
+              </Box>
+              -
+              <Box dir='col'>
+                <Text type='overline' color='gray'>{utils.dates.formatDate(new Date(this.props.trip.endDateAndTime), { weekday: true })}</Text>
+                <Text type='overline' color='gray'>{utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
+              </Box>
+            </Box>
           </Box>
           {this.props.displayDescription
             ? (

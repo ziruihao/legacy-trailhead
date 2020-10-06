@@ -227,13 +227,13 @@ class TripDetailsBasic extends Component {
                 <div className='trip-details-table'>
                   <div className='trip-details-table-row'>
                     <span className='trip-details-table-left p2'>Start</span>
-                    <span className='trip-details-table-right p2'>{utils.dates.formatDateAndTime(new Date(this.props.trip.startDateAndTime), 'LONG')}</span>
+                    <span className='trip-details-table-right p2'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(this.props.trip.startDateAndTime), { timezone: true })}</span>
                   </div>
                   <hr className='trip-details-table-line' />
 
                   <div className='trip-details-table-row'>
                     <span className='trip-details-table-left p2'>End</span>
-                    <span className='trip-details-table-right p2'>{utils.dates.formatDateAndTime(new Date(this.props.trip.endDateAndTime), 'LONG')}</span>
+                    <span className='trip-details-table-right p2'>{utils.dates.formatDate(new Date(this.props.trip.endDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(this.props.trip.endDateAndTime), { timezone: true })}</span>
                   </div>
                   <hr className='trip-details-table-line' />
 

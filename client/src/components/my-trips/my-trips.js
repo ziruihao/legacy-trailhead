@@ -127,12 +127,12 @@ class MyTrips extends Component {
                 if (vehicleReq.requestType === 'TRIP') {
                   reqTitle = vehicleReq.associatedTrip.title;
                   reqLink = `/trip/${vehicleReq.associatedTrip._id}`;
-                  earliest = utils.dates.formatDateAndTime(new Date(vehicleReq.associatedTrip.startDateAndTime), 'SHORT');
-                  latest = utils.dates.formatDateAndTime(new Date(vehicleReq.associatedTrip.endDateAndTime), 'SHORT');
+                  earliest = `${utils.dates.formatDate(new Date(vehicleReq.associatedTrip.startDateAndTime))}@${utils.dates.formatTime(new Date(vehicleReq.associatedTrip.startDateAndTime))}`;
+                  latest = `${utils.dates.formatDate(new Date(vehicleReq.associatedTrip.endDateAndTime))}@${utils.dates.formatTime(new Date(vehicleReq.associatedTrip.endDateAndTime))}`;
                 } else if (vehicleReq.requestType === 'SOLO') {
                   const calc = constants.calculateVehicleRequestDateRange(vehicleReq);
-                  earliest = utils.dates.formatDateAndTime(new Date(calc.earliest), 'SHORT');
-                  latest = utils.dates.formatDateAndTime(new Date(calc.latest), 'SHORT');
+                  earliest = `${utils.dates.formatDate(new Date(calc.earliest))}@${utils.dates.formatTime(new Date(calc.earliest))}`;
+                  latest = `${utils.dates.formatDate(new Date(calc.latest))}@${utils.dates.formatTime(new Date(calc.latest))}`;
                   reqTitle = vehicleReq.requestDetails;
                   reqLink = `/vehicle-request/${vehicleReq._id}`;
                 }

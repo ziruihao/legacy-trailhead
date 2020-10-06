@@ -20,7 +20,7 @@ const ConflictModal = props => (
           <Box dir='col' key={conflict.objectID}>
             <Box dir='row'>
               <Text type='p1'>
-                {conflict.message}: {utils.dates.formatDateAndTime(new Date(conflict.time.start), 'SUPER_SHORT')} - {utils.dates.formatDateAndTime(new Date(conflict.time.end), 'SUPER_SHORT')}
+                {conflict.message}: {utils.dates.formatDate(new Date(conflict.time.start))} {utils.dates.formatTime(new Date(conflict.time.start), { military: true })} - {utils.dates.formatDate(new Date(conflict.time.end))} @ {utils.dates.formatDate(new Date(conflict.time.end), { military: true })}
               </Text>
               <Queue size={25} />
               <Text type='p1 thick'><a href={conflictObjectURL} target='_blank' rel='noopener noreferrer'>[View]</a></Text>

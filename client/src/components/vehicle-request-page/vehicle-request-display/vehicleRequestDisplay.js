@@ -28,14 +28,14 @@ const getAssignment = (vehicleRequest, index) => {
           <Stack size={25} />
           {assignment.assigned_vehicle.name === 'Enterprise'
             ? <Text type='p1' color='gray'>N/A</Text>
-            : <Text type='p1'>{utils.dates.formatDateAndTime(new Date(assignment.assigned_pickupDateAndTime), 'LONG')}</Text>
+            : <Text type='p1'>{utils.dates.formatDate(new Date(assignment.assigned_pickupDateAndTime), { weekday: true })} @ {utils.dates.formatDate(new Date(assignment.assigned_pickupDateAndTime), { timezone: true })}</Text>
       }
           <Stack size={25} />
           <Text type='h3'>Assigned return</Text>
           <Stack size={25} />
           {assignment.assigned_vehicle.name === 'Enterprise'
             ? <Text type='p1' color='gray'>N/A</Text>
-            : <Text type='p1'>{utils.dates.formatDateAndTime(new Date(assignment.assigned_returnDateAndTime), 'LONG')}</Text>
+            : <Text type='p1'>{utils.dates.formatDate(new Date(assignment.assigned_returnDateAndTime), { weekday: true })} @ {utils.dates.formatDate(new Date(assignment.assigned_returnDateAndTime), { timezone: true })}</Text>
           }
           <Stack size={25} />
         </>
@@ -79,11 +79,11 @@ const getVehicles = (vehicleRequest) => {
             <Stack size={25} />
             <Text type='h3'>Pickup</Text>
             <Stack size={25} />
-            <Text type='p1'>{utils.dates.formatDateAndTime(new Date(vehicle.pickupDateAndTime), 'LONG')}</Text>
+            <Text type='p1'>{utils.dates.formatDate(new Date(vehicle.pickupDateAndTime), { weekday: true })} @ {utils.dates.formatDate(new Date(vehicle.pickupDateAndTime), { timezone: true })}</Text>
             <Stack size={25} />
             <Text type='h3'>Return</Text>
             <Stack size={25} />
-            <Text type='p1'>{utils.dates.formatDateAndTime(new Date(vehicle.returnDateAndTime), 'LONG')}</Text>
+            <Text type='p1'>{utils.dates.formatDate(new Date(vehicle.returnDateAndTime), { weekday: true })} @ {utils.dates.formatDate(new Date(vehicle.returnDateAndTime), { timezone: true })}</Text>
             <Stack size={25} />
           </Box>
           <Box dir='col' expand>
