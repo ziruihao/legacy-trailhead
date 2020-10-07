@@ -1,16 +1,17 @@
 import React from 'react';
+import { styleSheet } from '../../constants';
 
 const Text = (props) => {
   const style = { lineHeight: 1.0 };
   switch (props.color) {
     case 'gray':
-      style.color = '#848588';
+      style.color = styleSheet.color.gray2;
       break;
     case 'white':
-      style.color = 'white';
+      style.color = styleSheet.color.white;
       break;
     case 'dark-green':
-      style.color = '#033724';
+      style.color = styleSheet.color.green2;
       break;
     default:
       break;
@@ -39,6 +40,10 @@ const Text = (props) => {
     case 'overline':
       style.fontSize = 16;
       style.fontWeight = 400;
+      break;
+    case 'button':
+      style.fontSize = 18;
+      style.fontWeight = 600;
       break;
     default:
       break;
