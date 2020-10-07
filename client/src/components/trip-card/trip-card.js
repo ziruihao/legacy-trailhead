@@ -28,11 +28,13 @@ class TripCard extends React.Component {
   }
 
   componentDidMount() {
-    // calculates the final status of the trip
-    const tripStatus = constants.calculateTripStatus(this.props.trip);
-    this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
-    const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
-    this.setState({ role: roleOnTrip });
+    if (this.props.displayInfoBadges) {
+      // calculates the final status of the trip
+      const tripStatus = constants.calculateTripStatus(this.props.trip);
+      this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
+      const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
+      this.setState({ role: roleOnTrip });
+    }
   }
 
   renderDecal = (clubName, size) => {
@@ -72,7 +74,7 @@ class TripCard extends React.Component {
   }
 
   render() {
-    if (this.props.type === 'larg') {
+    if (this.props.type === 'large') {
       return (
         <>
           <Box className='trip-card doc-card' width={286} height={330} onClick={this.props.onClick} role='button' tabIndex={0}>
@@ -90,7 +92,7 @@ class TripCard extends React.Component {
               : null
               }
             {this.renderDecal(this.props.trip.club.name, 'large')}
-            <Box dir='col' pad={15} className='trip-card-body'>
+            <Box dir='col' pad={15} className='trip-card-blur-container'>
               <Box dir='row' justify='between' align='start'>
                 <Text type='overline' color='gray'>TRIP #{this.props.trip.number}</Text>
                 <Text type='overline' color='gray'>{this.props.trip.members.length + this.props.trip.pending.length} signups</Text>
@@ -98,13 +100,13 @@ class TripCard extends React.Component {
               <Stack size={15} />
               <Text type='h2'>{this.renderTripTitle(this.props.trip.title)}</Text>
               <Stack size={15} />
-              <Text type='p2'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime))} {utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))} - {utils.dates.formatDate(new Date(this.props.trip.endDateAndTime))} {utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
+              <Text type='p2'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime))}, {utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))} - {utils.dates.formatDate(new Date(this.props.trip.endDateAndTime))}, {utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
               <Stack size={15} />
               <Text type='p2' className='trip-club-tag'>{this.props.trip.club ? this.props.trip.club.name : ''}</Text>
               <Stack size={15} />
               <Text type='p2' spacing='relaxed' className='trip-card-description'>{this.renderTripDescription(this.props.trip.description)}</Text>
             </Box>
-            <div className='trip-card-blur large' />
+            <div className='trip-card-large-blur' />
           </Box>
           <ReactToolTip id={`trip-card-${this.props.trip._id}`} place='bottom'>
             <Box dir='col'>
@@ -116,18 +118,22 @@ class TripCard extends React.Component {
     } else {
       return (
         <Box dir='row' justify='between' height={108.5} pad={25} className='trip-card doc-card'>
-          <Box dir='col' justify=' between'>
+          <Box dir='col' justify='between'>
             <Text type='h3'>{this.renderTripTitle(this.props.trip.location)}</Text>
             <Stack minSize={15} />
-            <Box dir='row'>
+            <Box dir='row' align='center'>
               <Box dir='col'>
-                <Text type='overline' color='gray'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime), { weekday: true })}</Text>
-                <Text type='overline' color='gray'>{utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))}</Text>
+                <Text type='p2' color='gray'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime), { weekday: true })}</Text>
+                <Stack size={2} />
+                <Text type='p2' color='gray'>{utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))}</Text>
               </Box>
-              -
+              <Queue minSize={10} />
+              <Text type='p2' color='gray'>-</Text>
+              <Queue minSize={10} />
               <Box dir='col'>
-                <Text type='overline' color='gray'>{utils.dates.formatDate(new Date(this.props.trip.endDateAndTime), { weekday: true })}</Text>
-                <Text type='overline' color='gray'>{utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
+                <Text type='p2' color='gray'>{utils.dates.formatDate(new Date(this.props.trip.endDateAndTime), { weekday: true })}</Text>
+                <Stack size={2} />
+                <Text type='p2' color='gray'>{utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
               </Box>
             </Box>
           </Box>
@@ -137,9 +143,8 @@ class TripCard extends React.Component {
                 <Queue minSize={25} />
                 <Divider dir='col' size={1} />
                 <Queue minSize={25} />
-                <Box dir='row' width={200} height={58.5} className='trip-card-body'>
-                  <Text type='p2' color='gray' spacing='relaxed' style={{ overflow: 'hidden' }}>{this.props.trip.title}: {this.props.trip.description}</Text>
-                  {/* <div className='trip-card-blur small' /> */}
+                <Box dir='row' width={200} height={58.5} className='trip-card-blur-container'>
+                  <Text type='p2' color='gray' spacing='relaxed' className='trip-card-description'>{this.props.trip.title}: {this.props.trip.description}</Text>
                 </Box>
                 {/* <Box dir='col' justify='center'>
                   <Text type='p2' className='trip-club-tag'>{this.props.trip.club.name}</Text>

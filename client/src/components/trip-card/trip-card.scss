@@ -37,28 +37,35 @@ $trip-card-padding: 15px;
       top: calc(50px - 70px);
     }
   }
-  
-  .trip-card-body {
+
+  .trip-card-blur-container {
     position: relative;
     overflow: hidden;
-  }
 
-  .trip-card-blur {
-    position: absolute;
-    right: 0;
-    width: 100%;
-    z-index: 1;
-    background: linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0.8) 25%, rgba(250, 250, 250, 0) 100%);
-    
-    &.large {
+    &:after {
+      content: '';
+      text-align: right;
+      position: absolute;
       bottom: 0;
-      height: 75px;
+      right: 0;
+      width: 50%;
+      height: 1em;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(255, 255, 255, 1) 50%);
     }
-    
-    &.small {
-      bottom: -25px;
-      height: 50px;
+
+    .trip-card-description {
+      overflow: hidden;
     }
+  }
+  
+  .trip-card-large-blur {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    background: linear-gradient(0deg, white 0%, rgba(255, 255, 255, 0.8) 25%, rgba(250, 250, 250, 0) 100%);
+    height: 125px;
   }
 }
 
@@ -83,11 +90,6 @@ $trip-card-padding: 15px;
     margin-bottom: 1em;
   }
 }
-
-// input[type=date]::-webkit-inner-spin-button,
-// input[type=date]::-webkit-outer-spin-button {
-//   display: none;
-// }
 
 .link{
   background-color: rgb(75, 157, 119);

@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 import queryString from 'query-string';
 import { Dropdown } from 'react-bootstrap';
 import { signIn, signOut, casAuthed, getUser } from '../../actions';
@@ -9,6 +10,7 @@ import DOCLoading from '../doc-loading';
 import { Stack, Queue, Divider, Box } from '../layout';
 import Icon from '../icon';
 import Text from '../text';
+import TripCard from '../trip-card';
 import CompleteProfile from './complete-profile';
 import * as constants from '../../constants';
 import './gateway.scss';
@@ -19,6 +21,8 @@ class Gateway extends Component {
     this.state = {
       signingIn: false,
       incompleteProfile: false,
+      publicTripsLoaded: false,
+      publicTrips: [],
     };
   }
 
@@ -30,6 +34,11 @@ class Gateway extends Component {
       });
     } else if (this.props.user) {
       this.setState({ incompleteProfile: true });
+    } else {
+      axios.get(`${constants.BACKEND_URL}/trips/public`).then((response) => {
+        console.log(response.data);
+        this.setState({ publicTrips: response.data, publicTripsLoaded: true });
+      });
     }
   }
 
@@ -86,25 +95,52 @@ class Gateway extends Component {
 
   renderAuthOptions = () => {
     return (
-      <div className='landing-card-actions'>
+      <Box dir='row' justify='around' className='landing-card-actions'>
         <div className='doc-button' onClick={() => this.fakeSignIn('cas')} role='button' tabIndex={0}>Login via CAS</div>
-      </div>
+      </Box>
     );
   }
 
   render() {
     return (
-      <div id='landing-page' className={this.state.incompleteProfile ? 'landing-page-onboarding' : ''}>
-        <Box className='landing-card-holder'>
-          {this.state.incompleteProfile
-            ? <CompleteProfile />
-            : (
-              <Box dir='col' className='landing-card doc-card' width={500} pad={50}>
+      <Box dir='row' justify='center' id='landing-page-background' className={this.state.incompleteProfile ? 'onboarding' : ''}>
+        {this.state.incompleteProfile
+          ? <CompleteProfile />
+          : (
+            <>
+              <Box dir='col' width={600} height='100vh' pad={0} className='gateway-trips-list'>
+                <Stack size={100} />
+                <Box dir='row' marg={[0, 0, 0, 25]}>
+                  <Text type='h1' color='dark-green'>Up Next</Text>
+                </Box>
+                <Stack size={25} />
+                {this.state.publicTripsLoaded
+                  ? (
+                    <>
+                      {this.state.publicTrips.map((trip, idx) => (
+                        <>
+                          <TripCard trip={trip} type='small' displayDescription />
+                          {idx < this.state.publicTrips.length - 1
+                            ? <Stack size={25} />
+                            : <Stack size={100} />
+                          }
+                        </>
+                      ))}
+                    </>
+                  )
+                  : (
+                    <Box dir='row' justify='center' align='center' width={700} height={300}>
+                      <DOCLoading type='doc' width={50} height={50} />
+                    </Box>
+                  )
+                }
+              </Box>
+              <Box dir='col' justify='stretch' className='landing-card doc-card' width={500} pad={50} marg={[0, 0, 0, 0]}>
                 <Box dir='row' justify='center'>
                   <Icon type='tree' size={100} />
                 </Box>
                 <Stack size={25} />
-                <Box dir='col' align='center' className='landing-card-message'>
+                <Box dir='col' align='center'>
                   <Text type='h1'>Hello traveler!</Text>
                   <Stack size={25} />
                   <div className='p1 center-text'>
@@ -137,10 +173,10 @@ class Gateway extends Component {
                   : null
                 }
               </Box>
-            )
+            </>
+          )
         }
-        </Box>
-      </div>
+      </Box>
     );
   }
 }

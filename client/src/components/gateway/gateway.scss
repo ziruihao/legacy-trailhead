@@ -1,49 +1,39 @@
 @import '../../styles/base.scss';
 
-#landing-page {
+#landing-page-background {
   height: 100vh;
   width: 100vw;
-  background-image: url(./gateway-phone.svg);
+  overflow: hidden;
+  background-image: url(./background-no-brand.svg);
   background-repeat: no-repeat;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-size: 100vw;
+  overflow-y: scroll;
 
-  &.landing-page-onboarding {
+  &.onboarding {
     background-image: url(./gateway-phone-no-brand.svg) !important;
   }
-
-  .landing-card-holder {
+  
+  .gateway-trips-list {
     position: relative;
-    left: 300px;
-    
-    .landing-card {
-      display: flex;
-      flex-direction: column;
-      justify-content: stretch;
-  
-      &.l {
-        width: 725px;
-      }
-      &.s {
-        width: 500px;
-  
-      }
-  
-      .landing-card-message {
-        // font-size: 24px;
-      }
-      
-      .landing-card-actions {
-        display: flex;
-        justify-content: space-around;
+    top: 0;
+    right: calc(300px);
+
+    @media only screen and (max-width: 1200px) { // [600px] trip list [500px] signin card, [100px] buffer
+      .gateway-trips-list {
+        display: none;
       }
     }
   }
+
+  .landing-card {
+    position: fixed;
+    top: 100px;
+    right: calc(50vw - 600px);
+  }
+
 }
 
-#doc-icon{
+#doc-icon {
   position: absolute;
   left: 2.64%;
   right: 92.5%;

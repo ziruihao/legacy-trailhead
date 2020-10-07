@@ -8,6 +8,7 @@ const Box = (props) => {
   const wrap = props.wrap ? 'wrap' : '';
   const expand = props.expand || false;
   let padding = null;
+  let margin = null;
   let width = null;
   let height = null;
   if (props.width) {
@@ -35,7 +36,16 @@ const Box = (props) => {
       padding = `${props.pad.reduce((prev, curr) => { return `${prev}px ${curr}`; })}px`.trim();
     }
   }
-  const style = { padding, width, minWidth: width, maxWidth: width, height, minHeight: height, maxHeight: height };
+  if (props.marg) {
+    if (typeof props.marg === 'number') {
+      margin = `${props.marg}px`;
+    } else if (typeof props.marg === 'string') {
+      margin = props.marg;
+    } else if (Array.isArray(props.marg)) {
+      margin = `${props.marg.reduce((prev, curr) => { return `${prev}px ${curr}`; })}px`.trim();
+    }
+  }
+  const style = { padding, margin, width, minWidth: width, maxWidth: width, height, minHeight: height, maxHeight: height };
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div id={props.id ? props.id : null} className={`${props.className ? props.className : ''} doc-box doc-box-${props.dir} justify-${justify} align-self-${self} align-${align} ${wrap} ${expand ? 'expand' : ''}`} style={style} onClick={props.onClick} role={props.role} tabIndex={props.tabIndex}>

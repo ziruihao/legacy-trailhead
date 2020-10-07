@@ -9,6 +9,9 @@ const Text = (props) => {
     case 'white':
       style.color = 'white';
       break;
+    case 'dark-green':
+      style.color = '#033724';
+      break;
     default:
       break;
   }

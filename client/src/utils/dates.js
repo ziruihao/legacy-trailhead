@@ -47,7 +47,7 @@ export const formatDate = (date, options) => {
 };
 
 export const formatTime = (date, options) => {
-  let dateString = 'h:MM TT';
+  let dateString = 'h:MM';
   if (options?.military) dateString = `h${dateString}`;
   else dateString += ' TT';
   if (options?.timezone) dateString += ' Z';

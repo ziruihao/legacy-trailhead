@@ -2,23 +2,22 @@ import React from 'react';
 import './layout.scss';
 
 const Stack = (props) => {
-  let height = null;
-  let minHeight = null;
-  const style = { height, minHeight };
+  const style = { height: null, minHeight: null };
   if (props.minSize) {
     if (typeof props.size === 'number') {
-      minHeight = `${props.size}px`;
+      style.minHeight = `${props.size}px`;
     } else if (typeof props.size === 'string') {
       // eslint-disable-next-line prefer-destructuring
-      minHeight = props.size;
+      style.minHeight = props.size;
     }
   } else if (props.size) {
     if (typeof props.size === 'number') {
-      height = `${props.size}px`;
+      style.height = `${props.size}px`;
     } else if (typeof props.size === 'string') {
       // eslint-disable-next-line prefer-destructuring
-      height = props.size;
+      style.height = props.size;
     }
+    style.minHeight = style.height;
   }
   return (
     <div className={`doc-stack${props.expand ? ' expand' : ''}`} style={style} />
