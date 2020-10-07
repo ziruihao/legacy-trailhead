@@ -48,7 +48,16 @@ const Box = (props) => {
   const style = { padding, margin, width, minWidth: width, maxWidth: width, height, minHeight: height, maxHeight: height };
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
-    <div id={props.id ? props.id : null} className={`${props.className ? props.className : ''} doc-box doc-box-${props.dir} justify-${justify} align-self-${self} align-${align} ${wrap} ${expand ? 'expand' : ''}`} style={style} onClick={props.onClick} role={props.role} tabIndex={props.tabIndex}>
+    <div
+      id={props.id ? props.id : null}
+      className={`${props.className ? props.className : ''} doc-box doc-box-${props.dir} justify-${justify} align-self-${self} align-${align} ${wrap} ${expand ? 'expand' : ''}`}
+      style={{ ...style, ...props.style }}
+      onClick={props.onClick}
+      onMouseEnter={props.onMouseEnter}
+      onMouseLeave={props.onMouseLeave}
+      role={props.role || 'button'}
+      tabIndex={props.tabIndex || 0}
+    >
       {props.children}
     </div>
   );
