@@ -1,13 +1,14 @@
 $green: #0CA074;
-$green-faded: #E7F6F1;
+$green-1: #E9F5EC;
 $error-red-deep: #A93A3A;
 $orange: #EE6E52;
 $error-red-light: #FFD8D8;
 $background-light: #FAFAFA;
 $background-dark: #C4C4C4;
 $inactive-text: #C4C4C4;
-$gray-2: #848588;
-$gray-text: #494c50;
+$gray-1: #EDECEC;
+$gray-2: #909090;
+$gray-3: #494c50;
 
 $menu-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
 
@@ -92,7 +93,7 @@ a {
 .label-text {
     font-size: 16px;
     // font-variant: small-caps;
-    color: $gray-text;
+    color: $gray-3;
 }
 
 .p1 {
@@ -135,15 +136,14 @@ a {
     background-color: $inactive-text;
 }
 
-.doc-button {
+.doc-butston {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 0.5em 1em;
-    border-radius: 5px;
+    border-radius: 6px;
     background: $green;
     font-size: 18px;
-    letter-spacing: 5%;
     font-weight: 800;
     white-space: nowrap;
     color: white !important;
@@ -156,6 +156,18 @@ a {
             color: $orange !important;
             background: white;
             border: 3px solid $orange;
+        }
+    }
+
+    &.toggle {
+        color: $green;
+
+        &.active {
+            background-color: $green-1;
+        }
+
+        &:hover {
+            background-color: $green-1;
         }
     }
 
@@ -317,7 +329,7 @@ button {
     .field-label {
         font-size: 18px;
         font-weight: 800;
-        color: $gray-text;
+        color: $gray-3;
     }
 }
 
@@ -327,7 +339,7 @@ button {
     border-radius: 10px;
     padding: 0.7em 1em;
     font-weight: 600;
-    color: $gray-text;
+    color: $gray-3;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -342,7 +354,7 @@ button {
     }
 
     .field-dropdown-bootstrap {
-        color: $gray-text;
+        color: $gray-3;
     }
 
     &~.field-dropdown-menu {

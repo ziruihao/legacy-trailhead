@@ -32,7 +32,7 @@
           padding: 0.7em 1em;
           font-weight: 600;
           font-size: 18px;
-          color: $gray-text;
+          color: $gray-3;
           display: flex;
           justify-content: space-between;
           align-items: center;
@@ -64,7 +64,7 @@
             font-weight: 600;
           }
           ul li.ReactTags__activeSuggestion {
-              background: $green-faded;
+              background: $green-1;
               cursor: pointer;
           }
         }
