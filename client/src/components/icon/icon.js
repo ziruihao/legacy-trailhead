@@ -17,6 +17,7 @@ import cert from './icons/cert-icon.svg';
 import marker from './icons/marker-icon.svg';
 import trip from './icons/trip-icon.svg';
 import vehicle from './icons/vehicle-icon.svg';
+import filter from './icons/filter.svg';
 
 import './icon.scss';
 
@@ -61,6 +62,16 @@ const Icon = (props) => {
       return (<img id={id} className='doc-icon' alt='trip icon' style={style} src={trip} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     case 'vehicle':
       return (<img id={id} className='doc-icon' alt='vehicle icon' style={style} src={vehicle} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
+    case 'filter':
+      return (
+        <div id={id} className='doc-icon' alt='vehicle icon' style={style} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} role='button' tabIndex={0}>
+          <svg width={`${props.size}${measure}`} height={`${props.size}${measure}`} viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'>
+            <path fillRule='evenodd' clipRule='evenodd' d='M0 8V13.5556H50V8H0ZM19.4444 41.3333H30.5555V35.7778H19.4444V41.3333ZM41.6667 27.4445H8.33333V21.8889H41.6667V27.4445Z' />
+          </svg>
+        </div>
+      );
+    // case 'filter':
+    //   return (<img id={id} className='doc-icon' alt='filter icon' style={style} src={filter} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     default:
       return null;
   }
