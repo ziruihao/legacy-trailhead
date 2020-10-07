@@ -4,23 +4,24 @@
   width: calc(4 * 286px + 3 * 30px); // 4 * $trip-card-width + 3 * $trip-card-margin-right
   align-self: center;
 
-  #trip-safari-configs {
-    // width: 100%;
-    display: flex;
-    justify-content: space-between;
+  #trip-safari-menu {
+    transition-duration: 1s;
 
-    .all-trips-date-select {
-      width: auto !important; // to prevent override from createtrip-style.scss
-      margin: 0 !important; // to prevent override from createtrip-style.scss
-      color: $green;
-      background: none;
-    }
+    #trip-safari-configs {
+      transition-duration: 1s;
 
-    .field-dropdown-bootstrap {
-      color: $green !important;
+      .all-trips-date-select {
+        width: auto !important; // to prevent override from createtrip-style.scss
+        margin: 0 !important; // to prevent override from createtrip-style.scss
+        color: $green;
+        background: none;
+      }
+  
+      .field-dropdown-bootstrap {
+        color: $green !important;
+      }
     }
   }
-    
   #trip-tiles {
     display: flex;
     flex-wrap: wrap;
