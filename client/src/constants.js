@@ -3,7 +3,17 @@ export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localho
 // export const BACKEND_URL = 'https://doc-planner.herokuapp.com';
 // export const ROOT_URL = 'http://doc.dartmouth.edu';
 
-export const green = '#0CA074';
+export const styleSheet = {
+  color: {
+    white: 'white',
+    green: '#0CA074',
+    green2: '#033724',
+    orange: '#EE6E52',
+    gray1: '#EDECEC',
+    gray2: '#909090',
+    gray3: '#494c50',
+  },
+};
 
 export const calculateTripStatus = (trip) => {
   const statuses = [{ name: 'Group gear requests', state: trip.gearStatus }, { name: 'Trippee gear requests', state: trip.trippeeGearStatus }, { name: 'P-Card request', state: trip.pcardStatus }, { name: 'Vehicle request', state: trip.vehicleStatus }];
