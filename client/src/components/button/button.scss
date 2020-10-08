@@ -1,26 +1,26 @@
 @import '../../styles/base.scss';
 
-.doc-button {
+.doc-button-new {
   white-space: nowrap;
 
-  &.toggle {
-    fill: $green;
+  // &.toggle {
+  //   fill: $green;
 
-    &.active {
-      background-color: $green-1;
-      filter: none;
-    }
-  }
+  //   &.active {
+  //     background-color: $green-1;
+  //     filter: none;
+  //   }
+  // }
 
-  &.disabled {
+  // &.disabled {
 
-    &.active {
-      cursor: default !important; // {!important} to override element styling
-      filter: none;
-    }
-  }
+  //   &.active {
+  //     cursor: default !important; // {!important} to override element styling
+  //     filter: none;
+  //   }
+  // }
 
-  &.active{
-      filter: brightness(110%);
-  }
+  // &.active{
+  //     filter: brightness(110%);
+  // }
 }

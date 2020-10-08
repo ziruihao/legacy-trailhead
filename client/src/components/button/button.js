@@ -1,28 +1,38 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box } from '../layout';
 import { styleSheet } from '../../constants';
 import './button.scss';
 
 const Button = (props) => {
-  const [active, setActivity] = React.useState(props.active === true);
-  let className = `${props.className} doc-button`;
-  className = active ? `${className} active` : className;
+  const [hover, setHover] = React.useState(false);
+  let className = `${props.className} doc-button-new`;
   const style = { lineHeight: 1.0, borderRadius: '6px', cursor: 'pointer' };
+  useEffect(() => {
+    className = (hover || props.active) ? `${className} active` : className;
+    if ((hover || props.active) && props.color !== 'disabled' && props.type !== 'toggle') {
+      style.filter = 'brightness(110%)';
+      style.cursor = 'pointer';
+    }
+  });
   let primaryColor = '';
   let secondaryColor = '';
+  let tertiaryColor = '';
   switch (props.color) {
     case 'alarm':
       primaryColor = styleSheet.color.orange;
       secondaryColor = styleSheet.color.white;
+      tertiaryColor = styleSheet.color.orange1;
       break;
     case 'disabled':
-      primaryColor = styleSheet.color.gray1;
-      secondaryColor = styleSheet.color.gray2;
+      primaryColor = styleSheet.color.gray3;
+      secondaryColor = styleSheet.color.gray1;
+      tertiaryColor = secondaryColor;
       className += ' disabled';
       break;
     case 'green':
       primaryColor = styleSheet.color.green;
       secondaryColor = styleSheet.color.white;
+      tertiaryColor = styleSheet.color.green1;
       break;
     default:
       primaryColor = styleSheet.color.green;
@@ -40,6 +50,10 @@ const Button = (props) => {
     case 'toggle':
       className += ' toggle';
       style.color = primaryColor;
+      style.fill = primaryColor;
+      if ((hover || props.active)) {
+        style.backgroundColor = tertiaryColor;
+      }
       break;
     case 'link':
       className += ' link';
@@ -55,7 +69,6 @@ const Button = (props) => {
       style.backgroundColor = primaryColor;
       break;
   }
-  console.log(active);
   return (
     <Box
       dir='row'
@@ -63,10 +76,8 @@ const Button = (props) => {
       align='center'
       pad={[9, 18]}
       style={{ ...style, ...props.style }}
-      onMouseEnter={() => setActivity(true)}
-      onMouseLeave={() => {
-        if (!props.active) setActivity(false);
-      }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
       onClick={props.onClick}
       id={props.id}
       className={className}
