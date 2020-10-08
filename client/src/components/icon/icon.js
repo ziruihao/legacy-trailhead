@@ -64,9 +64,30 @@ const Icon = (props) => {
       return (<img id={id} className='doc-icon' alt='vehicle icon' style={style} src={vehicle} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     case 'filter':
       return (
-        <div id={id} className='doc-icon' alt='vehicle icon' style={style} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} role='button' tabIndex={0}>
+        <div id={id} className='doc-icon' alt='filter icon' style={style} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} role='button' tabIndex={0}>
           <svg width={`${props.size}${measure}`} height={`${props.size}${measure}`} viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'>
             <path fillRule='evenodd' clipRule='evenodd' d='M0 8V13.5556H50V8H0ZM19.4444 41.3333H30.5555V35.7778H19.4444V41.3333ZM41.6667 27.4445H8.33333V21.8889H41.6667V27.4445Z' />
+          </svg>
+        </div>
+      );
+    case 'stack':
+      return (
+        <div id={id} className='doc-icon' alt='stack icon' style={style} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} role='button' tabIndex={0}>
+          <svg width={`${props.size}${measure}`} height={`${props.size}${measure}`} viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'>
+            <rect width='50' height='10' />
+            <rect y='20' width='50' height='10' />
+            <rect y='40' width='50' height='10' />
+          </svg>
+        </div>
+      );
+    case 'grid':
+      return (
+        <div id={id} className='doc-icon' alt='grid icon' style={style} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} role='button' tabIndex={0}>
+          <svg width={`${props.size}${measure}`} height={`${props.size}${measure}`} viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'>
+            <rect width='20' height='20' />
+            <rect x='28' width='20' height='20' />
+            <rect x='28' y='30' width='20' height='20' />
+            <rect y='30' width='20' height='20' />
           </svg>
         </div>
       );
