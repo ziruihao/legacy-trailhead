@@ -6,6 +6,7 @@ import { Stack, Queue, Divider, Box } from '../layout';
 import TripDetailsBasic from '../trip-details/basic/trip-details-basic';
 import TripCard from '../trip-card';
 import Toggle from '../toggle';
+import Select from '../select/select';
 import Text from '../text';
 import Icon from '../icon';
 import Button from '../button';
@@ -37,6 +38,8 @@ class AllTrips extends Component {
       startDate: null,
       seePastTrips: false,
       showFilters: false,
+      includeLeaders: [],
+      viewMode: 'tiles',
     };
   }
 
@@ -172,47 +175,126 @@ class AllTrips extends Component {
     }
   }
 
+  renderSafariConfigs = () => {
+    if (this.props.user.role === 'OPO') {
+      return (
+        <Box dir='col' id='trip-safari-configs'>
+          <Box dir='row' justify='between'>
+            <Toggle value={this.state.beginnerOnly}
+              id='defaultCheck2'
+              label='Beginner only'
+              onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
+              disabled={false}
+            />
+            <Toggle value={this.state.returnedTrips}
+              id='defaultCheck2'
+              label='See returned trips'
+              onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
+              disabled={false}
+            />
+            <Toggle value={this.state.ongoingTrips}
+              id='defaultCheck1'
+              label='See ongoing trips'
+              onChange={() => this.setState(prevState => ({ seePastTrips: !prevState.seePastTrips }))}
+              disabled={false}
+            />
+            <Toggle value={this.state.hasGearRequest}
+              id='defaultCheck1'
+              label='Has gear request'
+              onChange={() => this.setState(prevState => ({ seePastTrips: !prevState.seePastTrips }))}
+              disabled={false}
+            />
+          </Box>
+          <Stack size={50} />
+          <Box dir='row' justify='between'>
+            {this.renderClubDropdown()}
+            {this.renderTimePeriodDropdown()}
+            {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
+            <Select updateLeaderValue={(update) => {
+              const updateTrimmed = update.map(u => u.text);
+              this.setState({ includeLeaders: updateTrimmed });
+            }}
+              currentLeaders={this.state.includeLeaders}
+              name='leaders'
+              placeholder='Filter by co-leaders'
+            />
+            <Select updateLeaderValue={(update) => {
+              const updateTrimmed = update.map(u => u.text);
+              this.setState({ includeLeaders: updateTrimmed });
+            }}
+              currentLeaders={this.state.includeLeaders}
+              name='leaders'
+              placeholder='Filter by attendees'
+            />
+          </Box>
+        </Box>
+      );
+    } else {
+      return (
+        <Box dir='row' justify='between' id='trip-safari-configs'>
+          {this.renderClubDropdown()}
+          {this.renderTimePeriodDropdown()}
+          {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
+          <Box dir='col'>
+            <Toggle value={this.state.beginnerOnly}
+              id='defaultCheck2'
+              label='Beginner only'
+              onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
+              disabled={false}
+            />
+            <Toggle value={this.state.seePastTrips}
+              id='defaultCheck1'
+              label='See past trips'
+              onChange={() => this.setState(prevState => ({ seePastTrips: !prevState.seePastTrips }))}
+              disabled={false}
+            />
+          </Box>
+          <Select updateLeaderValue={(update) => {
+            const updateTrimmed = update.map(u => u.text);
+            this.setState({ includeLeaders: updateTrimmed });
+          }}
+            currentLeaders={this.state.includeLeaders}
+            name='leaders'
+            placeholder='Filter by co-leaders'
+          />
+        </Box>
+      );
+    }
+  }
+
   render() {
     return (
       <div id='trips-page' className='center-view spacy'>
         <Box id='trip-safari-menu' dir='col' pad={25} className='doc-card'>
           <Box dir='row' justify='between' align='center'>
             <Text type='h1'>Explore trips</Text>
-            <Button type='toggle' color='green' onClick={() => { this.setState(prevState => ({ showFilters: !prevState.showFilters })); }} active={this.state.showFilters}>
-              <Icon type='filter' size={18} />
+            <Box dir='row'>
+              <Button type='toggle' color='disabled' onClick={() => { this.setState({ viewMode: 'tiles' }); }} active={this.state.viewMode === 'tiles'}>
+                <Icon type='grid' size={18} />
+                <Queue size={9} />
+                <Text type='button'>Tiles</Text>
+              </Button>
               <Queue size={9} />
-              <Text type='button'>Filters</Text>
-            </Button>
+              <Button type='toggle' color='disabled' onClick={() => { this.setState({ viewMode: 'list' }); }} active={this.state.viewMode === 'list'}>
+                <Icon type='stack' size={18} />
+                <Queue size={9} />
+                <Text type='button'>List</Text>
+              </Button>
+              <Queue size={15} />
+              <Divider dir='col' color='gray1' size={3} />
+              <Queue size={15} />
+              <Button type='toggle' color='green' onClick={() => { this.setState(prevState => ({ showFilters: !prevState.showFilters })); }} active={this.state.showFilters}>
+                <Icon type='filter' size={18} />
+                <Queue size={9} />
+                <Text type='button'>Filters</Text>
+              </Button>
+            </Box>
           </Box>
           {this.state.showFilters
             ? (
               <>
                 <Stack size={25} />
-                <Box dir='row' justify='between' align='center' id='trip-safari-configs'>
-                  {this.renderClubDropdown()}
-                  {this.renderTimePeriodDropdown()}
-                  {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
-                  <Toggle value={this.state.beginnerOnly}
-                    id='defaultCheck2'
-                    label='Beginner only'
-                    onChange={() => {
-                      this.setState((prevState) => {
-                        return { beginnerOnly: !prevState.beginnerOnly };
-                      });
-                    }}
-                    disabled={false}
-                  />
-                  <Toggle value={this.state.seePastTrips}
-                    id='defaultCheck1'
-                    label='See past trips'
-                    onChange={() => {
-                      this.setState((prevState) => {
-                        return { seePastTrips: !prevState.seePastTrips };
-                      });
-                    }}
-                    disabled={false}
-                  />
-                </Box>
+                {this.renderSafariConfigs()}
               </>
             )
             : null
