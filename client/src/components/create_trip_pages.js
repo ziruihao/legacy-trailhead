@@ -5,7 +5,7 @@ import { Stack, Queue, Divider, Box } from './layout';
 import Field from './field';
 import Text from './text';
 import utils from '../utils';
-import CoLeadersAutoComplete from './coLeadersAutoComplete';
+import Select from './select/select';
 import Toggle from './toggle';
 import DOCLoading from './doc-loading';
 import dropdownIcon from '../img/dropdown-toggle.svg';
@@ -61,7 +61,7 @@ const BasicTripInfo = (props) => {
       <div className='page-sub-headers'>
         <Text type='h2'>Invite co-leaders</Text>
         {props.loaded
-          ? <CoLeadersAutoComplete updateLeaderValue={props.updateLeaderValue} currentLeaders={props.leaderValue} name='leaders' />
+          ? <Select updateLeaderValue={props.updateLeaderValue} currentLeaders={props.leaderValue} name='leaders' placeholder='Enter email(s)' />
           : <DOCLoading type='cubes' />
       }
 

@@ -647,7 +647,7 @@ export function getVehicles() {
           dispatch({ type: ActionTypes.FETCH_VEHICLES, payload: response.data });
           setTimeout(() => {
             resolve();
-          }, 1000);
+          }, 0);
           // resolve();
         }).catch((error) => {
           dispatch(appError(`Error fetching vehicles : ${error}`));

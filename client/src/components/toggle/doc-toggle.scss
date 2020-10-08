@@ -87,7 +87,7 @@
                 display: block;
             }
             &:checked ~ .disabled-checkmark {
-                background-color: $inactive-text;
+                background-color: $gray-2;
             }
             &:checked ~ .disabled-checkmark:after {
                 display: block;

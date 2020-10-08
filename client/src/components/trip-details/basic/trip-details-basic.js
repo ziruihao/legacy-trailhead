@@ -202,7 +202,7 @@ class TripDetailsBasic extends Component {
                   </Box>
                   <Box width={50} />
                   <Box dir='row' align='center'>
-                    <Text type='overline' weight='thick' color='gray'>{`[${this.props.trip.members.length + this.props.trip.pending.length} signups]`}</Text>
+                    <Text type='overline' weight='thick' color='gray3'>{`[${this.props.trip.members.length + this.props.trip.pending.length} signups]`}</Text>
                   </Box>
                 </Box>
                 <Stack size={25} />

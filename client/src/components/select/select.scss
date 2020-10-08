@@ -1,0 +1,80 @@
+@import '../../styles/base.scss';
+
+.doc-select {
+  .ReactTags__tags {
+    .ReactTags__tagInputField {
+      border: 2px solid $gray-2 !important;
+      background: white !important;
+      border-radius: 10px;
+      padding: 0.5em 1em;
+      font-size: 18px;
+      font-weight: 600;
+      color: $gray-4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+  
+      &:focus {
+          border: 2px solid $green !important;
+          outline: none; // overrides browser default
+      }
+    }
+  
+    .ReactTags__suggestions {
+      position: absolute;
+      z-index: 2;
+  
+      ul {
+        list-style-type: none;
+        box-shadow: .05em .01em .5em rgba(0,0,0,.2);
+        background: white;
+        padding-left: 0 !important; // disables some weird react-bootstrap styling
+      }
+      li {
+        border-bottom: 1px solid #ddd;
+        padding: 5px 10px;
+      }
+      li mark {
+        color: $green;
+        // text-decoration: underline;
+        background: none;
+        font-weight: 600;
+      }
+      ul li.ReactTags__activeSuggestion {
+          background: $green-1;
+          cursor: pointer;
+      }
+    }
+  
+    .ReactTags__selected {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 1em;
+  
+      > * {
+        margin-right: 1em;
+      }
+  
+      .ReactTags__tag {
+        background-color: white;
+        color:$green;
+        border: 2px solid $green;
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 0.5em 1em;
+        border-radius: 1em;
+        margin-bottom: 1em;
+  
+        .ReactTags__remove {
+          font-size: 1em;
+          font-weight: 100;
+          margin-left: 1em;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

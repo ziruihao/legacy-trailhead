@@ -3,12 +3,10 @@ $green-1: #E9F5EC;
 $error-red-deep: #A93A3A;
 $orange: #EE6E52;
 $error-red-light: #FFD8D8;
-$background-light: #FAFAFA;
-$background-dark: #C4C4C4;
-$inactive-text: #C4C4C4;
 $gray-1: #EDECEC;
-$gray-2: #909090;
-$gray-3: #494c50;
+$gray-2: #C4C4C4;
+$gray-3: #909090;
+$gray-4: #494c50;
 
 $menu-shadow: 5px 5px 20px rgba(0, 0, 0, 0.25);
 
@@ -24,7 +22,7 @@ $trip-card-margin-right: 30px;
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    background-color: $background-light;
+    background-color: $gray-1;
 
     &:not(.user-is-tabbing) {
         *[role=button], button:focus {
@@ -49,7 +47,7 @@ $trip-card-margin-right: 30px;
 
 * {
     font-family: 'Nunito Sans', 'Open Sans', sans-serif;
-    letter-spacing: 0.05em;
+    letter-spacing: 5%;
     box-sizing: border-box;
 }
 
@@ -93,7 +91,7 @@ a {
 .label-text {
     font-size: 16px;
     // font-variant: small-caps;
-    color: $gray-3;
+    color: $gray-4;
 }
 
 .p1 {
@@ -122,7 +120,7 @@ a {
 }
 
 .gray {
-    color: $gray-2;
+    color: $gray-3;
 }
 
 .italics {
@@ -133,10 +131,10 @@ a {
     width: 100%;
     height: 0.1px;
     margin-top: 0; // override for react-boostrap
-    background-color: $inactive-text;
+    background-color: $gray-2;
 }
 
-.doc-butston {
+.doc-button {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -198,7 +196,7 @@ button {
     font-size: 2em;
     // margin-top: 10px;
     // margin-right: 10px;
-    color: $gray-2;
+    color: $gray-3;
     cursor: pointer;
   
     &:hover{
@@ -296,7 +294,7 @@ button {
 }
 
 .doc-bordered {
-    border: 2px solid $inactive-text;
+    border: 2px solid $gray-2;
     border-radius: 5px;
 }
 
@@ -329,17 +327,18 @@ button {
     .field-label {
         font-size: 18px;
         font-weight: 800;
-        color: $gray-3;
+        color: $gray-4;
     }
 }
 
 .field {
-    border: 2px solid $inactive-text !important;
+    border: 2px solid $gray-2 !important;
     background: white !important;
     border-radius: 10px;
-    padding: 0.7em 1em;
+    padding: 0.5em 1em;
+    font-size: 18px;
     font-weight: 600;
-    color: $gray-3;
+    color: $gray-4;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -354,7 +353,7 @@ button {
     }
 
     .field-dropdown-bootstrap {
-        color: $gray-3;
+        color: $gray-4;
     }
 
     &~.field-dropdown-menu {
@@ -372,8 +371,8 @@ button {
         border: 2px solid $error-red-deep !important;
     }
     &.field-disabled {
-        color: $inactive-text !important;
-        background: $background-light !important;
+        color: $gray-2 !important;
+        background: $gray-1 !important;
         font-style: italic;
 
         &:focus {

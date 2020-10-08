@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactLoading from 'react-loading';
-import { green } from '../../constants';
+import { styleSheet } from '../../constants';
 import logo from './doc-logo.svg';
 import './doc-loading.scss';
 
@@ -12,7 +12,7 @@ const DOCLoading = (props) => {
         ? (
           <img id='doc-loader-image' src={logo} alt='logo' style={{ height: `${props.height}${measure}`, width: `${props.width}${measure}` }} />
         )
-        : <ReactLoading {...props} height={`${props.height}${measure}`} width={`${props.width}${measure}`} color={green} />
+        : <ReactLoading {...props} height={`${props.height}${measure}`} width={`${props.width}${measure}`} color={styleSheet.color.green} />
     }
     </div>
   );

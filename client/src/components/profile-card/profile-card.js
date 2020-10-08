@@ -166,73 +166,73 @@ class ProfileCard extends React.Component {
           <Stack size={25} />
           <div id='profile-card-info'>
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Pronouns
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.user.pronoun ? this.props.user.pronoun : 'Please fill out'}
               </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 DASH
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.user.dash_number ? this.props.user.dash_number : 'Please fill out'}
               </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Clothing Size
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.user.clothe_size ? this.props.user.clothe_size : 'Please fill out'}
               </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Shoe Size
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.user.shoe_size ? this.props.user.shoe_size : 'Please fill out'}
               </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Height
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.user.height ? this.props.user.height : 'Please fill out'}
               </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Allergies/Dietary Restrictions
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.user.allergies_dietary_restrictions ? this.props.user.allergies_dietary_restrictions : 'Please fill out'}
               </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Relevant Medical Conditions
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.user.medical_conditions ? this.props.user.medical_conditions : 'Please fill out'}
               </Text>
             </Box>
             <Stack size={15} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_cert_change ? 'Driver Certifications*' : 'Driver Certifications'}
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {displayCertifications(this.props.user.driver_cert, this.props.user.trailer_cert, this.props.user.has_pending_cert_change)}
               </Text>
             </Box>
@@ -240,7 +240,7 @@ class ProfileCard extends React.Component {
             {this.props.user.role !== 'OPO'
               ? (
                 <Box className='profile-card-row'>
-                  <Text type='h3' color='gray'>
+                  <Text type='h3' color='gray3'>
                     {(this.props.asProfilePage || this.props.completeProfileMode) && this.props.user.has_pending_leader_change ? 'DOC Leadership*' : 'DOC Leadership'}
                   </Text>
                   <div id='profile-card-clubs' className='card-info p2' onClick={() => this.setState(prevState => ({ showClubs: !prevState.showClubs }))} role='button' tabIndex={0}>
@@ -327,10 +327,10 @@ class ProfileCard extends React.Component {
           <Stack size={25} />
           <div id='profile-card-info'>
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Pronouns
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 <Field
                   type='text'
                   name='pronoun'
@@ -344,10 +344,10 @@ class ProfileCard extends React.Component {
             </Box>
             <Stack size={5} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 DASH
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 <Field
                   type='number'
                   id='dash_number'
@@ -362,28 +362,28 @@ class ProfileCard extends React.Component {
             </Box>
             <Stack size={5} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Clothing Size
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.renderClothingSizeSelection()}
               </Text>
             </Box>
             <Stack size={5} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Shoe Size
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.renderShoeSizeSelection()}
               </Text>
             </Box>
             <Stack size={5} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Height
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 <Field
                   type='text'
                   name='height'
@@ -396,10 +396,10 @@ class ProfileCard extends React.Component {
             </Box>
             <Stack size={5} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Allergies/Dietary Restrictions
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 <Field
                   className={`field ${this.props.errorFields.allergies_dietary_restrictions ? '' : ''}`}
                   type='text'
@@ -413,10 +413,10 @@ class ProfileCard extends React.Component {
             </Box>
             <Stack size={5} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Relevant Medical Conditions
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 <Field
                   type='text'
                   name='medical'
@@ -432,22 +432,22 @@ class ProfileCard extends React.Component {
             </Box>
             <Stack size={5} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 Driver Certification(s)
                 {/* {this.props.displayCeTextficationFeedback()} */}
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.getCertificationsForm()}
                 <ReactTooltip id='driver-certification-tooltip' place='right'>Please select your highest level of driver certification</ReactTooltip>
               </Text>
             </Box>
             <Stack size={5} />
             <Box className='profile-card-row'>
-              <Text type='h3' color='gray'>
+              <Text type='h3' color='gray3'>
                 DOC Leadership
                 {/* {this.props.displayLeTextrFeedback()} */}
               </Text>
-              <Text type='p2' color='gray'>
+              <Text type='p2' color='gray3'>
                 {this.props.getClubForm()}
               </Text>
             </Box>

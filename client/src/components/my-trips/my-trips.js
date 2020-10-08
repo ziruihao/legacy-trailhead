@@ -66,7 +66,7 @@ class MyTrips extends Component {
         <img src={sadTree} alt='no trips found' />
         <Queue size={50} />
         <Box dir='col' width={400}>
-          <Text type='h2' color='gray'>Ready to Lead?</Text>
+          <Text type='h2' color='gray3'>Ready to Lead?</Text>
           <Stack size={50} />
           <div className='gray thin p1'>
             Only approved DOC leaders can create trips. Existing leaders should update the DOC Leadership field on their profiles to gain access. If you are interested in becoming a leader, visit: https://outdoors.dartmouth.edu/doc/becomeleader.html

@@ -130,7 +130,7 @@ class Gateway extends Component {
                   )
                   : (
                     <Box dir='row' justify='center' align='center' width={700} height={300}>
-                      <DOCLoading type='doc' width={50} height={50} />
+                      <DOCLoading type='spin' width={100} height={100} />
                     </Box>
                   )
                 }

@@ -170,7 +170,7 @@ const PCardRequest = (props) => {
         )
         : (
           <Box dir='row' justify='center' align='center' height={100} className='doc-bordered'>
-            <Text type='p1' color='gray' weight='thin'>You can&apos;t edit requests after they&apos;ve been reviewed</Text>
+            <Text type='p1' color='gray3' weight='thin'>You can&apos;t edit requests after they&apos;ve been reviewed</Text>
           </Box>
         )
       }

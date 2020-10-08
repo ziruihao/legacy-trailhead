@@ -6,12 +6,16 @@ export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localho
 export const styleSheet = {
   color: {
     white: 'white',
+    green1: '#E9F5EC',
     green: '#0CA074',
-    green2: '#033724',
+    green2: '#004F54',
+    green3: '#033724',
+    orange1: '#F5EBE9',
     orange: '#EE6E52',
     gray1: '#EDECEC',
-    gray2: '#909090',
-    gray3: '#494c50',
+    gray2: '#C4C4C4',
+    gray3: '#909090',
+    gray4: '#494c50',
   },
 };
 

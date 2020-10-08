@@ -12,7 +12,7 @@
       width: 100%;
       overflow-x: auto;
       padding: 50px 0;
-      background-color: $background-light;
+      background-color: $gray-1;
     }
     #my-trip-tiles-blur {
       position: absolute;
@@ -21,7 +21,7 @@
       width: 300px;
       height: 100%;
       z-index: 1;
-      background: linear-gradient(270deg, #FAFAFA 0%, rgba(250, 250, 250, 0) 100%);
+      background: linear-gradient(270deg, $gray-1 0%, rgba(250, 250, 250, 0) 100%);
     }
   }
 }

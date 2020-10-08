@@ -4,7 +4,7 @@
 
   .trip-number {
     font-size: 24px;
-    color: $gray-3;
+    color: $gray-4;
     margin-bottom: 10px;
   }
   
@@ -22,7 +22,7 @@
       justify-content: flex-end;
   
       .trip-modal-switch-option {
-        color: $inactive-text;
+        color: $gray-2;
         font-weight: 100;
         margin-left: 15px;
         cursor: pointer;
@@ -50,7 +50,7 @@
 
   .trip-details-table {
     width: 100%;
-    border: 2px solid $inactive-text;
+    border: 2px solid $gray-2;
     border-radius: 5px;
     padding: 1em;
 
@@ -68,7 +68,7 @@
   
       }
       .trip-details-table-right {
-        color: $gray-2;
+        color: $gray-3;
       }
     }
   }

@@ -27,7 +27,7 @@
       min-width: 60%;
 
       &.inactive{
-        color: $inactive-text !important; // if no vehicles are selected, then color it lighter
+        color: $gray-2 !important; // if no vehicles are selected, then color it lighter
       }
     }
   }

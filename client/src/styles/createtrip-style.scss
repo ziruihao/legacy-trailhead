@@ -26,13 +26,13 @@
 
       .ReactTags__tags {
         .ReactTags__tagInputField {
-          border: 2px solid $inactive-text !important;
+          border: 2px solid $gray-2 !important;
           background: white !important;
           border-radius: 10px;
           padding: 0.7em 1em;
           font-weight: 600;
           font-size: 18px;
-          color: $gray-3;
+          color: $gray-4;
           display: flex;
           justify-content: space-between;
           align-items: center;

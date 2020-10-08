@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { WithContext as ReactTags } from 'react-tag-input';
-import * as constants from '../constants';
+import * as constants from '../../constants';
+import './select.scss';
 
 const KeyCodes = {
   comma: 188,
@@ -10,7 +11,7 @@ const KeyCodes = {
 
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-class CoLeadersAutoComplete extends Component {
+class Select extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,22 +49,22 @@ class CoLeadersAutoComplete extends Component {
     if (typeof (this.state.suggestions.find((sugg) => { return sugg.text === tag.text; })) !== 'undefined') {
       this.setState(state => ({ tags: [...state.tags, tag] }), () => this.props.updateLeaderValue(this.state.tags));
     } else {
-      this.setState({ invalid: true });
-      setTimeout(() => { // Animation lasts 1.5 secs
-        this.setState({ invalid: false });
-      }, 1500);
+      // this.setState({ invalid: true });
+      // setTimeout(() => { // Animation lasts 1.5 secs
+      //   this.setState({ invalid: false });
+      // }, 1500);
     }
   }
 
   render() {
     const { tags, suggestions } = this.state;
     return (
-      <div>
+      <div className='doc-select'>
         <h1 className='invalid-email'>
           {this.state.invalid ? '* Invalid email *' : null}
         </h1>
         <ReactTags
-          placeholder='Enter email(s)'
+          placeholder={this.props.placeholder}
           tags={tags}
           suggestions={suggestions}
           handleDelete={this.handleDelete}
@@ -79,4 +80,4 @@ class CoLeadersAutoComplete extends Component {
   }
 }
 
-export default CoLeadersAutoComplete;
+export default Select;

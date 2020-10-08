@@ -238,7 +238,7 @@ const GearRequest = (props) => {
               </Box>
               <Stack size={25} />
               <Box dir='row' justify='center' align='center' height={100} className='doc-bordered'>
-                <Text type='p1' color='gray' weight='thin'>None</Text>
+                <Text type='p1' color='gray3' weight='thin'>None</Text>
               </Box>
             </Box>
           )
@@ -286,7 +286,7 @@ const GearRequest = (props) => {
               </Box>
               <Stack size={25} />
               <Box dir='row' justify='center' align='center' height={100} className='doc-bordered'>
-                <Text type='p1' color='gray' weight='thin'>None</Text>
+                <Text type='p1' color='gray3' weight='thin'>None</Text>
               </Box>
             </Box>
           )}
@@ -442,7 +442,7 @@ const PCardRequest = (props) => {
         <Text type='h1'>P-Card request</Text>
         <Stack size={50} />
         <Box dir='row' justify='center' align='center' height={100} className='doc-bordered'>
-          <Text type='p1' color='gray' weight='thin'>None</Text>
+          <Text type='p1' color='gray3' weight='thin'>None</Text>
         </Box>
       </>
     );

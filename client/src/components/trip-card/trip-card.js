@@ -94,8 +94,8 @@ class TripCard extends React.Component {
             {this.renderDecal(this.props.trip.club.name, 'large')}
             <Box dir='col' pad={15} className='trip-card-blur-container'>
               <Box dir='row' justify='between' align='start'>
-                <Text type='overline' color='gray'>TRIP #{this.props.trip.number}</Text>
-                <Text type='overline' color='gray'>{this.props.trip.members.length + this.props.trip.pending.length} signups</Text>
+                <Text type='overline' color='gray3'>TRIP #{this.props.trip.number}</Text>
+                <Text type='overline' color='gray3'>{this.props.trip.members.length + this.props.trip.pending.length} signups</Text>
               </Box>
               <Stack size={15} />
               <Text type='h2'>{this.renderTripTitle(this.props.trip.title)}</Text>
@@ -123,17 +123,17 @@ class TripCard extends React.Component {
             <Stack minSize={15} />
             <Box dir='row' align='center'>
               <Box dir='col'>
-                <Text type='p2' color='gray'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime), { weekday: true })}</Text>
+                <Text type='p2' color='gray3'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime), { weekday: true })}</Text>
                 <Stack size={2} />
-                <Text type='p2' color='gray'>{utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))}</Text>
+                <Text type='p2' color='gray3'>{utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))}</Text>
               </Box>
               <Queue minSize={10} />
-              <Text type='p2' color='gray'>-</Text>
+              <Text type='p2' color='gray3'>-</Text>
               <Queue minSize={10} />
               <Box dir='col'>
-                <Text type='p2' color='gray'>{utils.dates.formatDate(new Date(this.props.trip.endDateAndTime), { weekday: true })}</Text>
+                <Text type='p2' color='gray3'>{utils.dates.formatDate(new Date(this.props.trip.endDateAndTime), { weekday: true })}</Text>
                 <Stack size={2} />
-                <Text type='p2' color='gray'>{utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
+                <Text type='p2' color='gray3'>{utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
               </Box>
             </Box>
           </Box>
@@ -144,7 +144,7 @@ class TripCard extends React.Component {
                 <Divider dir='col' size={1} />
                 <Queue minSize={25} />
                 <Box dir='row' width={200} height={58.5} className='trip-card-blur-container'>
-                  <Text type='p2' color='gray' spacing='relaxed' className='trip-card-description'>{this.props.trip.title}: {this.props.trip.description}</Text>
+                  <Text type='p2' color='gray3' spacing='relaxed' className='trip-card-description'>{this.props.trip.title}: {this.props.trip.description}</Text>
                 </Box>
                 {/* <Box dir='col' justify='center'>
                   <Text type='p2' className='trip-club-tag'>{this.props.trip.club.name}</Text>

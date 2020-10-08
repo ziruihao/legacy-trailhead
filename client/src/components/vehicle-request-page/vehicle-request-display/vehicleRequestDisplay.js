@@ -27,14 +27,14 @@ const getAssignment = (vehicleRequest, index) => {
           <Text type='h3'>Assigned pickup</Text>
           <Stack size={25} />
           {assignment.assigned_vehicle.name === 'Enterprise'
-            ? <Text type='p1' color='gray'>N/A</Text>
+            ? <Text type='p1' color='gray3'>N/A</Text>
             : <Text type='p1'>{utils.dates.formatDate(new Date(assignment.assigned_pickupDateAndTime), { weekday: true })} @ {utils.dates.formatDate(new Date(assignment.assigned_pickupDateAndTime), { timezone: true })}</Text>
       }
           <Stack size={25} />
           <Text type='h3'>Assigned return</Text>
           <Stack size={25} />
           {assignment.assigned_vehicle.name === 'Enterprise'
-            ? <Text type='p1' color='gray'>N/A</Text>
+            ? <Text type='p1' color='gray3'>N/A</Text>
             : <Text type='p1'>{utils.dates.formatDate(new Date(assignment.assigned_returnDateAndTime), { weekday: true })} @ {utils.dates.formatDate(new Date(assignment.assigned_returnDateAndTime), { timezone: true })}</Text>
           }
           <Stack size={25} />
@@ -173,7 +173,7 @@ class VehicleRequestDisplay extends React.Component {
                   <Queue size={25} />
                   <Divider dir='col' size={1} />
                   <Queue size={25} />
-                  <Text type='h2' color='gray' weight='thin'>TRIP #{this.props.vehicleRequest.associatedTrip.number || this.props.trip.number}</Text>
+                  <Text type='h2' color='gray3' weight='thin'>TRIP #{this.props.vehicleRequest.associatedTrip.number || this.props.trip.number}</Text>
                 </>
               )
               : null

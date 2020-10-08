@@ -3,31 +3,21 @@ import { styleSheet } from '../../constants';
 
 const Text = (props) => {
   const style = { lineHeight: 1.0 };
-  switch (props.color) {
-    case 'gray':
-      style.color = styleSheet.color.gray2;
-      break;
-    case 'white':
-      style.color = styleSheet.color.white;
-      break;
-    case 'dark-green':
-      style.color = styleSheet.color.green2;
-      break;
-    default:
-      break;
-  }
   switch (props.type) {
     case 'h1':
       style.fontSize = 36;
-      style.fontWeight = 800;
+      style.fontWeight = 700;
+      style.color = styleSheet.color.green3;
       break;
     case 'h2':
       style.fontSize = 24;
-      style.fontWeight = 800;
+      style.fontWeight = 700;
+      style.color = styleSheet.color.green3;
       break;
     case 'h3':
       style.fontSize = 18;
-      style.fontWeight = 800;
+      style.fontWeight = 700;
+      style.color = styleSheet.color.green3;
       break;
     case 'p1':
       style.fontSize = 18;
@@ -40,6 +30,7 @@ const Text = (props) => {
     case 'overline':
       style.fontSize = 16;
       style.fontWeight = 400;
+      style.color = styleSheet.color.gray3;
       break;
     case 'button':
       style.fontSize = 18;
@@ -48,6 +39,7 @@ const Text = (props) => {
     default:
       break;
   }
+  if (props.color) style.color = styleSheet.color[props.color];
   switch (props.weight) {
     case 'thin':
       style.fontWeight = 100;
