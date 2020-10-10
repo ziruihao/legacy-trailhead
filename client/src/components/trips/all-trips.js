@@ -205,7 +205,7 @@ class AllTrips extends Component {
               disabled={false}
             />
           </Box>
-          <Stack size={50} />
+          <Stack size={25} />
           <Box dir='row' justify='between'>
             {this.renderClubDropdown()}
             {this.renderTimePeriodDropdown()}
