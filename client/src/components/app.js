@@ -24,7 +24,7 @@ import OPODashboard from './opo-dashboard';
 import VehicleCalendar from './calendar/vehicleCalendar';
 import Gateway from './gateway';
 import FleetManagement from './opo-dashboard/fleet-management';
-import { ROOT_URL, green } from '../constants';
+import { ROOT_URL } from '../constants';
 import { MobileCheckIn, MobileCheckOut } from './mobile-check';
 import CompleteProfile from './gateway/complete-profile';
 import { getUser, authUser, getClubs, getVehicles, clearError } from '../actions';
