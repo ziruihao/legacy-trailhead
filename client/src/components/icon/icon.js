@@ -1,4 +1,5 @@
 import React from 'react';
+import { styleSheet } from '../../constants';
 import edit from './icons/edit-icon.svg';
 import email from './icons/email-icon.svg';
 import phone from './icons/phone-icon.svg';
@@ -25,6 +26,10 @@ const Icon = (props) => {
   const id = props.id || null;
   const measure = props.measure || 'px';
   const style = { width: `${props.size ? `${props.size}${measure}` : '100%'}` };
+  if (props.color) style.fill = styleSheet.color[props.color];
+  console.log(props.type);
+  console.log('\t', props.color);
+  console.log('\t', styleSheet.color[props.color]);
   switch (props.type) {
     case 'edit':
       return (<img id={id} className='doc-icon' alt='approved icon' style={style} src={edit} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
@@ -48,8 +53,14 @@ const Icon = (props) => {
       return (<img id={id} className='doc-icon' alt='warning icon' style={style} src={dropdown} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     case 'tree':
       return (<img id={id} className='doc-icon' alt='warning icon' style={style} src={tree} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
+    // case 'mountain':
+    //   return (<img id={id} className='doc-icon' alt='warning icon' style={style} src={mountain} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     case 'mountain':
-      return (<img id={id} className='doc-icon' alt='warning icon' style={style} src={mountain} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
+      return (
+        <svg width={`${props.size}${measure}`} height={`${props.size}${measure}`} viewBox='0 0 50 50' xmlns='http://www.w3.org/2000/svg'>
+          <path d='M10.5303 18.3185L19.7738 28.456L34.3439 11L50 39.2051H0L10.5303 18.3185Z' />
+        </svg>
+      );
     case 'more':
       return (<img id={id} className='doc-icon' alt='more icon' style={style} src={more} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
     case 'calendar':

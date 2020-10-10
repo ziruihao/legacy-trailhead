@@ -240,7 +240,11 @@ class AllTrips extends Component {
       <div id='trips-page' className='center-view spacy'>
         <Box id='trip-safari-menu' dir='col' pad={25} className='doc-card'>
           <Box dir='row' justify='between' align='center'>
-            <Text type='h1'>Explore trips</Text>
+            <Box dir='row'>
+              <Icon type='mountain' color='green3' size={36} />
+              <Queue size={18} />
+              <Text type='h1'>Explore trips</Text>
+            </Box>
             <Box dir='row'>
               <Button type='toggle' color='disabled' onClick={() => { this.setState({ viewMode: 'tiles' }); }} active={this.state.viewMode === 'tiles'}>
                 <Icon type='grid' size={18} />
