@@ -170,6 +170,7 @@ class MyTrips extends Component {
               onChange={() => this.setState((prevState) => { return { seeTripsImLeading: !prevState.seeTripsImLeading }; })}
               disabled={false}
             />
+            <Queue size={18} />
             <Toggle
               id='see-past-trips-toggle'
               label='See past trips'
