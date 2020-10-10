@@ -19,7 +19,7 @@ class Select extends Component {
       suggestions: [],
       // eslint-disable-next-line react/no-unused-state
       error: null,
-      invalid: false, // invalid ID warning will appear if true
+      // invalid: false, // invalid ID warning will appear if true
     };
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
@@ -60,9 +60,9 @@ class Select extends Component {
     const { tags, suggestions } = this.state;
     return (
       <div className='doc-select'>
-        <h1 className='invalid-email'>
+        {/* <h1 className='invalid-email'>
           {this.state.invalid ? '* Invalid email *' : null}
-        </h1>
+        </h1> */}
         <ReactTags
           placeholder={this.props.placeholder}
           tags={tags}
