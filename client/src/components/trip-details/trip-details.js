@@ -9,6 +9,7 @@ import TripDetailsFull from './full/trip-details-full';
 import DOCLoading from '../doc-loading';
 import Text from '../text';
 import * as constants from '../../constants';
+import utils from '../../utils';
 import { toggleTripLeadership, fetchTrip, admitToTrip, unAdmitToTrip, deleteTrip, applyToTrip, rejectFromTrip, editUserGear, leaveTrip, toggleTripLeftStatus, toggleTripReturnedStatus, appError } from '../../actions';
 import confirmCancel from './confirm-cancel.svg';
 
@@ -40,9 +41,9 @@ class TripDetails extends Component {
     this.props.fetchTrip(this.props.match.params.tripID)
       .then(() => {
         // calculates the final status of the trip
-        const tripStatus = constants.calculateTripStatus(this.props.trip);
+        const tripStatus = utils.trips.calculateTripStatus(this.props.trip);
         this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
-        const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
+        const roleOnTrip = utils.trips.determineRoleOnTrip(this.props.user, this.props.trip);
         this.setState({ role: roleOnTrip });
 
         if (this.props.isLeaderOnTrip) { // populate trip participant emails
@@ -169,8 +170,8 @@ class TripDetails extends Component {
           <TripDetailsFull
             trip={this.props.trip}
             isLeaderOnTrip={this.props.isLeaderOnTrip}
-            onTripEmail={constants.getEmails(this.props.trip.members)}
-            pendingEmail={constants.getEmails(this.props.trip.pending)}
+            onTripEmail={utils.users.extractEmails(this.props.trip.members)}
+            pendingEmail={utils.users.extractEmails(this.props.trip.pending)}
             trippeeProfileOpened={this.state.trippeeProfileOpened}
             openTrippeeProfile={trippeeProfile => this.setState({ trippeeProfileOpened: true, trippeeProfile })}
             trippeeProfile={this.state.trippeeProfile}

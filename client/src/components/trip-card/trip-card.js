@@ -30,9 +30,9 @@ class TripCard extends React.Component {
   componentDidMount() {
     if (this.props.displayInfoBadges) {
       // calculates the final status of the trip
-      const tripStatus = constants.calculateTripStatus(this.props.trip);
+      const tripStatus = utils.trips.calculateTripStatus(this.props.trip);
       this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
-      const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
+      const roleOnTrip = utils.trips.determineRoleOnTrip(this.props.user, this.props.trip);
       this.setState({ role: roleOnTrip });
     }
   }

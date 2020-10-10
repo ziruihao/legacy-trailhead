@@ -13,7 +13,6 @@ import Button from '../button';
 import DOCLoading from '../doc-loading';
 import { fetchTrips, fetchTrip, getClubs, leaveTrip } from '../../actions';
 import utils from '../../utils';
-import { compareTripStartDates } from '../../constants';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import sadTree from './sad-tree.png';
 import './all-trips.scss';
@@ -140,7 +139,7 @@ class AllTrips extends Component {
       tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !trip.experienceNeeded));
     }
 
-    const filteredTrips = tripsFilteringProcess.pop().sort(compareTripStartDates);
+    const filteredTrips = tripsFilteringProcess.pop().sort(utils.trips.compareTripStartDates);
 
     if (filteredTrips.length === 0) {
       return (

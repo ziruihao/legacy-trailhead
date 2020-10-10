@@ -264,7 +264,7 @@ export default React.forwardRef((props, ref) => {
             startDateAndTime={props.trip.startDateAndTime}
             actions={[
               { callback: props.unAdmitToTrip, message: 'Un-admit' },
-              { callback: props.toggleTripLeadership, message: (person) => { if (constants.determineRoleOnTrip(person, props.trip) === 'LEADER') { return 'Demote to trippee'; } else { return 'Make co-leader'; } } },
+              { callback: props.toggleTripLeadership, message: (person) => { if (utils.trips.determineRoleOnTrip(person, props.trip) === 'LEADER') { return 'Demote to trippee'; } else { return 'Make co-leader'; } } },
             ]}
             openProfile={props.openTrippeeProfile}
           />

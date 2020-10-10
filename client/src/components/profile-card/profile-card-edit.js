@@ -8,6 +8,7 @@ import { Stack, Queue, Divider, Box } from '../layout';
 import DOCLoading from '../doc-loading';
 import { appError, clearError, updateUser, getClubs, signOut, getUser, authUser } from '../../actions';
 import ProfileCard from './profile-card';
+import utils from '../../utils';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import './profile.scss';
 
@@ -102,18 +103,10 @@ class ProfileCardEdit extends Component {
       this.setState((prevState) => {
         const updates = {};
         updates[event.target.name] = event.target.value;
-        updates.errorFields = Object.assign({}, prevState.errorFields, { [event.target.name]: this.isStringEmpty(event.target.value) });
+        updates.errorFields = Object.assign({}, prevState.errorFields, { [event.target.name]: utils.isStringEmpty(event.target.value) });
         return updates;
       });
     }
-  }
-
-  isObjectEmpty = (object) => {
-    return Object.entries(object).length === 0 && object.constructor === Object;
-  }
-
-  isStringEmpty = (string) => {
-    return string.length === 0 || !string.toString().trim();
   }
 
   onDriverCertChange = (event) => {
@@ -131,7 +124,7 @@ class ProfileCardEdit extends Component {
     this.setState((prevState) => {
       const updates = {};
       updates.clothe_size = eventKey;
-      updates.errorFields = Object.assign({}, prevState.errorFields, { clothe_size: this.isStringEmpty(eventKey) });
+      updates.errorFields = Object.assign({}, prevState.errorFields, { clothe_size: utils.isStringEmpty(eventKey) });
       return updates;
     });
   }
@@ -140,7 +133,7 @@ class ProfileCardEdit extends Component {
     this.setState((prevState) => {
       const updates = {};
       updates.gender_clothes = eventKey;
-      updates.errorFields = Object.assign({}, prevState.errorFields, { gender_clothes: this.isStringEmpty(eventKey) });
+      updates.errorFields = Object.assign({}, prevState.errorFields, { gender_clothes: utils.isStringEmpty(eventKey) });
       return updates;
     });
   }
@@ -149,7 +142,7 @@ class ProfileCardEdit extends Component {
     this.setState((prevState) => {
       const updates = {};
       updates.gender_shoe = eventKey;
-      updates.errorFields = Object.assign({}, prevState.errorFields, { gender_shoe: this.isStringEmpty(eventKey) });
+      updates.errorFields = Object.assign({}, prevState.errorFields, { gender_shoe: utils.isStringEmpty(eventKey) });
       return updates;
     });
   }
@@ -278,8 +271,8 @@ class ProfileCardEdit extends Component {
       <div>
         <Dropdown onSelect={this.onClotheGenderChange}>
           <Dropdown.Toggle className={`field p2 ${this.state.errorFields.gender_clothes ? '' : ''}`}>
-            <span className={`selected-size ${this.isStringEmpty(this.state.gender_clothes) ? 'no-date' : ''}`}>
-              {this.isStringEmpty(this.state.gender_clothes) ? 'Select' : this.state.gender_clothes}
+            <span className={`selected-size ${utils.isStringEmpty(this.state.gender_clothes) ? 'no-date' : ''}`}>
+              {utils.isStringEmpty(this.state.gender_clothes) ? 'Select' : this.state.gender_clothes}
             </span>
             <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
           </Dropdown.Toggle>
@@ -290,8 +283,8 @@ class ProfileCardEdit extends Component {
         </Dropdown>
         <Dropdown onSelect={this.onClotheSizeChange}>
           <Dropdown.Toggle className={`field p2 ${this.state.errorFields.clothe_size ? '' : ''}`}>
-            <span className={`selected-size ${this.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
-              {this.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
+            <span className={`selected-size ${utils.isStringEmpty(this.state.clothe_size) ? 'no-date' : ''}`}>
+              {utils.isStringEmpty(this.state.clothe_size) ? 'Select size' : this.state.clothe_size}
             </span>
             <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
           </Dropdown.Toggle>
@@ -371,8 +364,8 @@ class ProfileCardEdit extends Component {
     return (
       <Dropdown onSelect={this.onShoeGenderChange}>
         <Dropdown.Toggle className={`field p2 ${this.state.errorFields.gender_shoe ? '' : ''}`}>
-          <span className={`selected-size ${this.isStringEmpty(this.state.gender_shoe) ? 'no-date' : ''}`}>
-            {this.isStringEmpty(this.state.gender_shoe) ? 'Select' : this.state.gender_shoe}
+          <span className={`selected-size ${utils.isStringEmpty(this.state.gender_shoe) ? 'no-date' : ''}`}>
+            {utils.isStringEmpty(this.state.gender_shoe) ? 'Select' : this.state.gender_shoe}
           </span>
           <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
         </Dropdown.Toggle>
@@ -425,7 +418,7 @@ class ProfileCardEdit extends Component {
     let hasEmptyField = false;
     const errorFields = Object.keys(this.errorFields);
     errorFields.forEach((field) => {
-      const isFieldEmpty = this.isStringEmpty(this.state[field]);
+      const isFieldEmpty = utils.isStringEmpty(this.state[field]);
       updates[field] = isFieldEmpty;
       if (isFieldEmpty) {
         hasEmptyField = true;

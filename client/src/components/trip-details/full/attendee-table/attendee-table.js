@@ -1,7 +1,7 @@
 import React from 'react';
 import { Table } from 'react-bootstrap';
 import { Stack, Queue, Divider, Box } from '../../../layout';
-import * as constants from '../../../../constants';
+import utils from '../../../../utils';
 
 const AttendeeTable = (props) => {
   const renderAttendence = (status) => {
@@ -67,7 +67,7 @@ const AttendeeTable = (props) => {
         <Divider size={1} />
         <Stack size={18} />
         <Box dir='row' justify='center' align='stretch' wrap expand>
-          <div className='doc-button' onClick={() => window.open(`mailto:${constants.getEmails(props.people)}`, '_blank')} role='button' tabIndex={0}>Send email to all</div>
+          <div className='doc-button' onClick={() => window.open(`mailto:${utils.users.extractEmails(props.people)}`, '_blank')} role='button' tabIndex={0}>Send email to all</div>
         </Box>
       </>
     );

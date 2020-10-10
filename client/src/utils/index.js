@@ -1,3 +1,14 @@
 import * as dates from './dates';
+import * as trips from './trips';
+import * as users from './users';
 
-export default { dates };
+const isStringEmpty = (string) => {
+  if (string) return isStringEmpty(string.trim());
+  else return true;
+};
+
+const isObjectEmpty = (object) => {
+  return object.constructor === Object && Object.entries(object).length === 0;
+};
+
+export default { dates, trips, users, isStringEmpty, isObjectEmpty };

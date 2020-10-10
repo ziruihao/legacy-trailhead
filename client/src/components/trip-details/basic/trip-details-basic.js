@@ -42,9 +42,9 @@ class TripDetailsBasic extends Component {
 
   componentDidMount() {
     // calculates the final status of the trip
-    const tripStatus = constants.calculateTripStatus(this.props.trip);
+    const tripStatus = utils.trips.calculateTripStatus(this.props.trip);
     this.setState({ status: tripStatus.status, reasons: tripStatus.reasons });
-    const roleOnTrip = constants.determineRoleOnTrip(this.props.user, this.props.trip);
+    const roleOnTrip = utils.trips.determineRoleOnTrip(this.props.user, this.props.trip);
     this.setState({ role: roleOnTrip });
     if (roleOnTrip === 'NONE') this.setState({ editingGear: true });
     else if (roleOnTrip === 'APPROVED' || roleOnTrip === 'LEADER') this.setState({ requestedGear: this.extractUserGear(this.props.trip, this.props.user._id) });

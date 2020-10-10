@@ -12,7 +12,7 @@ import Text from '../../text';
 import Sidebar from '../../sidebar';
 import DOCLoading from '../../doc-loading';
 import AttendeeTable from '../../trip-details/full/attendee-table/attendee-table';
-import { isStringEmpty } from '../../../constants';
+import utils from '../../../utils';
 import { fetchTrip, reviewGearRequest, reviewTrippeeGearRequest, reviewPCardRequests, appError } from '../../../actions';
 import './tripdetails_opo.scss';
 import '../../../styles/createtrip-style.scss';
@@ -94,7 +94,7 @@ class OPOTripApproval extends Component {
   }
 
   reviewPCardRequest = (pcardStatus) => {
-    if (this.state.isEditingPcard && pcardStatus !== 'denied' && isStringEmpty(this.state.pcardAssigned)) {
+    if (this.state.isEditingPcard && pcardStatus !== 'denied' && utils.isStringEmpty(this.state.pcardAssigned)) {
       this.props.appError('Please assign a pcard to this request');
       this.setState({ pcardError: true });
     } else {
