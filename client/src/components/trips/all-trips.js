@@ -55,22 +55,6 @@ class AllTrips extends Component {
     });
   }
 
-  formatDate = (date) => {
-    // date fix adapted from https://stackoverflow.com/questions/7556591/javascript-date-object-always-one-day-off/31732581
-    if (!date) {
-      return '';
-    }
-    return new Date(date.replace(/-/g, '/').replace(/T.+/, '')).toLocaleDateString('en-US');
-  }
-
-  formatDescription = (des) => {
-    let description = des;
-    if (description.length > 100) {
-      description = `${description.substring(0, 101)}...`;
-    }
-    return description;
-  }
-
   compareStartDates = (a, b) => {
     const t1 = new Date(a.startDate);
     const t2 = new Date(b.startDate);
