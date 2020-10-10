@@ -50,9 +50,11 @@ class MyTrips extends Component {
   renderCreateTrip = () => {
     if (this.props.user.role !== 'Trippee') {
       return (
-        <NavLink id='create-trip' className='trip-card' to='/createtrip'>
-          <div className='create-trip-words h3'>Create a trip</div>
-          <img src={createtrip} alt='green circle with a plus sign' />
+        <NavLink to='/createtrip'>
+          <Box dir='col' align='center' width={286} height={330} id='create-trip' className='trip-card'>
+            <div className='create-trip-words h3'>Create a trip</div>
+            <img src={createtrip} alt='green circle with a plus sign' />
+          </Box>
         </NavLink>
       );
     } else {
