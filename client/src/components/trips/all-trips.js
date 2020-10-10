@@ -176,79 +176,39 @@ class AllTrips extends Component {
   }
 
   renderSafariConfigs = () => {
-    if (this.props.user.role === 'OPO') {
-      return (
-        <Box dir='col' id='trip-safari-configs'>
-          <Box dir='row' justify='between'>
-            <Toggle value={this.state.beginnerOnly}
-              id='defaultCheck2'
-              label='Beginner only'
-              onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
-              disabled={false}
-            />
-            <Toggle value={this.state.returnedTrips}
-              id='defaultCheck2'
-              label='See returned trips'
-              onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
-              disabled={false}
-            />
-            <Toggle value={this.state.ongoingTrips}
-              id='defaultCheck1'
-              label='See ongoing trips'
-              onChange={() => this.setState(prevState => ({ seePastTrips: !prevState.seePastTrips }))}
-              disabled={false}
-            />
-            <Toggle value={this.state.hasGearRequest}
-              id='defaultCheck1'
-              label='Has gear request'
-              onChange={() => this.setState(prevState => ({ seePastTrips: !prevState.seePastTrips }))}
-              disabled={false}
-            />
-          </Box>
-          <Stack size={25} />
-          <Box dir='row' justify='between'>
-            {this.renderClubDropdown()}
-            {this.renderTimePeriodDropdown()}
-            {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
-            <Select updateLeaderValue={(update) => {
-              const updateTrimmed = update.map(u => u.text);
-              this.setState({ includeLeaders: updateTrimmed });
-            }}
-              currentLeaders={this.state.includeLeaders}
-              name='leaders'
-              placeholder='Filter by co-leaders'
-            />
-            <Select updateLeaderValue={(update) => {
-              const updateTrimmed = update.map(u => u.text);
-              this.setState({ includeLeaders: updateTrimmed });
-            }}
-              currentLeaders={this.state.includeLeaders}
-              name='leaders'
-              placeholder='Filter by attendees'
-            />
-          </Box>
+    return (
+      <Box dir='col' id='trip-safari-configs'>
+        <Box dir='row' justify='between'>
+          <Toggle value={this.state.beginnerOnly}
+            id='defaultCheck2'
+            label='Beginner only'
+            onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
+            disabled={false}
+          />
+          <Toggle value={this.state.returnedTrips}
+            id='defaultCheck2'
+            label='See returned trips'
+            onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
+            disabled={false}
+          />
+          <Toggle value={this.state.ongoingTrips}
+            id='defaultCheck1'
+            label='See ongoing trips'
+            onChange={() => this.setState(prevState => ({ seePastTrips: !prevState.seePastTrips }))}
+            disabled={false}
+          />
+          <Toggle value={this.state.hasGearRequest}
+            id='defaultCheck1'
+            label='Has gear request'
+            onChange={() => this.setState(prevState => ({ seePastTrips: !prevState.seePastTrips }))}
+            disabled={false}
+          />
         </Box>
-      );
-    } else {
-      return (
-        <Box dir='row' justify='between' id='trip-safari-configs'>
+        <Stack size={25} />
+        <Box dir='row' justify='between'>
           {this.renderClubDropdown()}
           {this.renderTimePeriodDropdown()}
           {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
-          <Box dir='col'>
-            <Toggle value={this.state.beginnerOnly}
-              id='defaultCheck2'
-              label='Beginner only'
-              onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
-              disabled={false}
-            />
-            <Toggle value={this.state.seePastTrips}
-              id='defaultCheck1'
-              label='See past trips'
-              onChange={() => this.setState(prevState => ({ seePastTrips: !prevState.seePastTrips }))}
-              disabled={false}
-            />
-          </Box>
           <Select updateLeaderValue={(update) => {
             const updateTrimmed = update.map(u => u.text);
             this.setState({ includeLeaders: updateTrimmed });
@@ -257,9 +217,22 @@ class AllTrips extends Component {
             name='leaders'
             placeholder='Filter by co-leaders'
           />
+          {this.props.user?.role === 'OPO'
+            ? (
+              <Select updateLeaderValue={(update) => {
+                const updateTrimmed = update.map(u => u.text);
+                this.setState({ includeLeaders: updateTrimmed });
+              }}
+                currentLeaders={this.state.includeLeaders}
+                name='leaders'
+                placeholder='Filter by attendees'
+              />
+)
+            : null
+            }
         </Box>
-      );
-    }
+      </Box>
+    );
   }
 
   render() {
