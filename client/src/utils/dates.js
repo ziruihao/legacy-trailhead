@@ -106,6 +106,12 @@ export function inThePast(date) {
   else return true;
 }
 
+export function compare(dateA, dateB) {
+  return dateA.getTime() - dateB.getTime();
+}
+
+//
+
 export function monthsInYear(year) {
   const date = new Date(year, 0, 1);
 

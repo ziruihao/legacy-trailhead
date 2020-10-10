@@ -13,6 +13,7 @@ import Button from '../button';
 import DOCLoading from '../doc-loading';
 import { fetchTrips, fetchTrip, getClubs, leaveTrip } from '../../actions';
 import utils from '../../utils';
+import constants from '../../constants';
 import dropdownIcon from '../../img/dropdown-toggle.svg';
 import sadTree from './sad-tree.png';
 import './all-trips.scss';
@@ -53,12 +54,6 @@ class AllTrips extends Component {
     this.props.leaveTrip(this.props.trip._id, this.props.user._id).then(() => {
       this.setState({ cancelling: false, showCancellationModal: false });
     });
-  }
-
-  compareStartDates = (a, b) => {
-    const t1 = new Date(a.startDate);
-    const t2 = new Date(b.startDate);
-    return t1.getTime() - t2.getTime();
   }
 
   renderClubDropdown = () => {
@@ -145,7 +140,7 @@ class AllTrips extends Component {
       tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !trip.experienceNeeded));
     }
 
-    const filteredTrips = tripsFilteringProcess.pop().sort(this.compareStartDates);
+    const filteredTrips = tripsFilteringProcess.pop().sort(constants.compareTripStartDates);
 
     if (filteredTrips.length === 0) {
       return (

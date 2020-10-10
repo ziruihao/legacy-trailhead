@@ -29,7 +29,7 @@ class MyTrips extends Component {
     };
   }
 
-  componentDidMount(props) {
+  componentDidMount() {
     this.props.getMyTrips()
       .then(() => {
         this.setState({ ready: true });
@@ -39,12 +39,6 @@ class MyTrips extends Component {
   onSearchRequestTermChange = (event) => {
     event.persist();
     this.setState({ searchRequestTerm: event.target.value });
-  }
-
-  compareStartDates = (a, b) => {
-    const t1 = new Date(a.startDate);
-    const t2 = new Date(b.startDate);
-    return t1.getTime() - t2.getTime();
   }
 
   renderCreateTrip = () => {
@@ -79,7 +73,7 @@ class MyTrips extends Component {
       </Box>
     );
     if (this.props.myTrips.length !== 0) {
-      let sortedTrips = this.props.myTrips.sort(this.compareStartDates).filter(trip => !utils.dates.inThePast(trip.startDateAndTime));
+      let sortedTrips = this.props.myTrips.sort(constants.compareTripStartDates).filter(trip => !utils.dates.inThePast(trip.startDateAndTime));
       if (this.state.seeTripsImLeading) {
         sortedTrips = sortedTrips.filter(trip => constants.determineRoleOnTrip(this.props.user, trip) === 'LEADER');
       }
