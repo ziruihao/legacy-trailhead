@@ -76,16 +76,14 @@ const Text = (props) => {
   switch (props.spacing) {
     case 'tight':
       style.lineHeight = 1.0;
-      style.minHeight = '1em';
       break;
     case 'relaxed':
       style.lineHeight = 1.5;
-      style.minHeight = '1.5em';
       break;
     default:
       style.lineHeight = 1.0;
-      style.minHeight = '1em';
   }
+  style.minHeight = 'fit-content';
   return (
     <div id={props.id} className={props.className} style={{ ...style, ...props.style }}>{props.children}</div>
   );
