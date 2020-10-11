@@ -44,7 +44,7 @@ class AllTrips extends Component {
       hasRequest: {
         vehicle: false,
         gear: false,
-        'P-card': false,
+        pCard: false,
       },
     };
   }
@@ -81,14 +81,19 @@ class AllTrips extends Component {
 
   renderRequestDropdown = () => {
     const renderToggleText = () => {
-      if (Object.values(this.state.hasRequest).every(value => value)) {
+      if (Object.values(this.state.hasRequest).every(value => !value)) {
         return 'Associated requests';
       } else {
-        let text = 'Trips with';
+        const requestTypeMap = {
+          gear: 'gears',
+          vehicle: 'vehicles',
+          pCard: 'P-Cards',
+        };
+        let text = 'Trips with:';
         Object.keys(this.state.hasRequest).forEach((requestType) => {
-          if (this.state.hasRequest[requestType]) text = `, ${text}${requestType}`;
+          if (this.state.hasRequest[requestType]) text = `${text} ${requestTypeMap[requestType]},`;
         });
-        return text;
+        return text.slice(0, -1);
       }
     };
     return (
@@ -98,24 +103,28 @@ class AllTrips extends Component {
           <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
         </Dropdown.Toggle>
         <Dropdown.Menu className='field-dropdown-menu'>
-          <Toggle value={this.state.beginnerOnly}
-            id='beginner-only'
-            label='Gear'
-            onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
-            disabled={false}
-          />
-          <Toggle value={this.state.beginnerOnly}
-            id='beginner-only'
-            label='Vehicle'
-            onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
-            disabled={false}
-          />
-          <Toggle value={this.state.beginnerOnly}
-            id='beginner-only'
-            label='P-Card'
-            onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
-            disabled={false}
-          />
+          <Box dir='col' align='start' pad={[0, 18]}>
+            <Toggle value={this.state.hasRequest.gear}
+              id='has-gear-request'
+              label='Gear'
+              onChange={() => this.setState(prevState => ({ hasRequest: { ...prevState.hasRequest, gear: !prevState.hasRequest.gear } }))}
+              disabled={false}
+            />
+            <Stack size={9} />
+            <Toggle value={this.state.hasRequest.vehicle}
+              id='has-vehicle-request'
+              label='Vehicle'
+              onChange={() => this.setState(prevState => ({ hasRequest: { ...prevState.hasRequest, vehicle: !prevState.hasRequest.vehicle } }))}
+              disabled={false}
+            />
+            <Stack size={9} />
+            <Toggle value={this.state.hasRequest.pCard}
+              id='has-pCard-request'
+              label='P-Card'
+              onChange={() => this.setState(prevState => ({ hasRequest: { ...prevState.hasRequest, pCard: !prevState.hasRequest.pCard } }))}
+              disabled={false}
+            />
+          </Box>
         </Dropdown.Menu>
       </Dropdown>
     );
@@ -168,21 +177,20 @@ class AllTrips extends Component {
 
     switch (this.state.selectedTimePeriod) {
       case 'All':
-        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !utils.dates.inThePast(trip.startDateAndTime)));
         break;
       case 'Specific day':
-        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod, this.state.startDate)));
+        if (this.state.startDate) tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod, utils.dates.createDateObject(this.state.startDate))));
         break;
       default:
         tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod, null)));
     }
 
     if (this.state.ongoingTrips) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().concat(this.props.trips.filter(trip => trip.left && !trip.returned)));
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.left && !trip.returned));
     }
 
     if (this.state.returnedTrips) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().concat(this.props.trips.filter(trip => trip.returned)));
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.returned));
     }
 
     tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => (this.state.club === 'All clubs' || trip.club.name === this.state.club)));
@@ -201,6 +209,16 @@ class AllTrips extends Component {
       tripsFilteringProcess.push(tripsFilteringProcess.pop().filter((trip) => {
         return this.state.includeMembers.every(desiredMember => trip.members.map(member => member.user._id.toString()).includes(desiredMember.id.toString()));
       }));
+    }
+
+    if (this.state.hasRequest.gear) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.gearStatus !== 'N/A' || trip.trippeeGearStatus !== 'N/A'));
+    }
+    if (this.state.hasRequest.vehicle) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.vehicleStatus !== 'N/A'));
+    }
+    if (this.state.hasRequest.pCard) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.pcardStatus !== 'N/A'));
     }
 
     const filteredTrips = tripsFilteringProcess.pop().sort(utils.trips.compareTripStartDates);
