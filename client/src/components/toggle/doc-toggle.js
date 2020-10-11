@@ -5,7 +5,7 @@ import './doc-toggle.scss';
 class Toggle extends React.Component {
   render() {
     return (
-      <div className='toggle'>
+      <div className='toggle' data-tip={this.props.dataTip} data-for={this.props.dataFor}>
         <label className='toggle-label' htmlFor={this.props.id}>
           <input
             className='toggle-input'

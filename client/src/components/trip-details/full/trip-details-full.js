@@ -146,7 +146,8 @@ export default React.forwardRef((props, ref) => {
   return (
     <div className='doc-card trip-details'>
       <Box dir='col' pad={75}>
-        <div className='trip-number'>Trip #{props.trip.number}</div>
+        <Text type='h2' color='gray3'>TRIP #{props.trip.number}</Text>
+        <Stack size={10} />
         <Text type='h1'>{props.trip.title}</Text>
         <Stack size={25} />
         <Box dir='row' className='trip-tags'>
@@ -157,20 +158,22 @@ export default React.forwardRef((props, ref) => {
             {props.role === 'LEADER' ? <><Queue size={36} /><Badge type='leader' size={36} dataTip dataFor='leader-on-trip-modal' /></> : null}
             <ReactToolTip id='leader-on-trip-modal' place='bottom'>Your are leading this trip</ReactToolTip>
             <ReactToolTip id='trip-status-modal' place='bottom'>
-              Reasons: {props.reasons.length > 0 ? props.reasons.reduce((all, current) => `${all}, ${current}`) : null}
+              <Box dir='col'>
+                {props.reasons.length > 0 ? props.reasons.map(reason => <div key={reason}>{reason}</div>) : 'This trip is all approved!'}
+              </Box>
             </ReactToolTip>
           </Box>
           <div className='trip-tags-spacer' />
           <Box dir='row'>
-            <Toggle id='trip-left-toggle' value={props.trip.left} onChange={event => props.toggleTripLeftStatus(event.target.checked)} label='Left' disabled={props.role !== 'OPO'} />
+            <Toggle id='trip-left-toggle' value={props.trip.left} onChange={event => props.toggleTripLeftStatus(event.target.checked)} label='Left' disabled={props.role !== 'OPO'} dataTip dataFor='trip-left-toggle-warning' />
             {props.role !== 'OPO'
-              ? <ReactToolTip id='trip-left-toggle-warning' place='bottom'>Trip leaders should mark trip left / returned status via the mobile link in your email.\nOnly OPO staff can directly change this value here.</ReactToolTip>
+              ? <ReactToolTip id='trip-left-toggle-warning' place='bottom'><div>Trip leaders should mark trip left / returned status via the mobile link in your email.</div><div>Only OPO staff can directly change this value here.</div></ReactToolTip>
               : null
             }
             <Queue size={25} />
-            <Toggle id='trip-returned-toggle' value={props.trip.returned} onChange={event => props.toggleTripReturnedStatus(event.target.checked)} label='Returned' disabled={props.role !== 'OPO'} />
+            <Toggle id='trip-returned-toggle' value={props.trip.returned} onChange={event => props.toggleTripReturnedStatus(event.target.checked)} label='Returned' disabled={props.role !== 'OPO'} dataTip dataFor='trip-returned-toggle-warning' />
             {props.role !== 'OPO'
-              ? <ReactToolTip id='trip-left-toggle-warning' place='bottom'>Trip leaders should mark trip left / returned status via the mobile link in your email.\nOnly OPO staff can directly change this value here.</ReactToolTip>
+              ? <ReactToolTip id='trip-returned-toggle-warning' place='bottom'><div>Trip leaders should mark trip left / returned status via the mobile link in your email.</div><div>Only OPO staff can directly change this value here.</div></ReactToolTip>
               : null
             }
           </Box>
