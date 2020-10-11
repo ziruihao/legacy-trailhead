@@ -27,9 +27,6 @@ const Icon = (props) => {
   const measure = props.measure || 'px';
   const style = { width: `${props.size ? `${props.size}${measure}` : '100%'}` };
   if (props.color) style.fill = styleSheet.color[props.color];
-  console.log(props.type);
-  console.log('\t', props.color);
-  console.log('\t', styleSheet.color[props.color]);
   switch (props.type) {
     case 'edit':
       return (<img id={id} className='doc-icon' alt='approved icon' style={style} src={edit} data-tip={props.dataTip} data-for={props.dataFor} onClick={props.onClick} />);
