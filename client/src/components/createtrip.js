@@ -509,7 +509,7 @@ class CreateTrip extends Component {
         const { startDate, startTime, endDate, endTime } = this.state;
         const now = new Date();
         const startAsDate = this.createDateObject(startDate, startTime);
-        if (startAsDate < now) {
+        if (startAsDate < now && this.props.user.role !== 'OPO') {
           this.setState((prevState) => {
             return { errorFields: Object.assign({}, prevState.errorFields, { startDate: true, startTime: true }) };
           });
