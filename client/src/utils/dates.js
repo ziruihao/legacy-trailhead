@@ -64,8 +64,11 @@ export function withinTimePeriod(date, timePeriod, specificDay) {
     case 'Specific day':
       if (specificDay == null) return true;
       else {
+        console.log('specificDay', specificDay);
         const dayStart = dates.startOf(specificDay, 'day');
         const dayEnd = dates.endOf(specificDay, 'day');
+        console.log('dayStart', dayStart);
+        console.log('dayEnd', dayEnd);
         if (date >= dayStart && date < dayEnd) return true;
         else return false;
       }
@@ -109,6 +112,16 @@ export function inThePast(date) {
 export function compare(dateA, dateB) {
   return dateA.getTime() - dateB.getTime();
 }
+
+export const createDateObject = (date, time = null) => {
+  // adapted from https://stackoverflow.com/questions/2488313/javascripts-getdate-returns-wrong-date
+  const parts = date.toString().match(/(\d+)/g);
+  let splitTime = [];
+  if (time) splitTime = time.split(':');
+  else splitTime = [0, 0];
+  const dateUTC = new Date(parts[0], parts[1] - 1, parts[2], splitTime[0], splitTime[1]);
+  return new Date(`${dateFormat(dateUTC, 'mmm dd yyyy hh:MM:ss TT')} ${timezone()}`);
+};
 
 //
 
