@@ -1,0 +1,230 @@
+.trip-details-container{
+  box-shadow: 0px 4px 19px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  width: 80%;
+  margin-top: 1em;
+  min-height: 90vh;
+  margin: 6em auto;
+}
+.trip-details-close-button{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.trip-details-content{
+  width: 70%;
+  margin: 0 auto;
+  font-family: 'Nunito Sans', sans-serif;
+}
+.status-banner{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1em;
+}
+.status-icon{
+  margin-right: 2em;
+}
+.status-message{
+  letter-spacing: 0.05em;
+  line-height: 1.5em;
+}
+
+.trip-club-container{
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1.5em;
+}
+.trip-club{
+  background: #EACCBC;
+  border-radius: 6px;
+  height: fit-content;
+  width: fit-content;
+  padding: 0.3em;
+  display: flex;
+  justify-content: center;
+}
+
+.trip-detail{
+  border: 2px solid #C4C4C4;
+  border-radius: 5px;
+  margin-bottom: 2em;
+  padding: 0.5em;
+}
+.detail-row{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5em;
+  align-items: center;
+}
+.detail-left{
+  margin-left: 0.5em;
+  font-weight: 600;
+}
+.detail-right{
+  margin-right: 0.5em;
+  color: #939393;
+}
+.detail-line{
+  margin: 0 0.5em 0 0.5em;
+}
+.gear-header{
+  display: flex;
+  justify-content: space-between;
+}
+.checkbox-span{
+  display: table-cell;
+}
+// Adapted from https://www.w3schools.com/howto/howto_css_custom_checkbox.asp
+.checkbox-container{
+  display: inline-block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 0;
+  cursor: pointer;
+  font-size: 22px;
+  height: 25px;
+}
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  border: 1px solid #939393;
+  border-radius: 2px;
+}
+.disabled-checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  border: 1px solid #939393;
+  border-radius: 2px;
+  cursor: default;
+}
+.checkbox-container:hover input ~ .checkmark {
+  background-color: rgba(182, 236, 175, 0.658);
+}
+.checkbox-container:hover input:disabled ~ .checkmark {
+  cursor: default;
+}
+.checkbox-container input:checked ~ .checkmark {
+  background-color: #0CA074;
+}
+.checkbox-container input:checked ~ .disabled-checkmark {
+  background-color: #939393;
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.disabled-checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+.checkbox-container input:checked ~ .disabled-checkmark:after {
+  display: block;
+}
+.checkbox-container .checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 10px;
+  height: 15px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.checkbox-container .disabled-checkmark:after {
+  left: 7px;
+  top: 3px;
+  width: 10px;
+  height: 15px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.center{
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+.signup-button {
+  width: 100px;
+  min-height: 4em;
+  background: #0CA074;
+  border-radius: 5px;
+  display: block;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.signup-button:hover {
+  background: rgb(26, 179, 133);
+}
+.cancel-link{
+  color: #EE6E52;
+  font-weight: 600;
+  margin-bottom: 1em;
+  cursor: pointer;
+}
+.cancel-link:hover{
+  text-decoration: underline;
+}
+.cancel-image{
+  width: 12rem;
+  height: 14rem;
+  margin: 0 auto;
+}
+.cancel-question{
+  font-family: 'Nunito Sans', sans-serif;
+  font-weight: 800;
+  margin: 0 auto;
+  letter-spacing: 0.05em;
+}
+.cancel-message{
+  font-family: 'Nunito Sans', sans-serif;
+  width: 16rem;
+  margin: 1em auto;
+  text-align: center;
+}
+.cancel-content{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.confirm-cancel{
+  background: #EE6E52;
+  margin: 1em auto;
+  min-height: 3em;
+  min-width: 10em;
+  border-radius: 5px;
+  display: block;
+  font-weight: 800;
+  color: #ffffff;
+  cursor: pointer;
+}
+.confirm-cancel:hover{
+  background: rgb(228, 124, 101)
+}
