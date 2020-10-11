@@ -14,7 +14,7 @@ import wood from './decals/woodsmen.png';
 import surf from './decals/surf.png';
 import dmbc from './decals/dmbc.png';
 import wsc from './decals/wsc.png';
-import poc from './decals/poc.jpg';
+import poco from './decals/poco.png';
 import Skeleton from '../skeleton/skeleton';
 
 class TripCard extends React.Component {
@@ -56,7 +56,7 @@ class TripCard extends React.Component {
       case 'Ledyard':
         return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={ledyard} alt='' />;
       case 'People of Color Outdoors':
-        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={poc} alt='' />;
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={poco} alt='' />;
       default:
         return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={doc} alt='' />;
     }
