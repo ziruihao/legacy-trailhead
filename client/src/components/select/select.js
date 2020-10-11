@@ -3,6 +3,7 @@ import axios from 'axios';
 import { WithContext as ReactTags } from 'react-tag-input';
 import * as constants from '../../constants';
 import './select.scss';
+import DOCLoading from '../doc-loading';
 
 const KeyCodes = {
   comma: 188,
@@ -17,8 +18,8 @@ class Select extends Component {
     this.state = {
       tags: [],
       suggestions: [],
-      // eslint-disable-next-line react/no-unused-state
       error: null,
+      loaded: false,
       // invalid: false, // invalid ID warning will appear if true
     };
     this.handleDelete = this.handleDelete.bind(this);
@@ -32,6 +33,7 @@ class Select extends Component {
       });
       this.setState({ suggestions: parsedData });
       this.setState({ tags: this.props.currentLeaders.map(leader => ({ id: leader, text: leader })) });
+      this.setState({ loaded: true });
     });
   }
 
@@ -75,6 +77,10 @@ class Select extends Component {
           // allowUnique
           inputFieldPosition='top'
         />
+        {!this.state.loaded
+          ? <DOCLoading type='spin' width={18} height={18} className='select-loading' />
+          : null
+        }
       </div>
     );
   }

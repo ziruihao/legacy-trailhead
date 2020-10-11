@@ -1,6 +1,8 @@
 @import '../../styles/base.scss';
 
 .doc-select {
+  position: relative;
+
   .ReactTags__tags {
     .ReactTags__tagInputField {
       border: 2px solid $gray-2 !important;
@@ -77,5 +79,11 @@
         }
       }
     }
+  }
+
+  .select-loading {
+    position: absolute;
+    right: 0.3em;
+    top: 0.4em;
   }
 }
