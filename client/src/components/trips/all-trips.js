@@ -36,11 +36,16 @@ class AllTrips extends Component {
       showCancellationModal: false,
       cancelling: false,
       startDate: null,
-      seePastTrips: false,
+      ongoingTrips: false,
       showFilters: false,
       includeLeaders: [],
       includeMembers: [],
       viewMode: 'tiles',
+      hasRequest: {
+        vehicle: false,
+        gear: false,
+        'P-card': false,
+      },
     };
   }
 
@@ -69,6 +74,48 @@ class AllTrips extends Component {
           {this.props.clubs.map(((club) => {
             return (<Dropdown.Item key={club._id} eventKey={club.name}>{club.name}</Dropdown.Item>);
           }))}
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  }
+
+  renderRequestDropdown = () => {
+    const renderToggleText = () => {
+      if (Object.values(this.state.hasRequest).every(value => value)) {
+        return 'Associated requests';
+      } else {
+        let text = 'Trips with';
+        Object.keys(this.state.hasRequest).forEach((requestType) => {
+          if (this.state.hasRequest[requestType]) text = `, ${text}${requestType}`;
+        });
+        return text;
+      }
+    };
+    return (
+      <Dropdown>
+        <Dropdown.Toggle className='field'>
+          <span className='field-dropdown-bootstrap'>{renderToggleText()}</span>
+          <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
+        </Dropdown.Toggle>
+        <Dropdown.Menu className='field-dropdown-menu'>
+          <Toggle value={this.state.beginnerOnly}
+            id='beginner-only'
+            label='Gear'
+            onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
+            disabled={false}
+          />
+          <Toggle value={this.state.beginnerOnly}
+            id='beginner-only'
+            label='Vehicle'
+            onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
+            disabled={false}
+          />
+          <Toggle value={this.state.beginnerOnly}
+            id='beginner-only'
+            label='P-Card'
+            onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
+            disabled={false}
+          />
         </Dropdown.Menu>
       </Dropdown>
     );
@@ -130,8 +177,12 @@ class AllTrips extends Component {
         tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod, null)));
     }
 
-    if (this.state.seePastTrips) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().concat(this.props.trips.filter(trip => utils.dates.inThePast(trip.startDateAndTime))));
+    if (this.state.ongoingTrips) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().concat(this.props.trips.filter(trip => trip.left && !trip.returned)));
+    }
+
+    if (this.state.returnedTrips) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().concat(this.props.trips.filter(trip => trip.returned)));
     }
 
     tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => (this.state.club === 'All clubs' || trip.club.name === this.state.club)));
@@ -139,9 +190,6 @@ class AllTrips extends Component {
     if (this.state.beginnerOnly) {
       tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !trip.experienceNeeded));
     }
-
-    console.log(this.state.includeLeaders);
-    console.log(this.state.includeMembers);
 
     if (this.state.includeLeaders) {
       tripsFilteringProcess.push(tripsFilteringProcess.pop().filter((trip) => {
@@ -174,29 +222,24 @@ class AllTrips extends Component {
       <Box dir='col' id='trip-safari-configs'>
         <Box dir='row' justify='between'>
           <Toggle value={this.state.beginnerOnly}
-            id='defaultCheck2'
+            id='beginner-only'
             label='Beginner only'
             onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
             disabled={false}
           />
           <Toggle value={this.state.returnedTrips}
-            id='defaultCheck2'
+            id='returned-trips'
             label='See returned trips'
-            onChange={() => this.setState(prevState => ({ beginnerOnly: !prevState.beginnerOnly }))}
+            onChange={() => this.setState(prevState => ({ returnedTrips: !prevState.returnedTrips }))}
             disabled={false}
           />
           <Toggle value={this.state.ongoingTrips}
-            id='defaultCheck1'
+            id='ongoing-trips'
             label='See ongoing trips'
-            onChange={() => this.setState(prevState => ({ seePastTrips: !prevState.seePastTrips }))}
+            onChange={() => this.setState(prevState => ({ ongoingTrips: !prevState.ongoingTrips }))}
             disabled={false}
           />
-          <Toggle value={this.state.hasGearRequest}
-            id='defaultCheck1'
-            label='Has gear request'
-            onChange={() => this.setState(prevState => ({ seePastTrips: !prevState.seePastTrips }))}
-            disabled={false}
-          />
+          {this.renderRequestDropdown()}
         </Box>
         <Stack size={25} />
         <Box dir='row' justify='between'>
