@@ -156,7 +156,7 @@ class OPOTripApproval extends Component {
               <Stack size={25} />
               <div className='p1'>The trip leader has approved these members to attend the trip. Their attendence is not confirmed until the leader checks them in during the day-of when the trip meets outside of {this.props.trip.pickup}.</div>
               <Stack size={25} />
-              <Box className='doc-bordered' dir='col' align='stretch' pad={25}>
+              <Box className='doc-bordered doc-white' dir='col' align='stretch' pad={25}>
                 <AttendeeTable mode='approved' people={this.props.trip.members} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} actions={[{ callback: person => window.open(`mailto:${person.user.email}`, '_blank'), message: 'Email' }]} openProfile={this.openTrippeeProfile} />
               </Box>
               <Stack size={50} />
@@ -164,7 +164,7 @@ class OPOTripApproval extends Component {
               <Stack size={25} />
               <div className='p1'>These people signed up for the trip but the leader has not yet approved them to attend. They may or may not ever be approved.</div>
               <Stack size={25} />
-              <Box className='doc-bordered' dir='col' align='stretch' pad={25}>
+              <Box className='doc-bordered doc-white' dir='col' align='stretch' pad={25}>
                 <AttendeeTable mode='approved' people={this.props.trip.pending} emails={this.props.onTripEmail} startDateAndTime={this.props.trip.startDateAndTime} actions={[{ callback: person => window.open(`mailto:${person.user.email}`, '_blank'), message: 'Email' }]} openProfile={this.openTrippeeProfile} />
               </Box>
             </Box>
