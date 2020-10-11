@@ -36,7 +36,6 @@ class Gateway extends Component {
       this.setState({ incompleteProfile: true });
     } else {
       axios.get(`${constants.BACKEND_URL}/trips/public`).then((response) => {
-        console.log(response.data);
         this.setState({ publicTrips: response.data, publicTripsLoaded: true });
       });
     }
