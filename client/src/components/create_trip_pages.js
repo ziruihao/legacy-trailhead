@@ -186,7 +186,7 @@ const AboutTheTrip = (props) => {
         </Box>
       </Box>
       <Stack size={25} />
-      <Text type='h3'>Trip decription</Text>
+      <Text type='h3'>Trip description</Text>
       <Stack size={25} />
       <textarea
         className={`field description-box ${props.errorFields.description ? 'field-error' : ''}`}
