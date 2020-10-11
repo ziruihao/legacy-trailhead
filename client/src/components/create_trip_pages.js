@@ -33,7 +33,7 @@ const BasicTripInfo = (props) => {
             <img className='dropdown-icon' src={dropdownIcon} alt='dropdown-toggle' />
           </Dropdown.Toggle>
           <Dropdown.Menu className='field-dropdown-menu'>
-            {props.clubOptions.sort((a, b) => {
+            {props.clubOptions.filter(club => club.active).sort((a, b) => {
               if (a.name > b.name) return 1;
               else if (b.name > a.name) return -1;
               else return 0;

@@ -339,7 +339,7 @@ class AllTrips extends Component {
             <tbody>
               {filteredTrips.map(trip => (
                 <tr key={trip._id} onClick={() => this.setCurrTrip(trip)}>
-                  <td>{trip.title}</td>
+                  <td>Trip #{trip.number}: {trip.title}</td>
                   <td>{renderTripStatus(trip)}</td>
                   <td>{utils.dates.formatDate(new Date(trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })}</td>
                   <td>{utils.dates.formatDate(new Date(trip.endDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.endDateAndTime), { timezone: true })}</td>
