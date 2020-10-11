@@ -36,7 +36,7 @@ class Gateway extends Component {
       this.setState({ incompleteProfile: true });
     } else {
       axios.get(`${constants.BACKEND_URL}/trips/public`).then((response) => {
-        this.setState({ publicTrips: response.data, publicTripsLoaded: true });
+        setTimeout(() => this.setState({ publicTrips: response.data, publicTripsLoaded: true }), 1000);
       });
     }
   }
@@ -95,7 +95,7 @@ class Gateway extends Component {
   renderAuthOptions = () => {
     return (
       <Box dir='row' justify='around' className='landing-card-actions'>
-        <div className='doc-button' onClick={() => this.fakeSignIn('cas')} role='button' tabIndex={0}>Login via CAS</div>
+        <div className='doc-button' onClick={() => this.fakeSignIn('cas')} role='button' tabIndex={0}>Enter Trailhead via CAS</div>
       </Box>
     );
   }
@@ -128,9 +128,17 @@ class Gateway extends Component {
                     </>
                   )
                   : (
-                    <Box dir='row' justify='center' align='center' width={700} height={300}>
-                      <DOCLoading type='spin' width={100} height={100} />
-                    </Box>
+                    <>
+                      {[0, 0, 0, 0, 0].map((none, idx) => (
+                        <>
+                          <TripCard type='small' displayDescription skeleton />
+                          {idx < 4
+                            ? <Stack size={25} />
+                            : <Stack size={100} />
+                          }
+                        </>
+                      ))}
+                    </>
                   )
                 }
               </Box>
@@ -143,7 +151,7 @@ class Gateway extends Component {
                   <Text type='h1'>Hello traveler!</Text>
                   <Stack size={25} />
                   <div className='p1 center-text'>
-                    Welcome to the Dartmouth Outing Club website! Here you can view and sign up for trips, sort by date, activity, or required experience, and create and publish your own trips as a leader. See you in the out o’ doors!
+                    Welcome to Trailhead, the Dartmouth Outing Club&apos;s digital platform. Come and find some upcoming hikes to Balch Hill or visits to the Norwich farmer&apos;s market. On Trailhead you can browse trips, sort by date, activity, or required experience, and create and publish your own trips as a leader. See you in the out o’ doors!
                   </div>
                 </Box>
                 <Stack size={25} />
