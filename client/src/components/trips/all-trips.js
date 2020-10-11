@@ -8,6 +8,7 @@ import TripCard from '../trip-card';
 import Toggle from '../toggle';
 import Select from '../select/select';
 import Text from '../text';
+import Field from '../field';
 import Icon from '../icon';
 import Badge from '../badge';
 import Button from '../button';
@@ -36,6 +37,7 @@ class AllTrips extends Component {
       showTrip: false,
       showCancellationModal: false,
       cancelling: false,
+      tripNumber: null,
       startDate: null,
       ongoingTrips: false,
       showFilters: false,
@@ -176,6 +178,10 @@ class AllTrips extends Component {
   filterTrips = () => {
     const tripsFilteringProcess = [this.props.trips];
 
+    if (this.state.tripNumber) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.number === this.state.tripNumber));
+    }
+
     switch (this.state.selectedTimePeriod) {
       case 'All':
         break;
@@ -231,6 +237,14 @@ class AllTrips extends Component {
     return (
       <Box dir='col' id='trip-safari-configs'>
         <Box dir='row' justify='between'>
+          <Field
+            type='number'
+            value={this.state.tripNumber}
+            width={108}
+            name='trip-number'
+            placeholder='Trip #'
+            onChange={event => this.setState({ tripNumber: parseInt(event.target.value, 10) })}
+          />
           <Toggle value={this.state.beginnerOnly}
             id='beginner-only'
             label='Beginner only'
