@@ -29,6 +29,9 @@ import { MobileCheckIn, MobileCheckOut } from './mobile-check';
 import CompleteProfile from './gateway/complete-profile';
 import { getUser, authUser, getClubs, getVehicles, clearError } from '../actions';
 
+// old styles to be removed
+import '../styles/tripdetails_trippee-style.scss';
+
 
 class App extends React.Component {
   constructor(props) {
