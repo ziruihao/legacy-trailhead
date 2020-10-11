@@ -12,6 +12,11 @@ $trip-card-padding: 15px;
     cursor: pointer;
   }
 
+  .trip-card-small-title {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
   .trip-card-badge-holder {
     z-index: 2; // on top of the decal
     position: absolute;

@@ -4,7 +4,6 @@ import ReactToolTip from 'react-tooltip';
 import { Stack, Queue, Divider, Box } from '../layout';
 import Badge from '../badge';
 import Text from '../text';
-import * as constants from '../../constants';
 import utils from '../../utils';
 import ledyard from './decals/ledyard.png';
 import mountain from './decals/dmc.png';
@@ -16,6 +15,7 @@ import surf from './decals/surf.png';
 import dmbc from './decals/dmbc.png';
 import wsc from './decals/wsc.png';
 import poc from './decals/poc.jpg';
+import Skeleton from '../skeleton/skeleton';
 
 class TripCard extends React.Component {
   constructor(props) {
@@ -119,33 +119,56 @@ class TripCard extends React.Component {
       return (
         <Box dir='row' justify='between' height={108.5} pad={25} className='trip-card doc-card'>
           <Box dir='col' justify='between'>
-            <Text type='h3'>{this.renderTripTitle(this.props.trip.location)}</Text>
+            {this.props.skeleton
+              ? <Skeleton color='gray3' width={144} height={36} />
+              : <Text type='h3' className='trip-card-small-title'>{this.renderTripTitle(this.props.trip.location)}</Text>
+            }
             <Stack minSize={15} />
-            <Box dir='row' align='center'>
-              <Box dir='col'>
-                <Text type='p2' color='gray3'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime), { weekday: true })}</Text>
-                <Stack size={2} />
-                <Text type='p2' color='gray3'>{utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))}</Text>
-              </Box>
-              <Queue minSize={10} />
-              <Text type='p2' color='gray3'>-</Text>
-              <Queue minSize={10} />
-              <Box dir='col'>
-                <Text type='p2' color='gray3'>{utils.dates.formatDate(new Date(this.props.trip.endDateAndTime), { weekday: true })}</Text>
-                <Stack size={2} />
-                <Text type='p2' color='gray3'>{utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
-              </Box>
-            </Box>
+            {this.props.skeleton
+              ? (
+                <Skeleton color='gray2' width={108} height={24} />
+              )
+              : (
+                <Box dir='row' align='center'>
+                  <Box dir='col'>
+                    <Text type='p2' color='gray3'>{utils.dates.formatDate(new Date(this.props.trip.startDateAndTime), { weekday: true })}</Text>
+                    <Stack size={2} />
+                    <Text type='p2' color='gray3'>{utils.dates.formatTime(new Date(this.props.trip.startDateAndTime))}</Text>
+                  </Box>
+                  <Queue minSize={10} />
+                  <Text type='p2' color='gray3'>-</Text>
+                  <Queue minSize={10} />
+                  <Box dir='col'>
+                    <Text type='p2' color='gray3'>{utils.dates.formatDate(new Date(this.props.trip.endDateAndTime), { weekday: true })}</Text>
+                    <Stack size={2} />
+                    <Text type='p2' color='gray3'>{utils.dates.formatTime(new Date(this.props.trip.endDateAndTime))}</Text>
+                  </Box>
+                </Box>
+              )
+            }
           </Box>
           {this.props.displayDescription
             ? (
               <>
-                <Queue minSize={25} />
+                <Queue size={15} />
                 <Divider dir='col' size={1} />
-                <Queue minSize={25} />
-                <Box dir='row' width={200} height={58.5} className='trip-card-blur-container'>
-                  <Text type='p2' color='gray3' spacing='relaxed' className='trip-card-description'>{this.props.trip.title}: {this.props.trip.description}</Text>
-                </Box>
+                <Queue size={15} />
+                {this.props.skeleton
+                  ? (
+                    <Box dir='col'>
+                      <Skeleton color='gray2' width={200} height={18} />
+                      <Stack size={9} />
+                      <Skeleton color='gray2' width={Math.floor(Math.random() * 40) + 160} height={18} />
+                      <Stack size={9} />
+                      <Skeleton color='gray2' width={Math.floor(Math.random() * 80) + 120} height={18} />
+                    </Box>
+                  )
+                  : (
+                    <Box dir='row' width={200} height={58.5} className='trip-card-blur-container'>
+                      <Text type='p2' color='gray3' spacing='relaxed' className='trip-card-description'>{this.props.trip.title}: {this.props.trip.description}</Text>
+                    </Box>
+                  )
+                }
                 {/* <Box dir='col' justify='center'>
                   <Text type='p2' className='trip-club-tag'>{this.props.trip.club.name}</Text>
                 </Box> */}
@@ -154,7 +177,10 @@ class TripCard extends React.Component {
             : <Queue size={158.5} />
           }
           <Queue size={108.5} />
-          {this.renderDecal(this.props.trip.club.name, 'small')}
+          {this.props.skeleton
+            ? null
+            : <>{this.renderDecal(this.props.trip.club.name, 'small')}</>
+          }
         </Box>
       );
     }
