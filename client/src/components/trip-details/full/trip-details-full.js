@@ -162,9 +162,17 @@ export default React.forwardRef((props, ref) => {
           </Box>
           <div className='trip-tags-spacer' />
           <Box dir='row'>
-            <Toggle id='trip-left-toggle' value={props.trip.left} onChange={event => props.toggleTripLeftStatus(event.target.checked)} label='Left' />
+            <Toggle id='trip-left-toggle' value={props.trip.left} onChange={event => props.toggleTripLeftStatus(event.target.checked)} label='Left' disabled={props.role !== 'OPO'} />
+            {props.role !== 'OPO'
+              ? <ReactToolTip id='trip-left-toggle-warning' place='bottom'>Trip leaders should mark trip left / returned status via the mobile link in your email.\nOnly OPO staff can directly change this value here.</ReactToolTip>
+              : null
+            }
             <Queue size={25} />
-            <Toggle id='trip-returned-toggle' value={props.trip.returned} onChange={event => props.toggleTripReturnedStatus(event.target.checked)} label='Returned' />
+            <Toggle id='trip-returned-toggle' value={props.trip.returned} onChange={event => props.toggleTripReturnedStatus(event.target.checked)} label='Returned' disabled={props.role !== 'OPO'} />
+            {props.role !== 'OPO'
+              ? <ReactToolTip id='trip-left-toggle-warning' place='bottom'>Trip leaders should mark trip left / returned status via the mobile link in your email.\nOnly OPO staff can directly change this value here.</ReactToolTip>
+              : null
+            }
           </Box>
         </Box>
         <Stack size={25} />
