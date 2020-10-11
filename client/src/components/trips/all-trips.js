@@ -39,6 +39,7 @@ class AllTrips extends Component {
       seePastTrips: false,
       showFilters: false,
       includeLeaders: [],
+      includeMembers: [],
       viewMode: 'tiles',
     };
   }
@@ -139,6 +140,21 @@ class AllTrips extends Component {
       tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !trip.experienceNeeded));
     }
 
+    console.log(this.state.includeLeaders);
+    console.log(this.state.includeMembers);
+
+    if (this.state.includeLeaders) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter((trip) => {
+        return this.state.includeLeaders.every(desiredLeader => trip.leaders.map(leader => leader._id.toString()).includes(desiredLeader.id.toString()));
+      }));
+    }
+
+    if (this.state.includeMembers) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter((trip) => {
+        return this.state.includeMembers.every(desiredMember => trip.members.map(member => member.user._id.toString()).includes(desiredMember.id.toString()));
+      }));
+    }
+
     const filteredTrips = tripsFilteringProcess.pop().sort(utils.trips.compareTripStartDates);
 
     if (filteredTrips.length === 0) {
@@ -188,8 +204,7 @@ class AllTrips extends Component {
           {this.renderTimePeriodDropdown()}
           {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
           <Select updateLeaderValue={(update) => {
-            const updateTrimmed = update.map(u => u.text);
-            this.setState({ includeLeaders: updateTrimmed });
+            this.setState({ includeLeaders: update });
           }}
             currentLeaders={this.state.includeLeaders}
             name='leaders'
@@ -198,11 +213,10 @@ class AllTrips extends Component {
           {this.props.user?.role === 'OPO'
             ? (
               <Select updateLeaderValue={(update) => {
-                const updateTrimmed = update.map(u => u.text);
-                this.setState({ includeLeaders: updateTrimmed });
+                this.setState({ includeMembers: update });
               }}
-                currentLeaders={this.state.includeLeaders}
-                name='leaders'
+                currentLeaders={this.state.includeMembers}
+                name='members'
                 placeholder='Filter by attendees'
               />
 )
