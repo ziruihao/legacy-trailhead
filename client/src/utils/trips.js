@@ -58,3 +58,20 @@ export const determineRoleOnTrip = (user, trip) => {
 export const compareTripStartDates = (tripA, tripB) => {
   return dates.compare(new Date(tripA.startDateAndTime), new Date(tripB.startDateAndTime));
 };
+
+/**
+ * Returns a comma-separated string of co-leader names.
+ * @param {typedefs.Trip} trip - Trip to get co-leader names from.
+ * @returns {string} - Comma-separated string of co-leader names.
+ */
+export const extractCoLeaderNames = (trip) => {
+  let coLeaders = '';
+  trip.leaders.forEach((leader, index) => {
+    if (index !== 0) {
+      coLeaders += `${leader.name}, `;
+    }
+  });
+  coLeaders = coLeaders.substring(0, coLeaders.length - 2);
+  coLeaders = coLeaders.length === 0 ? 'None' : coLeaders;
+  return coLeaders;
+};

@@ -14,18 +14,6 @@ import '../../trip-card/trip-card.scss';
 import '../trip-details.scss';
 import utils from '../../../utils';
 
-const getCoLeaders = (leaders) => {
-  let coleaders = '';
-  leaders.forEach((leader, index) => {
-    if (index !== 0) {
-      coleaders += `${leader.name}, `;
-    }
-  });
-  coleaders = coleaders.substring(0, coleaders.length - 2);
-  coleaders = coleaders.length === 0 ? 'None' : coleaders;
-  return coleaders;
-};
-
 class TripDetailsBasic extends Component {
   constructor(props) {
     super(props);
@@ -264,7 +252,7 @@ class TripDetailsBasic extends Component {
 
                   <div className='trip-details-table-row'>
                     <span className='trip-details-table-left p2'>Co-Leader(s)</span>
-                    <span className='trip-details-table-right p2'>{getCoLeaders(this.props.trip.leaders)}</span>
+                    <span className='trip-details-table-right p2'>{utils.trips.extractCoLeaderNames(this.props.trip)}</span>
                   </div>
                   <hr className='trip-details-table-line' />
 

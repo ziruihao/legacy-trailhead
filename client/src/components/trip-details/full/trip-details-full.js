@@ -16,18 +16,6 @@ import '../../../styles/tripdetails_leader.scss';
 import confirmDeleteImage from '../../../img/confirmDelete.jpg';
 import VehicleRequestDisplay from '../../vehicle-request-page/vehicle-request-display/vehicleRequestDisplay';
 
-const getCoLeaders = (leaders) => {
-  let coleaders = '';
-  leaders.forEach((leader, index) => {
-    if (index !== 0) {
-      coleaders += `${leader.name}, `;
-    }
-  });
-  coleaders = coleaders.substring(0, coleaders.length - 2);
-  coleaders = coleaders.length === 0 ? 'None' : coleaders;
-  return coleaders;
-};
-
 const getIndividualGear = (individualGearArray, individualGearStatus) => {
   if (individualGearArray.length === 0) {
     return (
@@ -231,7 +219,7 @@ export default React.forwardRef((props, ref) => {
 
             <div className='trip-details-table-row'>
               <div className='p1 thick'>Co-Leader(s)</div>
-              <div className='p1 thin gray'>{getCoLeaders(props.trip.leaders)}</div>
+              <div className='p1 thin gray'>{utils.trips.extractCoLeaderNames(props.trip)}</div>
             </div>
             <hr className='detail-line' />
 

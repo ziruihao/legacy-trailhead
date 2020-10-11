@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { NavLink, withRouter } from 'react-router-dom';
-import { Dropdown, Modal } from 'react-bootstrap';
+import { Dropdown, Modal, Table } from 'react-bootstrap';
 import { Stack, Queue, Divider, Box } from '../layout';
 import TripDetailsBasic from '../trip-details/basic/trip-details-basic';
 import TripCard from '../trip-card';
@@ -9,6 +9,7 @@ import Toggle from '../toggle';
 import Select from '../select/select';
 import Text from '../text';
 import Icon from '../icon';
+import Badge from '../badge';
 import Button from '../button';
 import DOCLoading from '../doc-loading';
 import { fetchTrips, fetchTrip, getClubs, leaveTrip } from '../../actions';
@@ -172,7 +173,7 @@ class AllTrips extends Component {
     });
   }
 
-  renderTrips = () => {
+  filterTrips = () => {
     const tripsFilteringProcess = [this.props.trips];
 
     switch (this.state.selectedTimePeriod) {
@@ -223,16 +224,7 @@ class AllTrips extends Component {
 
     const filteredTrips = tripsFilteringProcess.pop().sort(utils.trips.compareTripStartDates);
 
-    if (filteredTrips.length === 0) {
-      return (
-        <div id='trips-page-not-found'>
-          <img src={sadTree} alt='sad tree' />
-          <div className='h2'>Sorry, we couldn&apos;t find any!</div>
-        </div>
-      );
-    } else {
-      return filteredTrips.map(trip => <TripCard type='large' trip={trip} displayInfoBadges user={this.props.user} displayDescription onClick={() => this.setCurrTrip(trip)} key={trip._id} />);
-    }
+    return filteredTrips;
   }
 
   renderSafariConfigs = () => {
@@ -257,7 +249,10 @@ class AllTrips extends Component {
             onChange={() => this.setState(prevState => ({ ongoingTrips: !prevState.ongoingTrips }))}
             disabled={false}
           />
-          {this.renderRequestDropdown()}
+          {this.props.user?.role === 'OPO'
+            ? <>{this.renderRequestDropdown()}</>
+            : null
+          }
         </Box>
         <Stack size={25} />
         <Box dir='row' justify='between'>
@@ -280,12 +275,74 @@ class AllTrips extends Component {
                 name='members'
                 placeholder='Filter by attendees'
               />
-)
+            )
             : null
             }
         </Box>
       </Box>
     );
+  }
+
+  renderTrips = () => {
+    const filteredTrips = this.filterTrips();
+    if (filteredTrips.length === 0) {
+      return (
+        <div id='trips-page-not-found'>
+          <img src={sadTree} alt='sad tree' />
+          <div className='h2'>Sorry, we couldn&apos;t find any!</div>
+        </div>
+      );
+    } else if (this.state.viewMode === 'tiles') {
+      return (
+        <div id='trip-tiles'>
+          {filteredTrips.map(trip => <TripCard type='large' trip={trip} displayInfoBadges user={this.props.user} displayDescription onClick={() => this.setCurrTrip(trip)} key={trip._id} />)}
+        </div>
+      );
+    } else {
+      const renderTripStatus = (trip) => {
+        if (trip.returned) return 'Returned';
+        else if (trip.left) return 'Left';
+        else return 'N/A';
+      };
+      return (
+        <Box pad={25} id='trip-grid' className='doc-card'>
+          <Table className='doc-table' responsive='lg' hover>
+            <thead>
+              <tr>
+                <th>Trip</th>
+                <th>Status</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Subclub</th>
+                <th>Co-leaders</th>
+                <th>Attendee count</th>
+                <th>Group gear</th>
+                <th>Trippee gear</th>
+                <th>Vehicles</th>
+                <th>P-Card</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredTrips.map(trip => (
+                <tr key={trip._id} onClick={() => this.setCurrTrip(trip)}>
+                  <td>{trip.title}</td>
+                  <td>{renderTripStatus(trip)}</td>
+                  <td>{utils.dates.formatDate(new Date(trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })}</td>
+                  <td>{utils.dates.formatDate(new Date(trip.endDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.endDateAndTime), { timezone: true })}</td>
+                  <td>{trip.club.name}</td>
+                  <td>{utils.trips.extractCoLeaderNames(trip)}</td>
+                  <td>{trip.members.length}</td>
+                  <td>{trip.gearStatus === 'N/A' ? 'N/A' : <Badge type={trip.gearStatus} size={36} />}</td>
+                  <td>{trip.trippeeGearStatus === 'N/A' ? 'N/A' : <Badge type={trip.trippeeGearStatus} size={36} />}</td>
+                  <td>{trip.vehicleStatus === 'N/A' ? 'N/A' : <Badge type={trip.vehicleStatus} size={36} />}</td>
+                  <td>{trip.pcardStatus === 'N/A' ? 'N/A' : <Badge type={trip.pcardStatus} size={36} />}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Box>
+      );
+    }
   }
 
   render() {
@@ -330,9 +387,8 @@ class AllTrips extends Component {
             : null
           }
         </Box>
-        <div id='trip-tiles'>
-          {this.renderTrips()}
-        </div>
+        {this.renderTrips()}
+        <Stack size={100} />
         <Modal
           centered
           show={this.state.showCancellationModal}
