@@ -11,6 +11,8 @@ const Box = (props) => {
   let margin = null;
   let width = null;
   let height = null;
+  let minHeight = 'fit-content';
+  let maxHeight = null;
   if (props.width) {
     if (typeof props.width === 'number') {
       width = `${props.width}px`;
@@ -26,6 +28,8 @@ const Box = (props) => {
       // eslint-disable-next-line prefer-destructuring
       height = props.height;
     }
+    minHeight = height;
+    maxHeight = height;
   }
   if (props.pad) {
     if (typeof props.pad === 'number') {
@@ -45,7 +49,7 @@ const Box = (props) => {
       margin = `${props.marg.reduce((prev, curr) => { return `${prev}px ${curr}`; })}px`.trim();
     }
   }
-  const style = { padding, margin, width, minWidth: width, maxWidth: width, height, minHeight: height, maxHeight: height };
+  const style = { padding, margin, width, minWidth: width, maxWidth: width, height, minHeight, maxHeight };
   return (
     // eslint-disable-next-line jsx-a11y/no-static-element-interactions
     <div
