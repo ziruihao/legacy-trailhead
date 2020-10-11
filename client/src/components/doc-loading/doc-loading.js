@@ -7,7 +7,7 @@ import './doc-loading.scss';
 const DOCLoading = (props) => {
   const measure = props.measure || 'px';
   return (
-    <div id='doc-loading-wrapper'>
+    <div id='doc-loading-wrapper' className={props.className}>
       {props.type === 'doc'
         ? (
           <img id='doc-loader-image' src={logo} alt='logo' style={{ height: `${props.height}${measure}`, width: `${props.width}${measure}` }} />
