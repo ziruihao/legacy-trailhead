@@ -196,12 +196,24 @@ class OPOTripApproval extends Component {
           );
           break;
         case 5:
-          page = (
-            <OPOVehicleRequest
-              partOfTrip
-              vehicleReqId={this.props.trip.vehicleRequest._id}
-            />
-          );
+          if (this.props.trip.vehicleRequest) {
+            page = (
+              <OPOVehicleRequest
+                partOfTrip
+                vehicleReqId={this.props.trip.vehicleRequest._id}
+              />
+            );
+          } else {
+            page = (
+              <>
+                <Text type='h1'>Vehicle request</Text>
+                <Stack size={50} />
+                <Box dir='row' justify='center' align='center' height={100} className='doc-bordered'>
+                  <Text type='p1' color='gray3' weight='thin'>None</Text>
+                </Box>
+              </>
+            );
+          }
           break;
         default:
           page = (
