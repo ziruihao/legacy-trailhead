@@ -6,7 +6,8 @@
   overflow: hidden;
   background-image: url(./background-no-brand.svg);
   background-repeat: no-repeat;
-  background-size: 100vw;
+  background-size: auto 100vh;
+  background-position: -400px;
   overflow-y: scroll;
 
   &.onboarding {
