@@ -59,6 +59,7 @@ export const timezone = () => { return dateFormat(new Date(), 'Z'); };
 export function withinTimePeriod(date, mode, start = null, end = null) {
   date = dates.startOf(date, 'day');
   const today = dates.startOf(new Date(), 'day');
+  const tomorrow = dates.add(today, 1, 'day');
   if (typeof date === 'string') date = new Date(date);
   switch (mode) {
     case 'Custom range':
@@ -70,7 +71,6 @@ export function withinTimePeriod(date, mode, start = null, end = null) {
         else return false;
       }
     case 'Tomorrow':
-      const tomorrow = dates.add(today, 1, 'day');
       const tomorrowEnd = dates.endOf(tomorrow, 'day');
       if (date >= tomorrow && date < tomorrowEnd) return true;
       else return false;
