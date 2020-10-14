@@ -104,17 +104,19 @@ export function updateUser(updatedUser) {
 }
 
 export function fetchTrips() {
-  return (dispatch) => {
+  return dispatch => new Promise((resolve, reject) => {
     axios.get(`${constants.BACKEND_URL}/trips`).then((response) => {
       dispatch({
         type: ActionTypes.FETCH_TRIPS,
         payload: response.data,
       });
+      resolve();
     }).catch((error) => {
       console.log('Fetch trips error');
       dispatch(appError(`Error getting all trips: ${error.message}`));
+      reject(error);
     });
-  };
+  });
 }
 
 export function fetchTrip(tripID, temporaryToken) {

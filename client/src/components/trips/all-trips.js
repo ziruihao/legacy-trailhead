@@ -24,6 +24,7 @@ class AllTrips extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loaded: false,
       club: 'All clubs',
       beginnerOnly: false,
       timePeriods: [
@@ -54,7 +55,7 @@ class AllTrips extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTrips();
+    this.props.fetchTrips().then(() => { this.setState({ loaded: true }); });
     this.props.getClubs();
   }
 
@@ -315,62 +316,70 @@ class AllTrips extends Component {
   }
 
   renderTrips = () => {
-    const filteredTrips = this.filterTrips();
-    if (filteredTrips.length === 0) {
-      return (
-        <div id='trips-page-not-found'>
-          <img src={sadTree} alt='sad tree' />
-          <div className='h2'>Sorry, we couldn&apos;t find any!</div>
-        </div>
-      );
-    } else if (this.state.viewMode === 'tiles') {
-      return (
-        <div id='trip-tiles'>
-          {filteredTrips.map(trip => <TripCard type='large' trip={trip} displayInfoBadges user={this.props.user} displayDescription onClick={() => this.setCurrTrip(trip)} key={trip._id} />)}
-        </div>
-      );
-    } else {
-      const renderTripStatus = (trip) => {
-        if (trip.returned) return 'Returned';
-        else if (trip.left) return 'Left';
-        else return 'N/A';
-      };
-      return (
-        <Box pad={25} id='trip-grid' className='doc-card'>
-          <Table className='doc-table' responsive='lg' hover>
-            <thead>
-              <tr>
-                <th>Trip</th>
-                <th>Status</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Subclub</th>
-                <th>Co-leaders</th>
-                <th>Attendee count</th>
-                <th>Group gear</th>
-                <th>Trippee gear</th>
-                <th>Vehicles</th>
-                <th>P-Card</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredTrips.map(trip => (
-                <tr key={trip._id} onClick={() => this.setCurrTrip(trip)}>
-                  <td>Trip #{trip.number}: {trip.title}</td>
-                  <td>{renderTripStatus(trip)}</td>
-                  <td>{utils.dates.formatDate(new Date(trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })}</td>
-                  <td>{utils.dates.formatDate(new Date(trip.endDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.endDateAndTime), { timezone: true })}</td>
-                  <td>{trip.club.name}</td>
-                  <td>{utils.trips.extractCoLeaderNames(trip)}</td>
-                  <td>{trip.members.length}</td>
-                  <td>{trip.gearStatus === 'N/A' ? 'N/A' : <Badge type={trip.gearStatus} size={36} />}</td>
-                  <td>{trip.trippeeGearStatus === 'N/A' ? 'N/A' : <Badge type={trip.trippeeGearStatus} size={36} />}</td>
-                  <td>{trip.vehicleStatus === 'N/A' ? 'N/A' : <Badge type={trip.vehicleStatus} size={36} />}</td>
-                  <td>{trip.pcardStatus === 'N/A' ? 'N/A' : <Badge type={trip.pcardStatus} size={36} />}</td>
+    if (this.state.loaded) {
+      const filteredTrips = this.filterTrips();
+      if (filteredTrips.length === 0) {
+        return (
+          <div id='trips-page-not-found'>
+            <img src={sadTree} alt='sad tree' />
+            <div className='h2'>Sorry, we couldn&apos;t find any!</div>
+          </div>
+        );
+      } else if (this.state.viewMode === 'tiles') {
+        return (
+          <div id='trip-tiles'>
+            {filteredTrips.map(trip => <TripCard type='large' trip={trip} displayInfoBadges user={this.props.user} displayDescription onClick={() => this.setCurrTrip(trip)} key={trip._id} />)}
+          </div>
+        );
+      } else {
+        const renderTripStatus = (trip) => {
+          if (trip.returned) return 'Returned';
+          else if (trip.left) return 'Left';
+          else return 'N/A';
+        };
+        return (
+          <Box pad={25} id='trip-grid' className='doc-card'>
+            <Table className='doc-table' responsive='lg' hover>
+              <thead>
+                <tr>
+                  <th>Trip</th>
+                  <th>Status</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Subclub</th>
+                  <th>Co-leaders</th>
+                  <th>Attendee count</th>
+                  <th>Group gear</th>
+                  <th>Trippee gear</th>
+                  <th>Vehicles</th>
+                  <th>P-Card</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {filteredTrips.map(trip => (
+                  <tr key={trip._id} onClick={() => this.setCurrTrip(trip)}>
+                    <td>Trip #{trip.number}: {trip.title}</td>
+                    <td>{renderTripStatus(trip)}</td>
+                    <td>{utils.dates.formatDate(new Date(trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })}</td>
+                    <td>{utils.dates.formatDate(new Date(trip.endDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.endDateAndTime), { timezone: true })}</td>
+                    <td>{trip.club.name}</td>
+                    <td>{utils.trips.extractCoLeaderNames(trip)}</td>
+                    <td>{trip.members.length}</td>
+                    <td>{trip.gearStatus === 'N/A' ? 'N/A' : <Badge type={trip.gearStatus} size={36} />}</td>
+                    <td>{trip.trippeeGearStatus === 'N/A' ? 'N/A' : <Badge type={trip.trippeeGearStatus} size={36} />}</td>
+                    <td>{trip.vehicleStatus === 'N/A' ? 'N/A' : <Badge type={trip.vehicleStatus} size={36} />}</td>
+                    <td>{trip.pcardStatus === 'N/A' ? 'N/A' : <Badge type={trip.pcardStatus} size={36} />}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </Box>
+        );
+      }
+    } else {
+      return (
+        <Box dir='row' justify='center' align='center' height={200}>
+          <DOCLoading type='spin' width={50} height={50} />
         </Box>
       );
     }
