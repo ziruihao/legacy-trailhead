@@ -72,17 +72,17 @@ export function withinTimePeriod(date, mode, start = null, end = null) {
     case 'Tomorrow':
       const tomorrow = dates.add(today, 1, 'day');
       const tomorrowEnd = dates.endOf(tomorrow, 'day');
-      if (date >= today && date < tomorrowEnd) return true;
+      if (date >= tomorrow && date < tomorrowEnd) return true;
       else return false;
     case 'Next 3 days':
       const next3Days = dates.add(today, 3, 'day');
       const next3DaysEnd = dates.endOf(next3Days, 'day');
-      if (date >= today && date < next3DaysEnd) return true;
+      if (date >= tomorrow && date < next3DaysEnd) return true;
       else return false;
     case 'This week':
       let weekEnd = dates.endOf(today, 'week');
       weekEnd = dates.add(weekEnd, 1, 'day');
-      if (date >= today && date < weekEnd) return true;
+      if (date >= tomorrow && date < weekEnd) return true;
       else return false;
     case 'This weekend':
       let weekendEnd = dates.endOf(today, 'week');
@@ -92,7 +92,7 @@ export function withinTimePeriod(date, mode, start = null, end = null) {
       else return false;
     case 'In a month':
       const next30Days = dates.add(today, 30, 'day');
-      if (date >= today && date < next30Days) return true;
+      if (date >= tomorrow && date < next30Days) return true;
       else return false;
     default:
       return false;
