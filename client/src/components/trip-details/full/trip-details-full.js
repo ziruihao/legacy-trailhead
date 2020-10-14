@@ -122,7 +122,6 @@ export default React.forwardRef((props, ref) => {
   };
 
   const renderTripEditButton = () => {
-    // if (!utils.dates.withinTimePeriod(props.trip.startDateAndTime, 'Tomorrow')) {
     if (props.isLeaderOnTrip) {
       return (<Link to={`/edittrip/${props.trip._id}`} className='doc-button hollow'>Edit trip</Link>);
     } else {

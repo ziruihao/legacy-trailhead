@@ -56,19 +56,16 @@ export const formatTime = (date, options) => {
 
 export const timezone = () => { return dateFormat(new Date(), 'Z'); };
 
-export function withinTimePeriod(date, timePeriod, specificDay) {
+export function withinTimePeriod(date, mode, start = null, end = null) {
   date = dates.startOf(date, 'day');
   const today = dates.startOf(new Date(), 'day');
   if (typeof date === 'string') date = new Date(date);
-  switch (timePeriod) {
-    case 'Specific day':
-      if (specificDay == null) return true;
+  switch (mode) {
+    case 'Custom range':
+      if (start == null || end == null) return true;
       else {
-        console.log('specificDay', specificDay);
-        const dayStart = dates.startOf(specificDay, 'day');
-        const dayEnd = dates.endOf(specificDay, 'day');
-        console.log('dayStart', dayStart);
-        console.log('dayEnd', dayEnd);
+        const dayStart = dates.startOf(start, 'day');
+        const dayEnd = dates.endOf(end, 'day');
         if (date >= dayStart && date < dayEnd) return true;
         else return false;
       }

@@ -39,6 +39,7 @@ class AllTrips extends Component {
       cancelling: false,
       tripNumber: null,
       startDate: null,
+      endDate: null,
       ongoingTrips: false,
       showFilters: false,
       includeLeaders: [],
@@ -57,11 +58,75 @@ class AllTrips extends Component {
     this.props.getClubs();
   }
 
+  setCurrTrip = (trip) => {
+    this.props.fetchTrip(trip._id).then(() => {
+      this.setState({ showTrip: true });
+    });
+  }
+
   cancelSignup = () => {
     this.setState({ cancelling: true });
     this.props.leaveTrip(this.props.trip._id, this.props.user._id).then(() => {
       this.setState({ cancelling: false, showCancellationModal: false });
     });
+  }
+
+  filterTrips = () => {
+    const tripsFilteringProcess = [this.props.trips];
+
+    if (this.state.tripNumber) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.number === this.state.tripNumber));
+    }
+
+    switch (this.state.selectedTimePeriod) {
+      case 'All':
+        break;
+      case 'Custom range':
+        if (this.state.startDate && this.state.endDate) tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod, utils.dates.createDateObject(this.state.startDate), utils.dates.createDateObject(this.state.endDate))));
+        break;
+      default:
+        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod)));
+    }
+
+    if (this.state.ongoingTrips) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.left && !trip.returned));
+    }
+
+    if (this.state.returnedTrips) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.returned));
+    }
+
+    tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => (this.state.club === 'All clubs' || trip.club.name === this.state.club)));
+
+    if (this.state.beginnerOnly) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !trip.experienceNeeded));
+    }
+
+    if (this.state.includeLeaders) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter((trip) => {
+        return this.state.includeLeaders.every(desiredLeader => trip.leaders.map(leader => leader._id.toString()).includes(desiredLeader.id.toString()));
+      }));
+    }
+
+    if (this.state.includeMembers) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter((trip) => {
+        return this.state.includeMembers.every(desiredMember => trip.members.map(member => member.user._id.toString()).includes(desiredMember.id.toString()));
+      }));
+    }
+
+    if (this.state.hasRequest.gear) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.gearStatus !== 'N/A' || trip.trippeeGearStatus !== 'N/A'));
+    }
+    if (this.state.hasRequest.vehicle) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.vehicleStatus !== 'N/A'));
+    }
+    if (this.state.hasRequest.pCard) {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.pcardStatus !== 'N/A'));
+    }
+
+    const filteredTrips = tripsFilteringProcess.pop().sort(utils.trips.compareTripStartDates);
+
+    return filteredTrips;
   }
 
   renderClubDropdown = () => {
@@ -136,7 +201,7 @@ class AllTrips extends Component {
   renderTimePeriodDropdown = () => {
     return (
       <Dropdown onSelect={(eventKey) => {
-        if (eventKey !== 'Specific day') this.setState({ startDate: null });
+        if (eventKey !== 'Custom range') this.setState({ startDate: null, endDate: null });
         this.setState({ selectedTimePeriod: eventKey });
       }}
       >
@@ -149,88 +214,37 @@ class AllTrips extends Component {
             return (<Dropdown.Item key={timePeriod} eventKey={timePeriod}>{timePeriod}</Dropdown.Item>);
           }))}
           <Dropdown.Divider />
-          <Dropdown.Item eventKey='Specific day'>Specific day</Dropdown.Item>
-          <Dropdown.Item eventKey='All'>All</Dropdown.Item>
+          <Dropdown.Item eventKey='Custom range'>Custom range</Dropdown.Item>
+          <Dropdown.Item eventKey='All'>Everything</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
   }
 
-  renderStartDropdown = () => {
+  renderCustomDateRangeDropdown = () => {
     return (
-      <input type='date'
-        name='startDate'
-        onChange={(e) => {
-          this.setState({ startDate: e.target.value });
-        }}
-        className='field all-trips-date-select'
-        value={this.state.startDate}
-      />
+      <Box dir='row' align='center'>
+        <input type='date'
+          name='startDate'
+          onChange={(e) => {
+            this.setState({ startDate: e.target.value });
+          }}
+          className='field all-trips-date-select'
+          value={this.state.startDate}
+        />
+        <Queue size={25} />
+        <Text type='p1' color='gray'>to</Text>
+        <Queue size={25} />
+        <input type='date'
+          name='endDate'
+          onChange={(e) => {
+            this.setState({ endDate: e.target.value });
+          }}
+          className='field all-trips-date-select'
+          value={this.state.endDate}
+        />
+      </Box>
     );
-  }
-
-  setCurrTrip = (trip) => {
-    this.props.fetchTrip(trip._id).then(() => {
-      this.setState({ showTrip: true });
-    });
-  }
-
-  filterTrips = () => {
-    const tripsFilteringProcess = [this.props.trips];
-
-    if (this.state.tripNumber) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.number === this.state.tripNumber));
-    }
-
-    switch (this.state.selectedTimePeriod) {
-      case 'All':
-        break;
-      case 'Specific day':
-        if (this.state.startDate) tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod, utils.dates.createDateObject(this.state.startDate))));
-        break;
-      default:
-        tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod, null)));
-    }
-
-    if (this.state.ongoingTrips) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.left && !trip.returned));
-    }
-
-    if (this.state.returnedTrips) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.returned));
-    }
-
-    tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => (this.state.club === 'All clubs' || trip.club.name === this.state.club)));
-
-    if (this.state.beginnerOnly) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => !trip.experienceNeeded));
-    }
-
-    if (this.state.includeLeaders) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter((trip) => {
-        return this.state.includeLeaders.every(desiredLeader => trip.leaders.map(leader => leader._id.toString()).includes(desiredLeader.id.toString()));
-      }));
-    }
-
-    if (this.state.includeMembers) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter((trip) => {
-        return this.state.includeMembers.every(desiredMember => trip.members.map(member => member.user._id.toString()).includes(desiredMember.id.toString()));
-      }));
-    }
-
-    if (this.state.hasRequest.gear) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.gearStatus !== 'N/A' || trip.trippeeGearStatus !== 'N/A'));
-    }
-    if (this.state.hasRequest.vehicle) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.vehicleStatus !== 'N/A'));
-    }
-    if (this.state.hasRequest.pCard) {
-      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.pcardStatus !== 'N/A'));
-    }
-
-    const filteredTrips = tripsFilteringProcess.pop().sort(utils.trips.compareTripStartDates);
-
-    return filteredTrips;
   }
 
   renderSafariConfigs = () => {
@@ -271,8 +285,6 @@ class AllTrips extends Component {
         <Stack size={25} />
         <Box dir='row' justify='between'>
           {this.renderClubDropdown()}
-          {this.renderTimePeriodDropdown()}
-          {this.state.selectedTimePeriod === 'Specific day' ? this.renderStartDropdown() : null}
           <Select updateLeaderValue={(update) => {
             this.setState({ includeLeaders: update });
           }}
@@ -289,9 +301,14 @@ class AllTrips extends Component {
                 name='members'
                 placeholder='Filter by attendees'
               />
-            )
+              )
             : null
             }
+          {this.renderTimePeriodDropdown()}
+        </Box>
+        <Stack size={25} />
+        <Box dir='row' justify='end'>
+          {this.state.selectedTimePeriod === 'Custom range' ? this.renderCustomDateRangeDropdown() : null}
         </Box>
       </Box>
     );
