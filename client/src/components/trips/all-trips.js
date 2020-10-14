@@ -80,7 +80,7 @@ class AllTrips extends Component {
     }
 
     switch (this.state.selectedTimePeriod) {
-      case 'All':
+      case 'Everything':
         break;
       case 'Custom range':
         if (this.state.startDate && this.state.endDate) tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => utils.dates.withinTimePeriod(trip.startDateAndTime, this.state.selectedTimePeriod, utils.dates.createDateObject(this.state.startDate), utils.dates.createDateObject(this.state.endDate))));
@@ -216,7 +216,7 @@ class AllTrips extends Component {
           }))}
           <Dropdown.Divider />
           <Dropdown.Item eventKey='Custom range'>Custom range</Dropdown.Item>
-          <Dropdown.Item eventKey='All'>Everything</Dropdown.Item>
+          <Dropdown.Item eventKey='Everything'>Everything</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
     );
