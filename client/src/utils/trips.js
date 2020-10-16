@@ -66,10 +66,8 @@ export const compareTripStartDates = (tripA, tripB) => {
  */
 export const extractCoLeaderNames = (trip) => {
   let coLeaders = '';
-  trip.leaders.forEach((leader, index) => {
-    if (index !== 0) {
-      coLeaders += `${leader.name}, `;
-    }
+  trip.leaders.forEach((leader) => {
+    coLeaders += `${leader.name}, `;
   });
   coLeaders = coLeaders.substring(0, coLeaders.length - 2);
   coLeaders = coLeaders.length === 0 ? 'None' : coLeaders;
