@@ -192,13 +192,13 @@ export default React.forwardRef((props, ref) => {
           <div className='trip-details-table leader-trip-detail left-detail'>
             <div className='trip-details-table-row'>
               <div className='p1 thick'>Start</div>
-              <div className='p1 thin gray'>{utils.dates.formatDate(new Date(props.trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatDate(new Date(props.trip.startDateAndTime), { timezone: true })}</div>
+              <div className='p1 thin gray'>{utils.dates.formatDate(new Date(props.trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(props.trip.startDateAndTime), { timezone: true })}</div>
             </div>
             <hr className='detail-line' />
 
             <div className='trip-details-table-row'>
               <div className='p1 thick'>End</div>
-              <div className='p1 thin gray'>{utils.dates.formatDate(new Date(props.trip.endDateAndTime), { weekday: true })} @ {utils.dates.formatDate(new Date(props.trip.endDateAndTime), { timezone: true })}</div>
+              <div className='p1 thin gray'>{utils.dates.formatDate(new Date(props.trip.endDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(props.trip.endDateAndTime), { timezone: true })}</div>
             </div>
             <hr className='detail-line' />
 
