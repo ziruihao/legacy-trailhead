@@ -119,7 +119,7 @@ class ProfileCard extends React.Component {
                         <>
                           <Queue size={25} />
                           <Badge type='leader' size={36} dataTip dataFor='leader-status-badge' />
-                          <ReactTooltip id='leader-status-badge' place='bottom'>You are a leader DOC subclubs!</ReactTooltip>
+                          <ReactTooltip id='leader-status-badge' place='bottom'>You are a leader in DOC subclubs!</ReactTooltip>
                         </>
                       )
                       : null
