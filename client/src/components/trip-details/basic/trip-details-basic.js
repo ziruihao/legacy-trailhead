@@ -146,8 +146,8 @@ class TripDetailsBasic extends Component {
     } else {
       return (
         <div className='trip-details'>
-          <div className='trip-number'>{`TRIP #${this.props.trip.number}`}</div>
-
+          <Text type='overline' color='gray3'>{`TRIP #${this.props.trip.number}`}</Text>
+          <Stack size={10} />
           <Text type='h1'>{this.props.trip.title}</Text>
           <Stack size={25} />
           <Box dir='row' align='center' className='trip-tags'>

@@ -51,7 +51,7 @@ const OPODashboard = (props) => {
             <div className='titles doc-h3'>Trip Approvals</div>
           </Box>
           {active.trips
-            ? <Divider className='section-underline' size={5} color='#0CA074' />
+            ? <Divider className='section-underline' size={5} color='green' />
             : null
           }
         </Box>
@@ -66,7 +66,7 @@ const OPODashboard = (props) => {
             <div className='titles doc-h3'>Vehicle Requests</div>
           </Box>
           {active.vehicles
-            ? <Divider className='section-underline' size={5} color='#0CA074' />
+            ? <Divider className='section-underline' size={5} color='green' />
             : null
           }
         </Box>
@@ -81,7 +81,7 @@ const OPODashboard = (props) => {
             <div className='titles doc-h3'>Calendar</div>
           </Box>
           {active.calendar
-            ? <Divider className='section-underline' size={5} color='#0CA074' />
+            ? <Divider className='section-underline' size={5} color='green' />
             : null
           }
         </Box>
@@ -96,7 +96,7 @@ const OPODashboard = (props) => {
             <div className='titles doc-h3'>Profile Approvals</div>
           </Box>
           {active.leaders
-            ? <Divider className='section-underline' size={5} color='#0CA074' />
+            ? <Divider className='section-underline' size={5} color='green' />
             : null
           }
         </Box>
@@ -111,7 +111,7 @@ const OPODashboard = (props) => {
             <div className='titles doc-h3'>Manage Fleet</div>
           </Box>
           {active.fleet
-            ? <Divider className='section-underline' size={5} color='#0CA074' />
+            ? <Divider className='section-underline' size={5} color='green' />
             : null
           }
         </Box>

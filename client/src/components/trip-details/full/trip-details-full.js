@@ -145,7 +145,7 @@ export default React.forwardRef((props, ref) => {
   return (
     <div className='doc-card trip-details'>
       <Box dir='col' pad={75}>
-        <Text type='h2' color='gray3'>TRIP #{props.trip.number}</Text>
+        <Text type='h3' color='gray3'>TRIP #{props.trip.number}</Text>
         <Stack size={10} />
         <Text type='h1'>{props.trip.title}</Text>
         <Stack size={25} />

@@ -234,13 +234,13 @@ class OPOTrips extends Component {
           <div className='opo-trips-page-databox doc-card large-card'>
             <div className='databox-heading'>
               <Text type='h1'>Pending Trips</Text>
-              <input
+              {/* <input
                 name='search'
                 placeholder='Search pending trips'
                 value={this.state.searchTerm}
                 onChange={this.onSearchTermChange}
                 className='databox-heading-search field'
-              />
+              /> */}
               {/* <div className="dropdown-and-label">
                 <span className="dropdown-label">Filter by:</span>
                 <Dropdown onSelect={this.onDropdownChange}>
@@ -263,13 +263,13 @@ class OPOTrips extends Component {
           <div className='opo-trips-page-databox doc-card large-card'>
             <div className='databox-heading'>
               <Text type='h1'>Reviewed & Past Trips</Text>
-              <input
+              {/* <input
                 name='search'
                 placeholder='Search reviewed & past trips'
                 value={this.state.searchTerm}
                 onChange={this.onSearchTermChange}
                 className='databox-heading-search field'
-              />
+              /> */}
             </div>
             {this.getApprovedTable()}
           </div>

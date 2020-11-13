@@ -188,13 +188,13 @@ class OPOVehicleRequests extends Component {
                   onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
                   disabled={false}
                 />
-                <input
+                {/* <input
                   name='searchPending'
                   placeholder='Search pending requests'
                   value={this.state.searchPendingTerm}
                   onChange={this.onSearchPendingTermChange}
                   className='databox-heading-search field'
-                />
+                /> */}
               </Box>
               <Stack size={25} />
               {this.getPendingTable()}
@@ -211,13 +211,13 @@ class OPOVehicleRequests extends Component {
                 onChange={() => this.setState((prevState) => { return { seePastReviewedRequests: !prevState.seePastReviewedRequests }; })}
                 disabled={false}
               />
-              <input
+              {/* <input
                 name='searchReviewed'
                 placeholder='Search reviewed requests'
                 value={this.state.searchReviewedTerm}
                 onChange={this.onSearchReviewedTermChange}
                 className='databox-heading-search field'
-              />
+              /> */}
             </div>
             {this.getApprovedTable()}
           </div>

@@ -197,13 +197,13 @@ class MyTrips extends Component {
                     onChange={() => this.setState((prevState) => { return { seePastRequests: !prevState.seePastRequests }; })}
                     disabled={false}
                   /> */}
-                  <input
+                  {/* <input
                     name='searchPending'
                     placeholder='Search pending requests'
                     value={this.state.searchRequestTerm}
                     onChange={this.onSearchRequestTermChange}
                     className='databox-heading-search field'
-                  />
+                  /> */}
                 </Box>
                 <Stack size={25} />
                 {this.renderMyVehicleRequests()}
