@@ -5,6 +5,7 @@ import { Stack, Queue, Divider, Box } from '../layout';
 import Badge from '../badge';
 import Text from '../text';
 import utils from '../../utils';
+import opo from './decals/opo.jpg';
 import ledyard from './decals/ledyard.png';
 import mountain from './decals/dmc.png';
 import doc from './decals/doc.png';
@@ -39,6 +40,8 @@ class TripCard extends React.Component {
 
   renderDecal = (clubName, size) => {
     switch (clubName) {
+      case 'OPO':
+        return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={opo} alt='' />;
       case 'Cabin and Trail':
         return <img className={`trip-card-decal ${size}`} style={{ transform: `rotate(${(Math.random() * 30)}deg)` }} src={cnt} alt='' />;
       case 'Women in the Wilderness':
