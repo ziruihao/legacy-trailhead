@@ -151,7 +151,7 @@ class Gateway extends Component {
                   <Text type='h1'>Hello traveler!</Text>
                   <Stack size={25} />
                   <div className='p1 center-text'>
-                    Welcome to Trailhead, the Dartmouth Outing Club&apos;s digital platform. Come and find some upcoming hikes to Balch Hill or visits to the Norwich farmer&apos;s market. On Trailhead you can browse trips, sort by date, activity, or required experience, and create and publish your own trips as a leader. See you in the out o’ doors!
+                    Welcome to Trailhead, the Dartmouth Outing Club and Outdoor Programs Office&apos;s digital platform. Come and find some upcoming hikes to Balch Hill or visits to the Norwich farmer&apos;s market. On Trailhead you can browse trips, sort by date, activity, or required experience, and create and publish your own trips as a leader. See you in the out o’ doors!
                   </div>
                 </Box>
                 <Stack size={25} />
