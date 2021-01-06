@@ -138,7 +138,7 @@ const DatesLocation = (props) => {
           />
         </div>
       </div>
-      <Text type='h2'>Location</Text>
+      <Text type='h2'>Destination</Text>
       <Stack size={25} />
       <Field
         name='location'
