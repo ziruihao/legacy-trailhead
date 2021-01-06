@@ -192,7 +192,7 @@ const AboutTheTrip = (props) => {
         className={`field description-box ${props.errorFields.description ? 'field-error' : ''}`}
         onChange={props.onFieldChange}
         name='description'
-        placeholder='e.g. Our trip will feature amazing views and fun times...'
+        placeholder='e.g. Our trip (6 spots) will feature amazing views and fun times...'
         value={props.DescripValue}
         error={props.errorFields.description}
         height={200}
