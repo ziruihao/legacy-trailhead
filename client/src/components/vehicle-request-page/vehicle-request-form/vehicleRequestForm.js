@@ -69,7 +69,7 @@ const getVehicles = (props) => {
         <Stack size={25} />
         <Field
           id={`vehicle_details_${index}`}
-          placeholder='e.g. I need Stakey! If you are not driving, put in the name of driver(s).'
+          placeholder='e.g. I need Stakey for 4 people! - Include the expected number of people and if you are not driving, put in the name of driver(s).'
           width={600}
           name='vehicleDetails'
           value={vehicle.vehicleDetails}

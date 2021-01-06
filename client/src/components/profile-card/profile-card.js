@@ -303,7 +303,7 @@ class ProfileCard extends React.Component {
                   name='name'
                   onChange={this.props.onFieldChange}
                   value={this.props.name}
-                  placeholder='Name'
+                  placeholder='Full name'
                   error={this.props.errorFields.name}
                 />
               </Text>

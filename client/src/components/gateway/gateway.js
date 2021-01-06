@@ -95,7 +95,7 @@ class Gateway extends Component {
   renderAuthOptions = () => {
     return (
       <Box dir='row' justify='around' className='landing-card-actions'>
-        <div className='doc-button' onClick={() => this.fakeSignIn('cas')} role='button' tabIndex={0}>Enter Trailhead via CAS</div>
+        <div className='doc-button' onClick={() => this.fakeSignIn('cas')} role='button' tabIndex={0}>Enter Trailhead via SSO</div>
       </Box>
     );
   }

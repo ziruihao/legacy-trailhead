@@ -171,7 +171,7 @@ const BasicInfo = (props) => {
         <Divider dir='col' size={1} />
         <Queue size={25} />
         <Box dir='col'>
-          <div className='p1'>{utils.dates.formatDate(new Date(trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })} - {utils.dates.formatDate(new Date(trip.endDateAndTime), { weekday: true })} @ {utils.dates.formatDate(new Date(trip.endDateAndTime), { timezone: true })}</div>
+          <div className='p1'>{utils.dates.formatDate(new Date(trip.startDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })} - {utils.dates.formatDate(new Date(trip.endDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(trip.endDateAndTime), { timezone: true })}</div>
           <Stack size={18} />
           <div className='p1'>{trip.club.name}</div>
           <Stack size={18} />
