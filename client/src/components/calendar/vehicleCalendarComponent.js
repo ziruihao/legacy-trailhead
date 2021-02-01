@@ -19,7 +19,7 @@ const VehicleCalendarComponent = (props) => {
         week: WeekView,
       }}
       events={props.vehicles}
-      showMultiDayTimes
+      // showMultiDayTimes
       popup
       vehicles={props.vehicles}
       // assignments={props.assignments}
