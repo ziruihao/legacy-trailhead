@@ -62,7 +62,7 @@ class AllView extends Component {
             min={new Date(0, 0, 0, 5)}
             step={30}
             timeslots={6}
-            showMultiDayTimes
+            // showMultiDayTimes
             events={eventsWithDate}
             startAccessor='start'
             endAccessor='end'
