@@ -126,7 +126,7 @@ class MyTrips extends Component {
                   earliest = `${utils.dates.formatDate(new Date(vehicleReq.associatedTrip.startDateAndTime))}@${utils.dates.formatTime(new Date(vehicleReq.associatedTrip.startDateAndTime))}`;
                   latest = `${utils.dates.formatDate(new Date(vehicleReq.associatedTrip.endDateAndTime))}@${utils.dates.formatTime(new Date(vehicleReq.associatedTrip.endDateAndTime))}`;
                 } else if (vehicleReq.requestType === 'SOLO') {
-                  const calc = constants.calculateVehicleRequestDateRange(vehicleReq);
+                  const calc = utils.trips.calculateVehicleRequestDateRange(vehicleReq);
                   earliest = `${utils.dates.formatDate(new Date(calc.earliest))}@${utils.dates.formatTime(new Date(calc.earliest))}`;
                   latest = `${utils.dates.formatDate(new Date(calc.latest))}@${utils.dates.formatTime(new Date(calc.latest))}`;
                   reqTitle = vehicleReq.requestDetails;
