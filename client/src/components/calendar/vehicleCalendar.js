@@ -131,7 +131,7 @@ class VehicleCalendar extends Component {
               {`Email: ${selectedEvent.requester.email} | Phone: ${selectedEvent.requester.phone ? selectedEvent.requester.phone : 'N/A'}`}
             </div>
             <div id='event-key-detail-row'>
-              {utils.dates.formatDate(new Date(selectedEvent.assigned_pickupDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(selectedEvent.assigned_pickupDateAndTime), { timezone: true })} - {utils.dates.formatDate(new Date(selectedEvent.assigned_returnTimeAndDate), { weekday: true })} @ {utils.dates.formatTime(new Date(selectedEvent.assigned_returnTimeAndDate), { timezone: true })}
+              {utils.dates.formatDate(new Date(selectedEvent.assigned_pickupDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(selectedEvent.assigned_pickupDateAndTime), { timezone: true })} - {utils.dates.formatDate(new Date(selectedEvent.assigned_returnDateAndTime), { weekday: true })} @ {utils.dates.formatTime(new Date(selectedEvent.assigned_returnDateAndTime), { timezone: true })}
             </div>
             {selectedEvent.request.requestType === 'TRIP'
               ? (
