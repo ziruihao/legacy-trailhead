@@ -17,6 +17,7 @@ const getApprpriateVehicleMenu = (userCertifications) => {
           <Dropdown.Item eventKey='Microbus'>Microbus</Dropdown.Item>
           <Dropdown.Item eventKey='Van'>Van</Dropdown.Item>
           <Dropdown.Item eventKey='Truck'>Truck</Dropdown.Item>
+          <Dropdown.Item eventKey='PersonalVehicle'>Personal vehicle</Dropdown.Item>
         </>
       );
       break;
@@ -25,11 +26,16 @@ const getApprpriateVehicleMenu = (userCertifications) => {
         <>
           <Dropdown.Item eventKey='Van'>Van</Dropdown.Item>
           <Dropdown.Item eventKey='Truck'>Truck</Dropdown.Item>
+          <Dropdown.Item eventKey='PersonalVehicle'>Personal vehicle</Dropdown.Item>
         </>
       );
       break;
     default:
-      microbusVan = null;
+      microbusVan = (
+        <>
+          <Dropdown.Item eventKey='PersonalVehicle'>Personal vehicle</Dropdown.Item>
+        </>
+      );
   }
 
   if (userCertifications.driverCert === null && !userCertifications.trailerCert) {
