@@ -67,6 +67,7 @@ class WeekView extends Component {
               {...this.props}
               range={range}
               min={new Date(0, 0, 0, 5)}
+              max={new Date(0, 0, 0, 20)}
               step={30}
               timeslots={9}
               // showMultiDayTimes

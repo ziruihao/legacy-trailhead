@@ -61,6 +61,8 @@ const Box = (props) => {
       onMouseLeave={props.onMouseLeave}
       role={props.role || 'button'}
       tabIndex={props.tabIndex || 0}
+      data-tip={props['data-tip'] === true ? true : undefined}
+      data-for={props['data-for'] || undefined}
     >
       {props.children}
     </div>
