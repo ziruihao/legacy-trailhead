@@ -182,6 +182,7 @@ class CreateTrip extends Component {
               pcardRequest,
               gearRequests,
               vehicles,
+              private: trip.private,
               loaded: true,
             });
 
@@ -672,6 +673,7 @@ class CreateTrip extends Component {
   render() {
     let page;
     //this.state.currentStep = 4;
+    console.log(this.state.private)
     switch (this.state.currentStep) {
       case 1:
         page = (
@@ -688,6 +690,7 @@ class CreateTrip extends Component {
             }}
             experienceValue={this.state.experienceNeeded}
             accessValue={this.state.access}
+            privateValue={this.state.private}
             experienceOption={this.handleOptionChange}
             togglePrivate={(event) => this.setState({ private: event.target.checked })}
             clubOptions={this.props.user.leader_for}
