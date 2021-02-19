@@ -37,7 +37,7 @@ function getPcardForm(props) {
             <Box dir='row' justify='between' align='center'>
               <div className='doc-h3'>Snacks</div>
               <Box dir='row' align='center'>
-                <div className='doc-h3'>$</div>
+                <div className='doc-h3'>#</div>
                 <Queue size={10} />
                 <Field
                   onChange={event => props.onPcardFieldChange(event, index)}
@@ -54,7 +54,7 @@ function getPcardForm(props) {
             <Box dir='row' justify='between' align='center'>
               <div className='doc-h3'>Breakfast</div>
               <Box dir='row' align='center'>
-                <div className='doc-h3'>$</div>
+                <div className='doc-h3'>#</div>
                 <Queue size={10} />
                 <Field
                   onChange={event => props.onPcardFieldChange(event, index)}
@@ -72,7 +72,7 @@ function getPcardForm(props) {
             <Box dir='row' justify='between' align='center'>
               <div className='doc-h3'>Lunch</div>
               <Box dir='row' align='center'>
-                <div className='doc-h3'>$</div>
+                <div className='doc-h3'>#</div>
                 <Queue size={10} />
                 <Field
                   onChange={event => props.onPcardFieldChange(event, index)}
@@ -90,7 +90,7 @@ function getPcardForm(props) {
             <Box dir='row' justify='between' align='center'>
               <div className='doc-h3'>Dinner</div>
               <Box dir='row' align='center'>
-                <div className='doc-h3'>$</div>
+                <div className='doc-h3'>#</div>
                 <Queue size={10} />
                 <Field
                   onChange={event => props.onPcardFieldChange(event, index)}
