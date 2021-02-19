@@ -2,7 +2,7 @@
 /* eslint-disable jsx-a11y/no-autofocus */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Prompt } from 'react-router-dom';
 import { fetchTrip, createTrip, editTrip, appError, clearError } from '../actions';
 import {Modal} from 'react-bootstrap';
 import { Stack, Queue, Divider, Box } from './layout';
@@ -96,11 +96,12 @@ class CreateTrip extends Component {
       trippeeGear: [],
       pcardRequest: [],
       vehicles: [],
+      private: false,
       errorFields: this.errorFields,
       editMode: false,
-      loaded: false,
       showCalendarModal: false,
-      private: false,
+      loaded: false,
+      finished: false
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
@@ -438,6 +439,7 @@ class CreateTrip extends Component {
           return { currentStep: prevState.currentStep + 1 };
         });
       } else {
+        this.setState({ finished: true });
         this.createTrip();
       }
     }
@@ -804,6 +806,10 @@ class CreateTrip extends Component {
     }
     return (
       <Box dir="row" expand style={{position: 'relative'}}>
+        <Prompt
+          when={!this.state.finished}
+          message={() => 'Your unsaved changes may be lost'}
+        ></Prompt>
         <div style={{ zIndex: 10, position: 'fixed', bottom: '50px', left: '50px' }} className="doc-button" onClick={() => this.setState({ showCalendarModal: true })} role="button" tabIndex={0}>See vehicle calendar</div>
         <Sidebar
           sections={
