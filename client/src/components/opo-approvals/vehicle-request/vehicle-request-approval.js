@@ -106,27 +106,33 @@ class OPOVehicleRequest extends Component {
     this.setState({ showModal: false });
   }
 
-  checkForAssignmentConflicts = (proposedAssignment) => {
-    return new Promise((resolve, reject) => {
-      axios.post(`${constants.BACKEND_URL}/vehicle-requests/check-conflict`, proposedAssignment)
-        .then((response) => {
-          resolve(response.data);
-        }).catch((error) => {
-          console.log(error);
-          reject(error);
-        });
-    });
-  }
+  checkForAssignmentConflicts = (proposedAssignment, index) => {
+    axios.post(`${constants.BACKEND_URL}/vehicle-requests/check-conflict`, proposedAssignment)
+      .then((response) => {
+        const conflicts = response.data;
+        this.setState(prevState => {
+          prevState.assignments[index] = { ...prevState.assignments[index], conflicts }
+          return { assignments: prevState.assignments };
+        })
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
 
-  onVehicleTypeChange = (eventkey, index) => {
-    const proposedAssignment = this.state.assignments[index];
-    proposedAssignment.assignedVehicle = eventkey;
-    proposedAssignment.timezone = utils.dates.timezone();
-    this.checkForAssignmentConflicts(proposedAssignment).then((conflicts) => {
+    clearConflicts = (index) => {
+      this.setState(prevState => {
+        prevState.assignments[index].conflicts = []
+        return { assignments: prevState.assignments };
+      })
+    }
+    
+    onVehicleTypeChange = (eventkey, index) => {
+      const proposedAssignment = this.state.assignments[index];
+      proposedAssignment.assignedVehicle = eventkey;
+      proposedAssignment.timezone = utils.dates.timezone();
       this.setState((prevState) => {
         const updates = prevState.assignments[index];
         updates.assignedVehicle = eventkey;
-        updates.conflicts = conflicts;
         if (eventkey === 'Enterprise') {
           updates.assignedKey = 'Enterprise';
         }
@@ -134,7 +140,15 @@ class OPOVehicleRequest extends Component {
         const updatedVehicles = Object.assign([], prevState.assignments, { [index]: updatedVehicle });
         return { assignments: updatedVehicles };
       });
-    });
+      if (!this.isStringEmpty(proposedAssignment.pickupDate)
+      && !this.isStringEmpty(proposedAssignment.pickupTime)
+      && !this.isStringEmpty(proposedAssignment.returnDate)
+      && !this.isStringEmpty(proposedAssignment.returnTime)
+      && proposedAssignment.assignedVehicle !== 'Enterprise') {
+        this.checkForAssignmentConflicts(proposedAssignment, index);
+      } else {
+        this.clearConflicts(index);
+      }
   }
 
   onAssignmentDetailChange = (event, index) => {
@@ -150,6 +164,17 @@ class OPOVehicleRequest extends Component {
       const updatedVehicle = Object.assign({}, oldVehicle, update);
       const updatedVehicles = Object.assign([], oldVehicles, { [index]: updatedVehicle });
       return { assignments: updatedVehicles };
+    }, () => {
+      const assignment = this.state.assignments[index]
+      if (!this.isStringEmpty(assignment.pickupDate)
+      && !this.isStringEmpty(assignment.pickupTime)
+      && !this.isStringEmpty(assignment.returnDate)
+      && !this.isStringEmpty(assignment.returnTime)
+      && assignment.assignedVehicle !== 'Enterprise') {
+        this.checkForAssignmentConflicts(assignment, index);
+      } else {
+        this.clearConflicts(index);
+      }
     });
   }
 
@@ -172,11 +197,12 @@ class OPOVehicleRequest extends Component {
   }
 
   isStringEmpty = (string) => {
-    return string.length === 0 || !string.toString().trim();
+    return !string || string.length === 0 || !string.toString().trim();
   }
 
   isValid = () => {
     const { assignments } = this.state;
+    console.log(assignments)
 
     let hasIncompleteAssignment = false;
     const hasFilledOutField = {}; // keep track of which assignments have a filled out field

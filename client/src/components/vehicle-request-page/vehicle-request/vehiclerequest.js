@@ -396,6 +396,7 @@ class VehicleRequest extends Component {
         return (
           <VehicleRequestDisplay
             history={this.props.history}
+            userRole={this.props.user.role}
             userCertifications={userCertifications}
             requestType={this.state.requestType}
             vehicleRequest={this.props.vehicleRequest}

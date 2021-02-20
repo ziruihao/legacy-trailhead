@@ -54,7 +54,7 @@ class Gateway extends Component {
         window.location = (`${constants.BACKEND_URL}/signin-cas`);
         break;
       case 'opo':
-        this.signInAndThenLoadData('zirui.hao@gmail.com', 'opo');
+        this.signInAndThenLoadData('ziray.hao@gmail.com', 'opo');
         break;
       case 'leader':
         this.signInAndThenLoadData('ziray.hao@dali.dartmouth.edu', 'leader');

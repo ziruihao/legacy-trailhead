@@ -212,7 +212,7 @@ class VehicleRequestDisplay extends React.Component {
           ? (
             <Box dir='row' justify='between' align='center'>
               <div className='doc-button alarm' onClick={() => this.setState({ showCancellationModal: true })} role='button' tabIndex={0}>Cancel request</div>
-              {this.props.vehicleRequest.status !== 'approved'
+              {this.props.vehicleRequest.status !== 'approved' || (this.props.vehicleRequest.status === 'approved' && this.props.userRole === 'OPO')
                 ? <div className='doc-button hollow' onClick={this.props.startEditing} role='button' tabIndex={0}>Edit request</div>
                 : <div className='doc-button hollow disabled' role='button' tabIndex={0}>Edit request</div>
             }

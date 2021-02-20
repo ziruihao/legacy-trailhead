@@ -342,6 +342,7 @@ export default React.forwardRef((props, ref) => {
           ? (
             <VehicleRequestDisplay
               requestType='TRIP'
+              userRole={props.role}
               trip={props.trip}
               vehicleRequest={props.trip.vehicleRequest}
             />
