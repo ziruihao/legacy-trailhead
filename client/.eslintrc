@@ -1,5 +1,5 @@
 {
-    "extends": "airbnb",
+    // "extends": "airbnb",
     "parser": "babel-eslint",
     "env": {
         "browser": true,
@@ -15,7 +15,7 @@
         "no-else-return": 0,
         "new-cap": ["error", {"capIsNewExceptions": ["Router"]}],
         "no-console": 0,
-        "import/no-unresolved": [2, { "caseSensitive": false } ],
+        // "import/no-unresolved": [2, { "caseSensitive": false } ],
         "no-underscore-dangle": 0,
         "arrow-body-style": 0,
         "indent": "warn",
