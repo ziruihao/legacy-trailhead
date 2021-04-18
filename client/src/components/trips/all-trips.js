@@ -28,6 +28,7 @@ class AllTrips extends Component {
       club: 'All clubs',
       beginnerOnly: false,
       timePeriods: [
+        'Today',
         'Tomorrow',
         'Next 3 days',
         'This week',

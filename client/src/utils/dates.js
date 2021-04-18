@@ -70,6 +70,10 @@ export function withinTimePeriod(date, mode, start = null, end = null) {
         if (date >= dayStart && date < dayEnd) return true;
         else return false;
       }
+    case 'Today':
+      const todayEnd = dates.endOf(today, 'day');
+      if (date >= today && date < todayEnd) return true;
+      else return false;
     case 'Tomorrow':
       const tomorrowEnd = dates.endOf(tomorrow, 'day');
       if (date >= tomorrow && date < tomorrowEnd) return true;
