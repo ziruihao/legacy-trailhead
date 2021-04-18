@@ -7,6 +7,7 @@ import Badge from '../../badge';
 import Toggle from '../../toggle';
 import Text from '../../text';
 import DOCLoading from '../../doc-loading';
+import utils from '../../../utils';
 import { fetchVehicleRequests, appError } from '../../../actions';
 import '../../../styles/tripdetails_leader.scss';
 import '../opo-approvals.scss';
@@ -85,6 +86,8 @@ class OPOVehicleRequests extends Component {
             <tr>
               <th>Requester</th>
               <th>Reason</th>
+              <th>Pickup</th>
+              <th>Return</th>
             </tr>
           </thead>
           <tbody>
@@ -131,6 +134,8 @@ class OPOVehicleRequests extends Component {
             <tr>
               <th>Requester</th>
               <th>Reason</th>
+              <th>Pickup</th>
+              <th>Return</th>
               <th>Status</th>
             </tr>
           </thead>
@@ -159,6 +164,8 @@ class OPOVehicleRequests extends Component {
       <tr key={request._id} onClick={() => this.onRowClick(request._id)}>
         <td>{request.requester.name}</td>
         <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
+        <td>{Array.from(new Set(request.requestedVehicles.map(({pickupDateAndTime}) => `${utils.dates.formatDate(new Date(pickupDateAndTime), { weekday: true })}`))).join(', ')}</td>
+        <td>{Array.from(new Set(request.requestedVehicles.map(({returnDateAndTime}) => `${utils.dates.formatDate(new Date(returnDateAndTime), { weekday: true })}`))).join(', ')}</td>
       </tr>
     ));
   }
@@ -168,6 +175,8 @@ class OPOVehicleRequests extends Component {
       <tr key={request._id} onClick={() => this.onRowClick(request._id)}>
         <td>{request.requester.name}</td>
         <td>{request.requestType === 'SOLO' ? request.requestDetails : request.associatedTrip.title}</td>
+        <td>{Array.from(new Set(request.requestedVehicles.map(({pickupDateAndTime}) => `${utils.dates.formatDate(new Date(pickupDateAndTime), { weekday: true })}`))).join(', ')}</td>
+        <td>{Array.from(new Set(request.requestedVehicles.map(({returnDateAndTime}) => `${utils.dates.formatDate(new Date(returnDateAndTime), { weekday: true })}`))).join(', ')}</td>
         {this.getReqStatus(request.status)}
       </tr>
     ));
