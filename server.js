@@ -9,7 +9,7 @@ const app = express();
 app.use(sslRedirect());
 
 // Serve the static files from the React app
-app.use(express.static(path.join(__dirname, 'client/dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
 
 // An api endpoint that returns a short list of items
 app.get('/api/getList', (req,res) => {
