@@ -1,10 +1,9 @@
 {
-  "name": "doc-planner",
+  "name": "trailhead-web",
   "version": "1.0.0",
   "main": "src/index.js",
-  "repository": "https://github.com/dali-lab/doc-planner-web.git",
+  "repository": "https://github.com/dali-lab/trailhead-frontend.git",
   "author": "",
-  "license": "MIT",
   "scripts": {
     "test": "./node_modules/.bin/eslint src",
     "dev": "NODE_ENV=development webpack-dev-server --host 0.0.0.0",
