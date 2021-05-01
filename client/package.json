@@ -8,7 +8,9 @@
     "test": "./node_modules/.bin/eslint src",
     "dev": "NODE_ENV=development webpack-dev-server --host 0.0.0.0",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
+    "heroku-build": "yarn clean; NODE_ENV=production webpack --colors --output-path ../dist/",
     "clean": "rimraf dist",
+    "heroku-clean": "rimraf ../dist/",
     "deploy": "surge -p dist -d doc-dartmouth.surge.sh"
   },
   "devDependencies": {
