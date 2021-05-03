@@ -252,7 +252,7 @@ export default React.forwardRef((props, ref) => {
           </div>
         </div>
         <Stack size={25} />
-        <Text type='h2'>Approved trippees</Text>
+        <Text type='h2'>Approved trippees ({props.trip?.members?.length ?? 0})</Text>
         <Stack size={25} />
         <div className='trip-details-table'>
           <AttendeeTable
@@ -268,7 +268,7 @@ export default React.forwardRef((props, ref) => {
           />
         </div>
         <Stack size={25} />
-        <Text type='h2'>Pending trippees</Text>
+        <Text type='h2'>Pending trippees ({props.trip?.pending?.length ?? 0})</Text>
         <Stack size={25} />
         <div className='trip-details-table'>
           <AttendeeTable
