@@ -41,10 +41,8 @@ class WeekView extends Component {
       else if (b.name > a.name) return 1;
       else return 0;
     }).map((vehicle, index) => {
-      const eventsWithDate = vehicle.bookings.map((booking) => {
+      const eventsWithDate = vehicle.bookings.flatMap((booking) => {
         const calendarFields = {};
-        calendarFields.start = new Date(booking.assigned_pickupDateAndTime);
-        calendarFields.end = new Date(booking.assigned_returnDateAndTime);
         const returnTimeHasPassed = this.hasReturnTimePassed(booking.assigned_returnDateAndTime);
         if (booking.pickedUp && booking.returned) {
           calendarFields.tooltip = 'Vehicle has been returned';
@@ -54,8 +52,24 @@ class WeekView extends Component {
           calendarFields.tooltip = 'Vehicle has been picked up';
         }
         calendarFields.assignedVehicle = vehicle.name;
-        return Object.assign({}, booking, calendarFields);
+        const dailyEvents = []
+        const start = new Date(booking.assigned_pickupDateAndTime)
+        const end = new Date(booking.assigned_returnDateAndTime)
+        let curr = start
+        while (dates.lt(curr, dates.endOf(end, 'day'))) {
+          dailyEvents.push({
+            ...booking,
+            ...calendarFields,
+            start: dates.eq(start, curr) ? start : dates.startOf(curr, 'day'),
+            end: dates.gte(curr, dates.startOf(end, 'day')) ? end : dates.endOf(curr, 'day')
+          })
+          curr = dates.add(curr, 24, 'hours')
+        }
+        return dailyEvents;
       });
+      if (vehicle.name === 'Minivan') {
+        console.log(eventsWithDate);
+      }
       return (
         <div key={vehicle._id} className='weekview-container'>
           <span className={`vehicle-name ${index === 0 && 'weekView-top-padding'}`}>
@@ -66,10 +80,10 @@ class WeekView extends Component {
               ref={(timeGridRef) => { this.arrayofRefs[index] = timeGridRef; }}
               {...this.props}
               range={range}
-              min={new Date(0, 0, 0, 5)}
-              max={new Date(0, 0, 0, 20)}
-              step={30}
-              timeslots={9}
+              min={new Date(0, 0, 0, 6)}
+              // max={new Date(0, 0, 0, 20)}
+              step={120}
+              timeslots={1}
               // showMultiDayTimes
               events={eventsWithDate}
               startAccessor='start'

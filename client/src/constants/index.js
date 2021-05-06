@@ -1,4 +1,4 @@
-export const BACKEND_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:9090' : 'https://trailhead-server.herokuapp.com';
+export const BACKEND_URL = process.env.DEPLOY_TAG === 'dev' ? 'http://localhost:9090' : 'https://trailhead-server.herokuapp.com';
 export const ROOT_URL = process.env.NODE_ENV === 'development' ? 'http://localhost:8080' : 'http://doc.dartmouth.edu';
 
 export const styleSheet = {
