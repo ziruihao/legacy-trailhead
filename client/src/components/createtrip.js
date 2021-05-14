@@ -101,7 +101,8 @@ class CreateTrip extends Component {
       editMode: false,
       showCalendarModal: false,
       loaded: false,
-      finished: false
+      finished: false,
+      changedVehicles: false,
     };
     this.onFieldChange = this.onFieldChange.bind(this);
     this.createTrip = this.createTrip.bind(this);
@@ -409,7 +410,7 @@ class CreateTrip extends Component {
 
   passVehicles = (vehicles, mileage) => {
     this.setState((prevState) => {
-      return { vehicles, mileage, currentStep: prevState.currentStep + 1 };
+      return { vehicles, mileage, currentStep: prevState.currentStep + 1, changedVehicles: true };
     });
   }
 
@@ -663,6 +664,7 @@ class CreateTrip extends Component {
       pcard,
       vehicles,
       vehicleReqId,
+      changedVehicles: this.state.changedVehicles
     };
     console.log('\tFinal trip before sending to server', trip);
     if (this.state.editMode) {
@@ -674,8 +676,6 @@ class CreateTrip extends Component {
 
   render() {
     let page;
-    //this.state.currentStep = 4;
-    console.log(this.state.private)
     switch (this.state.currentStep) {
       case 1:
         page = (
@@ -748,10 +748,11 @@ class CreateTrip extends Component {
         );
         break;
       case 5:
-        page = (!this.state.editMode || this.props.trip.vehicleStatus === 'pending' || this.props.trip.vehicleStatus === 'N/A')
+        page = true
           ? (
             <VehicleRequest
               requestType='TRIP'
+              trip={this.props.trip}
               passVehicles={this.passVehicles}
               mileage={this.state.mileage}
               vehicles={this.state.vehicles}
@@ -838,7 +839,7 @@ class CreateTrip extends Component {
             dialogClassName="vehicle-calendar-modal"
           >
             <VehicleCalendar />
-          </Modal>
+        </Modal>
       </Box>
     );
   }
