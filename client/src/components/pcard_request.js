@@ -45,7 +45,7 @@ function getPcardForm(props) {
                   value={request.snacks}
                   type='number'
                   width={100}
-                  placeholder='USD'
+                  placeholder=''
                   error={request.errorFields.snacks}
                 />
               </Box>
@@ -62,7 +62,7 @@ function getPcardForm(props) {
                   value={request.breakfast}
                   type='number'
                   width={100}
-                  placeholder='USD'
+                  placeholder=''
                   error={request.errorFields.breakfast}
                 />
               </Box>
@@ -80,7 +80,7 @@ function getPcardForm(props) {
                   value={request.lunch}
                   type='number'
                   width={100}
-                  placeholder='USD'
+                  placeholder=''
                   error={request.errorFields.lunch}
                 />
               </Box>
@@ -98,7 +98,7 @@ function getPcardForm(props) {
                   value={request.dinner}
                   type='number'
                   width={100}
-                  placeholder='USD'
+                  placeholder=''
                   error={request.errorFields.dinner}
                 />
               </Box>
@@ -138,7 +138,7 @@ function renderOtherCosts(otherCosts, onOtherCostsChange, pcardIndex, deleteOthe
               onChange={event => onOtherCostsChange(event, pcardIndex, costIndex)}
               name='cost'
               value={otherCost.cost}
-              placeholder='USD'
+              placeholder=''
               type='number'
               width={100}
               error={otherCost.errorFields ? otherCost.errorFields.cost : false}
