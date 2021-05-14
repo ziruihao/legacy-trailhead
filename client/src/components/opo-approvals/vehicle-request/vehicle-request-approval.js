@@ -13,12 +13,13 @@ import { Stack, Queue, Divider, Box } from '../../layout';
 import { ProfileCard } from '../../profile-card';
 import ConflictModal from './conflict-modal';
 import DOCLoading from '../../doc-loading';
+import DOCIcon from '../../icon';
 import Badge from '../../badge';
 import Sidebar from '../../sidebar';
 import VehicleCalendar from '../../calendar/vehicleCalendar';
 import * as constants from '../../../constants';
 import utils from '../../../utils';
-import { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../../actions';
+import { appError, fetchVehicleRequest, updateVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest } from '../../../actions';
 import './vehicle-request-approval.scss';
 
 class OPOVehicleRequest extends Component {
@@ -59,6 +60,12 @@ class OPOVehicleRequest extends Component {
       conflicts: null,
       showConflictsModal: false,
       showCalendarModal: false,
+      editing: {
+        noOfPeople: false,
+        mileage: false,
+        vehicleNotes: []
+      },
+      vehicleRequest: null
     };
   }
 
@@ -87,7 +94,7 @@ class OPOVehicleRequest extends Component {
         });
         const unreviewed = this.props.vehicleRequest.status === 'pending';
         this.setState(() => {
-          return { isEditing: unreviewed, assignments, ready: true };
+          return { vehicleRequest: this.props.vehicleRequest, isEditing: unreviewed, assignments, ready: true };
         });
       });
   }
@@ -649,9 +656,14 @@ class OPOVehicleRequest extends Component {
     }
   }
 
+  // saveEdit = () => {
+  //   this.props.updateVehicleRequest(this.state.vehicleRequest);
+  // }
+
   getVehicles = () => {
     return this.props.vehicleRequest.requestedVehicles.map((vehicle, index) => {
       const assignment = this.findMatchingAssignment(index);
+      const stateVehicle = this.state.vehicleRequest.requestedVehicles[index];
       return (
         <Box dir='col' key={vehicle._id} id={`vehicle_req_${index}`}>
           <Divider size={1} />
@@ -668,9 +680,49 @@ class OPOVehicleRequest extends Component {
           }
           </Box>
           <Stack size={25} />
-          <Text type='h3'>Vehicle notes</Text>
+          <Box dir='row' align='center'>
+            <Text type='h3'>Vehicle notes</Text>
+            <Queue size={25}></Queue>
+            {
+              this.state.editing.vehicleNotes[index] ?
+              <DOCIcon type='save' size={16} onClick={
+                () => {
+                  this.props.updateVehicleRequest(this.state.vehicleRequest);
+                  this.setState((prevState) => {
+                    const [...newVehicleNotesEditingArray] = prevState.editing.vehicleNotes;
+                    newVehicleNotesEditingArray[index] = false;
+                    return ({ editing: { ...prevState.editing, vehicleNotes: newVehicleNotesEditingArray }});
+                  })}
+                }
+              ></DOCIcon>
+                :
+              <DOCIcon type='edit' size={16} onClick={() => this.setState((prevState) => {
+                const [...newVehicleNotesEditingArray] = prevState.editing.vehicleNotes;
+                newVehicleNotesEditingArray[index] = true;
+                return ({ editing: { ...prevState.editing, vehicleNotes: newVehicleNotesEditingArray }});
+                })}></DOCIcon>
+            }
+          </Box>
           <Stack size={25} />
-          <div className='p1'>{this.isStringEmpty(vehicle.vehicleDetails) ? 'skipped' : vehicle.vehicleDetails}</div>
+          {
+            this.state.editing.vehicleNotes[index] ?
+            <Field
+              id={`vehicleNotes.${index}`}
+              name={`vehicleNotes.${index}`}
+              placeholder='e.g. I need Stakey for 4 people! - Include the expected number of people and if you are not driving, put in the name of driver(s).'
+              value={stateVehicle.vehicleDetails}
+              onChange={(event) => {
+                event.persist();
+                this.setState((prevState) => {
+                  const [...newRequestedVehicles] = prevState.vehicleRequest.requestedVehicles;
+                  newRequestedVehicles[index] = { ...newRequestedVehicles[index], vehicleDetails: event.target.value };
+                  return ({ vehicleRequest: { ...prevState.vehicleRequest, requestedVehicles: newRequestedVehicles }});
+                })}
+              }
+            />
+            :
+            <div className='p1'>{this.isStringEmpty(stateVehicle.vehicleDetails) ? 'skipped' : stateVehicle.vehicleDetails}</div>
+          }
           <Stack size={25} />
           <Box dir='row' justify='between'>
             <Box dir='col' style={{ textAlign: 'right' }}>
@@ -880,26 +932,130 @@ class OPOVehicleRequest extends Component {
             {this.props.vehicleRequest.requestType === 'SOLO'
               ? (
                 <>
-                  <Text type='h2'>Request Details</Text>
+                  <Box dir='row' align='center'>
+                    <Text type='h2'>Request Details</Text>
+                    <Queue size={25}></Queue>
+                    {
+                      this.state.editing.requestDetails ?
+                      <DOCIcon type='save' size={16} onClick={
+                        () => {
+                          this.props.updateVehicleRequest(this.state.vehicleRequest);
+                          this.setState((prevState) => {
+                            return ({ editing: { ...prevState.editing, requestDetails: false }});
+                          })}
+                        }
+                      ></DOCIcon>
+                        :
+                      <DOCIcon type='edit' size={16} onClick={() => this.setState((prevState) => {
+                        return ({ editing: { ...prevState.editing, requestDetails: true }});
+                        })}></DOCIcon>
+                    }
+                  </Box>
                   <Stack size={25} />
-                  <div className='p1'>
-                    {this.props.vehicleRequest.requestDetails}
-                  </div>
+                  {
+                    this.state.editing.requestDetails ?
+                    <Field
+                      id='requestDetails'
+                      name='requestDetails'
+                      placeholder='e.g. I need a car to deliver wood to Cabin A'
+                      value={this.state.vehicleRequest.requestDetails}
+                      onChange={(event) => {
+                        event.persist();
+                        this.setState((prevState) => {
+                          return ({ vehicleRequest: { ...prevState.vehicleRequest, requestDetails: event.target.value }});
+                        })
+                      }}
+                    />
+                    :
+                    <div className='p1'>{this.isStringEmpty(this.state.vehicleRequest.requestDetails) ? 'skipped' : this.state.vehicleRequest.requestDetails}</div>
+                  }
                 </>
               )
               : null}
             <Stack size={25} />
             <Box dir='row'>
               <Box dir='col' expand>
-                <Text type='h2'>No. of people</Text>
+                <Box dir='row' align='center'>
+                  <Text type='h2'>No. of people</Text>
+                  <Queue size={25}></Queue>
+                  {
+                    this.state.editing.noOfPeople ?
+                    <DOCIcon type='save' size={16} onClick={
+                      () => {
+                        this.props.updateVehicleRequest(this.state.vehicleRequest);
+                        this.setState((prevState) => {
+                          return ({ editing: { ...prevState.editing, noOfPeople: false }});
+                        })}
+                      }
+                    ></DOCIcon>
+                      :
+                    <DOCIcon type='edit' size={16} onClick={() => this.setState((prevState) => {
+                      return ({ editing: { ...prevState.editing, noOfPeople: true }});
+                      })}></DOCIcon>
+                  }
+                </Box>
                 <Stack size={25} />
-                <div className='p1'>{this.props.vehicleRequest.noOfPeople}</div>
+                {
+                  this.state.editing.noOfPeople ?
+                  <Field
+                    width={100}
+                    id='noOfPeople'
+                    name='noOfPeople'
+                    type='number'
+                    placeholder='0'
+                    value={this.state.vehicleRequest.noOfPeople}
+                    onChange={(event) => {
+                      event.persist();
+                      this.setState((prevState) => {
+                        return ({ vehicleRequest: { ...prevState.vehicleRequest, noOfPeople: event.target.value }});
+                      });
+                    }}
+                  />
+                  :
+                  <div className='p1'>{this.state.vehicleRequest.noOfPeople}</div>
+                }
               </Box>
               <Queue size={100} />
               <Box dir='col' expand>
-                <Text type='h2'>Estimated mileage</Text>
+                <Box dir='row' align='center'>
+                  <Text type='h2'>Estimated mileage</Text>
+                  <Queue size={25}></Queue>
+                  {
+                    this.state.editing.mileage ?
+                    <DOCIcon type='save' size={16} onClick={
+                      () => {
+                        this.props.updateVehicleRequest(this.state.vehicleRequest);
+                        this.setState((prevState) => {
+                          return ({ editing: { ...prevState.editing, mileage: false }});
+                        })}
+                      }
+                    ></DOCIcon>
+                      :
+                    <DOCIcon type='edit' size={16} onClick={() => this.setState((prevState) => {
+                        return ({ editing: { ...prevState.editing, mileage: true }});
+                      })}></DOCIcon>
+                  }
+                </Box>
                 <Stack size={25} />
-                <div className='p1'>{this.props.vehicleRequest.mileage}</div>
+                {
+                  this.state.editing.mileage ?
+                  <Field
+                    width={100}
+                    id='mileage'
+                    name='mileage'
+                    placeholder='0'
+                    type='number'
+                    value={this.state.vehicleRequest.mileage}
+                    onChange={(event) => {
+                      event.persist();
+                      this.setState((prevState) => {
+                        return ({ vehicleRequest: { ...prevState.vehicleRequest, mileage: event.target.value }});
+                      })
+                    }}
+                  />
+                  :
+                  <div className='p1'>{this.isStringEmpty(this.state.vehicleRequest.mileage) ? 'skipped' : this.state.vehicleRequest.mileage}</div>
+                }
               </Box>
             </Box>
             <Stack size={50} />
@@ -956,4 +1112,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest })(OPOVehicleRequest));
+export default withRouter(connect(mapStateToProps, { appError, fetchVehicleRequest, updateVehicleRequest, getVehicles, assignVehicles, cancelAssignments, denyVehicleRequest })(OPOVehicleRequest));
