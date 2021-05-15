@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import Field from '../../field';
 import Toggle from '../../toggle';
 import Text from '../../text';
+import {Modal} from 'react-bootstrap';
+import Icon from '../../icon';
 import dropdownIcon from '../../../img/dropdown-toggle.svg';
 import './vehicle-request-form.scss';
 import '../../../styles/vehicleRequestForm-style.scss';
@@ -197,16 +199,28 @@ const getVehicles = (props) => {
   });
 };
 
-const getAppropriateButton = (props) => {
+const getAppropriateButton = (props, changeShowChangeVReqModal) => {
   if (props.requestType === 'TRIP') {
-    return <div className='doc-button' onClick={props.nextTripPage} role='button' tabIndex={0}>Link request to trip</div>;
+    return <div className='doc-button' onClick={() => {
+      if ((props.trip.vehicleStatus === 'approved' || props.trip.vehicleStatus === 'denied')) {
+        changeShowChangeVReqModal(true)
+      } else {
+        props.nextTripPage()
+      }
+    }} role='button' tabIndex={0}>Link new request to trip</div>;
   } else if (props.requestType === 'SOLO') {
     if (props.asUpdate) {
       return (
         <Box dir='row'>
           <div className='doc-button hollow alarm' onClick={props.cancelUpdate} role='button' tabIndex={0}>Cancel update</div>
           <Queue size={15} />
-          <div className='doc-button' onClick={props.update} role='button' tabIndex={0}>Update</div>
+          <div className='doc-button' onClick={() => {
+            if (props.vehicleRequest.status !== 'pending') {
+              changeShowChangeVReqModal(true)
+            } else {
+              props.update()
+            }
+          }} role='button' tabIndex={0}>Update</div>
         </Box>
       );
     } else {
@@ -218,7 +232,9 @@ const getAppropriateButton = (props) => {
 };
 
 const VehicleRequestForm = (props) => {
+  const [showChangeVReqModal, changeShowChangeVReqModal ] = useState(false);
   return (
+    <>
     <Box dir='col' pad={75} className='doc-card'>
       <Text type='h1'>Vehicle request form</Text>
       <Stack size={50} />
@@ -269,9 +285,35 @@ const VehicleRequestForm = (props) => {
       <Stack size={50} />
       <Box dir='row' justify='between'>
         <div className='doc-button hollow' onClick={props.addVehicle} role='button' tabIndex={0}>Add vehicle</div>
-        {getAppropriateButton(props)}
+        {getAppropriateButton(props, changeShowChangeVReqModal)}
       </Box>
     </Box>
+    <Modal
+          centered
+          show={showChangeVReqModal}
+        >
+          <Box dir='col' align='center' pad={25}>
+            <Icon type='warning' size={50} />
+            <Stack size={24} />
+            <Text type='h2'>This will alter your vehicle request</Text>
+            <Stack size={24} />
+            <div className='p1 center-text'>You are about to make changes to your vehicle request, which already has been approved by OPO staff. This will revert your vehicle request status back to pending and you must await approval again. If you don't want this, click "Wait no" and then "Skip" instead.</div>
+            <Stack size={24} />
+            <Box dir='row' justify='center'>
+              <div className='doc-button' onClick={() => changeShowChangeVReqModal(false)} role='button' tabIndex={0}>Wait no</div>
+              <Queue size={15} />
+              <div className='doc-button alarm' onClick={() => {
+                if (props.requestType === 'TRIP') {
+                  props.nextTripPage();
+                } else {
+                  props.update();
+                }
+                changeShowChangeVReqModal(false);
+                }} role='button' tabIndex={0}>Sure</div>
+            </Box>
+          </Box>
+        </Modal>
+    </>
   );
 };
 

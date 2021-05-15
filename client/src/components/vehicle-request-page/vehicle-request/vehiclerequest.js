@@ -343,6 +343,7 @@ class VehicleRequest extends Component {
     if (this.state.new) {
       return (
         <VehicleRequestForm
+          trip={this.props.trip}
           requestType={this.state.requestType}
           requestDetails={this.state.requestDetails}
           soloErrorFields={this.state.soloErrorFields}
