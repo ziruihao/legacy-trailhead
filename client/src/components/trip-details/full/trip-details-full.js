@@ -79,22 +79,22 @@ const getPcard = (pcard, pcardStatus, assignedPCard) => {
       <>
         <div className='trip-details-table-row'>
           <span>Snacks</span>
-          <span>${pcardReq.snacks} per person</span>
+          <span>#{pcardReq.snacks} per person</span>
         </div>
         <hr className='detail-line' />
         <div className='trip-details-table-row'>
           <span>Breakfast</span>
-          <span>${pcardReq.breakfast} per person</span>
+          <span>#{pcardReq.breakfast} per person</span>
         </div>
         <hr className='detail-line' />
         <div className='trip-details-table-row'>
           <span>Lunch</span>
-          <span>${pcardReq.lunch} per person</span>
+          <span>#{pcardReq.lunch} per person</span>
         </div>
         <hr className='detail-line' />
         <div className='trip-details-table-row'>
           <span>Dinner</span>
-          <span>${pcardReq.dinner} per person</span>
+          <span>#{pcardReq.dinner} per person</span>
         </div>
         <hr className='detail-line' />
         {pcardReq.otherCosts.map((cost, index, array) => (
