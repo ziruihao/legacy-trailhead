@@ -30,7 +30,7 @@ function getPcardForm(props) {
         <Stack size={25} />
         <Text type='h2'>Food costs</Text>
         <Stack size={25} />
-        <div className='p1'>Put how many each trippee (including leaders) will need.</div>
+        <div className='p1'>How many of each meal will each person need? Ex: "1" for a day trip, "2" for a two day trip.</div>
         <Stack size={25} />
         <Box dir='row' justify='between'>
           <Box dir='col' width={300}>
