@@ -107,8 +107,6 @@ class TripDetailsBasic extends Component {
       }
     };
     switch (this.state.role) {
-      case 'OPO':
-        return <div className='doc-button' onClick={() => this.props.history.push(`/trip/${this.props.trip._id}`)} role='button' tabIndex={0}>View trip as OPO staff</div>;
       case 'LEADER':
         return (
           <>
@@ -165,16 +163,11 @@ class TripDetailsBasic extends Component {
               </ReactToolTip>
             </Box>
             <Queue expand />
-            {this.state.role !== 'OPO'
-              ? (
-                <div id='trip-modal-switch'>
-                  <div className={`trip-modal-switch-option p1 ${this.state.viewMode === 'info' ? 'active' : null}`} onClick={() => this.setState({ viewMode: 'info' })} role='button' tabIndex={0}>Info view</div>
-                  <div className='trip-modal-switch-option p1'>|</div>
-                  <div className={`trip-modal-switch-option p1 ${this.state.viewMode === 'action' ? 'active' : null}`} onClick={() => this.setState({ viewMode: 'action' })} role='button' tabIndex={0}>Sign up view</div>
-                </div>
-              )
-              : null
-              }
+            <div id='trip-modal-switch'>
+              <div className={`trip-modal-switch-option p1 ${this.state.viewMode === 'info' ? 'active' : null}`} onClick={() => this.setState({ viewMode: 'info' })} role='button' tabIndex={0}>Info view</div>
+              <div className='trip-modal-switch-option p1'>|</div>
+              <div className={`trip-modal-switch-option p1 ${this.state.viewMode === 'action' ? 'active' : null}`} onClick={() => this.setState({ viewMode: 'action' })} role='button' tabIndex={0}>Sign up view</div>
+            </div>
           </Box>
           <Stack size={25} />
           <Divider size={1} />
