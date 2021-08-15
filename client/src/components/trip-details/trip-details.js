@@ -165,7 +165,7 @@ class TripDetails extends Component {
     const ref = { pendingEmailRef: this.pendingEmailRef, onTripEmailRef: this.onTripEmailRef };
     if (this.state.loaded) {
       let appropriateComponent;
-      if (this.state.role === 'LEADER' || this.state.role === 'OPO') {
+      if (this.state.role === 'LEADER' || this.props.user.role === 'OPO') {
         appropriateComponent = (
           <TripDetailsFull
             trip={this.props.trip}

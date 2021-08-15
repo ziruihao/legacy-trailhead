@@ -201,7 +201,7 @@ class TripDetailsBasic extends Component {
                 </div>
                 <Stack size={25} />
                 <Box dir='row' justify='center'>
-                  {this.state.role === 'OPO' ? <div className='doc-button' onClick={() => this.props.history.push(`/trip/${this.props.trip._id}`)} role='button' tabIndex={0}>View trip as OPO staff</div> : null}
+                  {this.props.user.role === 'OPO' ? <div className='doc-button' onClick={() => this.props.history.push(`/trip/${this.props.trip._id}`)} role='button' tabIndex={0}>View trip as OPO staff</div> : null}
                   {this.state.role === 'LEADER' ? <div className='doc-button' onClick={() => this.props.history.push(`/trip/${this.props.trip._id}`)} role='button' tabIndex={0}>Manage your trip</div> : null}
                 </Box>
                 <Stack size={25} />
