@@ -83,10 +83,10 @@ export function withinTimePeriod(date, mode, start = null, end = null) {
       const next3DaysEnd = dates.endOf(next3Days, 'day');
       if (date >= today && date < next3DaysEnd) return true;
       else return false;
-    case 'This week':
-      let weekEnd = dates.endOf(today, 'week');
-      weekEnd = dates.add(weekEnd, 1, 'day');
-      if (date >= today && date < weekEnd) return true;
+    case 'Next 7 days':
+      const next7Days = dates.add(today, 7, 'day');
+      const next7DaysEnd = dates.endOf(next7Days, 'day');
+      if (date >= today && date < next7DaysEnd) return true;
       else return false;
     case 'This weekend':
       let weekendEnd = dates.endOf(today, 'week');
