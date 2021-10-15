@@ -158,7 +158,7 @@ class Gateway extends Component {
                 <Box dir='row' justify='center'>
                   {this.state.signingIn ? <DOCLoading type='cubes' width={50} height={50} /> : this.renderAuthOptions() }
                 </Box>
-                {process.env.SHOW_DEV_AUTH === 'true'
+                {process.env.NODE_ENV === 'development'
                   ? (
                     <>
                       <Stack size={25} />
