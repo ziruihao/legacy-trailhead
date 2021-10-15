@@ -228,7 +228,7 @@ class OPOTripApproval extends Component {
           <Sidebar
             sections={
             [
-              { title: 'Trip Overview', steps: [{ number: 1, text: 'Basic information' }, { number: 2, text: 'Attendies' }] },
+              { title: `Trip #${this.props.trip.number} Overview`, steps: [{ number: 1, text: 'Basic information' }, { number: 2, text: 'Attendies' }] },
               { title: 'Requests', steps: [{ number: 3, text: 'Gear' }, { number: 4, text: 'P-Card' }, { number: 5, text: 'Vehicles' }] },
             ]
           }

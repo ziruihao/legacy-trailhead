@@ -43,11 +43,15 @@ export const calculateTripStatus = (trip) => {
  * @param {typedefs.Trip} trip - Trip to check user's role on.
  */
 export const determineRoleOnTrip = (user, trip) => {
-  if (trip.leaders.some(leader => leader._id.toString() === user._id.toString())) return 'LEADER';
-  else if (trip.members.some(member => member.user._id.toString() === user._id.toString())) return 'APPROVED';
-  else if (trip.pending.some(pender => pender.user._id.toString() === user._id.toString())) return 'PENDING';
-  else if (user.role === 'OPO') return 'OPO';
-  else return 'NONE';
+  try {
+    if (trip.leaders.some(leader => leader._id.toString() === user._id.toString())) return 'LEADER';
+    else if (trip.members.some(member => member.user._id.toString() === user._id.toString())) return 'APPROVED';
+    else if (trip.pending.some(pender => pender.user._id.toString() === user._id.toString())) return 'PENDING';
+    else if (user.role === 'OPO') return 'OPO';
+    else return 'NONE';
+  } catch {
+    console.error(trip._id)
+  }
 };
 
 /**
