@@ -6,8 +6,8 @@
   "author": "",
   "scripts": {
     "test": "./node_modules/.bin/eslint src",
-    "dev": "NODE_ENV=development; webpack-dev-server --host 0.0.0.0",
-    "prod": "NODE_ENV=production; webpack-dev-server --host 0.0.0.0",
+    "dev": "export NODE_ENV=development; webpack-dev-server --host 0.0.0.0",
+    "prod": "export NODE_ENV=production; webpack-dev-server --host 0.0.0.0",
     "build": "yarn clean; NODE_ENV=production webpack --colors",
     "heroku-build": "yarn clean; NODE_ENV=production webpack --colors --output-path ../dist/",
     "clean": "rimraf dist",

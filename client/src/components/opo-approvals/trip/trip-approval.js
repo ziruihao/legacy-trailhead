@@ -245,6 +245,9 @@ class OPOTripApproval extends Component {
               <div className={`doc-button hollow ${this.state.currentStep === 1 ? 'disabled' : ''}`} onClick={this.state.currentStep === 1 ? null : this.previousPage} role='button' tabIndex={0}>Previous</div>
               <a id='email-trip-leader-link' href={`mailto:${this.props.trip.leaders.map(leader => leader.email)}`} target='_blank' rel='noopener noreferrer'>Contact trip leaders</a>
               <input type='text' ref={this.emailRef} style={{ display: 'none' }} value={this.props.trip.leaders.map(leader => leader.email).join()} />
+              <div className='doc-button hollow' onClick={() => this.props.history.push(`/edittrip/${this.props.trip._id}`)} role='button' tabIndex={0}>
+                Edit trip
+              </div>
               {/* <div className='doc-button' onClick={this.copyEmail} role='button' tabIndex={0}>Copy</div> */}
               <div className='doc-button' onClick={this.nextPage} role='button' tabIndex={0}>
                 {this.state.currentStep === this.state.numOfPages ? 'Back to Trip Approvals' : 'Next'}
