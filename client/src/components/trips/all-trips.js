@@ -25,6 +25,7 @@ class AllTrips extends Component {
     super(props);
     this.state = {
       loaded: false,
+      loadedPastTrips: false,
       club: 'All clubs',
       beginnerOnly: false,
       timePeriods: [
@@ -56,7 +57,7 @@ class AllTrips extends Component {
   }
 
   componentDidMount() {
-    this.props.fetchTrips().then(() => { this.setState({ loaded: true }); });
+    this.props.fetchTrips({ getPastTrips: false }).then(() => { this.setState({ loaded: true, loadedPastTrips: false }); });
     this.props.getClubs();
   }
 
@@ -204,6 +205,12 @@ class AllTrips extends Component {
     return (
       <Dropdown onSelect={(eventKey) => {
         if (eventKey !== 'Custom range') this.setState({ startDate: null, endDate: null });
+        if (eventKey === 'Custom range' || eventKey === 'Everything') {
+          if (!this.state.loadedPastTrips) {
+            this.setState({ loaded: false });
+            this.props.fetchTrips({ getPastTrips: true }).then(() => { this.setState({ loaded: true, loadedPastTrips: true })});
+          }
+        }
         this.setState({ selectedTimePeriod: eventKey });
       }}
       >

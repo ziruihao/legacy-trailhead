@@ -103,9 +103,9 @@ export function updateUser(updatedUser) {
   };
 }
 
-export function fetchTrips() {
+export function fetchTrips({ getPastTrips }) {
   return dispatch => new Promise((resolve, reject) => {
-    axios.get(`${constants.BACKEND_URL}/trips`).then((response) => {
+    axios.get(`${constants.BACKEND_URL}/trips`, { params: { getPastTrips } }).then((response) => {
       dispatch({
         type: ActionTypes.FETCH_TRIPS,
         payload: response.data,
