@@ -71,7 +71,7 @@ class OPOVehicleRequest extends Component {
 
   componentDidMount() {
     const vehicleReqId = this.props.partOfTrip ? this.props.vehicleReqId : this.props.match.params.vehicleReqId;
-    Promise.all([this.props.fetchVehicleRequest(vehicleReqId), this.props.getVehicles()])
+    Promise.all([this.props.fetchVehicleRequest(vehicleReqId), this.props.getVehicles({ showOldBookings: false })])
       .then(() => {
         this.vehicleForm = this.props.vehicles.map((vehicle) => {
           return (
@@ -209,7 +209,6 @@ class OPOVehicleRequest extends Component {
 
   isValid = () => {
     const { assignments } = this.state;
-    console.log(assignments)
 
     let hasIncompleteAssignment = false;
     const hasFilledOutField = {}; // keep track of which assignments have a filled out field
@@ -325,7 +324,7 @@ class OPOVehicleRequest extends Component {
   }
 
   startEditing = () => {
-    this.props.getVehicles()
+    this.props.getVehicles({ showOldBookings: false })
       .then(() => {
         this.vehicleForm = this.props.vehicles.map((vehicle) => {
           return (

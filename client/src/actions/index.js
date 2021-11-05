@@ -508,10 +508,10 @@ export function reviewCertRequest(review) {
   };
 }
 
-export function fetchOPOTrips() {
+export function fetchOPOTrips({ getOldTrips }) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/opotrips`)
+      axios.get(`${constants.BACKEND_URL}/opotrips`, { params: { getOldTrips }})
         .then((response) => {
           dispatch({
             type: ActionTypes.FETCH_OPO_TRIPS,
@@ -641,10 +641,10 @@ export function cancelVehicleRequest(vehicleRequestID, history) {
   });
 }
 
-export function getVehicles() {
+export function getVehicles({ showOldBookings }) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/vehicles`)
+      axios.get(`${constants.BACKEND_URL}/vehicles`, { params: { showOldBookings }})
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_VEHICLES, payload: response.data });
           setTimeout(() => {
@@ -741,10 +741,10 @@ export function denyVehicleRequest(id) {
   };
 }
 
-export function fetchVehicleAssignments() {
+export function fetchVehicleAssignments({ showPastAssignments }) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
-      axios.get(`${constants.BACKEND_URL}/vehicle-assignments`)
+      axios.get(`${constants.BACKEND_URL}/vehicle-assignments`, { params: { showPastAssignments }})
         .then((response) => {
           dispatch({ type: ActionTypes.FETCH_ASSIGNMENTS, payload: response.data });
           resolve();

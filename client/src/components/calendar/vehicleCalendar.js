@@ -10,23 +10,25 @@ import { appError, getVehicles, fetchVehicleAssignments } from '../../actions';
 import './calendar.scss';
 import './event-modal.scss';
 import utils from '../../utils';
+import { subtract } from 'date-arithmetic';
 
 class VehicleCalendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ready: false,
+      ready: true,
       showModal: false,
       selectedEvent: {},
+      fetchedPastBookings: false,
     };
   }
 
   componentDidMount() {
-    Promise.all([this.props.getVehicles(), this.props.fetchVehicleAssignments()])
-      .then(() => {
-        // console.log(this.props.assignments[0].request.associatedTrip);
-        this.setState({ ready: true });
-      });
+    // Promise.all([this.props.getVehicles({ showOldBookings: false })])
+    //   .then(() => {
+    //     // console.log(this.props.assignments[0].request.associatedTrip);
+    //     this.setState({ ready: true });
+    //   });
   }
 
   showEventModal = (selectedEvent, e) => {
@@ -74,7 +76,6 @@ class VehicleCalendar extends Component {
   };
 
   getCoLeaders = (leaders) => {
-    console.log(leaders);
     let coleaders = '';
     leaders.forEach((leader, index) => {
       if (index !== 0) {
@@ -204,6 +205,13 @@ class VehicleCalendar extends Component {
               vehicles={this.props.vehicles}
               showEventModal={this.showEventModal}
               userRole={this.props.user.role}
+              onNavigate={(startDate) => {
+                if (startDate <= subtract(new Date(), 30, 'day')) {
+                  if (!this.state.fetchedPastBookings) {
+                    this.props.getVehicles({ showOldBookings: true }).then(() => this.setState({ fetchedPastBookings: true }))
+                  }
+                }
+              }}
             />
           </Box>
           <Modal
