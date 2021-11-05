@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link } from 'react-router-dom';
 import Dropdown from 'react-bootstrap/Dropdown';
+import Toggle from '../../toggle';
 import Table from 'react-bootstrap/Table';
 import { Stack, Queue, Divider, Box } from '../../layout';
 import Badge from '../../badge';
@@ -38,12 +39,13 @@ class OPOTrips extends Component {
       selectedFilter: this.ALL_KEY,
       searchTerm: '',
       ready: false,
+      getOldTrips: false
     };
     this.onDropdownChange = this.onDropdownChange.bind(this);
   }
 
   componentDidMount() {
-    this.props.fetchOPOTrips()
+    this.props.fetchOPOTrips({ getOldTrips: false })
       .then(() => {
         this.setState({ ready: true });
       });
@@ -263,6 +265,19 @@ class OPOTrips extends Component {
           <div className='opo-trips-page-databox doc-card large-card'>
             <div className='databox-heading'>
               <Text type='h1'>Reviewed & Past Trips</Text>
+              <Toggle value={this.state.getOldTrips}
+                id='old-trips'
+                label='Show older than a month'
+                onChange={() => {
+                  if (!this.state.getOldTrips) {
+                    this.props.fetchOPOTrips({ getOldTrips: true });
+                  } else {
+                    this.props.fetchOPOTrips({ getOldTrips: false });
+                  }
+                  this.setState(prevState => ({ getOldTrips: !prevState.getOldTrips }))
+                }}
+                disabled={false}
+              />
               {/* <input
                 name='search'
                 placeholder='Search reviewed & past trips'

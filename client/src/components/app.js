@@ -58,7 +58,7 @@ class App extends React.Component {
   loadData = () => {
     return new Promise((resolve, reject) => {
       this.props.getClubs().then(() => {
-        this.props.getVehicles().then(() => {
+        this.props.getVehicles({ showOldBookings: false }).then(() => {
           this.setState({ loaded: true });
           resolve();
         });

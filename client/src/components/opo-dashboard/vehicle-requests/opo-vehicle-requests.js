@@ -190,13 +190,13 @@ class OPOVehicleRequests extends Component {
             <Box dir='col' pad={45}>
               <Box dir='row' justify='between' align='center'>
                 <Text type='h1'>Pending V-Requests</Text>
-                <Toggle
+                {/* <Toggle
                   id='pending-requests-past-toggle'
                   label='See past requests'
                   value={this.state.seePastPendingRequests}
                   onChange={() => this.setState((prevState) => { return { seePastPendingRequests: !prevState.seePastPendingRequests }; })}
                   disabled={false}
-                />
+                /> */}
                 {/* <input
                   name='searchPending'
                   placeholder='Search pending requests'
@@ -213,13 +213,13 @@ class OPOVehicleRequests extends Component {
           <div className='opo-trips-page-databox doc-card large-card'>
             <div className='databox-heading'>
               <Text type='h1'>Reviewed V-Requests</Text>
-              <Toggle
+              {/* <Toggle
                 id='reviewed-requests-past-toggle'
                 label='See past requests'
                 value={this.state.seePastReviewedRequests}
                 onChange={() => this.setState((prevState) => { return { seePastReviewedRequests: !prevState.seePastReviewedRequests }; })}
                 disabled={false}
-              />
+              /> */}
               {/* <input
                 name='searchReviewed'
                 placeholder='Search reviewed requests'

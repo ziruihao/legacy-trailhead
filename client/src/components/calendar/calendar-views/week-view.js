@@ -67,9 +67,6 @@ class WeekView extends Component {
         }
         return dailyEvents;
       });
-      if (vehicle.name === 'Minivan') {
-        console.log(eventsWithDate);
-      }
       return (
         <div key={vehicle._id} className='weekview-container'>
           <span className={`vehicle-name ${index === 0 && 'weekView-top-padding'}`}>
