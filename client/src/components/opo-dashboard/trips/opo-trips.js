@@ -157,6 +157,10 @@ class OPOTrips extends Component {
       return (hasPassed || (!hasPendingTrippeeGear && !hasPendingGear && !hasPendingPcard && !hasPendingVehicle));
     });
     const filteredTrips = approvedTrips.filter((trip) => {
+      if (trip?.leaders[0] == undefined || trip?.leaders[0].name == undefined) {
+        console.log(trip)
+        console.log(trip.leaders[0])
+      }
       return trip.title.concat([`${utils.dates.formatDate(new Date(trip.startDateAndTime), { year: true, weekday: true })}@${utils.dates.formatTime(new Date(trip.startDateAndTime), { timezone: true })}`, trip.leaders[0].name, trip.club.name])
         .toLowerCase().includes(this.state.searchTerm.toLowerCase());
     });
