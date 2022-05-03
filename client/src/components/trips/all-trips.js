@@ -77,6 +77,10 @@ class AllTrips extends Component {
   filterTrips = () => {
     const tripsFilteringProcess = [this.props.trips];
 
+    if (this.props.user?.role !== 'OPO') {
+      tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.private !== true));
+    }
+
     if (this.state.tripNumber) {
       tripsFilteringProcess.push(tripsFilteringProcess.pop().filter(trip => trip.number === this.state.tripNumber));
     }
